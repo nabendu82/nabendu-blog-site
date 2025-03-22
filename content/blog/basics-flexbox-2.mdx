@@ -1,0 +1,185 @@
+---
+title: Basics of Flexbox — 2
+description: Flexbox
+date: 2018-05-01
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to Part-2 of the series. We will be start where, we had left in the first part.
+
+### Alignment & Centring
+We will learn alignment and centring here.
+
+We will use this basics CSS here and modify it.
+
+![Basic CSS to be used](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/1_mAIph7GOxp.png)*Basic CSS to be used*
+
+We will use **justify-content** here. This [CSS tricks article](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) is a great place for reference. We will see all the options here. We will have a border to make things clear.
+
+![**justify-content: flex-start;**](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/2_uhJ_zwbifE.png)***justify-content: flex-start;***
+
+![**justify-content: flex-end;**](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/3_o7tocgtEVe.png)***justify-content: flex-end;***
+
+![**justify-content: center;**](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/4_6-sSyovVDD.png)***justify-content: center;***
+
+![**justify-content: space-between;**](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/5_T-wO-UZW9D.png)***justify-content: space-between;***
+
+![**justify-content: space-around;**](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/6_bB4yyZzXrZ.png)***justify-content: space-around;***
+
+![**justify-content: space-evenly;**](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/7_YTqQW_fMZn.png)***justify-content: space-evenly;***
+
+### Flex Direction
+The direction of the main-axis
+
+The flex-direction is the direction of the main axis. By default it is row ie from left to right.
+Let’s keep this settings, then we will change the flex-direction.
+
+
+```css
+.box{
+  color: white;
+  font-size: 30px;
+  text-align: center;
+  padding: 10px;
+}
+.container {
+  display: flex;
+  justify-content: flex-end;
+  border: 5px solid gold;
+  flex-direction: column;
+  min-height: 100vh;
+}
+```
+
+
+Now, when we make the **flex-direction: column**, it changes the main axis from top to bottom and we will get this.
+
+Now, when we change the justify-content to different properties, we will get everything from top to down.
+
+
+```css
+.container {
+  display: flex;
+  justify-content: flex-start;
+  border: 5px solid gold;
+  flex-direction: column;
+  min-height: 100vh;
+}
+```
+
+
+![justify-content: flex-start;](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/8_C7ZVmwQam.png)*justify-content: flex-start;*
+
+
+```css
+.container {
+  display: flex;
+  justify-content: flex-end;
+  border: 5px solid gold;
+  flex-direction: column;
+  min-height: 100vh;
+}
+```
+
+
+![justify-content: flex-end;](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/9_Pm5dJGtNIj.png)*justify-content: flex-end;*
+
+
+```css
+.container {
+  display: flex;
+  justify-content: center;
+  border: 5px solid gold;
+  flex-direction: column;
+  min-height: 100vh;
+}
+```
+
+
+![justify-content: center; — Nice trick to center the content on the screen](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/10_1Thii6ALby.png)*justify-content: center; — Nice trick to center the content on the screen*
+
+
+```css
+.container {
+  display: flex;
+  justify-content: space-between;
+  border: 5px solid gold;
+  flex-direction: column;
+  min-height: 100vh;
+}
+```
+
+
+![justify-content: space-between;](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/11_X9NH44K0Nh.png)*justify-content: space-between;*
+
+### Align Item
+To align the item on the cross-axis. It is opposite of justify-content.
+
+We will use this as base.
+
+
+```css
+.box{
+  color: white;
+  font-size: 100px;
+  text-align: center;
+  padding: 10px;
+}
+.container {
+  display: flex;
+  border: 5px solid gold;
+  height: 100vh;
+}
+```
+
+
+My default the align-item value is stretch
+
+
+```css
+.container {
+  display: flex;
+  border: 5px solid gold;
+  height: 100vh;
+  align-items: stretch
+}
+```
+
+
+![align-items: stretch](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/12_qD2d91aL48.png)*align-items: stretch*
+
+![align-items: flex-start](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/13_c6GR50Whxr.png)*align-items: flex-start*
+
+![align-items: flex-end](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/14_ndxcdEobgB.png)*align-items: flex-end*
+
+![align-items: center](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/15_D90RQhb08.png)*align-items: center*
+
+The property **align-items: baseline** is very useful as it aligns the base of all the items. *It’s really useful when aligning different text in the page at the same level.*
+
+We will use this.
+
+
+```css
+.container {
+  display: flex;
+  border: 5px solid gold;
+  height: 100vh;
+  align-items: baseline;
+}
+.box1 {font-size: 30px;}
+.box2 {font-size: 60px;}
+.box3 {font-size: 90px;}
+.box4 {font-size: 120px;}
+.box5 {font-size: 160px;}
+.box6 {font-size: 180px;}
+.box7 {font-size: 160px;}
+.box8 {font-size: 120px;}
+.box9 {font-size: 90px;}
+.box10 {font-size: 60px;}
+```
+
+
+![**align-items: baseline**](https://ik.imagekit.io/thewebdev/Flexbox-basics/2/16_qVRhd-itHK.png)***align-items: baseline***
+
+
