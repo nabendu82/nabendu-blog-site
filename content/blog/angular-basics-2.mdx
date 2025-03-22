@@ -1,0 +1,158 @@
+---
+title: Angular Basics -2
+description: Angular Basics -2
+date: 2021-10-26
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+
+Welcome to the second part of Angular Basics. You can find the first part here. We will start from where we left.
+
+First we will understand the Component Selector. We have already seen the normal way to select that is giving the the selector name in quotes.
+
+![Common way](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585818/New-blogs/Yashvendra_2/2_j4djlo.png)_Common way_
+
+The second way is to give the component name in a array. But now, we have to use the component name inside a div, as an attribute.
+
+![Array way](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585821/New-blogs/Yashvendra_2/3_mdfr9y.png)_Array way_
+
+Their is another way and it is to add a dot in the selector name. By this we add it with a class in the div. This way is also useful if we also use the class as a CSS selector for styling.
+
+![Third Way](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585823/New-blogs/Yashvendra_2/4_hpfqrc.png)_Third Way_
+
+We will understand **Data binding** in more details next. We will understand it from the below image.
+
+When we want to output data from TypeScript code to HTML, we use String Interpolation or Property Binding.
+
+But when we want to react to an user event like click, we use Event Binding. Their is another way also and it is known as Two-way Binding.
+
+![Data Binding](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585825/New-blogs/Yashvendra_2/5_uv2kph.png)_Data Binding_
+
+We will first look into String Interpolation first. The main concept here, is that it only represent things which can be converted to strings.
+
+So, in **server.component.ts** file add the following.
+
+![server.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585827/New-blogs/Yashvendra_2/6_nykhqc.png)_server.component.ts_
+
+Now, in **server.component.html** file, we are using string interpolation in three ways. First is to directly show as string. Second is the show the **serverId** taken from the typescript file. And third is to show the output of the function **getStatus()**, which is a string
+
+![server.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585830/New-blogs/Yashvendra_2/7_jctxpq.png)_server.component.html_
+
+Now, our localhost shows as below.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585834/New-blogs/Yashvendra_2/8_jzzklt.png)_localhost_
+
+Now, we will learn about **Property Binding**. Let’s go to **servers.component.html** file and add the code for a Button. Later on we will have the functionality to add new servers, once we click on it.
+
+![servers.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585840/New-blogs/Yashvendra_2/9_oqfrnp.png)_servers.component.html_
+
+Next, in the **servers.component.ts** file comment the template code first and after that add the **templateUrl** pointing to the servers.component.html file.
+
+We also have a **allowNewServer** property and based on it, we want to disable the button in the html file. In the constructor, we have a setTimeout function, which makes the **allowNewServer** property true after 2 seconds.
+
+![servers.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585832/New-blogs/Yashvendra_2/10_mmsbnl.png)_servers.component.ts_
+
+Now, back in **servers.component.html** file we have the html disabled property. But we are binding it here by using it in square brackets and making it equal to the opposite value of **allowNewServer** property.
+
+![servers.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585836/New-blogs/Yashvendra_2/11_jzfrny.png)_servers.component.html_
+
+We can also use Property binding in the case of String interpolation, just as in the below case.
+
+![Property Binding](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585838/New-blogs/Yashvendra_2/12_q0oqln.png)_Property Binding_
+
+Now, we will learn to react to events and learn about Event Binding. We have created a new variable **serverStatus** in **servers.component.ts** file. We also have a function **onCreateServer** which changes it’s text.
+
+![servers.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585844/New-blogs/Yashvendra_2/13_eqxdvm.png)_servers.component.ts_
+
+Now, back in **servers.component.html** file, we have a click event of Angular which is given by normal brackets and will run the function **onCreateServer** once the user clicks on it.
+
+![servers.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585842/New-blogs/Yashvendra_2/14_f3qwfd.png)_servers.component.html_
+
+Now, in localhost our event is working fine.
+
+![Working fine](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585849/New-blogs/Yashvendra_2/15_nhfhyc.gif)_Working fine_
+
+Now, we will also learn to pass data in event binding. In the **servers.component.html** file, we have an input field which will call a function **onUpdate** and pass the **$event**. This gives us access to DOM events like event.target.value.
+
+![Event binding](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585847/New-blogs/Yashvendra_2/16_yoxp0t.png)_Event binding_
+
+Next in the TypeScript file we will add this new function and make the variable **serverName** equal to the event.target.value.
+
+![Function](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585853/New-blogs/Yashvendra_2/17_sszsxc.png)_Function_
+
+Now, whenever the user types in the Input box, we will get it shown below.
+
+![Server Name](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585855/New-blogs/Yashvendra_2/18_rgddgq.png)_Server Name_
+
+We have learnt about Property binding and Event Binding and now it’s time to combine both in Two-way binding.
+
+It uses a special directive called **ngModel** about which we will learn later. In the input it is directly binded to the variable **serverName** and changes it to whatever the user inputs.
+
+![ngModel](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585858/New-blogs/Yashvendra_2/19_knxhzo.png)_ngModel_
+
+Let’s complete our mini app with Server name updated on click of the button. In the **servers.component.ts** file, the function **onCreateServer** also show the newly created server.
+
+![servers.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585860/New-blogs/Yashvendra_2/20_rxypgd.png)_servers.component.ts_
+
+Now, whenever we click the button the new server name will be shown.
+
+![Sever Name](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585862/New-blogs/Yashvendra_2/21_dxqovz.png)_Sever Name_
+
+Now, we will learn about Directives. They are instructions in the DOM. There are couple of built in directive that are useful and we will look into them now.
+
+We will first look into the **ngIf** directive which works like an if statement. First add a new variable **serverCreated** in the typescript file, which is initially false.
+
+Now inside the function **onCreateServer** make this variable true.
+
+![TypeScript](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585866/New-blogs/Yashvendra_2/22_a08vkp.png)_TypeScript_
+
+Now, in the **servers.component.html** file add a new p tag which show the server Name. But there is an ngIf directive, which will show this p tag only if **serverCreated** is true and it becomes true when we click on **Add Server** button.
+
+![servers.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585868/New-blogs/Yashvendra_2/23_txguqj.png)_servers.component.html_
+
+Now, we will look into the alternative of **ngIf** which will have the else condition also. Here, we have the else part in ngIf only and then have a unique marker.
+
+Now, next use **ng-template** to create the else part and here, we use the marker.
+
+![ngIf-else](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585870/New-blogs/Yashvendra_2/24_totfxb.png)_ngIf-else_
+
+Now, the initial text of **No Server yet** will be shown, which will be changed to the if part, once the user enter something in input and press the Add Server button.
+
+![Gif](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585873/New-blogs/Yashvendra_2/25_moqd1n.gif)_Gif_
+
+Now, we will look into ngStyle which allows us to dynamically update the styles. First in the **server.component.ts** file add a constructor and here change the **serverStatus** and **serverId** based on random function.
+
+We also have a **getColor()**, which will return green if **serverStatus** is online or red otherwise.
+
+![server.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585878/New-blogs/Yashvendra_2/26_tixl42.png)_server.component.ts_
+
+Now, in the **server.component.html** file we will use ngStyle to change the backgroundColor, based on output of **getColor()**
+
+![backgroundColor](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585881/New-blogs/Yashvendra_2/27_hhpc9z.png)_backgroundColor_
+
+Now, we will get a random server id and a random background color also in our localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585883/New-blogs/Yashvendra_2/28_qyko3o.png)_localhost_
+
+Now, we will look into **ngClass** which allows us to dynamically change the CSS class. We will first add two inline CSS classes in our **server.component.ts** file.
+
+![server.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585935/New-blogs/Yashvendra_2/29_ygh2zv.png)_server.component.ts_
+
+Next in the **server.component.html** file adding the ngClass, which will add the class **statusText** if the **serverStatus** is online. Also, adding a normal class of textPadding.
+
+![server.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585936/New-blogs/Yashvendra_2/30_xoa8ex.png)_server.component.html_
+
+Now, the text color is shown properly in our localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585938/New-blogs/Yashvendra_2/31_m6kgmr.png)_localhost_
+
+We will now look into the last built-in directive and it is **ngFor**. First in the **server.component.ts** file add a servers array with two items. After that inside onCreateServer push the serverName entered.
+
+![server array](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585941/New-blogs/Yashvendra_2/32_xn2n7r.png)_server array_
+
+Next in the **server.component.html** file add the ngFor which will loop through servers array and create the component app-server.
+
+![ngFor](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585942/New-blogs/Yashvendra_2/33_xthle6.png)_ngFor_
+
+This completes the long part-2. You can find the code for the same [here](https://github.com/nabendu82/Angular-basics).

@@ -1,0 +1,102 @@
+---
+title: Angular Basics-4
+description: Angular Basics -4
+date: 2021-12-01
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+import styles from "../css/postTemplate.module.css";
+
+Welcome to the fourth part of Angular Basics. We will deep dive into directives in this part.
+
+The starting point of the project can be taken from this zip file. Our little project have an array of number in **app.component.ts** file.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738867/New-blogs/ankit-8/2_bswkrl.png)_app.component.ts_
+
+Also our **app.component.html** file contains the below. It is not complete and will be working on the same.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738867/New-blogs/ankit-8/3_d8fpoz.png)_app.component.html_
+
+Now, we will update the code to show the numbers, by adding the code with ngFor in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738867/New-blogs/ankit-8/4_hzglu1.png)_app.component.html_
+
+Now, in localhost the numbers will be shown, but the button will not work.
+
+![Number](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738866/New-blogs/ankit-8/5_ow41by.png)_Number_
+
+For the number to work now with button, we will first change the numbers array to odds and evens in **app.component.ts** file.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738868/New-blogs/ankit-8/6_ddwrt0.png)_app.component.ts_
+
+Next, in **app.component.html** file, we will update the logic to show, evens or odds array on click of the button.
+
+We are using **ngIf** for the same, which uses the boolean variable **onlyOdd.**
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738868/New-blogs/ankit-8/7_yytb2y.png)_app.component.html_
+
+Now, our app is working properly and showing the odd or even number on clicking it.
+
+![Toggle](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738868/New-blogs/ankit-8/8_jmjzrn.png)_Toggle_
+
+Let’s recap **ngClass** and **ngStyle** a bit. We will add a class of **oddNum** in **app.component.css** file.
+
+![app.component.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738868/New-blogs/ankit-8/9_waofx8.png)_app.component.css_
+
+Now, back in **app.component.html** file, we will add the directives for **ngClass** and **ngStyle,** which add class and style directly.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738869/New-blogs/ankit-8/10_db2fgl.png)_app.component.html_
+
+Now, we are going to build our own directive. Create a folder **basic-highlight** inside **app** folder and then a **basic-highlight.directive.ts** in it.
+
+Here, we are changing the background-color, color and padding of any element in which it will be attached.
+
+![basic-highlight.directive.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738868/New-blogs/ankit-8/11_mldibs.png)_basic-highlight.directive.ts_
+
+We also need to include this directive in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738869/New-blogs/ankit-8/12_fnwflb.png)_app.module.ts_
+
+After that we can use this directive in any file and we are using it to add style to a paragraph in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738870/New-blogs/ankit-8/13_jho6ak.png)_app.component.html_
+
+Now, we will be able to see the paragraph with the styles in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738869/New-blogs/ankit-8/14_mc10ta.png)_localhost_
+
+Now, we will create another custom directive. This time we will also create a new directive through the command line.
+
+
+```
+ng g d best-directive
+```
+
+In this directive, we will react to some events like the moving of mouse on the element. So, in the **best-directive.directive.ts** file, we will have a **HostListener** for **mouseenter** and **mouseleave.**
+
+We are also using the **HostBinding** to bind some CSS properties.
+
+![best-directive.directive.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738869/New-blogs/ankit-8/15_glubkl.png)_best-directive.directive.ts_
+
+Now, in the **app.component.ts** file, we will be adding the **appBestDirective** in a new paragraph.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738869/New-blogs/ankit-8/16_dwjdsl.png)_app.component.ts_
+
+Now, the mouseover and mouseleave is working properly in our paragraph.
+
+![mouseover and mouseleave](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738870/New-blogs/ankit-8/17_zxmkxm.gif)_mouseover and mouseleave_
+
+Finally, let’s understand ngSwitch. Suppose, we have a item of 5 in our **app.component.ts** file and for different values, we need to show different things.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738870/New-blogs/ankit-8/18_xiezd9.png)_app.component.ts_
+
+Now, in **app.component.html\*\*** file, we will use the ngSwitch to show different case. The switch is very useful in case of multiple if else statements.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738870/New-blogs/ankit-8/19_j8cl4v.png)_app.component.html_
+
+The ngSwitch is showing the statement based on the item and with this we will complete this part.
+
+![ngSwitch](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738870/New-blogs/ankit-8/20_jawjjh.png)_ngSwitch_
+
+The code for the same can be found in [this](https://github.com/nabendu82/directive-deepdive) github repo.

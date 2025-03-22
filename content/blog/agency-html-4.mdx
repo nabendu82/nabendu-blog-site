@@ -1,0 +1,73 @@
+---
+title: Build an Agency Website with HTML & CSS -4
+description: Agency HTML 4
+date: 2020-07-25
+tags: ['html', 'beginners', 'css']
+published: true
+---
+
+Welcome to part-4 of the series. In this part we will start with the Services page.
+
+Create a file services.html in the same folder and copy everything from about.html in it.
+
+Now, change the content inside the **article** as below. Here, in unordered list we are adding our three services.
+
+![article](https://ik.imagekit.io/thewebdev/Agency-HTML/4/1_jYF91PlzRt.png)*article*
+
+Now, change the aside part also. Here we are having a form, which contain Name, email, message and a button to contact us.
+
+![Contact](https://ik.imagekit.io/thewebdev/Agency-HTML/4/2_cllie8jSty.png)*Contact*
+
+With this our Services page look like below.
+
+![Services Page](https://ik.imagekit.io/thewebdev/Agency-HTML/4/3_KHeZP1ZfaJ.png)*Services Page*
+
+Now, let’s put some styles for these in style.css file. Here we are first targeting the li and giving basic styles. After that we are targeting the input and the textarea of our form. Next we are styling the button a bit.
+
+![style.css](https://ik.imagekit.io/thewebdev/Agency-HTML/4/4_y-4ME-DYX.png)*style.css*
+
+So, our Services page is complete and it is looking awesome.
+
+![Services](https://ik.imagekit.io/thewebdev/Agency-HTML/4/5_XRA_BWCsY-.png)*Services*
+
+Now, our website is complete, but it is looking very ugly on mobile.
+
+<div className={styles.image__small}>
+
+![Ugly Mobile](https://ik.imagekit.io/thewebdev/Agency-HTML/4/6_edLs813Cg.png)*Ugly Mobile*
+
+</div>
+
+So, let’s fix it by adding a media query and mainly removing floats at mobile width.
+
+![Removing floats](https://ik.imagekit.io/thewebdev/Agency-HTML/4/7_UfJgcFkQnz.png)*Removing floats*
+
+This will fix our issues with Home page.
+
+<div className={styles.image__small}>
+
+![Home Page](https://ik.imagekit.io/thewebdev/Agency-HTML/4/8_gY5PEObNRD.png)*Home Page*
+
+</div>
+
+Next, we will remove floats for About and Services page.
+
+![About and Section](https://ik.imagekit.io/thewebdev/Agency-HTML/4/9_KtMtrp3Gq6.png)*About and Section*
+
+This will fix our About and Services page.
+
+<div className={styles.image__small}>
+
+![About](https://ik.imagekit.io/thewebdev/Agency-HTML/4/10_XJra3GKcuX.png)*About*
+
+</div>
+
+<div className={styles.image__small}>
+
+![Service](https://ik.imagekit.io/thewebdev/Agency-HTML/4/11_Co99NatX8.png)*Service*
+
+</div>
+
+This completes our Agency site. Hope you liked the series.
+
+You can find the code till this part in my github repo [here](https://github.com/nabendu82/Agency-Html).

@@ -1,0 +1,144 @@
+---
+title: Angular Basics -1
+description: Angular Basics -1
+date: 2021-10-22
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+We will start with Angular, which was the first JavaScript Framework to start the change towards web-apps as it was released way back in 2010.
+
+Angular is a JavaScript Framework and not a library like React. You will get almost all the features within it and not have to depend on external libraries much, like React.
+
+Angular is mainly divided into two parts- Angular 1 which was the first to release and is now commonly know as **AngularJS** and rest of the version are known as Angular 2+ or simple Angular. Right now we are at the 12th version with only new features added from Version 2.
+
+We need to install angular cli in our system for the awesome terminal experience by the following command.
+
+``` 
+npm install -g @angular/cli 
+```
+
+Now, go to any folder in your computer and in the terminal type the below command to create your first Angular project.
+
+``` 
+ng new first-app --no-strict 
+```
+
+
+It will ask us a bunch of questions. Let’s answer them as mentioned below.
+
+![Creating Project](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585207/New-blogs/Yashvendra_1/2_jwttcd.png)_Creating Project_
+
+Now, once the installation is complete change to the directory, open it with VSCode and run the command **ng serve** to start an Angular project.
+
+![ng serve](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585211/New-blogs/Yashvendra_1/3_alut4i.png)_ng serve_
+
+Now, we can goto http://localhost:4200/ and our app will show below screen.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585212/New-blogs/Yashvendra_1/4_wcugxb.png)_localhost_
+
+Now, our Angular app starts with **index.html** file, where we have an **app-root** injected.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585218/New-blogs/Yashvendra_1/5_jk9oem.png)_index.html_
+
+This app-root is in the selector for **app.component.ts** file and this is how it is linked.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585221/New-blogs/Yashvendra_1/6_pegjqi.png)_app.component.ts_
+
+We get the data of our boilercode from **app.component.html** file. So, we will remove all the earlier code and add our simple code in it.
+
+Here, we have an input field and a name associated with it. We are using a two-way binding of ngModel, which we will learn more later.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585223/New-blogs/Yashvendra_1/7_oinvqo.png)_app.component.html_
+
+Now, in **app.component.ts** file we will add the **name** variable.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585226/New-blogs/Yashvendra_1/8_pmjfmd.png)_app.component.ts_
+
+But to use **ngModel** in our project, we need to add **FormsModule** in our **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585228/New-blogs/Yashvendra_1/9_yfuzrf.png)_app.module.ts_
+
+Now, in localhost we will see the input text and can update it as well.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585232/New-blogs/Yashvendra_1/10_a8oh2j.png)_localhost_
+
+We will use bootstrap in the project. So, close the running app and install bootstrap by below command.
+
+![Bootstrap](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585237/New-blogs/Yashvendra_1/11_tnuc5v.png)_Bootstrap_
+
+We also need to add bootstrap in **angular.json** file.
+
+![angular.json](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585240/New-blogs/Yashvendra_1/12_rvp8yt.png)_angular.json_
+
+Now, run **ng serve** again and everything should work fine. Now, we will learn to create a component manually.
+
+Create a folder server inside app folder. Inside it create two files **server.component.html** and **server.component.ts**
+
+Now, in the **server.component.ts** file we need to import Component from angular/core. After that we have to use a decorator Component. Inside it we have to give a **selector**, which is a unique name of the app. The next **templateUrl** contains the external html file name, which in our case is **server.component.html** in the same directory.
+
+![server.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585245/New-blogs/Yashvendra_1/13_dyzlzi.png)_server.component.ts_
+
+Now, our file **server.component.html** just contain some basic html as of now.
+
+![server.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585253/New-blogs/Yashvendra_1/14_txbubu.png)_server.component.html_
+
+Now, whenever we add a new component we have to add it in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585254/New-blogs/Yashvendra_1/15_watvgm.png)_app.module.ts_
+
+Now, to show the component from any other component, we just have to use it’s name. We are doing the same in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585258/New-blogs/Yashvendra_1/16_gx6b0p.png)_app.component.html_
+
+Now, in our localhost, we will see the content of the ServerComponent.
+
+![Server](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585259/New-blogs/Yashvendra_1/17_mwhnos.png)_Server_
+
+We can also use the cli to create angular components. We create a new component by giving the command **ng g c component_name** from root and it will create a servers folder containing four files in it.
+
+![Generate](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585261/New-blogs/Yashvendra_1/18_nhlg3l.png)_Generate_
+
+It does all setup which includes creating the html, ts and css file. Also, it adds this new component in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585262/New-blogs/Yashvendra_1/19_a1dcne.png)_app.module.ts_
+
+Now, in **app.component.html** file add the Servers component instead of the Server component.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585266/New-blogs/Yashvendra_1/20_subl1u.png)_app.component.html_
+
+Now, in the **servers.component.html** add the Server component.
+
+![servers.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585267/New-blogs/Yashvendra_1/21_ltvefd.png)_servers.component.html_
+
+Now, the localhost will show two server component.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585269/New-blogs/Yashvendra_1/22_fx1uvz.png)_localhost_
+
+We can also write the html directly in the typescript file. We should follow this approach only when we have only 2–3 lines of code in html.
+
+Instead of templateUrl, we can have template and have the HTML inside a template string(backticks).
+
+![servers.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585270/New-blogs/Yashvendra_1/23_ugfkjb.png)_servers.component.ts_
+
+Now, we will look into styles in our project. We will add some bootstrap classes in our project in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585271/New-blogs/Yashvendra_1/24_jkynuq.png)_app.component.html_
+
+Now, in localhost we can see these beautiful bootstrap classes.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585274/New-blogs/Yashvendra_1/25_hxcauw.png)_localhost_
+
+We can also change the style directly by adding styles in the **app.component.css** file.
+
+```
+h1{
+    color: blue;
+}
+```
+
+Now, the text is blue in color in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660585276/New-blogs/Yashvendra_1/26_ruvw2n.png)_localhost_
+
+This completes part-1 of the Angular basics. See you soon in part-2. You can find the code for the same in [this](https://github.com/nabendu82/Angular-basics) github repo.

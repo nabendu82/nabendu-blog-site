@@ -29,7 +29,7 @@ When we create an app with **create-react-app**, webpack is included in it and b
 A simple example of what Babel does for arrow function.
 
 
-```
+```js {4} showLineNumbers
     // Babel Input: ES2015 arrow function
         [1, 2, 3].map((n) => n + 1);
 
@@ -74,7 +74,7 @@ Now, we are going to install a bunch of eslint packages. Eslint is basically a l
 Now, we are going to install a bunch of babel plugins. Babel is very important to convert ES6 into ES5, which is still required in old browsers. And also the jsx react code to createElement react code.
 
 
-```
+```js {4} showLineNumbers
     npm i --save-dev babel-loader @babel/preset-env @babel/core @babel/plugin-syntax-dynamic-import @babel/plugin-transform-runtime @babel/preset-react babel-eslint @babel/runtime
 ```
 

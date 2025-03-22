@@ -1,0 +1,184 @@
+---
+title: Angular Basics -3
+description: Angular Basics -3
+date: 2021-11-01
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+import styles from "../css/postTemplate.module.css";
+
+Welcome to the third part of Angular Basics. We will start from where we left. Some of the concepts in this post, were taken from the awesome Angular course of Maximilian. You can find it [here](https://www.udemy.com/course/the-complete-guide-to-angular-2/). We are going to deep dive into components and data binding.
+
+We will start with a simple angular app, in which everything is running from the **app.component.html** file. The content for the same is below.
+
+```
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <p>Add new Servers or blueprints!</p>
+      <label>Server Name</label>
+      <input type="text" class="form-control" [(ngModel)]="newServerName">
+      <label>Server Content</label>
+      <input type="text" class="form-control" [(ngModel)]="newServerContent">
+      <br>
+      <button
+        class="btn btn-primary"
+        (click)="onAddServer()">Add Server</button>
+      <button
+        class="btn btn-primary"
+        (click)="onAddBlueprint()">Add Server Blueprint</button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <div
+        class="panel panel-default"
+        *ngFor="let element of serverElements">
+        <div class="panel-heading">{{ element.name }}</div>
+        <div class="panel-body">
+          <p>
+            <strong *ngIf="element.type === 'server'" style="color: red">{{ element.content }}</strong>
+            <em *ngIf="element.type === 'blueprint'">{{ element.content }}</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+
+The **app.component.ts** file content is below
+
+```
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
+export class AppComponent {
+  serverElements = [];
+  newServerName = '';
+  newServerContent = '';
+onAddServer() {
+    this.serverElements.push({
+      type: 'server',
+      name: this.newServerName,
+      content: this.newServerContent
+    });
+  }
+onAddBlueprint() {
+    this.serverElements.push({
+      type: 'blueprint',
+      name: this.newServerName,
+      content: this.newServerContent
+    });
+  }
+}
+
+```
+
+
+Our project in localhost looks like below.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586454/New-blogs/Yashvendra_3/2_vtlrmn.png)_localhost_
+
+We will now first learn now to split it up into smaller components. We will first create two new component from the cli by giving the below commands.
+
+
+  ``` ng g c cockpit ng g c server-element ```
+
+Now, cut the below from **app.component.html** file and place it in **cockpit.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586456/New-blogs/Yashvendra_3/3_ydoqs1.png)_app.component.html_
+
+Also, move the methods and variable declarations from **app.component.ts** file to **cockpit.component.ts** file.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586456/New-blogs/Yashvendra_3/4_thmaov.png)_app.component.ts_
+
+We have an error in **cockpit.component.ts** file because we don’t have the **serverElements**. We will fix this issue later.
+
+But first let’s move the rest of the part from **app.component.html** file to **server-element.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586458/New-blogs/Yashvendra_3/5_nmmpnk.png)_app.component.html_
+
+We also don’t want the ngFor in the **server-element.component.html** file, so we have remove it from there and it’s content are like below.
+
+![server-element.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586459/New-blogs/Yashvendra_3/6_szg57s.png)_server-element.component.html_
+
+Now, we will add the **app-cockpit** and the **app-server-element** in the **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586460/New-blogs/Yashvendra_3/7_mqndjl.png)_app.component.html_
+
+Our app is crashing, so we will comment out the code for **serverElements** as of now in **cockpit.component.ts** file.
+
+![cockpit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586461/New-blogs/Yashvendra_3/8_gxhums.png)_cockpit.component.ts_
+
+We are accessing the single server element in **server-element.component.html** file. So, we will create the same in **server-element.component.ts** file.
+
+![server-element.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586462/New-blogs/Yashvendra_3/9_e9pyhz.png)_server-element.component.ts_
+
+Now, we will write the array of **serverElements** in **app.component.ts** file.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586463/New-blogs/Yashvendra_3/10_ujkdjs.png)_app.component.ts_
+
+Now, we want to bind the **element** from the **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586464/New-blogs/Yashvendra_3/11_wtx1ad.png)_app.component.html_
+
+But for the parent component to bind to the property of child component, we need to add a decorator in element. We will add a decorator Input() in **server-element.component.ts** file.
+
+![server-element.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586466/New-blogs/Yashvendra_3/12_wspnib.png)_server-element.component.ts_
+
+Now, we can see this in our localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586467/New-blogs/Yashvendra_3/13_rkbu3s.png)_localhost_
+
+Now, we want to implement the other way around i.e. the changes in child component to be passed to the parent component.
+
+We will be receiving event from Cockpit component to App component. So, first create the same in **app.component.html** file. Here, we are binding with **serverCreated** and **bluePrintCreated** from Cockpit component.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586470/New-blogs/Yashvendra_3/14_wmsehg.png)_app.component.html_
+
+Now, in **app.component.ts** file, we will add the **onServerAdded** and **onBlueprintAdded** functions, which will get the data from Cockpit component and add to **serverElements** array.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586470/New-blogs/Yashvendra_3/15_zvimze.png)_app.component.ts_
+
+In **cockpit.component.ts** file, we create two properties **serverCreated** and **bluePrintCreated**. We are making them to emit event by adding the decorator **Output** and making it EventEmitter.
+
+Now in the **onAddServer** and **onAddBlueprint** functions, we are emitting, the serverName and serverContent.
+
+![cockpit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586471/New-blogs/Yashvendra_3/16_ya3ems.png)_cockpit.component.ts_
+
+Now, in localhost everything is working fine.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586472/New-blogs/Yashvendra_3/17_yqmuzn.png)_localhost_
+
+The styles in an Angular project are localized and don’t effect other files. We want the Server blueprint to be blue in color. So, add this style in **server-element.component.css** file.
+
+
+```
+p {
+    color: blue;
+}
+```
+
+There is another way to bind data, instead of using **ngModel** and that is by using local references.
+
+In the **cockpit.component.html** file comment out the earlier input and in a input add a local reference with name **serverNameInput**. Also pass this to the **onAddServer** and
+**onAddBlueprint** functions.
+
+![cockpit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586474/New-blogs/Yashvendra_3/18_kwjogo.png)_cockpit.component.html_
+
+Now, in the **cockpit.component.ts** file, we can directly use it and get the value.
+
+![cockpit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586468/New-blogs/Yashvendra_3/19_aiuplt.png)_cockpit.component.ts_
+
+This completes our part-3 of the tutorials and everything is working fine. You can find code for the same in [this](https://github.com/nabendu82/cmp-binding-angular) github repo.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660586475/New-blogs/Yashvendra_3/20_dw53xw.png)_localhost_
