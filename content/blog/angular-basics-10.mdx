@@ -1,0 +1,57 @@
+---
+title: Angular Basics-10
+description: Angular Basics
+date: 2022-01-18
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-10 of Angular Basics series. In this part , we will learn about Reactive approach to create forms in Angular.
+
+The starting point can be taken from [here](https://drive.google.com/file/d/1Qp8O0g2EWo68LaMS1EIeroKs7TygP4i1/view).
+
+We have a simple html form in the project, which we are going to change into Angular reactive approach.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779949/New-blogs/Yashvendra1_mdx/2_x28bao.png)_localhost_
+
+The first thing we will do is to change the **FormsModule** to **ReactiveFormsModule** in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779950/New-blogs/Yashvendra1_mdx/3_w7xgma.png)_app.module.ts_
+
+Now in **app.component.ts** file we will add the signupForm and then in ngOnInit add the username, email and gender.
+
+We also have an onSubmit to console log the signupForm.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779952/New-blogs/Yashvendra1_mdx/4_rt54wp.png)_app.component.ts_
+
+Now, in **app.component.html** file add the formGroup, ngSubmit and formControlName and we are done.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779953/New-blogs/Yashvendra1_mdx/5_qflhvy.png)_app.component.html_
+
+Now, in localhost when we add values and submit the form, we will get the values.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779954/New-blogs/Yashvendra1_mdx/6_yudfg2.png)_localhost_
+
+Now, we will add validators in our project and for this first in **app.component.ts** file, add Validators in **FormControl**.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779955/New-blogs/Yashvendra1_mdx/7_vjvocz.png)_app.component.ts_
+
+Next, in **app.component.html** file, we will add get methods to check whether the **username** or **email** is valid.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779956/New-blogs/Yashvendra1_mdx/8_s5nzxz.png)_app.component.html_
+
+Now, in **app.component.css** file we will add the class to show the red border on error.
+
+![app.component.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779957/New-blogs/Yashvendra1_mdx/9_nwg5mc.png)_app.component.css_
+
+Now, our validations are working perfectly on localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779959/New-blogs/Yashvendra1_mdx/10_ks7z0n.png)_localhost_
+
+Now, we will complete our form by getting the default values in it, by using the setValue in ngOnInit. We are also resetting the form after the user submits it.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779960/New-blogs/Yashvendra1_mdx/11_ublv7y.png)_app.component.ts_
+
+Our app is complete now and the default values are been selected and the reset also working properly. The code for the same can be taken from [this](https://github.com/nabendu82/forms-reactive) github repo.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661779958/New-blogs/Yashvendra1_mdx/12_bgvdr8.png)_localhost_

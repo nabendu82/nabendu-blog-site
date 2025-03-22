@@ -1,0 +1,239 @@
+---
+title: Angular 12 MEAN stack app
+description: Angular MEAN
+date: 2022-02-12
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to a brand new MEAN stack project. Here, we are going to build an employee management application from scratch, with MEAN(MongoDB, Express, Angular, NodeJS) stack.
+
+You can also watch it on [YouTube](https://youtu.be/qB6hfyfv2Ak)
+
+We are going to install and use MongoDB locally. So, head over to [https://www.mongodb.com](https://www.mongodb.com/) and go to Products -> Community Server.
+
+![Community Server](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781384/New-blogs/Yashvendra8_mdx/2_iruob0.png)_Community Server_
+
+In the next page, click on the Download link and store it on local system.
+
+![Download](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781384/New-blogs/Yashvendra8_mdx/3_yazkcr.png)_Download_
+
+Most of the installation is straight forward on Windows. But, we will work with MongoDB as Network Service. So, in Service configuration, choose as below
+
+![Server](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781386/New-blogs/Yashvendra8_mdx/4_dvmiyf.png)_Server_
+
+Also, make sure that you keep the checkbox to “Install MongoDB Compass”.
+
+![With Compass](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781387/New-blogs/Yashvendra8_mdx/5_lofkp8.png)_With Compass_
+
+Once the installation is done, we can connect to Compass on our local system.
+
+![local system](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781388/New-blogs/Yashvendra8_mdx/6_erdeto.png)_local system_
+
+Now, create a folder **MEAN-app** and then a folder **backend** inside it. We are going to start our backend project by giving the command **npm init** and pressing enter in all questions.
+
+![npm init](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781389/New-blogs/Yashvendra8_mdx/7_cyqwba.png)_npm init_
+
+Now, we can add the dependencies required for the backend project with the below command.
+
+```js
+  npm i express body-parser mongoose nodemon cors 
+```
+
+The first thing which we are going to create is **db.js** in the **backend** folder. Here, we are connecting to the local mongoDB database.
+
+![db.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781390/New-blogs/Yashvendra8_mdx/8_fbjhnu.png)_db.js_
+
+Now, when we will give the command **nodemon db.js** from command line, we will get this **DB Connection Successful** message.
+
+![nodemon](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781391/New-blogs/Yashvendra8_mdx/9_rcy0r2.png)_nodemon_
+
+Now, create a file **index.js** and inside it add the dependencies first. We are also using the db.js created earlier.
+
+We have also started this file using **nodemon index.js** command.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781392/New-blogs/Yashvendra8_mdx/10_vnbtod.png)_index.js_
+
+Now, we need to create a model which will contain the structure of the data. Create a folder **models** and a file **employee.js** inside it. Put the below content in it.
+
+![employee.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781393/New-blogs/Yashvendra8_mdx/11_bngh83.png)_employee.js_
+
+Now, we are going to create the routes. Create a file **routes.js** inside a **routes** folder.
+
+Here, we are first using the Employee model and after that we are creating a post route. This takes the name, position and dept and saves it inside the mongodb database.
+
+![routes.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781394/New-blogs/Yashvendra8_mdx/12_xzp9fy.png)_routes.js_
+
+After that we will use this route in **index.js** file.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781395/New-blogs/Yashvendra8_mdx/13_sc2tyv.png)_index.js_
+
+Now, it’s time to test our route in Postman. We will give a POST route and it is working properly.
+
+![POST route](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781396/New-blogs/Yashvendra8_mdx/14_plzvdp.png)_POST route_
+
+We can also see the data been created in the local MogoDB instance.
+
+![MongoDB](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781396/New-blogs/Yashvendra8_mdx/15_cajb5t.png)_MongoDB_
+
+Now, it’s time to create the GET API. It is almost similar to POST API, but we are using Employee.find to get all data. And we are also not sending any data to server.
+
+![routes.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781397/New-blogs/Yashvendra8_mdx/16_ozv64o.png)_routes.js_
+
+Now, the GET API can be tested from the browser also an we are doing the same.
+
+![GET Check](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781398/New-blogs/Yashvendra8_mdx/17_wr08vh.png)_GET Check_
+
+Now, we will create the API to get the details of a single employee. Here , we are taking the id after the / and finding the Employee by that id.
+
+![routes.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781402/New-blogs/Yashvendra8_mdx/18_drxqgo.png)_routes.js_
+
+Now, if we pass any id in Postman or browser for a single employee, we will get all the data.
+
+![Single Employee](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781403/New-blogs/Yashvendra8_mdx/19_tuv9bp.png)_Single Employee_
+
+Now, it’s time to create the DELETE route. It is almost similar to GET code for a single employee. Only the method changes.
+
+![routes.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781404/New-blogs/Yashvendra8_mdx/20_o3dtt0.png)_routes.js_
+
+Now, we can delete the same from Postman.
+
+![Postman](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781411/New-blogs/Yashvendra8_mdx/21_q10f1p.png)_Postman_
+
+    Now, it’s time to work on the last API and that is PUT API. In this, we are using findByIdAndUpdate, to update the user data.
+
+![routes.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781400/New-blogs/Yashvendra8_mdx/22_ogvrfw.png)_routes.js_
+
+Now, we can update any employee data from Postman.
+
+![Data](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781401/New-blogs/Yashvendra8_mdx/23_slpoih.png)_Data_
+
+Now, we will create the frontend of the project. For this we will create an angular app in the MEAN-app folder.
+
+![New](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781411/New-blogs/Yashvendra8_mdx/24_jcltnx.png)_New_
+
+After the installation is done, we will add bootstrap 4 in our project through the awesome **ngx-bootstrap** package.
+
+![ngx-bootstrap](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781406/New-blogs/Yashvendra8_mdx/25_hzta0p.png)_ngx-bootstrap_
+
+Now, we will first create a new component **employee** by giving the below command from the **frontend** folder.
+
+```js 
+  ng g c employee 
+```
+
+Now, remove everything from **app.component.html** file and add a simple navbar and the employee component.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781408/New-blogs/Yashvendra8_mdx/26_wawm5s.png)_app.component.html_
+
+Now, in localhost we will see the nice navbar. But make sure **ng serve** is running in **frontend** folder.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781410/New-blogs/Yashvendra8_mdx/27_i1upnr.png)_localhost_
+
+Now, head over to **employee.component.html** file add the code for showing the header, an Add Employee button and card.
+
+![employee.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781412/New-blogs/Yashvendra8_mdx/28_lblzlv.png)_employee.component.html_
+
+After that we will show a Modal, which will be open when we click on **Add Employee** button.
+
+![employee.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781415/New-blogs/Yashvendra8_mdx/29_pu6qgh.png)_employee.component.html_
+
+Now, we will add a form in the modal to take the user data.
+
+![employee.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781418/New-blogs/Yashvendra8_mdx/30_raf2df.png)_employee.component.html_
+
+Now, our html part is complete and we will do the basic typescript part in **employee.component.ts** file.
+
+Here, the code is for a basic reactive form.
+
+![employee.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781420/New-blogs/Yashvendra8_mdx/31_atfclr.png)_employee.component.ts_
+
+We will also add the code for onAddEmployee and onCloseModal functions in **employee.component.ts** file..
+
+![employee.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781421/New-blogs/Yashvendra8_mdx/32_m91s3h.png)_employee.component.ts_
+
+Now, we will add the styles for our modal in **employee.component.css** file.
+
+![employee.component.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781423/New-blogs/Yashvendra8_mdx/33_ctmczx.png)_employee.component.css_
+
+Our HTML part is working well in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781425/New-blogs/Yashvendra8_mdx/34_evxdsp.png)_localhost_
+
+Now, we will add the logic to connect to the backend and complete our MEAN app. We will first create a model for employee as **employee.model.ts** in the **app** folder.
+
+![employee.model.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781427/New-blogs/Yashvendra8_mdx/35_tkdukx.png)_employee.model.ts_
+
+Now, we will create a service employee by giving the below command.
+
+```js 
+  ng g s employee 
+```
+
+Now, we will use HttpClient to hit our backend and do a post request in **employee.service.ts** file.
+
+![employee.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781428/New-blogs/Yashvendra8_mdx/36_eg9lja.png)_employee.service.ts_
+
+Now, one thing we forgot and that is to add **HttpClientModule** in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781430/New-blogs/Yashvendra8_mdx/37_mdw6o7.png)_app.module.ts_
+
+Next, we will add the **EmployeeService** in **employee.component.ts** file and use it to POST data.
+
+![employee.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781432/New-blogs/Yashvendra8_mdx/38_n5e4hz.png)_employee.component.ts_
+
+Now, when we post an employee from the frontend, we can see it back from the backend.
+
+![Data](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781434/New-blogs/Yashvendra8_mdx/39_wlzdmt.png)_Data_
+
+We can also see the data been added in the database and available in the endpoint.
+
+![Data available](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781435/New-blogs/Yashvendra8_mdx/40_adqowo.png)_Data available_
+
+Now, we want to create a method to get all the employee. We will first create the service in **employee.service.ts** file.
+
+![employee.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781438/New-blogs/Yashvendra8_mdx/41_awyoqx.png)_employee.service.ts_
+
+Now, we will create a new employees variable in **employee.component.ts** file. After that we are creating getEmployees(), in which we are using the getEmployeeList service.
+
+![employee.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781440/New-blogs/Yashvendra8_mdx/42_n5aigb.png)_employee.component.ts_
+
+Now, we will use ngFor on employees to show all employees in **employee.component.html** file. We are also showing the Design and Development department in different colors.
+
+![employee.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781442/New-blogs/Yashvendra8_mdx/43_xu6q3q.png)_employee.component.html_
+
+Now, we can add new employees and it is showing very good in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781444/New-blogs/Yashvendra8_mdx/44_dru3cf.png)_localhost_
+
+Now, we will add the method to delete an employee. We are again going to add a method first in **employee.service.ts** file.
+
+![employee.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781447/New-blogs/Yashvendra8_mdx/45_ozfmsx.png)_employee.service.ts_
+
+Next, we will add an onDeleteEmployee function in **employee.component.ts** file. It is also confirming from the user before deleting.
+
+![employee.component.ts (https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781449/New-blogs/Yashvendra8_mdx/46_whtxjc.png)*employee.component.ts*
+
+Lastly, we will add this function in **employee.component.html** file and pass the id.
+
+![employee.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781452/New-blogs/Yashvendra8_mdx/47_duelya.png)_employee.component.html_
+
+Now, our delete is also working fine in localhost.
+
+![Localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781453/New-blogs/Yashvendra8_mdx/48_icmyp3.png)_Localhost_
+
+Now, we have to do the Edit employee feature. We are again going to add a method first in **employee.service.ts** file.
+
+![employee.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781455/New-blogs/Yashvendra8_mdx/49_qe6z32.png)_employee.service.ts_
+
+Next, we will add an **onEditEmployee** function in **employee.component.ts** file. We are also updating the **onEmpSubmit**, where we are calling the **updateEmployee** or **addEmployee** depending on the **editMode.**
+
+![employee.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781457/New-blogs/Yashvendra8_mdx/50_wqxxmy.png)_employee.component.ts_
+
+Lastly, we will add this function in **employee.component.html** file and pass the whole item. We are also using editMode to change some of the text in the modal.
+
+![employee.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781458/New-blogs/Yashvendra8_mdx/51_zw0cdn.png)_employee.component.html_
+
+Now, our full stact MEAN app is complete and working properly. You can get the code for the same in [this](https://github.com/nabendu82/MEAN-App) github repo.
+
+![MEAN](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781460/New-blogs/Yashvendra8_mdx/52_wzhdtd.gif)_MEAN_

@@ -1,0 +1,63 @@
+---
+title: Angular Basics-13
+description: Angular Basics
+date: 2022-01-24
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-13 of Angular Basics series. In this part , we will continue to learn to do HTTP requests in Angular.
+
+The starting point is previous part can be taken from [here](https://github.com/nabendu82/http-deepdive).
+
+We will convert our HTTP request from previous part to use services. Create a new file **posts.service.ts** inside the **app** folder.
+
+We are moving the logic for the createPost and fetchPosts in it. But notice that in fetchPosts, we are not subscribing but only returning the result of the http request.
+
+![posts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780181/New-blogs/Yashvendra4_mdx/2_bhc8en.png)_posts.service.ts_
+
+Back in **app.component.ts** file, we will remove the functions and add the call to services in it.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780183/New-blogs/Yashvendra4_mdx/3_z1defs.png)_app.component.ts_
+
+Now, our app is working as earlier and we are able to get the posts.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780185/New-blogs/Yashvendra4_mdx/4_wyh4fn.png)_localhost_
+
+Now, we will learn to clear or remove the posts from firebase. We are agin going to follow the service approach and create a **deletePosts()** in **posts.service.ts** file. It just use the http delete method to delete all data from our endpoint.
+
+![posts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780187/New-blogs/Yashvendra4_mdx/5_o09hpz.png)_posts.service.ts_
+
+Now, we will add this to the **onClearPosts()** in **app.component.ts** file. After the delete confirmation, we are also making the loadedPosts array equal to empty.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780189/New-blogs/Yashvendra4_mdx/6_px4xoz.png)_app.component.ts_
+
+Now, from the localhost click on the Clear Posts button and all data will be deleted from firebase database also.
+
+![All deleted](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780191/New-blogs/Yashvendra4_mdx/7_hfkt8m.png)_All deleted_
+
+Now, we will learn to do error handling in HTTP. We will emulate an error situation by giving the wrong url in **posts.service.ts**, in which i have just removed an alphabet.
+
+![posts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780192/New-blogs/Yashvendra4_mdx/8_ba2x3c.png)_posts.service.ts_
+
+Now, in **app.component.html** file, we will just show an error class with error. Also, notice that we are not showing the Loading if error is there.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780195/New-blogs/Yashvendra4_mdx/9_k5dnhl.png)_app.component.html_
+
+Now, in **app.component.ts** file, we will show this error by passing it as a second argument after fetchPosts.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780197/New-blogs/Yashvendra4_mdx/10_yiuqvj.png)_app.component.ts_
+
+Now, in localhost we will see this error with the error message.
+
+![Error with message](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780199/New-blogs/Yashvendra4_mdx/11_ftbsry.png)_Error with message_
+
+We will do one more change in our error handling. Now, we will add a button to clear the error in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780200/New-blogs/Yashvendra4_mdx/12_vfopdp.png)_app.component.html_
+
+Back in **app.component.ts** file, we will add the function onHandleError to make the error null. We are also adding isFetching to false in both fetchPost, because we want to show No Posts available message.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780202/New-blogs/Yashvendra4_mdx/13_pm1qr1.png)_app.component.ts_
+
+Now, our app is complete and error handling is working properly. This completes our post and you can find the code for the same in [this](https://github.com/nabendu82/http-deepdive-p2) github repo.

@@ -1,0 +1,152 @@
+---
+title: Angular 12 News Application
+description: Angular MEAN
+date: 2022-02-14
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to a brand new Angular project. Here, we are going to build an Angular 12 News application from scratch.
+
+Now, go to any folder in your computer and in the terminal type the below command to create the Angular project.
+
+```js
+    ng new news-app 
+```
+
+It will ask us a bunch of questions. Let’s answer them as mentioned below.
+
+![news app](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781008/New-blogs/Yashvendra7_mdx/2_rbhxvi.png)_news app_
+
+Next, we will add bootstrap(version 5) in our project by add the CSS and JS file from the [https://getbootstrap.com/](https://getbootstrap.com/) home page.
+
+![Home page](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781010/New-blogs/Yashvendra7_mdx/3_vag5eo.png)_Home page_
+
+Now, we will add the CSS and JS file in out **index.html** file.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781012/New-blogs/Yashvendra7_mdx/4_u6pnlu.png)_index.html_
+
+Now, make sure that **ng serve** is running. Create a **top-news** component with below command.
+
+```js
+    ng g c top-news 
+```
+
+We will next take a cool navbar from bootstap site. We have edited it also a bit and kept the
+**router-outlet** in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781014/New-blogs/Yashvendra7_mdx/5_ww2cpk.png)_app.component.html_
+
+Now, we have a cool navbar on our site.
+
+![Navbar](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781015/New-blogs/Yashvendra7_mdx/6_gl4q3h.png)_Navbar_
+
+Now, we will first add the **TopNewsComponent** in our **app-routing.module.ts** file
+
+![app-routing.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781017/New-blogs/Yashvendra7_mdx/7_sclras.png)_app-routing.module.ts_
+
+Next, we will also add the **HttpClientModule** in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781019/New-blogs/Yashvendra7_mdx/8_a03nq1.png)_app.module.ts_
+
+Now, we are going to use services to do the api call. So, we will create a new service called newsapi.service.ts by below command.
+
+```js 
+    ng g s service/newsapi 
+```
+
+Now, let’s also include this service in app.module.ts file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781020/New-blogs/Yashvendra7_mdx/9_mwury1.png)_app.module.ts_
+
+Now, we will go to the [https://newsapi.org/](https://newsapi.org/) to get the API endpoint for the news. Once you logged in, go to Documentation and then Top **headlines.**
+
+![Newsapi](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781022/New-blogs/Yashvendra7_mdx/10_sdflwn.png)_Newsapi_
+
+Now, we will add the api keys in our **newsapi.service.ts** file and also add an function to do the call through HttpClient.
+
+![newsapi.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781024/New-blogs/Yashvendra7_mdx/11_mb6pgq.png)_newsapi.service.ts_
+
+Now, in the **top-news.component.ts** file, we will subscribe to this Observable and get the result.
+
+![top-news.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781026/New-blogs/Yashvendra7_mdx/12_f7ugmq.png)_top-news.component.ts_
+
+Now, in localhost, we can see the data in the console.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781030/New-blogs/Yashvendra7_mdx/13_p5rkks.png)_localhost_
+
+Now, it’s time to show the data in our project. But before that we need to add a variable **topHeadlinesData** in **top-news.component.ts** file.
+
+![top-news.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781031/New-blogs/Yashvendra7_mdx/14_ua6ibe.png)_top-news.component.ts_
+
+Now, we will add the html code in **top-news.component.html** file. Here, we are just looping through the **topHeadlinesData** variable and showing the image, title and the variable.
+
+Also, notice that we have added a **h4** tag and a **marquee** inside it.
+
+![top-news.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781033/New-blogs/Yashvendra7_mdx/15_ybhjg6.png)_top-news.component.html_
+
+Now, we will add a bit of global style in **styles.css** file.
+
+![styles.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781035/New-blogs/Yashvendra7_mdx/16_himimi.png)_styles.css_
+
+Now, our project is looking awesome with rolling text.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781038/New-blogs/Yashvendra7_mdx/17_k4k1xr.png)_localhost_
+
+There are two things which we need to change for these boxes to look better. First, some of the headlines are very big, whether others are small. So, we want all of them to be of same length.
+
+We are going to create a custom pipe for it, which takes a limit and restricts the length.
+
+So, create a pipe short with the below command.
+
+```js
+    ng g p short 
+```
+
+Now, in the **short.pipe.ts** file, update the below content. It is taking a limit and with substr cutting it. After that it add the three dots.
+
+![short.pipe.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781041/New-blogs/Yashvendra7_mdx/18_vdqgxk.png)_short.pipe.ts_
+
+Now, we will use this pipe in **top-news.component.html** file. Also, we have updated the img tag, by removing the width from it.
+
+![top-news.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781043/New-blogs/Yashvendra7_mdx/19_pkasca.png)_top-news.component.html_
+
+Now, we will make the img of equal height and responsive by adding the styles in **styles.css** file.
+
+![styles.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781045/New-blogs/Yashvendra7_mdx/20_xacd78.png)_styles.css_
+
+Now, the boxes are of equal size and looking awesome.
+
+![Awesome](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781048/New-blogs/Yashvendra7_mdx/21_w6gwz2.png)_Awesome_
+
+Now, in Home we are showing general news. But we also want to show Tech news in another path.
+
+So, create a new component tech-news with the below command.
+
+```js 
+    ng g c tech-news 
+```
+
+Now in the **newsapi.services.ts** file, we will add new services for tech news.
+
+![newsapi.services.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781049/New-blogs/Yashvendra7_mdx/22_stki0q.png)_newsapi.services.ts_
+
+Now, the **tech-news.component.ts** file will be exactly similar to the **top-news.component.ts.** The only difference is the service it calls and the array name.
+
+![tech-news.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781051/New-blogs/Yashvendra7_mdx/23_lgovpm.png)_tech-news.component.ts_
+
+Again the **tech-news.component.html** file will be exactly similar to the **top-news.component.html.** The only difference is the array name.
+
+![tech-news.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781052/New-blogs/Yashvendra7_mdx/24_vsuxkb.png)_tech-news.component.html_
+
+Now, in the **app-routing.module.ts** file, we will add the path for the **TechNewsComponent.**
+
+![app-routing.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781054/New-blogs/Yashvendra7_mdx/25_lygvx1.png)_app-routing.module.ts_
+
+Lastly, we will add the new route in the **app.component.html** file in the navbar. We are also adding a routerLink in place of all hrefs.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781056/New-blogs/Yashvendra7_mdx/26_c2g0yi.png)_app.component.html_
+
+Our app is complete and working great. The code for the same is in [this](https://github.com/nabendu82/news-app-angular) github repo.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781062/New-blogs/Yashvendra7_mdx/27_iidci8.gif)_localhost_

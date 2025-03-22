@@ -1,0 +1,115 @@
+---
+title: Angular Basics-6
+description: Angular Basics
+date: 2021-12-19
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to the sixth part of Angular Basics. We will learn to change paths with Routing in this post. The starting point for this project can be taken from this zip file.
+
+On running the project in localhost, we can find a simple project with different tabs. It is not working now and that is the thing, which we are going to fix.
+
+![Basics](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665704/New-blogs/Yashvendra_6/2_ansbsj.png)_Basics_
+
+We have three components in our project which are the home, servers and users. In the **app.component.html** file, we are loading all of them.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665704/New-blogs/Yashvendra_6/3_w8293e.png)_app.component.html_
+
+To add routing in our project, we have to add the path in **app.module.ts** file, which will be mapped to the components.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665705/New-blogs/Yashvendra_6/4_ybew4f.png)_app.module.ts_
+
+Now, back in **app.component.html** file, we will have the router-outlet and will remove the other components.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665706/New-blogs/Yashvendra_6/5_hys92w.png)_app.component.html_
+
+Now, our routing is working fine in localhost, if we manually put the route.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665707/New-blogs/Yashvendra_6/6_lqldwd.png)_localhost_
+
+Now, we will add the logic for working links in our project. We will add the directive routerLink in our **app.component.html** file and there are two ways to use it.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665708/New-blogs/Yashvendra_6/7_q6rgfx.png)_app.component.html_
+
+Now, in our app, if we click on the link they will take to the proper paths.
+
+![Proper path](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665709/New-blogs/Yashvendra_6/8_dltyvt.png)_Proper path_
+
+Now, we will work to get the visual indication of our current route. We will be using **routerLinkActive** for the same. Also, we need to give the **routerLinkActiveOptions** in the home route for not matching / everytime.
+
+Beside this i have also updated the /servers to servers because, we can work with absolute paths
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665710/New-blogs/Yashvendra_6/9_mwb8ah.png)_app.component.html_
+
+Now, the highlights are been shown properly.
+
+![Highlights](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665710/New-blogs/Yashvendra_6/10_dvpfe0.png)_Highlights_
+
+Now, we will learn how to load a route programmatically. For this we will first have a button in our **home.component.html** file, which will call the function **onLoadServer** on clicking.
+
+![home.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665711/New-blogs/Yashvendra_6/11_dll20z.png)_home.component.html_
+
+Now in the **home.component.ts** file, we will use **router.navigate** to go to the server route.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665714/New-blogs/Yashvendra_6/12_bgnt3o.png)_home.component.ts_
+
+Now, we have a Load Server button on our home page and on click of it, we will navigate to the server page.
+
+![Navigate](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665714/New-blogs/Yashvendra_6/13_nh2ava.png)_Navigate_
+
+We will now enhance our application by adding other routes to it. We are basically adding parameters to our routes.
+
+In the **app.module.ts** file add a new route, which will take the id and name parameters.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665713/New-blogs/Yashvendra_6/14_snd3zi.png)_app.module.ts_
+
+Now, in the user component we can access it by route.snapshot.params. Add the user with id and name in **user.component.ts** file.
+
+![user.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665717/New-blogs/Yashvendra_6/15_ehnsbd.png)_user.component.ts_
+
+Now, we can show the same through **user.component.html** file.
+
+![user.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665719/New-blogs/Yashvendra_6/16_wvtd5j.png)_user.component.html_
+
+Now, if we go to the route http://localhost:4200/users/1/nabendu we will see the data.
+
+![The data](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665721/New-blogs/Yashvendra_6/17_h7ky4e.png)_The data_
+
+Now, we will look into a issue. Here, we will add a routerLink to our **user.component.html** file.
+
+![user.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665723/New-blogs/Yashvendra_6/18_uyet3d.png)_user.component.html_
+
+Now, when we click on it the link changes but the data doesn’t. This happens because we are not actively listening for this change.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665724/New-blogs/Yashvendra_6/19_ipxnj2.png)_localhost_
+
+In this kind of cases, we have to use observable, which will actively listen for such changes. We will add the same in user.component.ts file.
+
+![user.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665727/New-blogs/Yashvendra_6/20_ai82fl.png)_user.component.ts_
+
+Now, our link will be working perfectly.
+
+![Working perfectly](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665733/New-blogs/Yashvendra_6/21_nadbkm.png)_Working perfectly_
+
+Next, we will learn to add query parameters and fragments in our app. We will create a new route with id and edit in our **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665734/New-blogs/Yashvendra_6/22_jqa3nk.png)_app.module.ts_
+
+After that we will go to the **home.component.html** file and add a value 1 to onLoadServer function.
+
+![home.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665739/New-blogs/Yashvendra_6/23_uggxmf.png)_home.component.html_
+
+Now in our **home.component.ts** file, we will add the id and edit. We also need to pass the queryParams and fragment.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665741/New-blogs/Yashvendra_6/24_b3akeb.png)_home.component.ts_
+
+Now in the **edit-server.component.ts** file, we can get the queryParams and fragment.
+
+![edit-server.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665744/New-blogs/Yashvendra_6/25_zzfjhu.png)_edit-server.component.ts_
+
+Now, in the home page when we will click on the Load Server button, we will be taken to the Edit server page and we can see the queryParams and fragment in the console log.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665747/New-blogs/Yashvendra_6/26_lf6isr.png)_localhost_
+
+This completes part-6 of the series. We will complete routing in part-7. The code for this part can be found in [this](https://github.com/nabendu82/routing-deepdive) github repo.

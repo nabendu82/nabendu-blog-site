@@ -1,0 +1,57 @@
+---
+title: Angular Basics-8
+description: Angular Basics
+date: 2021-12-25
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-8 of Angular Basics series. In this part also, we will learn about Observables. The starting point can be taken from [here](https://drive.google.com/file/d/1cutoCwhJkjvUqaLkl1YE7T7TJtEMc5Pf/view).
+
+It’s a simple project, which already have an inbuilt observable.
+
+![Basic Project](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665924/New-blogs/Yashvendra_8/2_dbq1ex.png)_Basic Project_
+
+We will build our own observables from ground up to learn more about Observables. They are given to us in angular by a package called rxjs. We are going to create our own observable in **home.component.ts** file.
+
+Here, we are using the interval from rxjs, which is logging count after every second. In obsevables, we have to subscribe to it. Also notice that we are unsubscribing to it and adding it to the ngOnDestroy, so that it will stop once we are done.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665925/New-blogs/Yashvendra_8/3_f0xl5k.png)_home.component.ts_
+
+In localhost, we will see an increasing counter in the home component and it will stop, once we move away from it.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665927/New-blogs/Yashvendra_8/4_rqtpee.png)_localhost_
+
+We will now build a real custom observable. Here, we are using Observable from rxjs and using setInterval to increase the count.
+
+After that we are again subscribing to it and console logging the data.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665929/New-blogs/Yashvendra_8/5_dnohlp.png)_home.component.ts_
+
+We will see the same behavior in localhost. As we can see that emitting new data is the most important thing that observables do, but they also throw errors.
+
+In **home.component.ts** file, we are throwing an error if count is greater then 4. Now, in the subscribe method, we are console logging the error.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665930/New-blogs/Yashvendra_8/6_gwjrle.png)_home.component.ts_
+
+When an error is thrown, it cancels the observable and it dies.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665931/New-blogs/Yashvendra_8/7_mqbdz5.png)_localhost_
+
+But in most cases the Observable will be completed, as in the case of http request. We can also throw an **observer.complete()** and catch that in the subscription.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665933/New-blogs/Yashvendra_8/8_ropybp.png)_home.component.ts_
+
+Now, after count of 2, we will see the Complete message.
+
+![Completed](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665934/New-blogs/Yashvendra_8/9_uk9opt.png)_Completed_
+
+We can add operators also to add functionality before our observable starts. There are many operators and we will use filter and map and we are using them in our **home.component.ts** file.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665936/New-blogs/Yashvendra_8/10_i21ag8.png)_home.component.ts_
+
+Now, because of the filter our round will start with 2 and then complete.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665937/New-blogs/Yashvendra_8/11_egvnbs.png)_localhost_
+
+This completes our post on Observables. You can find the code for the same in [this](https://github.com/nabendu82/observables-deepdive) github repo.

@@ -1,0 +1,73 @@
+---
+title: Angular Basics-11
+description: Angular Basics
+date: 2022-01-20
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-11 of Angular Basics series. In this part , we will learn about pipes in Angular. Pipes are used to transform output in our templates.
+
+The starting point can be taken from [here](https://drive.google.com/file/d/1ge3_2bMBdzqSrJhqP3RZ1dVwIhqv5ip1/view).
+
+We have a list of servers showing in our project, which we are going to transform in our project.
+
+![Starting](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780004/New-blogs/Yashvendra2_mdx/2_l3uugg.png)_Starting_
+
+We will first use two inbuilt pipes to transform the data. First is **uppercase** and second is **date** in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780006/New-blogs/Yashvendra2_mdx/3_lv1czy.png)_app.component.html_
+
+Now, in localhost both the instanceType and started are transformed.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780007/New-blogs/Yashvendra2_mdx/4_zrfma7.png)_localhost_
+
+We can also parameterize the pipe and also can chain multiple pipes. We will add parameter to date and also change it to uppercase.
+
+![parameterize](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780054/New-blogs/Yashvendra2_mdx/5_ivond9.png)_parameterize_
+
+Our dates are formatted correctly now in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780055/New-blogs/Yashvendra2_mdx/6_snpr11.png)_localhost_
+
+We will now create a custom pipe for shortening the strings. Create a file **short.pipe.ts** inside the app folder. We have to use the pipe decorator to make it a pipe.
+
+The simple function just takes a value and a limit and if the length of the value is greater then the limit, then return the substring with the limit followed by three dots.
+
+![short.pipe.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780056/New-blogs/Yashvendra2_mdx/7_vs9tzx.png)_short.pipe.ts_
+
+Next, we will include the pipe in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780057/New-blogs/Yashvendra2_mdx/8_fqxnsh.png)_app.module.ts_
+
+Lastly, we will use the shorten in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780058/New-blogs/Yashvendra2_mdx/9_wjixt9.png)_app.component.html_
+
+Now, in localhost the pipe is performing as desired.
+
+![Pipe working](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780059/New-blogs/Yashvendra2_mdx/10_dg8nes.png)_Pipe working_
+
+We will create a new filter pipe, but this time using command line with the below command. It will also add the filter pipe in **app.module.ts** file.
+
+```js
+    ng g p filter 
+```
+
+Now, in the **filter.pipe.ts** file we are passing a value and the filterString. After that we are checking whether it matches and pushing it to an array.
+
+![filter.pipe.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780060/New-blogs/Yashvendra2_mdx/11_fsn3p5.png)_filter.pipe.ts_
+
+Now, in **app.component.html** file, we will add an input box with ngModel with **filteredStatus**.
+
+We are also using our filter and passing filteredStatus and the status of the server.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780062/New-blogs/Yashvendra2_mdx/12_coakgh.png)_app.component.html_
+
+We also need to add the **filteredStatus** in **app.component.ts** file.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780064/New-blogs/Yashvendra2_mdx/13_nibczu.png)_app.component.ts_
+
+Now, our filter is complete and working properly. This completes our post and you can find the code for the same in [this](https://github.com/nabendu82/pipes-deepdive) github repo.
+
+![Working properly](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780067/New-blogs/Yashvendra2_mdx/14_qzitz6.gif)_Working properly_

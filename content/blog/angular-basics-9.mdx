@@ -1,0 +1,119 @@
+---
+title: Angular Basics-9
+description: Angular Basics
+date: 2022-01-16
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-9 of Angular Basics series. In this part , we will learn about forms in Angular. Angular provide us with two approaches to create forms. They are Template Driven and Reactive approach.
+
+We will look into Template Driven approach in this post. The starting point can be taken from [here](https://drive.google.com/file/d/1MmRrjtqwlxVV_gsjZFKwmYt70Phl5UVv/view).
+
+We have a simple html form in the project, which we are going to change into Angular template driven form.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666085/New-blogs/Yashvendra_10/2_ft8wtp.png)_localhost_
+
+One thing to make sure is to have a **FormsModule** imported in our **app.module.ts** file, which is generally automatically done by Angular CLI.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666087/New-blogs/Yashvendra_10/3_zhddg6.png)_app.module.ts_
+
+Now, to convert the html form to an Angular template driven form, we need to add **ngModel** and name to it. This ngModel is different then the directive, which uses [()].
+
+We also have to use the **ngSubmit** on the form. We are using a reference to target the ngForm here.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666089/New-blogs/Yashvendra_10/4_vzcfqk.png)_app.component.html_
+
+Next, in the **app.component.ts** file we are importing the NgForm and console logging the form.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666090/New-blogs/Yashvendra_10/5_dlszgp.png)_app.component.ts_
+
+Now, in localhost if we enter anything we will get it in the console. Notice that we have access to various properties here.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666092/New-blogs/Yashvendra_10/6_mxgkyb.png)_localhost_
+
+We can also use another way to pass data to the typescript file. We need to only call the onSubmit() without any parameters in **app.component.html** file
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666095/New-blogs/Yashvendra_10/7_ye756y.png)_app.component.html_
+
+Next in **app.component.ts** file we will use the ViewChild to get access to the reference f and assign it to a signupForm. After that we can get the values entered by the user.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666096/New-blogs/Yashvendra_10/8_loawiv.png)_app.component.ts_
+
+Now, in localhost we will still have access to NgForm.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666097/New-blogs/Yashvendra_10/9_xixvkn.png)_localhost_
+
+Now, we will learn to add validators in our app. We are making the username required and the email required and to be a valid email in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666099/New-blogs/Yashvendra_10/10_wwm2bk.png)_app.component.html_
+
+Now, if we submit the wrong fields, like not a valid email. We will get the valid property as false.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666101/New-blogs/Yashvendra_10/11_ge5bak.png)_localhost_
+
+In **app.component.html** file, we will first make the button enabled only if the form is valid. Next, we are referencing the email and showing a text, if email is not valid and is touched.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666102/New-blogs/Yashvendra_10/12_wm3adu.png)_app.component.html_
+
+We also need to add CSS in **app.component.css** to show a red border.
+
+![app.component.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666104/New-blogs/Yashvendra_10/13_lr1kbv.png)_app.component.css_
+
+Now, localhost will show red borders and Submit button will be disabled if the form is not valid.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666105/New-blogs/Yashvendra_10/14_qrtxtu.png)_localhost_
+
+Now, we will look into the example to using one way binding and two way binding in ngModel. First in the select we are using one-way binding to set the option to a default value.
+
+Next, we have created a textarea and used two way binding to show instantly the user’s input.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666107/New-blogs/Yashvendra_10/15_suacjo.png)_app.component.html_
+
+Now in **app.component.ts** file just add those variables.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666108/New-blogs/Yashvendra_10/16_bc2h5v.png)_app.component.ts_
+
+Now, in localhost it will work as desired.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666112/New-blogs/Yashvendra_10/17_jscvbm.png)_localhost_
+
+We will now learn to use radio buttons. First add a new variable **genders** in **app.component.ts** file.
+
+```js 
+    genders = ['male', 'female']; 
+```
+
+After that we will be adding the radio button in **app.component.html** file. Everything is as earlier, expect that we have a value binding for gender.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666113/New-blogs/Yashvendra_10/18_j7h3li.png)_app.component.html_
+
+Our radio button is now working properly in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666114/New-blogs/Yashvendra_10/19_vgxzih.png)_localhost_
+
+Now, we will add functionality to **Suggest an Username** button. First add a click listener in **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666116/New-blogs/Yashvendra_10/20_kmkeij.png)_app.component.html_
+
+Now, we will update the function **suggestUserName** in **app.component.ts** file. We are using patchValue provided by Angular to update the username value.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666117/New-blogs/Yashvendra_10/21_lkk87t.png)_app.component.ts_
+
+Now, in localhost on click of the **Suggest an Username** button, we will get the **Superuser** text.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666119/New-blogs/Yashvendra_10/22_ghi7oz.png)_localhost_
+
+Now, we will output the data entered by the user in form. We will add a user object in **app.component.ts** and also a variable submitted.
+
+In the onSumbit, we are assigning the entered value to this user. We are also making the submitted to true and also resetting the form.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666120/New-blogs/Yashvendra_10/23_ykjowq.png)_app.component.ts_
+
+Now, in **app.component.html** file, we are showing the entered data if the submitted is true.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666121/New-blogs/Yashvendra_10/24_vlld37.png)_app.component.html_
+
+Now, our data is been shown properly once we submit it. This completes our post. You can get the code for the same from [this](https://github.com/nabendu82/forms-template-driven) github repo.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666123/New-blogs/Yashvendra_10/25_l4snqg.png)_localhost_

@@ -1,0 +1,109 @@
+---
+title: Angular Basics-12
+description: Angular Basics
+date: 2022-01-22
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-12 of Angular Basics series. In this part , we will learn to do HTTP requests in Angular.
+
+The starting point can be taken from [here](https://drive.google.com/file/d/19_4JrKYoK8VN7Zop8OKNlmsXIxyyRJxF/view).
+
+We have a simple template driven form as the starting point in our project.
+
+![Basics](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780111/New-blogs/Yashvendra3_mdx/2_jc1486.png)_Basics_
+
+Now, we are going to use firebase in our project to store the backend data. Open the firebase console and click on **Add Project** button.
+
+![Add Project](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780113/New-blogs/Yashvendra3_mdx/3_j0lrit.png)_Add Project_
+
+It will ask to give the project a name, which we can give any.
+
+!][Any Name](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780115/New-blogs/Yashvendra3_mdx/4_ixw0wu.png)_Any Name_
+
+In the next screen disable google analytics and click on **Create Project** button.
+
+![Create Project](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780117/New-blogs/Yashvendra3_mdx/5_urm3cu.png)_Create Project_
+
+It will create a New Project and we can click on the **Continue** button.
+
+![Continue](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780119/New-blogs/Yashvendra3_mdx/6_godbst.png)_Continue_
+
+Here, click on **Realtime Database** and then **Create Database** button.
+
+![Realtime Database](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780121/New-blogs/Yashvendra3_mdx/7_yukeoc.png)_Realtime Database_
+
+It asked me the location and i gave Singapore as it’s the closest.
+
+![location](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780123/New-blogs/Yashvendra3_mdx/8_gf1zix.png)_location_
+
+In the next screen, it’s important to Start in Test mode.
+
+![Test mode](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780125/New-blogs/Yashvendra3_mdx/9_iac0ks.png)_Test mode_
+
+In the next screen, we will get the url to send request to from our frontend.
+
+![Request](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780127/New-blogs/Yashvendra3_mdx/10_pcrigy.png)_Request_
+
+Back in our Application, we should make sure that we have the HttpClientModule in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780128/New-blogs/Yashvendra3_mdx/11_vn3mwc.png)_app.module.ts_
+
+Now, we will use the **HttpClient** provided by angular to send the POST request to the firebase endpoint. Also notice that we have added posts.json at the end.
+
+Make sure to import the **HttpClient** also in **app.component.ts** file.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780130/New-blogs/Yashvendra3_mdx/12_mrwyi4.png)_app.component.ts_
+
+Now, in localhost we can add Title and Content and click on Send Post and the post will be sent successfully as shown in network tab.
+
+![Post successful](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780132/New-blogs/Yashvendra3_mdx/13_osnx3y.png)_Post successful_
+
+We can also see the post in firebase.
+
+![Firebase post](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780133/New-blogs/Yashvendra3_mdx/14_qwdxdq.png)_Firebase post_
+
+Now, we will check the request to get all the posts. We will create a fetchPosts function to get the posts and call it from ngOnInit and onFetchPosts in **app.component.ts** file.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780135/New-blogs/Yashvendra3_mdx/15_yhp5bo.png)_app.component.ts_
+
+Now, back in localhost we will get an object from firebase with our posts.
+
+![data](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780136/New-blogs/Yashvendra3_mdx/16_t9qvsm.png)_data_
+
+We need to transform this object for using in our project and for this we will use pipe operator with map function from angular.
+
+Here, we are looping through the object using the for..in loop and creating a new array with objects.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780139/New-blogs/Yashvendra3_mdx/17_rx7tea.png)_app.component.ts_
+
+Now, back in localhost our data is formatted well.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780143/New-blogs/Yashvendra3_mdx/18_bopoix.png)_localhost_
+
+In typescript code we should have type of Http requests and for this we will first create a **post.model.ts** file inside the app folder. It is an interface with the model of data.
+
+![post.model.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780145/New-blogs/Yashvendra3_mdx/19_z1gd4e.png)_post.model.ts_
+
+Next, we will use this model in our **app.component.ts** file to refer to type at various places.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780146/New-blogs/Yashvendra3_mdx/20_ctq0w3.png)_app.component.ts_
+
+Now, we will display the posts in our app and also show Loading when the data is getting fetched. So, in **app.component.ts** file add the variable for **loadedPosts** and **isFetching**.
+
+Before the posts are been fetched, make the to **isFetching** true and when the posts are been fetched make it true and also the **loadedPosts** equal to the posts received.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780148/New-blogs/Yashvendra3_mdx/21_g2j8vx.png)_app.component.ts_
+
+Now, in the **app.component.html** file show the **No posts available**, only if the **loadedPosts** and **isFetching** is not true. We are also looping through the loadedPosts and showing them.
+
+The **Loading…** text is also shown if **isFetching** is true.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780151/New-blogs/Yashvendra3_mdx/22_v5ozvy.png)_app.component.html_
+
+Our main code for HTTP request is done and the loading indicator is also working. We will modify this code in the next part to use services.
+
+![App Done](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780153/New-blogs/Yashvendra3_mdx/23_zfzzke.gif)_App Done_
+
+This completes our post and you can find the code for the same in [this](https://github.com/nabendu82/http-deepdive) github repo.

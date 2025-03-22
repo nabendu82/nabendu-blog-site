@@ -1,0 +1,85 @@
+---
+title: Angular Basics-7
+description: Angular Basics
+date: 2021-12-21
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-7 of Angular Basics series. In this part also, we will continue with routing. The starting point will be the code from the previous part. You can get the code from [here](https://github.com/nabendu82/routing-deepdive).
+
+We will first learn to do error handling with wildcard routes. We will first generate a new component with the command
+
+```js
+    ng g c page-not-found 
+```
+
+We will update the **page-not-found.component.html** with appropriate text.
+
+![page-not-found.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665838/New-blogs/Yashvendra_7/2_jcujos.png)_page-not-found.component.html_
+
+Next, in the **app.module.ts** file we will add a route of not-found and then a path of something redirecting to not-found.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665839/New-blogs/Yashvendra_7/3_j4vv0w.png)_app.module.ts_
+
+Now, when we will go to something path, it will redirect to /not-found page.
+
+![something](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665842/New-blogs/Yashvendra_7/4_qswnpa.png)_something_
+
+Now, we cannot use something every time and Angular provides a special wildcard of double star to specify any routes. We will add the same in the **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665845/New-blogs/Yashvendra_7/5_rpan6e.png)_app.module.ts_
+
+Now, when we will go to any non-existing route like http://localhost:4200/kkk, we will get the Page not found text.
+
+Now, in our app module we have a lot of routes and typically in such cases we add a new file called app-routing.module.ts. Remove all routes from **app.module.ts** file and and also the line for RouterModule.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665846/New-blogs/Yashvendra_7/6_xsthnn.png)_app.module.ts_
+
+Now, **app-routing.module.ts** file will contain all the routes and also the required imports.
+
+![app-routing.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665848/New-blogs/Yashvendra_7/7_hfajf9.png)_app-routing.module.ts_
+
+Now, back in the **app.module.ts** file we will add the **AppRoutingModule**.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665850/New-blogs/Yashvendra_7/8_z8srhr.png)_app.module.ts_
+
+Now, our app works a earlier in localhost with routing been seperated.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665851/New-blogs/Yashvendra_7/9_kzip9v.png)_localhost_
+
+Now, we will learn to protect a route with the canActivateChild. But for that we will first create a fake auth service as **auth.service.ts** in the app folder.
+
+Here, we have a login and logout function and also an isAuthenticated, which returns a promise after 800 ms.
+
+![auth.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665853/New-blogs/Yashvendra_7/10_nasbgx.png)_auth.service.ts_
+
+Now, we will create an **auth-guard.service.ts** file. The component uses the **canActivate** which calls the **isAuthenticated** from **authService** and depending on the result, it will return true or navigate the user away to home.
+
+![auth-guard.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665855/New-blogs/Yashvendra_7/11_oo4wb5.png)_auth-guard.service.ts_
+
+Now, we will go to **app-routing.module.ts** file and will protect the servers route.
+
+![app-routing.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665860/New-blogs/Yashvendra_7/12_dyoel6.png)_app-routing.module.ts_
+
+We also need to add the new services in our **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665884/New-blogs/Yashvendra_7/13_khvkyw.png)_app.module.ts_
+
+Now, we are not able to access the server route and when we click on it, we are taken to the home route after 800 ms.
+
+![Home](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665886/New-blogs/Yashvendra_7/14_qj8dpz.gif)_Home_
+
+Now, we will finish the canActivate behavior by going to the **home.component.html** file and creating two buttons, which will call the **onLogin** and **onLogout** methods respectively.
+
+![home.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665888/New-blogs/Yashvendra_7/15_eyqryu.png)_home.component.html_
+
+Now, in the **home.component.ts** file we will add the **onLogin** and **onLogout** methods, which will call the authService to make the login true or false.
+
+![home.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665890/New-blogs/Yashvendra_7/16_wstopz.png)_home.component.ts_
+
+Now, our auth is complete and when we click on the login button, we are able to access the server after 800ms and clicking on logout again disables it.
+
+You can find the code for the same in [this](https://github.com/nabendu82/routing-deepdive-v2) github repo.
+
+![Auth done](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665894/New-blogs/Yashvendra_7/17_jzm8in.gif)_Auth done_
