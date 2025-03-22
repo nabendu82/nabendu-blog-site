@@ -1,0 +1,87 @@
+---
+title: Build an Agency Website with HTML & CSS -1
+description: This is our second blog post
+date: 2020-07-22
+tags: ['html', 'beginners', 'css']
+published: true
+---
+
+We will build a simple Agency site in HTML and CSS. If you are new to web-development, learn HTML first from my other series [here](https://thewebdev.tech/series/HTML-Basics). After that learn CSS from my series [here](https://thewebdev.tech/series/CSS-Basics).
+
+In this series we are going to use a bit of old layout theme of float, instead of CSS Grid or Flexbox. As even in 2020 float, position are very much used and you can find them in a lot of old projects.
+
+So, open up VS Code and create a folder **images** and **styles** in it. Create a file **index.html** in it. Also, as with emmet shortcuts, type **!** and you will see the options.
+
+![index.html](https://ik.imagekit.io/thewebdev/Agency-HTML/1/1_LXIqdc0scP.png)*index.html*
+
+On pressing tab, you will get the whole html skeleton. Just change the title to **Agency Site** or anything.
+
+![Agency Site](https://ik.imagekit.io/thewebdev/Agency-HTML/1/2_343yFugIZZ.png)*Agency Site*
+
+Next, let’s create a css file **style.css** inside **styles** folder. After that link it in the html file.
+
+![style.css](https://ik.imagekit.io/thewebdev/Agency-HTML/1/3_wz3j4VZvrV.png)*style.css*
+
+Let’s go ahead and write html first. We are going to use HTML5 semantic tag in this project. So, we will write the code for our header inside the `<header>` tag.
+
+Here, we have a main div wrapping everything with the container class. We will create our navbar with the unordered list, with three list items inside it.
+
+![index.html](https://ik.imagekit.io/thewebdev/Agency-HTML/1/4_PuqaTVBZe.png)*index.html*
+
+Now, we will see the code in browser. But as usual we will use live server to check our code. You can learn how to install and use live server from my earlier blog post [here](https://thewebdev.tech/html-basics-1).
+
+![Browser](https://ik.imagekit.io/thewebdev/Agency-HTML/1/5_qqvIgZejD4.png)*Browser*
+
+Next, let put code in style.css. We will first put some global styles for body and after that for the container and ul.
+
+![global styles](https://ik.imagekit.io/thewebdev/Agency-HTML/1/6_2GYRjYWsZ2.png)*global styles*
+
+This will centre our header text, because of **margin: auto**.
+
+![margin: auto](https://ik.imagekit.io/thewebdev/Agency-HTML/1/7_Z0345bauEO.png)*margin: auto*
+
+Next, we will start adding styles for our header. We are first targeting the header tag and then the anchor tag. We are just giving basic styles, most of which we learnt in the CSS series.
+
+![style.css](https://ik.imagekit.io/thewebdev/Agency-HTML/1/8_FG9HtcZVnR.png)*style.css*
+
+This will show our header as below now.
+
+![Styled header](https://ik.imagekit.io/thewebdev/Agency-HTML/1/9_iTLlu44dFO.png)*Styled header*
+
+Now, let’s make those list items appear in a line by making them inline from the current block.
+
+![li are inline](https://ik.imagekit.io/thewebdev/Agency-HTML/1/10_FSP6LFC7z.png)*li are inline*
+
+Now, the menu items will be shown in one single line.
+
+![List items in a line](https://ik.imagekit.io/thewebdev/Agency-HTML/1/11_VKVIgubLLW.png)*List items in a line*
+
+Next, we will use float to move the nav items to the right and our branding to the left.
+
+![Using float](https://ik.imagekit.io/thewebdev/Agency-HTML/1/12_VT2Nx-iRs.png)*Using float*
+
+This will move the nav to the right, but the items are a bit more to down.
+
+![Nav down](https://ik.imagekit.io/thewebdev/Agency-HTML/1/13_0PiU5RALCs.png)*Nav down*
+
+So, to fix it we will use the **margin-top** property, with a value of -41px.
+
+![margin-top used](https://ik.imagekit.io/thewebdev/Agency-HTML/1/14_PQSuuNXBWZ.png)*margin-top used*
+
+It will bring the nav to the correct position.
+
+![nav correct](https://ik.imagekit.io/thewebdev/Agency-HTML/1/15_yuK0pW4j38.png)*nav correct*
+
+Lastly in the header, we will change the color of Agency. To do so wrap the word with a **span** with class of **highlight**.
+
+![Agency](https://ik.imagekit.io/thewebdev/Agency-HTML/1/16_cxTK02C8UB.png)*Agency*
+
+Now, in our style.css file add the yellow color for the highlight and also add a hover property.
+
+![style.css](https://ik.imagekit.io/thewebdev/Agency-HTML/1/17_2PgCT9hTxa.png)*style.css*
+
+Now, our header is complete with a hovering effect over menu items.
+
+![Header complete](https://ik.imagekit.io/thewebdev/Agency-HTML/1/18_dibjaF7edO.png)*Header complete*
+
+This completes part-1 of the series. See you soon.
