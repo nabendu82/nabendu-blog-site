@@ -1,0 +1,92 @@
+---
+title: BookList App in Vanilla JS
+description: BookList App
+date: 2020-11-24
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+Welcome to another project with Vanilla JavaScript, where we will learn about a lot of DOM manipulation, localStorage and also Object Oriented JavaScript with Classes.
+
+Open a terminal and create a new folder BookList and create three files **index.html**, **styles.css** and **main.js** inside it. After that open it in VS Code.
+
+![BookList](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/1_R459L1VGU.png)*BookList*
+
+After that add the skeleton in **index.html** and also add bootstrap and font-awesome link to it.
+
+We are also starting the project with the VS Code extension **Live Server**.
+
+![Live Server](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/2_L_Md8ztn_V.png)*Live Server*
+
+Now, we will add the html to show the **header**, **title** input box, **author** input box, **ISBN#** input box and an **Add Book** button.
+
+![Add Book](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/3_86QMUJKpYS.png)*Add Book*
+
+Next, we will add the HTML for the table, which will show the user input. Right now it will only show the table head, and we are going to add the book details through JavaScript in the tbody with the id **book-list**.
+
+We are also adding reference to our **main.js** file here.
+
+![book-list](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/4_-QB_97C-X8.png)*book-list*
+
+Now, we will move to our **main.js** and will create our first class Book. Here, through the constructor we will first be adding the **title**, **author** and **isbn**.
+
+The next class we are creating is UI, where we are creating a static method **displayBooks**. Static methods are method of class which can be used even without Instantiating the class.
+
+We are first creating a dummy books array of objects **StoredBooks**, containing title, author and isbn. We are soon going to replace it with the data from localstorage.
+
+After that we are making it equal to a variable books.
+
+![StoredBooks](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/5_IA9lanI9w1.png)*StoredBooks*
+
+Now, we are looping through books and passing it to another method of the class **addBookToList()**.
+
+In **addBookToList()** method, we are first selecting the book-list. After that creating a new element **tr**. In the new element we are adding HTML containing td with title, author, isbn and also a delete element.
+
+After that we are calling an event listener, when the DOM get’s loaded with the method displayBooks.
+
+![displayBooks](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/6_usztYKRLv.png)*displayBooks*
+
+Now, we will add the logic to add the book when the user adds all the field and clicks on **Add Book** button. Here, we had put querySelector on **book-form** and then the event listener on the submit. We are first preventing the default which is form submit. After that we are getting all the values of the fields.
+
+We are also doing validation, whether the fields are empty. If they are empty, we will show an alert. If it is not empty, we are going to Instantiate a book and will pass the title, author and isbn in it. After that we are calling the addBookToList() with this object book.
+
+![Add a book](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/7_LpJlJymIfY.png)*Add a book*
+
+As from the above image it is seen that the input boxes text remains, after clicking on **Add Book**. We want to clear these fields after we hit the **Add Book** button.
+
+So, we are creating another static method **clearFields()** and clearing the values in it. Now, when we submit the fields will be cleared.
+
+![Add Book](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/8_eFHU3G7npC.png)*Add Book*
+
+Next, we will add the logic to delete the book when we click on the Delete button. Here, we are selecting the **book-list** first, after that we are adding the event listener on the click. Now, we are passing the **e.target** to a new function **deleteBook()**. This **e.target** will actually be the **a tag** which contains the **X**.
+
+Now inside the method **deleteBook()**, we are first checking to see if the element contains the delete classname. We are doing this as we want the delete functionality only on the delete button. After that we are removing the **tr tag** which is the parent of parent of the **a tag**.
+
+![Delete](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/9_YlRdoSYk2.png)*Delete*
+
+Next, we will write the logic for **localStorage**. We are creating a new class **Store**, where we have three static methods- **getBooks()**, **addBook()** and **removeBook()**.
+
+In **getBooks()** we are getting the books from the **localStorage** with **localStorage.getItem(‘books’)**. It is stored as a JSON String, so we a need to use JSON.parse to convert it into JavaScript Object. We are storing as array of object like below in **localStorage**
+
+
+```
+    [{"title":"Gatsby Projects","author":"Nabendu Biswas","isbn":"345678"},{"title":"ES6 Basics","author":"Nabendu Biswas","isbn":"345680"}]
+```
+
+
+In the **addBook()** we are taking the book and then pushing it to books. After that we are using **JSON.stringify()** to change it back to string, before setting it using **setItem()**.
+
+In **removeBook()** we are removing the book with first looping through it and checking the isbn. We are using splice to remove it from the array. After that we are using **JSON.stringify()** to change it back to string, before setting it using **setItem()**.
+
+![localStorage](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/10_kH9zhPCAH4.png)*localStorage*
+
+After that we can remove the dummy data from **displayBooks()** and assign the books to **Store.getBooks()**
+
+Also, when we are clicking on Add Book, we are calling the **Store.addBook()** to add the book data.
+
+![getBooks](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/11_3kPeEa47-W.png)*getBooks*
+
+Now, only the remove functionality is remaining. We are calling it from the event listener for delete. Here, we are getting the ISBN number from the **e.target.parentElement.previousElementSibling.textContent** and passing it to **removeBook()**.
+
+![removeBook()](https://ik.imagekit.io/thewebdev/JS-Projects/BookList/12_S4xBjRdJtN.png)*removeBook()*
+
+This completes our small web-app. You can find the code for the same [here](https://github.com/nabendu82/BookList).

@@ -1,0 +1,63 @@
+---
+title: Create a Year End Counter with SnowFlakes in JS
+description: Year End Counter
+date: 2020-10-10
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+As we all are waiting for 2020 to end and it’s time of the year, when it will snow in sometime in some part of the world. So, let’s create a year end counter with snowflakes animation background in JavaScript.
+
+First let create a folder **SnowFlakes** and three files **index.html**, **styles.css** and **main.js** inside it. Also, opened it in VS Code.
+
+![SnowFlakes](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/1_ylsdpE0r0I.png)*SnowFlakes*
+
+Now, in **index.html** put the basic html which wraps the time in **countdown-container** class. We are also including the **font-awesome** css and the **styles.css**. Next, we are also adding the **script.js** at the end.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/2_AXzcYcXXO2.png)*index.html*
+
+Next, we are adding the basic css in **styles.css**. Here, we are including a google font and also giving a flex container.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/3_-5OUDkrCyD.png)*styles.css*
+
+Next, we will make the counter perfect with the help of flex again. We are creating both **countdown-container **and **time** as flex.
+
+![Flexbox](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/4_3_mkyw5OKr.png)*Flexbox*
+
+Next, let’s add the logic to update the timer. Here, we are taking the endTime as December 31 2020. We are running the function **updateCountdown()**, every second through **setInterval()**.
+
+Inside the function **updateCountdown()**,we are just doing the math show the days, hours, minutes and seconds.
+
+![Math](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/5_dOwzukx984.png)*Math*
+
+Next, we will start the code to show the snow flakes. So, inside a **createSnowFlake()** function, we are creating a font-awesome **fa-snowflake** and appending it to the body.
+
+We are also calling the **createSnowFlake()** function.
+
+![createSnowFlake](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/6_QfwaEp3cXU.png)*createSnowFlake*
+
+Now, go back to styles.css to add the css for a single flake which will move from top to down, due to animation.
+
+![CSS](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/7_eAWi5KpMkp.png)*CSS*
+
+We need to remove the 10s from styles.css in animation, as we are going to create the time dynamic from JavaScript.
+
+
+```js
+    animation: fall linear forwards;
+```
+
+
+Now, in **main.js** we are adding dynamic random styles for **left**, **animation-duration**, **opacity** and **font-size**.
+
+We are calling the **createSnowFlake()** every 50ms through **setInterval()**.
+
+It is very important to use **setTimeout()** to remove the snow_flake or else the browser will continue to create the snow flakes and will crash.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/8_wF-ud4YYkU.png)*main.js*
+
+Now, our project is complete and will show the snow flakes.
+
+![Snow flakes](https://ik.imagekit.io/thewebdev/JS-Projects/Snowflakes/9_qoWufI5LHI.gif)*Snow flakes*
+
+You can find the code for the project in [this](https://github.com/nabendu82/SnowFlakes) github repo.

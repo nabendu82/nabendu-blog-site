@@ -1,0 +1,84 @@
+---
+title: CSS Animation Tutorial — 3
+description: CSS Animation
+date: 2019-10-31
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+Welcome to part 3 of the series. This series is inspired by [this](https://www.youtube.com/watch?v=jgw82b5Y2MU&list=PL4cUxeGkcC9iGYgmEd2dm3zAKzyCGDtM5) awesome YouTube series by **The Net Ninja**.
+
+We will start where we left in part 2, and continue with Mario Kart Animations.
+
+We will leave Mario with his infinite animation and bring his brother **Luigi**, to learn further animation. So, go ahead and add Luigi in index.html
+
+![Luigi](https://ik.imagekit.io/thewebdev/CSS_Animation/3/1_0K5Mf31n5.png)*Luigi*
+
+Next, also add styles for him in style.css
+
+![Luigi styles](https://ik.imagekit.io/thewebdev/CSS_Animation/3/2_85mqLr98fI.png)*Luigi styles*
+
+It will show Luigi in browser.
+
+![Luigi in browser](https://ik.imagekit.io/thewebdev/CSS_Animation/3/3_7KZZPF49y.png)*Luigi in browser*
+
+We will use the same animation for Luigi as Mario, but we will give his direction as reverse.
+
+![reverse](https://ik.imagekit.io/thewebdev/CSS_Animation/3/4_KoeYHrPap.png)*reverse*
+
+The animation-direction: reverse property, will have Luigi go from right to left.
+
+![Luigi reverse](https://ik.imagekit.io/thewebdev/CSS_Animation/3/5_3yJ0vtAF4.gif)*Luigi reverse*
+
+Now, you might have noticed from Mario that he is slowing down towards the right end.
+
+This is because of animation-timing-function, which is like the transition-timing-function we learnt in [part 1](https://thewebdev.tech/css-animation-tutorial-1)
+
+It is by default ease, which slow start, then fast, then end slowly.
+
+We will make Mario travel with linear speed i.e. with the same speed from start to end.
+
+![linear speed](https://ik.imagekit.io/thewebdev/CSS_Animation/3/6_rrIzhdngv.png)*linear speed*
+
+So, Mario travel at linear speed now.
+
+![linear mario](https://ik.imagekit.io/thewebdev/CSS_Animation/3/7_DeT1vXJQV.gif)*linear mario*
+
+All the different animation properties which we have used for Mario and Luigi, can be used in a single line with shorthand notation.
+
+We will learn it with clouds. So, let’s add two clouds images in our sky.
+
+![Clouds](https://ik.imagekit.io/thewebdev/CSS_Animation/3/8_IRayBIkwr.png)*Clouds*
+
+It will show these two clouds.
+
+![Two clouds](https://ik.imagekit.io/thewebdev/CSS_Animation/3/9_Zr6w6MWWp.png)*Two clouds*
+
+Let’s give the two clouds some positioning, so that they overlap each other.
+
+![cloud positioning](https://ik.imagekit.io/thewebdev/CSS_Animation/3/10_HarH_lE1Jv.png)*cloud positioning*
+
+It will show them as below.
+
+![Cloud positioned](https://ik.imagekit.io/thewebdev/CSS_Animation/3/11_2t0dWlhJO.png)*Cloud positioned*
+
+Now, we will animate them with the shortcuts. The animation shortcut takes animation name, duration, timing-function, iteration-count, direction in order.
+
+![animation shortcuts](https://ik.imagekit.io/thewebdev/CSS_Animation/3/12_QtxAqQ9pe.png)*animation shortcuts*
+
+It will show these clouds moving slowly from right to left.
+
+![Cloud moving](https://ik.imagekit.io/thewebdev/CSS_Animation/3/13_t1SPYMT7X.gif)*Cloud moving*
+
+We will now learn about chaining two animations. We will create a jump animation for Mario. Now, it will have 3 states. So, we cannot use from and to. We will use percentages in such cases.
+
+![3 state animations](https://ik.imagekit.io/thewebdev/CSS_Animation/3/14_1AosxN-s6.png)*3 state animations*
+
+Now, we will chain it. As you can see, we are using shorthand notation for Mario’s earlier drive animation. After that we are using a comma(,) and putting the jump animation.
+
+![Chaining animation](https://ik.imagekit.io/thewebdev/CSS_Animation/3/15_c8xa4rSiWV.png)*Chaining animation*
+
+Now, our Mario will jump once for 0.3s after a delay of 1.2s, with ease timing.
+
+![Jumping Mario](https://ik.imagekit.io/thewebdev/CSS_Animation/3/16_u63xxUiE5.gif)*Jumping Mario*
+
+It completes our Mario animation and part 3. You can find the code for the same [here](https://github.com/nabendu82/CSSAnimation).

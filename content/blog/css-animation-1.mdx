@@ -1,0 +1,197 @@
+---
+title: CSS Animation Tutorial — 1
+description: CSS Animation
+date: 2019-10-29
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to a brand new series on CSS animation. While creating my earlier series [CSS3 in 10 days](https://thewebdev.tech/series/CSS-10days), i did some animations and got hooked with them. So, decided to create a CSS animation tutorial.
+
+This series is inspired by [this](https://www.youtube.com/watch?v=jgw82b5Y2MU&list=PL4cUxeGkcC9iGYgmEd2dm3zAKzyCGDtM5) awesome youtube series by **The Net Ninja**.
+
+We will start with learning a bit about CSS animation and then creating some cool animations.
+
+So, go ahead and create an index.html file and put the below code. It is just showing a cloud image.
+
+![CSS Animation](https://ik.imagekit.io/thewebdev/CSS_Animation/1/1_Rm1Xb-xP_d.png)*CSS Animation*
+
+We will then have a style.css file, which will contain the basic styles.
+
+![Basic styles](https://ik.imagekit.io/thewebdev/CSS_Animation/1/2_ZLIdzcaMGR.png)*Basic styles*
+
+It will show this nice centered cloud in our webpage, with light blue background.
+
+![Cloud image](https://ik.imagekit.io/thewebdev/CSS_Animation/1/3_Ylid7Gx4wR.png)*Cloud image*
+
+We will first learn about **transform**. A 2-dimentional transformation is applied to the element, through the transform property.
+
+It have got many other properties. We will first learn about **translate** properties. The translateX moves the element on the x-axis.
+
+Add the below in our style.css.
+
+![translateX](https://ik.imagekit.io/thewebdev/CSS_Animation/1/4_OZwiQ1eat.png)*translateX*
+
+And it will move our cloud by 120px on x-axis i.e. to the right.
+
+![Moving along x-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/5_pS5yxlKx85.png)*Moving along x-axis*
+
+Similarly, a negative unit will move to the left on the x-axis.
+
+![negative translateX](https://ik.imagekit.io/thewebdev/CSS_Animation/1/6_UxJtWAroRC.png)*negative translateX*
+
+Will show as below.
+
+![Moving along x-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/7_8Bbw7jrnko.png)*Moving along x-axis*
+
+Now, as you might have guessed — The translateY moves the element on the y-axis.
+
+Below is a positive translateY.
+
+![positive translateY](https://ik.imagekit.io/thewebdev/CSS_Animation/1/8_KHxm4n3K8M.png)*positive translateY*
+
+And it will move the element down.
+
+![Moving along y-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/9_cAxwazX94.png)*Moving along y-axis*
+
+Similarly, a negative translateY.
+
+![negative translateY](https://ik.imagekit.io/thewebdev/CSS_Animation/1/10_-cKaps-X1R.png)*negative translateY*
+
+Will move the element up, which can also result in image getting cut.
+
+![Moving along y-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/11_h4jbQJCDf-.png)*Moving along y-axis*
+
+We can move the element in, both x-axis and y-axis by passing two values in translate.
+
+![translate](https://ik.imagekit.io/thewebdev/CSS_Animation/1/12_tqTNzguIlB.png)*translate*
+
+Will result in below.
+
+![Moving along x-axis and y-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/13_to3tA47j_2.png)*Moving along x-axis and y-axis*
+
+Next, we will look into scale. It basically stretches or shrinks an element.
+
+First, we will look into scaleX which stretches or shrinks an element, along x-axis.
+
+![scaleX](https://ik.imagekit.io/thewebdev/CSS_Animation/1/14_Fjb1Ys5R_s.png)*scaleX*
+
+It will stretch 1.5 times along x-axis.
+
+![x-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/15_buCaOnBlsa.png)*x-axis*
+
+Now, scaleY stretches or shrinks an element, along y-axis.
+
+![scaleY](https://ik.imagekit.io/thewebdev/CSS_Animation/1/16_DmBRdfB5d.png)*scaleY*
+
+It will shrink the element 0.5 times along y-axis.
+
+![y-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/17_qMhOq-wTB.png)*y-axis*
+
+We can also use to scale on both axis by using scale.
+
+![scale](https://ik.imagekit.io/thewebdev/CSS_Animation/1/18_3nacaCPuEO.png)*scale*
+
+It will scale on both axis.
+
+![On both axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/19_yBO1jIuG4W.png)*On both axis*
+
+Next, we will look into the transform property of rotate. It rotates the 2-D element, along x, y or z-axis.
+
+We will see rotateX first, which rotates the element along x-axis.
+
+![rotateX](https://ik.imagekit.io/thewebdev/CSS_Animation/1/20_HxvvFXUK5T.png)*rotateX*
+
+It is sort of difficult to visualize, as the image got smaller. But it actually is rotating along x-axis so, it became smaller to human eyes.
+
+![Along x-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/21_5YwRxTg-41.png)*Along x-axis*
+
+Similarly, rotateY will rotates the element along y-axis.
+
+![rotateY](https://ik.imagekit.io/thewebdev/CSS_Animation/1/22_1EYoDNPkMk.png)*rotateY*
+
+Will show below.
+
+![Along y-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/23_uWLXJo7Kz8.png)*Along y-axis*
+
+Now, rotateZ will rotates the element along z-axis.
+
+![rotateZ](https://ik.imagekit.io/thewebdev/CSS_Animation/1/24_mACIYEKjOZ.png)*rotateZ*
+
+It is more easy to visualize as it rotate along z-axis.
+
+![Along z-axis](https://ik.imagekit.io/thewebdev/CSS_Animation/1/25_nOLSuVczng.png)*Along z-axis*
+
+We can also chain all three transform properties, which we learnt together like below.
+
+![All together](https://ik.imagekit.io/thewebdev/CSS_Animation/1/26_b8si9FtAI.png)*All together*
+
+It will apply the result of one property on the other. First will rotate, the translate and then scale.
+
+![transform together](https://ik.imagekit.io/thewebdev/CSS_Animation/1/27_-iUZwwXCU2.png)*transform together*
+
+Next, we will learn **transition** property. Add a new circle to index.html
+
+![New element](https://ik.imagekit.io/thewebdev/CSS_Animation/1/28_qF4a3mshbz.png)*New element*
+
+Also, add some styles for this circle in style.css
+
+![New style](https://ik.imagekit.io/thewebdev/CSS_Animation/1/29_iGrrvq27cf.png)*New style*
+
+It will show as below in browser.
+
+![New element](https://ik.imagekit.io/thewebdev/CSS_Animation/1/30_uVO1jQsRBA.png)*New element*
+
+Now, let add a hover state on the circle.
+
+![Hover state](https://ik.imagekit.io/thewebdev/CSS_Animation/1/31_qnIQKXHqTi.png)*Hover state*
+
+As we can see from below, only the background changes and the transform doesn’t shows. This happens because the state change happens instantaneously.
+
+![only background](https://ik.imagekit.io/thewebdev/CSS_Animation/1/32_jjAYZfWx4p.gif)*only background*
+
+Now, if we put a transition of 1 sec in the parent element it will apply all hover state transition, smoothly in 1 sec.
+
+![transition](https://ik.imagekit.io/thewebdev/CSS_Animation/1/33_K7ry1b9DrL.png)*transition*
+
+Now, it will change both background color and rotate 360 degrees.
+
+![Both hover states applied](https://ik.imagekit.io/thewebdev/CSS_Animation/1/34_ikSmpo5oh.gif)*Both hover states applied*
+
+We can also have background and transform, transitions to take different time. We have to add code like below.
+
+![transition differently](https://ik.imagekit.io/thewebdev/CSS_Animation/1/35_t089Ru1Hsn.png)*transition differently*
+
+Now, the background changes in 1 second but the rotate happens more quickly.
+
+![Quick rotation](https://ik.imagekit.io/thewebdev/CSS_Animation/1/36_wHNT6KC1T.gif)*Quick rotation*
+
+We also have two other properties in transition. They are transition-timing-function and transition-delay.
+
+Now, the transition-timing-function specifies the speed at which the transition happens.
+
+And the transition-delayspecifies the delay after which the transition should start.
+
+Now, in the below example transition: 1s ease-in 0.8s; means apply the transition for 1 sec, with function ease-in and after a delay of 0.8 sec.
+
+![All properties](https://ik.imagekit.io/thewebdev/CSS_Animation/1/37_iaaCtb7Zqr.png)*All properties*
+
+It will show the transition as below.
+
+![The complete transition](https://ik.imagekit.io/thewebdev/CSS_Animation/1/38_IxJJoSWvw.gif)*The complete transition*
+
+Now, there are some other transition-timing-function like below-
+
+* ease — specifies an effect with a slow start, then fast, then end slowly (this is default)
+
+* linear — specifies an effect with the same speed from start to end
+
+* ease-in — specifies an effect with a slow start
+
+* ease-out — specifies an effect with a slow end
+
+* ease-in-out — specifies an effect with a slow start and end
+
+You can try them all, but the most used one are linear and ease-in.
+
+This completes the part 1 of the series. You can find the code for the same [here](https://github.com/nabendu82/CSSAnimation).

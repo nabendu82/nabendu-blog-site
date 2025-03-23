@@ -1,0 +1,86 @@
+---
+title: Build a Codepen Clone using React
+description: Codepen
+date: 2020-11-28
+tags: ['javascript', 'beginners', 'React']
+published: true
+---
+Welcome to a new simple React JS project, where we are going to build a CodePen clone using React.
+
+So, fire up your terminal and create a new react app **codepen-clone-react** with the below command.
+
+![CodePen](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/1_l2fc0d.png)*CodePen*
+
+We will remove all the unnecessary boiler-plate code and our **index.js** will look like below.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/2_sscici.png)*index.js*
+
+And the **App.js** contains only Hello World text.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/3_jhmpn5.png)*App.js*
+
+Next, we need to install two dependencies which will help us in getting the code functionality required for CodePen.
+
+![npm install](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/4_bp6wl1.png)*npm install*
+
+We will next start to get our HTML in place. So, open the **App.js** and put the below code. Here, we will have space for the three Editor of the CodePen inside a div. Also, the second div contains the iframe which will show us the output.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/5_zzcdtf.png)*App.js*
+
+Next, we will create a **components** folder inside the **src** folder and a file **Editor.js** inside it. Here, we are importing most of things from codemirror. We will basically **displayName** first and after that the Controlled component from **react-codemirror2**, which will contain most of the functionality.
+
+![Editor.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581216/React-Projects/codepen-clone/6_awdgyx.png)*Editor.js*
+
+Next, move back to **App.js** and we will pass the props to Editor. We are also using the useState to set the value and onChange.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581217/React-Projects/codepen-clone/7_gxuvt9.png)*App.js*
+
+One, more thing which we need to change is to make the theme as material in **Editor.js** for the codepen like dark background.
+
+![Editor.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581216/React-Projects/codepen-clone/8_h1wiyc.png)*Editor.js*
+
+Now, in localhost we can see all the three Editors.
+
+![Editors](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581216/React-Projects/codepen-clone/9_w7iq0h.png)*Editors*
+
+Next, we will do some basic styling to have everything look great on the web-app. Add the below styles in **App.css**, where we are taking help of flexbox to style everything.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581217/React-Projects/codepen-clone/10_gsl8jg.png)*App.css*
+
+Next, let’s make it expand till the end by these two styles.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581216/React-Projects/codepen-clone/11_yius01.png)*App.css*
+
+Now, we will add functionality to show the output on screen, like CodePen. We just need to add a srcDoc in App.js, which will contain the html, css , js and add it in iframe.
+
+After that we can move to localhost and see our CodePen in action.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581217/React-Projects/codepen-clone/12_qdkplf.png)*App.js*
+
+Next, we will have the open and close button(O-C) to function properly and also to show a nice icon.
+
+We will first use the useState to have a state variable of open, which is initially set to true. After that the we have a className of collapsed if there is no open class. We also have an onClick handler to have setOpen toggle between treu and false for opne.
+
+![Editor.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581217/React-Projects/codepen-clone/13_tgj0um.png)*Editor.js*
+
+Now, in **App.css** we will have the style for collapsed class and we will also update a CodeMirror class. Now, when we click on the button it will make it as small as possibel.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581217/React-Projects/codepen-clone/14_pngczn.png)*App.css*
+
+Lastly, let’s install some fontawesome libraries to show an icon, instead of O-C in button.
+
+![Terminal](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/15_wjsi0g.png)*Terminal*
+
+Now, we will use these icons in our button and will also add a className btn-styles to style it more.
+
+![Editor.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/16_uzoiif.png)*Editor.js*
+
+Back to App.css, we will put the styles including the **overflow: hidden !important** and this will complete our project.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/17_k7szhm.png)*App.css*
+
+And our project is working perfectly in localhost and exactly like CodePen.
+
+![CodePen](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609581218/React-Projects/codepen-clone/18_ts7xbg.png)*CodePen*
+
+This completes our CodePen clone. You can find the code for the same in [this](https://github.com/nabendu82/codepen-clone-react) github repo.

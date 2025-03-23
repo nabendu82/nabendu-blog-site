@@ -1,0 +1,258 @@
+﻿---
+title: Countdown Timer using HTML, CSS, and Javascript
+description: Countdown Timer
+date: 2021-09-24
+tags: ['css', 'javascript', 'webdev']
+published: true
+---
+
+We might have come across e-commerce websites with countdown timers that give information on some sales or deals. We will create a web page where we will place a countdown timer that informs us about when the discount sale will end. Let’s implement one such scenario here. Countdown begins⏳ !!!
+
+Folder Structure of the project:
+
+1.  _index.html — contains the HTML layout which defines the element structure that would be shown on the page._
+2.  _images are directly placed inside the folder of our project._
+3.  _style.css- contains CSS code for styling. Using CSS we can style the different portions to make them more visually appealing._
+4.  _script.js — contains Javascript code. There are several functions that work together to handle all the functions of the timer._
+
+HTML Layout
+===========
+
+Open VSCode and create the basic HTML structure in an **index.html** file by ! and then pressing tab. Give the **title** as ‘Countdown Timer**’**. Link **style.css** and **script.js** to the created HTML file.
+
+Create a div class **product** that wraps around everything related to the product. I have used shoes as my discounted product for this example. Use **img** tag to add the image of the shoe.
+
+Add the following div class,
+
+**details** —  to hold information on the deal.
+
+**wrap** — which wraps timer and text.
+
+**timer** —  to hold the entire countdown timer.
+
+**days, hours, mins,** and **secs** — to hold the remaining days, hours, mins, and secs.
+
+Let **days, hours, mins,** and **secs** class contain **span** tag with id **days\_left, hours\_left, mins\_left,** and **secs\_left** respectively. The dynamic data will go inside the **span** element and **id** will be used in javascript code to fetch the element.
+
+
+```css
+<!DOCTYPE html><html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">  
+  <meta name="viewport" content="width=device-width, initial-   scale=1.0">  
+  <title>Countdown Timer</title>  
+  <link rel="stylesheet" href="style.css">  
+</head>  
+<body>  
+  <h1> Best deals of the day</h1>  
+  <div class="product">  
+    <img src="shoe.jpg" alt="shoes" width="400px" height="300px">  
+    <div class="details">  
+      <h3>🔥30% off on all branded shoes🔥</h3>  
+      <p> This festive season we have multiple amazing offers on all branded shoes.Bank and payment offers, and many more deals.This sale brings hundreds of deals across all branded shoes. To help you find the best discounts,we've handpicked some of the best deals and offers available on shoes during the ongoing discount Sale. Grab the offer soon!!🤩</p>  
+     <div class="wrap">  
+       <h3 class="offer">Offer ends in</h3>  
+       <div class="timer">  
+         <div class="days">  
+           <span id="days\_left"> 0</span>days</div>  
+         <div class="hours">  
+           <span id="hours\_left"> 0 </span>hours</div>  
+         <div class="mins">  
+           <span id="mins\_left"> 0 </span>mins</div>  
+         <div class="secs">  
+           <span id="secs\_left"> 0 </span>secs</div>  
+       </div>  
+      </div>  
+    </div>   
+  </div>  
+  <script src="style.js"></script>  
+ </body>  
+</html>
+```
+
+
+CSS Styling
+===========
+
+Quite a bit of CSS coding is required to make the page visually appealing and even without much CSS, we can implement the basic countdown timer.
+
+Below is the code,
+
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+body{  
+  font-family: 'Oswald', sans-serif;  
+  align-content: center;  
+  text-align: center;  
+  background-color:rgb(244, 248, 250);  
+}
+
+.product{  
+  display: flex;  
+  background-color: rgb(237, 243, 243);  
+  gap: 7rem;  
+}
+
+.details{  
+  display:flex;  
+  flex-direction: column;  
+  margin-right: 150px;  
+}
+
+.wrap{  
+  display: flex;  
+  flex-direction: row;  
+}
+
+.timer{  
+  display: flex;  
+  text-align: center;  
+  flex-direction: row;  
+  margin-left: 3rem;  
+  gap: 30px;  
+  color:red;  
+  margin-top: -5px;  
+}
+
+.days{  
+  background-color: blanchedalmond;  
+  padding: 11px;  
+  font-size: 22px;  
+}
+
+.hours{  
+  background-color: blanchedalmond;  
+  padding: 11px;  
+  font-size: 22px;  
+}
+
+.mins{  
+  background-color: blanchedalmond;  
+  padding: 11px;  
+  font-size: 22px;  
+}
+
+.secs{  
+  background-color: blanchedalmond;  
+  padding: 11px;  
+  font-size: 22px;  
+}
+
+h3{  
+  color:lightseagreen;  
+}
+
+.offer{  
+  flex-basis: 6rem;  
+}
+
+p{  
+  text-align: left;  
+}
+```
+
+
+Javascript logic
+================
+
+The whole idea is to calculate the time left before the offer ends. To calculate the time left we will take the difference of the current date and offer end date and present it in valid format.
+
+Let’s create a function called **countdown()** in which we will declare a const called **today** and **offerDate** to add the current date and offer end date objects respectively.
+
+```js
+const today = new Date();  
+var offerDate = new Date('30 oct 2021');
+```
+
+Assign the difference between **offerDate** and **today** to the const **offerTime** which will give the time left in milliseconds.
+
+```js
+const offerTime = offerDate - today;
+```
+
+Let’s calculate the number of days, hours, mins, and secs left using the **offerTime** value.
+
+To calculate seconds:
+
+1.  Divide milliseconds by 1000 to convert to seconds: `(offerTime/1000)`
+2.  Divide the total seconds by 60 and grab the remainder. You don’t want all of the seconds, just those remaining after the minutes have been counted: `(offerTime/1000) % 60`
+3.  Round this down to the nearest whole number. This is because you want complete seconds, not fractions of seconds: `Math.floor( (offerTime/1000) % 60 )`
+
+To calculate minutes:
+
+1.  Divide milliseconds by 1000 to convert to seconds: `(offerTime/1000)`
+2.  Divide the total seconds by 60 to get the minutes( 1 min = 60 secs), again divide by 60 and grab the remainder. Round this down to the nearest whole number. `Math.floor((offerTime / (1000 * 60) % 60))`
+
+To calculate hours:
+
+1.  Divide milliseconds by 1000 to convert to seconds: `(offerTime/1000)`
+2.  Divide the total seconds by 60 to get the minutes( 1 min = 60 secs),again divide by 60 (1 hour = 60 minutes), divide the result by 24 (1 day = 24 hours)and grab the remainder. Round this down to the nearest whole number. `Math.floor((offerTime / (1000 * 60 * 60) % 24))`
+
+To calculate days:
+
+1.  Divide milliseconds by 1000 to convert to seconds: `(offerTime/1000)`
+2.  Divide the total seconds by 60 to get the minutes( 1 min = 60 secs),again divide by 60 (1 hour = 60 minutes), divide the result by 24 (1 day = 24 hours). Round this down to the nearest whole number. `Math.floor((offerTime / (1000 * 60 * 60 * 24))`
+
+Once we have all the values we will set days, hours, mins, and secs to HTML span element.HTML element where the value to be set is fetched using **getElementById()** method and using **innerHTML** set the calculated values.
+
+```js
+const days\_el = document.getElementById("days\_left");  
+days\_el.innerHTML = offerDays;const hours\_el = document.getElementById("hours\_left");  
+hours\_el.innerHTML = offerHours;const mins\_el = document.getElementById("mins\_left");  
+mins\_el.innerHTML = offerMins;const secs\_el=document.getElementById("secs\_left");  
+secs\_el.innerHTML = offerSecs;
+```
+
+I added one more function just to reset the offer date once the offer date reaches the current date. We can ignore this function if not required.
+
+Using **setInterval()** method call the **countdown()** function every second.
+
+`setInterval(countdown, 1000);`
+
+
+```js
+function countdown() {  
+  const today = new Date();  
+  var offerDate = new Date('30 oct 2021');//If offer ends reset to new value  
+
+  if (today.getSeconds() == offerDate.getSeconds()) {  
+  offerDate = resetOfferDate();  
+  }//offerTime will have the total millseconds  
+
+  const offerTime = offerDate - today;// 1 sec= 1000 ms  
+
+  // 1 min = 60 sec  
+  // 1 hour = 60 mins  
+  // 1 day = 24 hoursconst offerDays = Math.floor(offerTime / (1000 \* 60 \* 60 \* 24));  
+  const offerHours = Math.floor((offerTime / (1000 \* 60 \* 60) % 24));  
+  const offerMins = Math.floor((offerTime / (1000 \* 60) % 60));  
+  const offerSecs = Math.floor((offerTime / 1000) % 60);const days\_el = document.getElementById("days\_left");  
+  days\_el.innerHTML = offerDays;  
+  const hours\_el = document.getElementById("hours\_left");  
+  hours\_el.innerHTML = offerHours;  
+  const mins\_el = document.getElementById("mins\_left");  
+  mins\_el.innerHTML = offerMins;  
+  const secs\_el = document.getElementById("secs\_left");  
+  secs\_el.innerHTML = offerSecs;  
+}
+
+function resetOfferDate() {  
+  const futureDate = new Date();  
+  futureDate.setDate(futureDate.getDate() + 15);  
+  return futureDate;  
+}
+
+setInterval(countdown, 1000);
+```
+
+
+We’ve finished coding! Time to check the output.
+
+final output
+
+All of the above-written code is available on [GitHub](https://github.com/Divyamcm/Projects/tree/main/Countdown%20Timer)**.** Watch this space for more interesting articles, up next in this series!
+
+Thanks for your interest.

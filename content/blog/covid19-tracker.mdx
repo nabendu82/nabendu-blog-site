@@ -1,0 +1,752 @@
+---
+title: COVID-19 tracker with ReactJS
+description: COVID-19 tracker
+date: 2021-02-15
+tags: ['javascript', 'beginners', 'React']
+published: true
+---
+
+Welcome to a brand new React JS project, where we are going to build a COVID-19 tracker in React JS. We will get the latest data from the [disease.sh](https://disease.sh/) and the map from [leaflet.com](https://leafletjs.com/).
+
+We will also be using Material UI for the icons in the project. The hosting will be in firebase.
+
+So, use the **create-react-app** to create a new app called **covid-19-tracker**.
+
+![Terminal](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/1_o01z6b.jpg)*Terminal*
+
+Since, our frontend site will also be hosted through firebase we will create the basic setting while this **create-react-app** creates our react app. Now, we will follow the same steps as in earlier post, so please follow them.
+
+![COVID-19 tracker](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/2_jgwkks.jpg)*COVID-19 tracker*
+
+Inside the **covid-19-tracker** directory, start the react app with **npm start**. Next, we will delete some of the files because we don’t need them and our app is also showing perfectly on localhost.
+
+![Delete](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/3_uwzq3j.jpg)*Delete*
+
+We will remove all the unnecessary boiler-plate code and our **index.js** will look like below.
+
+
+```js
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import './index.css';
+    import App from './App';
+
+    ReactDOM.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+      document.getElementById('root')
+    );
+```
+
+
+And the **App.js** contains only **COVID-19 tracker** text. We have also removed all content from **App.css** file.
+
+
+```js
+    import './App.css';
+
+    function App() {
+      return (
+        <div className="app">
+          <h1>COVID-19 tracker</h1>
+        </div>
+      );
+    }
+
+    export default App;
+```
+
+
+In the **index.css** update the css to have **margin: 0** for all.
+
+![index.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/4_irujyf.jpg)*index.css*
+
+We will be using [Material UI](https://material-ui.com/) for the icons, which we will use next. So, we need to do two npm installs as per there documentation.We will install the core and icons through the Integrated Terminal.
+
+![Integrated Terminal](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/5_toef8h.jpg)*Integrated Terminal*
+
+Now, we will update our **App.js** and use the icons from material ui. We are also using a state countries, containing hard-coded countries now.
+
+Inside the return statement, we are looping through the countries and passing it to a Select.
+
+
+```js
+    import { FormControl, MenuItem, Select } from '@material-ui/core';
+    import { useState } from 'react';
+    import './App.css';
+
+    function App() {
+      const [countries, setCountries] = useState(['Worldwide','India','USA', 'UK'])
+
+    return (
+        <div className="app">
+          <div className="app__header">
+            <h1>COVID-19 tracker</h1>
+            <FormControl className="app__dropdown">
+              <Select variant="outlined" value="dummy">
+                {countries.map(country => <MenuItem value={country}>{country}</MenuItem>)}
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+      );
+    }
+
+    export default App;
+```
+
+
+Now, in **App.css** we will do the styling for our classes.
+
+
+```js
+    .app__header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+```
+
+
+Next, we will get some real data for countries. We will use the [https://disease.sh/docs](https://disease.sh/docs) for this and will be hitting one of the API endpoint.
+
+We will first import the **useEffect** and empty our state array in **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/6_tn8ji8.jpg)*App.js*
+
+Now, we will use the useEffect hook. Inside the hook, we are writing an async function. And then inside it we are using the fetch() to call the api endpoint.
+
+Once, we get the response we are mapping through it and creating a new object, with **name** and **value**. The data for both of them we got from the api. Next, inside the return statement we are using the **value** and the **name**.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/7_v6zt3p.jpg)*App.js*
+
+Now, in localhost in the select we can see all the countries, which are fetched from the API.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/8_h9oh8l.jpg)*localhost*
+
+Now, we will add the logic to change the country in the dropdown. For, this we are also adding an additional **MenuItem** for **worldwide** and a new state. When we click on any new country, it will trigger the **onCountryChange**(), which will set the new **country**.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/9_zrpfoi.jpg)*App.js*
+
+Next, create a folder **components** inside **src** and a file **InfoBox.js** inside it. Put the below content in it as of now, which uses some Material UI components.
+
+
+```js
+    import React from 'react'
+    import { Card, CardContent, Typography } from '@material-ui/core';
+
+    const InfoBox = ({ title, cases, total }) => {
+        return (
+            <Card className="infoBox">
+                <CardContent>
+                    <Typography 
+                        className="infoBox__title" 
+                        color="textSecondary">
+                    {title}</Typography>
+                    <h2 className="infoBox__cases">{cases}</h2>
+                    <Typography 
+                        className="infoBox__total" 
+                        color="textSecondary">
+                    {total} Total</Typography>
+                </CardContent>
+            </Card>
+        )
+    }
+
+    export default InfoBox
+```
+
+
+Next, in **App.js** we need to import this component first and call it three times, with different props.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944888/React-Projects/covid19-tracker/10_csgd84.jpg)*App.js*
+
+Also, add these new styles in **App.css** file.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944884/React-Projects/covid19-tracker/11_mewbuu.jpg)*App.css*
+
+Now, back in localhost it will show these cards.
+
+![Cards](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944884/React-Projects/covid19-tracker/12_tumuqd.jpg)*Cards*
+
+All the cards are cramped up, so we will add justify-content in **App.css** file.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944884/React-Projects/covid19-tracker/13_qrc3rc.jpg)*App.css*
+
+Now, we will add more sections in our **App.js** file. We will basically have a left section and a right section. We have also created an Map component, so importing it and adding inside app__left.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944884/React-Projects/covid19-tracker/14_ihvhtm.jpg)*App.js*
+
+Now, create a file **Map.js** inside the **components** folder and put the basic content as of now.
+
+
+```js
+    import React from 'react'
+
+    const Map = () => {
+        return (
+            <div className="map">
+                <h1>Map Component</h1>
+            </div>
+        )
+    }
+
+    export default Map
+```
+
+
+Now, in **App.css** add styles for app anywhere.
+
+
+```js
+    .app{
+      display: flex;
+      justify-content: space-evenly;
+    }
+```
+
+Now, our localhost will look like below.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944884/React-Projects/covid19-tracker/15_mdbbg7.jpg)*localhost*
+
+Now, we will do some more styles in **App.css** file. Here, we are also doing the styles for the mobile view.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944884/React-Projects/covid19-tracker/16_wlsu3z.jpg)*App.css*
+
+Now, it’s time to get the data when the user selects a country. Here, we are first creating a new state variable countryInfo. After that we have a useEffect, which runs during the initial load to get the worldwide data.
+
+Next, inside the onCountryChange, we first setting different url, based on whether the user selected country or worldwide.
+
+The data which we receive, we are showing in the InfoBox component.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/17_k481fe.jpg)*App.js*
+
+Now, our data is been shown correctly in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944884/React-Projects/covid19-tracker/18_ioxcin.jpg)*localhost*
+
+Next, we will show our Table data in the right section of the app. For that we will import a new Table component in **App.js** and pass all the countries data to it.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/19_momenr.jpg)*App.js*
+
+Create a file **Table.js** in the components folder and put the below content in it.
+
+
+```js
+    import React from 'react'
+    import './Table.css'
+
+    const Table = ({ countries }) => {
+        return (
+            <div className="table">
+                {countries.map(({ country, cases }) => (
+                    <tr>
+                        <td>{country}</td>
+                        <td><strong>{cases}</strong></td>
+                    </tr>
+                ))}
+            </div>
+        )
+    }
+
+    export default Table
+```
+
+
+Create a file **Table.css** in the components folder and add these styles in it.
+
+
+```css
+    .table{
+        margin-top: 20px;
+        overflow-y: scroll;
+        height: 400px;
+        color: #6a5d5d;
+    }
+
+    .table tr{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .table td{
+        padding: 0.5rem;
+    }
+
+    .table tr:nth-of-type(odd) {
+        background-color: #f3f2f8;
+    }
+```
+
+
+Now, in localhost we can see this nice table.
+
+![Nice Table](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/20_d7w66t.jpg)*Nice Table*
+
+We will now have sorting feature and will show the cases in sorted order. For this create a file **util.js** in the **src** folder and add the code for sorting bases on cases in it.
+
+
+```js
+    export const sortData = (data) => {
+        const sortedData = [...data]
+        return sortedData.sort((a, b) =>  a.cases > b.cases ? -1 : 1)
+    }
+```
+
+
+Now, we will use it in **App.js** file to sort the countries data for our table.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/21_wbefvm.jpg)*App.js*
+
+Now, our data is sorted in localhost.
+
+![Data Sorted](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/22_xkkshe.jpg)*Data Sorted*
+
+Now, we will show nice chart in our app in **World wide new Cases**. So, for that we need to install **react chartjs 2** in our project. Install it my npm in terminal.
+
+
+```js
+    npm i react-chartjs-2 chart.js
+```
+
+
+We also need to install another dependency numeral, used for formatting numbers.
+
+
+```js
+    npm i numeral
+```
+
+
+Now, create a file **LineGraph.js** inside the components folder and add the below content in it. Here, we are using the **Line** component from react-chartjs-2 and passing the updated data in it.
+
+We are getting the data for the past 120 days, from our endpoint. But it is not formatted in the way our Chart library wants. So, we have created a function **buildChartData** to format it.
+
+Also, note that we are getting each day data, but we want to find the increase. So, we are substracting current day data with previous day data in **buildChartData()**
+
+
+```js
+    import React, { useEffect, useState } from 'react'
+    import { Line } from 'react-chartjs-2'
+    import numeral from 'numeral'
+
+    const LineGraph = ({ casesType="cases" }) => {
+        const [data, setData] = useState({})
+
+    const buildChartData = (data, caseType) => {
+            const chartData = []
+            let lastPoint;
+            for(let date in data.cases){
+                if(lastPoint) {
+                    const newPoint = {
+                        x: date,
+                        y: data[caseType][date] - lastPoint
+                    }
+                    chartData.push(newPoint)
+                }
+                lastPoint = data[caseType][date]
+            }
+            return chartData
+        }
+
+    useEffect(() => {
+            const fetchData = async () => {
+                fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        const chartData = buildChartData(data, casesType)
+                        setData(chartData)
+                })
+            }
+            fetchData()
+        }, [casesType])
+
+    return (
+            <div>
+                {data?.length > 0 && (
+                    <Line 
+                        options={options}
+                        data={{
+                            datasets: [{
+                                backgroundColor: "rgba(204, 16, 52, 0.5)",
+                                borderColor: "#CC1034", 
+                                data: data
+                            }]
+                        }}  
+                    />
+                )}
+            </div>
+        )
+    }
+
+    export default LineGraph
+```
+
+
+We also need to add the options after our import in **LineGraph.js** file. These can be customized as per need.
+
+
+```js
+    const options = {
+        legend: {
+            display: false,
+        },
+        elements: {
+            point: {
+                radius: 0,
+            },
+        },
+        maintainAspectRatio: false,
+        tooltips: {
+            mode: "index",
+            intersect: false,
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    return numeral(tooltipItem.value).format("+0,0");
+                },
+            },
+        },
+        scales: {
+            xAxes: [
+                {
+                    type: "time",
+                    time: {
+                        format: "MM/DD/YY",
+                        tooltipFormat: "ll",
+                    },
+                },
+            ],
+            yAxes: [
+                {
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return numeral(value).format("0a");
+                        },
+                    },
+                },
+            ],
+        },
+    };
+```
+
+
+Now, also import the LineGraph component in our **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/23_qz22on.jpg)*App.js*
+
+Now, our graph will be shown in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/24_qc7o2t.jpg)*localhost*
+
+Now, it’s time to create Map, showing Covid status. We are going to use react-leaflet to show our map. So, in terminal give the below npm.
+
+```js
+    npm i react-leaflet leaflet
+```
+
+After that, head over to your **Map.js** file and add the below content. Here, we are using the **MapContainer**, **TileLayer**from react-leaflet, to show the map.
+
+
+```js
+    import React from 'react'
+    import { MapContainer, TileLayer } from "react-leaflet";
+    import "./Map.css";
+
+    const Map = ({ center, zoom }) => {
+        return (
+            <div className="map">
+                <MapContainer center={center} zoom={zoom}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                </MapContainer>
+            </div>
+        )
+    }
+
+    export default Map
+```
+
+
+Next, we will do some basic styling now in **Map.css** file, which we need to create in the same **components** folder.
+
+
+```css
+    .map {
+        height: 500px;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 20px;
+        margin-top: 16px;
+        box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+    }
+
+    .map .leaflet-container {
+        height: 100%;
+        border-radius: 12px;
+    }
+```
+
+
+Next, we need to pass two props to our Map component and also need to do a import for leaftlet in our **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/25_zq7tqg.jpg)*App.js*
+
+Now, we can see this beautiful map in our localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944885/React-Projects/covid19-tracker/26_ju0ddz.jpg)*localhost*
+
+Back again in **App.js** file, we will set the state for mapCenter and mapZoom, by passing the lat and long info.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/27_o2hzwy.jpg)*App.js*
+
+Now, we will also have another piece of state been passed to the Map component called **mapCountries** from **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/28_l64dd2.jpg)*App.js*
+
+Now, we want to show circles on the map for countries with coronavirus. The bigger the circle, the more the coronavirus. Also, we will show a popup with the data of the country, once we click on a circle.
+
+So, in **util.js**, we will create a new function **showDataOnMap**(). So, add the below before our earlier function sortData().
+
+In this, we are mapping through the country and using Circle, Popup from react-leaflet to show the circle and the Popup.
+
+
+```js
+    import React from "react";
+    import numeral from "numeral";
+    import { Circle, Popup } from "react-leaflet";
+
+    const casesTypeColors = {
+        cases: {
+            hex: "#CC1034",
+            multiplier: 800,
+        },
+        recovered: {
+            hex: "#7dd71d",
+            multiplier: 1200,
+        },
+        deaths: {
+            hex: "#fb4443",
+            multiplier: 2000,
+        },
+    };
+
+    export const showDataOnMap = (data, casesType = "cases") => 
+        data.map(country => (
+            <Circle
+                center={[country.countryInfo.lat, country.countryInfo.long]}
+                color={casesTypeColors[casesType].hex}
+                fillColor={casesTypeColors[casesType].hex}
+                fillOpacity={0.4}
+                radius={Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier}
+            >
+                <Popup>
+                    <div className="info-container">
+                    <div
+                        className="info-flag"
+                        style={{ backgroundImage: `url(${country.countryInfo.flag})` }}
+                    ></div>
+                    <div className="info-name">{country.country}</div>
+                    <div className="info-confirmed">
+                        Cases: {numeral(country.cases).format("0,0")}
+                    </div>
+                    <div className="info-recovered">
+                        Recovered: {numeral(country.recovered).format("0,0")}
+                    </div>
+                    <div className="info-deaths">
+                        Deaths: {numeral(country.deaths).format("0,0")}
+                    </div>
+                    </div>
+                </Popup>
+            </Circle>
+        ))
+```
+
+
+Next, we go back to **Map.js** and call the function **showDataOnMap**(), with **countries** and **casesType** parameters.
+
+![Map.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/29_zm5v7h.jpg)*Map.js*
+
+Now, in localhost we can see the red circles over each country and a popup with stat, if we click on any one of them.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/30_tofool.jpg)*localhost*
+
+We will add some more styles in Map.css file, which will show flag for each country when we click one. So, add this content in Map.css file.
+
+
+```css
+    .info-flag img {
+        width: 100px;
+        border-radius: 5px;
+    }
+
+    .info-name {
+        font-size: 20px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .info-container {
+        width: 150px;
+    }
+
+    .info-flag {
+        height: 80px;
+        width: 100%;
+        background-size: cover;
+        border-radius: 8px;
+    }
+
+    .info-confirmed,
+    .info-recovered,
+    .info-deaths {
+        font-size: 16px;
+        margin-top: 5px;
+    }
+```
+
+
+Now, if you click any country in localhost, it shows the flag also.
+
+![Flag](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/31_knwh0w.jpg)*Flag*
+
+Our web-app is almost complete, but need to do some style changes in **InfoBox.js** file. So, in it include the **InfoBox.css** file.
+
+![InfoBox.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/32_tosctx.jpg)*InfoBox.js*
+
+Next, create **InfoBox.css** file in the **component** folder and add the below content in it.
+
+
+```css
+    .infoBox {
+        flex: 1;
+    }
+
+    .infoBox:not(:last-child) {
+        margin-right: 10px;
+    }
+
+    .infoBox--selected {
+        border-top: 10px solid #686a6e;
+    }
+
+    .infoBox__cases--green {
+        color: darkgreen !important;
+    }
+
+    .infoBox__cases {
+        color: #cc1034;
+        font-weight: 600;
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .infoBox__total {
+        color: #6c757d;
+        font-weight: 700 !important;
+        font-size: 0.8rem !important;
+        margin-top: 15px !important;
+    }
+```
+
+
+Next, we want to have a small utility function to show numbers in a nice format. So, head over to **util.js** and add the **prettyPrintStat** function.
+
+
+```js
+    export const prettyPrintStat = (stat) => stat ? `+${numeral(stat).format("0.0a")}` : "+0";
+```
+
+
+Now, in **App.js** file first import **prettyPrintStat** and **numeral** at the top.
+
+
+```js
+    import { sortData, prettyPrintStat } from './util';
+    import numeral from "numeral";
+```
+
+
+Now, in the InfoBox component, change the cases to use **prettyPrintStat** and total to use **numeral** in all three calls, in **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/33_xewe6l.jpg)*App.js*
+
+Now, in **Table.js** file also, we will format the cases, with numeral.
+
+![Table.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/34_lbkcgb.jpg)*Table.js*
+
+Now, the numbers are showing in a complete right format in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/35_xkq0me.jpg)*localhost*
+
+Now, we will add logic to click on each InfoBox and change the stat on the Map. For this we will create another state variable called casesType and change it on click of the InfoBox.
+
+So, in **App.js** add the below changes.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/36_hh2hc4.jpg)*App.js*
+
+Now, in **InfoBox.js**, we will use callback to pass the onClick.
+
+![InfoBox.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944886/React-Projects/covid19-tracker/37_nvmqlm.jpg)*InfoBox.js*
+
+There are two more small changes, which i want to do. One is to have a pointer for each InfoBox, so that the user knows that we need to click here.
+
+So, in **InfoBox.css** add cursor pointer.
+
+![InfoBox.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/38_tzeys5.jpg)*InfoBox.css*
+
+Second the size of the circles in map, is not correct and some of them are very big. So, need to fix it in **util.js** and also changing the color of the circles. So, change the **casesTypeColors** with below content.
+
+
+```js
+    const casesTypeColors = {
+        cases: {
+            hex: "#1d52d7",
+            multiplier: 300,
+        },
+        recovered: {
+            hex: "#7dd71d",
+            multiplier: 400,
+        },
+        deaths: {
+            hex: "#fb4443",
+            multiplier: 2000,
+        },
+    };
+```
+
+
+Now, circles are of correct size in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/39_ypcg7b.jpg)*localhost*
+
+It’s also time to change the caseType in our LineGraph. So, we are passing the same in **App.js**. We are also giving a bit of margin to this component.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/40_xugnhj.jpg)*App.js*
+
+Lastly, we will show a bar on top of the InfoBox, which is selected and also make the recovered box text as green. For this we will pass **active** and **isGreen** prop from **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/41_hluxsu.jpg)*App.js*
+
+Now, in **InfoBox.js** we will use these two props and add new classes if we have them. Now, we already have these classes defined in **InfoBox.css** file.
+
+![InfoBox.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/42_k3kctl.jpg)*InfoBox.js*
+
+Now, our app is showing perfectly in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944887/React-Projects/covid19-tracker/43_olftdb.jpg)*localhost*
+
+Now, we can deploy our App in firebase and , we will follow the same steps as in earlier post.
+
+The deployment was sucessful and working properly.
+
+![The Complete Site](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616944892/React-Projects/covid19-tracker/44_bouq2g.gif)*The Complete Site*
+
+You can find code for the same [here](https://github.com/nabendu82/covid-19-tracker).

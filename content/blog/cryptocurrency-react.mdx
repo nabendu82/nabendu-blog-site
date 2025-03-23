@@ -1,0 +1,340 @@
+---
+title: Cryptocurrency Price Tracker App Using React
+description: Flexbox
+date: 2021-05-31
+tags: ['javascript', 'react', 'webdev']
+published: true
+---
+
+In this post, we are going to create **Cryptocurrency Price tracker** app using ReactJS.
+
+So open your terminal and create a new react app by below command.
+
+
+```js
+npx create-react-app react-api-crypto-tracker-v1
+```
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888988/React/Cryptocurrent-tracker/2_jxqtjm.jpg)*HTML FIle*
+
+The app will be created in sometime.Now, we have to go inside the project directory
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888990/React/Cryptocurrent-tracker/3_mfnqts.jpg)*HTML FIle*
+
+Next we can start our project using below command.
+
+
+```js
+npm start
+```
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888994/React/Cryptocurrent-tracker/4_nwfa7n.jpg)*HTML FIle*
+
+Now our project has started sucessfully.
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888992/React/Cryptocurrent-tracker/5_owrftx.jpg)*HTML FIle*
+
+Next our project will open in our default browser.We can also open our project using **localhost:3030** in any browser. 
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888989/React/Cryptocurrent-tracker/6_ngwviw.jpg)*HTML FIle*
+
+Next open the project in **Visual Studio Code**
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888989/React/Cryptocurrent-tracker/7_wp5e4p.jpg)*HTML FIle*
+
+Next Click on **src** folder and **delete** some file which are highlighted
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888990/React/Cryptocurrent-tracker/8_yv89qc.jpg)*HTML FIle*
+
+Next delete the highlighted code from **index.js** file
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888991/React/Cryptocurrent-tracker/9_iqacim.jpg)*HTML FIle*
+
+Next delete some code from **app.js** file. The **App.js** will look like below
+
+
+```js
+function App() {
+return (
+        <div className="App">
+        <header className="App-header">
+        </header>
+        </div>
+    );
+}
+export default App;
+```
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888990/React/Cryptocurrent-tracker/10_a7nqkc.jpg)*HTML FIle*
+
+Next open terminal using **ctrl+j** and **install axios** in our project, for fetching data from api.
+
+
+```js
+    npm install axios
+```
+
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888994/React/Cryptocurrent-tracker/11_rlgd7l.jpg)*HTML FIle*
+
+We will be fetching data using below **Link**.
+
+https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false
+
+
+In our code we are using **axios.get()** method to fetching data. We are using this method in **useEffect** hook.
+
+Below is the updated code of **App.js**.
+
+
+```js
+import React,{useState,useEffect} from 'react'
+import axios from 'axios'
+
+
+
+function App() {
+const[coins,setCoins]=useState([]);
+const[search,setSearch]=useState(‘’);
+useEffect(()=>{
+axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
+.then(res=>{
+setCoins(res.data);
+console.log(res.data);
+}).catch(error=>console.log(error));
+},[]);
+const handleChange=e=>{
+setSearch(e.target.value);
+}
+const filteredCoins=coins.filter(coin=>
+coin.name.toLowerCase().includes(search.toLowerCase())
+)
+return (
+    <div className="coin-app">
+        <div className="coin-search">
+        <h1 className="coin-text">Search a Currancy</h1>
+        <form>
+        <input type="text"
+            onChange={handleChange}
+            placeholder="Search"
+            className="coin-input" />
+        </form>
+        </div>
+        {filteredCoins.map(coin=>{
+        return(
+        <Coins key={coin.id}
+        name={coin.name}
+        image={coin.image}
+        symbol={coin.symbol}
+        marketcap={coin.market_cap}
+        price={coin.current_price}
+        priceChange={coin.price_change_percentage_24h}
+        volume={coin.total_volume}
+        />
+        )})}
+    </div>
+);
+}
+export default App;
+```
+
+
+Accessing data using **axios.get()** in **useEffect** hooks
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888994/React/Cryptocurrent-tracker/12_lgspqe.jpg)*HTML FIle*
+
+Next we are handling **event** for search button.
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888987/React/Cryptocurrent-tracker/13_c3yopm.jpg)*HTML FIle*
+
+Next we have to filter data basedon, whatever we typed in search button in **App.js**
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888987/React/Cryptocurrent-tracker/14_wltqkr.jpg)*HTML FIle*
+
+Next create one file inside **src** folder file with name **Coins.js**
+
+The code for **Coins.js** is below
+
+
+```js
+import React from 'react'
+const Coins = () => {
+    return (
+    <div>
+    </div>
+    )
+}
+export default Coins
+```
+
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888986/React/Cryptocurrent-tracker/15_xazuo6.jpg)*HTML FIle*
+
+Next create form inside **App.js** for taking input from the user.
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888986/React/Cryptocurrent-tracker/16_k1wtmo.jpg)*HTML FIle*
+
+Next import **Coins.js** in App.js and pass **props** from **App.js** to **Coins.js**
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888987/React/Cryptocurrent-tracker/17_dt3pcn.jpg)*HTML FIle*
+
+We will use the props  in **Coins.js** and display them.
+
+Code of **Coins.js** is below
+
+
+```js
+import React from 'react'
+import './Coins.css'
+export const Coins = ({name,image,symbol,price,volume, priceChange,marketcap}) => {
+return (
+        <div className="coin-container">
+        <div className="coin-row">
+        <div className="coin">
+        <img src={image} alt="crypto"/>
+        <h1>{name}</h1>
+        <p className="coin-symbol">{symbol}</p>
+        </div>
+        <div className="coin-data">
+        <p className="coin-price">${price}</p>
+        <p className="coin-volume">${volume.toLocaleString()}</p>
+        {
+        priceChange < 0 ?(
+        <p className="coin-percent red">
+        {priceChange.toFixed(2)}%
+        </p>
+        ):(
+        <p className="coin-percent green">
+        {priceChange.toFixed(2)}%
+        </p>
+        )
+        }
+        <p className="coin-marketing">
+        Mkt Cap: ${marketcap.toLocaleString()}
+        </p>
+        </div>
+        </div>
+        </div>
+    )
+}
+export default Coins;
+```
+
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888988/React/Cryptocurrent-tracker/18_chvl33.jpg)*HTML FIle*
+Next we have desing our **App.js** and **Coins.js** in css.
+
+Add the below code in **Coins.css** file.
+
+
+```css
+.coin-container{
+display:flex;
+justify-content:center;
+}
+.coin-row{
+display:flex;
+flex-direction: row;
+justify-items: start;
+align-items: center;
+height:80px;
+border-bottom:1px solid #d7d7d7;
+width:900px;
+}
+.coin{
+display:flex;
+align-items: center;
+padding-right: 24px;
+min-width:300px;
+}
+.coin h1{
+font-size:10px;
+width:150px;
+}
+.coin img{
+height:30px;
+width:30px;
+margin-right:10px;
+}
+.coin-symbol{
+text-transform: uppercase;
+}
+.coin-data{
+display: flex;
+text-align:center;
+justify-content: space-between;
+width:100%;
+}
+.coin-pirce{
+width:110px;
+}
+.coin-volume{
+width:200px;
+}
+.coin-marketing{
+width:240px;
+}
+.coin-percent{
+width:100%;
+}
+.red{
+color:#f006
+}
+```
+
+
+Add the below code in **App.css**
+
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200&display=swap');
+*{
+box-sizing: border-box;
+margin:0;
+padding:0;
+font-family: ‘Montserrat’,sans-serif;
+background-color:#1a1a1c;
+color:#fff;
+}
+.coin-cap{
+display:flex;
+flex-direction: column;
+align-items:center;
+margin-top:64px;
+color:#fff;
+}
+.coin-search{
+margin-bottom:64px;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items:center;
+}
+.coin-text{
+margin-bottom: 32px;
+text-align:center;
+}
+.coin-input{
+padding-left:16px;
+width:300px;
+height:50px;
+border-radius:4px;
+border:none;
+background-image: linear-gradient(
+-225deg,
+#ac32e4 0%,
+#7918f2 48%,
+#4801ff 100%
+);
+color:#e2e2e2;
+}
+.coin-input::placeholder{
+font-size:large;
+}
+```
+
+This completes our Cryptocurrency app. You can find the code for the same [here](https://github.com/jitu001995/crypto-currency-tracker).
+
+![HTML FIle](https://res.cloudinary.com/thewebdev/image/upload/v1622888988/React/Cryptocurrent-tracker/19_cjw1t2.jpg)*HTML FIle*
+
+
