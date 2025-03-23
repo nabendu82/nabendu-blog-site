@@ -1,0 +1,94 @@
+---
+title: Creating Blog site using Stackbit and Gatsby — 1
+description: Gatsby
+date: 2019-11-13
+tags: ['gatsby', 'react', 'javascript']
+published: true
+---
+I started my blogging journey 2 years back on medium and had written 215 blogs till date. It had soon become an habit to write technical articles.
+
+I had got good traction on medium, but once **dev.to** was launched i started re-publishing my articles there also. I got a lot of followers and views in dev.to.
+
+It is time for me to create my own blog site and was thinking to create the same in GatsbyJS. There are many ways to create blog site with GatsbyJS, but i found an [article](https://dev.to/devteam/you-can-now-generate-self-hostable-static-blogs-right-from-your-dev-content-via-stackbit-7a5) from [Ben Halpern](https://twitter.com/bendhalpern) (Creator of dev.to) about there collaboration with Stackbit.
+
+You need to follow the very simple process in [this](https://dev.to/connecting-with-stackbit) article and your personal blog site will be ready in no time.
+
+You just need to follow 4 steps.
+
+1. Visit the [Stackbit Creation Workflow](https://app.stackbit.com/edit/5dcc19f8ef1bec0017ec0910/theme) and choose a theme. I had chosen **Fjord**.
+
+![Choose theme](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/1_XMis9UE2Cd.png)*Choose theme*
+
+2. Then you need to choose your static site generator. Here i had chosen Gatsby.
+
+![Choose Gatsby](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/2_G5oaibfCB.png)*Choose Gatsby*
+
+3. Then you need to connect to your **Github** and **DEV** accounts.
+
+![Connect both DEV and Github](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/3_nMpFxe8lbl.jpeg)*Connect both DEV and Github*
+
+4. Next, you need to click on “Create your Project” and stackbit will create a new blog site for you. Then you need to connect to a Netlify account to keep the site live.
+
+![Site is live](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/4_Ldw-6NWZ5.png)*Site is live*
+
+And by following these simple steps, my blog site became live at [https://nabendu-blog-d8fee.netlify.com/](https://nabendu-blog-d8fee.netlify.com/)
+
+![Live site](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/5_IPkMyrdqIX.png)*Live site*
+
+Now, whenever i publish a post in DEV(dev.to), it will be reflected here. This actually makes DEV a headless CMS for my site.
+
+Now, as you can see from above there is some work to be done, like editing the Home page, buying a good domain name and connecting in netlify, adding some plugins from gatsby.
+
+Now, stackbit created an repository in my [github](https://github.com/nabendu82/nabendu-blog). So, i am heading over there and following the instructions.
+
+![Stackbit instructions](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/6_AO8DGxuTYx.png)*Stackbit instructions*
+
+But first i will git clone my repository in my Desktop
+
+![git clone](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/7_XLHVgPr2q.png)*git clone*
+
+Next, i will change to the directory an do npm install
+
+![npm install](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/8_O5ZWLqzA8.png)*npm install*
+
+Now, we need to go to the [Stackbit dashboard](https://app.stackbit.com/dashboard) to get our API keys.
+
+![API Keys](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/9_cJfXikqU0.png)*API Keys*
+
+Then we need to assign this key to STACKBIT_API_KEY
+
+![](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/10_HtACQQxOA3.png)
+
+Then as per the github instruction, run the below command. It seems to fetch all posts.
+
+![Fetching all posts](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/11_UUGDBAmb-q.png)*Fetching all posts*
+
+Then as per the instructions, running npm run develop
+
+![npm run](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/12_49FQrVQzlv.png)*npm run*
+
+Once it complied successfully, opening [http://localhost:8000/](http://localhost:8000/) . And we successfully created our local development environment.
+
+![localhost](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/13_qIWnHZ9O2V.png)*localhost*
+
+Now, let’s open the project in VSCode. The main thing which we need to edit is the Home Page. The content comes from src -> pages -> index.md
+
+![index.md](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/14_OTBn6Vlltf.png)*index.md*
+
+We will now update the content in index.md
+
+![Updated index.md](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/15_epUbrcR5X.png)*Updated index.md*
+
+Let’s commit the changes and push it to our github.
+
+![Push to github](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/16_QdAnCFqL6b.png)*Push to github*
+
+It will also start updating the site in netlify.
+
+![Site getting updated](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/17_SOddKwF7qf.png)*Site getting updated*
+
+And after sometime the changes are pushed to production.
+
+![Site updated](https://ik.imagekit.io/thewebdev/Gatsby_Stackbit/1/18_3EcMAqNQ1.png)*Site updated*
+
+This completes first part of the post. In the next part(and my 100th blog), i will be buying a good domain name and connecting in netlify, adding some plugins from gatsby like SEO, google analytics.

@@ -1,0 +1,65 @@
+---
+title: Video Chat app using Gatsby and twilio-1
+description: Gatsby
+date: 2020-07-03
+tags: ['gatsby', 'twilio', 'react']
+published: true
+---
+
+On Apr 02, 2020 one of my favourite dev community and site dev.to announced, a twilio hackathon. The link for the same is [here](https://dev.to/devteam/announcing-the-twilio-hackathon-on-dev-2lh8).
+
+In this hackathon ,we had to made anything with twilio API and submit before Apr 30, 2020. I decided to make a simple video app with gatsby and twilio api. As one of the main category of this hackathon is Covid-19 Communications, it will be simple enough for anyone to use including elderly people.
+
+I will be taking help from this awesome youtube tutorial in building [this](https://www.youtube.com/embed/K02SnxY6c_0) web-app.
+
+In a new folder **SimpleVideoApp** create a new gatsby project with default starter, with the command gatsby new .
+
+![SimpleVideoApp](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/1_KLiMGGXJb.png)*SimpleVideoApp*
+
+Now, once the above installation is done, it’s time to npm install **twilio**.
+
+![npm i twilio](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/2_9LsgjO1Jb.png)*npm i twilio*
+
+One more thing we need to npm install is **twilio-video**. So, let’s quickly install it.
+
+![npm i twilio-video](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/3_sQn5A67UVA.png)*npm i twilio-video*
+
+So, it’s time to create a twilio account. So, we need to goto this url [https://www.twilio.com/try-twilio](https://www.twilio.com/try-twilio) to create an account. Enter the details once in this page and click on **Start your free trial** button.
+
+![Twilio Account](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/4_LXlJYZ60jt.png)*Twilio Account*
+
+We will get the usual verification mail, in the next page.
+
+![Verification mail](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/5_4pUa_XMg3u.png)*Verification mail*
+
+Now, on checking my mailbox i found the mail. After that clicked on **Confirm Your Email** link.
+
+![Confirm Mail](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/6_iWV6XsYUVE.png)*Confirm Mail*
+
+After that we have to do Mobile number verification. For this we need to give our valid mobile number and also, click on the checkbox and then click on **Verify** button.
+
+![Mobile Verification](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/7_xwX3Dzgeq4.png)*Mobile Verification*
+
+We will get a Verification Code in our mobile phone, which we need to enter here and click on **Submit**.
+
+![Verification Code](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/8_HGp_9Wn-Hb.png)*Verification Code*
+
+After that we get this screen, in which we have to mention whether we code. I choose Yes.
+
+![Yes](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/9_1sYkMJ0LM.png)*Yes*
+
+The next screen we have to choose the framework. We need to choose **NodeJS** here.
+
+![NodeJS](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/10_SWB78YmXHb.png)*NodeJS*
+
+In the next screen, we will get the below. We can click on the **Skip to Dashboard** button.
+
+![Skip](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/11_DcJsfgr_mM.png)*Skip*
+
+And it will take us to the Dashboard.
+
+![Dashboard](https://ik.imagekit.io/thewebdev/GatsbyTwilio/1/12_1NHpp6Var.png)*Dashboard*
+
+There are a lot of settings in dashboard, including creating a twilio function. See you soon in part-2.
+
+You can also find the code for this project in [this](https://github.com/nabendu82/SimpleVideoApp) github link.

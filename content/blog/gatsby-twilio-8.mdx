@@ -1,0 +1,69 @@
+---
+title: Video Chat app using Gatsby and twilio-8
+description: Gatsby
+date: 2020-07-10
+tags: ['gatsby', 'twilio', 'react']
+published: true
+---
+
+Welcome to the final part of the series. Our web-app is almost finish and only some CSS remains, so let’s start it.
+
+I also want to show the name of the Organiser, so let’s get if from **login-form.js**. We will use a callback function **storeName** which is similar to **storeToken**, to send the **name** back.
+
+![login-form.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/1_JOlInolsgM.png)*login-form.js*
+
+Next, let’s update in **index.js** and use the logic similar to that of token. We are passing the **name** also, to the **Video** component.
+
+![index.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/2_Ja6rU8QeuA.png)*index.js*
+
+Next, let’s update the Video component in the **video.js** file. Here, we are first importing a **video.css** file. We will make it soon. After that we are destructuring the **name** prop.
+
+![video.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/3_kZMK6iI8Hb.png)*video.js*
+
+After that in the **video.js** file, do the following changes. We are first changing the enclosing div to a fragment. After that adding Organiser and using the **name** prop.
+
+Also adding a h2 for Remote participants. Last adding a className for remoteVideRef div, which we are going to style next.
+
+![video.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/4_UD4NUv_y0U.png)*video.js*
+
+Add a **video.css** file in the same folder and add this simple styles into it.
+
+![video.css](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/5_0lx5migAa.png)*video.css*
+
+All the changes are done, so time to test it in localhost. It is working fine and i checked it my logging from three different browsers.
+
+![localhost](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/6_kx4DsM3Y9X.png)*localhost*
+
+It’s time to push the code in github, to deploy it automatically. After, it got deployed i logged in from 3 different devices.
+
+![Deployed](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/7_VUAyfhDv7J.png)*Deployed*
+
+It is working fine but found a bug ie for remote participant it will show his name in place of Organiser. So, let’s change the way it will look for each user. I am now showing the name in Connect, so it will be different for each user.
+
+![video.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/8_58wt4MnXG.png)*video.js*
+
+Also, let’s add below lines in **video.css** file.
+
+![video.css](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/9_6_l7VUMvMQ.png)*video.css*
+
+And it is working fine for different users.
+
+![Organizer](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/10_w8JL5IOB1B.png)*Organizer*
+
+![Participant](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/11_i6Wo-0KOt.png)*Participant*
+
+I will redeploy now and check the web-app. I am testing with all 3 -2 laptops and 1 phone.
+
+![Working fine](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/12_-KSZRVyUms.png)*Working fine*
+
+Now, my app is complete and deployed. As told earlier this is a very Simple Video app, which can be created with ease and deployed in no time with netlify.
+
+After that share the link with your known people and enjoy video conferencing. We get 15 dollars free credits from twilio and i used 3.24 dollars while making this project.
+
+![Twilio dashboard](https://ik.imagekit.io/thewebdev/GatsbyTwilio/8/13_LRMET85vN.png)*Twilio dashboard*
+
+I am submitting the web-app soon for the hackathon, so i had to add a README and LICENSE file. I had added both in my github and also joined the [Twilio CodeExchange community](https://ahoy.twilio.com/code-exchange-community)
+
+The details about the submission rules are [here](https://dev.to/devteam/announcing-the-twilio-hackathon-on-dev-2lh8).
+
+You can also find the code for this project in [this](https://github.com/nabendu82/SimpleVideoApp) github link.

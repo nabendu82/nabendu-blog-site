@@ -1,0 +1,72 @@
+---
+title: My Coding Blog From Scratch Using Gatsby and MDX - 4
+description: Gatsby
+date: 2020-02-18
+tags: ['gatsby', 'react', 'javascript']
+published: true
+---
+Welcome to part-4 of the series. In this part we will start with the footer component first. But i want to show social icons in footer. So, create a file **social-icons.js** inside **constants** folder.
+
+![social-icons.js](https://ik.imagekit.io/thewebdev/thewebdev/4/1_y_BOuIhsj-.png)*social-icons.js*
+
+Inside the **css** folder add **foooter.module.css** file. Put the below content in it.
+
+
+```css
+    .footer {
+        margin-top: auto;
+        background: var(--primaryColor);
+        padding: 2rem;
+        text-align: center;
+        color: var(--mainBlack);
+    }
+    .links a {
+        display: inline-block;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: var(--mainBlack);
+        margin: 0.5rem 1rem;
+        letter-spacing: var(--mainSpacing);
+        transition: var(--mainTransition);
+        font-weight: bold;
+    }
+    .links a:hover {
+        color: var(--mainWhite);
+    }
+    .icons a {
+        display: inline-block;
+        margin: 1rem;
+        font-size: 1.3rem;
+        color: var(--mainBlack);
+        transition: var(--mainTransition);
+    }
+    .icons a:hover {
+        color: var(--mainWhite);
+    }
+    .copyright {
+        text-transform: capitalize;
+        letter-spacing: var(--mainSpacing);
+        line-height: 2;
+    }
+```
+
+Next, we will update our **Footer.js** file to show links, social links and a copyright message.
+
+![Footer.js](https://ik.imagekit.io/thewebdev/thewebdev/4/2_DlyZxDBPk.png)*Footer.js*
+
+Rest of the chapter is exclusive content and is from my book **Foundation Gatsby Projects**.
+
+The book can be purchased from Apress site <a href="https://www.apress.com/in/book/9781484265574" target="_blank" rel="noopener noreferrer">here</a>
+
+![Foundation Gatsby Projects](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609570264/Foundation_Gatsby_zilffx.jpg)
+
+On the smaller screens, we are hiding both left and right sidebars.
+
+![smaller screen](https://ik.imagekit.io/thewebdev/thewebdev/4/8_hAg8_CucK.png)*smaller screen*
+
+
+The border colors and lot other things will be changed later when we built the components.
+
+This completes part-4 of the series.
+
+You can find the code for the same in [this](https://github.com/nabendu82/thewebdev-public) github repo.

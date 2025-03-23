@@ -1,0 +1,62 @@
+---
+title: Video Chat app using Gatsby and twilio-2
+description: Gatsby
+date: 2020-07-04
+tags: ['gatsby', 'twilio', 'react']
+published: true
+---
+
+Welcome to part-2 of the series. We will continue our journey to build a simple video chat app with twilio api, for the dev.to hackathon.
+
+We had logged into the twilio dashboard in part-1. Now, click on the three dots on the left menu as in the screenshot below.
+
+![Three dots](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/1_AkUyY6j-0f.png)*Three dots*
+
+Next, click on **Programmable Video** in the menu.
+
+![Programmable Video](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/2_pJGN0Vx3y.png)*Programmable Video*
+
+In the next screen we have to click on **Show API Credentials** link.
+
+![Show API Credentials](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/3_VImsWk2z4.png)*Show API Credentials*
+
+From the next page note down your **ACCOUNT SID** and **AUTH TOKEN**.
+
+![Credentials](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/4_p3T4igaz3.png)*Credentials*
+
+Now, time to put both the secrets in a .env file. Create a .env file in the root directory and put **ACCOUNT SID** and **AUTH TOKEN** into, **TWILIO_ACC_SID** and **TWILIO_AUTH_TOKEN** variables.
+
+![.env](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/5_U_2gapY2_.png)*.env*
+
+Then click on **Tools** in the left menu.
+
+![Tools](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/6_gw8KSOiwe.png)*Tools*
+
+After that click on the **API Keys** sub-menu link. Next, we have to click on **Create new API Key** button.
+
+![API Keys](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/7_WvfmhdOZN.png)*API Keys*
+
+In the next screen, we have to give the API key a name and then click on **Create API Key** button.
+
+![Name](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/8_ZeY-cvlsZ.png)*Name*
+
+After that in the next screen, we will be shown the SID and SECRET. We need to note them both.
+
+![Secret](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/9_I5mL7N5fW.png)*Secret*
+
+Then click on the **checkbox** and the **Done** button.
+
+![Checkbox](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/10_qQ8ediUr-e.png)*Checkbox*
+
+After that in the next screen our secret won’t be shown. And this means our API Keys are saved.
+
+![Saved](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/11_Z3_Ernjdt3.png)*Saved*
+
+Next, again go to the .env file and save these two variables.
+
+![.env](https://ik.imagekit.io/thewebdev/GatsbyTwilio/2/12_lgUFdrucP.png)*.env*
+
+The settings of API keys took a lot of time, so we will start with twilio functions in the next part.
+
+You can also find the code for this project in [this](https://github.com/nabendu82/SimpleVideoApp) github link.
+

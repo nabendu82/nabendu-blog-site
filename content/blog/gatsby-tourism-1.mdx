@@ -1,0 +1,111 @@
+---
+title: Learn GatsbyJS by creating a tourism site -1
+description: Gatsby
+date: 2019-11-26
+tags: ['gatsby', 'react', 'javascript']
+published: true
+---
+
+After creating two series with GatsbyJS — [Agency site](https://thewebdev.tech/series/Gatsby-agency) and [Blog Site](https://thewebdev.tech/series/Gatsby-stackbit), i wanted to learn more about this awesome tech.
+
+I found [this](https://www.udemy.com/course/gatsby-tutorial-and-projects-course/) awesome series on udemy by **John Smilga** and this huge series is based from the learning from his course.
+
+I will be creating a site about the awesome World Heritage place in India, known as Hampi.
+
+Let’s head over to a terminal and create a new gatsby project called **gatsbyTourism**, using the hello-world starter kit.
+
+![Gatsby Start](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/1__i_uUFZl1.png)*Gatsby Start*
+
+Next, we will change to the directory and do gatsby develop, to start our project on localhost.
+
+![gatsby develop](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/2_P24f5_89vu.png)*gatsby develop*
+
+It will start our basic hello-world starter, which will just show Hello World! on [http://localhost:8000/](http://localhost:8000/)
+
+![Hello World](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/3_wP0pZj436V.png)*Hello World*
+
+We will open our code in VSCode. Here, we can see that the **Hello World!** displayed in browser comes from **index.js** inside **src->pages**.
+
+![pages folder](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/4_gmvvMjMle8.png)*pages folder*
+
+Now, any page which we create inside pages folder will become a endpoint in the browser. We don’t have to implement anything like react-router here.
+
+We will create four pages required by our project — blog, contact, places, 404
+
+![pages](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/5_-q08qpZ5k.png)*pages*
+
+We can make them any type of React component, but we will make them functional components as of now for consistency.
+
+The **index.js** and **404.js** are special pages and are displayed in home and error.
+
+We will create the **404.js** first and then move to any non-existent page.
+
+![Error Page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/6_RriHnYDGQz.png)*Error Page*
+
+Moving to an non-existent page will show below.
+
+![Preview page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/7_NsHO_jOLi3.png)*Preview page*
+
+On clicking on the **Preview custom 404 page**, we will get our error page.
+
+![Error page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/8_DjgeZe6LPl.png)*Error page*
+
+We will create the blog page next.
+
+![Blog page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/9__mpXIfEbsR.png)*Blog page*
+
+Now, on moving to [http://localhost:8000/blog](http://localhost:8000/blog) we will see our blog page
+
+![blog page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/10_7Qg6a-dtg6.png)*blog page*
+
+We will create the **contact** and the **places** page in the similar manner.
+
+![contact page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/11_RfCpE1xp5.png)*contact page*
+
+![places page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/12_1jAc0v-aN0.png)*places page*
+
+Now, let’s have a **Navbar** and **Footer** component. We will make them inside a **components** folder, which will be inside **src** folder.
+
+![Navbar.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/13_jwNtaRa1wn.png)*Navbar.js*
+
+![Footer.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/14_dEpn_Ei8jn.png)*Footer.js*
+
+Now, the most common React way to show these two component on any page is to import them and show it. We will change our **index.js** as below.
+
+![Showing Navbar and Footer](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/15_pHZTnCYwzV.png)*Showing Navbar and Footer*
+
+It will show them on the home page.
+
+![Showing component](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/16_snEIxuGCI.png)*Showing component*
+
+Now, we can do this for every other page but Gatsby provides an easier solution. We will have a **Layout** component and include the **Navbar** and the **Footer** components there. We will be also passing the children props to the Layout component. It will be obvious in a minute on why we use it, after we use the Layout component in our pages.
+
+So, create a **Layout.js** file inside **components** folder.
+
+![Layout.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/17_4f7TqkUD1c.png)*Layout.js*
+
+Next, let use it in our **index.js** file. As, you might have noticed that the **Layout** component is wrapping all the other thing, which is only **Hello World!** now. This only is the **children**, which is the props been passed to the Layout component.
+
+![index.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/18_Q0HIhnshM.png)*index.js*
+
+So, our Home Page is still the same.
+
+![Same Home Page](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/18-1_EGQZ35jLP8.png)*Same Home Page*
+
+Now, we can use the reusable component Layout in all our other pages and they will show **Navbar** and **Footer** components.
+
+![blog.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/19_VXb7aSgfR1.png)*blog.js*
+
+![places.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/20_H191L-1J6.png)*places.js*
+
+![contact.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/21_9mYo-Rv_vW.png)*contact.js*
+
+![404.js](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/22_AhyA6NOpzo.png)*404.js*
+
+If we go to any other path also, we will see the **Navbar** and **Footer** present.
+
+![blog](https://ik.imagekit.io/thewebdev/GatsbyTourism/1/23_xLZyemFbo.png)*blog*
+
+This completes part-1 of the series. Hope you learned something new. You can find the code for the same in [this](https://github.com/nabendu82/gatsbyTourism) link.
+
+See you soon in part-2.

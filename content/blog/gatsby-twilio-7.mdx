@@ -1,0 +1,81 @@
+---
+title: Video Chat app using Gatsby and twilio-7
+description: Gatsby
+date: 2020-07-09
+tags: ['gatsby', 'twilio', 'react']
+published: true
+---
+
+Welcome to part-7 of the series. We will now start showing the local web-cam video. So, open your **video.js** file and update the highlighted parts. Here, we are using **useRef** as we want to attach the video to the div.
+
+We are using a inbuilt **createLocalVideoTrack()** from twilio and using it to attach the video of web-cam to the div **localVidRef**
+
+![video.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/1_0VKAfEqD3.png)*video.js*
+
+Now, again go to [http://localhost:8000/](http://localhost:8000/) and login with any username.
+
+![login](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/2_wxeH625Rwy.png)*login*
+
+After that allow the browser to use Camera and Microphone.
+
+![Allow](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/3_XG1B63zgG0.png)*Allow*
+
+And you will be able to see yourself in the video.
+
+![The Video](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/4_8rDRB0QKqQ.png)*The Video*
+
+Now, it’s time to attach the remote participants. So, update the **video.js** file as below. We are adding another ref **remoteVidRef** to a div.
+
+After that taking the result and looping through each participant. Each participant can have one or more track(means camera), so we are looping through them also. And then appending it to **remoteVidRef**
+
+![video.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/5_Px7hs69SAW.png)*video.js*
+
+And it seems to working, as we are able to see two videos now.
+
+![Two videos](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/6_2xSfiLAX4i.png)*Two videos*
+
+It’s time to deploy in netlify, so that i can test from two devices. So, open your netlify dashboard and click on **New site from Git** button.
+
+![Netlify](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/7_Zwskyhmdr1.png)*Netlify*
+
+Next, click on github as my code is in [https://github.com/nabendu82/SimpleVideoApp](https://github.com/nabendu82/SimpleVideoApp)
+
+![Github](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/8_RcBOCq-hb.png)*Github*
+
+After that i need to search the repo, as i have a lot of them. After getting the repo, we need to click on it.
+
+![Search](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/9_s_aO2drRd.png)*Search*
+
+After that keep all the default setting and click on **Deploy Site** button.
+
+![Deploy](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/10_4M5UNA_7Fv.png)*Deploy*
+
+In the next screen, click on **Site settings** button quickly.
+
+![Site settings](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/11_q8zVunTTN.png)*Site settings*
+
+Next, scroll a bit and click on **Change site name** button.
+
+![Change](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/12_Rl-gat2xI.png)*Change*
+
+It will open a pop-up, in which you can change the random site name to something meaningful
+
+![Meaningful](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/13_cRt_zMx4eS.png)*Meaningful*
+
+And finally our site is deployed.
+
+![Deployed](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/14_vzF9JAV3U4.png)*Deployed*
+
+Now, the app is deployed and i logged in from two machines but i was not able to see both videos. As, per the youtube video i am following we missed a part.
+
+Need to add the updated part in **video.js** file.
+
+![video.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/15_j-L-cXNP8.png)*video.js*
+
+I pushing the code, which automatically deployed to netlify. I am able to logging from multiple devices and see the videos.
+
+![Working](https://ik.imagekit.io/thewebdev/GatsbyTwilio/7/16_IRQe-gsI_.png)*Working*
+
+This completes part-7 of the series. There are some CSS and other changes remaining, before submitting my app for hackathon. See you soon.
+
+You can also find the code for this project in [this](https://github.com/nabendu82/SimpleVideoApp) github link.

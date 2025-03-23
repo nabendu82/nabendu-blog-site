@@ -1,0 +1,49 @@
+---
+title: Video Chat app using Gatsby and twilio-6
+description: Gatsby
+date: 2020-07-08
+tags: ['gatsby', 'twilio', 'react']
+published: true
+---
+
+Welcome to part-6 of the series. In previous part we got our result back from twilio. Now, it’s time to store the result so that we can use it in the next part. Update the **login-form.js** file, with a props **storeToken** and then save the **jwt** in it.
+
+![login-form.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/1_JgS8UNV7R.png)*login-form.js*
+
+Next, we will update **index.js** to have a new state **token** and pass the props storeToken in LoginForm.
+
+We are using ternary logic to display the form if user is not logged in or else for the time been **Has Token** text.
+
+![index.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/2_RSgMhwUtW.png)*index.js*
+
+Time to test our code in [http://localhost:8000/](http://localhost:8000/). On opening we will get the Login form.
+
+![Login Form](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/3_c6GsZKQl9.png)*Login Form*
+
+On giving a name and clicking on **Join Video Chat**, we will be taken to below screen.
+
+![Successful](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/4_0M4R6bD6Q4.png)*Successful*
+
+Next, we will create the Video component. Create a new file **video.js** inside the **components** folder. Here, we are using useEffect hook which will fire when the **token** changes. The token comes as a props and is used to connect to a room, using the twilio-video inbuilt method.
+
+![video.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/5_xwrHuoQqc.png)*video.js*
+
+Next, let’s use this component in **index.js** when the user is authenticated.
+
+![index.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/6_TwotAGG7yZ.png)*index.js*
+
+We will again login in our web-app, by giving a **Display Name** and clicking on **Join Video Chat** button.
+
+![Login](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/7_akkgWmdSY0.png)*Login*
+
+It will open the pop-up to ask for permission to use video and audio. We need to click on Allow.
+
+![Allow](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/8_QGIBCQAjOU.png)*Allow*
+
+It will successfully log us in and show Video.
+
+![Video](https://ik.imagekit.io/thewebdev/GatsbyTwilio/6/9_yAYlU4Yhv5.png)*Video*
+
+This completes part-6 of the series.
+
+You can also find the code for this project in [this](https://github.com/nabendu82/SimpleVideoApp) github link.

@@ -1,0 +1,63 @@
+---
+title: Video Chat app using Gatsby and twilio-5
+description: Gatsby
+date: 2020-07-07
+tags: ['gatsby', 'twilio', 'react']
+published: true
+---
+
+Welcome to part-5 of the series. We need to do an api call to the twilio endpoint, which contains our function. For this we will install axios first.
+
+So, stop your gatsby develop and install axios by `npm i axios` command.
+
+![npm install](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/1_hTW892Qu-.png)*npm install*
+
+Don’t forget to restart your development server by re-running `gatsby develop` command.
+
+We will now use axios to send the form data to our twilio endpoint. Open the file **login-form.js** and create a form **onSubmit**. It will call a function **handleSubmit** and use the twilio endpoint url, and the data will be the **name**.
+
+![login-form.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/2_XOl4Ug3pc.png)*login-form.js*
+
+Now, the twilio endpoint in the above code we are getting from the function page in twilio.
+
+![function page](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/3_gSP89Bw2gs.png)*function page*
+
+Now, go back to the web-app and open the console. After that give a name and login. We are getting a CORS error and not able to login.
+
+![Login](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/4_iGyux6lXt.png)*Login*
+
+Now, there is a very good way to check the actual error from inside of twilio dashboard. Click on the bug icon on the top right side. After that click on **Go to the Debugger** link.
+
+![Dashboard](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/5_I87dmmWA6J.png)*Dashboard*
+
+We will get the below screen, in which we will get the error. Need to click on the highlighted error in this screen.
+
+![Error](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/6_2mrh8qT3wp.png)*Error*
+
+It will show us the real error.
+
+![Real error](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/7_E9E7jWzJv.png)*Real error*
+
+After seeing my function again, i realised the 4 lines were not saved from part-3. So, i added those lines again and hit the **Save** button.
+
+![Added lines](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/8_YTRB02bbLf.png)*Added lines*
+
+After logging again, we are getting the same error. So, on going through the [youtube](https://www.youtube.com/watch?v=K02SnxY6c_0) video which i am following, we need to use the function as in the twillio docs [link](https://www.twilio.com/docs/runtime/functions/faq?code-sample=code-set-multiple-http-headers-in-a-response-5&code-language=Node.js&code-sdk-version=default).
+
+![twilio docs](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/9_u3z5TXv0n.png)*twilio docs*
+
+So, updating our function according to it. Also, don’t forget to hit the **Save** button.
+
+![twilio docs](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/10_LtxL3W7VT.png)*twilio docs*
+
+Now, when we submit again we will get the JWT back successfully.
+
+![JWT Back](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/11_F76Z4SbvJY.png)*JWT Back*
+
+We can also check the validity of it by going to the site [https://jwt.io/](https://jwt.io/) and pasting the returned JWT there. And yes it is valid.
+
+![Valid JWT](https://ik.imagekit.io/thewebdev/GatsbyTwilio/5/12_ec8-ZU-zjn.png)*Valid JWT*
+
+This completes part-5 of the series.
+
+You can also find the code for this project in [this](https://github.com/nabendu82/SimpleVideoApp) github link.

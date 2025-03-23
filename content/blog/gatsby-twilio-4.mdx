@@ -1,0 +1,121 @@
+---
+title: Video Chat app using Gatsby and twilio-4
+description: Gatsby
+date: 2020-07-06
+tags: ['gatsby', 'twilio', 'react']
+published: true
+---
+
+Welcome to part-4 of the series. We will start from where we had left. We will do some coding now, but first start the project by moving to the directory and running gatsby develop command.
+
+![gatsby develop](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/1_PYPx7Kxidc.png)*gatsby develop*
+
+Now, if we go to [http://localhost:8000/](http://localhost:8000/) we will get the default page.
+
+![Default Starter](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/2_ZozAZUNhth.png)*Default Starter*
+
+Time to change the default starter, so open the **index.js** file.
+
+![index.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/3_EzSWcHz_cQ.png)*index.js*
+
+We will remove all the unnecessary things from here. Also, remove **page-2.js** file as we don’t need it.
+
+![index.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/4_kDdCwiIHx.png)*index.js*
+
+It’s also time to change some more things in this gatsby starter. Open the **layout.js** file in **components** folder and change the footer text.
+
+![layout.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/5_HBOgVhmbB.png)*layout.js*
+
+Also, i want to change the site title. So, head over to **gatsby-config.js** file and change it.
+
+![gatsby-config.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/6_L_xA3gOeDE.png)*gatsby-config.js*
+
+Now, when we go to [http://localhost:8000/](http://localhost:8000/) we will see the updated app.
+
+![Updated](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/7_niQp2EaNL.png)*Updated*
+
+Let’s create a simple functional based login form. Create a file **login-form.js** inside the **components** folder and put the below content in it. It is a simple form with a text field to enter the name and a button to submit the form.
+
+![login-form.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/8_8mNHG4vA7H.png)*login-form.js*
+
+Next, let’s show this component in our **index.js** file. So, import it and use it.
+
+![index.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/9_1ENVuAkfJ.png)*index.js*
+
+Our web-app now shows our not so beautiful login form.
+
+![Login Form](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/10_puTnZnJnik.png)*Login Form*
+
+Let’s style this web-app a bit, as i like web-app to look nice. First update all the primary styles in **layout.css**. Remove all the content and replace it with below.
+
+![layout.css](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/11_jopmA0jCiZ.png)*layout.css*
+
+Next, let’s update the **header.js** file to use new color scheme. I had updated the background and also removed the line **margin: `0 auto`,**
+
+![header.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/12_UwWHrII-B.png)*header.js*
+
+Next, create a file **login.module.css** in the **components** folder and put the below code in it.
+
+
+```css
+    .contact {
+        padding: 4rem 0;
+    }
+    .center {
+        width: 80vw;
+        margin: 0 auto;
+    }
+    @media screen and (min-width: 992px) {
+        .center {
+        width: 50vw;
+        margin: 0 auto;
+        }
+    }
+    .contact label {
+        text-transform: capitalize;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .contact h3 {
+        text-transform: uppercase;
+        font-size: 2rem;
+        text-align: center;
+        letter-spacing: 7px;
+        color: var( — mainBlack);
+        margin-bottom: 2rem;
+    }
+    .formControl,
+    .submit {
+        width: 100%;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.375rem 0.75rem;
+        border: 1px solid var( — darkGrey);
+        border-radius: 0.25rem;
+    }
+    .submit {
+        background-color: var( — primaryColor);
+        border-color: var( — primaryColor);
+        text-transform: uppercase;
+        color: var( — mainWhite);
+        transition: var( — mainTransition);
+        cursor: pointer;
+    }
+    .submit:hover {
+        background: var( — darkGrey);
+        color: var( — mainBlack);
+        border-color: var( — darkGrey);
+    }
+```
+
+Now, finally update the **login-form.js** file to include these styles.
+
+![login-form.js](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/13_DoGrkkQlW.png)*login-form.js*
+
+Now, our web-app looks perfect.
+
+![web-app](https://ik.imagekit.io/thewebdev/GatsbyTwilio/4/14_qLcSDA5m2I.png)*web-app*
+
+This completes part-4 of the series.
+
+You can also find the code for this project in [this](https://github.com/nabendu82/SimpleVideoApp) github link.
