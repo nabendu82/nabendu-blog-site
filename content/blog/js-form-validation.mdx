@@ -1,0 +1,71 @@
+---
+title: JavaScript Form Validation
+description: JavaScript
+date: 2020-09-17
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In this post we will learn to do JavaScript form validations. So, head over to your terminal and create a folder **JSformValidation**. Create three files -**index.html**, **main.js** and **styles.css** inside it. We are also opening the files in VS Code.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/1_YRKZzE8B3.png)*index.html*
+
+Next, we will create the basic html skeleton. We are also importing font-awesome to the project. Also, starting the project with Live Server.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/2_khQGF1Jw3.png)*index.html*
+
+After that, we will add all the code for the form, which will include four input box and one submit button. We also have two font-awesome icon and a message below each input.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/3_1Fokq_pNui.png)*index.html*
+
+Now, we will start to add the CSS in **styles.css** file. Here, we are first importing a google font. After that doing the basic styling to center the form.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/4_o9YQt6oDJw.png)*styles.css*
+
+Next, we will add styles to make the form look nice.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/5_nf5HLnfb99.png)*styles.css*
+
+Next, head over to **index.html** and add two temporary classes of **success** and **error** to two form-control. We will remove them soon, as we will be adding them through javascript soon. This is only for testing purpose.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/6_l3Z71G7K7v.png)*index.html*
+
+Again head over to **styles.css** and add the styles for error and success. We can see both of them in the first and the second input box.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/7_xmcmAEDSl.png)*styles.css*
+
+Lastly, we will finish our styles by changing the style of the header a bit and also, adding css for the button.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/8_drQblG6TEL.png)*styles.css*
+
+Now, head over to main.js to add the logic. Here, we are first selecting all the ids. After that adding an event listener to the form and waiting for submit. Inside it we are getting all the values for the input fields. We are also trimming them, so if a user entered some blanks they will be trimmed.
+
+Then we are checking if the **usernameValue** is empty string and calling the function **setErrorFor()**. If it is not empty, we are calling the **setSuccessFor()** method.
+
+Inside the **setErrorFor() **method we are selecting the parent of the input, which is the **div** with the **form-control**. We are also selecting the **small** tag. After that we are adding the **error** class in div and the **message** in the small tag.
+
+Inside the **setSuccessFor()** method, we are just selecting the **div** with the **form-control** and adding the success class.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/9_4dlVWhhbTQ.png)*main.js*
+
+Next, we will add the logic for email. Here beside checking for blank we are also checking whether, it’s a valid email. We are doing it by checking it through a function containing regular expression.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/10_43JgPUKytz.png)*main.js*
+
+The regular expression checks for all invalid emails like the one below.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/11_k1g9UuQ_X2.png)*main.js*
+
+Now, we will check for passwords. Here we are checking whether both passwords are blank.
+
+![Passwords](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/12_X-3djFDOcm.png)*Passwords*
+
+We are also checking whether both passwords are matching.
+
+![Passwords matching](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/13__HQIhbwO5p.png)*Passwords matching*
+
+Now, if we give everything right and also the passwords match we will get all green after hitting the Submit button.
+
+![Everything right](https://ik.imagekit.io/thewebdev/JS-Projects/FormValidation/14_VJaatpAIKr.png)*Everything right*
+
+This complete our JavaScript form validation. You can find the code for the same in [this](https://github.com/nabendu82/JSformValidation) github repo.

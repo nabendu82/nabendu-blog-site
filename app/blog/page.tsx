@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: "React, NextJS, NodeJS Blogs",
 };
 
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 20;
 
 interface BlogPageProps {
     searchParams: {

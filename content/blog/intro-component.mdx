@@ -1,0 +1,267 @@
+---
+title: Intro component with sign-up form
+description: Intro component
+date: 2021-11-10
+tags: ["html", "beginners", "css"]
+published: true
+---
+
+
+In this post we are going to do a frontend mentor challenge which is **Intro component with sign-up form.**
+
+![Intro Challenge](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402301/New-blogs/ankit-1/2_mbs0sj.png)_Intro Challenge_
+
+After downloading the resources, I had extracted the zip file and copied it in the **Frontend-mentor-challenges** folder. After that opened the **index.html** file with **Live Server.**
+
+![Basic folder](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402306/New-blogs/ankit-1/3_krdnqj.png)_Basic folder_
+
+Next, we will add required HTML tags. Here, we are wrapping everything with container class. Then the two sides will be wrapped in two different divs.
+
+The right side also have a form containing our four input fields and a button.
+
+
+```js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <title>Frontend Mentor | Intro component with sign up form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div>
+      <h1>Learn to code by watching others</h1>
+      <p>
+        See how experienced developers solve problems in real-time. Watching scripted tutorials is great,
+        but understanding how developers think is invaluable.
+      </p>
+    </div>
+    <div>
+      <div class="box box-blue">
+        <p><strong>Try it free 7 days</strong> then $20/mo. thereafter</p>
+      </div>
+      <form class="box" id="form">
+        <div class="form-control">
+          <input type="text" id="firstname" placeholder="First Name" />
+          <small>First Name cannot be empty</small>
+        </div>
+        <div class="form-control">
+          <input type="text" id="lastname" placeholder="Last Name" />
+          <small>Last Name cannot be empty</small>
+        </div>
+        <div class="form-control">
+          <input type="email" id="email" placeholder="Email Address" />
+          <small>Email cannot be empty</small>
+        </div>
+        <div class="form-control">
+          <input type="password" id="password" placeholder="Password" />
+          <small>Password cannot be empty</small>
+        </div>
+        <button>Claim your free trial</button>
+        <small>By clicking the button, you are agreeing to our Terms and Services</small>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+```
+
+Now, our project is looking much better.
+
+![Much Better](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402308/New-blogs/ankit-1/4_vxg56w.png)_Much Better_
+
+Now, we will add the basic CSS first. All the colors and images are provided by frontend mentor, including the fonts.
+
+
+```js
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+* {
+    box-sizing: border-box;
+}
+body{
+    background-color: hsl(0, 100%, 74%);
+    background-image: url('./images/bg-intro-desktop.png');
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    padding: 40px;
+    min-height: 100vh;
+    flex-wrap: wrap;
+}
+.container > div {
+    flex: 1;
+}
+```
+
+
+Now, our app is taking shape and looking like below.
+
+![Our App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402310/New-blogs/ankit-1/5_sv4pi5.png)_Our App_
+
+We need to fix the padding and margin a bit for the container and also add style for h1 and p.
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402312/New-blogs/ankit-1/6_kbzaks.png)_style.css_
+
+Now, we will add the rest of the styles. We are adding styles for box, input and button.
+
+
+```css
+.box{
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.box p{
+    margin: 0;
+}
+.box-blue{
+    background-color: hsl(248, 32%, 49%);
+}
+input{
+    border-radius: 5px;
+    border: 1px solid hsl(246, 25%, 77%);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 15px 25px;
+    display: block;
+    width: 100%;
+}
+input:focus{
+    border: 1px solid hsl(248, 32%, 49%);
+    outline: none;
+}
+button {
+    background-color: hsl(154, 59%, 51%);
+    border-radius: 5px;
+    border: 1px solid hsl(154, 59%, 45%);
+    border-bottom-width: 3px;
+    color:#fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 15px 25px;
+    display: block;
+    width: 100%;
+}
+button:focus{
+    outline: none;
+}
+```
+
+Now, our desktop view is almost complete and we will move to the bit JavaScript part next.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402315/New-blogs/ankit-1/7_izypys.png)_localhost_
+
+Now, we will start to write the code for our JavaScript file. But before that we need to add the main.js file and give form an id in form tag in the **index.html** file.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402318/New-blogs/ankit-1/8_ityqsx.png)_index.html_
+
+Now, we need to add some new styles for the small tag, which will be shown in case of error in the **style.css** file.
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402318/New-blogs/ankit-1/9_ehvbqa.png)_style.css_
+
+Also need to update a bit more style for box, box-blue and button.
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402319/New-blogs/ankit-1/10_qtersb.png)_style.css_
+
+Now our app looks perfect in local.
+
+![Perfect App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402321/New-blogs/ankit-1/11_rpxpk4.png)_Perfect App_
+
+We need to do a bit of media queries for mobile view, before moving forward to form validations in JavaScript. Put the below code at the end of **style.css** file.
+
+
+```css
+@media screen and (max-width: 768px){
+    h1,p {
+        text-align: center;
+    }
+    .container{
+        flex-direction: column;
+    }
+}
+```
+
+We forgot to add the error icons in index.html file, so we willadd it. Also, we will remove text from small tags.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402322/New-blogs/ankit-1/12_prt396.png)_index.html_
+
+Next, add styles for these in **style.css** file.
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402324/New-blogs/ankit-1/13_xsxrwb.png)_style.css_
+
+Now, it’s time to do the JavaScript validations. Here, we are listening on the form submit. If the field is empty, we are passing to a function **addError**, which simply adds the **error** and **small** tag classes.
+
+If these is no error, we pass the id to a **removeError** function, which simply remove it from CSS. Also have a isValid function to check **regex** for email.
+
+
+```js
+const form = document.getElementById('form');
+
+form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const firstname = form['firstname'].value;
+    const lastname = form['lastname'].value;
+    const email = form['email'].value;
+    const password = form['password'].value;
+
+    if(firstname === ''){
+        addError('firstname', 'First Name cannot be empty')
+    }else{
+        removeError('firstname')
+    }
+if(lastname === ''){
+        addError('lastname', 'Last Name cannot be empty')
+    }else{
+        removeError('lastname')
+    }
+if(email === ''){
+        addError('email', 'Email cannot be empty')
+    } else if(!isValid(email)){
+        addError('email', 'Email is not valid')
+    } else {
+        removeError('email')
+    }
+if(password === ''){
+        addError('password', 'Password cannot be empty')
+    }else{
+        removeError('password')
+    }
+})
+
+function addError(field, message){
+    const formControl = form[field].parentNode;
+    formControl.classList.add('error');
+    const small = form[field].parentNode.querySelector('small');
+    small.innerText = message;
+}
+
+function removeError(field){
+    const formControl = form[field].parentNode;
+    formControl.classList.remove('error');
+}
+
+function isValid(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+```
+
+Now our small app is complete and is looking awesome.
+
+![Gif](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660402326/New-blogs/ankit-1/14_lnjru1.gif)_Gif_
+
+You can find the code for the same in [this](https://github.com/nabendu82/Frontend-Mentor-Challenges) github link.

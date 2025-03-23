@@ -1,0 +1,45 @@
+---
+title: Create a Infinite Color Flipper in JavaScript
+description: JavaScript
+date: 2020-09-14
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In a previous [post](https://thewebdev.tech/js-color-flipper), i had created a Simple color flipper in JavaScript. In that project, we had used an array of colors.
+
+In this project we are going to randomly generate the hex color code from the available 16 million colors(that’s why infinite).
+
+We are going to do this project in codepen. So, open any codepen and put this basic html and css. In the html, we have a container class wrapping a h2 and button.
+
+In the CSS, we are placing the main at the center. Also, adding basic styles for h2 and color.
+
+![html](https://ik.imagekit.io/thewebdev/JS-Projects/InfiniteFlipper/1_2M5GOUnAXw.png)*html*
+
+We will add a bit more CSS for the button and it’s hover.
+
+![CSS](https://ik.imagekit.io/thewebdev/JS-Projects/InfiniteFlipper/2_duA41D4O8p.png)*CSS*
+
+Now, it’s time to add the logic to the project. So, head over to the JS part and put the below code. Here, we are first selecting the button and the color.
+
+After that we have two variables **numbers **and **alphabets** to store numbers and allowed hex alphabets.
+
+Next, we have two functions **getRandomNumber()** and **getRandomAlphabet()**, which will take the **numbers **and **alphabets **string respectively and return a random item. Now, since strings can also be treated as array, we can get a value by **numbers[0]** or **alphabets[3]**.
+
+We can check the same in console.
+
+![randomNumber](https://ik.imagekit.io/thewebdev/JS-Projects/InfiniteFlipper/3_Qg_m4bibx.png)*randomNumber*
+
+We will complete our JavaScript logic. We have added an event listener on the btn and on click of it, we are creating a **hex** variable with initial value of #.
+
+After that we are running a for loop for six time, since hex codes are six item long. Now, from inside the loop we are calling **getRandom()** function.
+
+In the **getRandom()** function, we are declaring an empty array and then pushing two items to it- one for number and other for alphabet. We will get a two item array as [“1”, “b”]. After that we are again returning a random item from it by **arr[Math.floor(Math.random() * arr.length)]**.
+
+At the end of our loop, we will have something like **#fb3b4e** in the hex variable. After that, we are changing the color of the body to this random color and also the textContent of the color.
+
+![Logic](https://ik.imagekit.io/thewebdev/JS-Projects/InfiniteFlipper/4_SABstJlQBr.png)*Logic*
+
+You can find the code for this project in [this ](https://codepen.io/nabendu82/full/bGpKRVp)codepen link. Also the working project is shown below.
+
+![Gif](https://ik.imagekit.io/thewebdev/JS-Projects/InfiniteFlipper/5_dVdDj0iFsX.gif)*Gif*

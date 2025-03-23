@@ -1,0 +1,46 @@
+---
+title: Creating an Address Book in JavaScript
+description: Address Book
+date: 2020-09-11
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+
+Welcome to a new JavaScript project, where we are going to build a small Address book in Vanilla JavaScript.
+
+So, head over to your terminal and create a folder **AddressBook**. Inside it create two file **index.html** and **main.js**. I have also opened the code in Visual Studio code. You can also do the whole process manually.
+
+![Terminal](https://ik.imagekit.io/thewebdev/JS-Projects/Address-book/1_p7LBH9Yxc.png)*Terminal*
+
+Next, we will add the basic html skeleton. Here we are also using materialize css. I have also started the project with VS Code , Live Server extension and the project is live at [http://127.0.0.1:5500/index.html](http://127.0.0.1:5500/index.html)
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Address-book/2_-Nvx1NoI7.png)*index.html*
+
+After this added an input box and then an unordered list. We are using materialize classes, so that the basic style is there.
+
+Inside the ul, we have lis for each alphabet. We again have used materialize classes for styles. You can take all the html from the github link at the end of the project.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Address-book/3_aSUUmSYmyP.png)*index.html*
+
+It’s time to write the JavaScript, so head over to **main.js**. Here, we are first selecting the input box and adding an eventlistener.
+
+After that we are adding a keyup event to it, so every-time we type something in the input box this event will be fired.
+
+Now, inside the function we are first getting the value of the entered input in **filterValue** and also converting it into upper-case. We are also selecting all the **lis** by first selecting the **ul** and then all the **li** inside it.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Address-book/4_9AkxNIZp0.png)*main.js*
+
+Now, we will loop through the li using forEach. After that we are getting the anchor tags, which contains all the name. We still don’t have any filtering logic and if we type anything, we will get all the anchor tags.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Address-book/5_PZ05KGgsjf.png)*main.js*
+
+We will complete our project by adding the filtering logic. Here the filtering logic is **a.innerHTML.toUpperCase().startsWith(filterValue)** , where we are first getting name and converting it to uppercase by **a.innerHTML.toUpperCase()**. After that we are using the JavaScript string method of **startsWith()** to check if the name starts with the entered value in input box.
+
+We are using the ternary operator to make the **item.style.display = ‘block’** in the case of a match and it as **‘none’** in case of no match.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Address-book/6_voXbEY4hFk.png)*main.js*
+
+This completes our small project, but there is an enhancement which can be done. It is to remove the capital alphabets for which no match is found. Hope the reader do it.
+
+You can find the code in [this](https://github.com/nabendu82/AddressBook) github repository.

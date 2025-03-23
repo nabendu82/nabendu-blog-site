@@ -1,0 +1,49 @@
+---
+title: Create a Lorem Ipsum Generator in JavaScript
+description: JavaScript
+date: 2020-09-16
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In this project, we are going to create an Lorem Ipsum generator with JavaScript. Lorem Ipsum is the dummy text, used by almost all developers to show in place of data in their project. We are going to use a variance of it called Hipster Ipsum.
+
+So, as usual head over to your terminal and create a folder **LoremIpsum**. Inside it three files **index.html**, **main.js** and **styles.css**.
+
+![Setup](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/1_uL0YQjaEj.png)*Setup*
+
+Next, in the **index.html** we will put the code. Here, we have a range slider and also a text box to enter the number of paragraph. We also have a Generate button.
+
+We have also linked our css and js file in the index.html. Beside this we have started our project with Live Server, so that the changes are reflected instantly.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/2_ze6yLjOh5N.png)*index.html*
+
+Now, we will move to **styles.css** and put the styles for body, h3 and the form.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/3_kUrdl1z6MI.png)*styles.css*
+
+We will complete our styles by completing the CSS for label, input box and the button.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/4_uxnl2WRLE.png)*styles.css*
+
+Now, it’s time to write the JS logic in **main.js**. Here, we will have an array of string containing 10 hipster ipsum text.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/5_y0-OkMQ7O.png)*main.js*
+
+Now, the first logic which we will write is for the range and the input field. Both of them are attached, ie if we increase the slider the number in text box will increase and vice versa.
+
+We have achieved this by calling the function **syncParaNumbers** from the event listener for both. Inside the function **syncParaNumbers** we are just making their values equal.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/6_nFGTFycIhY.png)*main.js*
+
+Next, we will complete the logic to generate the hipster ipsum test when we click on the Generate button. We had just added and event listener on the submit, which happen when we click on the generate button. We are first preventing the default behaviour of the form. After that we are getting the value of the entered text and also converting it into a number, because it is a string like ‘6’.
+
+We are then using the array slice method to get number of items from our array **text**, which is equal to the value. So, if we get 6 our new array will be six element long. After that we are mapping over the new array **tempText** and adding a paragraph with class **result** to it.
+
+We are also using the b method to change the array to string containing paragraph with text. After that we are adding it to the **lorem-text** **article**, which we have selected in the **result** variable.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/7_hN63ZaF5Uc.png)*main.js*
+
+This completes our project. You can find the same in [this](https://github.com/nabendu82/JS-Projects/tree/master/LoremIpsum) github repo. The demo of the project is below.
+
+![Demo](https://ik.imagekit.io/thewebdev/JS-Projects/Lorem-ipsum/8_I2MRAveLk.gif)*Demo*

@@ -1,0 +1,90 @@
+---
+title: DOM Crash Course for Beginners -2
+description: DOM
+date: 2020-08-30
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to the final part of DOM crash course. 
+
+Next, we will learn about **remove()**. We can remove whole element like ul in below example with this method.
+
+![remove()](https://ik.imagekit.io/thewebdev/DOM-Basics/2/1_GLeDrzg9M.png)*remove()*
+
+Now, we can even change the content of the elements with the use of **textContent**, **innerText** and **innerHTML**. We are targeting the first **li** inside the **ul** by **ul.firstElementChild** and changing it’s text by **textContent**.
+
+Next, we are targeting the second **li** by **ul.children[1]** and changing it’s text by **innerText**.
+
+We are targeting the third **li** by **ul.lastElementChild** and changing it to an HTML by **innerHMTL**. Notice that here, we can use any html tag.
+
+
+```js
+    <ul class="items">
+            <li class="item">Item 1</li>
+            <li class="item">Item 2</li>
+            <li class="item">Item 3</li>
+    </ul>
+```
+
+![textContent](https://ik.imagekit.io/thewebdev/DOM-Basics/2/2_3peQYL470.png)*textContent*
+
+Now, we will learn about **event listener**. We can listen to any event in the DOM like the **click** event. First we are selecting the button and then add an **event listener**to it by addEventListener. Here, we are looking for click and getting an event.
+
+We are using **e.preventDefault()** on Line 5 because our button is a Submit button, which submits a form. We don’t want this behaviour in this scenario, so we need to use it. You don’t need it in case of normal buttons.
+
+When we are console logging the event, we are getting a **target** object as shown in the figure.
+
+![target](https://ik.imagekit.io/thewebdev/DOM-Basics/2/3_zYmjar09n.png)*target*
+
+If we do a **e.target**, we are getting the button.
+
+![e.target](https://ik.imagekit.io/thewebdev/DOM-Basics/2/4_4O2rvVNOY.png)*e.target*
+
+We can add different things inside the function, which will execute once we click on the Submit button.
+
+![Submit](https://ik.imagekit.io/thewebdev/DOM-Basics/2/5_nrGanpxvqW.png)*Submit*
+
+Instead of the click event, we have many other events like mouseover. Here, the function will be executed once we move our mouse over the button.
+
+![mouseover](https://ik.imagekit.io/thewebdev/DOM-Basics/2/6_MBrVpot3pu.png)*mouseover*
+
+We will now add logic to submit the form. First comment out the **ul** in the **index.html** and add querySelectors for form, name input, email input , msg and user list.
+
+We are adding an event listener on the **submit** and calling a function **onSubmit**.
+
+Inside the function, we can get the value entered by the user using **.value**.
+
+![value](https://ik.imagekit.io/thewebdev/DOM-Basics/2/7_mY02hksvVR.png)*value*
+
+Now, we are doing form validations also.If the user doesn’t enters anything in the name input or email input, we are adding a class error to **msg** div. The **error** class is already defined in our **styles.css**
+
+After that we are also adding a text to it using **innerHTML**.
+
+We are also removing the error after 5 seconds using the **setTimeout()**
+
+
+```js
+    .error {
+      background: orangered;
+      color: #fff;
+      padding: 5px;
+      margin: 5px;
+    }
+```
+
+![setTimeout()](https://ik.imagekit.io/thewebdev/DOM-Basics/2/8_HWOYg2kq1g.png)*setTimeout()*
+
+Next, we will add the logic to add the entered data. We are first creating an new li with createElement().
+
+After that we are appending the li with **appendChild**. We are also creating a text node with **createTextNode** and passing the value of name and email box.
+
+Lastly, we are appending the li to the userList div. We are also making the name and email box empty.
+
+![createElement](https://ik.imagekit.io/thewebdev/DOM-Basics/2/9_fJhmU0ByeU.png)*createElement*
+
+The appending can be seen in action in the below gif image.
+
+![Adding users](https://ik.imagekit.io/thewebdev/DOM-Basics/2/10_wz1bXk4gO.gif)*Adding users*
+
+This completes the final part of the series. You can find code for the same [here](https://github.com/nabendu82/DOMbasics).

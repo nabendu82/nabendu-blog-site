@@ -1,0 +1,75 @@
+---
+title: Async JS Crash Course — Callbacks, Promises, Async Await
+description: Async JS
+date: 2020-08-31
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to the crash course on Async JS, which is a part of the ongoing crash course on JavaScript.
+
+Callback, Promises and Async-await are way to deal with asynchronous data. Asynchronous programming in JavaScript is a way in which the program doesn’t wait until the execution of something is going on.
+
+This comes in handy when we do a API call to fetch some data, which takes sometime(maybe 2–3 sec). But we don’t want our program to stop executing the next statements and this is known as Async JS.
+
+So, let’s start with jsbin and open the JavaScript and the Output. Here, we had created an Array of objects posts, which contains two Objects.
+
+Now, we have a function **getPosts()** and inside it we have **setTimeout()** to mimic the call to an API server, which runs with a delay of 1000 milli seconds. After that we are just looping through the posts and adding **li** and **p** containing title and summary to the output.
+
+Once the forEach is complete, we are adding it to the body.
+
+After that we have **createPost()**, which just push a new post to the posts array. But it runs after 2000 milli seconds.
+
+![Async](https://ik.imagekit.io/thewebdev/Async-JS/1_Nn_wx2ILx.png)*Async*
+
+We can see the problem in the above as the **createPost()** was run but after a delay of 2000 ms. Before that the DOM was already painted and **getPosts()** was run.
+
+This is where Async programming is used and we will look into **Callback** first.
+
+### **Callback**
+
+To use callback, we pass a new parameter **callback** in the **createPost()**. Then after the **posts.push(post)**, we are calling the **callback()**. Now in the **createPost()** calling, we are passing a second parameter which is the function **getPost**. Now, only after the posts.push() will be run then the getPosts will be run and we will get all three posts.
+
+![Callback](https://ik.imagekit.io/thewebdev/Async-JS/2_3cdoRr5O97.png)*Callback*
+
+### **Promises**
+
+Promises are better version of callback and were introduced in ES6. Here, we don’t pass any argument but wrap the whole code in a Promise method and return it. We are passing two parameter **resolve** and **reject** to it.
+
+Now, whenever the **resolve** is run, the **then()** block from the function call is executed. We are making it true by giving **num** as 5, so that the ternary operator will be true.
+
+![Promises](https://ik.imagekit.io/thewebdev/Async-JS/3_8ozBMNo6t.png)*Promises*
+
+Now, let’s make the num as 4, so that the ternary operator is **false** and the **reject()** is run. Now, the **catch()** will be executed and the error will be shown.
+
+![Promises](https://ik.imagekit.io/thewebdev/Async-JS/4_HUNuzOTjNh.png)*Promises*
+
+There is another variance of Promise called **Promise.all**, in which we can chain promises and it will show the result once all promises are done, including the slowest one. In the below example the slowest promise is the code one, but once it is resolved after 3 sec then only the **then()** will be executed.
+
+![Promise.all](https://ik.imagekit.io/thewebdev/Async-JS/5_RPtEnJJSfe.png)*Promise.all*
+
+### Async-await
+
+Now, we will learn about async-await which is upgradation over promises. It is called synthetic sugar over promises, because under the hood it is promises.
+
+We are again using the old Promises example. Here, we are creating a new function **init()**, but with the keyword **async**. Inside the function, we are making **createPost()** as **await**. It means that the functions after it will await for it result. So, again we are getting everything in order.
+
+![Promises](https://ik.imagekit.io/thewebdev/Async-JS/6_hYdEZOnmu5.png)*Promises*
+
+Async-await is mostly used with **fetch** to get data from external APIs. We will be using a nice fake API endpoint to get data of 10 users.
+
+Here, we are using the **await** keyword in-front of the **fetch()** to get the data from **jsonplaceholder** api. With **fetch()** we have to use the await again in **res.json()**. After that just looping through the data and displaying it in the browser.
+
+![Data](https://ik.imagekit.io/thewebdev/Async-JS/7_OzXmYGeL1_.png)*Data*
+
+This completes our Async await crash course. You can find all JSbins here -
+
+https://jsbin.com/kihodag/3/edit?js,output
+
+https://jsbin.com/gadugan/1/edit?js,output
+
+https://jsbin.com/wayanap/1/edit?js,output
+
+https://jsbin.com/qukisuf/1/edit?js,output
+
+https://jsbin.com/notowas/edit?js,output

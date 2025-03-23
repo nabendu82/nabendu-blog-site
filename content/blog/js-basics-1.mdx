@@ -1,0 +1,95 @@
+---
+title: JavaScript Crash Course for Beginners -1
+description: JavaScript
+date: 2020-08-25
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+It’s time to learn JavaScript after my HTML and CSS Crash Courses. JavaScript is everywhere on the web, from sites in Vanilla JS, to modern web-apps created using JavaScript frameworks like React/Angular/Vue. It is also used in server side with NodeJS and also used to create cool desktop app with ElectronJS.
+
+JavaScript is a high level interpreted language, so you don’t need any special compiler to run. The most important use of JavaScript is for browser, as it is the only language available on the Client.
+
+We are going to learn the below topics in this course. 
+
+* Variables & Data Types
+
+* Arrays
+
+* Object Literals
+
+* Method for strings, arrays, objects etc
+
+* Loops- for, while, for..of
+
+* Conditionals (if, ternary & switch)
+
+* Functions(normal & arrow)
+
+We are going to use the awesome JSbin app in it. So, head over to [jsbin.com](http://jsbin.com/) and open the **JavaScript** and **Console** only.
+
+We will first look into console.log(), which is a way to write anything in console and very helpful while debugging. In **jsbin** we need to click on the run after that and it will show our text in Console.
+
+![console](https://ik.imagekit.io/thewebdev/JS-Basics/1/1_bJ9hPgUYY.png)*console*
+
+Actually console is the inbuilt **object** from JavaScript and **log** is the function. We have other function also in like like **error** and **warn**. The complete list can be found from this awesome mdn [article](https://developer.mozilla.org/en-US/docs/Web/API/console).
+
+One more thing is that in all browser by right-clicking and Inspect, we can open the browser console. So, we can get the output in it also.
+
+![error and warn](https://ik.imagekit.io/thewebdev/JS-Basics/1/2_3bk38xjom1.png)*error and warn*
+
+### Variables
+
+There are three way to declare variables in JavaScript. They are **var**, **let** and **const**.
+
+**var** is there since the beginning of JavaScript ie 1996, but **let** and **const** are recently added in ES6 in 2015.
+
+**var** have a problem of been *functional scoped* and not *block scoped*. To solve this let was introduced.
+
+**const** stands for constant and we cannot redeclare it. We can add element to Array and Object declared as const, but we will look into them later.
+
+Below is the way we declare variables in JavaScript and with this we cannot see any difference between the three.
+
+**Note**: To not show anything in console we comment it out by adding two backslashes infront of it, as we did for the three console statements.
+
+![Variable declaration](https://ik.imagekit.io/thewebdev/JS-Basics/1/3_sV6XROewwk.png)*Variable declaration*
+
+To see the real difference between var and let, we will wrap two declarations inside a if statement(we are soon going to learn about it).
+
+The **var** value is accessible even outside the if statement, but the **let** is not accessible and the fourth console.log is giving error. The scope of if is known as block scope.
+
+![var and let](https://ik.imagekit.io/thewebdev/JS-Basics/1/4_bCktshO9CX.png)*var and let*
+
+Now, var is functional scope which means it will not be accessible outside a function. We will learn about functions soon. Here, the second console.log is throwing error.
+
+![var outside](https://ik.imagekit.io/thewebdev/JS-Basics/1/5_wbXjmN05m.png)*var outside*
+
+Now, lastly as with const they are not allowed to be assigned values again. So, when we are trying to re-assigning the **num4** value it is giving us error.
+
+![num4](https://ik.imagekit.io/thewebdev/JS-Basics/1/6_cq0AVFTM2G.png)*num4*
+
+### Data Types
+
+Now, we will learn about data types in JavaScript. There are six primitive data types in JavaScript. They are- **String**, **Numbers**, **Boolean**, **null**, **undefined**, **Symbol**.
+
+Now, **Symbol** were added in ES6 and a bit complicated for this course. So, we are not going to look into it and also not used that much.
+
+Now, we had declared seven variables. We are using the typeof operator available in JavaScript to check it’s type.
+
+* First one is a string. You can use both single and double quotes.
+
+* Second and third are number, as we don’t have any floats in JavaScript.
+
+* Fourth one is boolean and can have false value also.
+
+* Fifth one is null, which means empty value but is assigned by the user. The **typeof null** shows as object, which is actually a bug in JavaScript and cannot be fixed.
+
+* Sixth and seventh one are undefined, which again means empty value. But if we don’t assign any value like in seventh one, JS assign undefined to it.
+
+![Datatypes](https://ik.imagekit.io/thewebdev/JS-Basics/1/7_pI2VNH6rfp.png)*Datatypes*
+
+This completes part-1 of the series. You can find the jsbins used in this part below.
+
+[https://jsbin.com/kelazih/edit?js,console](https://jsbin.com/kelazih/edit?js,console)
+
+[https://jsbin.com/geniqoj/edit?js,console](https://jsbin.com/geniqoj/edit?js,console)

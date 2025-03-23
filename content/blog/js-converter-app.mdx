@@ -1,0 +1,49 @@
+---
+title: Creating a Converter app in JavaScript
+description: JavaScript
+date: 2020-09-10
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In continuation with our JavaScript project, the next thing we will build is a simple Converter app. We are again going to build it in Vanilla JavaScript.
+
+So, head over to your terminal and create a folder Converter. Inside it create three files -**index.html**, **main.js** and **styles.css**. We are also opening it with VS Code. As usual you can do all the process manually also.
+
+![Converter](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/1_X-f5liaSy.png)*Converter*
+
+Next, we are creating the basic html skeleton and also adding bootstrap to our project. We are also opening the project with VS Code extension Live Server, so that the changes are reflected automatically.
+
+![Live Server](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/2_FgIMRhrioz.png)*Live Server*
+
+After that, we will add the basic html with the help of bootstrap classes. Here, the two most important thing are the input box with id **kgsInput** and the div with **lbsOutput**, where we are going to show the conversion result.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/3_W8sE1SPX5.png)*index.html*
+
+Now, it’s time to move to the **main.js** file. Here, we are first selecting the **kgsInput **and then adding an event listener to it. Now, since it wrapped inside a form we are using the input as event trigger. After that inside the anonymous function, we are taking the **e.target.value** which will give us the value entered by the user.
+
+We are next just taking the value and converting it into pounds by multiplying it by 2.205. We are next showing it into the **innerHTML** of the div **lbsOutput**.
+
+![innerHTML](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/4_52vKlblaM.png)*innerHTML*
+
+We will now add another conversion element of Measurement. The html skeleton is exactly the same, except the ids of input and output and some texts.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/5_bMxHiWwCrG.png)*index.html*
+
+Now, in **main.js** we will add logic for it. Again the logic will be exactly same as the Weight conversion.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/6_GvqUCrg1o.png)*main.js*
+
+Now, lastly we will add html for the Temperature conversion, which will again be same as the earlier conversions.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/7-0_FP4CCuWrsZ.png)*index.html*
+
+Back to **main.js** we will again use the same logic, except the math is different this time.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/7-1_6dAVvjhIhB.png)*main.js*
+
+There is also a small change in the CSS required and that is to change the text color of the colored box to white. So, we will head over to styles.css and add a small css.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Converter-App/8_nRx_KsQBVL.png)*styles.css*
+
+This completes our small project. You can get the code for the same from [this](https://github.com/nabendu82/Converter) github repo.

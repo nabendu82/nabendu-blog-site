@@ -1,0 +1,37 @@
+---
+title: Create a Simple Color Flipper in JavaScript
+description: JavaScript
+date: 2020-09-13
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In this article, we are going to build a simple color flipper which will change the background to a random color, on the click of a button.
+
+We are going to do this project in codepen. So, open any codepen and put this basic html and css. In the html, we have a container class wrapping a h2 and button.
+
+In the CSS, we are placing the main at the center. Also, adding basic styles for h2 and color.
+
+![codepen](https://ik.imagekit.io/thewebdev/JS-Projects/ColorFlipper/1_I9Ek0eiRAA.png)*codepen*
+
+We will add a bit more CSS for the button and it’s hover.
+
+![button](https://ik.imagekit.io/thewebdev/JS-Projects/ColorFlipper/2_CPPnUz_htO.png)*button*
+
+When we see the the result, we can see the CSS is complete.
+
+![Result](https://ik.imagekit.io/thewebdev/JS-Projects/ColorFlipper/3_vJXruUiKG.png)*Result*
+
+Now, it’s time to add the logic to the project. So, head over to the JS part and put the below code. Here, i have an array **colors** containing all 140 html5 colors hex code.
+
+Next, we are selecting the button and the color span. After that we are adding an event listener to the click of the button. Inside the function, we are first getting a random number between 0 and 139, by using **Math.floor(Math.random() * colors.length)**.
+
+Back inside the function, we are changing the color of the body to this random color and also the textContent of the color.
+
+![Logic](https://ik.imagekit.io/thewebdev/JS-Projects/ColorFlipper/4_f7VVyHJTbQ.png)*Logic*
+
+This completes our small project and we can see a random number from the array on click of the button.
+
+![Complete](https://ik.imagekit.io/thewebdev/JS-Projects/ColorFlipper/5_KCZE9v-RYz.png)*Complete*
+
+This completes our small project. You can find the codepen for this project [here](https://codepen.io/nabendu82/full/PoNapxa).
