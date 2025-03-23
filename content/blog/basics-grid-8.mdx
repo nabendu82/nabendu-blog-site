@@ -1,0 +1,213 @@
+---
+title: Basics of CSS Grid — 8
+description: Flexbox
+date: 2018-09-14
+tags: ['css', 'beginners', 'grid']
+published: true
+---
+
+Welcome to the final part of the series.
+
+We will use this [codepen](https://codepen.io/nabendu82/full/qMKBOw/) for the album layout page. The basic code without any style(except the general style) is here.
+
+
+```css
+<body>
+    <div class="albums">
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, excepturi!</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">short.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+        <div class="album">
+            <img class="album__artwork" src="https://picsum.photos/300/300">
+            <div class="album__details">
+                <h2>Album Title</h2>
+                <p class="album__artist">Artist Name</p>
+                <p class="album__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sed sint doloremque repellat, iste debitis.</p>
+            </div>
+        </div>
+    </div>
+</body>
+```
+
+
+We have an **albums** class, which contains all the **album**. Each **album** then have a random image of size 300x300 from unsplash. Then there is an **album__details** class, which contains a heading(**h2**), the paragraph with **album__artist** class and also one or two paragraph with **album__desc** class.
+
+![Without any style](https://ik.imagekit.io/thewebdev/CSS-Grid/8/1_J9dGlB0Iy.png)*Without any style*
+
+We want to make our album completely responsive, so we will use the code below for **albums** class.
+
+
+```css
+    .albums {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 5px;
+        }
+```
+
+
+Our columns are using minmax and are either 300px wide or 1fr. This will result in most of our fully responsive layout been done.
+
+![Nice one](https://ik.imagekit.io/thewebdev/CSS-Grid/8/2_UeYm2_lhXQ.png)*Nice one*
+
+Let give each individual album, a background, box-shadow and padding.
+
+
+```css
+    .albums {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 5px;
+        }
+
+    .album {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+```
+
+
+This will result in below.
+
+![The result](https://ik.imagekit.io/thewebdev/CSS-Grid/8/3_zBNXxJGUh.png)*The result*
+
+Now, we want the album details to be shown on the right side of the image. So, we will make each individual album also a grid. It will have two columns- 150px and 1fr wide.
+
+
+```css
+    .album {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            grid-gap: 10px;
+        }
+```
+
+
+We are running into an issue here. Our image is not taking the desired 150px column, but it is taking it’s original size of 300px.
+
+![A bug](https://ik.imagekit.io/thewebdev/CSS-Grid/8/4_lAQBFVzT5x.png)*A bug*
+
+We can fix it by selecting the image class **album__artwork** and making the width 100%.
+
+
+```css
+    .album__artwork {
+            width: 100%;
+        }
+```
+
+
+![Problem solved](https://ik.imagekit.io/thewebdev/CSS-Grid/8/5_9CCCGNw2Ul.png)*Problem solved*
+
+Let do one last thing of vertically aligning our columns of album class.
+
+
+```css
+    .albums {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 5px;
+        }
+
+    .album {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            grid-gap: 10px;
+            align-items: center;
+        }
+
+        .album__artwork {
+            width: 100%;
+        }
+```
+
+
+Which will result in our final product.
+
+![Desktop view](https://ik.imagekit.io/thewebdev/CSS-Grid/8/6_zDMi2QATv.png)*Desktop view*
+
+![Tablet view](https://ik.imagekit.io/thewebdev/CSS-Grid/8/7_We46ZOgK2.png)*Tablet view*
+
+![Mobile view](https://ik.imagekit.io/thewebdev/CSS-Grid/8/8_Clxkt38ow.png)*Mobile view*
+
+
+> So, you can see we had made a completely responsive album layout, *without using any media queries*.
+
+This concludes the CSS Grid series. Hoping you learned something useful from it.

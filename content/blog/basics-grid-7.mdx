@@ -1,0 +1,990 @@
+---
+title: Basics of CSS Grid — 7
+description: Flexbox
+date: 2018-09-13
+tags: ['css', 'beginners', 'grid']
+published: true
+---
+
+Welcome to part-7 of the series. We will learn the important concept of **CSS Grid alignment and centring** in this tutorial.
+
+We will use this [codepen](https://codepen.io/nabendu82/full/GXdowP/) in the tutorial. We will learn about the below four properties in this tutorial. You should also bookmark [this](https://css-tricks.com/snippets/css/complete-guide-grid/) awesome quick reference from CSS trick to quickly check these.
+
+
+```css
+    justify-items:
+    align-items:
+
+    justify-content:
+    align-content:
+
+    justify-self:
+    align-self:
+```
+
+
+> CSS grid doesn’t have a **flex-direction** property like **flexbox**. So, **justify-* is row axis** and **align-* is column axis**
+
+Our basic CSS is as below, in which we have a grid with 40 items, 10 columns of 1fr each.
+
+
+```css
+    <body>
+    <div class="container">
+        <div class="itm itm1">1</div>
+        <div class="itm itm2">2</div>
+        <div class="itm itm3">3</div>
+        <div class="itm itm4">4</div>
+        <div class="itm itm5">5</div>
+        <div class="itm itm6">6</div>
+        <div class="itm itm7">7</div>
+        <div class="itm itm8">8</div>
+        <div class="itm itm9">9</div>
+        <div class="itm itm10">10</div>
+        <div class="itm itm11">11</div>
+        <div class="itm itm12">12</div>
+        <div class="itm itm13">13</div>
+        <div class="itm itm14">14</div>
+        <div class="itm itm15">15</div>
+        <div class="itm itm16">16</div>
+        <div class="itm itm17">17</div>
+        <div class="itm itm18">18</div>
+        <div class="itm itm19">19</div>
+        <div class="itm itm20">20</div>
+        <div class="itm itm21">21</div>
+        <div class="itm itm22">22</div>
+        <div class="itm itm23">23</div>
+        <div class="itm itm24">24</div>
+        <div class="itm itm25">25</div>
+        <div class="itm itm26">26</div>
+        <div class="itm itm27">27</div>
+        <div class="itm itm28">28</div>
+        <div class="itm itm29">29</div>
+        <div class="itm itm30">30</div>
+        <div class="itm itm31">31</div>
+        <div class="itm itm32">32</div>
+        <div class="itm itm33">33</div>
+        <div class="itm itm34">34</div>
+        <div class="itm itm35">35</div>
+        <div class="itm itm36">36</div>
+        <div class="itm itm37">37</div>
+        <div class="itm itm38">38</div>
+        <div class="itm itm39">39</div>
+        <div class="itm itm40">40</div>
+    </div>
+
+    <style>
+        /*
+            justify-items:
+            align-items:
+
+            justify-content:
+            align-content:
+
+            align-self:
+            justify-self:
+
+            justify-* is row axis
+            align-* is column axis
+        */
+
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+        }
+    </style>
+    </body>
+```
+
+
+![Result](https://ik.imagekit.io/thewebdev/CSS-Grid/7/1_fX6ScIk_8C.png)*Result*
+
+## **justify-items**
+
+First we will look into **justify-items**, which align items along row axis. It can have any of the 4 values.
+
+
+```css
+    justify-items: start | end | center | stretch;
+```
+
+
+Let’s see **start** first. We will give all item a background of white and also, show our grid through Firefox developer edition.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            justify-items: start;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+As, you can see it aligns items to the start edge of cell.
+
+![**justify-items: start;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/2_xuwdOyAGqG.png)***justify-items: start;***
+
+Now, **end** is opposite of start.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            justify-items: end;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It aligns items to the end edge of cell.
+
+![**justify-items: end;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/3_TGX99UI4l.png)***justify-items: end;***
+
+The **center** value will align items to center of cell.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            justify-items: center;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+![**justify-items: center;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/4_c8YO0uGvZ6.png)***justify-items: center;***
+
+The final value **stretch**, which is the default also. It will fill the whole width of the cell.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            justify-items: stretch;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+![**justify-items: stretch;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/5_ia7nuHyzb.png)***justify-items: stretch;***
+
+## **align-items**
+
+Now, we will look into **align-items** property. It align the grid items along the column axis. It can have any of the 4 values.
+
+
+```css
+    align-items: start | end | center | stretch;
+```
+
+
+We will add some rows in our grid and use the below basic code to see how **align-items** work.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: end;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+First we will check the **align-items: start**
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: end;
+            align-items: start;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+Which will result in, the grid items to be at the start of the column.
+
+![**align-items: start;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/6_1746_ohnEd.png)***align-items: start;***
+
+Now, let’s check align-items: end;
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: end;
+            align-items: end;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+Which will result in, the grid items to be at the end of the column.
+
+![**align-items: end;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/7_UYTnyc9T1y.png)***align-items: end;***
+
+Now, **align-items: center;**
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: end;
+            align-items: center;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+Which will result in, the grid items to be at the center of the column.
+
+![**align-items: center;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/8_-5I8HucDsU.png)***align-items: center;***
+
+Now, we will look into **align-items: stretch;**
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: end;
+            align-items: stretch;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+Which will result in, the grid items filling the whole height of the cell.
+
+![**align-items: stretch;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/9_1tcXdiiMi.png)***align-items: stretch;***
+
+One trick to **center** the items is to have the *justify-items and align-items as center.* Which will center the item.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: center;
+            align-items: center;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+
+![The center trick](https://ik.imagekit.io/thewebdev/CSS-Grid/7/10_UiFpvhMAXA.png)
+
+Now we will look into **justify-content** and **align-content**.
+They are generally used when your total size of the grid is less then the size of grid container.
+
+We will do **justify-content** first and to make the grid size less, we will use **grid-template-columns: repeat(5, 100px)**; The complete code is below.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+Which will result in the below.
+
+![Result](https://ik.imagekit.io/thewebdev/CSS-Grid/7/11_boGbmV7HN.png)*Result*
+
+## justify-content
+
+The property **justify-content** have 7 values as below.
+
+
+```css
+    justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+```
+
+
+We will check **start** first.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: start
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It aligns the grid to the **start** edge of grid container.
+
+![justify-content: start](https://ik.imagekit.io/thewebdev/CSS-Grid/7/12_9WIXu2Oct.png)
+
+Now, we will check **end**.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: end;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It aligns the grid to the **end** edge of grid container.
+
+![**justify-content: end;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/13_phrKD6BeP.png)***justify-content: end;***
+
+Now, we will check **center**.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It aligns the grid in the **center** of grid container.
+
+![**justify-content: center;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/14_gU1DbXcg04.png)***justify-content: center;***
+
+Now, we will look into **space-around**, which is quite similar to what we have in flexbox.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-around;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It places an even amount of space between each grid item, with **half-sized spaces** on the far ends.
+
+![**justify-content: space-around;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/15_EoabKrrznH.png)***justify-content: space-around;***
+
+Now, we will look into **space-between.**
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It places an even amount of space between each grid item, with **no space** at the far ends.
+
+![**justify-content: space-between;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/16_4zMUnNF4T7.png)***justify-content: space-between;***
+
+Now, we will look into **space-evenly.**
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-evenly;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It places an even amount of space between each grid item, **including the far ends**.
+
+![**justify-content: space-evenly;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/17_1hBb20STMm.png)***justify-content: space-evenly;***
+
+## **align-content**
+
+We will now look into **align-content**. This property aligns the grid along the column axis. The property **align-content** have 7 values as below.
+
+
+```css
+    align-content: start | end | center | stretch | space-around | space-between | space-evenly
+```
+
+
+We will use this basic CSS for **align-content. **We have reduced the number of items and added a height.
+
+
+```css
+    <body>
+    <div class="container">
+        <div class="itm itm1">1</div>
+        <div class="itm itm2">2</div>
+        <div class="itm itm3">3</div>
+        <div class="itm itm4">4</div>
+        <div class="itm itm5">5</div>
+        <div class="itm itm6">6</div>
+        <div class="itm itm7">7</div>
+        <div class="itm itm8">8</div>
+        <div class="itm itm9">9</div>
+        <div class="itm itm10">10</div>
+    </div>
+
+    <style>
+
+
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+
+        .itm{
+            background: white;
+        }
+    </style>
+    </body>
+```
+
+
+We will first look at **start**.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: start;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It aligns the grid to the **start** edge of grid container on column axis.
+
+![**align-content: start;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/18_AH9QVA0drY.png)***align-content: start;***
+
+Now, we will look at **end**.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: end;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It aligns the grid to the **end** edge of grid container on column axis.
+
+![**align-content: end;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/19_pJZfe-Teop.png)***align-content: end;***
+
+Now, we will look into **center**.
+
+
+```
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: center;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It aligns the grid in the **center** of grid container on column axis.
+
+![**align-content: center;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/20_NdbgN02cP.png)***align-content: center;***
+
+Now, we will look into **stretch**.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: stretch;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It resizes the grid items to allow the grid to fill the full height of the grid container.
+
+![**align-content: stretch;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/21_VhAjGtdhK.png)***align-content: stretch;***
+
+For the next three values of align-content, we will have 20 items in CSS. Let’s start with **space-around**.
+
+
+```css
+    <body>
+    <div class="container">
+        <div class="itm itm1">1</div>
+        <div class="itm itm2">2</div>
+        <div class="itm itm3">3</div>
+        <div class="itm itm4">4</div>
+        <div class="itm itm5">5</div>
+        <div class="itm itm6">6</div>
+        <div class="itm itm7">7</div>
+        <div class="itm itm8">8</div>
+        <div class="itm itm9">9</div>
+        <div class="itm itm10">10</div>
+        <div class="itm itm11">11</div>
+        <div class="itm itm12">12</div>
+        <div class="itm itm13">13</div>
+        <div class="itm itm14">14</div>
+        <div class="itm itm15">15</div>
+        <div class="itm itm16">16</div>
+        <div class="itm itm17">17</div>
+        <div class="itm itm18">18</div>
+        <div class="itm itm19">19</div>
+        <div class="itm itm20">20</div>
+    </div>
+    
+
+    <style>
+
+
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: space-around;
+        }
+
+        .itm{
+            background: white;
+        }
+    </style>
+    </body>
+```
+
+
+It places an even amount of space between each grid item, with **half-sized spaces** on the far ends on column axis.
+
+![**align-content: space-around;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/22_ksArQlqaJo.png)***align-content: space-around;***
+
+Now, let’s look into **space-between**.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: space-between;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It places an even amount of space between each grid item, with **no space** at the far ends on column axis.
+
+![**align-content: space-between;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/23_jBkxBvH1sO.png)***align-content: space-between;***
+
+Now, let’s look into **space-evenly**.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: space-evenly;
+        }
+
+        .itm{
+            background: white;
+        }
+```
+
+
+It places an even amount of space between each grid item, **including the far ends**.
+
+![**align-content: space-evenly;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/24_9V_M6rLX8.png)***align-content: space-evenly;***
+> We can also update the individual item properties. There are two properties for this and they are **justify-self** and **align-self**.
+
+## **justify-self**
+
+Let’s look into **justify-self** first. It is similar to *justify-content* and overrides the value of justify-content, but is meant for a single item. It have got four values.
+
+
+```
+    justify-self: start | end | center | stretch;
+```
+
+
+Let’s look at **start** first. Below is our basic CSS also, which we will use for all justify-self examples.
+
+
+```css
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: space-between;
+        }
+
+        .itm{
+            background: white;
+        }
+
+        .itm8 {
+            background: yellow;
+            justify-self: start;
+        }
+```
+
+
+Notice the **itm8**, which is aligned to the start of the cell.
+
+![**justify-self: start;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7/25_f0wbCg_5_.png)***justify-self: start;***
+
+Now, we will look into **end**.
+
+
+```css
+    .itm8 {
+            background: yellow;
+            justify-self: end;
+        }
+```
+
+
+It aligns the **itm8**, to the end of the cell.
+
+![**justify-self: end;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7_2/26_Nm8rjQOPff.png)***justify-self: end;***
+
+Now, let’s look into **center**.
+
+
+```css
+    .itm8 {
+            background: yellow;
+            justify-self: center;
+        }
+```
+
+
+It aligns the **itm8**, to the **center** of the cell.
+
+![**justify-self: center;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7_2/27_xxaoabCXhF.png)***justify-self: center;***
+
+Now, let’s look into **stretch**.
+
+
+```css
+    .itm8 {
+            background: yellow;
+            justify-self: stretch;
+        }
+```
+
+
+It fills the whole **width** of the cell.
+
+![**justify-self: stretch;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7_2/28_wZ1P38t_6V.png)***justify-self: stretch;***
+
+## **align-self**
+
+Let’s look into **align-self** now. It is similar to *align-content* and overrides the value of *align*-content, but is meant for a single item. It have got four values.
+
+
+```css
+    align-self: start | end | center | stretch;
+```
+
+
+Let’s look at **start** first. Below is our basic CSS also, which we will use for all align-self examples. Note that we have made the third row of 300px height, because it contains the **itm14** which we are using in example.
+
+
+```css
+    <body>
+    <div class="container">
+        <div class="itm itm1">1</div>
+        <div class="itm itm2">2</div>
+        <div class="itm itm3">3</div>
+        <div class="itm itm4">4</div>
+        <div class="itm itm5">5</div>
+        <div class="itm itm6">6</div></div>
+        <div class="itm itm7">7</div>
+        <div class="itm itm8">8</div>
+        <div class="itm itm9">9</div>
+        <div class="itm itm10">10</div>
+        <div class="itm itm11">11</div>
+        <div class="itm itm12">12</div>
+        <div class="itm itm13">13</div>
+        <div class="itm itm14">14</div>
+        <div class="itm itm15">15</div>
+        <div class="itm itm16">16</div>
+        <div class="itm itm17">17</div>
+        <div class="itm itm18">18</div>
+        <div class="itm itm19">19</div>
+        <div class="itm itm20">20</div>
+    </div>
+    <style>
+
+    .container {
+            display: grid;
+            grid-gap: 20px;
+            height: 500px;
+            border: 10px solid black;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: 1fr 1fr 300px 1fr;
+            justify-items: stretch;
+            align-items: stretch;
+            justify-content: space-between;
+            align-content: space-between;
+        }
+
+        .itm{
+            background: white;
+        }
+
+        .itm8 {
+            background: yellow;
+            justify-self: stretch;
+        }
+
+        .itm14 {
+            background: pink;
+            align-self: start;
+        }
+    </style>
+    </body>
+```
+
+
+Notice the **itm14**, is aligned to the start of the cell on column axis.
+
+![**align-self: start;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7_2/29_49lFiUiOo.png)***align-self: start;***
+
+Now, we will look into **end**.
+
+
+```css
+    .itm14 {
+            background: pink;
+            align-self: end;
+        }
+```
+
+
+It aligns the **itm14**, to the end of the cell on column axis.
+
+![**align-self: end;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7_2/30_VjxNa2_jvz.png)***align-self: end;***
+
+Now, we will look into **center**.
+
+
+```css
+    .itm14 {
+            background: pink;
+            align-self: center;
+        }
+```
+
+
+It aligns the **itm14**, to the center of the cell on column axis.
+
+![**align-self: center;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7_2/31_epDHcMrpso.png)***align-self: center;***
+
+Now, we will look into **stretch**.
+
+
+```css
+    .itm14 {
+            background: pink;
+            align-self: stretch;
+        }
+```
+
+
+It fills the whole **height** of the cell.
+
+![**align-self: stretch;**](https://ik.imagekit.io/thewebdev/CSS-Grid/7_2/32_J-YDIZTJ6A.png)***align-self: stretch;***
+
+This concludes part-7 of the tutorial.
