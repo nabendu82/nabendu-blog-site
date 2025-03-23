@@ -1,0 +1,65 @@
+---
+title: Build a Firefox extension step-by-step-7
+description: Firefox extension
+date: 2020-04-01
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-7 of the series. In this part i will mainly fix some small errors in the earlier submitted addons to mozilla addons site. We need to fix the error and submit a new version to the addon site.
+
+All of my notification addons have one issue. The issue is that on installing them, they add an icon near the address bar.
+
+As you can see when i add my addon **Dev Quotes**, it adds an icon. Now, this addon runs in the background and sends notification every hour. And the icon is not any useful and only takes space in the address bar.
+
+![issue](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/1_jmDJUUiP0B.png)*issue*
+
+This issue had occurred because there were not required lines of code, which were showing the icon. I have removed them now and also updated the version number in **manifest.json** file.
+
+There was also one more error and that was the icons size was actually 512, but i mentioned as 64. I had updated that also.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/2_heflkv1lZ.png)*manifest.json*
+
+After this we again have to goto the folder containing the code and compress it.
+
+![Compress](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/3_rsmxbmN0Oh.png)*Compress*
+
+It will create the zip file and now it’s time to upload this in mozilla addon site. So, go to your manage addon link as [https://addons.mozilla.org/en-US/developers/addons](https://addons.mozilla.org/en-US/developers/addons)
+
+After that find the addon to update and click on **New Version** link.
+
+![Version](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/4_8q18bcuRy.png)*Version*
+
+It will take us to a known page, where we can upload the new version by clicking on **Select a file..** button, and then select the zip file we saved earlier.
+
+![Select](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/5_4xzLkiEA3.png)*Select*
+
+After that it will load the zip file successfully. After that click on the **Continue** button.
+
+![Continue](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/6_mqZT0ixy8.png)*Continue*
+
+After this in the next screen, click on **No** radio button and after that click on **Continue** button.
+
+![New version](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/7_WJApxlLxjZ.png)*New version*
+
+After that in the next screen, we have to give reason for the change to user and reviewer. And click on the **Submit Version** button.
+
+![Reviewer](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/8_tAY0lD67HO.png)*Reviewer*
+
+This will take us to the below screen. Click on **Go to My Submissions** button.
+
+![Submission](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/9_816tdJRlb.png)*Submission*
+
+It will take us to the My addons page, which shows the updated Addon.
+
+![Addon](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/10_7EueCULRGw.png)*Addon*
+
+Similarly, i had to update other notifications addons and i will follow the same steps.
+
+Some of them are approved, others are Awaiting reviews to be approved.
+
+![Awaiting Approvals](https://ik.imagekit.io/thewebdev/FirefoxAddons/7/11_eGCLL5oZcj.png)*Awaiting Approvals*
+
+This complete part-7 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

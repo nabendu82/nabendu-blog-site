@@ -1,0 +1,147 @@
+---
+title: Build a Covid-19 Firefox extension step-by-step-5
+description: Firefox extension
+date: 2020-03-30
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-5 of the series. As in the previous part, i will make two more firefox extensions to help us in this covid-19 crisis situation.
+
+One of the best source to track covid-19 situation, is the **Worldometers** site [https://www.worldometers.info/coronavirus/](https://www.worldometers.info/coronavirus/)
+
+![Worldometers](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/1_z9VzG0zuA.png)*Worldometers*
+
+So, the firefox extension which i am going to create will give an icon on firefox. On clicking various button, we can get various worldometer data regarding the country.
+
+This extension will be called **Covid-19 World Tracker**. So, go ahead and create a folder **CovidWorldTracker** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![logo](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/2_XIe6DsxVzA.png)*logo*
+
+Now, create a file **manifest.json** inside the folder **CovidWorldTracker** and put the below content in it. We are not using any background script here, but a browser action. On clicking the icon we will open an html file **main.html**
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/3_lNTZBB1pzQ.png)*manifest.json*
+
+Next, create a file **main.html** inside the folder **CovidWorldTracker** and put the below content in it.
+
+In this file the main part is the iframe tag, which will load different part of the worldometer site on clicking of the anchor tag. On loading it will show the main site or the world data.
+
+Also, we have a css file which will load the styles.
+
+![main.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/4_Z3WTTOlU0.png)*main.html*
+
+But first load this much in the debugger at **about:debugging#/runtime/this-firefox** to check how our extension is working.
+
+After going to the above url click on **Load Temporary Add-on..** button
+
+![debugger](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/5_pefomPlq8.png)*debugger*
+
+It will open the pop-up window to select the file. In that select the **manifest.json** file for this extension.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/6_Me1A2gVf7-.png)*manifest.json*
+
+Now, the extension will be loaded temporarily to test.
+
+![extension](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/7_VOjCEu7qr.png)*extension*
+
+On clicking the icon, we can see the style problem.
+
+![Style problem](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/8_ETXKab9vq.png)*Style problem*
+
+Let’s fix it my adding a **main.css** file in the folder **CovidWorldTracker** and put the below content in it.
+
+
+```css
+    html, body {
+        background: #ffc600;
+    }
+
+    iframe {
+        width: 750px;
+        height: 450px;
+    }
+
+    .panel {
+        margin: 5px;
+    }
+
+    .text-section-header{
+        font-size:25px;
+        font-weight: bold;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+        0px 8px 13px rgba(0,0,0,0.1),
+        0px 18px 23px rgba(0,0,0,0.1);
+    }
+
+    .flex__box{
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .info__text{
+        color: blue;
+        font-size: 20px;
+        text-shadow:  0px 4px 3px rgba(0,0,0,0.4),
+                        0px 8px 13px rgba(0,0,0,0.1),
+                        0px 18px 23px rgba(0,0,0,0.1);
+    }
+
+    .flex__item{
+        margin-bottom: 5px;
+    }
+    a {
+        -moz-box-shadow:inset 0px 1px 0px 0px #e184f3;
+        -webkit-box-shadow:inset 0px 1px 0px 0px #e184f3;
+        box-shadow:inset 0px 1px 0px 0px #e184f3;
+        background: --webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c123de), color-stop(1, #a20dbd));
+        background:-moz-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+        background:-webkit-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+        background:-o-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+        background:-ms-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+        background:linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+        background-color:#c123de;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        border:1px solid #a511c0;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:9px 23px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #9b14b3;
+    }
+
+    a:hover {
+        background: --webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a20dbd), color-stop(1, #c123de));
+        background:-moz-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+        background:-webkit-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+        background:-o-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+        background:-ms-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+        background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+        background-color:#a20dbd;
+    }
+```
+
+
+It will now show our extension with the perfect look.
+
+![Worldometer](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/9_KKidQEi-qx.png)*Worldometer*
+
+It is working perfectly, so it’s time to publish it in the mozilla addon store. We will follow the procedure explained in [part-2](https://thewebdev.tech/firefox-extension-2) of this series.
+
+I had followed the procedure and submitted the firefox extension and it is **Awaiting Review** now.
+
+![Awaiting Review](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/10_PuTq1ABS1M.png)*Awaiting Review*
+
+Finally, this Covid-19 firefox addon got approved. You can add it to firefox from [https://addons.mozilla.org/en-US/firefox/addon/covid-19-world-tracker/](https://addons.mozilla.org/en-US/firefox/addon/covid-19-world-tracker/)
+
+![Covid-19 World Tracker](https://ik.imagekit.io/thewebdev/FirefoxAddons/5/11_iRKE4zSMCX.png)*Covid-19 World Tracker*
+
+This complete part-5 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

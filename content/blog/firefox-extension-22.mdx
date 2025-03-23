@@ -1,0 +1,153 @@
+---
+title: Build a Firefox extension step-by-step-22
+description: Firefox extension
+date: 2020-04-29
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In this part we will create a new addon called **Search Tabs**. This addon allows the user to search any word across all your open tabs.
+
+So, go ahead and create a folder **SearchTabs** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![SearchTabs](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/1_PzH6YzcvO.png)*SearchTabs*
+
+Now, create a file **manifest.json** inside the folder **SearchTabs** and put the below content in it.
+
+It is using the permissions for **find** and **tabs** which we are going to use soon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/2_menZUfJGV.png)*manifest.json*
+
+Next, we will create the **background.js** file. Here, we will open the file **find.html** in a new tab, once we click the icon. This is been done through the [browserAction.onClicked](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/browserAction/onClicked) listener at Line 25.
+
+Rest of the code we will understand soon, after the **find.html** and other files are created.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/3_TJuBnmD5j.png)*background.js*
+
+Let’s now create **find.html** file in the same folder and put the below content in it.
+
+It is a simple html file, with a search bar and a button. It also have an id **result-list**, where we are going to list all the result.
+
+![find.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/4_y2LeZg3r7b.png)*find.html*
+
+Let’s now create the styles for this html file. Create a file **find.css** in the same folder and put the below content in it.
+
+
+```css
+    html {
+        background:#018DED url(http://unsplash.it/1500/1000?image=881);
+        background-size:cover;
+        font-family:'helvetica neue';
+        text-align: center;
+    }
+
+    legend {
+        background-color: #000;
+        color: #fff;
+        padding: 3px 6px;
+    }
+
+    input {
+        margin: .5rem 0;
+        padding: .5rem;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        width:22%;
+    }
+
+    input:invalid + span:after {
+        content: '✖';
+        color: #f00;
+        padding-left: 5px;
+    }
+
+    input:valid + span:after {
+        content: '✓';
+        color: #26b72b;
+        padding-left: 5px;
+    }
+
+    #result-list{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        list-style: none;
+    }
+
+    .listyle{
+        color: white;
+    }
+
+    .count__text {
+        font-size: 26px;
+    }
+    .submit {
+        box-shadow:inset 0px 1px 0px 0px #e184f3;
+        background:linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+        background-color:#c123de;
+        border-radius:6px;
+        border:1px solid #a511c0;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:9px 23px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #9b14b3;
+    }
+    .submit:hover {
+        background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+        background-color:#a20dbd;
+    }
+    .submit:active {
+        position:relative;
+        top:1px;
+    }
+```
+
+
+To check the styles , i had loaded the addon temporarily and after clicking on the addon icon the new tab, looks like below.
+
+![Search Tabs](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/5_O2oPJsEe0B.png)*Search Tabs*
+
+Now, create the file **find.js** in the same folder and add the below content in it. Now at Line 1, we are getting the access to the background page by [extension.getBackgroundPage()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/extension/getBackgroundPage).
+
+After that in Line 3, we are adding an event listener for the Submit button. So, when we type something in the search bar and click on Submit button, Line 5 fires the **find**() method in **background.js** file. It passes the search item as a parameter for the **find**() method.
+
+![find.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/6_RALwKt5ZIr.png)*find.js*
+
+Let’s again go back to the **background.js** file and understand the working of the **find**() method.
+
+Now, in Line 3 we are finding the url for the **find.html** file by [runtime.getURL()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/getURL). After that in Line 4 we are finding details of all of the tabs by [tabs.query({})](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query).
+
+Then we are looping through all tabs, but but excluding the current tab in Line 7.
+
+Now, we call the [find API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/find/find) on each tab. We’ll wait for the results for each, tab before progressing onto the next one by using await.
+
+After getting the results, send a message back to the **find.html** page using [runtime.sendMessage()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage) in Line 12.
+
+We are also sending a [runtime.sendMessage()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage) in Line 1, when the find() is executed.
+
+Also, we are also highlighting the text in each tab by [find.highlightResults()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/find/highlightResults).
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/7_3U8KXxb9A.png)*background.js*
+
+Back to **find.js** the [runtime.onMessage](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage) event listener, fires first when we receive **clear-results** from **background.js** file. It will run the if statement at line 13 and make the **result-list** id as blank.
+
+After that we will receive **found-result**, from **background.js** file. It will run the if statement in Line 16 and add the url and the count to the **result-list** id. It will fire several time for each tab.
+
+![find.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/8_e5omEFueV.png)*find.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Gif](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/9_NR8j5NA6BD.gif)*Gif*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://thewebdev.tech/firefox-extension-2).
+
+![Awaiting](https://ik.imagekit.io/thewebdev/FirefoxAddons/22/10_pwg7_qF2n.png)*Awaiting*
+
+This complete part-22 of the series. You can install the addon in your firefox browser from [here](https://addons.mozilla.org/en-US/firefox/addon/search-word-tabs/)
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

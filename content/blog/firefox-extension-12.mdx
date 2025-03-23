@@ -1,0 +1,55 @@
+---
+title: Build a Firefox extension step-by-step-12
+description: Firefox extension
+date: 2020-04-19
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-12 of the series. In this part we will create a now addon called **Simply Notes**. It’s a simple note taking app, which will open a pop-up window on click of the icon. We can right anything in it and it will be saved in the, local storage of the browser. As we are storing in the local storage, it won’t be lost.
+
+So, go ahead and create a folder **SimplyNotes** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![SimplyNotes](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/1_t1q1kDkE8.png)*SimplyNotes*
+
+Now, create a file **manifest.json** inside the folder **SimplyNotes** and put the below content in it. It is having a permission to store.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/2_xJth9u_MU8.png)*manifest.json*
+
+Next, create a folder **pagebar** and the file **popup.html** inside it. Put the below content in it.
+
+It is a simple html file with reference to css files and js file. We also have a **textarea**, inside which the user is going to type.
+
+![popup.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/3_milxKw3qti.png)*popup.html*
+
+Next, we will create the styles for this html file. So, create a file **popup.css** in the same folder and the below content in it.
+
+![popup.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/4_RI2dDKuxls.png)*popup.css*
+
+Also, add the below content in it. The attribute of contenteditable, will be set from the js file to be true and after that the below css will come into play.
+
+![popup.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/5_GCTiCXYX5y.png)*popup.css*
+
+Now, it’s time to put the main **popup.js** file inside the same folder. Put the below content in it.
+
+In this file, we are first selecting the id content. Then we have the first event listener, which will fire when we move the mouse over the content. It will set the contenteditable to be true, and so a different background-color from the css.
+
+There is another eventlistener, which will fire when we move mouse out of the content area. It will set the value of the content, which means whatever is there in the textarea to equal to an object contentToStore. After that it set it to the local storage.
+
+We also have a local storage get function to get the value of the local storage and display it in textarea. Notice, that the first time it will show the text **Type any Content**.
+
+![popup.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/6_4KUvLPpdrr.png)*popup.js*
+
+I had checked it by testing the temporary addon and it works perfectly.
+
+![Works perfectly](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/7_64oQduyBGM.png)*Works perfectly*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://medium.com/@nabendu82/creating-firefox-browser-extensions-2-ddf1f236f401).
+
+I had submitted the addon and it is **Awaiting Review** from mozilla reviewers.
+
+![Awaiting Review](https://ik.imagekit.io/thewebdev/FirefoxAddons/12/8__A4r-qAZtv.png)*Awaiting Review*
+
+This complete part-12 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

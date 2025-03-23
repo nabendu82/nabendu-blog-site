@@ -1,0 +1,65 @@
+---
+title: Build an Easy Read app in Flutter
+description: Flutter
+date: 2021-04-10
+tags: ['flutter', 'beginners', 'dart']
+published: true
+---
+
+In this blog we will build a very simple Easy read app, which enlarges text in our app. It is very useful to show people some text typed on phone, like to a person across the street.
+
+So, open up a terminal and create a new flutter app using the below command.
+
+
+```js
+    flutter create easy_read
+```
+
+After that cd into the folder and open the code in VSCode. I have also connected my physical device to my computer via USB.
+
+On running the app from Run ->Start without debugging , i will get the basic app running on my phone.
+
+As with the previous app, we will remove everything in in the **main.dart** file, except the void main() part. Then type **stful** and press **Enter** and write MyApp where the cursor points.
+
+After that we will put the a **MaterialApp** and a **Scaffold** to get the basic structure. Inside the Scaffold, we are going to create a multi-line text field in which the user will be able to enter text.
+
+We don’t even need a controller this time, as we will just display the Text with a big font size. We are also making the **maxLines** to **null**, so that our text could wrap around.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618658091/Flutter/easy-read/1_ywtxii.png)*main.dart*
+
+So, the app is working as desired and showing big text.
+
+
+![App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618658091/Flutter/easy-read/2_xbpzag.png)*App*
+
+
+We will have a slider also in our app, so that the user can increase or decrease the size of the text.
+
+But for that we will wrap our **TextField** with column, by clicking on it and then, click on the **Yellow bulb** in the same line. Select the option, **Wrap with Column**.
+
+![Wrap](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618658091/Flutter/easy-read/3_arp9au.png)*Wrap*
+
+Now, we will create our **Slider**, which is using a **_fontSize** variable, which we are also using in the TextStyle. We also have a **min** and **max** for the Slider.
+
+The **onChanged** handler takes the **newSize** and assign it to **_fontSize** variable and we are using **setState**, so that it can reflect instantaneously.
+
+![Slider](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618658091/Flutter/easy-read/4_v7hzjg.png)*Slider*
+
+
+Our app seems to be complete, with the slider been able to increase the font size. But if we type more text and it touches the keyboard, we will get an warning in our app.
+
+![Warning](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618658091/Flutter/easy-read/5_aatgcx.png)*Warning*
+
+We will fix that by having our **TextField** inside a **Expanded** widget and that will make sure that the TextField is as big as it can get and whenever there is more text, it will continue to scroll.
+
+To wrap our **TextField** with **Expanded** widget, click on it and then, click on the **Yellow bulb** in the same line. Select the option, **Wrap with widget...** and then give it a name **Expanded**.
+
+Also, we will wrap our **Column** in a **SafeArea** widget, so that it doesn’t touch the top of the App. Again follow the same procedure by clicking on the **Column**.
+
+![SafeArea](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618658091/Flutter/easy-read/6_p8gmrv.png)*SafeArea*
+
+Our App is complete and a really useful accessibility app.
+
+![Tip](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618658091/Flutter/easy-read/7_zeuzys.png)*Tip*
+
+The code for the same can be found in [this](https://github.com/nabendu82/easy_read) github repo.

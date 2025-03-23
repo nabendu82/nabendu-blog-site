@@ -1,0 +1,65 @@
+---
+title: Build a Firefox extension step-by-step-19
+description: Firefox extension
+date: 2020-04-26
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-19 of the series. In this part we will create a new addon called **Delete Last Download**. This addon shows the last downloaded item, and lets you open or delete it. If the user presses delete, the file is removed from disk and from the browser’s downloads history.
+
+So, go ahead and create a folder **DeleteLastDownload** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![DeleteLastDownload](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/1_yr31CFvnI.png)*DeleteLastDownload*
+
+Now, create a file **manifest.json** inside the folder **DeleteLastDownload** and put the below content in it.
+
+It is using the permissions for **downloads** and **downloads.open**, which we are going to use soon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/2_nmeyYPCHsd.png)*manifest.json*
+
+Now, create a folder **popup** and a file **download.html** inside it. It is a simple html file, which will show an image and url of the last download. It will also have an **Open** and **Remove** clickable divs.
+
+![download.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/3_mAJdAAark.png)*download.html*
+
+To create the styles, create a file **download.css** in the same folder.
+
+![download.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/4_itadTZqEzm.png)*download.css*
+
+To check the styles, i had loaded the addon temporarily and it looks like below.
+
+![Current](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/5_0uqjQeCjE9.png)*Current*
+
+Let’s add some logic now. Create a file **download.js** in the same folder, and add below code in it.
+
+Now, the program starts from line 26 where it is using [downloads.search()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/search), to get the most recent download.
+
+After that it runs the function **initializeLatestDownload**(). Here, we will add the download link to the div with id url. Inside the if statement at line 14, we are using another firefox function [downloads.getFileIcon()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/getFileIcon) to get the file icon.
+
+At line 15, we are using a helper function **updateIconUrl**(), to set the icon to the div with id icon.
+
+Inside the if statement, which runs when some download is there, we are removing the **disabled** class from **open** and **remove** divs.
+
+In the else part, we are adding the **disabled** class from **open** and **remove** divs.
+
+![download.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/6_1zgg0i8WFI.png)*download.js*
+
+Next, let’s put logic to the open and remove divs. We are adding two event-listener for open and remove divs, with there respective functions.
+
+In the **openItem**(), we are using [downloads.open()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/open) to open the downloaded file.
+
+Similarly in **removeItem**(), we are first using [downloads.removeFile()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/removeFile) removes a downloaded file from disk. Then downloads.erase() removes the file from browser’s download history.
+
+![download.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/7_QlbXqBTcuz.png)*download.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Gif](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/8_a2rHASg4X.gif)*Gif*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://medium.com/@nabendu82/creating-firefox-browser-extensions-2-ddf1f236f401).
+
+![Awaiting Review](https://ik.imagekit.io/thewebdev/FirefoxAddons/19/9_8j0zcI9LE.png)*Awaiting Review*
+
+This complete part-19 of the series. You can install the addon in this part in your firefox browser from [here](https://addons.mozilla.org/en-US/firefox/addon/delete-last-download/).
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

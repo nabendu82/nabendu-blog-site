@@ -1,0 +1,196 @@
+---
+title: Build a Firefox extension step-by-step-17
+description: Firefox extension
+date: 2020-04-24
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-17 of the series. In this part we will create a new addon called **Tab Utility**. This addon will allow us to do a list of useful operations, like moving, closing, duplicate on a tab.
+
+So, go ahead and create a folder **TabUtility** and inside it another folder **icons**. Inside that folder place two icons. You can get them from the github link at the end of this post.
+
+![TabUtility](https://ik.imagekit.io/thewebdev/FirefoxAddons/17/1_etwCy67s8F.png)*TabUtility*
+
+Now, create a file **manifest.json** inside the folder **TabUtility** and put the below content in it.
+
+It is using the permissions for **tabs**, which we are going to use soon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/17/2_VdssnD5iYs.png)*manifest.json*
+
+Now, create a file **tabs.html** inside the same folder and put the below content in it.
+
+Now, this file contains many different buttons which will do different tasks. Beside this in a div there is an id tabs-list, in which we are going to show list of all tabs.
+
+
+```css
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="tabs.css" />
+    </head>
+    <body>
+        <div class="panel">
+            <div class="panel-section panel-section-header">
+                <div class="text-section-header">Tab Utility</div>
+            </div>
+            <div class="flex__box">
+                <div class="flex__item">
+                    <label class="info__text">Move active tab</label>
+                </div>
+                <div class="flex__item">
+                    <button id="tabs-move-beginning">Beginning</button>
+                    <button id="tabs-move-end">End</button>
+                </div>
+            </div>
+            <div class="panel-section-separator"></div>
+            <div class="flex__box">
+                <div class="flex__item">
+                    <label class="info__text">More Tab Operations</label>
+                </div>
+                <div class="flex__item">
+                    <button id="tabs-duplicate">Duplicate</button>
+                    <button id="tabs-reload">Reload</button>
+                    <button id="tabs-alertinfo">Info</button>
+                </div>
+            </div>
+            <div class="panel-section-separator"></div>
+            <div class="flex__box">
+                <div class="flex__item">
+                    <label class="info__text">Create/Close tab</label>
+                </div>
+                <div class="flex__item">
+                    <button id="tabs-create">Create</button>
+                    <button id="tabs-remove">Close</button>
+                </div>
+            </div>
+            <div class="panel-section-separator"></div>
+            <div class="switch-tabs">
+                <p class="info__text">Switch to tab</p>
+                <div id="tabs-list"></div>
+            </div>
+        </div>
+        <script src="tabs.js"></script>
+    </body>
+    </html>
+```
+
+Next, let’s style the html. Create a file **tabs.css** in the same directory.
+
+
+```css
+    html, body {
+        width: 350px;
+        background: #ffc600;
+    }
+
+    a {
+        margin: 10px;
+        display: inline-block;
+    }
+
+    .switch-tabs {
+        padding-left: 10px;
+    }
+
+    .switch-tabs a {
+        display: block;
+    }
+
+    .panel {
+        margin: 5px;
+    }
+
+    .text-section-header{
+        font-size:25px;
+        font-weight: bold;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+        0px 8px 13px rgba(0,0,0,0.1),
+        0px 18px 23px rgba(0,0,0,0.1);
+    }
+
+    .flex__box{
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .info__text{
+        color: blue;
+        font-size: 20px;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                    0px 8px 13px rgba(0,0,0,0.1),
+                    0px 18px 23px rgba(0,0,0,0.1);
+    }
+
+    .flex__item{
+        margin-bottom: 5px;
+    }
+
+    button {
+            box-shadow:inset 0px 1px 0px 0px #e184f3;
+            background:linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+            background-color:#c123de;
+            border-radius:6px;
+            border:1px solid #a511c0;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:15px;
+            font-weight:bold;
+            padding:9px 23px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #9b14b3;
+    }
+    button:hover {
+            background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+            background-color:#a20dbd;
+    }
+    button:active {
+            position:relative;
+            top:1px;
+    }
+```
+
+
+To check the styles, i had loaded the addon temporarily and it looks like below.
+
+![Tab Utility](https://ik.imagekit.io/thewebdev/FirefoxAddons/17/3_Zj0nsKnsjR.png)*Tab Utility*
+
+Now, we will start creating the logic in **tabs.js** file. The first thing we will develop is to show the links to all open tabs, in **Switch to tab** section.
+
+Here, the program will run from line 22, which gets fire when the DOM is parsed. The details of **DOMContentLoaded** can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event).
+
+It will run the function **listTabs**(), which will first run the function **getCurrentWindowTabs**(). Now, this function uses ```tabs.query({ currentWindow: true }) ``` to get list of all active tabs. The details can be found [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query).
+
+After that we are just getting the div **tabs-list**, and appending all the tabs to it in an anchor tag. We have a limit of 10 tabs only.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/17/4_td4afLAPNu.png)*tabs.js*
+
+Now, if we reload our temporary extension, we can find all tabs list in **Switch to tab** section.
+
+![Switch to tab](https://ik.imagekit.io/thewebdev/FirefoxAddons/17/5_BvoZjWv2S.png)*Switch to tab*
+
+Next, we will write the logic for the buttons starting with **Move active tab **section.
+
+We have an event-listener on the click event. If the button for Beginning will be clicked, the the if statement at line 38 will be run. Here, we are first calling a function **callOnActiveTab**(), which will return the detail of the tab from tabs array.
+
+In browsers we have a feature of **Pin**. We can right-click any tab and click on Pin. It put the tab to the beginning. So, we are first checking if the tab is not pinned, then we are calling a function **firstUnpinnedTab**(). It returns the index of the tab.
+
+After that we are using [tabs.move](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/move)() to move the tab to beginning by assing it’s id and index.
+
+The logic of moving tab to the end is also almost same and we are moving it to index -1, if normal tab. If it is from a series of pinned tab, we are moving it to end of it in line 50.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/17/6_gZCKLJzZZl.png)*tabs.js*
+
+The function for **firstUnpinnedTab() **and the listener which fires on moving the tab is below.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/17/7_pz9JXi39Q.png)*tabs.js*
+
+This addon have many other features left, which i will complete in part-18.
+
+This complete part-17 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

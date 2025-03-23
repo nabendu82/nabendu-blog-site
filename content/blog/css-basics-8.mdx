@@ -1,0 +1,88 @@
+---
+title: CSS Crash Course for Beginners -8
+description: CSS Crash Course
+date: 2020-07-24
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+Welcome to part-8 of the series. We will start this part with background images.
+
+### Background Images
+
+To use image we need an image. So, go ahead and download any from the internet. After that create an **images** folder in the root directory of the project and place the image in it.
+
+![Image](https://ik.imagekit.io/thewebdev/CSS_Basics/8/1_OnMviqWoH.png)*Image*
+
+Now, goto the **styles.css** and use the property **background-image** to set the image as background. We have to give the path of the image inside the url().
+
+![styles.css](https://ik.imagekit.io/thewebdev/CSS_Basics/8/2_u-srsoBDJ.png)*styles.css*
+
+So, this will show our image in the background. But notice that it is repeating. This generally happens when the image is small in size, as our image which is only 300x168 px.
+
+![image repeating](https://ik.imagekit.io/thewebdev/CSS_Basics/8/3_TWBCdNxB1e.png)*image repeating*
+
+To fix this we will use the property **background-repeat** and set it to value none.
+
+![background-repeat](https://ik.imagekit.io/thewebdev/CSS_Basics/8/4_cvr52AyEFV.png)*background-repeat*
+
+This will solve one problem, but create another because the image is only taking the original size.
+
+![background-repeat](https://ik.imagekit.io/thewebdev/CSS_Basics/8/5_u_HNk7IFF.png)*background-repeat*
+
+Now, we will use the property of **background-size: cover** for the image to cover the whole element.
+
+![background-size: cover](https://ik.imagekit.io/thewebdev/CSS_Basics/8/6_ewpd9UKTMK.png)*background-size: cover*
+
+Now, our image will cover the entire element. Our image is a bit blur, as it was smaller.
+
+![Entire element](https://ik.imagekit.io/thewebdev/CSS_Basics/8/7_T-GJntT09g.png)*Entire element*
+
+So, let’s choose a larger image(1920 x 1200 px) and place it inside the **images** folder.
+
+![Larger Image](https://ik.imagekit.io/thewebdev/CSS_Basics/8/8_idpFApSaGE.png)*Larger Image*
+
+Now, we will use this image for background. So, head over to **styles.css** and use this image. We are also commenting out the **background-repeat** and the **background-size** property.
+
+![styles.css](https://ik.imagekit.io/thewebdev/CSS_Basics/8/9_Hm3W2qd18k.png)*styles.css*
+
+Now, our background image will be shown as below. Again notice that we are not getting the full image.
+
+![background-image](https://ik.imagekit.io/thewebdev/CSS_Basics/8/10_0LlqPWpsrg.png)*background-image*
+
+This means that the two property of **background-repeat** and the **background-size** are very much important, even for larger images. So, let’s uncomment them.
+
+![uncommented](https://ik.imagekit.io/thewebdev/CSS_Basics/8/11_9Ita8UqTvd.png)*uncommented*
+
+So, now the perfect image will be shown inside our box.
+
+![Perfect Image](https://ik.imagekit.io/thewebdev/CSS_Basics/8/12_79ORyxKb2.png)*Perfect Image*
+
+### Pseudo Classes
+
+We will learn about pseudo classes now. The extends the way we target the classes. So, let go to our **index.html** and create an unordered list with eight list items.
+
+![index.html](https://ik.imagekit.io/thewebdev/CSS_Basics/8/13_Oujww9iM2H.png)*index.html*
+
+Now, we will use the pseudo classes of **first-child**, **last-child** and **nth-child** to target the different li.
+
+![pseudo classes](https://ik.imagekit.io/thewebdev/CSS_Basics/8/14_7ot55XMdsZ.png)*pseudo classes*
+
+And it will change the background accordingly. Notice that in **nth-child** we can give any number.
+
+![Different background](https://ik.imagekit.io/thewebdev/CSS_Basics/8/15_kF7IMR8NXk.png)*Different background*
+
+Let’s goto our **index.html** and create a new list with a class **dynamic-list**.
+
+![list](https://ik.imagekit.io/thewebdev/CSS_Basics/8/16_-N0YzvYg9.png)*list*
+
+Now, in lot’s of cases the list grows dynamically and we want to target even and odd with different styles. We can pass **even** and **odd** in **nth-child.**
+
+![Even Odd](https://ik.imagekit.io/thewebdev/CSS_Basics/8/17_iGwQpGv1xH.png)*Even Odd*
+
+This will turn even and odd with different background colors.
+
+![Different colors](https://ik.imagekit.io/thewebdev/CSS_Basics/8/18_gFb5BdabO.png)*Different colors*
+
+This completes our CSS Crash course. You can find the whole code on [this](https://codepen.io/nabendu82/pen/BajGBja) codepen.
+
+The code is also stored in github. The link for the same is [here](https://github.com/nabendu82/CSS-Basics)

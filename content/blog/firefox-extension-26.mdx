@@ -1,0 +1,59 @@
+---
+title: Build a Firefox extension step-by-step-26
+description: Firefox extension
+date: 2020-05-03
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-26 of the series. In this part we will create a new addon called **Website Sidenotes**. This addon allows a user to save text in a sidebar for any website. It saves the text in local storage and when the save website is opened, we will find the same note.
+
+So, go ahead and create a folder **WebsiteSidenotes** and inside it another folder **icons**. Inside that folder place two icons. You can get them from the github link at the end of this post.
+
+![WebsiteSidenotes](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/1_rAjkkmdiB.png)*WebsiteSidenotes*
+
+Now, create a file **manifest.json** inside the folder **WebsiteSidenotes** and put the below content in it.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/2_y6bH9xJWG.png)*manifest.json*
+
+Next, create a folder **sidebar** and put **panel.html** file in it and put the below code in it.
+
+It is a simple html file, with link to css and js file. It have a div with id of **content** to display a text-area.
+
+![panel.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/3_3fp0T4CmQw.png)*panel.html*
+
+Now, let’s put some styles for this html file. Create a file **panel.css** in the same folder and put the below content in it.
+
+![panel.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/4_Iw0q0tP1v.png)*panel.css*
+
+Now, i had loaded the temporary extension and checked the styles, and it looks fine. To open Sidenotes in firefox, click on **View->Sidebar->SideNotes** or by the keyboard shortcut **Command+Shift+Y**.
+
+![Sidenotes](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/5_0hn5vFWGB.png)*Sidenotes*
+
+Now, we will add the logic for this addon. Create a file **panel.js** in the same directory and put the below code in it.
+
+Now when the sidebar loads for the first time, we get the ID of its window by [windows.getCurrent()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/getCurrent) at Line 29. We update the variable **webWindowId**, with the **id** and then call the **updateContent**() function.
+
+Inside the **updateContent**() function, we run [tabs.query()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query) to get the details of the tab opened in the url. After that at Line 20, we get its stored content from local storage. After that we put it in the content box, in Line 23.
+
+We also have [tabs.onActivated()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onActivated) calling the **updateContent**() function. It runs when a new tab becomes active.
+
+Similarly the [tabs.onUpdated()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated) also call the **updateContent**() function. It runs when a new page is loaded into a tab.
+
+We also have an event listener for **mouseover** at Line 4, which makes the content box editable.
+
+The event listener for mouseout at Line 8, first makes the content box un-editable. After that it runs [tabs.query()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query) and store the text for the content box in the local storage.
+
+![panel.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/6_cmPxatSph.png)*panel.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Gif](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/7_StZ3E-Ghf.gif)*Gif*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://thewebdev.tech/firefox-extension-2).
+
+![Awaiting Review](https://ik.imagekit.io/thewebdev/FirefoxAddons/26/8_ICMWH-W-dE.png)*Awaiting Review*
+
+This complete part-26 of the series. You can install the addon in firefox from [here](https://addons.mozilla.org/en-US/firefox/addon/website-sidenotes/).
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

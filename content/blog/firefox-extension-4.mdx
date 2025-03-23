@@ -1,0 +1,62 @@
+---
+title: Build two Covid-19 Firefox extension step-by-step-4
+description: Firefox extension
+date: 2020-03-29
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-4 of the series. As, the title tells i will be creating some firefox extensions to help in the covid-19 crisis. Since, there are already some good sites which are helping us to track the infection, i decided to build some extensions.
+
+As all of us know that how important to wash our hands in this crisis, but we all forget to do the same when busy working from home.
+
+This extension will be called **Wash Your hands** and will be similar to the 3 extensions, created in part-3.
+
+So, go ahead and create a folder **WashYourhands** and inside it another folder **icons**. Inside that folder place an icon and name it **icon.png**
+
+![icon.png](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/1_JNqchTU-E1.png)*icon.png*
+
+Now, create a file **manifest.json** inside the folder **WashYourhands** and put the below content in it.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/2_8KtuMWuVbt.png)*manifest.json*
+
+Next, create a file **background.js** and put the below content in it.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/3_aEpzRVvnH.png)*background.js*
+
+Again will to publish this addon to the mozilla addon store and will follow the procedure explained in [part-2](https://thewebdev.tech/firefox-extension-2) of this series.
+
+I had followed the procedure and submitted the firefox extension and it is **Awaiting Review** now.
+
+![Addon](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/4_vrGbHFs8h.png)*Addon*
+
+The next extension which i want to create is **Covid-19 Advices**. These are the advice given on WHO site [https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public](https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public)
+
+So, these advices will be shown randomly in browser notification.
+
+So, go ahead and create a folder **Covid-19Advices** and inside it another folder **icons**. Inside that folder place an icon and name it **icon.png**
+
+![Covid-19Advices](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/5_t85_OJn1Nu.png)*Covid-19Advices*
+
+Now, create a file **manifest.json** inside the folder **Covid-19Advices** and put the below content in it.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/6_dnvJ2vJyUh.png)*manifest.json*
+
+Next, create a file **background.js** and put the below content in it. The **getRandom()** is a bit different then earlier function, as it’s an array of object. When we are calling it in **onAlarm.addListener**, we are getting both **title** and **message**.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/7_ojqnZqE1cW.png)*background.js*
+
+It’s time to publish this covid-19 addon to the mozilla addon store and will follow the procedure explained in [part-2](https://dev.to/nabendu82/creating-firefox-browser-extensions-2-3gpn) of this series.
+
+I had followed the procedure and submitted the firefox extension and it is **Awaiting Review** now.
+
+![Covid-19 Advices](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/8_S7zaVgSVi3.png)*Covid-19 Advices*
+
+Finally, both of my Covid-19 addons are approved and you can add it to firefox from [https://addons.mozilla.org/en-US/firefox/user/15774633/](https://addons.mozilla.org/en-US/firefox/user/15774633/)
+
+So, go ahead and share these covid-19 addons.
+
+![Covid-19 addons](https://ik.imagekit.io/thewebdev/FirefoxAddons/4/9_n3-xnB5nuh.png)*Covid-19 addons*
+
+This complete part-4 of the series. You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).
+

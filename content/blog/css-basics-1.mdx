@@ -1,0 +1,68 @@
+---
+title: CSS Crash Course for Beginners -1
+description: CSS Crash Course
+date: 2020-07-17
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+Welcome to another beginners course specially targeted at people, who want to start with web-development. You should first learn about HTML, before moving to CSS. You can find my HTML series [here](https://thewebdev.tech/series/HTML-Basics).
+
+**CSS** is known as **C**ascading **S**tyle **S**heets and is used to style websites. Without CSS, the websites look really ugly. CSS is also considered right-brain means mostly artistic and developers tends to struggle in it. This tutorial is meant to teach the syntax of CSS and basic stuff and not the latest trends.
+
+## Adding CSS
+
+Now, there are three ways to add CSS to your html file. They are -
+
+* **Inline CSS**: Directly in the html element.
+
+* **Internal CSS**: Using `<style>` tags within the html file.
+
+* **External CSS**: Linking an external .css file.
+
+Now, let’s see all this in action. Create a folder CSS_Basics in your computer and open it with VSCode. Create a file **index.html** inside it.
+
+VSCode have emmet pre-installed, so just give **! **and press tab.
+
+![index.html](https://ik.imagekit.io/thewebdev/CSS_Basics/1/1_xyXBlDWnz.png)*index.html*
+
+And you will get the basic html skeleton.
+
+![Basic skeleton](https://ik.imagekit.io/thewebdev/CSS_Basics/1/2_OQSLPEQuS.png)*Basic skeleton*
+
+Now, i can open this html file in a web browser and it will show the content. But with that i had to refresh the browser every-time i make a change. So, as with HTML basics, we will start the **Live Server** and have the page set to auto-refresh.
+
+Let’s start with our first html code, which is a h1 tag. We are using **inline CSS** by giving an attribute style and typing the CSS within it.
+
+![Inline styles](https://ik.imagekit.io/thewebdev/CSS_Basics/1/3_k4plDqDmD.png)*Inline styles*
+
+So, this will make the **h1** tag blue in our web-browser.
+
+![h1 tag](https://ik.imagekit.io/thewebdev/CSS_Basics/1/4_0a86agxOOi.png)*h1 tag*
+
+We will now look at the second way and it is Internal CSS. Here, we are giving styles to the paragraph tag, by targeting it and giving a color brown. For this we are giving it within a `<style>` tag, within the `<head>` tag.
+
+![Internal CSS](https://ik.imagekit.io/thewebdev/CSS_Basics/1/5_ncLJcDwn0.png)*Internal CSS*
+
+Now, we will look at the third and the most preferred way which is external style sheets. So, go ahead and create a file **styles.css** in the same directory and put the below content in it. We are targeting h3 tag and using three properties in it. We will learn more about them later.
+
+![styles.css](https://ik.imagekit.io/thewebdev/CSS_Basics/1/6_1LXvS0-em.png)*styles.css*
+
+Now, let’s add the **h3** tag in our **index.html**. Now, to include the stylesheet in our project, we need to use a **link** tag an include it.
+
+![index.html](https://ik.imagekit.io/thewebdev/CSS_Basics/1/7_cdJZWZp4c.png)*index.html*
+
+Now, it will show the **h3** tag with our styles in the browser.
+
+![](https://ik.imagekit.io/thewebdev/CSS_Basics/1/8_Olljly8kw.png)
+
+## CSS Selectors
+
+Let’s learn about the CSS Selectors now. So, as with the diagram we will first target the selector which can be any tag. Soon, we will learn that we can target classes and ids also.
+
+After that we will write the code for CSS within a pair of curly brackets. In the below diagram we are writing only one **property-value** pair, but we generally write more then one.
+
+The property is out of hundred properties which CSS have and the value is a unit which can be of different type like em, rem, px or %.
+
+![CSS Selector](https://ik.imagekit.io/thewebdev/CSS_Basics/1/9_FsSgkNh90.jpeg)*CSS Selector*
+
+So, this completes part-1 of the series. 

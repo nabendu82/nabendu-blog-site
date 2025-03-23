@@ -1,0 +1,51 @@
+---
+title: Build a Firefox extension step-by-step-14
+description: Firefox extension
+date: 2020-04-21
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-14 of the series. In this part we will create a new addon called **Top Sites**. It will show a list of most visited sites, whenever you open a new tab. This way you can easily open your favourite site.
+
+So, go ahead and create a folder **TopSites** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post. We also have an icon for list items, which we are going to use later in the project.
+
+![icons](https://ik.imagekit.io/thewebdev/FirefoxAddons/14/1_7gOp3sYNh.png)*icons*
+
+Now, create a file **manifest.json** inside the folder **TopSites** and put the below content in it. We have the permissions for topSites, which will be used to get the list of all sites which you visit more frequently.
+
+We also have **chrome_url_overrides** which will show the sites.html file whenever a new tab is opened.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/14/2_8JClyxB9H_.png)*manifest.json*
+
+Next create a file **sites.html** inside the folder. Put the below content in it. It is a simple html file, which have link to the css and js files.
+
+One of the main thing is the id **site-list**, which we are going to target from the javascript file.
+
+![sites.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/14/3_8Z1AaFNlky.png)*sites.html*
+
+Next, we will create the styles for this html file. So, create a file **sites.css** in the same folder and the below content in it.
+
+![sites.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/14/4_5x8oYjPiiQ.png)*sites.css*
+
+Next, we will put the logic in the javascript **sites.js** file. We are using [topSites.get()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/topSites/get), which gives us an array of all sites frequently visited. After that we are looping through the sites array, and add the url to an anchor element.
+
+We are also creating an ul and li element. All of these we are appending to **site-list** div in the html file.
+
+![sites.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/14/5_vs09WhbYBi.png)*sites.js*
+
+I had checked it by testing the temporary addon and it works perfectly. On opening a new tab, it shows below web-page.
+
+![Web-page](https://ik.imagekit.io/thewebdev/FirefoxAddons/14/6_RffgA41-9.png)*Web-page*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://medium.com/@nabendu82/creating-firefox-browser-extensions-2-ddf1f236f401).
+
+I had submitted the addon, but i had to change the addon name a bit to **Top Visited Sites**, as **Top Sites** was already taken.
+
+![Top Sites](https://ik.imagekit.io/thewebdev/FirefoxAddons/14/7_jg8fjk_Dre.png)*Top Sites*
+
+You can install this addon in your firefox browser from [here](https://addons.mozilla.org/en-US/firefox/addon/top-visited-sites/)
+
+This complete part-14 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

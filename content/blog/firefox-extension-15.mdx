@@ -1,0 +1,157 @@
+---
+title: Build a Firefox extension step-by-step-15
+description: Firefox extension
+date: 2020-04-22
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-15 of the series. In this part we will create a new addon called **Text Search**. This addon will allow us to choose the search engine or platform of our choice. After that from within any page, select a word(s) and right-click and search. The word will be searched in the platform.
+
+So, go ahead and create a folder **TextSearch** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![icons](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/1_Q4XcsIyiw.png)*icons*
+
+Now, create a file **manifest.json** inside the folder **TextSearch** and put the below content in it.
+
+It is using the permissions for **contextMenus** and **notifications**, which we are going to use soon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/2_qaLJb5d8Qz.png)*manifest.json*
+
+Next create a file **index.html** inside the folder. Put the below content in it. In this html file, we have link to the css and js files.
+
+It is basically a form with different search engines having a radio button to select. It also have a button at the end to submit the selection.
+
+
+```css
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="index.css" />
+        <link href='https://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <form id="searchForm">
+            <fieldset>
+                <legend>Select a Search Engine</legend>
+                <div>
+                    <input type="radio" id="google" name="engine" value="google" checked />
+                    <label for="google">Google</label>
+                </div>
+                <div>
+                    <input type="radio" id="duckduckgo" name="engine" value="duckduckgo" />
+                    <label for="duckduckgo">DuckDuckGo</label>
+                </div>
+                <div>
+                    <input type="radio" id="bing" name="engine" value="bing" />
+                    <label for="bing">Bing</label>
+                </div>
+                <div>
+                    <input type="radio" id="yahoo" name="engine" value="yahoo" />
+                    <label for="yahoo">Yahoo</label>
+                </div>
+                <div>
+                    <input type="radio" id="twitter" name="engine" value="twitter" />
+                    <label for="twitter">Twitter</label>
+                </div>
+                <div>
+                    <input type="radio" id="quora" name="engine" value="quora" />
+                    <label for="quora">Quora</label>
+                </div>
+                <div>
+                    <input type="radio" id="youtube" name="engine" value="youtube" />
+                    <label for="youtube">Youtube</label>
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </fieldset>
+        </form>
+    </body>
+    <script src="index.js"></script>
+    </html>
+```
+
+Next, we will create the styles for this html file. So, create a file **index.css** in the same folder and the below content in it.
+
+
+```css
+    body {
+        width: 350px;
+        background: #FFFB7E;
+    }
+
+    legend, label, button {
+        font-family: "Gloria Hallelujah", cursive;
+    }
+
+    legend {
+        font-size: 1.5rem;
+    }
+
+    label{
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                    0px 8px 13px rgba(0,0,0,0.1),
+                    0px 18px 23px rgba(0,0,0,0.1);
+    }
+
+    button{
+        display:inline-block;
+        border-radius:6px;
+        border:1px solid #a511c0;
+        cursor:pointer;
+        color:#ffffff;
+        font-size:1.2rem;
+        font-weight:bold;
+        padding:6px 18px;
+        text-decoration:none;
+            text-shadow:0px 1px 0px #9b14b3;
+            background:linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+            background-color:#c123de;
+        box-shadow:inset 0px 1px 0px 0px #e184f3;
+    }
+
+    button:hover{
+        background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+        background-color:#a20dbd;
+    }
+```
+
+Next, we will create a file **index.js** in the same folder. Put the below content in it. This logic will run, when the user click on Submit button in the form.
+
+Here, we are extracting out the name of the search engine from the form and then using **sendMessage**() to send it.
+
+![index.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/3_cN33nsZ2aT.png)*index.js*
+
+One of the important thing is that when the [runtime.sendMessage()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage) , the runtime.onMessage() will be fired on each page of the extension.
+
+![sendMessage](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/4_lc-rSeWK4C.png)*sendMessage*
+
+We will next create the **background.js** file. The event **runtime.onMessage()** will fire here by the **runtime.sendMessage()** event in **index.js** file.
+
+Now in the function **handleFormSelection** we are first showing a notification with the new search engine, selected by the user. After that with the switch case, we are assigning the url with the selected search engine.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/5_km5eIi7Bc.png)*background.js*
+
+Now, we will add the other part of the logic. This is after the user had set the search engine, he will click on any text and right-click. Now, in the right click menu a new item **Text Search** will be created by [contextMenus.create()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/menus/create).
+
+Now, the [contextMenus.onClicked.addListener()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/menus/onClicked) will listen for the click and will run the function **contextMenuAction**(). We are making the **urlWithText** with the selected url, or default google. And also the text selected by the user.
+
+After that we are opening a new tab with the **urlWithText.**
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/6_OPx8y5Dmb.png)*background.js*
+
+I had checked it by testing the temporary addon and it works perfectly.
+
+![Perfect](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/7_o7NXsb_yHf.gif)*Perfect*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://medium.com/@nabendu82/creating-firefox-browser-extensions-2-ddf1f236f401).
+
+![Text Search](https://ik.imagekit.io/thewebdev/FirefoxAddons/15/8_DZMfNytMU.png)*Text Search*
+
+This complete part-15 of the series. You can add this addon to firefox from [this](https://addons.mozilla.org/en-US/firefox/addon/text-search/) link.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

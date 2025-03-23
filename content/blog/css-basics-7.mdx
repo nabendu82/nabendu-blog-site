@@ -1,0 +1,74 @@
+---
+title: CSS Crash Course for Beginners -7
+description: CSS Crash Course
+date: 2020-07-23
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-7 of the series. In this part we will learn positioning in CSS.
+
+### Positioning in CSS
+
+There are six different value in the property position in CSS. They are -
+
+* Static
+* Relative
+* Absolute
+* Fixed
+
+We will learn about them in a practical way now. Let’s start by adding a h1 and h2 tag, wrapped in a div in our **index.html** file.
+
+![index.html](https://ik.imagekit.io/thewebdev/CSS_Basics/7/1_F3TI4Deed.png)*index.html*
+
+After that let’s create some basic styles for the elements in our **styles.css** file.
+
+![styles.css](https://ik.imagekit.io/thewebdev/CSS_Basics/7/2_leT7AmnKDT.png)*styles.css*
+
+It will now show as below in our web-page. One thing to note is that every element by default is **position: static**, so the **h1** and **h3** will follow it’s natural order.
+
+![Web-page](https://ik.imagekit.io/thewebdev/CSS_Basics/7/3_0ZOceX_B8p.png)*Web-page*
+
+We will now see **position: absolute.** If we use it in any element, we can move it with top, left, right and bottom properties. Let’s give **position: absolute** to the h1 and use top property to move it 40px from top.
+
+![position: absolute.](https://ik.imagekit.io/thewebdev/CSS_Basics/7/4_oXa4MC7pjk.png)*position: absolute.*
+
+Now, the h1 will not be shown in the box.
+
+![h1](https://ik.imagekit.io/thewebdev/CSS_Basics/7/5_FgtyxiAiMu.png)*h1*
+
+It will be shown at the top of the page. It is because the position absolute, by default takes the whole page as it’s parent. So, it moves the h1 from the top of the page to 40px.
+
+![At the top](https://ik.imagekit.io/thewebdev/CSS_Basics/7/6_wwIzfz9mYe.png)*At the top*
+
+Now, we don’t want to move it from the top of the page. But we want it to move within the box.
+
+To fix the issue, we have to make the parent element **position: relative**. So, we will add this property in **position-box**.
+
+![position: relative](https://ik.imagekit.io/thewebdev/CSS_Basics/7/7_Q619Kv9ubp.png)*position: relative*
+
+And now our **h1** element containing **CSS** is moved 40px down from the border of the box.
+
+![CSS](https://ik.imagekit.io/thewebdev/CSS_Basics/7/8_jo1RwtEG_E.png)*CSS*
+
+Now, by giving **position: absolute** to h2 also we can move it anywhere.
+
+![position: absolute](https://ik.imagekit.io/thewebdev/CSS_Basics/7/9__JT0499Wvy.png)*position: absolute*
+
+Now, both our h1 and h2 are moved to different places.
+
+![Both h1 and h2](https://ik.imagekit.io/thewebdev/CSS_Basics/7/10_aaBWmOoCR0.png)*Both h1 and h2*
+
+Now, we will learn about another position property and that is fixed. For that first create a new button and give it two classes **button** and **fixed-button**.
+
+![button](https://ik.imagekit.io/thewebdev/CSS_Basics/7/11_n6P35UXryb.png)*button*
+
+Now, add the code for **fixed-button** class in the styles.css. We are making it fixed, with 20px from the top.
+
+![fixed-button](https://ik.imagekit.io/thewebdev/CSS_Basics/7/12_ocbDhoZ0cD.png)*fixed-button*
+
+By doing so, we made the button sticky. It will always remain 20px from the top, even when we scroll the page. This is used very frequently in creating sticky navbars or social media buttons, to keep them always be shown.
+
+![Sticky Fixed button](https://ik.imagekit.io/thewebdev/CSS_Basics/7/13_36IkiDfysj.png)*Sticky Fixed button*
+
+This completes part-7 of the series.

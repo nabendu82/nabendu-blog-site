@@ -1,0 +1,92 @@
+---
+title: Learn Dart Basics for Beginners
+description: Dart Basics
+date: 2021-03-28
+tags: ['flutter', 'beginners', 'dart']
+published: true
+---
+
+I have decided to give Flutter a try, after getting frustrated with React Native errors. Now, i am working with JavaScript for more then a decade now and in between also done Swift development for 1 year.
+
+But to learn flutter, we have to learn a new language which is Dart and this tutorial is on the basics of it.
+
+We will be using [dartpad](https://dartpad.dev) for learning dart, which is an online editor for Dart.
+
+In dart, just like other languages we have a main function. Inside the main we will first check the integer data types. In dart we have both integer and floating point types.
+
+The integer type are called **int** and the floating point are called **double**. Now, we have a parent type also, called **num** which can take both integers and floating points.
+
+We can check the type of any datatype by the **runtimeType** method. Notice here that if a **num** containing integer, it’s type will be int and if it’s contain a floating point value, it’s type will be double.
+
+![Terminal](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/1_ctxsym.png)*Terminal*
+
+Now, we will first look into two other data types. String are declared with **String** and boolean are declared with **bool**.
+
+In **Line 6** of the DartPad, we are comparing ‘5’ with 5, using the equality operator(==). Here, we will get a false as we get in other JavaScript.
+
+We need to convert the int to a string, as in **Line 13** with toString() method for them to be equal.
+
+In **Line 14**, we are combining a string 5, with number 100.96, which will result as 5100.96 as in JavaScript.
+
+In **Line 15**, we are doing string interpolation using dollar($). Also, notice that here, we don’t need to convert **b** to string.
+
+![Basics](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947662/Flutter/dart-basics/2_oqpdkc.png)*Basics*
+
+We also have a **var** type, again like JavaScript. We use it when we don’t want to specify anything or know it’s type. It’s again evaluate to the type, we put in it.
+
+![var](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/3_vg6sf7.png)*var*
+
+Now, there is a data type know as **final**, which is similar to **const** in JavaScript. Variables declared with it cannot be changed and will give an error if we try to change.
+
+![final](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/4_dertuc.png)*final*
+
+In-fact we have a **const** also in Dart and it seems to behave exactly the same. The difference which we should know as of now, is that final can be used to modify items in **List**(array in dart) and const cannot be used.
+
+![const](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/5_cuvh2n.png)*const*
+
+Now, the conditional statements like if statement, which is exactly similar to other languages like JavaScript.
+
+![if statement](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/6_vbglct.png)*if statement*
+
+The **switch** statement is also similar to other languages including JavaScript.
+
+![switch](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/7_solnmc.png)*switch*
+
+The loop are also similar to other languages. The syntax **for** , **while** and **do..while** loops is exactly similar to JavaScript.
+
+![loops](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/8_ulged0.png)*loops*
+
+Arrays are known as **List** in dart and can contain mixed values. The items can be accessed by bracket notation and also a special type of for loop called **forEach()**.
+
+![list](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/9_ymbgta.png)*list*
+
+Objects are known as **map** in Dart and be accessed by the square value notation. Also, have some special in-built methods like keys and values.
+
+![map](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/10_mtqhsx.png)*map*
+
+Now, the **functions** in Dart are again quite similar to JavaScript, but they take the type of parameters also.
+
+Also, notice the second parameter **[int age = 7]** in **printFunc()**. Here, we are wrapping it with a [], and passing a default value. This will come into picture if we don’t pass a second parameter like in **Line 8**.
+
+![printFunc](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/11_c2aauu.png)*printFunc*
+
+Now, we can return values from functions also and here, we are giving a string return type.
+
+![return](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/12_conv6y.png)*return*
+
+Now, we will look into the concept of class which are used a lot in flutter. Here, we are defining a class Person which have two variables- _**name** and **age**. If we add an underscore(_) to a variable or method, it makes it private.
+
+After that we have a method walks(), which accesses the variable _name. Inside the main(), we are creating an Object of the class and passing a name and age to it. Using the onject in the next line, we are calling the function walks().
+
+![class](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1616947661/Flutter/dart-basics/13_frjczw.png)*class*
+
+This complete our mini Dart tutorials. See you soon with flutter apps.
+
+
+
+
+
+
+
+
+

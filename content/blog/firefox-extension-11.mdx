@@ -1,0 +1,71 @@
+---
+title: Build a Covid-19 Firefox extension step-by-step-11
+description: Firefox extension
+date: 2020-04-05
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-11 of the series. I often go to unsplash.com for using royalty free images in all by blog posts. During this covid-19 situation, they had updated their site to tell us the necessity of social distancing.
+
+I got the idea to create a social distancing firefox extension from that only. This will also be a tab extension will be called **Social Distancing**. So, go ahead and create a folder **SocialDistancing** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![SocialDistancing](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/1_TldKLU_aa.png)*SocialDistancing*
+
+Now, create a file **manifest.json** inside the folder **SocialDistancing** and put the below content in it.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/2_ki9ZlAoMdk.png)*manifest.json*
+
+Now, i will be again using local images in this extension because they get loaded quicker.
+
+We need to place 16 images in the project, which we will be soon displaying in a gallery.
+
+![images](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/3_BEV-77HNpU.png)*images*
+
+Go ahead and create a file **tabs.html** in the same folder. We will use the below code to display these images as gallery.
+
+![tabs.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/4_Ye_1C1lGLI.png)*tabs.html*
+
+Next, let’s create the style file. Place a file **tabs.css** in the same folder and the below content in it.
+
+![tabs.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/5_tvBEEQ0RM2.png)*tabs.css*
+
+Let’s load our extension temporarily for test and open a new tab. It is showing perfectly.
+
+![Social Distancing](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/6_QeMtKLYg2Q.png)*Social Distancing*
+
+But i want to add some covid-19 social distancing message. So, let’s add the same in **tabs.html** file.
+
+![tabs.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/7_sI8cnUylKb.png)*tabs.html*
+
+Let’s also add some styles for this message in file **tabs.css**
+
+![tabs.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/8_P4KfAylOk.png)*tabs.css*
+
+Now, it is showing more perfectly in our tab.
+
+![tab](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/9_Q-r4GJ65eU.png)*tab*
+
+Now, it’s time to put the Social distancing animation in the extension. The animation is that, when we move the mouse cursor inside the page the images moves away. It conveys the message of social distancing.
+
+So, create a file **tabs.js** in the same folder and put the below code in it. The code is simple, which increase the **grid-gap** on detecting a **mouseenter** event. Does the opposite when receives a **mouseleave** event.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/10_8lvYlaa1J.png)*tabs.js*
+
+Now, our extension is complete and it behaves like below.
+
+![Extension](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/11_RWy-qnMGi.gif)*Extension*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://medium.com/@nabendu82/creating-firefox-browser-extensions-2-ddf1f236f401).
+
+I had submitted the addon and it is **Awaiting Review** from mozilla reviewers.
+
+![Awaiting approval](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/12_u1cq6jL_u.png)*Awaiting approval*
+
+The addon is finally approved and available in mozilla addon store at [https://addons.mozilla.org/en-US/firefox/addon/social-distancing/](https://addons.mozilla.org/en-US/firefox/addon/social-distancing/)
+
+Please use it and spread the message of Social distancing.
+
+![Social Distancing](https://ik.imagekit.io/thewebdev/FirefoxAddons/11/13_MiZE58reBl.png)*Social Distancing*
+
+This complete part-11 of the series. You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

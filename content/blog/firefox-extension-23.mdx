@@ -1,0 +1,51 @@
+---
+title: Build a Firefox extension step-by-step-23
+description: Firefox extension
+date: 2020-04-30
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-23 of the series. In this part we will create a new addon called **List Tab Cookies**. This addon list all cookies in the active tab, on click of the icon.
+
+So, go ahead and create a folder **ListTabCookies** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![ListTabCookies](https://ik.imagekit.io/thewebdev/FirefoxAddons/23/1_U2lFnYjpn.png)*ListTabCookies*
+
+Now, create a file **manifest.json** inside the folder **ListTabCookies** and put the below content in it.
+
+It is using the permissions for **cookies, all_urls** and **tabs** which we are going to use soon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/23/2_q9iTVQvkI0.png)*manifest.json*
+
+Let’s now create **cookies.html** file in the same folder and put the below content in it.
+
+It is a simple html file, with links to css and js files. It also have an id **cookie-list**, where we are going to show all the cookies for the domain.
+
+![cookies.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/23/3_ItkVzYhxV_.png)*cookies.html*
+
+Let’s now create the styles for this html file. Create a file **cookies.css** in the same folder and put the below content in it.
+
+![cookies.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/23/4_v-FCjkLNU0.png)*cookies.css*
+
+Now, we will create the logic for the addon. Create a file **cookies.js** in the same folder and put the below content in it.
+
+So, when the program runs it gets the active tab by [tabs.query()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query) at Line 27. It then pass it to **showCookiesForTab**() function.
+
+Inside the function in Line 2, we are getting the first object in the array. After that in Line 3, we are getting all cookies in the domain by passing the url in [cookies.getAll()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/cookies/getAll).
+
+After that when we receive the promise back, we add **tab.title** in the **header-title** id. Also, we loop through the cookies and add each of them in an li tag and append it to the **cookie-list** id.
+
+![cookies.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/23/5_e1E_bpaRI.png)*cookies.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Cookies](https://ik.imagekit.io/thewebdev/FirefoxAddons/23/6_tjovlwuBin.png)*Cookies*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://thewebdev.tech/firefox-extension-2).
+
+![Awaiting Review](https://ik.imagekit.io/thewebdev/FirefoxAddons/23/7_Ynsxw8H3W4.png)*Awaiting Review*
+
+This complete part-23 of the series. You can install this addon in your firefox browser from [here](https://addons.mozilla.org/en-US/firefox/addon/list-tab-cookies/).
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

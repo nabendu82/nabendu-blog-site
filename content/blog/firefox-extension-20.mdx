@@ -1,0 +1,127 @@
+---
+title: Build a Firefox extension step-by-step-20
+description: Firefox extension
+date: 2020-04-27
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-20 of the series. In this part we will create a new addon called **Website History Delete**. This addon allows the user to delete history of a particular website, which will include all it’s links.
+
+So, go ahead and create a folder **WebsiteHistoryDelete** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![WebsiteHistoryDelete](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/1_GvH7wEaXVf.png)*WebsiteHistoryDelete*
+
+Now, create a file **manifest.json** inside the folder **WebsiteHistoryDelete** and put the below content in it.
+
+It is using the permissions for **activeTab, history** and **tabs**, which we are going to use soon.
+
+We are also using **page_action** here instead of the usual **browser_action**. Now, the difference is that it will create the icon inside the browser’s URL bar, instead of a general icon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/2_ioF-iCzKr.png)*manifest.json*
+
+Next create a file **history.html** inside the same folder. It is a simple html file, in which we will show the last 15 visits to the website and sub-domain. We will be showing it with **id=”history”**.
+
+![history.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/3_85ievfNzP1.png)*history.html*
+
+Next, let’s add some styles for the above html file in **history.css** file.
+
+
+```css
+    html, body {
+        margin: 0.3em;
+        width: auto;
+        min-width: 250px;
+        max-width: 500px;
+        background: linear-gradient(90deg, #FFFFE0 0%,#FFFACD 48%,#FFFF00 100%);
+    }
+
+    div {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        border-bottom: 1px solid grey;
+    }
+
+    #history-title {
+        font-weight: bold;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+            0px 8px 13px rgba(0,0,0,0.1),
+            0px 18px 23px rgba(0,0,0,0.1);
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+    }
+
+    #history {
+        display: block;
+        word-wrap: break-word;
+        margin: 0.5em;
+        text-decoration: none;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+        0px 8px 13px rgba(0,0,0,0.1),
+        0px 18px 23px rgba(0,0,0,0.1);
+    }
+
+    #clear {
+        text-decoration: none;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+        0px 8px 13px rgba(0,0,0,0.1),
+        0px 18px 23px rgba(0,0,0,0.1);
+    }
+```
+
+
+Before creating the **history.js** file, we will create the **background.js** file.
+
+We are first using [tabs.onUpdated](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated) listener, which will fire when the user navigates to a new URL in a tab.
+
+After that we are matching every tab except the **about:** pages, which are used for debugging. We are then using [pageAction.show()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/pageAction/show) to show the addon.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/4_eZJC7Wjr6.png)*background.js*
+
+To check the styles and background script, i had loaded the addon temporarily and it looks like below.
+
+![History Delete](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/5_zkJ7MvWXGY.png)*History Delete*
+
+Now, we will create the main logic in **history.js** file. First we will add three helper functions in it.
+
+![history.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/6_y4NuhKcI_z.png)*history.js*
+
+Next, we will write the code to show the links. When the page is loaded we are finding the current tab, by using [tabs.query()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query).
+
+![history.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/7_bofq57Coy.png)*history.js*
+
+We are calling **get_hostname**() at line 28 above. To check exactly what it sends and receives, i had added some console.log()
+
+![history.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/8_RvC9JSYub.png)*history.js*
+
+After that gone to a site and clicked on the History delete icon.
+
+![History Delete](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/9_btQ3bT6Bq7.png)*History Delete*
+
+Now, in the log it shows as below. As it is clear from the log, we pass the url [https://addons.mozilla.org/en-US/firefox/addon/domain-history-delete/](https://addons.mozilla.org/en-US/firefox/addon/domain-history-delete/) to the function **get_hostname**(). It also calls another function **set_domain**(), and we get **addons.mozilla.org** in the **hostname**.
+
+![log](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/10_ey_O4xNq77.png)*log*
+
+We are then using [history.search()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/history/search) to get all the domains, matching our hostname. We are limiting it to 15, as the list can be very long. After that we are looping through results array and adding each link to an li tag.
+
+![history.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/11_S6F0bHm1lf.png)*history.js*
+
+Next, we will add the code which will trigger when we hit the clear link. The **clearAll**(), is quite similar to the **getActiveTab**() and uses **get_hostname** and **searchingHistory**.
+
+After getting the results array, it loop through it and get the individual url and delete it from browser history with [history.deleteUrl()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/history/deleteUrl).
+
+![history.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/12_yWStOmP17.png)*history.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Gif](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/13_IBBOtkbYa.gif)*Gif*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://medium.com/@nabendu82/creating-firefox-browser-extensions-2-ddf1f236f401).
+
+![Awaiting](https://ik.imagekit.io/thewebdev/FirefoxAddons/20/14_XkvsnTF_0.png)*Awaiting*
+
+This complete part-20 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

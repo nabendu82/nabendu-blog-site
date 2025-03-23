@@ -1,0 +1,144 @@
+---
+title: Digital Clock using HTML, CSS & Javascript
+description: Digital Clock
+date: 2021-08-01
+tags: ['javascript', 'css', 'webdev']
+published: true
+---
+
+Hello Everybody, I am back with another interesting and informative blog in this blog I am going to show you how you can make a simple clock using **HTML, CSS And JavaScript**.
+
+First of all create **one folder** in our computer drive using any name.I will give **Digital Clock**.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/2_czmycn.jpg)*Digital Clock*
+
+Next Right click on folder click on open with VSCode.So that our project will open in VSCode Editior.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524701/HTML/Digital%20Clock/3_sudbyb.jpg)*Digital Clock*
+
+Next Create Index.html file and Style.css file following below instruction.
+right click on plus icon and give file name index.html same as like again we follow that instruction for style.css.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/4_l6pikk.jpg)*Digital Clock*
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524701/HTML/Digital%20Clock/5_onl6c1.jpg)*Digital Clock*
+
+Next we will strat writing html code inside index.html.
+we will check our inside browser.Right Click on file and Click on Open with Live Server.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524701/HTML/Digital%20Clock/6_mu2bky.jpg)*Digital Clock*
+
+Now our html will run in browser.we can see in browser.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/7_ljse0p.jpg)*Digital Clock*
+
+Next come inside body in that we will create div with datetime class .inside first div we will write two div first div will display Day,Month,Year in Text.and second div will use display time.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/8_fj98vm.jpg)*Digital Clock*
+
+Next we link css file in index.html inside head tag.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524701/HTML/Digital%20Clock/9_ktmzlr.jpg)*Digital Clock*
+
+Next we write css code inside style.css.first we use * selector so it will use for all body element.we will give background color in body with that we designed our datetime div in css.
+
+
+```css
+    *{
+    margin:0;
+    padding:0;
+    }
+    body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#10101E;
+    }
+    .datetime{
+    color:#fff;
+    background:#10101E;
+    font-family:”Segoe UI”,sans-serif;
+    width:340px;
+    padding:15px 10px;
+    border:5px solid #2E94E3;
+    border-radius:5px;
+    -webkit-box-reflect:below 1px linear-gradient(transparent,rgba(255,255,255,0.1));
+    transition:0.5s;
+    transition-property:background,box-shadow;
+    }
+    .datetime:hover{
+    background:#2E94E3;
+    box-shadow:0 0 30px #2E94E3;
+    }
+```
+
+
+Next go to browser and we will look our date time div has designed.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/10_r696rr.jpg)*Digital Clock*
+
+Now we will designed our date and time using css in style.css.
+
+
+```css
+.date{
+font-size:20px;
+font-weight:600;
+text-align:center;
+letter-spacing:3px;
+}
+.time{
+font-size:60px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+.time span:not(:last-child){
+position:relative;
+margin:0 6px;
+font-weight:600;
+text-align:center;
+letter-spacing:3px;
+}
+.time span:last-child{
+background:#2E94E3;
+font-size:30px;
+font-weight:600;
+text-transform:uppercase;
+margin-top:10px;
+padding:0 5px;
+border-radius:3px;
+}
+```
+
+
+Now our date time has designed using css.go to browser and see like below pic.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/11_fuzq7l.jpg)*Digital Clock*
+
+Next we will go for javascript code in html tag.we write **<script></script>** tag below first div tag ending.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524701/HTML/Digital%20Clock/12_fvkxkd.jpg)*Digital Clock*
+
+we create initClock() function inside script tag.it will call when our page is load in browser.for that we have use onload event in body tag.
+
+
+```css
+<body onload="initClock()">
+```
+
+
+initClock() function will call updateClock() in every second.we use setInterval() it will call our updateClock() function in every second.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524701/HTML/Digital%20Clock/14_zoglhc.jpg)*Digital Clock*
+
+Next we will store our Month in array and week and days also.we iterate arry using loop.
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/15_tea6vs.jpg)*Digital Clock*
+
+Now our Digital Clock is ready.go to browser check our digital clock in browser.
+
+![Digital Clock](https://res.cloudinary.com/thewebdev/image/upload/v1631524700/HTML/Digital%20Clock/16_cdvyuk.jpg)*Digital Clock*
+
+Download Source code from [this](https://github.com/jitukverma/100DayOfCode-Challenge.git) github repository
+

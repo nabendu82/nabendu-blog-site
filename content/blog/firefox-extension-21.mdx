@@ -1,0 +1,215 @@
+---
+title: Build a Firefox extension step-by-step-21
+description: Firefox extension
+date: 2020-04-28
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-21 of the series. In this part we will create a new addon called **Delete Everything**. This addon allows the user to delete all type of browsing data, including history, passwords, downloads and service workers.
+
+So, go ahead and create a folder **DeleteEverything** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![DeleteEverything](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/1_OIVLVCywA.png)*DeleteEverything*
+
+Now, create a file **manifest.json** inside the folder **DeleteEverything** and put the below content in it.
+
+It is using the permissions for **browsingData, notification** and **storage** which we are going to use soon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/2_Act5CwXvZQ.png)*manifest.json*
+
+Since, we are creating an Option UI, create an **options** folder and add a file **options.html** inside it.
+
+
+```css
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="options.css" />
+    </head>
+    <body>
+        <div class="container">
+            <section class="clear-options">
+                <span class="title">Time range to delete:</span>
+                <select id="since">
+                    <option value="hour" selected>Last hour</option>
+                    <option value="day">Last day</option>
+                    <option value="week">Last week</option>
+                    <option value="forever">Forever</option>
+                </select>
+            </section>
+            <section class="check-options data-types">
+                <div class="title">Type of data to delete:</div>
+                <div id="flexCheck">
+                    <div>
+                        <label>Downloads</label>
+                        <input type="checkbox" checked="true" data-type="downloads" />
+                    </div>
+                    <div>
+                        <label>Cache</label>
+                        <input type="checkbox" checked="true" data-type="cache" />
+                    </div>
+                    <div>
+                        <label>Passwords</label>
+                        <input type="checkbox" data-type="passwords" />
+                    </div>
+                    <div>
+                        <label>History</label>
+                        <input type="checkbox" checked="true" data-type="history" />
+                    </div>
+                    <div>
+                        <label>Plugin data</label>
+                        <input type="checkbox" data-type="pluginData" />
+                    </div>
+                    <div>
+                        <label>Form data</label>
+                        <input type="checkbox" data-type="formData" />
+                    </div>
+                    <div>
+                        <label>Cookies</label>
+                        <input type="checkbox" data-type="cookies" />
+                    </div>
+                    <div>
+                        <label>Service workers</label>
+                        <input type="checkbox" data-type="serviceWorkers" />
+                    </div>
+                </div>
+            </section>
+            <input type="button" value="Save preferences" id="save-button" />
+        </div>
+        <script src="options.js"></script>
+    </body>
+    </html>
+```
+
+For the styles, create a file **options.css** in the same folder and add the below content in it.
+
+
+```css
+    html {
+        background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+        background-size:cover;
+        font-family:'helvetica neue';
+        text-align: center;
+    }
+
+    body {
+        width: 25em;
+        font-family: "Open Sans Light", sans-serif;
+        font-size: 0.9em;
+        font-weight: 300;
+    }
+    .container{
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    section.clear-options {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+        margin-top: 1em;
+    }
+
+    #flexCheck {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top:0.8em;
+    }
+
+    label {
+        margin-right: 80px;
+        color: white;
+        font-size:15px;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                    0px 8px 13px rgba(0,0,0,0.1),
+                    0px 18px 23px rgba(0,0,0,0.1);
+    }
+
+    .title {
+        font-size: 1.2em;
+        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                    0px 8px 13px rgba(0,0,0,0.1),
+                    0px 18px 23px rgba(0,0,0,0.1);
+        margin-right: 1em;
+    }
+
+    #save-button {
+            box-shadow:inset 0px 1px 0px 0px #e184f3;
+            background:linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+            background-color:#c123de;
+            border-radius:6px;
+            border:1px solid #a511c0;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:15px;
+            font-weight:bold;
+            padding:9px 23px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #9b14b3;
+            margin: 10px 0;
+    }
+
+    #save-button:hover {
+            background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+            background-color:#a20dbd;
+    }
+
+    #save-button:active {
+        position:relative;
+        top:1px;
+    }
+```
+
+To check the styles , i had loaded the addon temporarily and the options page looks like below.
+
+![Options Page](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/3_8TRzpDb9a.png)*Options Page*
+
+Before creating the **options.js** file, we will create the **background.js** file. Create the file **background.js** in the root directory and put the below content in it.
+
+Now the script starts from Line 16, where it get the data from local storage. With that it calls the function **checkStoredSettings**(), where we check whether we have stored settings. If we don’t, then store the default settings.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/4_YaAOGWNZqH.png)*background.js*
+
+Now, create the file **options.js** inside the options folder and put the below content in it.
+
+On opening the options page, we are fetched stored settings and called the function **updateUI**() in Line 20. Inside the function, we are selecting the id for option in Line 2 and restoring it with **restoredSettings**.
+
+After that we are selecting all the checkboxes and restoring them with **restoredSettings**.
+
+![options.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/5_CHHZo5DLlF.png)*options.js*
+
+After that let’s add the logic for click on the **Save preferences** button. Here, when we click on the button then the function **storeSettings**() will be called. Here at line 34 and 35 we are calling function **getSince**() and **getTypes**() respectively.
+
+After that we are setting the values to local storage in line 36.
+
+![options.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/6_YmMbsMoSx.png)*options.js*
+
+Now, we will go back to **background.js** and add the final logic to clear the browsing data.
+
+When we click the icon to delete the data, it will get the local storage data and call the function forget(). The function run the [browsingData.remove()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/browsingData/remove) from line 50, which is used to remove the options from the time, which we pass to it.
+
+We take the time from **getSince**() and options from **getTypes**(). Once the data is removed, we call the function notify() to display an alert box confirming the delete.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/7_puHw5Mtiny.png)*background.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Gif](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/8_UaYPBLtNpz.gif)*Gif*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://thewebdev.tech/firefox-extension-2).
+
+![Awaiting Review](https://ik.imagekit.io/thewebdev/FirefoxAddons/21/9__ghKGXvQn.png)*Awaiting Review*
+
+This complete part-21 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

@@ -1,0 +1,43 @@
+---
+title: Build a Firefox extension step-by-step-24
+description: Firefox extension
+date: 2020-05-01
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-24 of the series. In this part we will create a new addon called **Read Mode**. This addon allows the user to change, the currently opened tab to reader mode if available.
+
+So, go ahead and create a folder **ReadMode** and inside it another folder **icons**. Inside that folder place three icons. You can get them from the github link at the end of this post.
+
+![ReadMode](https://ik.imagekit.io/thewebdev/FirefoxAddons/24/1_KJbyOkuLHG.png)*ReadMode*
+
+Now, create a file **manifest.json** inside the folder **ReadMode** and put the below content in it.
+
+It is using the permissions for **notifications** and **tabs** which we are going to use soon.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/24/2_GcE9267HB.png)*manifest.json*
+
+We only have another file ie **background.js** in this addon. So, go ahead and create it in the same folder and put the below content in it.
+
+Now, our program starts from Line 10 where we have an event listener for [browserAction.onClicked()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/browserAction/onClicked). This event will fire when the browser icon is clicked.
+
+Inside the listener, we are passing the tab to [tabs.toggleReaderMode()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/toggleReaderMode), which toggles reader mode for the current tab.
+
+Now, some of the web-pages don’t have reader mode and the promise will fire the catch block. For such tabs, we are calling a function **failureCallback**(). The function shows an browser notification that the reader mode is not available.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/24/3_KphD_OweT.png)*background.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Gif](https://ik.imagekit.io/thewebdev/FirefoxAddons/24/4_orYK8yQud.gif)*Gif*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://thewebdev.tech/firefox-extension-2).
+
+Since, the name **Read Mode** was not available, i had to change the name of the addon to **My Read Mode**.
+
+![My Read Mode](https://ik.imagekit.io/thewebdev/FirefoxAddons/24/5_U3C09MMcK4.png)*My Read Mode*
+
+This complete part-24 of the series. You can install the addon to your firefox from [here](https://addons.mozilla.org/en-US/firefox/addon/my-read-mode/)
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

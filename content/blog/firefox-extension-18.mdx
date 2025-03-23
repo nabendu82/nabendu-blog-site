@@ -1,0 +1,55 @@
+---
+title: Build a Firefox extension step-by-step-18
+description: Firefox extension
+date: 2020-04-25
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-18 of the series. We will complete our addon **Tab Utility**, which we had started building in part-17.
+
+Let’s add functionality to other buttons now. Add the highlighted lines in **tabs.js** file. All of them are self-explanatory and using various browser functions, where we are only passing the unique id of the tab.
+
+The only difference is the tabs-alertinfo, where we are looping through the tab and displaying it in an alert.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/1_RORmmRHAF.png)*tabs.js*
+
+I wanted to add another feature in the **Tab Utility** addon and that is the zoom features. Let’s first add the html in **tabs.html** file.
+
+![tabs.html](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/2_EEGQdmwyDV.png)*tabs.html*
+
+Next, let’s add code for the same in **tabs.js** file. We will first add the constants at the top of the file.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/3.1_3I4rIagPa.png)*tabs.js*
+
+Then we will add the code for all three new buttons. The code is quite simple and we are using two browser functions — [tabs.getZoom()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/getZoom) and [tabs.setZoom()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/setZoom)
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/3.2_CGVeXKGpI.png)*tabs.js*
+
+One last thing to do in this file, is to add logic for **switch-tabs**. We had added logic to show the links for each tab, but we need the code to go to the tab on click on the link.
+
+In this highlighted code, we are first getting the **tabId** from the clicked link. After that we are looping through all the tabs, and going to the tab whose id is equal to **tabId**.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/4_68yL13Ut1.png)*tabs.js*
+
+Now, all the features are complete but i want to add a feature, to show the number of tabs opened above the icon. We will add the code for the same in a new file **background.js**.
+
+The updateCount() functions runs first time from line 29, when the browser is opened. After that there are two event listener — one is fired when a new tab is added, other is fired when a tab is closed.
+
+Both of them update the tab count number, and we update it by [browserAction.setBadgeText()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/browserAction/setBadgeText) and [browserAction.setBadgeBackgroundColor()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/browserAction/setBadgeTextColor)
+
+Also, notice that there is a bug in mozilla code, which is not yet resolved. So, we are using a work-around in line 8.
+
+![background.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/5_s243PTMKYG.png)*background.js*
+
+So, our code is complete. I had checked it by testing the temporary addon and it works perfectly.
+
+![Gif](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/6_qtiSqROKf.gif)*Gif*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://dev.to/nabendu82/creating-firefox-browser-extensions-2-3gpn).
+
+![Awaiting](https://ik.imagekit.io/thewebdev/FirefoxAddons/18/7_Jq8nLoKbr1.png)*Awaiting*
+
+This complete part-18 of the series. You can add this addon to firefox from [this](https://addons.mozilla.org/en-US/firefox/addon/tab-utility/) link.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

@@ -1,0 +1,161 @@
+---
+title: CSS3 in 10 days — Day 6
+description: CSS3 in 10 days
+date: 2019-09-26
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to Day 6 of learning CSS. As i have told earlier, this series is inspired by [this](https://www.youtube.com/watch?v=pmKyG3NBY_k&list=PLWKjhJtqVAbl1AfjiGyYxwpdAPi5v-1OU) awesome youtube series in freecodecamp channel.
+
+We will start with Tooltip on day-6. Open your code editor and create a new 6.1-Tooltip folder and two files index.html and sandbox.css inside it.
+
+Next, in index.html put the basic html.
+
+![Basic index](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473534/CSS10days/6/1_kgti2x.png)*Basic index*
+
+Let first put some basic css in sandbox.css to show four boxes.
+
+![tooltip](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473534/CSS10days/6/2_i6jil5.png)*tooltip*
+
+It will show as below.
+
+![Basic box](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473534/CSS10days/6/3_nxrp7l.png)*Basic box*
+
+Now, let’s create a tooltip on hover. We will use the after and before pseudo element.
+
+![Tooltip code](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473534/CSS10days/6/4_prwedt.png)*Tooltip code*
+
+It will show below. Both after and before are not in correct position. We will fix it later.
+
+![Tooltip](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473534/CSS10days/6/5_gwwtub.png)*Tooltip*
+
+We will fix it now, but also create two new CSS rule for top.
+
+![Fixing top](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473534/CSS10days/6/6_ddpxoa.png)*Fixing top*
+
+It will fix our first tooltip.
+
+![First one fixed](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473534/CSS10days/6/7_yf1ll3.png)*First one fixed*
+
+Now, we will write the code for tooltip right.
+
+![Tooltip right](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473533/CSS10days/6/8_vazqcx.png)*Tooltip right*
+
+It will show as below.
+
+![Right](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473533/CSS10days/6/9_f45jnw.png)*Right*
+
+Next, we will write the code for tooltip bottom.
+
+![Tooltip bottom](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473533/CSS10days/6/10_qyj44o.png)*Tooltip bottom*
+
+It will show as below.
+
+![Bottom](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473533/CSS10days/6/11_lwdmez.png)*Bottom*
+
+Next, we will write the code for tooltip left.
+
+![tooltip left](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473531/CSS10days/6/12_bewjeu.png)*tooltip left*
+
+It will show as below.
+
+![Left](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473533/CSS10days/6/13_yvu3ih.png)*Left*
+
+Next we will Animated Progress Bar on day-6. Open your code editor and create a new 6.1-ProgressBar folder and two files index.html and sandbox.css inside it.
+
+Next, in index.html put the basic html.
+
+![Basic index](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473533/CSS10days/6/14_rnalbw.png)*Basic index*
+
+Let’s create the style for the first Progress bar.
+
+![First style](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473533/CSS10days/6/15_iwbvko.png)*First style*
+
+It will show this beautiful Progress bar.
+
+![Beautiful Bar](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473532/CSS10days/6/16_rnyttr.png)*Beautiful Bar*
+
+Next, we will write code to make it like stripe.
+
+![Stripe effect](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473532/CSS10days/6/17_tqg58d.png)*Stripe effect*
+
+It will show the progress bar with beautiful stripes.
+
+![Stripes](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473532/CSS10days/6/18_nzgcmr.png)*Stripes*
+
+Now, we will add animations to the progress bar. We will add animation for both going forward and the stripe moving.
+
+![Code added](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473532/CSS10days/6/19_f9fqlm.png)*Code added*
+
+The animation keyframes.
+
+![Keyframes](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473532/CSS10days/6/20_th7pso.png)*Keyframes*
+
+The animation is as below.
+
+![The animation](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473532/CSS10days/6/21_xt03vc.gif)*The animation*
+
+We will next write code for the second Progress bar, which will have a tooltip also.
+
+
+```css
+    .animation-bar-2 {
+        position: relative;
+        display: block;
+        font-size: 16px;
+        line-height: 16px;
+        background: rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .animation-bar-2 span {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        height: 20px;
+        background-color: #00e6e7;
+        background-size: 100%;
+        background-image: linear-gradient(to bottom, #00b3b4, #008081);
+    }
+    .animation-bar-2 span:before {
+        position: absolute;
+        right: 0;
+        bottom: 100%;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-right-width: 0;
+        border-bottom-width: 0;
+        border-top-color: rgba(0, 0, 0, 1);
+        content: "";
+    }
+    .animation-bar-2 span:after {
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 5px);
+        z-index: 1;
+        display: inline-block;
+        content: attr(data-label);
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 0.8em;
+        background-color: rgba(0, 0, 0, 1);
+        color: #FFFFFF;
+    }
+```
+
+
+It will initially show like below.
+
+![Initial bar](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473530/CSS10days/6/22_xdgoy1.png)*Initial bar*
+
+Now, we will add animation to the Progress bar.
+
+![Animation](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473531/CSS10days/6/23_ppnyhp.png)*Animation*
+
+It will show this nice animation.
+
+![The animation](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590473532/CSS10days/6/24_npnvpa.gif)*The animation*
+
+This completes day 6 of the course. You can find the code for the same [here](https://github.com/nabendu82/CSS10days).

@@ -1,0 +1,418 @@
+---
+title: Build a Firefox extension step-by-step-10
+description: Firefox extension
+date: 2020-04-04
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-10 of the series. We will continue building extensions, which show some type of image when we open a new tab.
+
+The third tab extension will be called **Motivational Tab**. So, go ahead and create a folder **MotivationalTab** and inside it another folder **icons**. Inside that folder place two icons. You can get them from the github link at the end of this post.
+
+![icon](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/1_hiFyaDDvy.png)*icon*
+
+Now, create a file **manifest.json** inside the folder **MotivationalTab** and put the below content in it. It is quite similar to the file in previous extension and contains the parameter **chrome_url_overides**.
+
+![manifest.json](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/2_f1RNlCuBLN.png)*manifest.json*
+
+Now, this extension is exactly similar to the extension we made in [part-9](https://thewebdev.tech/firefox-extension-9) and is based on my learning from the awesome [free course](https://javascript30.com/) **JavaScript 30** from **Wes Bos**.
+
+Go ahead and put the below in a file **tabs.html** in the same folder.
+
+
+```css
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="tabs.css" />
+        <title>Motivational Tab 👼</title>
+        <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <div id="panels1" style="display:none;">
+            <div class="panel panel1">
+                <p>👼</p>
+                <p>Make</p>
+                <p>🧚‍♀️</p>
+            </div>
+            <div class="panel panel2">
+                <p>👫</p>
+                <p>each</p>
+                <p>💑</p>
+            </div>
+            <div class="panel panel3">
+                <p>🌞</p>
+                <p>day</p>
+                <p>🏕</p>
+            </div>
+            <div class="panel panel4">
+                <p>👌</p>
+                <p>your</p>
+                <p>💪</p>
+            </div>
+            <div class="panel panel5">
+                <p>🚣</p>
+                <p>masterpiece</p>
+                <p>🏖️</p>
+            </div>
+        </div>
+        <div id="panels2" style="display:none;">
+            <div class="panel panel1">
+                <p>😃</p>
+                <p>Live</p>
+                <p>🚣</p>
+            </div>
+            <div class="panel panel2">
+                <p>🧗‍♀️</p>
+                <p>life</p>
+                <p>🏂</p>
+            </div>
+            <div class="panel panel3">
+                <p>🙋‍♀️</p>
+                <p>to</p>
+                <p>🌏</p>
+            </div>
+            <div class="panel panel4">
+                <p>🏊</p>
+                <p>the</p>
+                <p>🚴</p>
+            </div>
+            <div class="panel panel5">
+                <p>🚀</p>
+                <p>fullest</p>
+                <p>👨‍🚀</p>
+            </div>
+        </div>
+        <div id="panels3" style="display:none;">
+            <div class="panel panel1">
+                <p>🌱</p>
+                <p>Another</p>
+                <p>☯</p>
+            </div>
+            <div class="panel panel2">
+                <p>🌅</p>
+                <p>sunrise</p>
+                <p>☀️</p>
+            </div>
+            <div class="panel panel3">
+                <p>🌴</p>
+                <p>another</p>
+                <p>🏕️</p>
+            </div>
+            <div class="panel panel4">
+                <p>🚕</p>
+                <p>new</p>
+                <p>🏌️‍♂️</p>
+            </div>
+            <div class="panel panel5">
+                <p>🌄</p>
+                <p>beginning</p>
+                <p>🌌</p>
+            </div>
+        </div>
+        <div id="panels4" style="display:none;">
+            <div class="panel panel1">
+                <p>🧘‍♂️</p>
+                <p>Make</p>
+                <p>☯</p>
+            </div>
+            <div class="panel panel2">
+                <p>💆‍♂️</p>
+                <p>yourself</p>
+                <p>👩</p>
+            </div>
+            <div class="panel panel3">
+                <p>🖋️</p>
+                <p>necessary</p>
+                <p>📝</p>
+            </div>
+            <div class="panel panel4">
+                <p>💻</p>
+                <p>to</p>
+                <p>👨‍💻</p>
+            </div>
+            <div class="panel panel5">
+                <p>🐈</p>
+                <p>somebody</p>
+                <p>🐕</p>
+            </div>
+        </div>
+        <div id="panels5" style="display:none;">
+            <div class="panel panel1">
+                <p>🎲</p>
+                <p>Turn</p>
+                <p>☯</p>
+            </div>
+            <div class="panel panel2">
+                <p>👨‍🌾</p>
+                <p>your</p>
+                <p>👨</p>
+            </div>
+            <div class="panel panel3">
+                <p>🤕</p>
+                <p>wounds</p>
+                <p>💔</p>
+            </div>
+            <div class="panel panel4">
+                <p>💻</p>
+                <p>into</p>
+                <p>👨‍💻</p>
+            </div>
+            <div class="panel panel5">
+                <p>🧝‍♂️</p>
+                <p>wisdom</p>
+                <p>👼</p>
+            </div>
+        </div>
+        <div id="panels6" style="display:none;">
+            <div class="panel panel1">
+                <p>👨‍💼</p>
+                <p>Work</p>
+                <p>👩‍💼</p>
+            </div>
+            <div class="panel panel2">
+                <p>👩‍🎓</p>
+                <p>is</p>
+                <p>👨‍🎓</p>
+            </div>
+            <div class="panel panel3">
+                <p>💗</p>
+                <p>love</p>
+                <p>💐</p>
+            </div>
+            <div class="panel panel4">
+                <p>🏢</p>
+                <p>made</p>
+                <p>🏣</p>
+            </div>
+            <div class="panel panel5">
+                <p>🙆‍♂️</p>
+                <p>visible</p>
+                <p>🙋‍♂️</p>
+            </div>
+        </div>
+        <div id="panels7" style="display:none;">
+            <div class="panel panel1">
+                <p>🤞</p>
+                <p>Luck</p>
+                <p>🤞🏻</p>
+            </div>
+            <div class="panel panel2">
+                <p>🕴</p>
+                <p>is</p>
+                <p>🤷‍♂️</p>
+            </div>
+            <div class="panel panel3">
+                <p>🦸‍♂️</p>
+                <p>believing</p>
+                <p>🦸‍♀️</p>
+            </div>
+            <div class="panel panel4">
+                <p>🤟</p>
+                <p>you're</p>
+                <p>🤟🏻</p>
+            </div>
+            <div class="panel panel5">
+                <p>🥠</p>
+                <p>lucky</p>
+                <p>🍀</p>
+            </div>
+        </div>
+        <div id="panels8" style="display:none;">
+            <div class="panel panel1">
+                <p>🧘‍♂️</p>
+                <p>The</p>
+                <p>☯</p>
+            </div>
+            <div class="panel panel2">
+                <p>🌊</p>
+                <p>greatest</p>
+                <p>🏄‍♀️</p>
+            </div>
+            <div class="panel panel3">
+                <p>📿</p>
+                <p>prayer</p>
+                <p>🙏</p>
+            </div>
+            <div class="panel panel4">
+                <p>🧚‍♀️</p>
+                <p>is</p>
+                <p>🧚‍♂️</p>
+            </div>
+            <div class="panel panel5">
+                <p>🧘‍♂️</p>
+                <p>patience</p>
+                <p>💆</p>
+            </div>
+        </div>
+        <div id="panels9" style="display:none;">
+            <div class="panel panel1">
+                <p>🥅</p>
+                <p>Goals</p>
+                <p>🤾‍♂️</p>
+            </div>
+            <div class="panel panel2">
+                <p>💂‍♀️</p>
+                <p>are</p>
+                <p>💂</p>
+            </div>
+            <div class="panel panel3">
+                <p>🗻</p>
+                <p>dreams</p>
+                <p>💭</p>
+            </div>
+            <div class="panel panel4">
+                <p>🦄</p>
+                <p>with</p>
+                <p>🦋</p>
+            </div>
+            <div class="panel panel5">
+                <p>⌛</p>
+                <p>deadlines</p>
+                <p>⏰</p>
+            </div>
+        </div>
+        <div id="panels10" style="display:none;">
+            <div class="panel panel1">
+                <p>🙅‍♂️</p>
+                <p>Never</p>
+                <p>🙅</p>
+            </div>
+            <div class="panel panel2">
+                <p>✋</p>
+                <p>never</p>
+                <p>✋🏻</p>
+            </div>
+            <div class="panel panel3">
+                <p>🛑</p>
+                <p>never</p>
+                <p>🚥</p>
+            </div>
+            <div class="panel panel4">
+                <p>🎒</p>
+                <p>give</p>
+                <p>🎪</p>
+            </div>
+            <div class="panel panel5">
+                <p>✌️</p>
+                <p>up</p>
+                <p>🖖</p>
+            </div>
+        </div>
+        <script src="tabs.js"></script>
+    </body>
+    </html>
+```
+
+Next, let’s create the style file. Place a file **tabs.css** in the same folder and the below content in it.
+
+We are taking five motivational random images from unsplash.com, as background for panel1, panel2, panel3, panel4 and panel5.
+
+
+```css
+    html {
+        box-sizing: border-box;
+        background:#ffc600;
+        font-family:'helvetica neue';
+        font-size: 20px;
+        font-weight: 200;
+    }
+    body {
+        margin: 0;
+    }
+      *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    .panel {
+        background:#6B0F9C;
+        box-shadow:inset 0 0 0 5px rgba(255,255,255,0.1);
+        color:white;
+        text-align: center;
+        align-items:center;
+        transition:
+            font-size: 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+            flex: 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+            background-color: 0.2s
+        font-size: 20px;
+        background-size:cover;
+        background-position:center;
+        flex: 1;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .panel1 { background-image:url(https://source.unsplash.com/1500x1500/?motivational); }
+    .panel2 { background-image:url(https://source.unsplash.com/1500x1500/?motivation); }
+    .panel3 { background-image:url(https://source.unsplash.com/collection/2249355/1500x1500); }
+    .panel4 { background-image:url(https://source.unsplash.com/collection/1004170/1500x1500); }
+    .panel5 { background-image:url(https://source.unsplash.com/collection/2309918/1500x1500); }
+
+    /* Flex Items */
+      .panel > * {
+        margin:0;
+        width: 100%;
+        transition:transform 0.5s;
+        flex: 1 0 auto;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .panel > *:first-child { transform: translateY(-100%); }
+      .panel.open-active > *:first-child { transform: translateY(0); }
+      .panel > *:last-child { transform: translateY(100%); }
+      .panel.open-active > *:last-child { transform: translateY(0); }
+
+    .panel p {
+        text-transform: uppercase;
+        font-family: 'Amatic SC', cursive;
+        text-shadow:0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
+        font-size: 2em;
+    }
+    .panel p:nth-child(2) {
+        font-size: 4em;
+    }
+
+    .panel.open {
+        flex: 5;
+        font-size:40px;
+    }
+```
+
+Create a new file **tabs.js** in the same directory. This is for the click animation as in previous version.
+
+![tabs.js](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/3_rU_bHVRy-.png)*tabs.js*
+
+I had checked it by testing the temporary addon and it works perfectly.
+
+![Works Perfectly](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/4_NDhTmg0ru7.png)*Works Perfectly*
+
+So, it’s time to publish it in the mozilla addon store. I will follow the procedure from another of my blog in the series. The link is [here](https://thewebdev.tech/firefox-extension-2).
+
+I had submitted the addon and it is **Awaiting Review** from mozilla reviewers.
+
+![Submitted](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/5_FpbNzP2BpP.png)*Submitted*
+
+Now, i want to make another similar addon called **Simple Motivational Tab**. The only thing different in it is, that it loads images from local and not unsplash.com. The benefit is the decrease in 1 seconds to load the tab.
+
+The only difference from **tabs.css** is below. Rest of the code is same to the earlier two addons and can be taken from my github account.
+
+![tabs.css](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/6_H2P4_uUmR.png)*tabs.css*
+
+Finally both of the addons were approved.
+
+![Both Approved](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/7_2T2W0v9AI.png)*Both Approved*
+
+You can find both of these addons in this part and other addons, in the link [https://addons.mozilla.org/en-US/firefox/user/15774633/](https://addons.mozilla.org/en-US/firefox/user/15774633/)
+
+Please download them and tell me about the experience.
+
+![All addons](https://ik.imagekit.io/thewebdev/FirefoxAddons/10/8_s4BiPSbLGx.png)*All addons*
+
+This complete part-10 of the series.
+
+You can find the code for the same in my github account [here](https://github.com/nabendu82/Addons).

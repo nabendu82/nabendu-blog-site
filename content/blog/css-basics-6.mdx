@@ -1,0 +1,72 @@
+---
+title: CSS Crash Course for Beginners -6
+description: CSS Crash Course
+date: 2020-07-22
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+Welcome to part-6 of the series. We will learn about Alignment and Floating in this part. They are a bit of old concept, but still in use at a lot of places.
+
+### Alignment and Floating
+
+Head over to your **index.html** file from the previous part and add three blocks of div, with each containing a h2 and a p tag.
+
+![index.html](https://ik.imagekit.io/thewebdev/CSS_Basics/6/1_aY797Gjd9E.png)*index.html*
+
+It will show three blocks like below on our web-page. In this normal flow, we will have them one after the other.
+
+![Web-page](https://ik.imagekit.io/thewebdev/CSS_Basics/6/2_BUepT8KR8G.png)*Web-page*
+
+Now, we want all these three blocks appears in a vertical fashion and occupying 33.3% space each. We will do this by the float: left property, which floats an element to the left.
+
+So, head over to the **styles.css** and add the below styles.
+
+![float: left](https://ik.imagekit.io/thewebdev/CSS_Basics/6/3_zaUVwXuLuJ.png)*float: left*
+
+Now, all the blocks will occupy the 33.3% of the page.
+
+![All elements floating](https://ik.imagekit.io/thewebdev/CSS_Basics/6/4_0NxblGQgGU.png)*All elements floating*
+
+As you might have seen from above, that the `<hr>` after the block div was missing. This happens because when we float something, it messes with tags after it. The way to fix it is to use an empty div with any class name after the floating element. We generally name the class **clearfix**.
+
+![clearfix](https://ik.imagekit.io/thewebdev/CSS_Basics/6/5_D6au-zIKrn.png)*clearfix*
+
+After that in our styles.css use the property **clear:both** to fix our float issue.
+
+![clear: both](https://ik.imagekit.io/thewebdev/CSS_Basics/6/6_zSxLxQHgd1.png)*clear: both*
+
+It will solve our issue and the horizontal rule will be shown again.
+
+![hr again](https://ik.imagekit.io/thewebdev/CSS_Basics/6/7_tyNO_WpEBA.png)*hr again*
+
+Next, we will see how to create a two column layout using float. For this create two sections with id — ***main__block** and **side__bar**
+
+![Two sections](https://ik.imagekit.io/thewebdev/CSS_Basics/6/8_oBUBpOoow.png)*Two sections*
+
+After this we just have to give one property of **float: left** and the other **float: right**, which the required width.
+
+![The Styles](https://ik.imagekit.io/thewebdev/CSS_Basics/6/9_kiI3advth.png)*The Styles*
+
+Now, our two column layout is perfect.
+
+![Two Column layout](https://ik.imagekit.io/thewebdev/CSS_Basics/6/10_VA39nlZrC.png)*Two Column layout*
+
+But what if we want to add some padding and border to both. Let’s add the same in our CSS.
+
+![border and padding.](https://ik.imagekit.io/thewebdev/CSS_Basics/6/11_-fvOrco6HV.png)*border and padding.*
+
+It will mess up things in our web-page. It is because by default in css, everything is a **content-box** which is defined by the **box-sizing** property. It mean any element like a div, will take it’s width plus the border and the padding.
+
+![Things messed up](https://ik.imagekit.io/thewebdev/CSS_Basics/6/12_4W8qh39qf.png)*Things messed up*
+
+We are going to solve this issue by making the **box-sizing: border-box** in both of our elements. It includes the border and the padding to the div’s width.
+
+A very good reference to understand both can be find [here](https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_box-sizing).
+
+![box-sizing](https://ik.imagekit.io/thewebdev/CSS_Basics/6/13_EkjesUbI4I.png)*box-sizing*
+
+It solves our issue and the layout again looks good.
+
+![Perfect](https://ik.imagekit.io/thewebdev/CSS_Basics/6/14_bRrlFnZMt3.png)*Perfect*
+
+This completes part-6 of the series.

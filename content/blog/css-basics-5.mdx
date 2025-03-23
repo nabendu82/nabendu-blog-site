@@ -1,0 +1,61 @@
+---
+title: CSS Crash Course for Beginners -5
+description: CSS Crash Course
+date: 2020-07-21
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-5 of the series. We will start to style forms in this part.
+
+## Styling Forms
+
+We will first create a simple form and after that style it. So, head over to index.html and create a simple form like below. Notice that i had also put some **break rows**(`<br>`) and **horizontal rule**(`<hr>`), on top and bottom of the form. They are done to provide the needed space, so that we can view correctly.
+
+![index.html](https://ik.imagekit.io/thewebdev/CSS_Basics/5/1_p7pAGJW_XR.png)*index.html*
+
+It will show this ugly form on the web-page.
+
+![Ugly form](https://ik.imagekit.io/thewebdev/CSS_Basics/5/2_R237istj-J.png)*Ugly form*
+
+Now, let’s add some styles to the form. Here, we are targeting the form class **my-form** and adding padding all around. After that for form-group adding bottom padding.
+
+![styles.css](https://ik.imagekit.io/thewebdev/CSS_Basics/5/3_ng1Oy8bpz.png)*styles.css*
+
+It will show our form like below now.
+
+![Some Styles](https://ik.imagekit.io/thewebdev/CSS_Basics/5/4_KDkVXj5stQ.png)*Some Styles*
+
+The next thing we will do is target the labels. By default the label are inline elements, so they will appear on the same line as input. We can make them block level element by using the property **display: block**.
+
+![display block](https://ik.imagekit.io/thewebdev/CSS_Basics/5/5_Kbfr1RAWpQ.png)*display block*
+
+Now, the labels will be shown on each line.
+
+![label](https://ik.imagekit.io/thewebdev/CSS_Basics/5/6_MBn-cLntI.png)*label*
+
+Next, we will target the inputs but only the text. We can do this by **input[*type*=”text”]**. If we don’t do this it will target all input using the **button**, which is i**nput type=”submit”** in our case.
+
+We can also target other elements by using the comma(,). We are using it to select the **textarea**.
+
+In this we are just giving some padding and making the width 100%.
+
+![More Styles](https://ik.imagekit.io/thewebdev/CSS_Basics/5/7_08Oaa_rsl.png)*More Styles*
+
+Now, our form is almost styled.
+
+![Almost perfect](https://ik.imagekit.io/thewebdev/CSS_Basics/5/8_PyeDBOl0I4.png)*Almost perfect*
+
+Next, we will style our button. Here, we are first giving giving it a top-down margin of 0.2em. After that padding of 15px on left and right. Making the border to be none, giving a line-height.
+
+Then a bit of border-radius to make the edges of the box, smooth. Finally giving the font-size, color and background.
+
+We are also adding a hover state to the button.
+
+![Button styling](https://ik.imagekit.io/thewebdev/CSS_Basics/5/9_PiTM6Cv3hv.png)*Button styling*
+
+These styles gives our button a great look, with a hover state.
+
+![Awesome button.](https://ik.imagekit.io/thewebdev/CSS_Basics/5/10_DJn5R-VYD.png)*Awesome button.*
+
+This completes part-5 of the series. See you soon.
