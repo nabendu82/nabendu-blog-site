@@ -1,0 +1,104 @@
+---
+title: Build a Flashcard App in Flutter
+description: Flutter
+date: 2021-04-14
+tags: ['flutter', 'beginners', 'dart']
+published: true
+---
+
+In this blog we will continue our flutter journey and create Flashcard app, in which we can see the question and click on the card to flip it over and see the answer.
+
+So, open up a terminal and create a new flutter app using the below command.
+
+
+```js
+    flutter create flashcard_app
+```
+
+After that cd into the folder and open the code in VSCode. I have also connected my physical device to my computer via USB.
+
+On running the app from Run ->Start without debugging , i will get the basic app running on my phone.
+
+As with the previous app, we will remove everything in in the **main.dart** file, except the void main() part. Then type **stful** and press **Enter** and write MyApp where the cursor points.
+
+After that we will put the a **MaterialApp** and a **Scaffold** to get the basic structure. Inside the Scaffold, we have a **Appbar** and a body containing a **Column**, wrapped with a **Center**. The column is also aligned center.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659936/Flutter/flashcard/1_ptb3rj.png)*main.dart*
+
+Now, inside our children we will have a **SizedBox** which will be a square box, with Centered Text. We are also creating two buttons for Next and Prev.
+
+![SizedBox](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659936/Flutter/flashcard/2_lxkefq.png)*SizedBox*
+
+Now, our App layout is already complete and it looks awesome.
+
+![Awesome](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659936/Flutter/flashcard/3_oganxy.png)*Awesome*
+
+We have the flashcard functionality of flipping, we will use a package from [pub.dev](https://pub.dev) and search for Flip Card and will use the first package.
+
+![Flip Card](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659936/Flutter/flashcard/4_vylbmr.png)*Flip Card*
+
+Now, as per the documentation we need to have this flip_card at **dependencies** level in **pubspec.yaml**. So, we added it inside it and the tab spacing is very important here.
+
+On hitting Save, the dependency is automatically installed.
+
+![pubspec.yaml](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659936/Flutter/flashcard/5_k8l0uj.png)*pubspec.yaml*
+
+Now, to use the **FlipCard** in our App, we replace the Card with it and it contains a **front** part and a **back** part. We will use two Cards with different test in it’s place.
+
+Also, we need to import **FlipCard** at top with the below import statement.
+
+
+```js
+    import 'package:flip_card/flip_card.dart';
+```
+
+![Flipcard](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659936/Flutter/flashcard/6_otbpin.png)*Flipcard*
+
+Now, if we click on the Card, it flips with a nice animation and show the other side.
+
+![Awesome](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659936/Flutter/flashcard/7_yjhqh3.png)*Awesome*
+
+Now, we will first refactored the code a bit because we are repeating the Card part, with only text changed. So, create a new file **flashcard_view.dart** in the same lib folder and put the below content in it.
+
+Here, we are creating a class **FlashCardView** as **StatelessWidget**. Here, we are using the **constructor**to pass the text and the auto-generated key. Inside the return, we have pasted our Card code from main.dart, which will show whatever text we pass to it.
+
+![flashcard_view.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659937/Flutter/flashcard/8_iguawp.png)*flashcard_view.dart*
+
+Back in **main.dart**, we will use the **FlashCardView** and pass the text to it. We are also importing the file **flashcard_view.dart** at the top.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659937/Flutter/flashcard/9_m299ea.png)*main.dart*
+
+Our App will behave the same, but we need to hot reload it. We will now work on the data for our App and we are going to create a new class Flashcard for the same.
+
+So, create a file **flashcard.dart** in the lib folder and it will be a very simple class, which will have two properties- question and answer.
+
+And the constructor will create objects by taking these two.
+
+![flashcard.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659937/Flutter/flashcard/10_fduklu.png)*flashcard.dart*
+
+Back in **main.dart**, we will create a List of **Flashcard**, which will contain the question and answer. We are also creating a variable for index called **_currIndex**.
+
+Now, we are using that in our front and back. Also, we have imported our **flashcard.dart** at the top.
+
+
+```js
+    import 'package:flashcard_app/flashcard.dart';
+```
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659937/Flutter/flashcard/11_yqmgc2.png)*main.dart*
+
+Now, our app changes and will show the first question and answer pair. Now, the last part is to add functionality for Next and Prev buttons to take to the next or previous questions.
+
+So, we will create two functions **nextCard** and **previousCard** at the bottom of our and use it in the respective **onPressed** handler.
+
+Here, in the **nextCard** function we need to increment our **_currIndex** by 1. But we are also need to check whether we reached the end of the list by comparing with (**_currIndex + 1 < _flashcards.length**). So, if we are reaching the end, we are making the index to 0 or else incrementing by 1.
+
+Similarly in the **previousCard** function we will check if **(_currIndex — 1 >= 0)** because we are checking whether, we hit the start index. So, we are decrementing the **_currIndex** by 1 or we will take it to the last question.
+
+![nextCard](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659937/Flutter/flashcard/12_n3jgat.png)*nextCard*
+
+So, our app is complete and working perfectly.
+
+![App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618659937/Flutter/flashcard/13_axoc3j.gif)*App*
+
+The code for the same can be found in [this ](https://github.com/nabendu82/flashcard_app)github repo.

@@ -1,0 +1,57 @@
+﻿---
+title: Follow along Navigation using HTML, CSS, and Javascript
+description: Flexbox
+date: 2021-09-14
+tags: ['css', 'javascript', 'webdev']
+published: true
+---
+
+You might have seen some cool websites where just mouse hover on the navigation will show a strip or highlights. Let’s build a simple project to show follow-along navigation. We’ve got these links on the page and when you hover over one of the links, we’ve got this pill-shaped highlight that’s going to both resize itself, as well as follow you around the page wherever that is going. Now, let’s jump into the implementation part.
+
+1.  _index.html — contains the HTML layout which defines the element structure that would be shown on the page._
+2.  _images are directly placed inside the folder of our project._
+3.  _style.css- contains CSS code for styling. Using CSS we can style the different portions to make them more visually appealing._
+
+HTML Layout
+===========
+
+Open VSCode and create the basic HTML structure in an **index.html** file by ! and then pressing tab. Give the **title** as ‘**Follow-along Navigation’**. Link **style.css** and add few links using anchor tag < a > under < nav > tag.  Use the < footer > tag to display the footer section. That’s a simple HTML.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633781514/JavaScript/follow-along%20navigation/MEDIUN%20BLOG%204_Follow%20along%20navigation/img_2_vzrymk.png)index.html
+
+CSS Styling
+===========
+
+For the styling of the **body,** I have used background image, font-family, color and adjusted the image and text alignment.Added some padding to **h1** and **nav** elements
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633781514/JavaScript/follow-along%20navigation/MEDIUN%20BLOG%204_Follow%20along%20navigation/img_3_abns5i.png)style.css
+
+Add color, padding, font-size to anchor tagelements. To **highlight** class elements add **background**,**border-radius** to have curve edged highlight. Add **transition** of 0.2 s for smooth transition of highlight from one element to other.The highlight has a **z-index** of -1, it will be placed behind the link text.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633781514/JavaScript/follow-along%20navigation/MEDIUN%20BLOG%204_Follow%20along%20navigation/img_4_fjcmzy.png)
+style.css
+
+To display red heart give color to **heart** class.
+
+`.heart{color: #b14240;}`
+
+Javascript logic
+================
+
+We will fetch all the **link** elements that will be hovered and store it in **triggers** variable.Let’s add a class of **highlight** and later put it into the DOM. Using triggers.forEach() take each link and add the event listener for mouse enter and when that happens we are going to run the function **highlightLink()**.we need to figure out the width, the height, the X-axis and the Y-axis values which means we need to figure out how big is the element that we hovered and where on the page is that actual element.we’re going to use a method called **getBoundingClientRect()** to get **link** elements position on the page and for the obtained top and left values we will add **window.scrollY** and **window.scrollX** values i.e scrolled down and scrolled right values.
+
+Set these values to the **highlight** width and height . The `translate()` method moves an element from its current position (according to the parameters given for the X-axis and the Y-axis). Use translate method to set x-axis and y-axis position.
+
+```js
+    highlight.style.width = `${coords.width}px`;
+    highlight.style.height = `${coords.height}px`;
+    highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+```
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633781514/JavaScript/follow-along%20navigation/MEDIUN%20BLOG%204_Follow%20along%20navigation/img_5_jb9avc.png)
+
+The final result is here
+https://www.youtube.com/watch?v=mw2Fmn_P_S0
+
+Complete source code is [here](https://github.com/Divyamcm/Projects/tree/main/Follow%20Along%20Navigation) .
+

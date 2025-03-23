@@ -1,0 +1,113 @@
+---
+title: Build a Flashcard Quiz with React
+description: Flashcard Quiz
+date: 2020-11-29
+tags: ['javascript', 'beginners', 'React']
+published: true
+---
+
+Welcome to a new React JS project, where we are going to build a Flashcard Quiz app using React.
+
+So, fire up your terminal and create a new react app **flashcard-react** with the below command.
+
+![flashcard-react](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640703/React-Projects/flashcard-react/1_sspivj.png)*flashcard-react*
+
+We will remove all the unnecessary boiler-plate code and our **index.js** will look like below.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640703/React-Projects/flashcard-react/2_exam6n.png)*index.js*
+
+And the **App.js** contains only Hello World text.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640703/React-Projects/flashcard-react/3_u47l4n.png)*App.js*
+
+Next, create a **components** folder **src** folder and two files **FlashcardList.js** and **Flashcard.js** inside it. Next, we will use sample question data before, getting the data from the API endpoint for the quiz.
+
+So, in **App.js** create a variable **SAMPLE_CARDS**, which contains various things related to the question as objects inside an array.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640703/React-Projects/flashcard-react/4_snnyf4.png)*App.js*
+
+Next, we will create an state variable **cards** and assign it to **SAMPLE_CARDS** using **useState**hook. After that we will pass the **cards** to the **FlashcardList** component as **flashcards** props.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640703/React-Projects/flashcard-react/5_xxdavr.png)*App.js*
+
+Next, head over to **FlashcardList.js** file and use the flashcards props. We are mapping over it and passing individual object to the **Flashcard** component.
+
+![FlashcardList.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640703/React-Projects/flashcard-react/6_u7hh39.png)*FlashcardList.js*
+
+Now, in the **Flashcard.js** file, we are just showing the question for now.
+
+![Flashcard.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640704/React-Projects/flashcard-react/7_gjzfhw.png)*Flashcard.js*
+
+Now, in localhost we can see the three questions.
+
+![Questions](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640704/React-Projects/flashcard-react/8_xhbb7v.png)*Questions*
+
+We will next implement the flip logic in cards. So, in Flashcard.js we will use the state variable flip and set it to false. The click of the div will set it to toggle and display the question or answer accordingly.
+
+![Flashcard.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640704/React-Projects/flashcard-react/9_z2kroq.png)*Flashcard.js*
+
+So, if we move to localhost we can see the flipping in action.
+
+![Flipping](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640704/React-Projects/flashcard-react/10_wyxbgc.gif)*Flipping*
+
+We will now complete our **Flashcard.js** component with the html structure.
+
+![Flashcard.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640704/React-Projects/flashcard-react/11_srpgfv.png)*Flashcard.js*
+
+Now, we will create our styles. So, create a new file **App.css** and also include it in **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640705/React-Projects/flashcard-react/12_yfj56t.png)*App.js*
+
+Now, in **App.css** we will put the basic styles, plus the styles for card.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640705/React-Projects/flashcard-react/13_wt5riq.png)*App.css*
+
+If we go to localhost we can see the cards and also the answer in back with 180deg rotation.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640705/React-Projects/flashcard-react/14_twklkj.png)*localhost*
+
+Now, we don’t want the backside of the card to be shown. So, we will give the **backface-visibility: hidden** property.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640705/React-Projects/flashcard-react/15_unamwy.png)*App.css*
+
+Next, we want to flip the card based on the click. For that we are having a transform on the card, where are creating a variable **rotate-y**, which is set to 180deg on flip. We also need to have **transform-style: preserve-3d** for this to work.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640706/React-Projects/flashcard-react/16_vij1dv.png)*App.css*
+
+So, now in localhost we can see this in action.
+
+![Flipper in action](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640705/React-Projects/flashcard-react/17_xk2wv0.gif)*Flipper in action*
+
+We will add two more properties for nice smoother transition. We will also have a nice box-shadow on hover of the box.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640706/React-Projects/flashcard-react/18_yug76y.png)*App.css*
+
+We will also have style for the options in card. So, put the in **App.css**.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640706/React-Projects/flashcard-react/19_ennctj.png)*App.css*
+
+Now, it’s time to hit the API endpoint and generate the questions for our quiz. We will be using the open trivia DB for the same.
+
+![Open DB](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640706/React-Projects/flashcard-react/20_mmvhwb.png)*Open DB*
+
+For using the API, we need axios. So, install it and use the useEffect hook to cal the opentdb endpoint once.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640706/React-Projects/flashcard-react/21_qgcfro.png)*App.js*
+
+Now, we will create our array of object similar to SAMPLE_CARDS in the .then block. Here, we are also using decodeString function in question, because we are receiving HTML characters also in some questions.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640707/React-Projects/flashcard-react/22_x1qfsq.png)*App.js*
+
+Now, we will put styles in our** App.css** file. Here, we are styling the card-grid and also making the **height **more and removing the **width**.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640707/React-Projects/flashcard-react/23_qh4li9.png)*App.css*
+
+I found two small bugs in above. The first to show a question from SAMPLE_CARDS and that can be fixed with passing an empty array to useState.
+
+The second thing is that we need decodeString() in everything, because sometime the answers also contained special HTML characters.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640707/React-Projects/flashcard-react/24_ujb2zw.png)*App.js*
+
+Now, our small flashcard quiz app is complete with 10 random questions from Trivia DB. You can find code for the same in [this ](https://github.com/nabendu82/flashcard-react)github repo.
+
+![Quiz App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609640708/React-Projects/flashcard-react/25_qpj4ws.gif)*Quiz App*
