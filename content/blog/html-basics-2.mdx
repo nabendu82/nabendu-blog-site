@@ -1,0 +1,101 @@
+---
+title: HTML Crash Course for Beginners - 2
+description: HTML
+date: 2020-07-15
+tags: ['html', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to part-2 of the series. In the part-1 we mainly did some setups and some basics. But before moving forward will look into more details.
+
+## Tag Syntax
+
+Element names are surrounded by angle brackets like below.
+
+
+```css
+    <tagname>content</tagname>
+```
+
+Normally comes in pairs — start tag and end tag. End tag is generally the same but with a forward slash. Below is an example of h1 tag and paragraph tag.
+
+
+```css
+    <h1>Contact Us</h1>
+    <p>You can contact us by filling the below form</p>
+```
+
+
+Some tags are self closing like the break row tag `<br>`
+
+
+## HTML Page Structure
+
+The HTML page structure diagram is below and it starts with DOCTYPE tag, which tell the browser which type of HTML it is, which for our case in HTML5 and given by `<!DOCTYPE html>`.We have other doctypes also, like for HTML4 but we don’t use it anymore.
+
+Next, we wrap our whole code with `<html>` tag, in which we can also give the language of the website. For us it is en(English).
+
+Next, we have the `<head>` tag, which contains the metadata of the site. Metadata is generally use by google crawlers an useful to put the keywords of the site. Beside this it also contains the `<title>` tag, the content inside which is shown for the browser title. We also have the link to the CSS and JS files here, but that for another part.
+
+The sibling of the `<head>` tag is the `<body>` tag and it is the tag, which contains all of our content of the web-page. In this example we have two tags inside it called the h1 tag and paragraph tag, but we can have hundreds different type of tags. We will look into some of them next.
+
+![HTML Page Structure](https://ik.imagekit.io/thewebdev/HTML-Basics/2/1_F2ywMbviU.png)*HTML Page Structure*
+
+## Tags
+
+We will now start with the different tags in HTML and the way it shows in the browser.
+
+### Heading Tag
+
+As the name suggests, it is used to show headings on web-page. There are six of them from **h1** to **h6**, which shows text of different sizes.
+
+Open the VS Code and add these tags with some content in it inside the `<body>` tag.
+
+![Heading Tag](https://ik.imagekit.io/thewebdev/HTML-Basics/2/2_Cn1uZ-ofp.png)*Heading Tag*
+
+And it will show like below on the browser.
+
+![Heading Tag](https://ik.imagekit.io/thewebdev/HTML-Basics/2/3_p-msVQcni.png)*Heading Tag*
+
+Before moving to the next tag, want to tell that we can put comment also in HTML. Now whatever you put inside the comment tag will now be shown in the webpage, as it is for your own reference only. Like the comment below.
+
+
+```css
+    <!-- Heading -->
+```
+
+### Paragraph Tag
+
+As the name suggests, the paragraph tag is used in web-page to hold newspaper like paragraph. So, include different paragraphs in different `<p>` tags.
+
+We have two paragraph in our code and it will show on two different lines.
+
+![Paragraph Tags](https://ik.imagekit.io/thewebdev/HTML-Basics/2/4_yajtTlC8a.png)*Paragraph Tags*
+
+It will show like below on the browser on different lines.
+
+![Paragraph Tags](https://ik.imagekit.io/thewebdev/HTML-Basics/2/5_2thz2rkWz.png)*Paragraph Tags*
+
+### Inline vs Block level elements
+
+As told earlier paragraph tag is a block level element, similar to the heading tag shown earlier. Now, there are another type of tags in HTML called the **Inline elements**.
+
+**Inline elements** don’t start on a new line and only takes the necessary width. Example are `<span>, <img> and <a>` tags
+
+**Block elements** starts on the new line and takes the full width available. Example are `<h1>..<h6>, <div>, <p>` tags
+
+### Links Tag
+
+Now, we will learn the link tag, which is also know as the anchor tag. It is used to create hyperlinks to some page in our own site, or to some external site.
+
+We have an essential attribute in it which is **href**, which tell where to go once the link is clicked. We also have an optional **target="_blank"** attribute, which open the link in a different tab on the browser.
+
+An example for both of the ways is below. One link takes to my website and the other to my youtube channel.
+
+![Link tags](https://ik.imagekit.io/thewebdev/HTML-Basics/2/6_mVaG0DAAUD.png)*Link tags*
+
+It will show like below on the web-page. Notice that both of the links are on the same line. It is because as we had earlier learnt that the `<a>` tag is a Inline element and don’t start on a new line and only takes the necessary width.
+
+![Web-page](https://ik.imagekit.io/thewebdev/HTML-Basics/2/7_vQCB217LA.png)*Web-page*
+
+This completes part-2 of the series. 

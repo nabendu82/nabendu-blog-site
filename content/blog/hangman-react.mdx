@@ -1,0 +1,149 @@
+---
+title: Build Hangman game with React
+description: React
+date: 2020-11-26
+tags: ['javascript', 'beginners', 'React']
+published: true
+---
+
+Welcome to a new React JS project, where we are going to build a Hangman app using React.
+
+This project is based on the Vanilla JS project by Brad Traversy and the code for the same is [here](https://github.com/bradtraversy/vanillawebprojects/tree/master/hangman). We are basically going to convert it into a React project.
+
+So, fire up your terminal and create a new react app **hangman-react** with the below command.
+
+![hangman](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644179/React-Projects/hangman-react/1_pbhzqx.png)*hangman*
+
+We will remove all the unnecessary boiler-plate code and our **index.js** will look like below.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644178/React-Projects/hangman-react/2_iy4ifc.png)*index.js*
+
+And the **App.js** contains only Hello World text.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644178/React-Projects/hangman-react/3_anetqm.png)*App.js*
+
+We will split our app into components now. So, inside the **src** folder create a folder called **components** and inside it create a file **Header.js**. Create a basic functional component and put the h1 and p in it.
+
+![Header.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644178/React-Projects/hangman-react/4_qvjb9a.png)*Header.js*
+
+Now, create a file **Figure.js** inside the **components** folder and put the below content in it to show the image. The code for the same is taken from brad’s repo.
+
+![Figure.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644179/React-Projects/hangman-react/5_rsupwd.png)*Figure.js*
+
+We will also paste to complete CSS from brad’s repo in our **App.css** file.
+
+![App.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644179/React-Projects/hangman-react/6_egvltr.png)*App.css*
+
+Now, in our **App.js** file we will include both **Header **and the **Figure** component.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644179/React-Projects/hangman-react/7_yz5tlo.png)*App.js*
+
+Now, in our localhost we can see the below.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644179/React-Projects/hangman-react/8_axgnct.png)*localhost*
+
+We need some more components in the **components** folder, so we are creating the same from the Integrated Terminal.
+
+![Integrated Terminal](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644180/React-Projects/hangman-react/9_tfsdth.png)*Integrated Terminal*
+
+Next, we will create the **WrongLetters.js** file and put the basic html structure in it now.
+
+![WrongLetters.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644179/React-Projects/hangman-react/10_brzrvr.png)*WrongLetters.js*
+
+Next, we will create the **Word.js** file and put the basic html structure in it now.
+
+![Word.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644179/React-Projects/hangman-react/11_yr9lm2.png)*Word.js*
+
+Next, we will create the **Popup.js** file and put the basic html structure in it now.
+
+![Popup.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644180/React-Projects/hangman-react/12_wlhwn6.png)*Popup.js*
+
+Next, we will create the **Notification.js** file and put the basic html structure in it now.
+
+![Notification.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644180/React-Projects/hangman-react/13_lmkl4k.png)*Notification.js*
+
+Now, we will include these components in our **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644180/React-Projects/hangman-react/14_cga8vw.png)*App.js*
+
+Next, we will add a variable for **words** and **selectedWord**. We will also create state for **playable**, **correctLetters** and **wrongLetters** in **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644181/React-Projects/hangman-react/15_tusz1a.png)*App.js*
+
+We will first write the logic for **Word.js** to show the words. We are getting the **selectedWord**, **correctLetters** as props. After that we are splitting the **selectedWord** and looping through it to show it.
+
+![Word.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644180/React-Projects/hangman-react/16_vi81fn.png)*Word.js*
+
+Now, in** App.js** we will pass these props and we will see blank words as nothing matches with **correctLetters**.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644180/React-Projects/hangman-react/17_kte0k7.png)*App.js*
+
+Next, we will create the component to show the Wrong letters in **WrongLetter.js**. Here, we are just mapping through the **wrongLetters** props and showing each letter followed by a comma.
+
+![WrongLetter.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644180/React-Projects/hangman-react/18_nudkc9.png)*WrongLetter.js*
+
+We will also pass the props from **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644181/React-Projects/hangman-react/19_pxror8.png)*App.js*
+
+Now, we will add the event listener to listen for the keypress. Here, we are first taking the pressed key and after that checking whether it is in the **selectedWord**. After that we are setting the correct letters or the wrong letters accordingly.
+
+The useEffect, we are firing only if **correctLetters**, **wrongLetters**, **playable** changes.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644181/React-Projects/hangman-react/20_fwjclw.png)*App.js*
+
+Now, when we go to localhost and press a wrong letter, the wrong will be filled and if right letter then the right letter will be filled.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644181/React-Projects/hangman-react/21_gye2wd.png)*localhost*
+
+Now, we will add the logic to show the part of image as we enter wrong letter. In **Figure.js** we will check **wrongLetters.length** and depending on it will show the part of image.
+
+![Figure.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644181/React-Projects/hangman-react/22_cnabrt.png)*Figure.js*
+
+So, now when we enter the wrong letter the hangman will start appearing.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644181/React-Projects/hangman-react/23_cpwwqg.png)*App.js*
+
+Now, we will work on the notification, if we enter a letter multiple time. For this we will take help from a helper function. So, create a file **Helpers.js** inside the **components** folder and add the below content in it.
+
+![Helpers.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644181/React-Projects/hangman-react/24_pnrr6k.png)*Helpers.js*
+
+Now, we will use this
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/25_pkrpil.png)*App.js*
+
+We will also pass the in **showNotification** as props in **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/26_h50uk7.png)*App.js*
+
+Next, we will use this prop in **Notification.js** file and add a **show** class if it is there.
+
+![Notification.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/27_hsqvft.png)*Notification.js*
+
+Now, in our localhost the notification will be shown.
+
+![Notification](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/28_zibobv.gif)*Notification*
+
+Now, we will add the logic to show different message based on whether we won or loss. For this we will send the below props in **Popup **component in **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/29_ulj3lx.png)*App.js*
+
+Before using these props, we will create a helper function to check whether we won or lost.
+
+![Helpers.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/30_su04ih.png)*Helpers.js*
+
+Now, we will update the logic in **Popup.js**. Here, we will be using the checkWin() to check whether the player won or lost and display the pop-up.
+
+![Popup.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/31_yyh03v.png)*Popup.js*
+
+Now, we have to add the logic for **Play Again**. For this we will pass a playAgain function in props and call it on click of the button in **Popup.js** file.
+
+![Popup.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644182/React-Projects/hangman-react/32_fxl97g.png)*Popup.js*
+
+Back in App.js we will create the function by empty the setCorrectLetters and setWrongLetters. After that we generate a random word again.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644183/React-Projects/hangman-react/33_th1rw4.png)*App.js*
+
+Our App is fully functional now and is re-playable. You can find code for the same in [this ](https://github.com/nabendu82/hangman-react)github repo.
+
+![Playable](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1609644183/React-Projects/hangman-react/34_esfeay.gif)*Playable*

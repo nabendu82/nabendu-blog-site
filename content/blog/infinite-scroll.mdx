@@ -1,0 +1,71 @@
+---
+title: Create an Infinite Scroll app in JS
+description: Flexbox
+date: 2020-12-02
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to a brand new project, where we are going to create Infinite Scrolling in a webpage with JavaScript. It is very useful when you have hundreds of data on a page and want to show only the data, which fits the page. After that you show more data once the user scrolls.
+
+So, head over to the terminal and create a folder **InfiniteScroll**. Inside the folder create three files **index.html**, **main.js** and **styles.css**. Open the project with VS Code. As always the whole process can be done manually.
+
+![InfiniteScroll](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/1_AaavYKLP0p.png)*InfiniteScroll*
+
+Now, in the **index.html** create the basic html skeleton. After that link the **css** and the **js** file. We will also put the html for a single post. On opening the project by **Live Sever** we can see the content in a browser.
+
+![Live Sever](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/2_yD9w_bsWu6.png)*Live Sever*
+
+Next, head over to **styles.css** and add the basic css for body, container and blog-post.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/3_cvYD7Q6on.png)*styles.css*
+
+We are adding some more styles in **styles.css** and our blog post looks perfect.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/4_pSN25Pyxvr.png)*styles.css*
+
+Now, we will move to **main.js** and add the code to get three posts from jsonplaceholder api. The jsonplaceholder api have 100 posts, so we are using **getRandomNr()** to generate a number from 1 to 100.
+
+We are also using the randomuser api to get the data of a random user. We are then sending both the data to **addDataToDOM()** function. Inside it we are creating the blog post, with the skeleton like the blog post from index.html.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/5_FIxABTI_ZA.png)*main.js*
+
+Since, we are getting the three post we are now commenting the html for the blog post from the **index.html** file.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/6_rLvgu1BCy.png)*index.html*
+
+To add the logic of scrolling we will first add an event listener on the scroll. The event will fire on scrolling and we will get three thing ie **scrollTop**, **scrollHeight**, **clientHeight**. To check when we reach the bottom, we can use the formula clientHeight + scrollTop >= scrollHeight-5. You can learn everything about these three properties from [this](https://medium.com/@jbbpatel94/difference-between-offsetheight-clientheight-and-scrollheight-cfea5c196937#:~:text=Top%20highlight&text=scrollHeight%3A%20The%20scrollHeight%20value%20is,without%20using%20a%20vertical%20scrollbar.&text=clientHeight%3A%20it%20includes%20the%20element's,horizontal%20scrollbar%20(if%20present).) medium article.
+
+So, once we scroll and reach the end the **Bottom reached** console.log is shown.
+
+![Bottom reached](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/7_DzfU0CumJe.png)*Bottom reached*
+
+Now, we will add a loading animation when we reached the bottom. We had already created one in our earlier article [here](https://medium.com/@nabendu82/create-a-jumping-loading-animation-with-css-420a7f107b56).
+
+So, head over to **index.html** and the html for the animation.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/8_jK3YlibXZW.png)*index.html*
+
+Next, head over to **styles.css** and add the css from the loading animation.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/9_E-sbhjHcul.png)*styles.css*
+
+We are not seeing anything because we had made the **opacity** as 0 in loading and only showing it when the **show** class is there.
+
+To just see the loading, we can comment out both opacity and we will see the loading. But don’t forget to uncomment it.
+
+![opacity](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/10_w6yCIoAdck.png)*opacity*
+
+Now, we will have to just add a **showLoading()** function. Inside the **showLoading()** function, we are just adding the class **show** to loading div.
+
+Now, whenever we reach the bottom of the three post the **loading** animation will be shown.
+
+![loading](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/11_ea_XzC2kjd.png)*loading*
+
+Inside the **showLoading()** function, we are loading more post by calling the getPost function but with a delay of 1 second. This is done because we are also removing the class show from loading in side the **addDataToDOM()** function.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/12_WW5T8f8UtQ.png)*main.js*
+
+So, this complete our project. You can find the code for the same in [this](https://github.com/nabendu82/InfiniteScroll) github repo. Also the gif for the same is below.
+
+![Gif](https://ik.imagekit.io/thewebdev/JS-Projects/Infinite-Scroll/13_Soa0S5dPG.gif)*Gif*

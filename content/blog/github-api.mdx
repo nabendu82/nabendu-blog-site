@@ -1,0 +1,49 @@
+---
+title: Create a Github API search app in JS
+description: Github API
+date: 2020-11-22
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In this project we will create a web-app, which will search github username and give us details about the user. We are going to use the github api for it.
+
+So, open your terminal and create a folder **GithubProfiles**. Inside the folder create three files **index.html**, **main.js** and **styles.css**. We are also opening the code in VS Code. As usual, you do these tasks manually.
+
+![GithubProfiles](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/1_tAQ9qPRW46.png)*GithubProfiles*
+
+After that head over to **index.html** and create the basic skeleton. I have also started the project in Live Server, so our changes will be updated whenever we update something.
+
+We just have a form wrap an input field. We have a main tag, which will show our user profile.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/2_QssxtMoShR.png)*index.html*
+
+Now, it’s time to style them. So, open your **styles.css** and add the basic code for the **body **and **input**.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/3_6tJqMybdG.png)*styles.css*
+
+Now, we will write the logic to hit the github api. We are using my username to call the function **getUser()**, and get the data. After that we are calling the **createUserCard()**, and adding the data in a **card** div.
+
+After that just adding the created card div to the **main** **innerHTML**.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/4_5CFhFaW2tO.png)*main.js*
+
+We will next style the data which we had just received. So, head over to **styles.css** and add styles for **card**, **avatar**, **user-info**. We had just created them in the main.js file.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/5_4f7Og7Pgyc.png)*styles.css*
+
+Now, we will use another of github api to get the repos of the user. We are calling the function **getRepos()** with the username. Here, again we are getting the data by using fetch api. Next, we are calling the **addReposToCard()** function with the data.
+
+Inside the **addReposToCard()** function, we are looping through all the **repos** and adding it as an anchor tag, to the repos element.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/6_2baOVWKt5U.png)*main.js*
+
+We will again style this ugly anchor tag. So, head over to **styles.css** and add the style.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/7_XfhLsVvXHi.png)*styles.css*
+
+Now, our project is almost complete except the search functionality in the search bar. So, in **main.js** we are adding an event listener to the input. So, when we type a username and press enter, it will search github and if the user exists, we will get the data.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Github-API/8_F7OIUe6w8C.png)*main.js*
+
+This complete our project and you can find the github repo for the same [here](https://github.com/nabendu82/JS-Projects/tree/master/GithubProfiles).

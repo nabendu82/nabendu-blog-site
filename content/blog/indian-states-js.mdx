@@ -1,0 +1,65 @@
+---
+title: Indian State Details Search app with JS
+description: Flexbox
+date: 2020-12-01
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+Welcome to a cool new project in which, we will build a simple web app that searches a JSON file, containing Indian states details. It uses the Fetch API, Async/Await, Regex and high order array methods.
+
+The json used in this project can be found from [this](https://github.com/nabendu82/Indian-States-and-Capital-json) link. Let’s start the project and create a folder **Indian_States_Search** and also created the required files.
+
+![Indian States](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/1_eXWE6b44p.png)*Indian States*
+
+After opening the code in VS Code, i had also pasted the json data from [this](https://github.com/nabendu82/Indian-States-and-Capital-json) link.
+
+![JSON data](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/2_PjjAxLZoq-.png)*JSON data*
+
+We are going to use a bootstrap theme in our project. So, head over to **bootswatch.com** and download the **Cyborg** theme. We will get a css file, content of which we need to copy in our **styles.css** file.
+
+![Cyborg](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/3_V06cvo1cE.png)*Cyborg*
+
+Now, create the basic html in the **index.html**. Also link the styles.css file and also include the font-awesome library.
+
+We had also started our **live server** extension, so that our project starts on [http://127.0.0.1:5500/index.html](http://127.0.0.1:5500/index.html) and get’s the hot reload feature.
+
+![Basic html](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/4_iM8Nkv8TkV.png)*Basic html*
+
+Next, we will first add the html code for displaying our header, using font-awesome icon. Notice that we are using all bootstrap classes.
+
+![Bootstrap classes](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/5_Ozzx8S-2qN.png)*Bootstrap classes*
+
+Next, we will add the code to show our input box and also a div with class of **match-list**, in which we are going to render the result.
+
+![match-list](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/6_flrs0PJ5At.png)*match-list*
+
+Next, we will move to our **main.js** and write the logic. Here, we are first getting the ids search and match-list.
+
+After that adding an even listener at Line 11, which will trigger the function **searchStates**, with the alphabet we entered in the input box.
+
+In the **searchStates **we are using fetch to access the **states.json**. We can do it to get data from a remote api also. As, it returns a promise we are using async await.
+
+When we type anything in the input box, we are getting all the 36 array.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/7_Jug1IVvQxG.png)*main.js*
+
+Now, we will add the logic for filter based on the alphabet or words entered in the input box. Here, we are using regular expression to match all the words which starts with the searchText.
+
+Now, when we console log the matches we will get only the filtered result.
+
+Also, notice that we are checking for a special case in which we clear the search term from input box. Here, we are making the matches array as empty.
+
+![Matches](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/8_o735Vdu7cQ.png)*Matches*
+
+Next, this matches array will be passed to another function called outputHtml. Here, we are creating a div with help of bootstrap classes.
+
+We also need to use a join() to change the array to a string.
+
+![join](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/9_lqV8ECOerf.png)*join*
+
+Now, we can display the string by simply adding it to the innerHTML. We are also removing it when the user is clearing the input box.
+
+![innerHTML](https://ik.imagekit.io/thewebdev/JS-Projects/Indian-states/10_vHzIJZWLyF.png)*innerHTML*
+
+This completes our small app. You can find the code for the same in my github repo [here](https://github.com/nabendu82/Indian_States_Search).

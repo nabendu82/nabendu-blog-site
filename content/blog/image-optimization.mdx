@@ -1,0 +1,84 @@
+---
+title: Image Optimization with NextJS
+description: Flexbox
+date: 2020-11-30
+tags: ['nextjs', 'javascript', 'react']
+published: true
+---
+
+In this same demo, we will learn about NextJS image optimization. NextJS is know for it’s image optimization which is a pain point in any web-app, because images slows down websites. This post have taken reference form [this](https://www.youtube.com/watch?v=R4sdWUI3-mY) awesome youtube video.
+
+So, we have created a simple NextJS app with the familiar command
+
+![Terminal](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492008/React-Projects/image-nextjs/1_dfzf7o.jpg)*Terminal*
+
+Next, we have created a folder **red-example** in the **public** folder and added three images of 800px, 1200px and 1600px in it.
+
+Also, created a **srcset.js** file in the **pages** folder. Here, we are using the normal img tag and src in it. But the magic happens with the **srcSet** attribute in it. The src tag is still required if you plan to support old browsers like IE11.
+
+Now, in the **srcSet** attribute, we are giving our three images and also mentioning the width in which they should be downloaded.
+
+![srcset.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492009/React-Projects/image-nextjs/2_k5xtuq.jpg)*srcset.js*
+
+Now, go to http://localhost:3000/srcset and also open the developer tools. Here, in the mobile view we are getting the small image. In the Network tag, we can also see it been downloaded.
+
+![small](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492009/React-Projects/image-nextjs/3_vky6uf.jpg)*small*
+
+Now, in the tablet view which is 1200w, the medium image is downloaded and shown.
+
+![Medium](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492009/React-Projects/image-nextjs/4_uw2uwb.jpg)*Medium*
+
+Lastly, in the desktop view which is 1600w, the large image is also downloaded and shown.
+
+![Large](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492009/React-Projects/image-nextjs/5_zp7zen.jpg)*Large*
+
+Now, we will check the famous **Image** element in NextJS. For this first add a **photos** folder in the **public** folder. Here, we have added some pictures.
+
+Next, we have created the **photos.js** file, in the root directory. Here, we are giving details of all the images in an Array of object.
+
+![photos.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492009/React-Projects/image-nextjs/6_gi4hum.jpg)*photos.js*
+
+Now, create a new file **normal.js** inside the pages folder. Here, we are looping through the photos array and showing them through a HTML img tag.
+
+![normal.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492009/React-Projects/image-nextjs/7_w0ohx6.jpg)*normal.js*
+
+Now, in http://localhost:3000/normal we will see the normal images which are not optimized or responsive.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492010/React-Projects/image-nextjs/8_kovjc3.jpg)*localhost*
+
+To change it to Next images, we just need to use the Image tag from next. We are also using an attribute of layout for responsiveness.
+
+![normal.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492010/React-Projects/image-nextjs/9_s1ahzv.jpg)*normal.js*
+
+Now, our images are completely responsive and also optimized. Notice the srcset in the img in develper tool. Different size of images are available for different screen size.
+
+Also, all images are not loaded at once. When we scroll the new images will be loaded and hence we achive lazy loading.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492010/React-Projects/image-nextjs/10_bgbr8l.jpg)*localhost*
+
+We will see two more properties of Image. For this we will create a file **single.js** inside the **pages** folder. Here, we are showing a single image, with image tag. We have the attribute layout equal to fill.
+
+![single.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492010/React-Projects/image-nextjs/11_hvnmil.jpg)*single.js*
+
+Now, when we have gone to http://localhost:3000/single we see a distorted image. It is because our image was of a lower resolution(640x427) and it was stretched.
+
+![Distorted](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492010/React-Projects/image-nextjs/12_wltbls.jpg)*Distorted*
+
+In Next Image we also have the attribute of object-fit like in img tag. And here, also we need to set it to cover.
+
+![single.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492010/React-Projects/image-nextjs/13_zmtua6.jpg)*single.js*
+
+Now, in localhost we can see the image been made responsive and looking fine.
+
+![Fixed](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1659492010/React-Projects/image-nextjs/14_eowumu.jpg)*Fixed*
+
+This completes our small NextJS image topic. You can find the code for the same [here](https://github.com/nabendu82/next-images).
+
+
+
+
+
+
+
+
+
