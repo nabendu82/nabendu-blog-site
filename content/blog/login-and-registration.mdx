@@ -1,0 +1,121 @@
+---
+title: Beautiful Login and Registration Form
+description: CSS
+date: 2021-11-27
+tags: ["html", "beginners", "css"]
+published: true
+---
+
+In this post, we are going to create a beautiful Login and registration form with HTML and CSS.
+
+So, open VSCode and create the basic structure of a HTML in an **index.html** file by ! and then pressing tab. We have also put an images in the **images** folder. You can take them from the github repo at the end.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737929/New-blogs/ankit-6/2_cwubqf.png)_index.html_
+
+Now, let’s put the style for the hero class in our linked **style.css** file. We are adding a background-image here.
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737932/New-blogs/ankit-6/3_trx95y.png)_style.css_
+
+Now, our nice background image is been shown.
+
+![Background image](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737946/New-blogs/ankit-6/4_hi8gmj.png)_Background image_
+
+Now, we will add the html for a button-box in our project, which will have two buttons with class of toggle-btn.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737947/New-blogs/ankit-6/5_crxq3c.png)_index.html_
+
+Next, in **style.css** file we are adding style for the form-box, button-box and the toggle-btn.
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737948/New-blogs/ankit-6/6_o3wjgh.png)_style.css_
+
+Now, our app have this beautiful form with two toggle button.
+
+![Form](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737951/New-blogs/ankit-6/7_sqeahm.png)_Form_
+
+Now, we will add a id of **btn** and **social-icons** in our **index.html** file.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737953/New-blogs/ankit-6/8_tjh5we.png)_index.html_
+
+Now, we will add styles for this btn and **social-icons** in our **style.css** file
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737954/New-blogs/ankit-6/9_mtulfg.png)_style.css_
+
+Now, our social icons and button is looking perfect in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737963/New-blogs/ankit-6/10_mocopo.png)_localhost_
+
+Now, we will add the onclick handler to both buttons. We are also creating two forms, one for login and other for register.
+
+We are also creating a script tag and attaching the **main.js** file in it, which we are going to use soon.
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737967/New-blogs/ankit-6/11_dohzyr.png)_index.html_
+
+Now, we will add the styles for the form in **style.css** file. We are also using a trick at the end to move the register form out of the screen.
+
+
+```css
+    .input-group{
+        top: 180px;
+        position: absolute;
+        width: 280px;
+        transition: 0.5s;
+    }
+    .input-field{
+        width: 100%;
+        padding: 10px 0;
+        margin: 5px 0;
+        border-left: 0;
+        border-top: 0;
+        border-right: 0;
+        border-bottom: 1px solid #999;
+        outline: none;
+        background: transparent;
+    }
+    .submit-btn{
+        width: 85%;
+        padding: 10px 30px;
+        cursor: pointer;
+        display: block;
+        margin: auto;
+        background: linear-gradient(to right, #ff105f, #ffad06);
+        border: 0;
+        outline: none;
+        border-radius: 30px;
+    }
+    .check-box{
+        margin: 30px 10px 30px 0;
+    }
+    span{
+        color: #777;
+        font-size: 12px;
+        bottom: 68px;
+        position: absolute;
+    }
+    #login{
+        left: 50px;
+    }
+    #register{
+        left: 450px;
+    }
+```
+
+
+Our localhost now looks like below.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737970/New-blogs/ankit-6/12_wabwan.png)_localhost_
+
+Now, we will add the logic in our **main.js** to move the login and register form, once the use clicks on the buttons.
+
+![main.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737990/New-blogs/ankit-6/13_rt38qh.png)_main.js_
+
+Now, our forms are moving fine on the click of the Login and Register buttons.
+
+![Forms](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737959/New-blogs/ankit-6/14_ectyqz.png)_Forms_
+
+We just need to hide the form which is outside and we will do it by a cool trick of **overflow: hidden** in class **form-box.**
+
+![style.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737965/New-blogs/ankit-6/15_uexwxp.png)_style.css_
+
+Our app is complete and the functionality is also working fine. You can find the code for the same in [this](https://github.com/nabendu82/login-form-html) github repo.
+
+![Complete App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660737988/New-blogs/ankit-6/16_xsv8go.gif)_Complete App_

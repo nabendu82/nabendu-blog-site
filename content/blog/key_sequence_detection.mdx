@@ -1,0 +1,77 @@
+﻿---
+title: Key Sequence Detection using HTML, CSS, and Javascript
+description: Javascript
+date: 2021-09-20
+tags: ['css', 'javascript', 'webdev']
+published: true
+---
+
+Let’s learn some javascript by doing a simple project.The objective of the project is to detect a given key sequence in the user input and react to that. In the example, we will add some random images on the page on the key sequence typed in by the user. Time to code!!!
+
+Folder structure:
+
+1.  _index.html — contains the HTML layout which defines the element structure that would be shown on the page._
+2.  _style.css- contains CSS code for styling. Using CSS we can style the different portions to make them more visually appealing._
+
+
+HTML Layout
+===========
+
+Open VSCode and create the basic HTML structure in an **index.html** file by ! and then pressing tab. Give the **title** as ‘Key Sequence Detection’. Link **style.css.** Add a header **h1** with the text**.** Here, I gave informative text as **‘Enter the code’**. On clicking **h1** text we can see the secret code or sequence of keys that we are going to detect and once the user enters this secret code we will add some images on the screen.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1634113168/JavaScript/MEDIUM%20BLOG%205_Key%20sequence%20Detection/img_1_odfbme.png)index.html
+
+
+CSS Styling
+===========
+
+For the styling of the whole HTML page, I have used **background-color**, **background-image.** For the **body** I added **text-align** and **font-family**.
+
+I gave a pink shade to the text inside the **h1** tag and added CSS code so that when we hover on the **h1** element the arrow mouse cursor will change to the hand pointer `cursor: pointer;` and the text color will change.
+
+```css
+    h1:hover {
+        color: rgba(205, 211, 150, 0.9);
+    }
+```
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1634113167/JavaScript/MEDIUM%20BLOG%205_Key%20sequence%20Detection/img_2_xp27wu.png)style.css
+
+Javascript logic
+================
+
+Our predefined sequence of characters are ‘css’ so,we will declare a variable called **secretCode** and let’s assign value ‘css’ to it.  The first event listener which we are going to create is for showing **secretCode** when we click on the **h1** element. At first, we will fetch the **h1 text** which is **‘Enter your code’** and store it in const variable called **text.** Create  event listener which listens for click event on the **h1** element so, when we click on the original **h1 text** i.e ‘Enter your code’ text it will verify whether it is a **secretCode** value or original **h1 text** . If it is original **h1 text** (**‘Enter your code’**) then the text will be changed to the value of **secretCode**(‘**css**’) and if the value is ‘css’ it will be changed to ‘ Enter your code’.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1634113168/JavaScript/MEDIUM%20BLOG%205_Key%20sequence%20Detection/img_4_axu3d9.png)
+javascript code
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1634113168/JavaScript/MEDIUM%20BLOG%205_Key%20sequence%20Detection/img_3_gif_d6rioh.gif)output view
+
+We will implement the second event listener which will detect the key sequence entered using keyboard and if the sequence matches the predefined sequence ‘css’ then we will add images to the screen.
+
+Let’s declare an array to push the characters entered by user. `const pressed = [];` .Now, we will create an event listener to check for keyup event on window once that happens push the characters to the array but, that could get fairly big**.** So what we want to do is just trim this array to be the maximum that we would ever need  and in our case, if we’re just looking for the word  
+“css,” then we are maximum looking for three characters. So, splice the array. Note that we want the last sequence of characters so, let’s start from counting from the end of the array.
+
+```
+    pressed.splice(-secretCode.length — 1 , pressed.length — secretCode.length);
+```
+
+Later, convert this sequence of characters to string using join() function and check whether it includes the **secretCode**.
+
+```
+    pressed.join('').includes(secretCode)
+```
+
+If the string includes **secretCode** then we will call predefined function `cornify_add()` to display some pictures on the screen.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1634113167/JavaScript/MEDIUM%20BLOG%205_Key%20sequence%20Detection/img_5_p6l3wy.png)javascript code
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1634113168/JavaScript/MEDIUM%20BLOG%205_Key%20sequence%20Detection/img_6_gif_irmxfq.gif)final output
+
+Congratulation 🎉! You have just completed a simple javascript project.
+
+All of the above-written code is available on [GitHub](https://github.com/Divyamcm/Projects/tree/main/Key%20sequence%20detection)**.** Watch this space for more interesting articles, up next in this series!
+
+Confused about something? Let us know in the responses below.
+
+Thanks for your interest.

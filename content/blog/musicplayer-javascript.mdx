@@ -1,0 +1,162 @@
+﻿---
+title: Build Music Player using HTML, CSS, and JS
+description: Javascript
+date: 2021-09-06
+tags: ['css', 'javascript', 'webdev']
+published: true
+---
+
+How about building a Music player on your own from scratch? Exciting right! Let's start.
+
+Folder Structure of the project
+
+1.  _index.html - contains the HTML layout which defines the element structure that would be shown on the page._
+2.  _images folder - contains .jpg images used in our project._
+3.  _music folder - contains .mp3 audio files used in our project._
+4.  _style.css- contains CSS code for styling. Using CSS we can style the different portions to make it more visually appealing_
+5.  _script.js - contains Javascript code. There are several functions that work together to handle all the functions of the player. Ex: play, pause, to switch the songs back and forth, popup title of the song with the progress bar when we play the song, able to click on the progress bar to go to that spot in the song etc._
+
+HTML Layout
+-----------
+
+Open VSCode and create the basic HTML structure in an **index.html** file by ! and then pressing tab. Give the **title** as **Music Player**. Link **style.css** and **script.js** to the created HTML file and link FontAwesome css to use play, pause,next and previous icons.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592631/JavaScript/Music%20Player/BLOG_1_img2_b42te2.jpg)*Basic index.html*
+
+Inside the body, Create a **audio-container** class which will wrap around everything.
+
+```<div class ="audio-container" id ="audio-container">```
+
+Inside **audio-container** class, create a **audio-info** class which holds the title of the song and the progress when we click play.
+
+```<div class="audio-info">```
+
+Add **h4** tag with **id = ‘title'** inside **audio-info** class and this is going to be populated dynamically with javascript with the current playing song.
+
+```<h4 id="title"></h4>```
+
+Create **progress-container** class and inside that add **progress** class which will be filled dynamically
+
+```js
+    <div class="audio-container" id="audio-container">
+    <div class="audio-info">
+    <h4 id="title"></h4>
+    <div class="progress-container" id="progress-container">
+    <div class="progress" id="progress"></div>
+    </div>
+    </div>
+```
+Underneath **audio-info** class add **audio** tag with the source of the song and id .
+
+```<audio src="music/melody.mp3" id="audio"></audio>```
+
+To hold images
+
+```<img src="images/melody.jpg" alt="music-cover" id="cover">```
+
+Create a navigation class and we will have three buttons inside that to play the song, to play previous song and next song
+
+```js
+    <div class="navigation">
+    <button id="prev" class="action-btn">
+    <i class="fas fa-backward"></i>
+    </button>
+    <button id="play" class="action-btn action-btn-big">
+    <i class="fas fa-play"></i>
+    <button id="next" class="action-btn">
+    <i class="fas fa-forward"></i>
+    </button>
+```
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592631/JavaScript/Music%20Player/BLOG_1_img3_gwordo.jpg)*index.html*![](https://res.cloudinary.com/thewebdev/image/upload/v1633592632/JavaScript/Music%20Player/BLOG_1_img4_bxtcxb.jpg)*Music Player view*
+
+CSS Styling
+-----------
+
+Quite a bit of CSS coding is required and I explained the only the important parts here and rest of the CSS code mostly deals with positioning,size and color of the elements.I shared the github link at the end of the post where you can see the complete code.
+
+For the styling of the **body,** I have used linear gradient of yellow and orange color shades as background image.
+
+```background-image: linear-gradient(0deg, rgba(251,252,13,1) 23.8%, rgba(255,170,1,0.99) 92%);```
+
+Added **background-color** as black and also added the shadow for the **audio-container** class which wraps around everything except the h1 tag
+
+```background-color: #000;```
+
+```box-shadow: 0 20px 20px 0 rgb(247, 148, 1);```
+
+To make the image circular set the **border-radius** to 50% in the **img-container**
+
+```border-radius: 50%;```
+
+Set animation in the **img-container** to make the circular image rotate when the song is playing
+
+```animation: rotate 3s linear infinite;```
+
+Create rotate keyframes starting at 0 degree to 360 degree
+
+```js
+    @keyframes rotate {
+    from {
+    transform: rotate(0deg);}
+    to {
+    transform: rotate(360deg);}
+    }
+    If **audio-container** has a **play** class on it then the image will rotate
+    .audio-container.play .img-container img {
+    animation-play-state: running;
+    }
+```
+
+Only when the music is playing the **audio-info** will popup. Refer the following CSS implementation
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592632/JavaScript/Music%20Player/BLOG_1_img5_lype7e.jpg)*style.css*
+
+Below is the CSS code for progress bar to show the percentage of song completed. I used white color as background and black color to show the progression.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592632/JavaScript/Music%20Player/BLOG_1_img6_rnui49.jpg)*style.css*
+
+Javascript logic
+----------------
+
+The logic of the player is defined in the script.js file. There are several functions that work together to handle all the functions of the player.  
+Defining all the variables and accessing the HTML elements.  
+The required elements in the HTML layout that are to be dynamically changed are first selected using the getElementById() method and then assigned to a variable names so that they could be accessed and modified.
+
+![](https://miro.medium.com/max/2732/1*ZIKr0VDr3AHdJfQd61M_eg.jpeg)*script.js*
+
+Write a function **loadSong(song)** to dynamically update the audio source and respective image source. Call the function to load the song details into DOM by passing the **songIndex** value.I considered **songIndex** value to be 1 which means music player starts from second song in the list (index starts from 0).
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592632/JavaScript/Music%20Player/BLOG_1_img8_qwf99y.jpg)
+
+Let's create event listeners which listens to particular event (for ex: click) and perform particular actions
+
+**Event listener on clicking Play button**: Clicking on play button should start the song and if the song is already playing then it should stop. Implement **playSong()** function and **pauseSong()** function which also includes the logic to change the icons from play icon to pause icon and vice versa.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592632/JavaScript/Music%20Player/BLOG_1_img9_ral5w3.jpg)*script.js*
+
+**Event listener on clicking Previous and Next button:** Clicking on previous button will call **prevSong()** function which should play the previous song in the list so we are decrementing the **songIndex** value. If the **songIndex** value is lesser than 0 then we are setting **songIndex** value such that it should point to the last song in the list so, the songs will be played in loop.Similarly, clicking on next button will call **nextSong()** function which should play the next song in the list so we are incrementing the **songIndex** value. If the **songIndex** value is greater than or equal to the number of songs in the list then we are setting **songIndex** value to 0.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592631/JavaScript/Music%20Player/BLOG_1_img10_gv9vcj.jpg)*script.js*
+
+**Event listener to update song progress:** On HTML audio tag there is an event called **timeupdate.** Everytime when the song is playing constantly this will be called and on this event we will call **updateProgress()** function. In the **updateProgress()** function we will get the **duration** of the song from the event and the **currentTime**. Calculate **progressPercent** by using formula **(currentTime/ duration)\*100** and set that **progressPercent** value to **width** of the progress bar.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592631/JavaScript/Music%20Player/BLOG_1_img11_luyuva.jpg)*script.js*
+
+**Event listener on clicking progress bar**: To go to that spot in the song when we click anywhere on the **progress-container** then we will call **setProgress()** function. This function will change the song progression based on user's click on progress bar by getting the X-axis offset value to know where the user clicked and calculate the **currentTime** by using formula **(clickX / width) \* duration.** In this way we can move anywhere in the song.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1633592631/JavaScript/Music%20Player/BLOG_1_img12_cwndnv.jpg)*style.css*
+
+
+
+**Event listener to check end of the song:** The HTML audio API gives us an event called **ended**. When song ends we will call the **nextSong()** function which was created before.
+
+`audio.addEventListener(‘ended', nextSong);`
+
+VOILA !!!!! Music player is ready for the demo
+
+Final Demo 
+https://www.youtube.com/watch?v=Xyss5NABwOc
+
+Complete source code can be found in the Git hub repo, link is [here](https://github.com/Divyamcm/Projects/tree/main/Music-Player)
+

@@ -1,0 +1,268 @@
+﻿---
+title: Movie App using HTML, CSS, and Javascript
+description: Javascript
+date: 2021-10-04
+tags: ['css', 'javascript', 'webdev']
+published: true
+---
+
+Let's do some good exercise by building a Trending Movies app using HTML, CSS, and Javascript 📽.The movie's data used in the project is fetched from themoviedb.org API.
+
+Folder Structure of the project
+
+1.  _index.html — contains the HTML layout which defines the element structure that would be shown on the page._
+2.  _style.css- contains CSS code for styling. Using CSS we can style the different portions to make them more visually appealing._
+3.  _script.js — contains Javascript code to fetch the API data and to represent it on browser._
+4.  _favicon.io — Browsers that provide favicon support typically display a page's favicon in the browser's address bar_
+
+HTML Layout
+===========
+
+Open VSCode and create the basic HTML structure in an **index.html** file by ! and then pressing tab. Give the **title** as **Movie App**. Link **style.css** and **script.js** to the created HTML file.Inside the **body** we will have **header** tag which contains **h1** tag to display title of the app and **form** tag which holds the search bar used for searching the movies.we have **div** tag with the **id content** where our API fetched data will be presented dynamically.
+
+Below is the complete HTML code,
+
+```css
+<!DOCTYPE  html>
+<html  lang="en">
+<head>
+<meta  charset="UTF-8"  />
+<meta  name="viewport"  content="width=device-width, initial-scale=1.0"  />
+<title>Movie App</title>
+<link  rel="stylesheet"  href="style.css"  />
+<script  src="script.js"  defer></script>
+</head>
+<body>
+<header>
+<h1>Trending Movies</h1>
+<form  id="form">
+<input type="text" id="search" placeholder="Search" class="search" />
+</form>
+</header>
+<div  id="content"></div>
+</body>
+</html>
+```
+
+Javascript logic
+================
+
+Below functions are defined in the javascript code,
+
+*   getMovies() — A function to fetch movies from API and returns the results using fetch function.The results will be passed to showMovies() function.
+*   showMovies() — A function to showcase the results in the browser which basically inserts the HTML code dynamically.The data to this function is passed from the getMovies() function.
+*   getClassByRate() — A function which returns the color based on movie rating obtained from API. This color is used in CSS to choose the color of the movie rating text.
+*   An EventListener for search of movies.Once you enter the movie name in the search bar and by clicking on enter will actually submit the form and this event listerner will be triggered.The movie matching the name entered in the search bar will be fetched from the API and it will automatically display all the related title on the list.
+
+Complete Javascript code is here,
+
+```js
+const APIURL = "https://api.themoviedb.org/3/discover/movie?api_key=04c35731a5ee918f014970082a0088b1";
+const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const SEARCHAPI = "https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=";
+const main = document.getElementById("content");
+const form = document.getElementById("form");
+const search = document.getElementById("search");
+
+// initially get fav movies
+getMovies(APIURL);
+
+async  function getMovies(url) {
+  const resp = await fetch(url);
+  const respData = await resp.json();
+  console.log(respData);
+  showMovies(respData.results);
+}
+  
+
+function showMovies(movies) {
+// clear main
+main.innerHTML = "";
+movies.forEach((movie) => {
+const { poster_path, title, vote_average, overview } = movie;
+const movieEl = document.createElement("div");
+movieEl.classList.add("movie");
+movieEl.innerHTML = `
+<img
+src="${IMGPATH + poster_path}"
+alt="${title}"
+/>
+
+<div class="movie-info">
+<h3>${title}</h3>
+<span class="${getClassByRate(
+vote_average
+)}">${vote_average}</span>
+</div>
+<div class="overview">
+<h3>Overview:</h3>
+${overview}
+</div>
+`;
+
+main.appendChild(movieEl);
+});
+}
+
+function getClassByRate(vote) {
+if (vote >= 8) {
+return  "green";
+} else  if (vote >= 5) {
+return  "orange";
+} else {
+return  "red";
+}
+}
+
+form.addEventListener("submit", (e) => {
+e.preventDefault();
+const searchTerm = search.value;
+if (searchTerm) {
+getMovies(SEARCHAPI + searchTerm);
+search.value = "";
+}
+});
+```
+
+CSS Styling
+===========
+
+I explained only the important parts here and the rest of the CSS code mostly deals with positioning, size, and color of the elements. I shared the GitHub link at the end of the post where you can see the complete code.
+
+Here we are arranging the list of the movies obtained from the API using flex . The **img** tag which holds image of the movie,the **movie-info** div class which holds information of the movie like movie name and rating ,the div class **overview** which has overview  of the movie is inserted in the javascript code dynamically and not defined in the HTML file.
+
+Just hovering on the movie banner should actually show the overview.For that we are using `transform: translateY(0);`
+
+Here is the complete CSS code,
+
+```css
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #030303;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+}
+
+header {
+    background-color: #363636;
+    display: flex;
+}
+
+h1 {
+    color: whitesmoke;
+    align-self: center;
+    margin-left: 28rem;
+}
+
+.search {
+    margin: 3rem;
+    margin-left: 12rem;
+    background-color: transparent;
+    border: 2px solid #e9e9ec;
+    border-radius: 50px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.search::placeholder {
+    color: #7378c5;
+}
+
+.search:focus {
+    background-color: #050505;
+    outline: none;
+}
+
+div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.movie {
+    background-color: #373b69;
+    border-radius: 3px;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    position: relative;
+    margin: 1rem;
+    justify-content: center;
+    align-content: center;
+    width: 265px;
+}
+
+.movie img {
+    width: 100%;
+}
+
+.movie-info {
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem 1rem;
+    letter-spacing: 0.5px;
+}
+
+.movie-info h3 {
+    margin: 0;
+}
+
+.movie-info span {
+    background-color: #22254b;
+    border-radius: 3px;
+    font-weight: bold;
+    padding: 0.25rem 0.8rem;
+}
+
+.movie-info span.green {
+    color: rgb(39, 189, 39);
+}
+
+.movie-info span.orange {
+    color: orange;
+}
+
+.movie-info span.red {
+    color: rgb(189, 42, 42);
+}
+
+.overview {
+    background-color: #fff;
+    padding: 2rem;
+    position: absolute;
+    max-height: 100%;
+    overflow: auto;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transform: translateY(101%);
+    transition: transform 0.3s ease-in;
+}
+
+.overview h3 {
+    margin-top: 0;
+}
+
+.movie:hover .overview {
+    transform: translateY(0);
+}
+```
+
+Demo of the Movie App
+
+[![IMAGE_ALT](https://img.youtube.com/vi/0pZKrzion7E/0.jpg)](https://www.youtube.com/watch?v=0pZKrzion7E)
+  *click on the image to view the demo*
+
+The code is also available in [GitHub](https://github.com/Divyamcm/Projects/tree/main/Trending%20movies).
+
+This article contains the modified version of the code available in [https://www.youtube.com/watch?v=dtKciwk\_si4](https://www.youtube.com/watch?v=dtKciwk_si4)
+
+Thanks for your interest.
