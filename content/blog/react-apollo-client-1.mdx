@@ -1,0 +1,85 @@
+---
+title: React Tutorial - SpaceX fan site with Apollo Client -1
+description: React
+date: 2020-01-04
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+I had recently started working on a new project at work, which have GraphQL with React and it queries the GraphQL server using Apollo Client.
+
+I had done the [Advanced React](https://advancedreact.com) course from one of my favorite teacher Wes Bos in the past, which includes the same stack on the front-end and also build an open source Restaurant App with the [same](https://thewebdev.tech/restaurant-billing-app-react-nextjs).
+
+But i wanted to build something quick to refresh the concept and i found a free course on YouTube from another of my favorite teacher Brad Traversy and decided to follow it to make this [app](https://www.youtube.com/watch?v=SEMTj8w04Z8&list=PLillGF-RfqbZrjw48EXLdM4dsOhURCLZx).
+
+We will be building an web-app to show all the launches and other data from my favorite company **SpaceX**. It will be built using the public APIs provided by them.
+
+So, open the terminal and goto an empty folder and do **npm init**. Enter in most of the case, except in some of them enter values as in screenshot below.
+
+![npm init](https://ik.imagekit.io/thewebdev/SpaceX/1/1_3353c6dy6.png)*npm init*
+
+Once, you type yes and press enter above a **package.json** file will be created in the folder.
+
+![package.json](https://ik.imagekit.io/thewebdev/SpaceX/1/2_JatHusdiB.png)*package.json*
+
+Next, we will do npm install of the required packages from the terminal.
+
+![npm install](https://ik.imagekit.io/thewebdev/SpaceX/1/3_0sOEzgN6a.png)*npm install*
+
+Now, also install the famous nodemon package as dev dependency so that we don't have to restart our server after every change.
+
+![nodemon](https://ik.imagekit.io/thewebdev/SpaceX/1/4_32xWPSwI6.png)*nodemon*
+
+Now, let's open the folder in VSCode and edit the **package.json** to include the scripts to start the server.
+
+![package.json](https://ik.imagekit.io/thewebdev/SpaceX/1/5_UtyR_exI7h.png)*package.json*
+
+Next, we will create the file **server.js** in the root directory and add this content in it. It is a express code and we are calling a common endpoint called /graphql in it. This is where GraphQL is different then NodeJs and we call only one endpoint.
+
+![server.js](https://ik.imagekit.io/thewebdev/SpaceX/1/6_sJI7nbViRs.jpg)*server.js*
+
+We will create our **schema.js** . The content will replicate from what we need from spacex API. The docs are [here](https://docs.spacexdata.com).
+
+This is what the GET request for launches will return us.
+
+![launches](https://ik.imagekit.io/thewebdev/SpaceX/1/7_EX5sPKtsYz.png)*launches*
+
+We are using only some of the fields out of the many things returned by SpaceX launches API in **schema.js** and they are **flight_number, mission_name, launch_year, launch_date_local, launch_success**
+
+One thing to notice is that since rocket is an Object in the API, we are making it into a different type and then using **rocket_id, rocket_name** and **rocket_type** in it.
+
+![schema.js](https://ik.imagekit.io/thewebdev/SpaceX/1/8_gw3zzeo2u.png)*schema.js*
+
+Next, we will add the root query to **schema.js**. Here we have to hit the API endpoint through axios to get the data.
+
+![RootQuery](https://ik.imagekit.io/thewebdev/SpaceX/1/9_xCR0BEskw.png)*RootQuery*
+
+Now, in terminal run **nodemon server.js** to start the server.
+
+![nodemon](https://ik.imagekit.io/thewebdev/SpaceX/1/10_it1HA2s-L.png)*nodemon*
+
+Next, we can run the query in GraphiQL to get the data. We can get all the fields or some of the fields and that the benefit of GraphQL over REST.
+
+![query](https://ik.imagekit.io/thewebdev/SpaceX/1/11_3z1ZLxOmXd.png)*query*
+
+Next, we will also create the code for a single launch. As per the [docs](https://docs.spacexdata.com/?version=latest#cfcc49e7-5fe4-4dd3-9701-7c5caf7af9fb), we need to pass **flight_number** in it.
+
+![single launch](https://ik.imagekit.io/thewebdev/SpaceX/1/12_xR7eaHhgM.png)*single launch*
+
+Now, the below GraphQL query will show the data for single launch.
+
+![Single launch query](https://ik.imagekit.io/thewebdev/SpaceX/1/13_Zd4EgvFpv.png)*Single launch query*
+
+Next, we will also add code to get data for rockets and single rocket. But, let's first update two more fields **wikipedia** and **description** in **RocketType**.
+
+![schema.js](https://ik.imagekit.io/thewebdev/SpaceX/1/14_icE6i-1dK.png)*schema.js*
+
+Next, we will add the code to get **rockets** and **rocket** from it's endpoint using axios.
+
+![rockets and rocket](https://ik.imagekit.io/thewebdev/SpaceX/1/15_d91-pbjTfd.png)*rockets and rocket*
+
+Next, we will use the below query in Graphiql to get our data.
+
+![query](https://ik.imagekit.io/thewebdev/SpaceX/1/16_kTDh0vYUA.png)*query*
+
+This completes the part-1 of the series. You can find the code for the same in my github repo [here](https://github.com/nabendu82/ReactApolloClient).

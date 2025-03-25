@@ -1,0 +1,53 @@
+---
+title: ReactJS Tutorial for Beginners -8
+description: ReactJS
+date: 2020-10-18
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-8 of the series. When we build web-applications a common scenario is to display list of items.
+
+In any web-app we generally get a list of array and we iterate over it using map and display individual items.
+
+## List Rendering
+
+We will create a function based component **PersonList** inside **components** folder. Here, we have an array **names** containing three strings.
+
+After that we are just mapping over it and displaying each name inside a h1 tag.
+
+![PersonList.js](https://ik.imagekit.io/thewebdev/React-Basics/8/1_I2ATxSdhfg.png)*PersonList.js*
+
+We will then add **PersonList **component to **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/8/2_7RqyrkM4nL.png)*App.js*
+
+Now, if we go to [http://localhost:3000/](http://localhost:3000/) all three names will be displayed. But we have a very big warning in the console
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/8/3_s0o0uvdjEM.png)*localhost*
+
+Now, this is a React internal logic and it requires each item to be unique for faster functioning. Now for this we need to have a key attribute in every item. The main thing is that the key should be unique. In our case the name itself is unique, so we will use it. And our warning will disappear.
+
+![name](https://ik.imagekit.io/thewebdev/React-Basics/8/4_VTN5VvNYHQ.png)*name*
+
+## Real World Rendering
+
+We will now look into a real-world list rendering. Most of the time when we receive data by some API endpoint, it is as array of object. We need to map through it an display the data.
+
+So, in **PersonList.js** we have an array of objects persons. Each object have a unique **id**, **name**, **age **and **skills**.
+
+Now, we are iterating over the **persons** array, but not displaying the data here. It is good coding practice to create another component and have the UI display in it.
+
+So, we are passing the props **person** to **Person** component. We also need to give a unique key to the item, or else react will throw the same warning as earlier. Since, **id** is unique we are using it a key.
+
+![PersonList.js](https://ik.imagekit.io/thewebdev/React-Basics/8/5_o14uvuQ7yN.png)*PersonList.js*
+
+Now, create a **Person.js** file inside the **components **folder. Here, we are first destructuring the props person in the parameter. After that we are displaying the different **name**, **age **and **skills**.
+
+![Person.js](https://ik.imagekit.io/thewebdev/React-Basics/8/6_mOjuawXtiW.png)*Person.js*
+
+Now, move to [http://localhost:3000/](http://localhost:3000/) and we can see the three person, with their age and skills. Also, we are getting no error in console.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/8/7_Krdsvwo1u.png)*localhost*
+
+This completes part-8 of the series. 

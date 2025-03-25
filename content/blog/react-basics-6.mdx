@@ -1,0 +1,124 @@
+---
+title: ReactJS Tutorial for Beginners -6
+description: ReactJS
+date: 2020-10-16
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-6 of the series. We will first learn about destructuring in this part.
+
+## Destructuring
+
+Destructuring is an ES6 concept and is used extensively in React, mainly for props destructuring. We will look destructuring in both functional and class based components.
+
+**Functional component destructuring**
+There are two ways to destructure props in functional components. Let’s first look into our Greet component.
+
+![Greet](https://ik.imagekit.io/thewebdev/React-Basics/6/1_SXOXBIYGV4.png)*Greet*
+
+**Method #1**
+The first way is to destructure in the parameter for functional parameter. What we are doing here is object destructuring. We are destructurng the two available props of **name **and **children**.
+
+![Greet.js](https://ik.imagekit.io/thewebdev/React-Basics/6/2_DyS5DX6Q9K.png)*Greet.js*
+
+**Method #2**
+The second way is to destructure it in the body of the functional component. We destructure it with the const or any other variable declaration and in the below described way.
+
+![Greet.js](https://ik.imagekit.io/thewebdev/React-Basics/6/3_V9JeppXoK.png)*Greet.js*
+
+**Class component destructuring**
+There is only one way to destructure class based component’s props, because we don’t pass props to it. It is similar to the second method of functional component, but we have **this.props** instead of **props**.
+
+![Welcome.js](https://ik.imagekit.io/thewebdev/React-Basics/6/4_zyDXX88cs_.png)*Welcome.js*
+
+## Event Handling
+
+We had briefly saw event handling of a button in part-5 of the series. Now, we will learn from the start.
+
+**Functional component Event handler**
+We will create a basic functional component **FunctionEvent** inside **components** folder. Here, we have a **onClick** handler on a button, which is different from normal html **onclick** handler.
+
+When the user click on it, we are just calling a function **handleClick**. One important thing to keep in mind is that we don’t use **handleClick()**, because it makes it a function call and will run the moment the component is loaded.
+
+![FunctionEvent.js](https://ik.imagekit.io/thewebdev/React-Basics/6/5_aYe18kS485.png)*FunctionEvent.js*
+
+Now, we need to show this component in our **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/6/6_i0g3TEi7i2.png)*App.js*
+
+Now, in localhost if we click on the button we will get the console log.
+
+![console log](https://ik.imagekit.io/thewebdev/React-Basics/6/7_zOzXLncPEm.png)*console log*
+
+**Class component Event handler**
+We will create a basic class component **ClassEvent **inside **components **folder. Here, we have a **onClick** handler on a button.
+
+When the user click on it, we are just calling a function **handleClick **but with the **this** keyword.
+
+![ClassEvent.js](https://ik.imagekit.io/thewebdev/React-Basics/6/8_g4iJp7DbgO.png)*ClassEvent.js*
+
+We will now import the **ClassEvent **in the **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/6/9_Hk_ynJewj1.png)*App.js*
+
+Now, when we go back to the localhost and click on the button **Click Me**, we get the appropriate console log.
+
+![console log](https://ik.imagekit.io/thewebdev/React-Basics/6/10_reEpmroTu.png)*console log*
+
+## Binding Event Handler
+
+We had looked into easy example earlier, but the problem occurs when we change the state through setState inside event handler function.
+
+**The Problem**
+We will create a basic class component **EventBind **inside **components **folder. Here, we have a **onClick **handler on a button and also a **message**been shown.
+
+When the user click on it, we are just calling a function **handleClick** but also changing the state of message, to display a different message.
+
+![EventBind.js](https://ik.imagekit.io/thewebdev/React-Basics/6/11_teowd0oonB.png)*EventBind.js*
+
+We have also included **EventBind **in **App.js** as usual and after that in localhost, we will click on the button. But it will give us the below error, which is telling us that the setState is undefined.
+
+![The Error](https://ik.imagekit.io/thewebdev/React-Basics/6/12_brzV9bv2FG.png)*The Error*
+
+The error actually occurs because the this keyword is undefined. We will check it by commenting out the setState and console logging the this keyword.
+
+![this](https://ik.imagekit.io/thewebdev/React-Basics/6/13_h_cOL3IXJY.png)*this*
+
+Now, move to localhost and click again on the button and we will see that this is undefined. The error is not because of React, but a typical behavior in JavaScript. You can check my earlier tutorial [here](https://thewebdev.tech/demystifying-this-in-javaScript-and-react), to understand more about it.
+
+![this](https://ik.imagekit.io/thewebdev/React-Basics/6/14_iE9QoHHzw6.png)*this*
+
+So, the this keyword is undefined and to fix it we need event binding. There are four different ways to do event binding in React and we will look into them next.
+
+**Method #1**
+The first way is to use the bind in the render method, when we call the handleClick function.
+
+![method #1](https://ik.imagekit.io/thewebdev/React-Basics/6/15_EbyByvTZ5.png)*method #1*
+
+Back to localhost, when we click on the button the message gets changed correctly and also in log, we can see this now refers to the event.
+
+![Click handler](https://ik.imagekit.io/thewebdev/React-Basics/6/16_S-ygaRJ-eW.png)*Click handler*
+
+**Method #2**
+The second way is through arrow function. It is calling the event handler in the arrow function body. This was the approach which we used in the previous post.
+
+We are simply declaring a arrow function and calling the handleClick. Since we are using a single statement, we don’t require any return keyword.
+
+![Arrow function](https://ik.imagekit.io/thewebdev/React-Basics/6/17_LINj34NVw0.png)*Arrow function*
+
+Now, when we click the button, it will give output exactly as the bind method.
+
+**Method #3**
+The third way is the approach which we will see in lot of old codes and also one of the official in React documentation. This is binding in the class constructor.
+
+The performance is also better then the Method #1 and #2, because we are using bind one time in the constructor.
+
+![Method# 3](https://ik.imagekit.io/thewebdev/React-Basics/6/18_SJ1rskKk0B.png)*Method# 3*
+
+**Method #4**
+The fourth way is to change the function itself to an arrow function. This is also the most preferred way nowadays.
+
+![Method #4](https://ik.imagekit.io/thewebdev/React-Basics/6/19_hVhE8SjGTB.png)*Method #4*
+
+This completes part-6 of the series.

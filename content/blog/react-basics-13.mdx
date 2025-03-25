@@ -1,0 +1,63 @@
+---
+title: ReactJS Tutorial for Beginners -13
+description: ReactJS
+date: 2020-10-23
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-13 of the series. We will learn about Refs in this part.
+
+## Refs
+
+Refs makes it possible to access DOM nodes directly within React. We will look into a very common example of focusing a text input.
+
+**Refs in HTML elements**
+
+We will create a simple class based file **RefsDemo.js** inside our **components** folder. We have a simple input box inside it.
+
+![RefsDemo.js](https://ik.imagekit.io/thewebdev/React-Basics/13/1_M9LW6P8Yh.png)*RefsDemo.js*
+
+Next, we will add it in our **App.js** and it will show in the browser.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/13/2_jWogsT_-Vb.png)*App.js*
+
+Now, to use refs we follow three simple steps. The first step is to create a ref using **React.createRef()**. We will do this in constructor and assign it to **inputRef** variable. The second step is to attach this ref to the input element.
+
+The third step is to call the focus method, in this input element. But for that we need to check what is inside the **this.inputRef**, so we are console logging it in the **componentDidMount()**.
+
+As, we can see from the console log the **current** object holds our DOM element.
+
+![RefsDemo](https://ik.imagekit.io/thewebdev/React-Basics/13/3_2UyEDFfzNa.png)*RefsDemo*
+
+We need to give *this*.inputRef.current.focus(); to get the focus on page load in our example.
+
+![Focus](https://ik.imagekit.io/thewebdev/React-Basics/13/4_9Yb_tzM4M4.png)*Focus*
+
+We will see another use case of ref and this is to get the value entered, by the user in the text box.
+
+Here, we had added a click handler to a button’s onCLick. In the clickHandler(), we are console logging the *this*.inputRef.current.value, which will give us the value entered by the user.
+
+![Current Value](https://ik.imagekit.io/thewebdev/React-Basics/13/5_HXHa5q8DBO.png)*Current Value*
+
+**Refs in Class components**
+
+In the previous example, we had added refs to HTML element. In this, we will look into the way to add Refs in Class components.
+
+We will create a new file **Input.js** inside the **components** folder. We have a ref similar to earlier **RefsDemo.js** file. But, here instead of creating the focus in componentDidMount(), we will create a method **focusInput()**, that will focus the input element. The method, **focusInput()** will be called by the Parent Component.
+
+![Input.js](https://ik.imagekit.io/thewebdev/React-Basics/13/6_rwp8G5n-OR.png)*Input.js*
+
+Next, we will create the Parent Component ie **FocusInput**. So, go ahead and create a file **FocusInput.js** inside the components folder. Here, we are again creating a ref variable **componentRef**, which is equal to **React.createRef()**.
+
+Next, we are passing the ref to the component **Input**. Now, we have a button which have a **onClick** event calling the **clickHandler()** function. Inside the function, we are using the **componentRef** to call the **current** and then the **focusInput()** of the child component **Input**.
+
+![FocusInput.js](https://ik.imagekit.io/thewebdev/React-Basics/13/7_J2oa2izxJX.png)*FocusInput.js*
+
+Now, to see it in action we need to add the **FocusInput** in **App** component. Now, go ahead and click the button and the focus will be changed.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/13/8_LU707kBH9i.png)*App.js*
+
+This completes part-13 of the series.
+
+You can also find the code for the same in github repo, [here](https://github.com/nabendu82/React-Basics).

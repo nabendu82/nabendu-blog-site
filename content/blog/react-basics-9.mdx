@@ -1,0 +1,103 @@
+---
+title: ReactJS Tutorial for Beginners -9
+description: ReactJS
+date: 2020-10-19
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-9 of the series. We will learn to style React component in this part.
+
+## Styling React Components
+
+There are four ways to style React components. They are -
+
+* CSS Stylesheets
+
+* Inline styling
+
+* CSS Modules
+
+* CSS in JS Libraries — Styled components
+
+We are going to look into first three in this post, as the fourth one is beyond basics and is a series in itself.
+
+**CSS Stylesheets**
+
+We will create a file **StyleSheets.js** inside **components**folder. Also, create a **stylesheets.css** file inside **components** folder.
+
+We will put two class **primary** and **secondary** with color style in **stylesheets.css** file.
+
+![stylesheets.css](https://ik.imagekit.io/thewebdev/React-Basics/9/1_jzG31hWzIc.png)*stylesheets.css*
+
+Next, let's first include the **StyleSheets** component in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/9/2___lXI304bj.png)*App.js*
+
+Now, we will create the content of **StyleSheets.js** file. It is a functional based component, containing a **h1** and a **p**. We are using the **primary** and secondary class like normal html. The only difference is that, we are using **className** instead of **class**.
+
+We are also importing the **stylesheets.css** file at the top.
+
+![StyleSheets.js](https://ik.imagekit.io/thewebdev/React-Basics/9/3_z0oKB46faj.png)*StyleSheets.js*
+
+Both the styles will be reflected properly in localhost.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/9/4_r0HUv_uEkt.png)*localhost*
+
+**Inline Styling**
+
+As in normal HTML, we can do inline styling, so in React. But the format is a bit different.
+
+We use camelCase for styles. Here, we are creating an object **parastyled** and give **fontSize** and **backgroundColor** as keys in it. Also, notice that the values ae strings. These are the two differences from normal CSS.
+
+After that at line 16, we are just using it with style and giving the object.
+
+![StyleSheets.js](https://ik.imagekit.io/thewebdev/React-Basics/9/5_U6DoczhjCO.png)*StyleSheets.js*
+
+We can also use the styles directly, without using the object. I have declared another paragraph and in it, inside double curly bracket can directly give it.
+
+![StyleSheets.js](https://ik.imagekit.io/thewebdev/React-Basics/9/6_WW4goPYA1g.png)*StyleSheets.js*
+
+Now, we can see both styles correctly in localhost.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/9/7_i8E1KAI4HI.png)*localhost*
+
+**CSS Modules**
+
+There is a problem with declaring CSS in stylesheets. Whatever we declare, become global style and get's applied to all Components and this is not a desirable behavior in large projects.
+
+Let's check the issue. First add a new style for h1 in **stylesheets.css** file.
+
+![stylesheets.css](https://ik.imagekit.io/thewebdev/React-Basics/9/8_3HPeTRKkNY.png)*stylesheets.css*
+
+Now, create a new file **Modules.js** inside the **components** folder. It's a simple functional component, with a h1 tag. Notice that i didn't included any stylesheet in it.
+
+![Modules.js](https://ik.imagekit.io/thewebdev/React-Basics/9/9_eGHcHy7F5M.png)*Modules.js*
+
+After that just add it in App.js file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/9/10__UZ9hZgwzo.png)*App.js*
+
+Now, when we check in localhost, we can see h1 is large and the unwanted style is applied to it.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/9/11_R0rynl4HIi.png)*localhost*
+
+So, it is advisable to use CSS modules in all our projects because the styles are limited to only the Component in which we include it.
+
+Create a file **stylesheets.module.css** in the same **components** folder and add a class **header**, with **color** and **background-color** properties.
+
+The format of **.module.css** is required for the filename.
+
+![stylesheets.module.css](https://ik.imagekit.io/thewebdev/React-Basics/9/12_4S8IrS27b.png)*stylesheets.module.css*
+
+Now, to use the the module css file, we need to import it with **styles** and also use it with **styles**.
+
+Now, when we do like this we cannot use it in any other file.
+
+![Modules.js](https://ik.imagekit.io/thewebdev/React-Basics/9/13_iK9If-RpDq.png)*Modules.js*
+
+It will show properly in localhost.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/9/14_3PhIFqSb-k.png)*localhost*
+
+This completes part-9 of the series.

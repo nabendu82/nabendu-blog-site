@@ -1,0 +1,106 @@
+---
+title: ReactJS Tutorial for Beginners -7
+description: ReactJS
+date: 2020-10-17
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+
+Welcome to part-7 of the series. We will first learn about passing data from children to parent component.
+
+## Methods as props
+
+In react we generally pass data(or props) from parent component to child component. But if we want to pass props from Child to Parent component, we need to pass methods.
+
+We will create a class based component **ParentComponent** inside **components** folder. It have a local state of **parentName** and a **greetParent**(), which will show an alert containing this state.
+
+In the render part, we are simply calling a **ChildComponent**.
+
+![ParentComponent](https://ik.imagekit.io/thewebdev/React-Basics/7/1_e3UM5QzJq0.png)*ParentComponent*
+
+Now, we will create the **ChildComponent** component. It just have a simple button, with text **Greet Parent**.
+
+![ChildComponent](https://ik.imagekit.io/thewebdev/React-Basics/7/2_MWWHQrslwj.png)*ChildComponent*
+
+Also, include the **ParentComponent **in **App.js** by adding it.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/7/3_lTUjAtVjvx.png)*App.js*
+
+Now, we want to click the **button **in the **ChildComponent **and execute the **greetParent**() in **ParentComponent.**
+
+So, we pass the method itself as props to the **ChildComponent**. So, in our **ParentComponent.js** file, we are passing the props **greetHandler **to the **ChildComponent**.
+
+![ParentComponent.js](https://ik.imagekit.io/thewebdev/React-Basics/7/4_rpEk58T9a9.png)*ParentComponent.js*
+
+Back to the **ChildComponent **now, we will use this props **greetHandler** in the event handler of the button.
+
+![ChildComponent.js](https://ik.imagekit.io/thewebdev/React-Basics/7/5_ZZrAHh-eyw.png)*ChildComponent.js*
+
+Now, in localhost, when we click at the button the pop-up with the **parentName** state will be displayed.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/7/6_z0G2Hu93m.png)*localhost*
+
+Now, if we want to pass some parameter from the **ChildComponent **to the **ParentComponent**, we need to use the arrow function. After that we can pass a parameter in it.
+
+![ChildComponent.js](https://ik.imagekit.io/thewebdev/React-Basics/7/7_N4o2tk-8lJ.png)*ChildComponent.js*
+
+Next, in **ParentComponent.js** we have access to it as a parameter to the function. So, we are using it from the parameter.
+
+![ParentComponent.js](https://ik.imagekit.io/thewebdev/React-Basics/7/8_WDc19LbqHC.png)*ParentComponent.js*
+
+Now, back in localhost when we click the button we will see both state and the parameter in the alert.
+
+![Alert](https://ik.imagekit.io/thewebdev/React-Basics/7/9_pDqCxwvyHK.png)*Alert*
+
+## Conditional Rendering
+
+In react there are four ways by which we can conditional render a part of the code. We will look into them now.
+
+We will create a class based component **UserGreeting **inside **components** folder. Here, we have a state variable **isLoggedIn** which is false now. We also have two h1s.
+
+![UserGreeting.js](https://ik.imagekit.io/thewebdev/React-Basics/7/10_vGIx6bFklB.png)*UserGreeting.js*
+
+Next, we will include **UserGreeting** in the App.js file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/7/11_tufNupNg3g.png)*App.js*
+
+Now, both the h1s will be shown in localhost. But as you might have guessed, we want to show only one depending on the **isLoggedIn** variable.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/7/12_1OhqRwhgPx.png)*localhost*
+
+**Method #1**
+The first method which we will learn, is the if-else statement. Here, we are using the if statement to check if the **isLoggedIn **is **true **and displaying **Welcome Nabendu** in the case, or else **Welcome Guest** is displayed.
+
+![UserGreeting.js](https://ik.imagekit.io/thewebdev/React-Basics/7/13_GBWLydw7sz.png)*UserGreeting.js*
+
+Now, in localhost **Welcome Guest **will be displayed because **isLoggedIn** is false.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/7/14_R-0UQ3kSaF.png)*localhost*
+
+**Method #2**
+The second method is to add the html in element variables. Here, we have created a variable message and then inside the if-else, assigned different statements to it.
+
+Now, in the return statement showing the message.
+
+![UserGreeting.js](https://ik.imagekit.io/thewebdev/React-Basics/7/15_ch6ldTtTQ.png)*UserGreeting.js*
+
+Now, in localhost **Welcome Nabendu **will be displayed because **isLoggedIn** is true.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/7/16_z1tkAb4n0Q.png)*localhost*
+
+**Method #3**
+The third method uses the ternary conditional operator and is used the most in React codes. The benefit of this approach is that it can be used inside the JSX.
+
+![UserGreeting.js](https://ik.imagekit.io/thewebdev/React-Basics/7/17_frdH5BXb05.png)*UserGreeting.js*
+
+In this method we use a ternary operator, which is equivalent to if-else statement. Here, we are checking if **this.state.isLoggedIn** is true and show **Welcome Nabendu** in the case, or else **Welcome Guest** is displayed.
+
+**Method #4**
+The fourth method uses the short-circuit operator &&, but it can be used only if we want to render something or nothing.
+
+![UserGreeting.js](https://ik.imagekit.io/thewebdev/React-Basics/7/18_cX0NDJ9axW.png)*UserGreeting.js*
+
+Here, we are checking if **this.state.isLoggedIn** is true then only execute the other statement i.e. **Welcome Nabendu.**
+
+This completes part-7 of the series.

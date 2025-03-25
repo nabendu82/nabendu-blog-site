@@ -1,0 +1,102 @@
+---
+title: ReactJS Tutorial for Beginners -5
+description: ReactJS
+date: 2020-10-15
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-5 of the series. We will learn about state in this part, but let's first understand the difference between state and props.
+
+## props vs state
+
+Since, react have two important concepts. One been props and other been state, they are compared a lot. And also differentiated a lot. Below diagram show the difference between them.
+
+![props vs state](https://ik.imagekit.io/thewebdev/React-Basics/5/1_NLsimMx6kI.png)*props vs state*
+
+## state in code
+
+As, per the above diagram state is managed within a component. So, we will first create a state variable. Create a new file **Counter.js** inside the component folder. It is a class based component and we have the class constructor in it. The state variable is declared with **this.state** inside a constructor and is an object. We can put any numbers of key-value pair in it.
+
+We are declaring count inside the state variable, with the initial value of 0. Now, inside our render() method we access it by **this.state.count**.
+
+![Counter.js](https://ik.imagekit.io/thewebdev/React-Basics/5/2_YfuvHcfHhZ.png)*Counter.js*
+
+Now, in localhost it will show the initial value.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/5/3_VoEaql4AV.png)*localhost*
+
+Now, whenever we want to change the value of state, we do it thorough setState method. We have added a button and a **onClick** event to it. Next, we are calling **incrementCount** function.
+
+On important thing to notice is that at line 9, we are using the bind. This is done because the this keyword will throw error, if we don't give it.
+
+Inside the **incrementCount** function, we are calling the this.setState and increasing the count value.
+
+![Counter.js](https://ik.imagekit.io/thewebdev/React-Basics/5/4_DRqxVwfw57.png)*Counter.js*
+
+If we go to localhost and click on button, it will show correctly.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/5/5_pl8Z4vQK_f.png)*localhost*
+
+Before moving forward, we will refactor the code and get rid of the bind. We will use arrow function to achieve it.
+
+![Arrow function](https://ik.imagekit.io/thewebdev/React-Basics/5/6_K-uiNzb_Fd.png)*Arrow function*
+
+Now, we will try to increment the state directly and ditch the setState. We have also added a console log to check the state value.
+
+![state directly](https://ik.imagekit.io/thewebdev/React-Basics/5/7_ceYUvOe1nP.png)*state directly*
+
+Now, in [http://localhost:3000/](http://localhost:3000/) when we click on the Increment button, it only increments the console log at Line 13. And not the count at Line 19.
+
+The reason behind this is that React only re-renders or run the component again when we use setState. So, in this case when we are not using the setState the render part is not running.
+
+![no rendering](https://ik.imagekit.io/thewebdev/React-Basics/5/8_tsmxg7ihSZ.png)*no rendering*
+
+So, revert it back and use the **setState** again.
+
+![](https://ik.imagekit.io/thewebdev/React-Basics/5/9_u2UilPZ1Sp.png)
+
+Now, back in localhost click on the **Increment** button. One thing to notice that the console log is one behind the value displayed on the Count. This is because calls to setState are asynchronous. So, here console log is called before the state is set.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/5/10_LYfCNUqzX5.png)*localhost*
+
+Many times in our code we need to execute the code only after the state has been set. To handle such a situation, as in above case. we pass a callback parameter to the setState method.
+
+We will refactor our above code to use the callback as a second parameter to setState.
+
+![Callback](https://ik.imagekit.io/thewebdev/React-Basics/5/11_HyVz4PKtN2.png)*Callback*
+
+Now, our console log will give correct value.
+
+![console log](https://ik.imagekit.io/thewebdev/React-Basics/5/12_f9z_8114E.png)*console log*
+
+We will now look into another scenario, where we have a new function **incrementFiveTimes**(). It is calling our function incrementCount() five times.
+
+![incrementFive](https://ik.imagekit.io/thewebdev/React-Basics/5/13_MK4MyB9AEy.png)*incrementFive*
+
+So, when we click on the button once, the count should increase by five. But when we clicked on it, the count gets increased by one only.
+> This is because React may group multiple setState calls, into a single update for better performance
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/5/14_vMc36abYyN.png)*localhost*
+
+So, whenever you have to update the state based on the previous state, we need to pass function as an argument instead of regular object.
+
+So, we will modify our code to use the previous state instead of current state and it will solve our problem.
+
+![prevState](https://ik.imagekit.io/thewebdev/React-Basics/5/15_kNfJGHttB_.png)*prevState*
+
+Now, back to localhost, when we click once it will increment value by 5.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/5/16_qz0l1sN27q.png)*localhost*
+
+## Summarize
+
+Let's quickly summarize what we have learnt.
+
+* Always make use of setState and never modify the state directly.
+
+* You need to execute some code after the state has been updated? Place that code in the second argument to setState, which is a callback function.
+
+* When you have to update state based on the previous state, pass in a function as an argument instead of the regular object.
+
+This completes part-5 of the series.

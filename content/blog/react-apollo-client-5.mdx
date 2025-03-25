@@ -1,0 +1,124 @@
+---
+title: React Tutorial - SpaceX fan site with Apollo Client -5
+description: React
+date: 2020-01-11
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+
+Welcome to part-5 of the series. Next, it’s time to create our **Rocket** component to show the details of each rocket, when the user clicks on **Rocket Details** button.
+
+But first we will create a new Route to it in the **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/SpaceX/5/1_9duzrQwsb.jpg)*App.js*
+
+Next, we will create **Rocket.js** inside the **components** folder and put the basic code in it. We will change the content later.
+
+
+```js
+import React from 'react'
+
+const Rocket = () => {
+    return (
+        <div>
+            Rocket Component
+        </div>
+    )
+}
+
+export default Rocket
+```
+
+We also need to change the simple button in our **RocketItem.js** to use **Link** from react-router-dom.
+
+![RocketItem.js](https://ik.imagekit.io/thewebdev/SpaceX/5/3_MI9g_AsjQ.png)*RocketItem.js*
+
+Now, once we click on the **Rocket Details** link, it will show us the **Rocket** Component. Also, notice the url as it got changed to the **rockets** with **rocket_id**.
+
+![Rocket Page](https://ik.imagekit.io/thewebdev/SpaceX/5/4_sMH_hHNmV.png)*Rocket Page*
+
+Before updating the **Rocket.js** file with the query, we should make it in Graphiql playground. But i realized that the schema type was wrong in **schema.js**, so let’s fix it first.
+
+![schema.js](https://ik.imagekit.io/thewebdev/SpaceX/5/5_lOZu8Tfbn_.png)*schema.js*
+
+Next, we will create the query in Graphiql playground to get the details of one rocket.
+
+![Playground](https://ik.imagekit.io/thewebdev/SpaceX/5/6_ShPe-L_sC.png)*Playground*
+
+We will now start importing the required packages and using our graphql query for the single rocket in our **Rocket** component.
+
+Next, we will first get the **rocket_id** from the url. This we can do by **props.match.params** . Now this will return us String and we need string only to be passed to the query.
+
+Next, we will use the **ROCKET_QUERY** in our code by the same boiler plate as earlier in Launch component. We are also passing variables **rocket_id** to it. As usual we are first checking whether we are receiving the data from GraphQL by console logging it.
+
+
+```js
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
+import { Link } from 'react-router-dom';
+
+const ROCKET_QUERY = gql`
+    query rocket_query($rocket_id: String!){
+        rocket(rocket_id: $rocket_id){
+            rocket_id
+            rocket_name
+            rocket_type
+            wikipedia
+            description
+        }
+    }
+`;
+
+
+const Rocket = (props) => {
+    let { rocket_id } = props.match.params;
+
+    const { loading, error, data } = useQuery(ROCKET_QUERY, { variables: { rocket_id } });
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+    console.log(data)
+
+    return (
+        <h1>
+            Test Rocket
+        </h1>
+    )
+}
+
+export default Rocket
+```
+
+Now, in our website it will show the Object of data which we received from GraphQL when we goto a **Rocket** page.
+
+![Rocket Page](https://ik.imagekit.io/thewebdev/SpaceX/5/9_XHq5s0zCc-.png)*Rocket Page*
+
+Then we will de-structure the data and start showing it in the **Rocket** component with a little help from bootstrap 4 classes.
+
+![Rocket Component updated](https://ik.imagekit.io/thewebdev/SpaceX/5/10_7Zla9riVX.jpg)*Rocket Component updated*
+
+It will start to show in our web-page.
+
+![Rocket Webpage](https://ik.imagekit.io/thewebdev/SpaceX/5/11_7GAcESvkz_.png)*Rocket Webpage*
+
+In our web-app the **Home** and the **Launches** page shows the same thing, so i am thinking to change the Launches page to show history about SpaceX. SO, i had headed over to the Spacex API and got the details to get history.
+
+![History](https://ik.imagekit.io/thewebdev/SpaceX/5/12_yLuUXJo0x.png)*History*
+
+Next, we will head over to **schema.js** and create two new types.
+
+![schema.js](https://ik.imagekit.io/thewebdev/SpaceX/5/13_QzhDRtzZ5.png)*schema.js*
+
+Next, let’s add those two new type in two new endpoints code.
+
+![schema.js](https://ik.imagekit.io/thewebdev/SpaceX/5/14_LiXGFjRFWN.png)*schema.js*
+
+Next, we will check in Graphiql playground whether the query is working. But before that we need to restart our application and also refresh Graphiql playground at [http://localhost:5000/graphql](http://localhost:5000/graphql)
+
+After that use the below query to check.
+
+![Graphql query](https://ik.imagekit.io/thewebdev/SpaceX/5/15_RXIQMSBkcu.png)*Graphql query*
+
+And we are getting the data from graphql. This completes the part-5 of the series. You can find the code for the same in my github repo [here](https://github.com/nabendu82/ReactApolloClient).
+
+In the final part we complete the history part and also deploy the application.

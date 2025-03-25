@@ -1,0 +1,85 @@
+---
+title: ReactJS Tutorial for Beginners -18
+description: ReactJS
+date: 2020-10-28
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to final of the series. We will learn to do http request in this part.
+
+### React and HTTP
+
+React doesn’t have any http capabilities, because it is just a library which is concerned with state and props to display the UI. But, we can add almost any functionalities to react with the use of external libraries.
+
+We can use library like **axios** or the in-build **fetch api** to do http requests. The logic for the same can be understood from the below diagram.
+
+Here, our application is sending request to the http library, which then handles all logic to communicate with the server and getting the data back. Our react application then with the help of props and state display the data.
+
+![Web request](https://ik.imagekit.io/thewebdev/React-Basics/18/1_PD2kB6yy1V.png)*Web request*
+
+### The Code
+
+We will create a new project for this part. So, head over to your terminal and create a new project with the below command.
+
+```js
+    npx create-react-app react-http
+```
+
+I am creating it with our **React-Basics** folder, which also contains the **hello-world** project in which we had done work till now.
+
+![React command](https://ik.imagekit.io/thewebdev/React-Basics/18/2_swddvWrN-r.png)*React command*
+
+After the project is created, we need to goto the react-http folder and run the command npm start. Our new project is now been shown on localhost.
+
+![New Project](https://ik.imagekit.io/thewebdev/React-Basics/18/3_nKuDl8_5bt.png)*New Project*
+
+### HTTP Get
+
+We are first going to do a GET request to an API endpoint. We are going to use the awesome fake api end point of json placeholder [https://jsonplaceholder.typicode.com/posts](https://jsonplaceholder.typicode.com/posts) , which gives us a list of 100 posts. It will give as an array of objects.
+
+![API Endpoint](https://ik.imagekit.io/thewebdev/React-Basics/18/4_txigECiXh.png)*API Endpoint*
+
+We will now open our code in VS code and render a new component **PostList**, which we are soon going to create.
+
+![PostList](https://ik.imagekit.io/thewebdev/React-Basics/18/5_jz1AOFJ0vK.png)*PostList*
+
+Next, create a folder **components** inside **src** and create a file **PostList.js** inside it. It’s a simple class based component, in which we have an **state** of **posts**.
+
+Next, we will be using the in-built fetch api(in browser), to call our api endpoint. We are using the latest syntax of async-await to fetch the data in the **componentDidMount()** lifecycle hook. The api endpoint will return a promise and we need to await for it. The fetch api requires another await on res.json() and we will get our data containing 100 posts from the server.
+
+![PostList.js](https://ik.imagekit.io/thewebdev/React-Basics/18/6_se7Hmenp40.png)*PostList.js*
+
+Now, we just need to set the state posts to the received posts variable. Now, in our **render()**, we are first destructuring the **posts**. After that we are checking if the **posts** is there by posts && posts.length and then mapping through it to show the **title** in the browser.
+
+![title](https://ik.imagekit.io/thewebdev/React-Basics/18/7_xEHgvr8GYh.png)*title*
+
+### HTTP Post
+
+For the Post request to the same jsonplaceholder, we need to send userid, title and body to it. So, let’s go ahead and create a file **PostForm.js** inside the components folder.
+
+We are creating a form and within it, three input boxes. We are also creating three state variables **userId**, **title** and **body** and assigning to the value.
+
+![PostForm.js](https://ik.imagekit.io/thewebdev/React-Basics/18/8_IkGRzuMQSU.png)*PostForm.js*
+
+Next, we will add an **onChange** handler to all our input. In the **handleChange** function, we are using computed properties. The computed properties, helps us to dynamically use the name. You can read more about it [here](https://stackoverflow.com/questions/47052938/understanding-computed-properties-square-brackets).
+
+We have also added a button and **onSubmit** handler in the form.
+
+![handleChange](https://ik.imagekit.io/thewebdev/React-Basics/18/9_Ur6PYvB28I.png)*handleChange*
+
+Next, we will add this to our **App.js** and it will be shown in the browser.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/18/10_7nuCr0hvWV.png)*App.js*
+
+Now, we will add the logic to do a Post request in the handleSubmit(). Now, the POST have more code then our GET in fetch api. We have to pass a settings object here, which contains method, headers and body. The method, headers are mostly similar to the code, but we mainly pass the data in the body. Here, we are stringify the state.
+
+We are then doing the fetch call similar to the get part, but with the additional parameter of settings. We also have an optional try-catch statement wrapping the awaits. It is generally recommended and could have been used in the GET part also. They catches any error if happen to the API call.
+
+Now, when we enter the data in the input boxes and Submit, it get’s submits to our endpoint successfully and we get back the data.
+
+![handleSubmit](https://ik.imagekit.io/thewebdev/React-Basics/18/11_OTnCb0W_6q.png)*handleSubmit*
+
+This completes final of the series. See you soon Redux tutorials.
+
+You can also find the code for the same in github repo, [here](https://github.com/nabendu82/React-Basics).

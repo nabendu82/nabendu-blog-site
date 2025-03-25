@@ -1,0 +1,86 @@
+---
+title: ReactJS Tutorial for Beginners -12
+description: ReactJS
+date: 2020-10-22
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+
+Welcome to part-12 of the series.We will learn about Pure Components first in this part.
+
+## Pure Components
+
+Actually, there is a second way to create class components and that is by extending the PureComponent class from React. They work exactly the same, as Regular component but to see the real difference, we will create a Regular Component and Pure Component and call them from a Parent Component.
+
+So, let's head back to our old project and create a file **ParentComp.js** first. Put the below content in it. Here, we have a class based component called **ParentComp**, which have a state variable name. Now, we also have a **componentDidMount()**, which have a **setInterval()** inside it. The **setInterval()** is run every 2 seconds and it update the state variable name, by **this.setState()**. But notice that it is keeping the name same ie ‘Nabendu'.
+
+In the **render()** method, it have some console logs. In the return, it is rendering two component **RegularComponent** and **PureComp** and passing the state variable **name** as props.
+
+![ParentComp.js](https://ik.imagekit.io/thewebdev/React-Basics/12/1_hImeZgjW1O.png)*ParentComp.js*
+
+We will first create the **RegularComponent**, which simply have a console log. In the return, it is using the **props** from the **ParentComp**.
+
+![RegularComponent.js](https://ik.imagekit.io/thewebdev/React-Basics/12/2_lFO46uUty.png)*RegularComponent.js*
+
+We will first create the **PureComp**, which simply have a console log. In the return, it is using the **props** from the **ParentComp**. But notice the import and the extends, both of which is **PureComponent** instead of the regular **Component**.
+
+![PureComp.js](https://ik.imagekit.io/thewebdev/React-Basics/12/3_3mNgRFsRes.png)*PureComp.js*
+
+Now, we need to add the **ParentComp** in our **App.js**, for it to show in the browser. After adding that, in the browser we can see all three components been shown, but the real play happens in the console.
+
+Our Parent component, will run every 2 seconds and also render the children. In the console, we will see the Parent Component, Regular Component and Pure Component run one time. But after that only the Parent Component and the Regular Component runs and not the Pure Component.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/12/4_wjklsLW6He.png)*App.js*
+
+The above is the difference between Regular Component and Pure Component.
+
+It is because a regular component doesn't implement the **shouldComponentUpdate** method. It always returns true by default.
+
+On the other hand , a pure component implements the **shouldComponentUpdate** method, with a shallow props and state comparison.
+
+**Shallow Comparison**
+Now, let's understand Shallow Comparison(SC) used in Pure Components.
+
+* Let say we have two variables ‘a' and ‘b'.
+
+* Now, a shallow comparison b will return true if both ‘a' and ‘b' are of the same type and have same value.
+
+* In our case string ‘Nabendu' sc string ‘Nabendu' return true, so the PureComponent never re-renders.
+
+**State & Props Comparison
+**A pure component does Shallow Comparison of **prevState** with **currentState** and if there is a difference, then only re-renders the component.
+
+A pure component also, does Shallow Comparison of **prevProps** with **currentProps** and if there is a difference, then only re-renders the component.
+
+In our case, the Pure component **PureComp**, receives the props of ‘Nabendu', every two seconds. So, when it compares the **prevProps** with **currentProps**, there is no difference. So, it doesn't re-renders the component.
+
+Now, to look into the case of state comparison, we will make our **ParentComp** also a Pure Component, by extending it.
+
+Here, we are doing state comparison of the name. It will be same after each time the setState is called after 2 seconds. So, everything will run only once including the child components, as shown in the console.
+
+![ParentComp.js](https://ik.imagekit.io/thewebdev/React-Basics/12/5_bAqCaKagzB.png)*ParentComp.js*
+
+## Memo
+
+In React 16.6 Memo were introduced. They are completed similar to Pure Components, but are for Functional components.
+
+Create a new file **MemoComp.js** inside the **components** folder. We are creating a simple functional component, which is getting a props name. We are just destructuring it and showing it.
+
+![MemoComp.js](https://ik.imagekit.io/thewebdev/React-Basics/12/6_5b3VG2jjJa.png)*MemoComp.js*
+
+Next, back in **ParentComp.js** we are importing this **Memo** component and rendering it. Also, notice that we had made the ParentComp back to a normal class based component.
+
+As, we can see from the console the Parent Component and the Memo Component are rendering every 2 seconds.
+
+![ParentComp.js](https://ik.imagekit.io/thewebdev/React-Basics/12/7_ouNM2Y20RV.png)*ParentComp.js*
+
+Now, to use Memo we need to use it as a Higher Order Component in the export in **MemoComp.js** file.
+
+And now the Memo Component will be rendered only once. Although the Parent Component will keep rendering , every 2 seconds.
+
+![MemoComp.js](https://ik.imagekit.io/thewebdev/React-Basics/12/8_60OUINkRte.png)*MemoComp.js*
+
+You can also find the code till this part in my github repo, [here](https://github.com/nabendu82/React-Basics).
+
+This completes part-12 of the series.

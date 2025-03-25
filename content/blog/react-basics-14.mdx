@@ -1,0 +1,83 @@
+---
+title: ReactJS Tutorial for Beginners -14
+description: ReactJS
+date: 2020-10-24
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-14 of the series. We will learn about Portals and Error Boundary in this part.
+
+## Portals
+
+Portals provide a way to render children, into a DOM node that exists outside the DOM hierarchy of the parent component. This in simple term means that, we can use portal to create a Component outside the div id=”root” in which are React components are created.
+
+![index.html](https://ik.imagekit.io/thewebdev/React-Basics/14/1_ZXpgVm0YNO.png)*index.html*
+
+So, we will add a new div in the **index.html** with any id like below.
+
+![portal-root](https://ik.imagekit.io/thewebdev/React-Basics/14/2_N1EgG0mbdP.png)*portal-root*
+
+We will first head over to **App.js** and show an old Component **FocusInput** and also a new component **PortalDemo**, which we are going to create next.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/14/3_mLDk7vFuvt.png)*App.js*
+
+Now, we will create our **PortalDemo.js** in the **components** folder. Notice that it is almost similar to our **index.js**, which is consider the entry point to our React app.
+
+Here, we are showing another component **RegularComponent** which we had created earlier. We are using the **ReactDOM** method **createPortal** and putting the Component in our **portal-root** div in the **index.html**.
+
+The app in browser will show no difference, but in console we can see that the **RegularComponent** component is inside **portal-root** div. And the **FocusInput** component inside the **root** div.
+
+Portal are mainly used to solve problems with styling. You can check a real use case in [this ](https://blog.logrocket.com/learn-react-portals-by-example/)blog.
+
+![Portal](https://ik.imagekit.io/thewebdev/React-Basics/14/4_KNSHKDVDBA.png)*Portal*
+
+## Error Handling Phase Method
+
+We will learn about Error Handling Phase Method, which will be rendered when we get some error in our component. There are two methods -
+
+* static getDerivedStateFromError(error)
+
+* componentDidCatch(error, info)
+
+The static method **getDerivedStateFromError()** is used to render a fallback UI after an error is thrown.
+
+The **componentDidCatch()** is used to log the error information.
+
+### Error Boundary
+
+A class component that implements either one or both getDerivedStateFromError() or componentDidCatch(), becomes an Error Boundary.
+
+Let's understand it by using an example. Create a new file **Villain.js** inside the **components** folder. It is a simple class based component, which is receiving a props **villainName** and showing it.
+
+But if the **villainName** is **Batman**, it throws an error.
+
+![Villain.js](https://ik.imagekit.io/thewebdev/React-Basics/14/5_nVOuYDsaZ.png)*Villain.js*
+
+Now, we will add the **Villain **component in **App.js** three times and each one passes a prop. The last one passed the prop **Batman** and our whole program crashes.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/14/6_dpNOAeUFpf.png)*App.js*
+
+Now, create a file **ErrorBoundary.js** inside the **components** folder. It is using the lifecycle method **static getDerivedStateFromError(error)**, which make the state variable **hasError** equal to true.
+
+Inside the **render()**, we are returning the text **Something Went wrong**, if the state **hasError** is false. Or else we are returning the children.
+
+![ErrorBoundary.js](https://ik.imagekit.io/thewebdev/React-Basics/14/7_Em0QCBfBJ6.png)*ErrorBoundary.js*
+
+Now, we will move back to **App.js** and wrap all of the component in **ErrorBoundary.**
+
+But when we see in the browser, we still see the error. This happens because the React team wants us to see error in development, but in production we will see the Error boundary text.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/14/8_b0DmUxjQxv.png)*App.js*
+
+To see the same, click on the close symbol at the top right of the browser and you can see the Error message.
+
+![Error message](https://ik.imagekit.io/thewebdev/React-Basics/14/9_nu259RD_bn.png)*Error message*
+
+Now, we will see the second lifecycle method, **componentDidCatch**(). It is simply used to log the error in any logging system, which in most cases is console log. As we can see both of them are logged in the console.
+
+![componentDidCatch](https://ik.imagekit.io/thewebdev/React-Basics/14/10_JP6ZC4absp.png)*componentDidCatch*
+
+This completes part-14 of the series. 
+
+You can also find the code for the same in github repo, [here](https://github.com/nabendu82/React-Basics).

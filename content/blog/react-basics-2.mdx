@@ -1,0 +1,71 @@
+---
+title: ReactJS Tutorial for Beginners -2
+description: ReactJS
+date: 2020-10-12
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+
+Welcome to part-2 of the series. In the previous part we had learnt about React and just created a project **hello-world** with **create-react-app**.
+
+## The Structure
+
+We will learn more about the files and the folders, which were automatically created by React. In the root of our project we have 3 folders and 4 files.
+
+![hello-world](https://ik.imagekit.io/thewebdev/React-Basics/2/1_R31RS1R6pf.png)*hello-world*
+
+### The Files
+
+First, the file **package.json** contains all our dependencies and scripts required for the project. It also tell about the version of ReactJS.
+
+![package.json](https://ik.imagekit.io/thewebdev/React-Basics/2/2_4kAgXkB_0v.png)*package.json*
+
+The next file is **yarn.lock** which was created because of the package manager yarn. You will also have a **package-lock.json** file, as soon as you install a package via npm. They simply ensures consistent installation of your dependencies.
+
+![yarn.lock](https://ik.imagekit.io/thewebdev/React-Basics/2/3_VZC0uhQicP.png)*yarn.lock*
+
+We also have a **.gitignore** file. In this file whatever is put will not get pushed to git control system like github.
+
+![.gitignore](https://ik.imagekit.io/thewebdev/React-Basics/2/4_8_GRaScyUW.png)*.gitignore*
+
+The next file is **README.md** file, which contains information about React in a markdown format.
+
+![README.md](https://ik.imagekit.io/thewebdev/React-Basics/2/5_BTMkdZl_PK.png)*README.md*
+
+### The Folders
+
+The first folder is **node_modules** folder, which is the folder in which all the dependencies are installed. The folder takes the most amount of space in a React project, so make sure to delete it if you run out of space in your system. This is also included in the **.gitignore** file, so that it is not pushed to github.
+
+![node_modules](https://ik.imagekit.io/thewebdev/React-Basics/2/6_BpvuGVc7NM.png)*node_modules*
+
+The next folder is the **public** folder, which contains six files. Out of which **manifest.json** is concerned with progressive web-apps, which we are not going to look in this project. We also have the **favicon.ico, logo192.png , logo512.png** which are the icon and logo used by the default project.
+
+The most important file here is **index.html** which is been used by React. Here, in the head part, we sometime include any external style sheet like bootstrap. But the body part is completely control by React and have the below important line. We will again comeback to it soon.
+
+
+```js
+    <div id="root"></div>
+```
+
+![index.html](https://ik.imagekit.io/thewebdev/React-Basics/2/7_OnIR3kEwaj.png)*index.html*
+
+The folder **src** is where, we will work the most during development. The starting point of a React app is **index.js**. Here at Line 9, we have **App** file been rendered and at Line 11 we have **document.getElementById(‘root’)**.
+
+This is the div from **index.html** file. So, this is the whole logic i.e. **App** component been rendered in **root** id.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-Basics/2/8_ms_nhN3KT7.png)*index.js*
+
+Now, we will look into the **App.js** file. The content of this file is only shown in [http://localhost:3000/](http://localhost:3000/) which we had seen in the previous part. It uses styles from **App.css** file and logo from **logo.svg** file in the same folder.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/2/9_asO-97O4y.png)*App.js*
+
+We also have a **App.test.js** file which contains simple unit test for **App.js**. We also have a **index.css** file, which contains style for the body. The last file here is **serviceWorker.js**, which is again concerned with Progressive Web apps and can be ignored as a fresher.
+
+![serviceWorker.js](https://ik.imagekit.io/thewebdev/React-Basics/2/10_b1Qf8B76HY.png)*serviceWorker.js*
+
+So, that is the folder structure of a React App created using create-react-app.
+
+To recap, when you run **npm start** in the terminal, the **index.html** file is server in the browser. In index.html we have root id, which shows the html from our **App**component.
+
+This completes part-2 of the series.

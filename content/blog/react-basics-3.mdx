@@ -1,0 +1,110 @@
+---
+title: ReactJS Tutorial for Beginners -3
+description: ReactJS
+date: 2020-10-13
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+
+Welcome to part-3 of the series. We will learn about the biggest building block in React and that are component.
+
+## Components in ReactJS
+
+Component are the main building block in ReactJS. Component describes a part of the User Interface as can be seen in the below image, where we had divided the entire app into parts or Components.
+
+![Youtube Player](https://ik.imagekit.io/thewebdev/React-Basics/3/1_zeWu9IEaS.png)*Youtube Player*
+
+Components are reusable and can be used within other component. In the above image every component will be part of the App component. There are basically two type of components in React — Stateless Functional Components and Stateful Class Components.
+
+## Stateless Functional Components
+
+The first type of component is Functional component, which are nothing but JavaScript functions. One of the main thing is that it doesn't have state and we will learn about it later.
+
+![](https://ik.imagekit.io/thewebdev/React-Basics/3/2_2na6a_mygO.png)
+
+One thing to note is that functional components have gone through major changes in React 16.3, and can have state now through hooks. We will learn about them later, but everything with stateless functional component are backward compatible.
+
+## Stateful Class Components
+
+The second type of component in Stateful Class components. They have the new ES6 class, which extends React Component. It is also important to have a render method which returns HTML. They have the concept of state, which we will learn later.
+
+![](https://ik.imagekit.io/thewebdev/React-Basics/3/3_Ozn4OQmJBa.png)
+
+## Functional Components in Code
+
+As told earlier that React is moving towards functional components, so our main file App.js is a functional component.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/3/4_lI5a2Zjsjr.png)*App.js*
+
+We will now remove all the default content from it and will create a new component from within App.js.
+
+First create a folder **components **within **src **and a file **Greet.js** inside it. Creating components within components folder and file with Pascal case are both conventions, but not necessary to follow.
+
+In the file we are creating an arrow function Greet, which is returning HTML type format(JSX). Also, notice the React **import **at the top and the **export **of the Greet function. The export which we just did is called **named export** and we will will see it when we use it in **App.js**.
+
+![Greet.js](https://ik.imagekit.io/thewebdev/React-Basics/3/5_bqTOM6Bbhr.png)*Greet.js*
+
+In App.js file notice the import in which we are using **curly brackets** for **Greet **and giving the exact path from the **App.js**. At line 9, we are using the Greet component.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/3/6_spXgAWDFbj.png)*App.js*
+
+The above way of exporting and importing is not used that much because we use a way called **default export**. Again move back to **Greet.js** to change the export way.
+
+![Greet.js](https://ik.imagekit.io/thewebdev/React-Basics/3/7_7gf8UO2Zgc.png)*Greet.js*
+
+Now, back in App.js, we are no more using curly brackets for import. Also, we can use a different name for the component, like **Greetings** in this case. Although it is not advisable.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/3/8_i_AFE8jEzd.png)*App.js*
+
+In both cases our App will show the big Hello World at [http://localhost:3000/](http://localhost:3000/)
+
+![Hello World](https://ik.imagekit.io/thewebdev/React-Basics/3/9_9K5_B5bGzv.png)*Hello World*
+
+## Class Components in Code
+
+As told earlier class components are created using ES6 classes. They also have a concept of state, which we will look later on.
+
+Create a file **Welcome.js** inside the **components** folder. It have a normal ES6 class, but it **extends**(inherits) from **Component** from react. Also, it is necessary to have a **render()** method.
+
+Also, notice that we are doing a default export, but a names export could also have been done.
+
+![Welcome.js](https://ik.imagekit.io/thewebdev/React-Basics/3/10_1dJtnobNXv.png)*Welcome.js*
+
+Now, back in **App.js** we are just importing and showing it as earlier.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/3/11_0PFo1HtUde.png)*App.js*
+
+Now at [http://localhost:3000/](http://localhost:3000/) we will see the code from Welcome component also.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/3/12_AwcHeet-zk.png)*localhost*
+
+## Functional vs Class Components
+
+Before moving forward we will look into some differences between both type of components. One thing again to notice is that these statement are not completely true now for functional components because of hooks. But everything is backward compatible.
+
+**Functional component features -**
+* Simple functions.
+* Use Func components as much as possible.
+* Absence of ‘this' keyword.
+* Solution without using state.
+* Mainly responsible for the UI.
+* Stateless/Dumb/Presentational.
+
+**Class component features -**
+* More feature rich.
+* Maintain their own private data — state.
+* Complex UI logic.
+* Provide lifecycle hooks.
+* Stateful/Smart/Container.
+
+## Hooks in Functional Components
+
+As i had told so much about hooks, we will learn some features about it now. Although we can completely ditch class components now, but it is not advisable as most of the old code base still class based and most developers still prefers to use them.
+
+* No breaking changes.
+* Completely opt-in and 100% backwards-compatible.
+* Bring two powerful features of class component — state and lifecycle methods to functional component.
+* Should be learnt after state, event binding and lifecycle methods in class components.
+
+This completes part-3 of the series.

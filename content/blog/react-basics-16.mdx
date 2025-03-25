@@ -1,0 +1,62 @@
+---
+title: ReactJS Tutorial for Beginners -16
+description: ReactJS
+date: 2020-10-26
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+
+Welcome to part-16 of the series. We will learn about Render props in this part. They are also used like HOC to share common functionality between components.
+
+To understand the need for Render props, we will look into an example first. First create a new file **ClickCounter2.js** inside **components** folder.
+
+It is a simple class based component which implements a counter. So, when we click on the button, the counter value is updated.
+
+![ClickCounter2.js](https://ik.imagekit.io/thewebdev/React-Basics/16/1_ceQqOf2Sg9.png)*ClickCounter2.js*
+
+Next, we have a requirement to implement the same functionality on the hover of mouse. So, create a file **HoverCounter2.js** in the **components** folder. The content is almost similar to our previous file, only now we have a **h2** with **onMouseOver** instead of a **button** with **onClick** handler.
+
+Notice that both of the files are similar to **ClickCounter.js** and **HoverCounter.js**, which we created initially in part-14 for HOC.
+
+![**HoverCounter2.js**](https://ik.imagekit.io/thewebdev/React-Basics/16/2_8_mxvLbxnW.png)***HoverCounter2.js***
+
+Next, we will include both of them in **App.js** and they will be rendered on screen.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/16/3_I4U5ogopw6.png)*App.js*
+
+### Render Props
+
+Now, as you might have noticed we are repeating the code and this is the place where Render props can help us.
+
+The term render props refers to a technique for sharing code between React components using a **prop whose value is a function**.
+
+We will first create a **CounterRender.js** file in the **components** folder. We are moving all the **count** and the **incrementCount** logic here. We are calling a function **render** and passing the state variable count and the incrementCount function. The function name render can be confusing, but it is the pattern and we can use anything else also.
+
+![CounterRender.js](https://ik.imagekit.io/thewebdev/React-Basics/16/4_6pvEeE-FV-.png)*CounterRender.js*
+
+We will also remove the code for count from **ClickCounter2.js** and use props to get **count** and **incrementCount**.
+
+![ClickCounter2.js](https://ik.imagekit.io/thewebdev/React-Basics/16/5_CSyHefCdb.png)*ClickCounter2.js*
+
+We will do the same for **HoverCounter2.js** also.
+
+![HoverCounter2.js](https://ik.imagekit.io/thewebdev/React-Basics/16/6_K8it66co56.png)*HoverCounter2.js*
+
+Now, finally we will see how to use them from **App.js**. Here, in the CounterRender we have a render props. Inside it we have a function which takes two parameters — count and incrementCount. It then calls the components **ClickCounter2 **and **HoverCounter2**, with these parameters.
+
+Our Hover and button are working as earlier now and we had used Render props technique, to have the common logic in a place.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/16/7_wxlz78DcKH.png)*App.js*
+
+There is another slightly different pattern for Render props and in it we pass the component as children. The updated code is in **App.js**
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/16/2_8_mxvLbxnW.png)*App.js*
+
+Now, in **CounterRender.js**, we will use **this.props.children** instead of the **render** props.
+
+![CounterRender.js](https://ik.imagekit.io/thewebdev/React-Basics/16/9_vU-G0Rc3Hw.png)*CounterRender.js*
+
+This completes part-16 of the series.
+
+You can also find the code for the same in github repo, [here](https://github.com/nabendu82/React-Basics).

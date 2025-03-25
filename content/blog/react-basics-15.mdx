@@ -1,0 +1,87 @@
+---
+title: ReactJS Tutorial for Beginners -15
+description: ReactJS
+date: 2020-10-25
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-15 of the series. We will learn about Higher Order Components(HOC) in this part.
+
+To understand the need for HOC, we will look into an example first. First create a new file **ClickCounter.js** inside **components** folder.
+
+It is a simple class based component which implements a counter. So, when we click on the button, the counter value is updated.
+
+![ClickCounter.js](https://ik.imagekit.io/thewebdev/React-Basics/15/1_cwnBfdIXgD.png)*ClickCounter.js*
+
+Next, we have a requirement to implement the same functionality on the hover of mouse. So, create a file **HoverCounter.js** in the **components** folder. The content is almost similar to our previous file, only now we have a **h2** with **onMouseOver** instead of a **button** with **onClick** handler.
+
+![HoverCounter.js](https://ik.imagekit.io/thewebdev/React-Basics/15/2__GNg1uiZNH.png)*HoverCounter.js*
+
+Now, we will include both of these components in **App.js** and both of the counters, will work as expected.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/15/3_iREwLtZVPN.png)*App.js*
+
+Now, as you might have noticed we are repeating the code and this is the place where HOC can help us.
+
+But, we might think to move the counter logic to a parent Component and pass them as props to the children components.
+
+![Proposed Solution](https://ik.imagekit.io/thewebdev/React-Basics/15/4_VDRywdH6Q.jpg)*Proposed Solution*
+
+But, there are many cases where both the children components are not at the same level.
+
+![The Issue](https://ik.imagekit.io/thewebdev/React-Basics/15/5_g4qpwjy8Kg.jpg)*The Issue*
+
+## Higher Order Components
+
+A pattern where function takes a component as an argument and returns a new Enhanced component.
+
+The pattern is -
+
+
+```js
+    const EnhancedComponent = higherOrderComponent(originalComponent)
+```
+
+
+We can think of it as TonyStark takes withSuite(HOC) and becomes IronMan.
+
+
+```
+const IronMan = withSuite(TonyStrak)
+```
+
+
+We will now create our HOC. Create a file **withCounter.js** inside the **components** folder.
+
+Here, first we have a function **withCounter** wrapping everything. We pass an argument **WrappedComponent** to it.
+
+Next, we have a class **WithCounter**, which have our Counter functionalities. We are returning the **WrappedComponent** with our **counter** and **incrementCount** props from here.
+
+![withCounter.js](https://ik.imagekit.io/thewebdev/React-Basics/15/6_PoEICVDur-.png)*withCounter.js*
+
+Next, we will update our **ClickCounter.js** file. Here, we are using the **count** and **incrementCount** as a prop. Also, notice that while exporting, we are wrapping the **ClickCounter** with the HOC **withCounter**.
+
+![ClickCounter.js](https://ik.imagekit.io/thewebdev/React-Basics/15/7_Qz3IZvnwd2.png)*ClickCounter.js*
+
+Next, we will update our **HoverCounter.js** file in the similar way. Now, we get the same functionality as earlier.
+
+![HoverCounter.js](https://ik.imagekit.io/thewebdev/React-Basics/15/8_Wo6tpFRrTn.png)*HoverCounter.js*
+
+Now, our HOC is complete, but we have a small problem. We cannot pass any props to our Child components from **App.js**. Update the **ClickCounter.js** to receive a props **name** and display it, within the button.
+
+![ClickCounter.js](https://ik.imagekit.io/thewebdev/React-Basics/15/9_sWgXn0pMxY.png)*ClickCounter.js*
+
+Next, in our **App.js** pass a props name to the **ClickCounter** component. But as you can see the name is not displayed in the button.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/15/10_qgTvW-eIza.png)*App.js*
+
+This happen because, our components are been send to the HOC **withCounter**. So, we are passing all the remaining props with the help of spread operator to the **WrappedComponent**, which are **ClickCounter **and **HoverCounter**.
+
+And this resolves our issue. So, when we create HOC, we need to pass down rest of the props.
+
+![withCounter](https://ik.imagekit.io/thewebdev/React-Basics/15/11_R9km8QDdbV.png)*withCounter*
+
+This completes part-15 of the series. 
+
+You can also find the code for the same in github repo, [here](https://github.com/nabendu82/React-Basics).

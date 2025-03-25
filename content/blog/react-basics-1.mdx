@@ -1,0 +1,78 @@
+---
+title: ReactJS Tutorial for Beginners -1
+description: ReactJS
+date: 2020-10-11
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+
+Welcome to a new series in which i will go through all of ReactJS- from classes to hooks. You should do this series after completing by HTML-CSS series, JavaScript Series and ES6 series, because knowledge of HTML, CSS, JavaScript and ES6 are required to learn ReactJS.
+
+### What is ReactJS?
+
+ReactJS is a JavaScript library and not a complete framework like Angular. It is mainly used to build User Interface and the focus is to build UI. It has a very rich ecosystem and you can add almost any functionality with the use of some npm package.
+
+### Why learn ReactJS?
+
+ReactJS was created by Facebook and maintained by it, although it is open-source. Facebook’s internal system uses React, so they maintain and support it. It has more then 157K stars on github, which means it is loved by developers worldwide.
+
+It has a huge community since it was released in 2013. You can find tons of article, youtube videos on React. And almost all error solution on stackoverflow. It is the most demanded skill for Frontend developer even more then Angular and Vue. After learning ReactJS for web-development, you can learn React Native, which is almost similar to ReactJS. With React Native you can developer cross-platform ios and android apps.
+
+### Component Based Architecture
+
+ReactJS have a component based architecture. Everything is divided into component and we can reuse them. Like the below simple app for a Youtube player. Here, the search bar is a component, then the video player is a component and the video list is the other component.
+
+![Youtube Player](https://ik.imagekit.io/thewebdev/React-Basics/1/1_X4q3WKCIK.png)*Youtube Player*
+
+### Virtual DOM
+
+Apps created with ReactJS are very fast in comparison with app created with vanilla JavaScript or other framework like Angular. It is because of the use of Virtual DOM. React uses a lightweight representation of the Real DOM, called the virtual DOM. When something is changed the Real DOM is not changed completed and virtual DOM changes only a part of the DOM.
+
+### Prerequisites
+
+As said earlier the prerequisites for learning ReactJS is HTML, CSS and JavaScript. And also the modern JavaScript syntax of ES6. To be more specific, in JavaScript you need to learn thoroughly — this keyword, map, reduce and filter.
+
+In ES6 you need to learn -let and const, arrow functions, template literals, default parameters, object literals, rest and spread operators and destructuring.
+
+Now, to start with React app you need to have NodeJS installed on your machine. So, head over to [https://nodejs.org/en/](https://nodejs.org/en/) and install it according to your operating system.
+
+It is also advisable to use VS Code editor, but you can use any other light-weight code editor like Sublime and Atom. You can download VS Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+
+### Hello World
+
+As with any other language we will start with the legendary Hello World program. But first we need to create a react app and the good people at facebook have made it very simple for us with the use of just one command. Use the below command in terminal(mac and linux), command prompt or git bash(Windows).
+
+```js
+    npx create-react-app my-app
+```
+
+The details can be found in the [https://github.com/facebook/create-react-app](https://github.com/facebook/create-react-app)
+
+![create-react-app](https://ik.imagekit.io/thewebdev/React-Basics/1/2_w08omdIdDW.png)*create-react-app*
+
+One thing to notice is that now their is only this method to create a react app, as the other method with globally installing **create-react-app** is deprecated now.
+
+I have created a folder React in my Desktop and using the command from a git bash terminal in Windows.
+
+![create-react-app](https://ik.imagekit.io/thewebdev/React-Basics/1/3_v9K9b6fFiw.png)*create-react-app*
+
+It generally takes 5 minutes to install all dependencies. If everything is ok, you will get the below message.
+
+![Happy hacking](https://ik.imagekit.io/thewebdev/React-Basics/1/4_B0duuk9NJ9.png)*Happy hacking*
+
+As per the instructions, we need to change to the hello-world directory and run yarn start. But we can run npm start also, as I prefer npm over yarn. So, i am running below command after cd to the directory.
+
+
+```js
+    npm start
+```
+
+
+![npm start](https://ik.imagekit.io/thewebdev/React-Basics/1/5_cZ8vJFob6l.png)*npm start*
+
+Our web-app will start successfully start on [http://localhost:3000/](http://localhost:3000/) in the web-browser.
+
+![React App](https://ik.imagekit.io/thewebdev/React-Basics/1/6_dBPtRnepLc.png)*React App*
+
+This completes part-1 of the series. 

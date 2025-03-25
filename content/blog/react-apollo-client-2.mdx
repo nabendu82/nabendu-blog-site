@@ -1,0 +1,150 @@
+---
+title: React Tutorial - SpaceX fan site with Apollo Client -2
+description: React
+date: 2020-01-05
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+
+Welcome to part-2 of the series. It's time to create the front-end of our app and we will use **create-react-app** for the same. So, head over to terminal and give below command inside the **ReactApolloClient** folder.
+
+![create-react-app](https://ik.imagekit.io/thewebdev/SpaceX/2/1_JMxhW9qqt.png)*create-react-app*
+
+Next, we will npm install **concurrently** as we don't want to run two different commands to run server and client.
+
+![concurrently](https://ik.imagekit.io/thewebdev/SpaceX/2/2_PXrOPj7bV.png)*concurrently*
+
+Now, open your **package.json** and add below lines.
+
+![package.json](https://ik.imagekit.io/thewebdev/SpaceX/2/3_GRqmkEDJO1.png)*package.json*
+
+Next, head over to terminal and run **npm run dev** to run both client and server.
+
+![npm run dev](https://ik.imagekit.io/thewebdev/SpaceX/2/4_zu3wocOBvW.png)*npm run dev*
+
+If everything is ok, react app will open on [http://localhost:3000/](http://localhost:3000/)
+
+![React app](https://ik.imagekit.io/thewebdev/SpaceX/2/5_7kmXb6NDz.png)*React app*
+
+Now, we will work on our React app. But time for some clean-up first. Open **App.css** inside **client -> src** folder and delete everything. Also, delete the file **logo.svg**
+
+![delete logo.svg](https://ik.imagekit.io/thewebdev/SpaceX/2/6_pyGgFiMZO.png)*delete logo.svg*
+
+Next, open **App.js** and remove everything and only keep the below code.
+
+![Reduced App.js](https://ik.imagekit.io/thewebdev/SpaceX/2/7_zF481Q0Jn.png)*Reduced App.js*
+
+We will be using a free boostrap theme from the site [https://bootswatch.com/](https://bootswatch.com/)
+
+![Bootswatch](https://ik.imagekit.io/thewebdev/SpaceX/2/8_H6tE-Psb6.png)*Bootswatch*
+
+I will be using Cyborg theme, so i got the hosted link to [it](https://bootswatch.com/4/cyborg/bootstrap.min.css). Next go to **index.html** inside the **public** folder and add reference to the link. Also change the title in the file.
+
+![index.html](https://ik.imagekit.io/thewebdev/SpaceX/2/9_s6wMrlTId.png)*index.html*
+
+Next, i have also added a **logo.png** file for our logo in the **src** folder.
+
+![logo.png](https://ik.imagekit.io/thewebdev/SpaceX/2/10_QsL7LZI4be.png)*logo.png*
+
+Next, let's display the logo in the top-middle of the page.
+
+![logo.png](https://ik.imagekit.io/thewebdev/SpaceX/2/11_Csy9csziM.png)*logo.png*
+
+It will show the beautiful logo in the web-page.
+
+![SpaceX logo](https://ik.imagekit.io/thewebdev/SpaceX/2/12_EKWLFGeZW.png)*SpaceX logo*
+
+Then we will install some dependencies for using apollo client in our project to fetch data. Do the below npm installs in the **client** folder.
+
+
+```js
+npm install @apollo/client graphql
+```
+
+Now, it's time to use Apollo client in our **App.js**. We first do our imports and then use a client variable, where we point to our graphql endpoint. After that we wrap our whole App with **ApolloProvider**.
+
+
+```js
+import React from 'react'
+import './App.css';
+import logo from './logo.png';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+    uri: 'http://localhost:5000/graphql',
+    cache: new InMemoryCache()
+})
+
+function App() {
+    return (
+        <ApolloProvider client={client}>
+            <div className="container">
+                <img src={logo} alt="SpaceX FanClub" style={{ width: 300, display: 'block', margin: 'auto' }}/>
+            </div>
+        </ApolloProvider>
+    );
+}
+
+export default App;
+
+```
+
+Then we will create a folder **components** and inside it a file **Launches.js**. Here we are using **gql** and then using the query we created in GraphQL. Next, we have to use useQuery hook from apollo client to get the data.
+
+
+```js
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
+
+const launchesQuery = gql`
+    {
+        launches {
+            flight_number
+            mission_name
+            launch_date_local
+            launch_success
+        }
+    }
+`;
+
+const Launches = () => {
+    const { loading, error, data } = useQuery(launchesQuery);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
+    console.log(data)
+    return (
+        <div>
+            <h1>Test</h1>
+        </div>
+    )
+}
+
+export default Launches
+
+```
+
+We also need to add this component to our **App.js** for it to render.
+
+![App.js](https://ik.imagekit.io/thewebdev/SpaceX/2/16_usO9NtCvnr.jpg)*App.js*
+
+But, when we try to see the data in our console, we get the famous CORS error. This occurs because our client is at 3000 and server at 5000.
+
+![CORS error](https://ik.imagekit.io/thewebdev/SpaceX/2/17_i6vmITKXr.png)*CORS error*
+
+So, in our main folder let's first install cors.
+
+![cors installed](https://ik.imagekit.io/thewebdev/SpaceX/2/18_jUrqhIGUm.png)*cors installed*
+
+Next, in **server.js** include and use cors as below.
+
+![server.js](https://ik.imagekit.io/thewebdev/SpaceX/2/19_Tw6hqtnZV.jpg)*server.js*
+
+Now, when we goto [http://localhost:3000/](http://localhost:3000/) we can see all the data coming from graphql
+
+![All data](https://ik.imagekit.io/thewebdev/SpaceX/2/20_ie_Q4GZ9x.png)*All data*
+
+This completes the part-2 of the series. You can find the code for the same in my github repo [here](https://github.com/nabendu82/ReactApolloClient).

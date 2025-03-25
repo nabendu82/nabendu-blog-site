@@ -1,0 +1,152 @@
+---
+title: React Tutorial - SpaceX fan site with Apollo Client -4
+description: Flexbox
+date: 2020-01-07
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+
+Welcome to part-4 of the series. We will start where we left by working on the **Launch** component. We will start by importing the required packages and using our graphql query for the single launch.
+
+Next, we will first get the **flight_number** from the url. This we can do by **props.match.params** . Now this will return us String but we need integer for using it in our query, so we convert it by **parseInt()**.
+
+Next, we will use the **LAUNCH_QUERY** in our code by the same boiler plate as earlier in Launches component. But we are also passing variables **flight_number** to it. As usual we are first checking whether we are receiving the data from GraphQL by console logging it.
+
+
+```js
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+
+const LAUNCH_QUERY = gql`
+query LaunchQuery($flight_number: Int!) {
+    launch(flight_number: $flight_number) {
+        flight_number
+        mission_name
+        launch_year
+        launch_success
+        launch_date_local
+        rocket {
+            rocket_id
+            rocket_name
+            rocket_type
+        }
+    }
+}
+`;
+
+const Launch = (props) => {
+    let { flight_number } = props.match.params;
+    flight_number = parseInt(flight_number);
+
+    const { loading, error, data } = useQuery(LAUNCH_QUERY, { variables: { flight_number } });
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
+    console.log(data)
+
+    return (
+        <h1>Test Launch</h1>
+    )
+}
+
+export default Launch
+
+```
+
+
+Now, in our website it will show the Object of data which we received from GraphQL when we goto a Launch page.
+
+![Single Launch](https://ik.imagekit.io/thewebdev/SpaceX/4/3_RJ2eawc2J.png)*Single Launch*
+
+Then we will de-structure the data and start showing it in the **Launch** component.
+
+![Launch component updated](https://ik.imagekit.io/thewebdev/SpaceX/4/4_Bf4vo4JvV.jpg)*Launch component updated*
+
+It will start to show in our web-page.
+
+![Launch Details](https://ik.imagekit.io/thewebdev/SpaceX/4/5_GVK9t5zfp.png)*Launch Details*
+
+Now, let's complete rest of the code to display rockets and a Back button.
+
+![Rocket Details](https://ik.imagekit.io/thewebdev/SpaceX/4/6_ecjLU-zDX.jpg)*Rocket Details*
+
+Now, it will show as below.
+
+![Rockets](https://ik.imagekit.io/thewebdev/SpaceX/4/7_y8fyIexbJ.png)*Rockets*
+
+Next, we will create a **Navbar** component because we will also show **Rockets**. We have already created Schema for the same in **schema.js**.
+
+We have made the following changes in **App.js**. We had removed import for logo and also the img tag. Then we have created a **Navbar** component. Also, we have added a Route for /launches.
+
+![App.js](https://ik.imagekit.io/thewebdev/SpaceX/4/9_Mz6ePzk2J.jpg)*App.js*
+
+Next, create a file **Navbar.js** inside **components** folder. Here we are just using some bootstrap 4 classes to show a Navbar.
+
+![Navbar.js](https://ik.imagekit.io/thewebdev/SpaceX/4/10_7oTrNJh5C.png)*Navbar.js*
+
+It will show our web-page as below.
+
+![localhost](https://ik.imagekit.io/thewebdev/SpaceX/4/11_qmgtVzsV6P.png)*localhost*
+
+Next, let's add the code to display **Rockets** component in **App.js**
+
+![App.js](https://ik.imagekit.io/thewebdev/SpaceX/4/12_WiDb8L1-k.jpg)*App.js*
+
+Next, we will create the Rockets component. Create a file **Rockets.js** inside **components** folder and the following data in it. It is almost similar to Launches component, only the query is different.
+
+
+```js
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
+
+const ROCKETS_QUERY = gql`
+query RocketsQuery {
+    rockets {
+        rocket_id
+        rocket_name
+        rocket_type
+        wikipedia
+        description
+    }
+}
+`;
+
+const Rockets = () => {
+    const { loading, error, data } = useQuery(ROCKETS_QUERY);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
+    console.log(data)
+    return (
+        <>
+            <h1 className="display-4 my-3">Rockets</h1>
+        </>
+    )
+}
+
+export default Rockets
+```
+
+
+Let's move to the Rockets page and check whether the data is coming.
+
+![Rockets](https://ik.imagekit.io/thewebdev/SpaceX/4/14_y7Vxlbsiu.png)*Rockets*
+
+As, we are getting the data we will create another file **RocketItem.js** to show the data. But first let's update **Rockets.js** to loop through **rockets** array and pass each object to **RocketItem** component.
+
+![Rockets.js](https://ik.imagekit.io/thewebdev/SpaceX/4/15_fNTNdqOiG.jpg)*Rockets.js*
+
+Next let's create the file **RocketItem.js** inside components folder and the below content in it to display Rocket name and a button for Rocket Details.
+
+![RocketItem.js](https://ik.imagekit.io/thewebdev/SpaceX/4/16_2UtbhYqUwV.png)*RocketItem.js*
+
+Now, once we goto Rockets page, it will show as below.
+
+![Rockets page](https://ik.imagekit.io/thewebdev/SpaceX/4/17_y8wZAbIJfQ.png)*Rockets page*
+
+This completes the part-4 of the series. You can find the code for the same in my github repo [here](https://github.com/nabendu82/ReactApolloClient).
+
+In the next part we add functionality to the Rocket Details button and more.

@@ -1,0 +1,195 @@
+---
+title: ReactJS Tutorial for Beginners -11
+description: ReactJS
+date: 2020-10-21
+tags: ['javascript', 'beginners', 'react']
+published: true
+---
+
+Welcome to part-11 of the series. We will learn about the import Lifecycle methods in this part.
+
+## Lifecycle Methods
+
+When we create a React component, the component goes through several stages in it's lifecycle. React provides us with built-in methods, that we can override at particular stages in the lifecycle.
+
+So, we will look into the various lifecycle methods available in the class component. These methods are not available in functional components, even with hooks. Hooks takes a different approach and have useEffect, which is similar to the lifecycle methods.
+
+The lifecycle methods have changed a bit during these years and the method which we are going to learn are from React 16.4 and above.
+
+The methods are mainly classified into four phases -**Mounting**, **Updating**, **Unmounting** and **Error Handling**.
+
+They are been called as described in the below image.
+
+![Phases](https://ik.imagekit.io/thewebdev/React-Basics/11/1_g2g3Y2gokp.png)*Phases*
+
+The different methods during each phases are described in the diagram below. In production code we mostly use the **Mounting** and **Updating** methods.
+
+![Lifecycle Methods](https://ik.imagekit.io/thewebdev/React-Basics/11/2_lqHWMk6HYa.png)*Lifecycle Methods*
+
+## Mounting Lifecycle Methods
+
+We will first look into Mounting Lifecycle Methods, which are been called when the instance of a component is been created or inserted into the DOM.
+
+We are going to see them in the order in which they are invoked. The order is as shown in the figure.
+
+![Mounting Lifecycle Methods](https://ik.imagekit.io/thewebdev/React-Basics/11/3_5Li-fd_hI8.png)*Mounting Lifecycle Methods*
+
+**constructor**
+
+* A special function which is been called, whenever a new component is created
+
+* The constructor is perfect for initializing state and binding event handlers
+
+* Don't do http requests from a constructor.
+
+* Need to call a special function super(props). This is required to have access to this.props in our component.
+
+* Can set state directly with this.state only in the constructor.
+
+**static getDerivedStateFromProps()**
+
+* This is a rarely used lifecycle method.
+
+* It is used when the state of the component depends on changes in props over time.
+
+* Need to return new state or null.
+
+* Don't do http request from this method.
+
+**render**
+
+* It is the only required method.
+
+* Read props and state and returns JSX.
+
+* Don't change state or interact with the DOM or do http request from render.
+
+* Children component lifecycle methods are also executed after render.
+
+**componentDidMount**
+
+* This method will be called only once.
+
+* It is been invoked after the component and it's child components are rendered in the DOM.
+
+* Perfect place to interact with the DOM or do http requests.
+
+* Children component lifecycle methods are also executed after render.
+
+## Mounting Lifecycle Methods in Code
+
+We will now check the mounting lifecycle methods in code. So, create a file **ParentLifecycle.js** inside the **components** folder. It is a class based component and contains all mounting lifecycle methods, with console logs.
+
+![ParentLifecycle.js](https://ik.imagekit.io/thewebdev/React-Basics/11/4_42A_pwsTYY.png)*ParentLifecycle.js*
+
+Now, include the **ParentLifecycle** in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Basics/11/5_bbvkHhh3K.png)*App.js*
+
+Now, go to localhost with the console opened and we can see the order in which they are called in the mounting phase.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/11/6_MXpSZTA-e8.png)*localhost*
+
+As you can see in the above console, everything is rendering twice. I searched for the error in [stackoverflow ](https://stackoverflow.com/questions/61254372/my-react-component-is-rendering-twice-because-of-strict-mode)and found that in React 16.13, it is coming because of Strict Mode. So, I removed it from **index.js** file.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-Basics/11/7_3juFyAbCh3.png)*index.js*
+
+Now in localhost all lifecycle methods are rendering once only and everything is fine.
+
+![Fine](https://ik.imagekit.io/thewebdev/React-Basics/11/8_Ttzp6ClZS2.png)*Fine*
+
+We will now see what happens when the component have a child component. Create a file **ChildLifecycle.js** in the components folder. It will have exactly the same content as **ParentLifecycle.js**, only the names will be different.
+
+![ChildLifecycle.js](https://ik.imagekit.io/thewebdev/React-Basics/11/9_HVF2IHAEI6.png)*ChildLifecycle.js*
+
+Now, also include it in **ParentLifecycle.js** file.
+
+![ParentLifecycle.js](https://ik.imagekit.io/thewebdev/React-Basics/11/10_JekLr-sCH4.png)*ParentLifecycle.js*
+
+Now, go to localhost with the console opened and we can see the order in which lifecycle methods are called in the mounting phase. Notice that after **ParentLifecycle**render, all the lifecycle methods of **ChildLifecycle** are called. At last the **componentDidMount **of **ParentLifecycle** is called.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/11/11_keFd93Z8aX.png)*localhost*
+
+## Updating Lifecycle Methods
+
+The updating lifecycle methods are called when a component is been re-rendered as a result of changes to either it's props or state.
+
+We are going to see them in the order in which they are invoked. The order is as shown in the figure.
+
+![updating methods](https://ik.imagekit.io/thewebdev/React-Basics/11/12_sTcSP9FqZt.png)*updating methods*
+
+**static getDerivedStateFromProps(props, state)**
+
+* This method is called every time a component is re-rendered.
+
+* This is a rarely used lifecycle method.
+
+* Don't do http request from this method.
+
+**shouldComponentUpdate(nextProps, nextState)**
+
+* Decides whether a component should re-rendered or not.
+
+* This method is mainly for performance optimization.
+
+* Don't do http request from this method.
+
+**render**
+
+* It is the only required method.
+
+* Read props and state and returns JSX.
+
+* Don't change state or interact with the DOM or do http request from render.
+
+**getSnapshotBeforeUpdate(previousProps, prevState)**
+
+* Called right before the changes from the virtual DOM are to be reflected in the DOM.
+
+* Used to capture some information from the DOM eg. can be used to read the user scroll position.
+
+* Method will either return null or return a value. Returned value will be passed as the third parameter to the next method.
+
+**componentDidUpdate(previousProps, prevState, snapshot)**
+
+* Called after the render is finished in the re-render cycle.
+
+* Uses snapshot from the above getSnapshotBeforeUpdate method.
+
+* Can be used to do http requests.
+
+## Updating Lifecycle Methods in Code
+
+We will be using the same two classes, which we created earlier for Mounting lifecycle methods.
+
+Add the three new methods in **ParentLifecycle.js** as we already have **render **and **getDerivedStateFromProps**
+
+We are also adding a button to the component and changing the state of name onClick. This is needed because updating lifecycle methods runs only when a component is been re-rendered as a result of changes to either it's props or state.
+
+![ParentLifecycle.js](https://ik.imagekit.io/thewebdev/React-Basics/11/13_w8UHUC6M6p.png)*ParentLifecycle.js*
+
+Also, update these Lifecycle methods in **ChildLifecycle.js** file.
+
+![ChildLifecycle.js](https://ik.imagekit.io/thewebdev/React-Basics/11/14_W7d3v_DX-t.png)*ChildLifecycle.js*
+
+Now, go to localhost and open console. We will already have the console log, which came from mounting lifecycle methods. So, first clear the console and click the button.
+
+The order for the same can be seen in the console.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Basics/11/15_NOcYSpkuY4.png)*localhost*
+
+## Unmounting Phase Method
+
+We have only one unmounting phase method and that is componentWillUnmount().
+
+**componentWillUnmount(nextProps, nextState)**
+
+* This method is called immediately before a component is unmounted or destroyed.
+
+* It is used for cancelling any network requests, removing event handlers.
+
+* Do not call setState method here.
+
+The Error handling Phase is a topic in itself and we will look into it in later post.
+
+This completes part-11 of the series. 

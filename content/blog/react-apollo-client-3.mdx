@@ -1,0 +1,91 @@
+---
+title: React Tutorial - SpaceX fan site with Apollo Client -3
+description: React
+date: 2020-01-06
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+
+Welcome to part-3 of the series. Now, let’s send the data from our **Launches.js** file to a new component **LaunchItem.js**. We are just lopping through the data using map and then passing it to a new **LaunchItem** component.
+
+![Launches.js](https://ik.imagekit.io/thewebdev/SpaceX/3/1_ZtX3gqQgR.jpg)*Launches.js*
+
+Next, we will create the **LaunchItem.js** file in the same **components** folder. We are just de-structuring the props and showing it through some use of bootstrap classes.
+
+![LaunchItem.js](https://ik.imagekit.io/thewebdev/SpaceX/3/2_4qzG3jQi_x.png)*LaunchItem.js*
+
+It will show all the launches in a nice list view in our web-page.
+
+![All Launches](https://ik.imagekit.io/thewebdev/SpaceX/3/3_NKiAYmD3M.png)*All Launches*
+
+Next, we will install two packages in our **client** which will help us with showing different color for a failed or successful mission.
+
+![classnames and moment](https://ik.imagekit.io/thewebdev/SpaceX/3/4_0tD2SCck1.png)*classnames and moment*
+
+We also need to install one more package called **react-moment**, which i missed. So, npm install it in **client** folder.
+
+![react-moment](https://ik.imagekit.io/thewebdev/SpaceX/3/5_7c9UX0Sj0.png)*react-moment*
+
+Next, we will update our **LaunchItem.js** to use **classNames** and change the **mission_name** color to green or red, depending on whether **launch_success** is true or false.
+
+![LaunchItem.js](https://ik.imagekit.io/thewebdev/SpaceX/3/6_pH1uqcyFS.png)*LaunchItem.js*
+
+Now, our web-app will show as below.
+
+![Launches](https://ik.imagekit.io/thewebdev/SpaceX/3/7_5cUF8boC72.png)*Launches*
+
+Now, the user show know what red and green means. So, we put a color description in **Launches.js**
+
+![Launches.js](https://ik.imagekit.io/thewebdev/SpaceX/3/8_7iljCEES6.jpg)*Launches.js*
+
+It will show these in our web-page.
+
+![Success or Fail](https://ik.imagekit.io/thewebdev/SpaceX/3/9_SO4s07Mf4.png)*Success or Fail*
+
+From the above image the date seems a bit difficult to read, so we will use moment to show it in a good format.
+
+![Using Moment](https://ik.imagekit.io/thewebdev/SpaceX/3/10_V4j6oWK1y.png)*Using Moment*
+
+It will now show the date format in our web-page.
+
+![Nice date format](https://ik.imagekit.io/thewebdev/SpaceX/3/11_XeUpffisV.png)*Nice date format*
+
+Now, when the user clicks on Launch Details it show open a different page, showing the details of the launch. We need to use react-router to navigate to different page. So, let’s npm install it in the **client** folder.
+
+![react-router](https://ik.imagekit.io/thewebdev/SpaceX/3/12_HeCRHgo9dd.png)*react-router*
+
+Next, we will use routes in our **App.js**. We are first doing import of Router and the Launch component(yet to be created).
+
+Then we are wrapping everything in Router and using two routes, one for **Launches** component an other for **Launch** component.
+
+![Routes in App.js](https://ik.imagekit.io/thewebdev/SpaceX/3/13_Vbv0XV-cA1.jpg)*Routes in App.js*
+
+Next, we will create **Launch.js** inside the **components** folder and put the basic code in it. We will change the content later.
+
+
+```js
+import React from 'react'
+
+const Launch = () => {
+    return (
+        <div>
+            Launch Component
+        </div>
+    )
+}
+
+export default Launch
+
+```
+
+We also need to change the simple button in our **LaunchItem.js** to use **Link** from react-router-dom.
+
+![LaunchItem.js](https://ik.imagekit.io/thewebdev/SpaceX/3/15_g3-sYEgT7.png)*LaunchItem.js*
+
+Now, once we click on the **Launch Details** link, it will show us the Launch Component. Also, notice the url as it got changed to the launch with flight_number.
+
+![Web-page](https://ik.imagekit.io/thewebdev/SpaceX/3/16_BKIqAEi1T.png)*Web-page*
+
+This completes the part-3 of the series. You can find the code for the same in my github repo [here](https://github.com/nabendu82/ReactApolloClient).
+

@@ -1,0 +1,234 @@
+---
+title: React Tutorial - SpaceX fan site with Apollo Client -6
+description: React
+date: 2020-01-12
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+
+Welcome to part-6 of the series. We will start building our History component in this part. But first let’s check the graphiql query for a single history.
+
+![Single History](https://ik.imagekit.io/thewebdev/SpaceX/6/1_xflJRIp6I.png)*Single History*
+
+I also forgot to add the **title** field in the schema. So, let’s add quickly to **schema.js**
+
+![schema.js](https://ik.imagekit.io/thewebdev/SpaceX/6/2_UMAJkuraq.png)*schema.js*
+
+Then, we will change the route for **launches** to **histories** in **App.js** and also add the import for it.
+
+![Histories added](https://ik.imagekit.io/thewebdev/SpaceX/6/3_FoaGOy9HB.jpg)*Histories added*
+
+Next, in **Navbar.js** we will also change the **Launches** to **History**.
+
+![Navbar.js](https://ik.imagekit.io/thewebdev/SpaceX/6/4_CCRmDF8w8.jpg)*Navbar.js*
+
+Then, we will create a new file **Histories.js** inside the **components** folder. It is almost similar to the **Launches.js** file and here we are creating a query and then passing it to the **HistoryItem** component.
+
+
+```js
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
+import HistoryItem from './HistoryItem';
+
+const HISTORIES_QUERY = gql`
+    query HistoriesQuery {
+        histories {
+            id
+            title
+            event_date_utc
+        }
+    }
+`;
+
+const Histories = () => {
+    const { loading, error, data } = useQuery(HISTORIES_QUERY);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error</p>;
+
+    return (
+        <d>
+            <h1 className="display-4 my-3">History</h1>
+            {data.histories.map(history => (
+                <HistoryItem key={history.id} history={history} />
+            ))}
+
+        </d>
+    )
+}
+
+export default Histories
+```
+
+Let’s create the **HistoryItem.js** file next inside the **components** folder. Here, we are just using the props passed from the **Histories **component and using them, in displaying with help of bootstrap.
+
+![HistoryItem.js](https://ik.imagekit.io/thewebdev/SpaceX/6/6_O8YdeAQPf.png)*HistoryItem.js*
+
+It will show our webpage as below once we click on **History**.
+
+![History](https://ik.imagekit.io/thewebdev/SpaceX/6/7_ah2-KoTVUY.png)*History*
+
+Next, we will create the **History** component but first let’s add the route for it in **App.js**
+
+![App.js](https://ik.imagekit.io/thewebdev/SpaceX/6/8_K9oPjjbR_.jpg)*App.js*
+
+Next, let’s change the button to a Link in the **HistoryItem.js** file.
+
+![HistoryItem.js](https://ik.imagekit.io/thewebdev/SpaceX/6/9_1b4fQAaCuw.png)*HistoryItem.js*
+
+Now, it’s time to create our **History.js** file inside the **components** folder. 
+
+We will show the items with help from bootstrap and a little help from our earlier created **Launch.js**. It is almost similar to **Launch.js**
+
+Let’s also add a button to go back to **History** page.
+
+
+```js
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
+import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
+
+const HISTORY_QUERY = gql`
+    query HistoryQuery($id: Int!) {
+        history(id: $id) {
+            id
+            title
+            event_date_utc
+            details
+            links {
+                reddit
+                article
+                wikipedia
+            }
+        }
+    }
+`;
+
+
+const History = (props) => {
+    let { id } = props.match.params;
+    id = parseInt(id);
+
+    const { loading, error, data } = useQuery(HISTORY_QUERY, { variables: { id } });
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+    console.log(data)
+
+    const { title, event_date_utc, details, links: {reddit, article, wikipedia }} = data.history;
+
+    return (
+        <div>
+            <h1 className="display-4 my-3">
+                <span className="text-dark">Event:</span> {title}
+            </h1>
+            <h4 className="mb-3">Event Details</h4>
+            <ul className="list-group">
+                <li className="list-group-item">Details:{' '}
+                    <span className="text-success font-weight-bold">{details}</span>
+                </li>
+                <li className="list-group-item">Date:{' '}
+                    <span className="text-success font-weight-bold">
+                        <Moment format="dddd, MMMM Do YYYY, h:mm a">{event_date_utc}</Moment>
+                    </span>
+                </li>
+                {reddit &&
+                    <li className="list-group-item">Reddit: {' '}
+                        <a href={reddit} target="_blank" rel="noopener noreferrer">
+                            Read more on Reddit!
+                    </a>
+                    </li>
+                }
+                {article &&
+                    <li className="list-group-item">Article: {' '}
+                        <a href={article} target="_blank" rel="noopener noreferrer">
+                            Read more on article!
+                    </a>
+                    </li>
+                }
+                {wikipedia &&
+                    <li className="list-group-item">Wikipedia: {' '}
+                        <a href={wikipedia} target="_blank" rel="noopener noreferrer">
+                            Read more on Wikipedia!
+                    </a>
+                    </li>
+                }
+            </ul>
+            <hr />
+            <Link to="/histories" className="btn btn-secondary">Back</Link>
+        </div>
+    )
+}
+
+export default History
+```
+
+And it will show our web-page for History as below.
+
+![History page](https://ik.imagekit.io/thewebdev/SpaceX/6/14_Ls3NjujK2P.png)*History page*
+
+We are done with the app. Now we will start our deployment process in heroku.
+
+First in the **App.js** remove the localhost:5000 from the uri and make it only **/graphql**
+
+![App.js](https://ik.imagekit.io/thewebdev/SpaceX/6/15_TC9141XDB.jpg)*App.js*
+
+Next, in **package.json** of client, update the proxy and the build script.
+
+![package.json](https://ik.imagekit.io/thewebdev/SpaceX/6/16_h7HA1bTZlr.png)*package.json*
+
+Next, in **server.js** put the below content.
+
+![server.js](https://ik.imagekit.io/thewebdev/SpaceX/6/17_l9otqcray.png)*server.js*
+
+Next, goto your client folder and run **npm run build**
+
+![npm run build](https://ik.imagekit.io/thewebdev/SpaceX/6/18_9hOK8KfYW.png)*npm run build*
+
+Next, you should have an account in **heroku.com** which i already have and once i login to it the below dashboard is shown.
+
+![heroku](https://ik.imagekit.io/thewebdev/SpaceX/6/19_3G1rc1k_w.png)*heroku*
+
+We should also have the heroku cli installed according to the operating system.
+
+![heroku cli](https://ik.imagekit.io/thewebdev/SpaceX/6/20_WFzxziKT9b.png)*heroku cli*
+
+On a mac it can be done by homebrew command.
+
+![brew](https://ik.imagekit.io/thewebdev/SpaceX/6/21_-GX0dZ4rjN.png)*brew*
+
+After the installation run **heroku** on the terminal and you will get a list of command, showing that installation is successful.
+
+![heroku](https://ik.imagekit.io/thewebdev/SpaceX/6/22_6cWrJO__lQ.png)*heroku*
+
+Now, do **heroku login** where they have a new way of logging you in. It opens a browser window to provide your credentials. Once you provide correct credentials and close the browser window, it will log you in and show you as below.
+
+![heroku login](https://ik.imagekit.io/thewebdev/SpaceX/6/23_bEMy54Unh.png)*heroku login*
+
+Then do **heroku create**, but make sure while doing all these you are in your root folder.
+
+![heroku create](https://ik.imagekit.io/thewebdev/SpaceX/6/24_jaq4SYvdq.png)*heroku create*
+
+It will give you any random name. Now, open your heroku dashboard and goto that app. After that goto **Deploy** tab. Here, you will find a remote command which you need to copy.
+
+![Dashboard](https://ik.imagekit.io/thewebdev/SpaceX/6/25_GHwU6sytI7.png)*Dashboard*
+
+Now, we need to run that command in the terminal.
+
+![heroku](https://ik.imagekit.io/thewebdev/SpaceX/6/26__a4F9yXagP.png)*heroku*
+
+Next, git add and commit the code we did for server.
+
+![git commit](https://ik.imagekit.io/thewebdev/SpaceX/6/27_wyXMXtC6Y.png)*git commit*
+
+After that give the command **git push heroku master** and if everything is right, you will get below message.
+
+![heroku success](https://ik.imagekit.io/thewebdev/SpaceX/6/28_AtrrT1YUke.png)*heroku success*
+
+Now, you can open the given url in the browser and our site is live on the internet.
+
+![Site live](https://ik.imagekit.io/thewebdev/SpaceX/6/29_WPy89mNQj.png)*Site live*
+
+This completes our series. Hope you liked it. You can find the code for the same in my github repo [here](https://github.com/nabendu82/ReactApolloClient).
+
+And the live site to interact is [https://stark-bastion-93462.herokuapp.com/](https://stark-bastion-93462.herokuapp.com/)
