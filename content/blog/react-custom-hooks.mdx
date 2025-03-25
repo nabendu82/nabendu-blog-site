@@ -1,0 +1,141 @@
+---
+title: 5 Custom ReactJS Hooks for every project
+description: Hooks
+date: 2022-02-14
+tags: ["javascript", "react", "webdev"]
+published: true
+---
+
+Hooks have changed the ways we work with React. We all have worked with useState, useEffect and other awesome hooks. But we can also make custom hooks like the made by made packages like redux and react-router.
+
+This post have been inspired by the awesome playlist from Web Dev Simplified. Check his whole YouTube playlist [here](https://www.youtube.com/watch?v=0c6znExIqRw&list=PLZlA0Gpn_vH-aEDXnaFNLsqiJWFpIWV03&ab_channel=WebDevSimplified), where he have created more then 20 awesome hooks.
+
+We will create five awesome and simple custom hooks in this post. The first one is the **useToggle** hooks. Now, this can be extremely useful when you want to toggle some value and also be able to pass your own boolean value.
+
+We have create an new ReactJS project with below command.
+
+```js
+  npx create-react-app custom-hooks 
+```
+
+After that we have cleaned our App.js to contain a **ToggleComponent.**
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781529/New-blogs/Yashvendra9_mdx/2_zb4fof.jpg)_App.js_
+
+Next, create a folder **Hooks** in the src folder and a file **useToggle.js** inside it. Now, here we are using the useState hook to first set the value equal to the defaultValue passed.
+
+Next, we have a function toggleValue, which makes the value as whatever boolean value which is passed. Or it will make it opposite to the currentValue, if no value will be passed.
+
+Lastly we are returning the value and the toggleValue.
+
+![useToggle.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781530/New-blogs/Yashvendra9_mdx/3_t1twgl.jpg)_useToggle.js_
+
+Now, we can use this custom hook **useToggle** from any component. We have created a **components** folder in src folder and a file **ToggleComponent.js** inside it.
+
+Here, we are first importing the custom hook. After that we are using it as the useState hook. Here, we are using array de-structuring to have a value and toggleValue and initial value of false.
+
+Now, there are three button and the first one is directly calling toggleValue which basically toggles it. We are passing true or false in the next buttons. So, as told earlier this is been handled by our toggleValue function in useToggle.js file.
+
+![ToggleComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781531/New-blogs/Yashvendra9_mdx/4_tciq1x.jpg)_ToggleComponent.js_
+
+Our buttons are working fine in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781531/New-blogs/Yashvendra9_mdx/5_jh4jia.jpg)_localhost_
+
+The next custom hook which we are going to make is based on useEffect hook. The useEffect hook can be used in a variety of ways. It generally runs the first time during the initial mount and then in subsequent mount when the state changes.
+
+Now, if we doing want it to run during the initial mount we can build a custom hook to do so. We are calling it useUpdate as it will behave like componentDidUpdate lifecycle method.
+
+So, create a file **useUpdate.js** inside the Hooks folder. Here, we are using the useRef hook to get the first renderer of the component. Now, inside a useEffect hook, we are checking whether it is first render using the ref. If it is the first reference, we are returning. Or else we are returning the callback function to this custom hook.
+
+![useUpdate.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781532/New-blogs/Yashvendra9_mdx/6_y9ezbe.jpg)_useUpdate.js_
+
+Now, we will use it in a **UpdateComponent.js** file which we have created in the **components** folder.
+
+Here, we are using our useUpdate hook to call a function alert on the count. We are also passing the second parameter as a count.
+
+We have a simple button, which updates the state variable of count on click of it through useState hook.
+
+![UpdateComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781533/New-blogs/Yashvendra9_mdx/7_bv9zip.jpg)_UpdateComponent.js_
+
+Now, we have added this component in the **App.js** file and commented out the earlier one.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781534/New-blogs/Yashvendra9_mdx/8_fxlmfb.jpg)_App.js_
+
+Now, in localhost we will get an alert box only when we click on the button each time. We are not getting it during the initial render. If we had used an useEffect hook instead of our custom hook, we would have got it during the initial render also.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781537/New-blogs/Yashvendra9_mdx/9_lpfbgh.jpg)_localhost_
+
+The next custom hook which we are going to create is the **useArray** hook. Dealing with Array in hooks is kind of a pain because every-time you update the state with the array, you need to make sure that you can take the previous array and filter. There is a lot of boiler plate code which you need to write, so it’s a perfect candidate for custom hooks.
+
+First create a **useArray.js** file inside the Hooks folder. Here, first we have a useState which set’s the array variable to the array is will be passed from the component.
+
+First, we have **push** which takes the element and uses spread operator to get all elements and add the element to the end of the array.
+
+Next, **filter** will just take the callback function and will do the filter of it.
+
+Now, **update** takes an index and an element. Then it first slices all the elements before the index, then put the new element and put back all the elements after it.
+
+The **remove** is also similar to the update function, but it only receives the index. It slices the elements till the index and then the other part is one after the index.
+
+The **clear** function, just sets the array to an empty array.
+
+Lastly, we are returning all of these back
+
+![useArray.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781538/New-blogs/Yashvendra9_mdx/10_hl856r.jpg)_useArray.js_
+
+Now, create an **ArrayComponent.js** file and inside it we can use all the Array methods created in the useArray.js file.
+
+Here, we are first creating a new array with the useArray hook. After that we are using the different methods, to perform all the tasks.
+
+![ArrayComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781539/New-blogs/Yashvendra9_mdx/11_aok8yg.jpg)_ArrayComponent.js_
+
+Now, it is working perfectly in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781536/New-blogs/Yashvendra9_mdx/12_vy3ipf.gif)_localhost_
+
+The next custom hook which we will see is the **useEffectOnce** hook. As the name suggests it will run only once and will emulate the componentDidMount of React class based components. We can also do it manually by giving empty brackets in useEffect hooks, but sometime it’s handy as many time people forget to give the empty brackets and it does unnecessary renders.
+
+So, create a file **useEffectOnce.js** inside the Hooks folder and add the below content in it. It is self-explanatory and returns the callback function which will run only once.
+
+![useEffectOnce.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781544/New-blogs/Yashvendra9_mdx/13_daxgat.jpg)_useEffectOnce.js_
+
+Now, create an **EffectComponent.js** file and in it use the useEffectOnce hook to call an alert function. We also have another button which increases a count.
+
+![EffectComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781540/New-blogs/Yashvendra9_mdx/14_mvnzzk.jpg)_EffectComponent.js_
+
+We also need to include the EffectComponent in the **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781541/New-blogs/Yashvendra9_mdx/15_iszi4s.jpg)_App.js_
+
+Now, in localhost the alert will only be shown when the component loads. Even when we increase the Count the alert won’t be shown.
+
+![Hook](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781543/New-blogs/Yashvendra9_mdx/16_so92uh.gif)_Hook_
+
+Lastly, we will look into the **usePrevious** hook. It is a great if you need to store the previous value of some piece of state.
+
+So, create a file **usePrevious.js\* \* inside **Hooks\*\* folder. Here, we are using two refs. One is for the current value and the other is for the previous value. After that we are checking whether the current reference is not equal to the value and if it is then, we are making the previousRef equal to the current Ref and currentRef equal to the value.
+
+At last we are returning the previousRef.
+
+![usePrevious.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781545/New-blogs/Yashvendra9_mdx/17_ialuok.jpg)_usePrevious.js_
+
+Now, create a file **PreviousComponent.js** inside the components folder. Here, we are using the previousCount to show the previous count.
+
+Also notice that the button is there to change the name and count. But the count only will increase the previousCount as we are passing the count in it. The name change will have no effect on the previousCount.
+
+![PreviousComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781546/New-blogs/Yashvendra9_mdx/18_kivjeg.jpg)_PreviousComponent.js_
+
+Now, increase the PreviousComponent in the **App.js** file.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781548/New-blogs/Yashvendra9_mdx/19_df9sx1.jpg)_App.js_
+
+Now, in localhost the previous count is shown properly on click of the Increment button.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781549/New-blogs/Yashvendra9_mdx/20_jpc2oc.jpg)_localhost_
+
+You can also watch this on YouTube.
+
+https://youtu.be/Y7L5Sygzd6Y
+
+This completes our post on five custom hooks. You can find the code for the same in [this](https://github.com/nabendu82/custom-hooks) github repo.

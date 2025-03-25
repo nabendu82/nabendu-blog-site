@@ -1,0 +1,64 @@
+---
+title: React Hooks Tutorials -13
+description: Hooks
+date: 2020-12-30
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+
+Welcome to part-13 of the series. We will learn to make custom hooks in this part.
+
+## Custom hook
+
+With custom hooks we can add our own functionalities to hooks.
+
+* A custom hook is basically a JavaScript function whose name starts with “use”.
+
+* A custom hook can also call other Hooks if required.
+
+* Custom hooks can be used to share logic like HOCs and Render props.
+
+So, go ahead and create new React project **custom-hook** by the below command
+
+
+```js
+    npx create-react-app custom-hook
+```
+
+
+After that create a **components** folder and a file **DocTitleOne.js** inside it. The content of the file is a simple count state variable, which is increased on the click of a button. We are also updating the title of the page with count using useEffect.
+
+![DocTitleOne.js](https://ik.imagekit.io/thewebdev/React-Hooks/13/1_QDlVSD31nM.png)*DocTitleOne.js*
+
+Suppose, we want similar functionality again. So, we will create another file **DocTitleTwo.js** inside the components folder, with same content.
+
+![DocTitleTwo.js](https://ik.imagekit.io/thewebdev/React-Hooks/13/2_eyhOdqWsHt.png)*DocTitleTwo.js*
+
+Now, we will include both Components in **App.js**
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/13/3_YqMS8jU_bh.png)*App.js*
+
+Now, both buttons can be used to update the title.
+
+![Title update](https://ik.imagekit.io/thewebdev/React-Hooks/13/4_kB0joIUlxq.png)*Title update*
+
+Now, as we are repeating the code, we will avoid it by using custom hooks. We will extract the logic to update the document title in that custom hook. Create a new file **useDocumentTitle.js** in a new **hooks** folder. We will move the useEffect logic in it.
+
+![useDocumentTitle.js](https://ik.imagekit.io/thewebdev/React-Hooks/13/5_QYhXwQDIh.png)*useDocumentTitle.js*
+
+Now, back in **DocTitleOne.js** we will use the **useDocumentTitle** instead of useEffect logic.
+
+![DocTitleOne.js](https://ik.imagekit.io/thewebdev/React-Hooks/13/6_dJn1U0cDEs.png)*DocTitleOne.js*
+
+In **DocTitleTwo.js** we will use the **useDocumentTitle** instead of useEffect logic.
+
+![DocTitleTwo.js](https://ik.imagekit.io/thewebdev/React-Hooks/13/7_d2sR1xr2NH.png)*DocTitleTwo.js*
+
+Now, back to localhost we still have the same functionality.
+
+![Same Function](https://ik.imagekit.io/thewebdev/React-Hooks/13/8_jMEhyHaVWf.png)*Same Function*
+
+This completes part-13 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/custom-hook)github repo.

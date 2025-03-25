@@ -1,0 +1,414 @@
+---
+title: Build a complete app with React and GraphQL — 3
+description: GraphQL
+date: 2019-05-26
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+Welcome to part-3 of the series. This series have been inspired by [this](https://www.youtube.com/watch?v=ed8SzALpx1Q) youtube tutorial from freecodecamp.
+
+We have added two more authors and some of their books, by the mutations from part-2.
+
+We will now update our return statements, so that our Queries works again. Now, they contain mongodb methods to get the data. So, let's edit our **schema.js**
+
+
+```js
+    …
+    …
+    const BookType = new GraphQLObjectType({
+        name: 'Book',
+        fields: ( ) => ({
+            id: { type: GraphQLID },
+            name: { type: GraphQLString },
+            genre: { type: GraphQLString },
+            author: {
+                type: AuthorType,
+                resolve(parent, args){
+                    //return authors.find(item => item.id === parent.authorId);
+                    return Author.findById(parent.authorId);
+                }
+            }
+        })
+    });
+
+    const AuthorType = new GraphQLObjectType({
+        name: 'Author',
+        fields: ( ) => ({
+            id: { type: GraphQLID },
+            name: { type: GraphQLString },
+            age: { type: GraphQLInt },
+            books: {
+                type: new GraphQLList(BookType),
+                resolve(parent, args){
+                    //return books.filter(obj => obj.authorId === parent.id);
+                    return Book.find({authorId: parent.id});
+                }
+            }
+        })
+    });
+
+    const RootQuery = new GraphQLObjectType({
+        name: 'RootQueryType',
+        fields: {
+            book: {
+                type: BookType,
+                args: { id: { type: GraphQLID } },
+                resolve(parent, args){
+                    //return books.find(item => item.id === args.id);
+                    return Book.findById(args.id);
+                }
+            },
+            author: {
+                type: AuthorType,
+                args: { id: { type: GraphQLID } },
+                resolve(parent, args){
+                    //return authors.find(item => item.id === args.id);
+                    return Author.findById(args.id);
+                }
+            },
+            books: {
+                type: new GraphQLList(BookType),
+                resolve(parent, args){
+                    //return books;
+                    return Book.find({});
+                }
+            },
+            authors: {
+                type: new GraphQLList(AuthorType),
+                resolve(parent, args){
+                    //return authors;
+                    return Author.find({});
+                }
+            }
+        }
+    });
+    …
+    …
+```
+
+Now, let's check whether our Queries are working correctly. First query is to get all the Books.
+
+![Get all books](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055950/CompleteAppReactGraphql/3/2_y7oft6.png)*Get all books*
+
+The next one is to get all Authors with their books.
+
+![Get all authors](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055949/CompleteAppReactGraphql/3/3_yhwiun.png)*Get all authors*
+
+Next, is to get details of a book
+
+![Details of a book](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055949/CompleteAppReactGraphql/3/4_kflfgs.png)*Details of a book*
+
+And the last one is to get details of an author
+
+![Details of an author](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055949/CompleteAppReactGraphql/3/5_epqceq.png)*Details of an author*
+
+Now, there is a minor issue in our logic. We can add a new book or author, with less fields. Consider the below case, where we add a book only with it's name.
+
+![Junk Book](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055948/CompleteAppReactGraphql/3/6_xxemzs.png)*Junk Book*
+
+Now, to avoid this we add a new GraphQL property **GraphQLNonNull**
+
+So, open your **schema.js** and do the changes, marked in bold.
+
+
+```js
+    …
+    …
+    const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID, GraphQLInt, GraphQLList, GraphQLNonNull } = graphql;
+    …
+    …
+    const Mutation = new GraphQLObjectType({
+        name: 'Mutation',
+        fields: {
+            addAuthor: {
+                type: AuthorType,
+                args: {
+                    name: { type: new GraphQLNonNull(GraphQLString) },
+                    age: { type: new GraphQLNonNull(GraphQLInt) }
+                },
+                resolve(parent, args){
+                    let author = new Author({
+                        name: args.name,
+                        age: args.age
+                    });
+                    return author.save();
+                }
+            },
+            addBook: {
+                type: BookType,
+                args: {
+                    name: { type: new GraphQLNonNull(GraphQLString) },
+                    genre: { type: new GraphQLNonNull(GraphQLString) },
+                    authorId: { type: new GraphQLNonNull(GraphQLID) }
+                },
+                resolve(parent, args){
+                    let book = new Book({
+                        name: args.name,
+                        genre: args.genre,
+                        authorId: args.authorId
+                    });
+                    return book.save();
+                }
+            }
+        }
+    });
+    …
+    …
+```
+
+Now, if we go to our Graphiql we won't be able to add anything without mandatory fields.
+
+![Not null not allowed](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055950/CompleteAppReactGraphql/3/8_xvnkky.png)*Not null not allowed*
+
+Next, we will add front-end logic which is React in our App. So, go ahead to your root directory and create a client with **create-react-app**.
+
+![create-react-app](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055947/CompleteAppReactGraphql/3/9_qymj0u.png)*create-react-app*
+
+Next, we start our react client.
+
+![cd and npm](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055946/CompleteAppReactGraphql/3/10_zn03wg.png)*cd and npm*
+
+Now, we have our client running at port 3000 and server running at port 4000.
+
+Next, we clear some of the junk which comes with react app. In your **src** folder of **client**, delete everything except **App.js**, **index.js** and
+
+![Keep bare-bones](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055946/CompleteAppReactGraphql/3/11_ufvekm.png)*Keep bare-bones*
+
+Also, keep the **index.js** simple as below.
+
+
+```js
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import './index.css';
+    import App from './App';
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+Now, the **App.js** to be changed like below.
+
+
+```js
+    import React from 'react';
+
+    function App() {
+        return (
+            <div className="main">
+            <h1>Top books to Read</h1>
+            </div>
+        );
+    }
+
+    export default App;
+```
+
+And the **index.css** as below.
+
+```js
+    body {
+        font-family: "Helvetica Neue", sans-serif;
+    }
+```
+
+It will render our react app like below.
+
+![Our React app](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055945/CompleteAppReactGraphql/3/12_u3fjld.png)*Our React app*
+
+Now, create a new folder **components** inside **src** directory and add a file **BookList.js** to it.
+
+![BookList.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055946/CompleteAppReactGraphql/3/13_u58fuk.png)*BookList.js*
+
+Next, we will add a functional component in **BookList.js**.
+
+```js
+    import React from 'react'
+
+    const BookList = () => {
+            return (
+            <div>
+                <ul className="book-list">
+                    <li>Book Name</li>
+                </ul>
+            </div>
+            )
+    }
+
+    export default BookList;
+
+```
+
+Next, add this component in **App.js**
+
+```js
+    import React from 'react';
+    import BookList from './components/BookList';
+
+    function App() {
+        return (
+            <div className="main">
+            <h1>Top books to Read</h1>
+            <BookList />
+            </div>
+        );
+    }
+
+    export default App;
+```
+
+We will need a GraphQL client to contact, our GraphQL server and the one which we will use is Apollo.
+
+Go ahead and stop your client and install the below packages needed for graphql client.
+
+```js
+    npm install @apollo/client graphql
+```
+
+
+Now, let's start using graphql. We will edit our **BookList.js** file to get data from graphql server.
+
+```js
+    import React from 'react';
+    import { useQuery, gql } from '@apollo/client'
+
+    const getBooksQuery = gql`
+        {
+            books {
+                name
+                id
+            }
+        }
+    `;
+
+    const BookList = () => {
+            const { loading, error, data } = useQuery(getBooksQuery);
+
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error :(</p>;
+
+            console.log(data)
+            return (
+            <div>
+                <ul className="book-list">
+                    <li>Book Name</li>
+                </ul>
+            </div>
+            )
+    }
+
+    export default BookList;
+```
+
+Next, we need to go back to **App.js** and the code to use Apollo client in our Project. Here, we wrap everything with ApolloProvider and pass the client to it.
+
+
+```js
+    import React from 'react';
+    import BookList from './components/BookList';
+    import { ApolloClient, InMemoryCache } from '@apollo/client'
+    import { ApolloProvider } from '@apollo/client'
+
+    const client = new ApolloClient({
+        uri: 'http://localhost:4000/graphql',
+        cache: new InMemoryCache()
+    })
+
+    function App() {
+        return (
+            <ApolloProvider client={client}>
+                <div className="main">
+                    <h1>Top books to Read</h1>
+                    <BookList />
+                </div>
+            </ApolloProvider>
+        );
+    }
+
+    export default App;
+```
+
+On checking what we are getting through console.log, we get a nasty cors error.
+
+![cors error](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055945/CompleteAppReactGraphql/3/15_ui7qb2.png)*cors error*
+
+So, we will install the **cors** module in our server. Stop the server and npm install it.
+
+![cors install](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055945/CompleteAppReactGraphql/3/16_bmjt0s.png)*cors install*
+
+Now, go to **app.js** inside **server** folder and add cors
+
+
+```js
+    const express = require('express');
+    const { graphqlHTTP } = require('express-graphql');
+    const schema = require('./schema/schema');
+    const mongoose = require('mongoose');
+    const cors = require('cors');
+    const app = express();
+
+    app.use(cors());
+    const connection_url = 'mongodb+srv://admin:yourpassword@cluster0.91nul.mongodb.net/graphqLReactDB?retryWrites=true&w=majority'
+    mongoose.connect(connection_url, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+    })
+
+    app.use('/graphql', graphqlHTTP({
+        schema,
+        graphiql: true
+    }));
+
+    app.listen(4000, () => {
+        console.log('Listening at port 4000');
+    });
+```
+
+Now, refresh your App and you won't get the error.
+
+![Won't get cors error](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055945/CompleteAppReactGraphql/3/17_twiia6.png)*Won't get cors error*
+
+Now, that we are getting our books correctly we will update our **BookList.js** to show the books on screen.
+
+```js
+    import React from 'react';
+    import { useQuery, gql } from '@apollo/client'
+
+    const getBooksQuery = gql`
+        {
+            books {
+                name
+                id
+            }
+        }
+    `;
+
+    const BookList = () => {
+            const { loading, error, data } = useQuery(getBooksQuery);
+
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error :(</p>;
+
+            console.log(data)
+            return (
+            <div>
+                <ul className="book-list">
+                    {data.books.map(book => <li key={book.id}>{book.name}</li>)}
+                </ul>
+            </div>
+            )
+    }
+
+    export default BookList;
+```
+
+Here, we added a method **displayBooks**() to display the books. 
+
+![The Loading](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055945/CompleteAppReactGraphql/3/18_m6onsl.png)*The Loading*
+
+This completes our call and we get all our books displayed on the App.
+
+![Top Books to read](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590055945/CompleteAppReactGraphql/3/19_yvjxct.png)*Top Books to read*
+
+This concludes part-3 of the series. You can find code till here in the github [link](https://github.com/nabendu82/react-graphql).

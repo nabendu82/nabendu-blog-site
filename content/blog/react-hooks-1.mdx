@@ -1,0 +1,77 @@
+---
+title: React Hooks Tutorials -1
+description: Hooks
+date: 2020-12-08
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+Welcome to a brand new series. We will learn everything about react hooks in this series.
+
+**Prerequisties**
+To learn react hooks, we need to know about the basics of React. It is better to know all about class based react, because that is still the predominate way people write React code. You can check the react basics course on my site for the same. The link for the same is [here](https://thewebdev.tech/series/React-Basics).
+
+**What are hooks?**
+Let's see what are hooks first.
+
+* Hooks are a new feature addition in React version 16.8, which allow you to use React features without having to write a class
+
+* Eg — state of a component
+
+* Hooks don't work inside classes
+
+**Why hooks?**
+So, when the class based components were so good, why did we required hooks. Some of the reasons are-
+
+* We need to understand how this keyword works in JavaScript and also bind event handlers in class components.
+
+* Classes don't minify well and make hot reloading unreliable.
+
+* Complicated HOC and render props patterns to reuse stateful component logic.
+
+* When create components for data fetching, the code is not organized and have to use different lifecycle methods.
+
+**useState Hook**
+We will now learn directly about the most used hook, which is the useState hook. We will create a new react app by giving the below command in any terminal.
+
+
+```js
+    npx create-react-app state-hook
+```
+
+
+![npx](https://ik.imagekit.io/thewebdev/React-Hooks/1/1_6GAbEmggXI.png)*npx*
+
+After that change to the directory and do **npm start** to start our react app. We are going to see a simple counter application using, class based component and then change it to use **useState** hook.
+
+Open the code in VS Code and create a new **components** folder inside the **src**. Inside it create a file **ClassCounter.js**. We are creating a simple class based component, which have a state **count**. The state is incremented through a click of a button.
+
+![ClassCounter.js](https://ik.imagekit.io/thewebdev/React-Hooks/1/2_dXrSu1mE8c.png)*ClassCounter.js*
+
+Now, add this component to **App.js** file, after deleting the basic content in it.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/1/3_DA8xyjUTLN.png)*App.js*
+
+Now, our react app at [http://localhost:3000/](http://localhost:3000/) will have this working button.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Hooks/1/4_tPFq65wdJ.png)*localhost*
+
+Now, it's time to convert it into hooks. We will create a functional component **HookCounter.js** inside the **components** folder.
+
+Here, we have a named import for **useState** in the import statement. After that at line 4, we are using array destructuring to create **count** and **setCount**. We are also initializing the initial value of count to 0, in useState(0).
+
+After that in our button, we are **setCount** function with the count variable addition to 1. This **setCount** is exactly similar to **this.setState** in a class based component.
+
+![HookCounter.js](https://ik.imagekit.io/thewebdev/React-Hooks/1/5_4hn-uzVVso.png)*HookCounter.js*
+
+Now, add this **HookCounter** component to **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/1/6_N9jhUG7Nbx.png)*App.js*
+
+Now, our react app at [http://localhost:3000/](http://localhost:3000/) will have similar working button for hooks.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Hooks/1/7_qBe2Adcx7f.png)*localhost*
+
+This completes part-1 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/state-hook)github repo.

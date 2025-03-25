@@ -1,0 +1,66 @@
+---
+title: React Hooks Tutorials -11
+description: Hooks
+date: 2020-12-28
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+
+Welcome to part-11 of the series. We will learn about the other performance optimization hooks, useMemo in this part.
+
+### useMemo hook
+
+To understand the need of performance, we will create a small project first. So, go ahead and create new React project **memo-hook** by the below command
+
+
+```js
+    npx create-react-app memo-hook
+```
+
+
+Now, in **App.js** include the **Counter** and remove the earlier default code.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/11/1_sj15mS2kG.png)*App.js*
+
+Now, create a file **Counter.js** inside a **components** folder. The content for it is below. It contains two state variables and then two button to increment the same.
+
+![Counter.js](https://ik.imagekit.io/thewebdev/React-Hooks/11/2_eF8x5iPqd_.png)*Counter.js*
+
+Now, in the browser both of them changes independently.
+
+![Changes independently](https://ik.imagekit.io/thewebdev/React-Hooks/11/3_xZdGu7pLq.png)*Changes independently*
+
+Now, we have a simple requirement where we show whether the Counter one is even or odd. We can do it easily by creating a function isEven().
+
+![isEven](https://ik.imagekit.io/thewebdev/React-Hooks/11/4_fpOHaTCJaM.png)*isEven*
+
+It works as expected and show the Even/Odd text beside Counter One and changes with it.
+
+![Even odd](https://ik.imagekit.io/thewebdev/React-Hooks/11/5_IXHEUg0KxH.png)*Even odd*
+
+But in real world scenarios, the some functions takes a lot of time to run. We will now include some slowness in our function, by running a while loop for 2000000000 times.
+
+![while loop](https://ik.imagekit.io/thewebdev/React-Hooks/11/6_ScjG3WCvVA.png)*while loop*
+
+Now, click on **Count One** button and we will see the slowness. But the slowness is also visible, when we click on the **Count Two** button.
+
+![Slowness](https://ik.imagekit.io/thewebdev/React-Hooks/11/7_LsjmnsIWU.gif)*Slowness*
+
+The Count One slowness is obvious but the count two slowness, is because every time a state variable is changed the whole component is re-rendered which include the slow isEven() funtion.
+
+To fix this, we will use the **useMemo** hook on the **isEven** function and give the variable **counterOne** to it in a array. So, it will run only if the state variable **counterOne** changes.
+
+Also, note that **isEven** is a now a reference to a function, so no brackets.
+
+![Counter,js](https://ik.imagekit.io/thewebdev/React-Hooks/11/8_STtcH8IM9s.png)*Counter,js*
+
+Now, go back to localhost and click on **Count One** button and we will see the slowness. But the slowness is not anymore, when we click on the **Count Two** button.
+
+This happens because when the counterTwo state variable changes and the component re-renders, it uses the cached value of isEven function to display whether the Counter One is odd or even.
+
+![Issue solved](https://ik.imagekit.io/thewebdev/React-Hooks/11/9_NLB5UN0_AB.gif)*Issue solved*
+
+This completes part-11 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/memo-hook)github repo.

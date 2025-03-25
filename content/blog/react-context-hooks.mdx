@@ -1,0 +1,53 @@
+---
+title: Using Context API in React with Hooks
+description: React
+date: 2020-06-30
+tags: ['react', 'javascript', 'context']
+published: true
+---
+
+I had created a simple translation app using React Context API, in a class based project 1 year back. All the concepts with Context remains almost same, so go through that post before coming here. You can find it [here](https://thewebdev.tech/react-context).
+
+Now, it's time to refactor it to using hook based context system. So, let's clone the old project and move ahead.
+
+![git clone](https://ik.imagekit.io/thewebdev/ReactContext/2/1_8N1aQgP9n.png)*git clone*
+
+After cloning we are moving to the folder and npm installing all the dependencies.
+
+![npm install](https://ik.imagekit.io/thewebdev/ReactContext/2/2_vJRJrTN_Z.png)*npm install*
+
+Next, start the project by **npm start** and the already completed project will start at [http://localhost:3000/](http://localhost:3000/) in the browser.
+
+![Completed project](https://ik.imagekit.io/thewebdev/ReactContext/2/3_5b8v8ROMl.png)*Completed project*
+
+Now, we will start our conversion of the class based component project to use hooks. So, open the file **App.js** and it contains the below class based content.
+
+![App.js](https://ik.imagekit.io/thewebdev/ReactContext/2/4_QtHeaaIKS3.png)*App.js*
+
+We are then changing the component to a functional one, by first removing the render function. We are using the **useState** hooks and setting a state variable language with initial value of english. You can read more about react hooks in my earlier post [here](https://thewebdev.tech/react-hooks).
+
+After that we need to do slight modifications, to the way functions are called in a functional component for **onLangChange**(). We are also using **setLanguage(lang)** instead of **this.setState()** in Line 10.
+
+![App.js](https://ik.imagekit.io/thewebdev/ReactContext/2/5_Rnv5MP9Vi.png)*App.js*
+
+Let's move to the **Button.js** file now. This is the content from the class based system, with the older way of using React context, using **Consumer**.
+
+![Button.js](https://ik.imagekit.io/thewebdev/ReactContext/2/6_pD-4_8gVu.png)*Button.js*
+
+We are changing it to a functional component first and then using the new **useContext** hook from React. It is fairly simple to use as we did it in Line 5. Now, in **langType** we have access to the changed language variable. It changes on the click of button as explained in the earlier post.
+
+![Button.js](https://ik.imagekit.io/thewebdev/ReactContext/2/7_SNScXtoFC8.png)*Button.js*
+
+Now, we will move to the file **Field.js**. Currently it contains the newer way of using Context in a class based component, which is through s**tatic contextType**.
+
+![Field.js](https://ik.imagekit.io/thewebdev/ReactContext/2/8_mYov4wXj2F.png)*Field.js*
+
+The changes are very easy in above and we have to change it into a functional component first. After that use **useContext** hook as in **Button.js**.
+
+![Field.js](https://ik.imagekit.io/thewebdev/ReactContext/2/9_JNozlR1Mpg.png)*Field.js*
+
+This completes our changes and our App is working fine with the functional changes and the use of the **useContext** hooks.
+
+![Hooks](https://ik.imagekit.io/thewebdev/ReactContext/2/10_SUQzWqagni.gif)*Hooks*
+
+You can find code for the same in my Github repo [here](https://github.com/nabendu82/translation-hooks).

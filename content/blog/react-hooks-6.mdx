@@ -1,0 +1,96 @@
+---
+title: React Hooks Tutorials -6
+description: Hooks
+date: 2020-12-17
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+
+Welcome to part-6 of the series. We will learn about useContext hook in this part.
+
+### useContext hook
+
+We have learned about context in the React tutorial series. You can learn more about it [here](https://thewebdev.tech/react-basics-17).
+
+To quickly recap — Context provides a way to pass data through the component tree, without having to pass props down manually at every level.
+
+We have a problem, when we need a prop some level deep from the parent. We need to pass the prop through all the nested component.
+
+In the below example the Username prop of the App Component is required by Component C. Now, it have to pass through the Component A and B also. Although they don’t need it.
+
+![The problem](https://ik.imagekit.io/thewebdev/React-Hooks/6/1_0TQDcFxg5l.png)*The problem*
+
+We will first see the problem with the traditional Context API. So, go ahead and create a new react project with the below command.
+
+
+```js
+    npx create-react-app context-hook
+```
+
+
+Next, create a folder **components** inside the **src** folder. Inside it create three files **Child.js**, **Parent.js** and **GrandParent.js**
+
+Put the below content in **Child.js** file.
+
+![Child.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/2_vZ0bwTbVVo.png)*Child.js*
+
+Now, call the **Child **component from **Parent.js** file.
+
+![Parent.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/3_xZXJUpmepw.png)*Parent.js*
+
+Now, call the **Parent** component from **GrandParent.js** file.
+
+![GrandParent.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/4__a0R7YHiuo.png)*GrandParent.js*
+
+And finally call the **GrandParent **component from **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/5_VF7E8gfgFe.png)*App.js*
+
+Now, we want to pass props from App to Child directly and we will create context for the same.
+
+We need to create the **UserContext** with **React.createContext()**. After that we have to wrap the **GrandParent** component with **Provider**. We are then pass the value, which can be accessed from any other component.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/6_ICgyIhRL9m.png)*App.js*
+
+We will then first import the **UserContext** in **Child.js** file. Next, in the jsx we need to use the render props pattern, to get hold of the value passed by the context.
+
+Here, we are wrapping the whole jsx in Consumer and then using the value with user.
+
+![Child.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/7_7dbGgN6SBl.png)*Child.js*
+
+Now, in localhost we can see the value Nabendu been shown.
+
+![value](https://ik.imagekit.io/thewebdev/React-Hooks/6/8_rzWulmJF8.png)*value*
+
+The context feature is great but the code gets complicated quickly, once we have multiple context.
+
+Back to **App.js**, we will pass another value. So, we will create a new **ChannelContext** and wrap **GrandParent** with it.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/9_S6hGdt7Wnr.png)*App.js*
+
+Back to **Child.js**, we will consume the value. For this in our return statement for user, we are adding the ChannelContext Consumer.
+
+![Child.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/10_L4Uf4no-CR.png)*Child.js*
+
+As, we can see from above the code get’s complicated pretty soon and if we need to pass another value, the nesting will only increase.
+
+It shows ok on localhost.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Hooks/6/11_dYkYOfnbQI.png)*localhost*
+
+The useContext hook is used to consume the value in a much simpler way. The Provider will still remain the same.
+
+For useContext, let’s consume the value in Parent component. Here, we are first importing the userContext and ChannelContext. Then, we are getting the value with simple one liner like const user = useContext(UserContext).
+
+After that we can use the variable with the usual jsx syntax.
+
+![Parent.js](https://ik.imagekit.io/thewebdev/React-Hooks/6/12_48uaqbRLC-.png)*Parent.js*
+
+So, our code have become very simple with no nesting thing and it will also look perfect in the browser.
+
+![Perfect](https://ik.imagekit.io/thewebdev/React-Hooks/6/13_yMUfWEl_f0.png)*Perfect*
+
+This completes part-6 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/context-hook)github repo.

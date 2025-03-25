@@ -1,0 +1,87 @@
+---
+title: React Hooks Tutorials -10
+description: Hooks
+date: 2020-12-24
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+Welcome to part-10 of the series. We will learn about a performance optimization hooks — useCallback in this part.
+
+### useCallback hook
+
+To understand the need of performance, we will create a small project first. So, go ahead and create new React project **callback-hook** by the below command
+
+
+```js
+    npx create-react-app callback-hook
+```
+
+
+Now, in **App.js** include the **ParentComp** and remove the earlier default code.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/1_RtB8FKR76.png)*App.js*
+
+Now, we will create a **ParentComp.js** file in the **components** folder. We will add most of our logic inside it.
+
+Here, we have two set of state variables- for **age** and **salary**. We are calling three components from the return and they are **Title**, **Count** and **Button**. In the Count and the Button, we are passing different props for Age and Salary.
+
+![ParentComp.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/2_3YSgNPHOkC.png)*ParentComp.js*
+
+Now, the **Title** component is a simple component returning a h2 text.
+
+![Title.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/3_Jqy1CFQrT.png)*Title.js*
+
+Next, **Count** component use both the props to show the message.
+
+![Count.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/4_m2jZkFfVpV.png)*Count.js*
+
+Now, the **Button** component have a callback function in a button and on-click of it the function will run on **ParentComp**.
+
+![Button.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/5_eVBrjWEr0S.png)*Button.js*
+
+Now, go to localhost and open the console. We can see a performance issue here. First time when we refresh, every components run which is ok. But when we click on Increment Age or Increment Salary, then also all the components re-render.
+
+This can be a huge problem in big production applications, where rendering one component renders all components and will slow down the application.
+
+
+
+To improve performance we have to restricts re-render to only components, that needs top re-render.
+
+We will try to use **React.memo** to fix it. It is a HOC that will prevent an functional component from been re-rendered, if it's props or state don't change.
+
+Update **Title.js**, **Count.js** and **Button.js** to include it.
+
+![Title.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/7_1ms5ca8eF.png)*Title.js*
+
+![Count.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/8_LV2bXs66A3.png)*Count.js*
+
+![Button.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/9_SMlH8Nq1x.png)*Button.js*
+
+Now, again back to localhost and click on Increment Age button and still the Button component for Salary is re-rendered.
+
+![Increment Age](https://ik.imagekit.io/thewebdev/React-Hooks/10/10_CkI6lXc5IH.png)*Increment Age*
+
+This happens because React creates a referenced function for the callback functions — incrementSalary and incrementAge. To solve this problem, we will use the useCallback hook.
+
+**The useCallback code**
+
+Now, as per the defination of useCallback hook-
+
+* useCallback is a hook that will return a memoized version of the callback function, that only changes if one of the dependencies has changed.
+
+* It is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.
+
+But the bottom line is that it is used in cases like above when React.memo fails because of callback functions.
+
+To use it we will import the useCallback hook first and then pass the earlier function to it. We are also passing the parameter in an array, on which the function depends.
+
+![ParentComp.js](https://ik.imagekit.io/thewebdev/React-Hooks/10/11__9MZGHzCDF.png)*ParentComp.js*
+
+Now, go back to localhost nad our code is completely optimized and only the related components are re-rendered.
+
+
+
+This completes part-10 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/callback-hook)github repo.

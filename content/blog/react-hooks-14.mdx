@@ -1,0 +1,64 @@
+---
+title: React Hooks Tutorials -14
+description: Hooks
+date: 2020-12-31
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+
+Welcome to part-14 of the series. We will continue learning to make custom hooks in this part.
+
+## Custom hook
+
+We will create a new custom hook now. We are going to create a hook, useCounter which will help us to reuse the logic of a simple counter. But let's first make the counter code.
+
+Create a new file **CounterOne.js** inside the **components** folder. Here, we have a simple counter, which have increment, decrement and reset functionality.
+
+![CounterOne.js](https://ik.imagekit.io/thewebdev/React-Hooks/14/1_1QlsVT0ZK.png)*CounterOne.js*
+
+Suppose, we want similar functionality again. So, we will create another file **CounterTwo.js** inside the **components** folder, with same content.
+
+![CounterTwo.js](https://ik.imagekit.io/thewebdev/React-Hooks/14/2_DMGQqQ0aFh.png)*CounterTwo.js*
+
+Now, we will include both Components in **App.js**
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/14/3_J6cdkt8BN.png)*App.js*
+
+Now, we have two separate Counters in localhost.
+
+![Counters](https://ik.imagekit.io/thewebdev/React-Hooks/14/4_z_onxmt_YG.png)*Counters*
+
+Now, as we are repeating the code, we will avoid it by using custom hooks. Create a new file **useCounter.js** inside the **hooks** folder and put the below content in it.
+
+We are moving all of the state and increment, decrement logic to this file. We are also returning count, increment, decrement, reset in an array.
+
+![useCounter.js](https://ik.imagekit.io/thewebdev/React-Hooks/14/5_SHD1jpAblJ.png)*useCounter.js*
+
+Now, back to **CounterOne.js** we can use count, increment, decrement, reset by array destructuring.
+
+![CounterOne.js](https://ik.imagekit.io/thewebdev/React-Hooks/14/6_QE5BNoIe4.png)*CounterOne.js*
+
+We will refactor our **CounterTwo.js** also in the same way.
+
+![CounterTwo.js](https://ik.imagekit.io/thewebdev/React-Hooks/14/7_GbC7yDf6Tk.png)*CounterTwo.js*
+
+Back to localhost our app, will work similarly.
+
+![Similar app](https://ik.imagekit.io/thewebdev/React-Hooks/14/8_czHWq1BWRR.png)*Similar app*
+
+Hooks also provides a great deal of flexibility. We can change our initial count value in the hook. We are now passing an **initialCount** as a paramater, with default value of 0. Also, in the useState passing the initialCount and also passing it in reset.
+
+![initialCount](https://ik.imagekit.io/thewebdev/React-Hooks/14/9_8Vsiru5lm.png)*initialCount*
+
+Now, we will not pass anything in **CounterOne.js**, so it will take the default value of 0. But in **CounterTwo.js** , we are passing the value of 15.
+
+![CounterTwo.js](https://ik.imagekit.io/thewebdev/React-Hooks/14/10_u_joDabX1B.png)*CounterTwo.js*
+
+Now, in localhost if we come we can see the initial count for counter two is 15.
+
+![Counter](https://ik.imagekit.io/thewebdev/React-Hooks/14/11_jZwphvmBNm.png)*Counter*
+
+This completes part-14 of the series and completes our Hooks series.
+
+You can find the code for the same in [this ](https://github.com/nabendu82/custom-hook)github repo.

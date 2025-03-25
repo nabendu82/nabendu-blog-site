@@ -1,0 +1,247 @@
+---
+title: Application using ReactJS, Unsplash API and cloudflare worker
+description: ReactJS
+date: 2021-10-22
+tags: ['react', 'javascript', 'cloudflare']
+published: true
+---
+
+In this post we are going to build an Application for Image Search. We will get the image from Unsplash API, the frontend will be in ReactJS and we will use serverless functions, of cloudflare for backend.
+
+These are known as Cloudflare worker and they allow you to create applications and deploy them on it's Edge network.
+
+The process to setup a cloudflare account and install wrangler is mentioned in my earlier post  [here](https://nabendu82.medium.com/build-a-serverless-application-using-cloudflare-worker-f71017093b86).
+
+We will create a new project using  **wrangler generate**  command, as shown below.
+![User](https://res.cloudinary.com/thewebdev/image/upload/v1643895000/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/2_fip14v.png)
+
+Now, navigate to the folder and open the project in VS Code. Open the  **index.js**  file. The details of the file are again mentioned in my earlier post  [here](https://nabendu82.medium.com/build-a-serverless-application-using-cloudflare-worker-f71017093b86).
+![alttext](https://res.cloudinary.com/thewebdev/image/upload/v1643894998/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/3_fe7y1j.png)
+
+Now we will publish our project to Cloudflare CDN network, but for need need to set the account id in the config file. So, again run  **wrangler whoami** and take the account id.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643894999/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/4_szxezk.png)
+
+Put the account id in the  **wrangler.toml**  file, which is the configuration file for our wrangler project.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643894999/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/5_ab4r4x.png)
+
+Now, let's publish the project by  **wrangler publish**  command.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643894999/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/6_yk9kgk.png)
+
+The above command gives us a link and when we open it in browser, we will see the  **Hello worker!**  text, from  **index.js**  file.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643894999/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/7_ufj6k8.png)
+
+Now, we will change our Request method to return json. The various request methods can be found  [here](https://developers.cloudflare.com/workers/runtime-apis/request#methods), from the official docs.
+
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643895000/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/8_hlzgku.png)
+
+Now, in  **index.js**  we will change our handleRequest function to return a json.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643895000/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/9_mhrgef.png)
+
+We will test it locally now, and for that open up the terminal and run  **wrangler dev**. It makes up app run at localhost url.![](https://res.cloudinary.com/thewebdev/image/upload/v1643896005/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/10_zfwhm4.png)
+
+Now, open another terminal and run the below command. You can see that it return the body of query: tech.
+
+So, it is taking the data from our request, parsing it and giving it back as the response.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896005/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/11_mx6h4c.png)
+
+Just to make sure that it works like, we expect, we will destructure query out of our body. And after that return it back as a Response in a query string.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896005/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/12_wjroas.png)
+
+Now, again run the curl command and we will get out query back.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896005/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/13_dgcoea.png)
+
+The fetch API allows us to make request, inside of our worker function to other servers and API endpoints.
+
+We will be using the unsplash API for our project. So, go to  [https://unsplash.com/oauth/applications](https://unsplash.com/oauth/applications)  and click on  **New Application**.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896006/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/14_ug2ttd.png)
+
+In the next page, click on on the Checkboxes and click on  **Accept Terms**.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896006/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/15_akdjmk.png)
+
+On accepting the terms a Pop-up will come in which give the application name and description.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896006/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/16_dgv0wo.png)
+
+
+It gave me an error, as we cannot use unsplash name.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896532/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/1_3s_Oh_HmwLduiPCxdoIjNg_gygybr.png)
+
+So, i gave the name  **images-cloudflare-worker**  and clicked on Create Application.
+
+In the next screen scroll down a bit to get the  **Access key**  and  **Secret key**.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896006/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/18_ayuqfo.png)
+
+
+Now, back in  **index.js**  use the inbuilt fetch api to do a API request to unsplash api, in which we need to pass the Client-ID.
+
+Here, we are hard-coding our Access Key from the above step in CLIENT_ID. We are soon going to change it to use wrangler secret.
+
+Once we are getting the data back, we are just returning a response.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896006/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/19_sdcwp7.png)
+
+
+Now, go back to the terminal and run curl [http://127.0.0.1:8787](http://127.0.0.1:8787/) command and it will return data from unsplash api.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896007/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/20_vsxa4e.png)`
+Now, it is a bit hard to read. So, i have install a tool online json processor tool called jq. It shows the data to us in a better format.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896008/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/21_yb9tzh.png)
+
+As told earlier, it's not good practice to put a secret in  **index.js**  file. So, we will remove the hard-coded value.
+
+After that in the terminal run  **wrangler secret put CLIENT_ID**  and then enter the Access key in it.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896008/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/22_xczwrt.png)
+
+After that do wrangler publish and go to the deployed url and we will see the response from unsplash.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896007/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/23_tg7fg6.png)
+
+Now, since we are going create a search application, we are going to use the Search api from unsplash. We are again taking the query and pass it to the api.
+
+After that we are also getting the required things of id, image and link from the data. And then returning the images in Response.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896007/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/24_nman7m.png)
+
+
+Now, in the terminal run the curl command similar to what we have run earlier and we will get the id, image and link as a Response.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896008/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/25_vqnfzs.png)
+
+Now, the API endpoint is done, it time to create our frontend React app. So, open your terminal and create a new react app by  **npx create-react-app unsplash-viewer-react**
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896008/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/26_au0mhx.png)
+
+
+Once the react app is created cd to it, open it in VS Code and start it with npm start.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896008/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/27_yabuui.png)
+
+A react app comes with a lot of boiler-plate code. Select them and right-click and delete them.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896008/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/28_c5if24.png)
+Now, our  **index.js**  also will contain less code. The file will look like below.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896008/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/29_ejpysc.png)
+
+Now, in  **App.js**  file we will first have a function  **getImages**. This function sends a POST request. to our API for worker, with the query.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643897260/1_5nBkHqXM2k5jKzW0meSJyQ_rovu6s.png)
+
+
+Next, we will set two state of query and images. We also have an useEffect, which calls the getImages with Coding query. Also, set the result in the setImages().
+
+After that, we have a search function. It takes the user entered query to call the getImages function. Also, set the result in the setImages().
+
+Also, have an updateQuery function, which sets the query to user entered value.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896009/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/32_zyxd7j.png)
+
+
+Inside the return statement, we have a form whose onSubmit calls the search function. Then the input box calls the updateQuery function.
+
+After the form, we have a imgContainer div, mapping through all the images and displaying them.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896009/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/33_kdqzwe.png)
+
+
+In the **App.css** put the styles for the project. Replace the earlier content with the below content.
+
+```css
+.flexContainer {  
+  display: flex;  
+  justify-content: center;  
+  align-items: center;  
+  border: 1px solid black;  
+}
+.inputStyle{  
+  font-size: 1.5em;  
+  padding: 3px;  
+  display: inline-block;  
+  margin-left: 5px;  
+  width: 30%;  
+}
+button {  
+  cursor: pointer;  
+  margin-left: 5px;  
+  background-color: #4CAF50; /* Green */  
+  border: none;  
+  color: white;  
+  padding: 10px 32px;  
+  text-align: center;  
+  text-decoration: none;  
+  display: inline-block;  
+  font-size: 16px;  
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);  
+}
+img {  
+  height: 300px;  
+  object-fit: cover;  
+  width: 400px;  
+}
+.imgContainer {  
+  display: flex;  
+  justify-content: center;  
+  align-items: center;  
+  flex-wrap: wrap;  
+  margin-top: 5px;  
+}
+```
+
+Now, our react project running on localhost, will show this nice search bar.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896009/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/34_qiidyj.png)
+
+Now, search for any term but nothing will be shown. On inspecting the Network tab we see CORS errors. On hovering mouse over the error, it shows “Cross Origin Resource Sharing error”.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896009/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/35_sles1b.png)
+
+To fix this, we need to provide an Access-Control-Allow-Origin header in our serveless API. It tells to allow access from mentioned origins.
+
+In our worker  **index.js**  file, first add a cors header, allowing access through POST method and all origins.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896010/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/37_rl8fc9.png)
+
+
+Next inside the  **handleRequest** function, we are first checking if request method is OPTIONS. In this case we are sending the corsHeader.
+
+All our earlier logic goes, if the method is POST. The response is also updated with the corsHeader.
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896010/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/38_tjucvy.png)
+
+After that do  **wrangler publish**. Next, if we go to our app we will see the images from unsplash and the search also will work fine.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896011/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/39_gjnero.png)
+
+Now, we will deploy our React application using Cloudflare pages. For that, we need to push our React app to github first.
+
+After that go to your cloudflare dashboard and click on Pages. Click on the  **Create a project**  button.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896010/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/40_dn5bpd.png)
+
+In the next page, click on  **Add account**  button.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896010/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/41_mg1nlv.png)
+
+
+It will open the Github account. Select the github repository and Save it.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896010/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/42_iev6dd.png)
+
+
+It will take us back to cloudflare, where we can see the new repository. Click on the repository and press  **Begin setup**.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896011/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/43_s72xmt.png)
+
+In the next page, we need to choose the Framework preset as  **Create React App**. It will populate the required command.
+
+After that click on  **Save and Deploy**  button.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896011/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/44_wxmrpl.png)
+
+
+We will get the Success message after sometime. Scroll down and click on  **Continue to Project**  button.
+
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896011/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/45_duurma.png)
+
+
+We will get a link for our app in the next page. Click on it and our App is working fine from the deployed site.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643896012/Image%20Search%20Application%20using%20ReactJS%2C%20Unsplash%20API%20and%20cloudflare%20worker/46_cunplb.png)
+
+
+The github repos for the project -
+
+[https://github.com/nabendu82/unsplash-viewer-react](https://github.com/nabendu82/unsplash-viewer-react)  
+[https://github.com/nabendu82/unsplash-api-cloudflare](https://github.com/nabendu82/unsplash-api-cloudflare)

@@ -1,0 +1,82 @@
+---
+title: React Hooks Tutorials -7
+description: Hooks
+date: 2020-12-18
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+
+Welcome to part-7 of the series. We will learn about useReducer hook in this part.
+
+### useReducer hook
+
+It is mainly used for state management. The code and the logic is similar to reducers used in Redux.
+
+We will learn with an example. So, go ahead and create a new react project with the below command.
+
+
+```js
+    npx create-react-app reducer-hook
+```
+
+
+### useReducer-Simple state and action
+
+We will implement an simple counter with **useReducer** hook. Create a new folder **components** inside **src** folder. Inside it create a file **CounterOne.js** and put the basic content in it.
+
+Here, we have three buttons for increment, decrement and reset. In the **useReducer**, we need **initialState** and the **reducer** function. So, we will set the **initialState** to 0 and create a reducer function.
+
+The syntax of the reducer function, is exactly similar to the redux counterpart. Here, we are passing the state and action as parameters. Inside a switch statement, we are incrementing, decrementing or resetting the state.
+
+![CounterOne.js](https://ik.imagekit.io/thewebdev/React-Hooks/7/1_nhXXDruuo0.png)*CounterOne.js*
+
+Similar, to useState the useReducer also returns a pair of values, which we can get hold of using array destructuring. We have a count and a dispatch method. This dispatch method allows us to execute the code corresponding to a particular action.
+
+We are using the dispatch to send the action to the reducer function, with the respective value.
+
+![CounterOne.js](https://ik.imagekit.io/thewebdev/React-Hooks/7/2_ZcSg6iw00S.png)*CounterOne.js*
+
+Now, we need to add the component **CounterOne** in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/7/3_7XFh5UOMUE.png)*App.js*
+
+Now, head over to localhost and the buttons works as expected.
+
+![Work as expected](https://ik.imagekit.io/thewebdev/React-Hooks/7/4_I--gRaRcce.png)*Work as expected*
+
+### useReducer-Complex state and action
+
+We will implement the same counter with complex state and action, where both of them will be objects. So, it is quite similar to what we use in Redux.
+
+Create a new file **CounterTwo.js** inside the **components** folder. It is almost similar to **CounterOne.js**, only the updated code is highlighted. We are basically changing both state and action to objects here.
+
+![CounterTwo.js](https://ik.imagekit.io/thewebdev/React-Hooks/7/5_YFxiMA3c4Z.png)*CounterTwo.js*
+
+Now, include it in App.js and after that in localhost we will get the same output.
+
+![Same output](https://ik.imagekit.io/thewebdev/React-Hooks/7/6_TjmLNggPF.png)*Same output*
+
+Now, the obvious question is the advantage of this pattern over the earlier pattern.
+
+The first case which we will look on is to have a value action to increment or decrement with any value. So, we have a value key in the action object. We are creating two new buttons for the same.
+
+![First case](https://ik.imagekit.io/thewebdev/React-Hooks/7/7_RG9p2H6qV2.png)*First case*
+
+And now we can see all in action at localhost.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Hooks/7/8__BLm64LBhT.png)*localhost*
+
+In the next case, we want to maintain two different counters. We are creating a new counter **secondCounter** in the **initialState**. Now, we have two new cases as **increment2** and **decrement2**, which will use the **secondCounter**. Also notice the …state been returned in all case. This is required or else all the state variables, won’t be updated.
+
+After that we are showing the new counter in the return and also created two new buttons for the new counter.
+
+![Two counter](https://ik.imagekit.io/thewebdev/React-Hooks/7/9_QOmOH0XKb.png)*Two counter*
+
+Now, when we move to localhost, we can see the new counter in action.
+
+![Counter 2](https://ik.imagekit.io/thewebdev/React-Hooks/7/10_rDsHXlDHI9.png)*Counter 2*
+
+This completes part-7 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/reducer-hook)github repo.

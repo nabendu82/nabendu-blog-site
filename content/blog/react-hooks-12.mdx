@@ -1,0 +1,89 @@
+---
+title: React Hooks Tutorials -12
+description: Hooks
+date: 2020-12-29
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+Welcome to part-12 of the series. We will learn about useRef hook in this part.
+
+### useRef hook
+
+The useRef hook makes it possible to access DOM nodes directly within functional components. So, go ahead and create new React project **ref-hook** by the below command
+
+
+```js
+    npx create-react-app red-hook
+```
+
+
+Now, in **App.js** include the **FocusInput** and remove the earlier default code.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/12/1_xZ9_d7Kte.png)*App.js*
+
+In our project we want to do see the classic use of hook, that is to focus the input box on page load. So, go ahead and create a **components** folder inside **src** folder. Create a file **FocusInput.js** inside it.
+
+First, we want to implement the componentDidMount behaviour, as we want to focus on the input element only once and that is after the component has mounted. We will do this using the useEffect hook with empty array.
+
+After that we will include the useRef hook and use the current.focus() to focus on the input box.
+
+![FocusInput.js](https://ik.imagekit.io/thewebdev/React-Hooks/12/2_r9D_rw8j1K.png)*FocusInput.js*
+
+Now, go to localhost and the Input is focussed.
+
+![Focussed input](https://ik.imagekit.io/thewebdev/React-Hooks/12/3_XdGdAkDqHR.png)*Focussed input*
+
+We will look into another use of useRef hook now. For that we will first check it in a class based component. So, go ahead and create a file ClassTimer.js inside the components folder. Here, we have implemented a simple timer using componentDidMount(0 and componentWillUnmount().
+
+![ClassTimer.js](https://ik.imagekit.io/thewebdev/React-Hooks/12/4_g9roD4rH-f.png)*ClassTimer.js*
+
+Now, include it in App.js.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/12/5_75aeC1yMRb.png)*App.js*
+
+And the timer works perfectly in localhost.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Hooks/12/6_UxZ_X6yLi.png)*localhost*
+
+Now, we want to clear this interval timer on a button click. This is very easy to achieve with a button calling clearInterval.
+
+![button](https://ik.imagekit.io/thewebdev/React-Hooks/12/7_TWBURnWneJ.png)*button*
+
+And it will work as expected.
+
+![As expected](https://ik.imagekit.io/thewebdev/React-Hooks/12/8_93BtEqUzHg.png)*As expected*
+
+Now, we want to replicate the exact scenario with functional component. We will create a **HookTimer.js** inside the components folder. Here, we are using what we had learnt earlier with useEffect hook to implement our timer.
+
+![HookTimer.js](https://ik.imagekit.io/thewebdev/React-Hooks/12/9_j0K1Dt9hmi.png)*HookTimer.js*
+
+Now, also include the **HookTimer** in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/12/10_7IMmJD3I2p.png)*App.js*
+
+Now, the Counter works perfectly for Hook.
+
+![Hook](https://ik.imagekit.io/thewebdev/React-Hooks/12/11_9iLnViUUsd.png)*Hook*
+
+Now, we want to replicate the button used to stop the timer. So, we will add similar functionality as class based component.
+
+![HookTImer.js](https://ik.imagekit.io/thewebdev/React-Hooks/12/12_kN4BnP_-z.png)*HookTImer.js*
+
+But, going back to the browser we see we have a problem.
+
+![Problem](https://ik.imagekit.io/thewebdev/React-Hooks/12/13_aO_mKWEN9f.png)*Problem*
+
+This happens because the variable interval is defined within the useEffect and doesn't exist outside of it. Now, here useRef will come to our rescue as it can be used to hold any mutable value. The value will persists through re-renders and will also not cause any additional renders, when it's value changes.
+
+So, we will store our variable in **intervalRef** and use the **intervalRef.current** to use it.
+
+![useRef](https://ik.imagekit.io/thewebdev/React-Hooks/12/14_RHUSIc81cy.png)*useRef*
+
+And it will work perfectly as expected with the interval been closed on click of the button.
+
+![Hook Working](https://ik.imagekit.io/thewebdev/React-Hooks/12/15_ZGUetwlFt.png)*Hook Working*
+
+This completes part-12 of the series. 
+
+You can find the code for the same in [this](https://github.com/nabendu82/ref-hook) github repo.

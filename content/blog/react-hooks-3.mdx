@@ -1,0 +1,98 @@
+---
+title: React Hooks Tutorials -3
+description: Hooks
+date: 2020-12-12
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+
+Welcome to part-3 of the series. We will look into useEffect in this part.
+
+### useEffect Hook
+
+The useEffect hook, is the second most important hook and is used to do below.
+
+* The useEffect hook perform side effects like DOM update and API call, in functional components.
+
+* It is a close replacement for componentDidMount, componentDidUpdate and componentWillUnmount.
+
+### useEffect after render
+
+Now, we will directly look into an example to understand useEffect hook. I had create a new React project and created a file **ClassCounter1.js** inside src->components folder.
+
+We are first seeing the example with a class based component. Here, we are updating a DOM element and setting it to the state variable count.
+
+The **componentDidMount**() will run during the initial render and **componentDidUpdate**(), during every other time when the state is updated.
+
+![ClassCounter1.js](https://ik.imagekit.io/thewebdev/React-Hooks/3/1_NfyDGaRIuS.png)*ClassCounter1.js*
+
+We have also added it to **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/3/2_XNl3QmmJd9.png)*App.js*
+
+Now, in localhost whenever we click the button the text and the title both changes.
+
+![Both changes](https://ik.imagekit.io/thewebdev/React-Hooks/3/3_PTn-y9pgib.png)*Both changes*
+
+Next, we will implement the same with **useEffect**. So, go ahead and create a file **HookCounter1.js** inside the **components** folder.
+
+Here, we have added the logic to update the state with useState.
+
+![HookCounter1.js](https://ik.imagekit.io/thewebdev/React-Hooks/3/4_9KbjzoERAi.png)*HookCounter1.js*
+
+Next, we will add the **useEffect** to change the document.title. The useEffect is combining both componentDidMount() and componentDidUpdate() and running after initial render and also, each update.
+
+![useEffect](https://ik.imagekit.io/thewebdev/React-Hooks/3/5_WvqMb1sBGT.png)*useEffect*
+
+Now, add it in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/3/6_uh8Z7KzNsg.png)*App.js*
+
+Now, back in localhost we will see the same effect as a class based logic.
+
+![Same behaviour](https://ik.imagekit.io/thewebdev/React-Hooks/3/7_OUecghEe94.png)*Same behaviour*
+
+### Conditional useEffect
+
+We had just learned that useEffect hook runs after every render. But this can create performance problem, and in certain cases we want it to run conditionally.
+
+We will first see the issue in class based components. Create a new file **ClassCounter2.js**, which is exactly similar to **ClassCounter1.js**, but have a text input which changes the state.
+
+![ClassCounter2.js](https://ik.imagekit.io/thewebdev/React-Hooks/3/8_b5ZdJntl4k.png)*ClassCounter2.js*
+
+Now, head back to localhost and click on the button, which will update the document title and also show the first console log.
+
+After that when we type inside the text field, it also runs the console log. It means the **componentDidUpdate**, was run unnecessarily 7 times and document.title updated with same value.
+
+![Document title](https://ik.imagekit.io/thewebdev/React-Hooks/3/9_mw7Zu_8vP.png)*Document title*
+
+To fix this issue we will check in componentDidUpdate(), where the previous count is not equal to current count.
+
+![Conditional](https://ik.imagekit.io/thewebdev/React-Hooks/3/10__Rf7LqodZy.png)*Conditional*
+
+Now, go back to localhost and first click on the button and then type something in text box. This time the console log for ‘Updating document title' won't be shown.
+
+![Conditional render](https://ik.imagekit.io/thewebdev/React-Hooks/3/11_0C5vG-dt3.png)*Conditional render*
+
+Now, we will implement the same with functional components. Create a new file **HookCounter2.js**, which is similar to **HookCounter1.js** but it contains a text field and the state to update it.
+
+![HookCounter2](https://ik.imagekit.io/thewebdev/React-Hooks/3/12_No0rFvmRJw.png)*HookCounter2*
+
+We have also added it in App.js file. We will again see the same problem and the document.title will be updated unnecessarily.
+
+![Hooks unnecessarily](https://ik.imagekit.io/thewebdev/React-Hooks/3/13_xJnaMVHPcX.png)*Hooks unnecessarily*
+
+Now, we will fix it by conditionally run useEffect, only when the count value changes.
+
+We do it by passing an array as a second parameter. Here, we will pass the props or the state variable depending on which the useEffect will run. In our case it is the count state variable.
+
+![Conditional](https://ik.imagekit.io/thewebdev/React-Hooks/3/14_lqU-S-xIhp.png)*Conditional*
+
+Now, in localhost when we click on the button, then only the useEffect will be run because that only changes the count variable.
+
+![useEffect](https://ik.imagekit.io/thewebdev/React-Hooks/3/15_loyBz9iXMy.png)*useEffect*
+
+This completes part-3 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/state-hook)github repo.

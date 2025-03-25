@@ -1,0 +1,97 @@
+---
+title: React Hooks Tutorials -2
+description: Hooks
+date: 2020-12-09
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+Welcome to part-2 of the series. We will look into useState with previous state in this part first.
+
+### **useState with previous State**
+
+The example which we had seen in the previous part was not completely perfect, because we were updating the state without considering the previous state.
+
+We will first create a new component **HookCounter2.js** inside the components folder. It is similar to what we had done in the previous part, but contains buttons for reset and decrement also.
+
+![HookCounter2.js](https://ik.imagekit.io/thewebdev/React-Hooks/2/1_n6dzbzWr-E.png)*HookCounter2.js*
+
+Also, include the new component in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/2/2_g5imJhjGAS.png)*App.js*
+
+Now, it will work perfectly in localhost.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-Hooks/2/3_WLbwYGiUQ_.png)*localhost*
+
+Now, the real issue will occur if we try to setCount within a for loop. This will occur, as we are working with the current count value. Update the code to include a incrementFive function as below.
+
+![incrementFive](https://ik.imagekit.io/thewebdev/React-Hooks/2/4_eQLiAvEH7P.png)*incrementFive*
+
+Now, when we go to localhost and click on the Increment 5 button, it increments only by 1.
+
+![increment5](https://ik.imagekit.io/thewebdev/React-Hooks/2/5_c3aCdoLXX7.png)*increment5*
+
+To overcome this, we have to use the second form of setCount function. Here, we pass in a function, which have access to old state value.
+
+![prevCount](https://ik.imagekit.io/thewebdev/React-Hooks/2/6_u6UznCz4UO.png)*prevCount*
+
+Now, if we go back to localhost we can find the Increment 5 working perfectly. Also, the Increment and Decrement are working as earlier.
+
+![Increment 5](https://ik.imagekit.io/thewebdev/React-Hooks/2/7_vzDGnJvPpl.png)*Increment 5*
+
+Now, the class based equivalent of the hook code is below.
+
+![ClassCounter2.js](https://ik.imagekit.io/thewebdev/React-Hooks/2/8_KE9gZL20G7.png)*ClassCounter2.js*
+
+### **useState with Object**
+
+Now, we are going to see another way in we are going to use object as a state variable in the useState hook. Create a new file **HookCounter3.js** inside the **components** folder.
+
+As in Line 4, we can assign an object to the state variable name. We are then having two text fields, which uses the **setName**() to change the **firstName **or the **lastName**.
+
+![HookCounter3.js](https://ik.imagekit.io/thewebdev/React-Hooks/2/9_Tac8tRQvLp.png)*HookCounter3.js*
+
+Now, let's show the component in App.js
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/2/10_Sb4dJc_nb.png)*App.js*
+
+Now, when we update first name or last name in localhost, the other gets disappeared.
+
+![The Issue](https://ik.imagekit.io/thewebdev/React-Hooks/2/11_BhtQG53YtB.gif)*The Issue*
+
+So, there is something happening to the state variable. To visualize that we will add another line to the jsx.
+
+![Checking](https://ik.imagekit.io/thewebdev/React-Hooks/2/12_zr-ZMjMqIE.png)*Checking*
+
+Now, when we go back to the browser and check. As in the below gif, the moment we start typing the first name, the last name property is removed and vice versa.
+
+![Real problem](https://ik.imagekit.io/thewebdev/React-Hooks/2/13_-kGEnLlpDO.gif)*Real problem*
+
+This happens because **useState **doesn't automatically update and merge the object. The is a key difference to **setState** in class based components. So, we have to handle the manual merge.
+
+So, back in VS Code we will fix it by using spread operators to copy everything in an object and then overwriting the changed properties.
+
+![Issue fixed](https://ik.imagekit.io/thewebdev/React-Hooks/2/14_L9ke-IScMm.png)*Issue fixed*
+
+Now, when we type in both the properties are shown.
+
+![Both properties](https://ik.imagekit.io/thewebdev/React-Hooks/2/15_yGrP4U8jS.png)*Both properties*
+
+### **useState with Array**
+
+Now, we will look what will happen if the state variable is an array. Create a new file **HookCounter4.js** in the **components** folder.
+
+Here, we are first setting the state variable to an empty array. Inside the return, we are looping through it an displaying it.
+
+Now, we have a button and onClick of it we are running a function **addItem**. Inside the function, we are calling the **setItems** where we are using the spread operator. After that adding an object with id equal to items.length and a random value.
+
+![HookCounter4.js](https://ik.imagekit.io/thewebdev/React-Hooks/2/16_awvqZOdiKX.png)*HookCounter4.js*
+
+Now, back to localhost, if we click on the button a random value is generated and shown.
+
+![Random value](https://ik.imagekit.io/thewebdev/React-Hooks/2/17_qnxUQLjXCF.png)*Random value*
+
+This completes part-2 of the series.
+
+You can find the code for the same in [this ](https://github.com/nabendu82/state-hook)github repo.

@@ -1,0 +1,82 @@
+---
+title: React Hooks Tutorials -4
+description: Hooks
+date: 2020-12-13
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+
+Welcome to part-4 of the series. We will look into more ways to use the useEffect in this part.
+
+### useEffect only once
+
+In the last example, we had seen how to run useEffect conditionally. In this section, we will learn how to run useEffect only once. With this we are mimicking the lifecycle method **componentDidMount**().
+
+First we will see an example of class based component. Create a new file **ClassMouse.js** inside the **components** folder.
+
+Here, we are having a state storing x and y variable. We are then adding an event listener in **componentDidMount**(), which only triggered once during the initial render. It detect the mouse move and calls a function logMousePosition().
+
+In the function logMousePosition, we are setting the state of x and y to the updated position.
+
+![ClassMouse.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/1_EYUIZPvkp_.png)*ClassMouse.js*
+
+Now, include this component **ClassMouse **in the **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/2_DKTfbs7wpg.png)*App.js*
+
+Now, move to localhost and move your mouse, the position will be updated.
+
+![Position updated](https://ik.imagekit.io/thewebdev/React-Hooks/4/3_uUodYXoFa.png)*Position updated*
+
+Now, we will implement the same with useEffect and functional components. Create a new file **HookMouse.js** inside the **components** folder.
+
+Here, we first implementing the logic in a functional component. But, we have include an empty array as an parameter in useEffect. This tells react to call this effect only once during initial render.
+
+![HookMouse.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/4_hldnlKpBF8.png)*HookMouse.js*
+
+We have included the HookMouse component in App.js and then after moving to the localhost, we can see the useEfect called only once, by the console log.
+
+![useEffect called once](https://ik.imagekit.io/thewebdev/React-Hooks/4/5_sauxv57xcf.png)*useEffect called once*
+
+### useEffect with cleanup
+
+In this section, we will learn how to mimic the **componentWillUnmount**() lifecycle method using useEffect hook.
+
+To check the need for cleanup, we will create a new file **MouseContainer.js** inside the **components** folder.
+
+Here, we are toggling the **HookMouse** component on click of a button.
+
+![MouseContainer.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/6_X6uZB_sH-f.png)*MouseContainer.js*
+
+Also, include a console log in **HookMouse.js**, inside the logMousePosition function. This, will be printed every-time on a mouse event.
+
+![HookMouse.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/7_4zpgQN73LY.png)*HookMouse.js*
+
+Now, include the **MouseContainer **component inside the **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/8_FTFyO827x.png)*App.js*
+
+Now, goto localhost and move the mouse. We will see the **Mouse Event** console log when we move the mouse. After that we are clicking on **Toggle Display** button, and then move the mouse, we will get a warning.
+
+And the **Mouse Event** console log will still fire. Even though the component have been removed, the event listener which belongs to the component is still listening and executing.
+
+![](https://ik.imagekit.io/thewebdev/React-Hooks/4/9_-RSpTBVmwc.gif)
+
+Now, to fix it in class based components, we just need to have a **removeEventListener **in **componentWillUnmount()**.
+
+![ClassMouse.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/10_l4NAiZfcHE.png)*ClassMouse.js*
+
+To fix it in functional component, we will return a function from useEffect which will be executed when the component will be unmounted.
+
+Here, we are adding a console log and the **removeEventListener().**
+
+![HookMouse.js](https://ik.imagekit.io/thewebdev/React-Hooks/4/11_NG_Yuu1hOY.png)*HookMouse.js*
+
+Now, we will move back localhost. Her after clicking on **Toggle Display** button, and then move the mouse, we will not get a warning or the **Mouse event** console log.
+
+![Component issue solved](https://ik.imagekit.io/thewebdev/React-Hooks/4/12_fqCxfPzPn0.gif)*Component issue solved*
+
+This completes part-4 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/state-hook)github repo.

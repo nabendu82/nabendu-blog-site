@@ -1,0 +1,72 @@
+---
+title: React Hooks Tutorials -5
+description: Hooks
+date: 2020-12-16
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+Welcome to part-5 of the series. We will look into doing API calls with useEffect in this part.
+
+### Fetching data with useEffect
+
+In this part, we will fetch data from an API endpoint. We will first install the axios package to do api call. Open the terminal and run below command.
+
+
+```js
+    npm install --save axios
+```
+
+
+![axios install](https://ik.imagekit.io/thewebdev/React-Hooks/5/1_ZC1V8XQKBP.png)*axios install*
+
+Now, create a new file **DataFetching.js** inside the **components** folder. Inside **useEffect** we are using axios to hit the API endpoint, which is returning a promise.
+
+![DataFetching.js](https://ik.imagekit.io/thewebdev/React-Hooks/5/2_EGgiB3r_AQ.png)*DataFetching.js*
+
+After this include the component in App.js file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/5/3_RgSiZo_aNg.png)*App.js*
+
+Now, in localhost we can see the data been received in the console.
+
+![console](https://ik.imagekit.io/thewebdev/React-Hooks/5/4_XbI_d142O5.png)*console*
+
+Now, we will set the state to show the posts on the screen. We will just pass **res.data** to **setPosts**.
+
+![setPosts](https://ik.imagekit.io/thewebdev/React-Hooks/5/5_v2M8XCd554.png)*setPosts*
+
+Now, we will get the posts title displayed, but we get an issue and that is the infinite call to the api endpoint.
+
+![Api infinite](https://ik.imagekit.io/thewebdev/React-Hooks/5/6_wXFLLziYmM.png)*Api infinite*
+
+We can fix it easily, because we want the data to be fetched only once and mimic the componentDidMount lifecycle method. As from the earlier part, we do this my specifying an empty array as the second parameter.
+
+![empty array](https://ik.imagekit.io/thewebdev/React-Hooks/5/7_usaL48BISk.png)*empty array*
+
+Now, back to localhost and our issue is resolved.
+
+![Issue resolved](https://ik.imagekit.io/thewebdev/React-Hooks/5/8_JBOCaPjit.png)*Issue resolved*
+
+We will now learn how to fetch individual posts through useEffect now.
+
+For this we need to hit the endpoint like [https://jsonplaceholder.typicode.com/posts/1](https://jsonplaceholder.typicode.com/posts/1), where each number represent a post.
+
+![jsonpolaceholder](https://ik.imagekit.io/thewebdev/React-Hooks/5/9_QumElLYDou.png)*jsonpolaceholder*
+
+Now, create a new file **DataFetching2.js** inside the components folder. It is mostly similar to DataFetching.js, but have a input box which contains it’s set of state.
+
+We are also hitting a different API end point and instead of passing an empty array as second parameter, we are passing id. We are passing id, because the useEffect should trigger if the state variable id is changed. The id is changed through the input box.
+
+![DataFetching2.js](https://ik.imagekit.io/thewebdev/React-Hooks/5/10_WhsiFQSlDX.png)*DataFetching2.js*
+
+Now, include the **DataFetching2** in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/5/11_fy0A-fbc2a.png)*App.js*
+
+Now, in localhost, we will see the single post title and also the new title, if we change it from the input box.
+
+
+This completes part-5 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/state-hook)github repo.

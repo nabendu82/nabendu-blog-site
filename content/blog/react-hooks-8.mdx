@@ -1,0 +1,87 @@
+---
+title: React Hooks Tutorials -8
+description: Hooks
+date: 2020-12-22
+tags: ['react', 'beginners', 'hooks']
+published: true
+---
+
+Welcome to part-8 of the series. We will learn more about useReducer hook in this part.
+
+### Multiple useReducers
+
+In the previous part, we had created a different state variable to do basically the same functionality in in second counter. There is an easier alternative to do it and we will see it first.
+
+Create a new file **CounterThree.js** in the components folder. The content of it is similar to **CounterOne.js**, except the one which are highlighted below.
+
+Here, we are creating a new **count2** and **dispatch2** with the same reducer logic. After that we are using them to create three new buttons with same logic.
+
+![CounterThree.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/1_hFQ5S9IEH_.png)*CounterThree.js*
+
+Now, include this in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/2_4Ox9QMoqo.png)*App.js*
+
+Now, in localhost both will work and independent of each other.
+
+![Both independent](https://ik.imagekit.io/thewebdev/React-Hooks/8/3_sU26HmXpjK.png)*Both independent*
+
+### useReducer with useContext
+
+Till now we had used useReducer to do local state management. But the real power of it comes with global state management like redux. We do it with combining useContext with useReducer.
+
+To understand this with an example, we will again create a deep level of nesting.
+
+First from App.js import three components GrandParent1, GrandParent2 and GrandParent3.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/4_hE9orhZb2.png)*App.js*
+
+Next, let's create **GrandParent1.js** file with below content.
+
+![GrandParent1.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/5_an5ONp0rBL.png)*GrandParent1.js*
+
+Next, we will create **GrandParent2.js** file with **Parent1** component.
+
+![GrandParent2.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/6_T1o0JGcewj.png)*GrandParent2.js*
+
+Next, we will create **GrandParent3.js** file with **Parent2** component.
+
+![GrandParent3.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/7_LhipxaAMC.png)*GrandParent3.js*
+
+Now, we will create the **Parent1.js** file with below content.
+
+![Parent1.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/8_SR4o6-snuL.png)*Parent1.js*
+
+Next, we will create **Parent2.js** file with the **Child1** component.
+
+![Parent2.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/9_P6SA5bVY6q.png)*Parent2.js*
+
+Lastly we will create the **Child1.js** file with below content.
+
+![Child1.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/10_QN5fiXzz9I.png)*Child1.js*
+
+Now, our goal is to maintain a count state in **App.js** and modify the state from different Components.
+
+We will update our App.js to have the reducer logic for a simple count, which we had learned earlier. After that we are wrapping the jsx with CountContext and passing the count and dispatch as an object.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/11_3YkRjVwuin.png)*App.js*
+
+Now, it's time to use it in components which are nested at different level. We will first update **GrandParent1.js** file. Here, we are just importing the **CountContext** and then using both the **countState** and the **countDispatch**. The button trigger from here, will run the reducer logic in **App.js** file.
+
+![GrandParent1.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/12_QWVTkSddrW.png)*GrandParent1.js*
+
+Next, we will update the same logic in **Parent1.js** file.
+
+![Parent1.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/13_JHD54DAtIg.png)*Parent1.js*
+
+We will also update the same in **Child1.js** file.
+
+![Child1.js](https://ik.imagekit.io/thewebdev/React-Hooks/8/14_p91Lfa83Y.png)*Child1.js*
+
+Now, we have a global state which can be updated by any component and the state variable can also be accessed by any component. This is a complete implementation of Redux, but in a much simpler way,
+
+![Gif](https://ik.imagekit.io/thewebdev/React-Hooks/8/15_KarzYp15ft.gif)*Gif*
+
+This completes part-8 of the series. 
+
+You can find the code for the same in [this ](https://github.com/nabendu82/reducer-hook)github repo.

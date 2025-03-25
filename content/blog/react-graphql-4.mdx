@@ -1,0 +1,455 @@
+---
+title: Build a complete app with React and GraphQL — 4
+description: GraphQL
+date: 2019-05-27
+tags: ['javascript', 'react', 'graphql']
+published: true
+---
+
+Welcome to part-4 of the series. This series have been inspired by [this](https://www.youtube.com/watch?v=ed8SzALpx1Q) youtube tutorial from freecodecamp.
+
+We will start from where we left. We will be first making an component to add books to our App, through the front-end.
+
+We will add a new file **AddBook.js** in components folder.
+
+![AddBook.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590058133/CompleteAppReactGraphql/4/1_mwgdvz.png)*AddBook.js*
+
+Now, we will add content to **AddBook.js**. You will notice that it is almost similar to **BookList.js** in previous tutorial. Only we are using a form to input the data and using GraphQL, to get the author list for the dropdown of author.
+
+```js
+    import React from 'react';
+    import { useQuery, gql } from '@apollo/client'
+
+    const getAuthorsQuery = gql`
+        {
+            authors {
+                name
+                id
+            }
+        }
+    `;
+
+    const AddBook = () => {
+        const { loading, error, data } = useQuery(getAuthorsQuery);
+
+        if (loading) return <p>Loading Query...</p>;
+        if (error) return <p>Error in Query...</p>;
+
+            return(
+                <form id="add-book">
+                    <div className="field">
+                        <label>Book name:</label>
+                        <input type="text" />
+                    </div>
+                    <div className="field">
+                        <label>Genre:</label>
+                        <input type="text" />
+                    </div>
+                    <div className="field">
+                        <label>Author:</label>
+                        <select>
+                            <option>Select author</option>
+                            {data.authors.map(author => <option key={ author.id } value={author.id}>{ author.name }</option> 
+                    )}
+                        </select>
+                    </div>
+                    <button>+</button>
+
+                </form>
+            );
+    }
+
+    export default AddBook
+
+```
+
+We will also include this component in **App.js**. So, update it as below.
+
+```js
+    import React from 'react';
+    import BookList from './components/BookList';
+    import AddBook from './components/AddBook';
+    import { ApolloClient, InMemoryCache } from '@apollo/client'
+    import { ApolloProvider } from '@apollo/client'
+
+    const client = new ApolloClient({
+        uri: 'http://localhost:4000/graphql',
+        cache: new InMemoryCache()
+    })
+
+    function App() {
+        return (
+            <ApolloProvider client={client}>
+                <div className="main">
+                    <h1>Top books to Read</h1>
+                    <BookList />
+                    <AddBook />
+                </div>
+            </ApolloProvider>
+        );
+    }
+
+    export default App;
+```
+
+Now, our App looks like below, with a working **Author** dropdown.
+
+![Author DropDown](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590058136/CompleteAppReactGraphql/4/2_o7jhzz.png)*Author DropDown*
+
+Next, we will add some React state management to the file **AddBooks.js**, to store the value of the form. The changes have been marked in bold.
+
+```js
+    import React , { useState } from 'react';
+    import { useQuery, gql } from '@apollo/client'
+
+    const getAuthorsQuery = gql`
+        {
+            authors {
+                name
+                id
+            }
+        }
+    `;
+
+    const AddBook = () => {
+        const { loading, error, data } = useQuery(getAuthorsQuery);
+        const [name, setName] = useState('')
+        const [genre, setGenre] = useState('')
+        const [authorId, setAuthorId] = useState('')
+
+        if (loading) return <p>Loading Query...</p>;
+        if (error) return <p>Error in Query...</p>;
+
+        const submitForm = e => {
+            e.preventDefault()
+            console.log({name, genre, authorId})
+        }
+
+            return(
+                <form id="add-book" onSubmit={submitForm}>
+                    <div className="field">
+                        <label>Book name:</label>
+                        <input type="text" value={name} onChange={e => setName(e.target.value)} />
+                    </div>
+                    <div className="field">
+                        <label>Genre:</label>
+                        <input type="text" value={genre} onChange={e => setGenre(e.target.value)} />
+                    </div>
+                    <div className="field">
+                        <label>Author:</label>
+                        <select value={authorId} onChange={e => setAuthorId(e.target.value)}>
+                            <option>Select author</option>
+                            {data.authors.map(author => <option key={ author.id } value={author.id}>{ author.name }</option> 
+                    )}
+                        </select>
+                    </div>
+                    <button>+</button>
+
+                </form>
+            );
+    }
+
+    export default AddBook
+```
+
+Next, it's time to test the form by adding some data and clicking the “+” and checking the output on console.
+
+![Form working perfectly](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590058137/CompleteAppReactGraphql/4/3_rhhdq9.png)*Form working perfectly*
+
+Now, we will add the logic for mutation to add this data on GraphQL server. But since our **AddBook.js** will have more then one queries, we need to modify the logic a bit.
+
+We will first move all the queries to a different file. Create a folder **queries** inside src and a file **queries.js** inside it.
+
+Add the following content to **queries.js**
+
+```js
+import { gql } from '@apollo/client';
+
+const getAuthorsQuery = gql`
+    {
+        authors {
+            name
+            id
+        }
+    }
+`;
+
+const getBooksQuery = gql`
+    {
+        books {
+            name
+            id
+            genre
+            author{
+                name
+                age
+            }
+        }
+    }
+`;
+
+const addBookMutation = gql`
+    mutation AddBook($name: String!, $genre: String!, $authorId: ID!){
+        addBook(name: $name, genre: $genre, authorId: $authorId){
+            name
+            id
+        }
+    }
+`;
+
+
+export { getAuthorsQuery, getBooksQuery, addBookMutation };
+```
+
+Now, we will use **getBooksQuery** and **addBookMutation** inside our **AddBook.js**
+
+We will be using the **useMutation** hooks from apollo/client here.
+
+```js
+import React, { useState } from 'react'
+import { useQuery, useMutation } from '@apollo/client'
+import { getAuthorsQuery, addBookMutation } from '../queries/queries';
+
+const AddBook = () => {
+    const { loading, error, data } = useQuery(getAuthorsQuery);
+    const [addBook] = useMutation(addBookMutation);
+    const [name, setName] = useState('')
+    const [genre, setGenre] = useState('')
+    const [authorId, setAuthorId] = useState('')
+
+    if (loading) return <p>Loading Query...</p>;
+    if (error) return <p>Error in Query...</p>;
+
+    const submitForm = e => {
+        e.preventDefault()
+        console.log(name, genre, authorId)
+        addBook({
+            variables: {
+                name,
+                genre,
+                authorId
+            }
+        })
+        setName('')
+        setGenre('')
+        setAuthorId('')
+    }
+
+    return (
+        <form id="add-book" onSubmit={submitForm}>
+            <div className="field">
+                <label>Book name:</label>
+                <input type="text" value={name} onChange={e => setName(e.target.value)} />
+            </div>
+            <div className="field">
+                <label>Genre:</label>
+                <input type="text" value={genre} onChange={e => setGenre(e.target.value)}/>
+            </div>
+            <div className="field">
+                <label>Author:</label>
+                <select value={authorId} onChange={e => setAuthorId(e.target.value)}>
+                    <option>Select author</option>
+                    {data.authors.map(author => <option key={ author.id } value={author.id}>{ author.name }</option> 
+                    )}
+                </select>
+            </div>
+            <button>+</button>
+
+        </form>
+    )
+}
+
+export default AddBook
+
+```
+
+Let's also make the change in **BookList.js** as we will use the query from *queries.js*
+
+```js
+    import React from 'react';
+    import { useQuery } from '@apollo/client'
+    import { getBooksQuery } from '../queries/queries';
+
+    const BookList = () => {
+            const { loading, error, data } = useQuery(getBooksQuery);
+
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error :(</p>;
+
+            console.log(data)
+            return (
+            <div>
+                <ul className="book-list">
+                    {data.books.map(book => <li key={book.id}>{book.name}</li>)}
+                </ul>
+            </div>
+            )
+    }
+
+    export default BookList;
+```
+
+Let's go to the browser now and add a new book, by entering the fields and pressing “+”.
+
+![Entering new book](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590058135/CompleteAppReactGraphql/4/5_ykrydt.png)*Entering new book*
+
+But we don't see the new book reflected. So, we can check it first at mongoDB. Next, go to the browser and refresh it and you will see the book.
+
+![Refresh the browser](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590058133/CompleteAppReactGraphql/4/7_gcs8qj.png)*Refresh the browser*
+
+
+Now, we are going to add the functionality to show details. So, create a new file **BookDetails.js** inside **components** folder.
+
+
+Now, let's add code to file **BookDetails.js**. 
+
+```js
+import React from 'react'
+
+const BookDetails = (props) => {
+    console.log(props.book)
+    function displayBookDetails(){
+        if(props.book){
+            return(
+                <div>
+                    <h2>{ props.book.name }</h2>
+                    <p>Genre - { props.book.genre }</p>
+                    <p>Author - { props.book.author.name }</p>
+                    <p>Age - { props.book.author.age }</p>
+                </div>
+            );
+        } else {
+            return( <div>No book to display...</div> );
+        }
+    }
+
+    return (
+        <div id="book-details">
+            {displayBookDetails()}
+        </div>
+    )
+}
+
+export default BookDetails
+
+```
+
+Now, update the **BookList.js** to include the **BookDetails** component.
+
+```js
+import React from 'react'
+import { useQuery } from '@apollo/client'
+import { getBooksQuery } from '../queries/queries';
+import BookDetails from './BookDetails';
+
+const BookList = () => {
+    const { loading, error, data } = useQuery(getBooksQuery);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
+    console.log(data)
+    return (
+        <>
+            <ul className="book-list">
+                {data.books.map(book => (
+                    <>
+                        <BookDetails book={book} />
+                    </>
+                ))}
+            </ul>
+            
+        </>
+    )
+}
+
+export default BookList
+
+```
+
+Now, details of all the books are shown. Our App is complete, but it's very ugly. So, we will go ahead and add the css to **index.css** file.
+
+```js
+    body {
+        font-family: "Helvetica Neue", sans-serif;
+    }
+
+    .main h1{
+        color: #444;
+        text-align: center;
+    }
+
+    .main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    .book-list{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 0;
+    }
+
+    form{
+        background: #fff;
+        padding: 20px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 300px;
+    }
+
+    form .field{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+    }
+
+    form label{
+        text-align: right;
+        padding: 6px;
+    }
+
+    form input, form select{
+        margin: 4px 0;
+        padding: 6px;
+        box-sizing: border-box;
+    }
+
+    form button{
+        color: #fff;
+        font-size: 2em;
+        background: #AD1457;
+        border: 0;
+        padding: 0 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    #book-details{
+        width: 500px;
+        background: #AD1457;
+        padding: 30px;
+        overflow: auto;
+        box-shadow: -2px -3px 5px rgba(0,0,0,0.3);
+        box-sizing: border-box;
+        color: #fff;
+    }
+
+```
+
+It will show our final App.
+
+![Our beautiful app](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1610713013/CompleteAppReactGraphql/4/10_deh9fv.jpg)*Our beautiful app*
+
+This concludes our series. Hope you liked it. You can find code till here in the github [link](https://github.com/nabendu82/react-graphql).
