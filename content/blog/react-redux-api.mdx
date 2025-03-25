@@ -1,0 +1,299 @@
+---
+title: Learn React Redux with API Project
+description: Redux
+date: 2022-02-16
+tags: ["javascript", "react", "webdev"]
+published: true
+---
+
+We are going to learn React redux by building an amazing eCommerce project, which will do API call to get data.
+
+We will start from scratch by creating a new react project by the below command.
+
+```js 
+  npx create-react-app react-redux-ecommerce 
+```
+
+After that change to the project directory and install axios and react-router-dom by the below command.
+
+```js 
+  npm i axios react-router-dom 
+```
+
+Next, we will remove some boiler plate code files, as shown in below screenshot.
+
+![Remove](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781701/New-blogs/Yashvendra10_mdx/2_knbyud.jpg)_Remove_
+
+Now, in the **index.js** file remove the not needed content and it will look like below.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781703/New-blogs/Yashvendra10_mdx/3_q7xgqx.jpg)_index.js_
+
+Now, for CSS we are going to use semantic UI. So, add the below link in the **index.html** file.
+
+```
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+    integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+```
+
+![index.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781704/New-blogs/Yashvendra10_mdx/4_qbgbyz.jpg)_index.html_
+
+We also need to install the redux and react-redux in our project. So, install the same through npm in our project.
+
+```js
+    npm i redux react-redux 
+```
+
+Next, in the **App.js** remove everything and add the below simple code, which we are soon gong to change.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781706/New-blogs/Yashvendra10_mdx/5_kero5k.jpg)_App.js_
+
+After that let's have a basic structure in our project. So, create a **components** and **redux** folder inside the **src** folder. Again inside the **redux** folder create an **actions**, **constants** and **reducers** folder. Also create a file **store.js** inside it.
+
+![store.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781709/New-blogs/Yashvendra10_mdx/6_lprxm1.jpg)_store.js_
+
+Next, create a file **action-types.js** inside the constants folder and add the below content in it. Here, we are just putting the constants in it.
+
+![action-types.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781711/New-blogs/Yashvendra10_mdx/7_wzhlvm.jpg)_action-types.js_
+
+Next, create a file **productsActions.js** inside the **actions** folder and add the below content in it. Here, we are having two action creators — one is for setProducts and other for selectedProduct.
+
+We are soon going to call this action creator from a component.
+
+![productsActions.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781713/New-blogs/Yashvendra10_mdx/8_pcutcj.jpg)_productsActions.js_
+
+Now, it's time to create the reducer. So, create a file **productsReducer.js** inside the **reducers** folder and add the below content in it.
+
+Here, we have an initialState which is an object, with a key of products. The products value is an array of objetc and we have put an item now in it. Later on we will get this from the API.
+
+The productsReducer is the usual switch case returning the state now for SET_PRODUCTS.
+
+![productsReducer.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781716/New-blogs/Yashvendra10_mdx/9_ulsold.jpg)_productsReducer.js_
+
+Next, create an **index.js** in the reducers folder and add the below content in it. Here, we are creating a combine Reducers as per Redux structure.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781721/New-blogs/Yashvendra10_mdx/10_pa2rnu.jpg)_index.js_
+
+Finally, we need to add the code for the **store.js** file, which will include the reducers now.
+
+![store.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781720/New-blogs/Yashvendra10_mdx/11_r8ho9i.jpg)_store.js_
+
+Next, we will add the famous redux devtool extension in our project. You can find the details of it [here](https://github.com/zalmoxisus/redux-devtools-extension).
+
+We need to install the chrome or firefox extension, depending on our browser and then after that in the **store.js** file add it in the store as below.
+
+![store.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781723/New-blogs/Yashvendra10_mdx/12_nvxw1b.jpg)_store.js_
+
+Now, to complete our Redux devtool setup, we need to wrap our whole App in **index.js** file with Provider, linked with our store.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781722/New-blogs/Yashvendra10_mdx/13_uawts4.jpg)_index.js_
+
+Now, go to http://localhost:3000/and open the Redux Devtools and in it we can see our state showing properly.
+
+![State](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781724/New-blogs/Yashvendra10_mdx/14_phff6v.jpg)_State_
+
+Now, it's finally time to create some components and link all these things. So, first create a file **Header.js** inside the components folder and add the below content in it.
+
+![Header.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781726/New-blogs/Yashvendra10_mdx/15_j7cpkt.jpg)_Header.js_
+
+After that create a file **ProductListing.js** inside the **components** folder and add the below content in it.
+
+![ProductListing.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781727/New-blogs/Yashvendra10_mdx/16_cmpqm8.jpg)\*\*ProductListing.js
+
+Next, create a file **ProductDetails.js** inside the **components** folder and add the below content in it.
+
+![ProductDetails.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781729/New-blogs/Yashvendra10_mdx/17_y3g0xl.jpg)_ProductDetails.js_
+
+Next, create a file **ProductComponent.js** inside the **components** folder and add the below content in it.
+
+![ProductComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781732/New-blogs/Yashvendra10_mdx/18_ekmks2.jpg)_ProductComponent.js_
+
+Now, it's time to put all these components in the **App.js** file. But we will add these through React router, because we are implementing routing in our project.
+
+![App.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781733/New-blogs/Yashvendra10_mdx/19_eakz1j.jpg)_App.js_
+
+Now, we are first going to update our code for Product Listing. In the **ProductListing.js** file, we are using some semantic ui class and showing the ProductComponent
+
+![ProductListing.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781735/New-blogs/Yashvendra10_mdx/20_ybgqey.jpg)_ProductListing.js_
+
+Now, in the **ProductComponent.js** file, we are first using the useSelector hook from react-redux to use the redux state and get all product array. We just have one item and we are displaying it.
+
+![ProductComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781738/New-blogs/Yashvendra10_mdx/21_rkldvl.jpg)_ProductComponent.js_
+
+Now, we will get the data from a API endpoint. We are going to use the https://fakestoreapi.com/ for the same.
+
+Now, in our **ProductListing.js** file, we will import axios, useDispatch and setProducts first. Next, we are using the useDispatch hook. After that we are using axios to call our fakestoreapi.
+
+Once we get the result, we are calling the setProducts with our response.data.
+
+![ProductListing.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781740/New-blogs/Yashvendra10_mdx/22_brk8jv.jpg)_ProductListing.js_
+
+Next, we need to update our **productsReducer.js** file. Here, we are first removing the hardcoded products.
+
+We are also changing the return to destructure the state and add the products as payload.
+
+![productsReducer.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781741/New-blogs/Yashvendra10_mdx/23_tjzo4g.jpg)_productsReducer.js_
+
+Back in **ProductComponent.js** file, we need to loop through the products array and show each item.
+
+![ProductComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781743/New-blogs/Yashvendra10_mdx/24_exna1n.jpg)_ProductComponent.js_
+
+We need to forgot one thing to do and that was to change our App.css file. So, put the below content in App.css file.
+
+```css
+* {
+  font-family: "Roboto", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+.ui.cards > .card > .image {
+  height: 250px;
+  padding: 20px;
+  background: #fff;
+  margin: auto;
+}
+.ui.cards > .card > .image > img {
+  height: 100%;
+  max-width: 100%;
+  width: auto;
+}
+.ui.cards > .card > .content > .header {
+  height: 48px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.ui.cards > .card > .content > .description {
+  height: 36px;
+  margin-bottom: 0px;
+  overflow: hidden;
+}
+.ui.cards > .card .meta.price {
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+.ui.cards > .card .meta.price > a {
+  font-size: 1.3rem;
+  color: #222;
+}
+.ui.menu.fixed {
+  height: 60px;
+  padding-top: 15px;
+}
+.ui.grid.container {
+  margin-top: 45px;
+}
+.ui.grid > .row {
+  background: #fff;
+}
+.ui.grid > .row > .column.lp {
+  padding: 20px 40px 20px 20px;
+  align-self: flex-start !important;
+}
+.ui.grid > .row > .column.rp {
+  padding: 20px 20px 20px 40px;
+  text-align: left;
+  align-self: flex-start !important;
+}
+.ui.grid > .row > .column > img,
+.ui.grid > .row > img {
+  height: 100%;
+}
+.ui.placeholder .header:not(:first-child):before,
+.ui.placeholder .image:not(:first-child):before,
+.ui.placeholder .paragraph:not(:first-child):before {
+  display: none;
+}
+.ui.label,
+.ui.labels .label {
+  font-size: 22px;
+}
+.column.rp h1 {
+  color: #333;
+}
+.column.rp p {
+  font-size: 18px;
+  color: #777;
+}
+.ui.placeholder.segment .column .button,
+.ui.placeholder.segment .column .field,
+.ui.placeholder.segment .column textarea,
+.ui.placeholder.segment .column > .ui.input {
+  background-color: #ff3e6c;
+  border: 1px solid #ff3e6c;
+  color: #fff;
+  font-size: 18px;
+  margin-left: 0;
+}
+```
+
+Now, in localhost we will be able to see all the products in a nice manner.
+
+![All products](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781746/New-blogs/Yashvendra10_mdx/25_amlopt.jpg)_All products_
+
+Next, we will add the functionality for product details ie clicking on a product will take us to the Product details page.
+
+For that we need to add the Link tag to the **ProductComponent.js** file, which will take us to /product/id.
+
+![ProductComponent.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781748/New-blogs/Yashvendra10_mdx/26_l6lslw.jpg)_ProductComponent.js_
+
+Now, we need to add a new reducer called **selectedProductsReducer** in **productsReducer.js** file.
+
+![productsReducer.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781749/New-blogs/Yashvendra10_mdx/27_clspuo.jpg)_productsReducer.js_
+
+Now, we need to add this new reducer in our combine reducer in **index.js** file of **reducer** folder.
+
+![index.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781751/New-blogs/Yashvendra10_mdx/28_x9tkqg.jpg)_index.js_
+
+Now, in the **ProductDetail.js** file we will add the below code. Here, we are first using the useParams() to get the productId. After that we are using the useDispatch() to dispatch selectedProduct to the action creator.
+
+We are using another API endpoint to get the single product details in fetchProductDetail().
+
+Once the state variable product is updated we are getting it through the useSelector hook.
+
+![ProductDetail.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781753/New-blogs/Yashvendra10_mdx/29_bckewl.jpg)_ProductDetail.js_
+
+Now, if we click on any particular product we are getting it's detail back in console.
+
+![Console](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781755/New-blogs/Yashvendra10_mdx/30_yl10kj.jpg)_Console_
+
+Now, it's time to write the JSX to display our products. First, we need to destructure the product.
+
+![ProductDetail.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781756/New-blogs/Yashvendra10_mdx/31_yrmi79.jpg)_ProductDetail.js_
+
+After that we are adding the JSX in the return. It is showing the Loading… first and then using semantic ui showing the image, price, category and description.
+
+![ProductDetail.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781757/New-blogs/Yashvendra10_mdx/32_cw7n0p.jpg)_ProductDetail.js_
+
+Now, we will see our beautiful products, when we click on any product.
+
+![Product](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781760/New-blogs/Yashvendra10_mdx/33_zfzd5y.jpg)_Product_
+
+Now, there is an issue in our project and that is for a moment we are been shown the old product, when we click on any product. To fix it we need to remove it from redux store.
+
+So, in our productsActions.js we will add a new action creator for removeSelectedProduct, which will just return the type.
+
+![productsActions.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781761/New-blogs/Yashvendra10_mdx/34_xmkq3f.jpg)_productsActions.js_
+
+Now, we also need to update the same in our **productsReducer.js** file.
+
+![productsReducer.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781763/New-blogs/Yashvendra10_mdx/35_nxglfr.jpg)_productsReducer.js_
+
+Back in the **ProductDetails.js** file, we are dispatching removeSelectedProduct in the cleanup function of the useEffect.
+
+We have also added a beautiful loader provided by semantic ui instead of the Loading text.
+
+![ProductDetails.js](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781765/New-blogs/Yashvendra10_mdx/36_nh4n4r.jpg)_ProductDetails.js_
+
+Now, our project is complete and showing the selected product perfectly. If we see the Redux devtool, we will find action creators been fired in correct sequence.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661781766/New-blogs/Yashvendra10_mdx/37_xn7ezn.jpg)_localhost_
+
+You can find the code for the same in [this](https://github.com/nabendu82/react-redux-ecommerce) github repo. You can find this project also on my YouTube channel.
+
+https://youtu.be/UuoTCvICpx8
