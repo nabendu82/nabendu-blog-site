@@ -1,0 +1,115 @@
+---
+title: Create a PDF Viewer with ES6 JavaScript
+description: JavaScript
+date: 2020-10-07
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In this article we are going to create a PDF viewer using modern ES6 JavaScript.
+
+So, let’s start with our project. I am creating a new folder **PDFviewerJS** and then the three files **index.html**, **style.css** and **main.js** in it. After that i am opening it with Visual Studio Code. I am doing all this from terminal, but it can be done manually also.
+
+![PDFviewerJS](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/1_d1_7VNkFM.png)*PDFviewerJS*
+
+In VS Code also added a **sample.pdf** file. After that created a basic html structure in **index.html** file and changed the **title** and linked the css file.
+
+Also, linked the **main.js** file a the bottom. We are also using the awesome **pdf.js** library from mozilla to display our pdf. You can find more about it [here](https://github.com/mozilla/pdf.js).
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/2_rF_YO5yP_9.png)*index.html*
+
+Next, we will include font awesome in our project. After that inside our body creating two button with font-awesome. Also, displaying the page count.
+
+We are also adding a canvas element, which will show our pdf.
+
+![font awesome](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/3_XrrbA_B4rv.png)*font awesome*
+
+After adding all the above click on the Go Live at the bottom right of the VS Code. This is coming because i have the VS Code extension **Live Server** installed.
+
+So, our basic project looks like below.
+
+![Basic Project](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/4_SJglFzC4xH.png)*Basic Project*
+
+After this we will head over to **main.js** and start writing our main logic. First, we are declaring some variables, which we are going to use in our project. We are also making the **canvas** variable equal to the **pdf-render** id, which we defined in the **index.html**.
+
+After that we created the **renderPage** function, which we are soon going to complete.
+
+We are using the **pdfjsLib** library provide by **pdf.js** and sending our **sample.pdf** in it. It will return a promise, which we are consoling first. After that also setting the **page-count** text, equal to the **numPages**.
+
+We are also passing the **pageNum** to the **renderPage**, which we are going to complete soon.
+
+![main.js](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/5_UfPqR-4Njt.png)*main.js*
+
+Now, our webpage will look like below and in console we are also getting the different data of the pdf back.
+
+![pdf](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/6_bR-HQPo3Q7.png)*pdf*
+
+Next, we are going to complete the **renderPage** function. Here, we are first making the **pageIsRendering** as true. After that using another function from **pdf.js** called **getPage** and passing the num, which is 1 initially.
+
+After getting the content of the pdf in page variable, we are using it to set the **height** , **width** and the **renderCtx**.
+
+We are using the **page.render()**, to check if the variable **pageNumIsPending** is **null**. If it is not **null**, we are again calling the function **renderPage.**
+
+We are also targeting the **page-num** id and showing the current page number.
+
+![renderPage](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/7_XRLC6vF5ZO.png)*renderPage*
+
+Now, when we go to our web-page it show correctly everything and our one-pager pdf.
+
+![pdf](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/8_oOqTPA6xJ4.png)*pdf*
+
+To check the complete functionality of the project, we need a pdf with more pages. So, i added a 9 page pdf to the project **TheFly.pdf** and changed the path.
+
+
+```js
+    const url = 'TheFly.pdf';
+```
+
+
+To implement the pdf with pages, we need to create three functions. Here, in the **showPrevPage**, we are first checking whether it is the first page. If it is not we are calling the function **queueRenderPage**, after reducing the **pageNum**.
+
+Similarly, in the **showNextPage**, we are first checking whether it is the last page. If it is not we are calling the function **queueRenderPage**, after adding to the **pageNum**.
+
+From the **queueRenderPage **we are calling the **renderPage** , if the **pageIsRendering** is false.
+
+![Three Functions](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/9_uvgKvz3ab5.png)*Three Functions*
+
+Now, we will link the button containing the **prev-page** to call function **showPrevPage **on click. Similarly, the button containing the **next-page** to call function **showNextPage** on click.
+
+![Button Link](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/10_kkCPJn8qjQ.png)*Button Link*
+
+Now, our project is fully functional and we are able to see all pages of pdf on click of the **Prev Page** and **Next Page** button.
+
+![Prev Page](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/11_VZ1I2LGq-x.png)*Prev Page*
+
+Next, let style the project a bit by adding styles in **style.css** file.
+
+![style.css](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/12_4Ak1iuibUx.png)*style.css*
+
+Now, our button will look nicer and have a great background also.
+
+![Nice button](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/13_ua38iwGOKS.png)*Nice button*
+
+We are also going to add the logic for error handling in the project. First in the **style.css** add css for a new class **error**.
+
+![style.css](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/14_P3fs7_wEYV.png)*style.css*
+
+Back in the **main.js** file add a **.catch** for the **err**. Here, we are creating a new **div** with class of error. After that we are displaying it by inserting before the canvas.
+
+We are also hiding the top-bar, which shows the buttons.
+
+![catch](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/15_4Nu1Netz0o.png)*catch*
+
+Now, make the url wrong like below.
+
+
+```js
+    const url = 'TheFly1.pdf';
+```
+
+
+Now, our web-page will show the error.
+
+![The Error](https://ik.imagekit.io/thewebdev/JS-Projects/pdf-viewer/16_H4QsplTPpm.png)*The Error*
+
+This completes our PDF Viewer project. Hoped you liked it. You can find the github repo for the same [here](https://github.com/nabendu82/PDFviewerJS).

@@ -1,0 +1,205 @@
+---
+title: Build a Pokedex with NextJS and Tailwind CSS
+description: NextJS
+date: 2021-05-27
+tags: ['javascript', 'react', 'nextjs']
+published: true
+---
+
+The next app with NextJS, which we will build is the Pokedex app and we will also be using Tailwind CSS in it.
+
+So, open your terminal and create a new Next.js application by using the command below.
+
+
+```js
+    npx create-next-app pokedex-nextjs
+```
+
+Now, as per the instructions, change to the newly created folder. I have also opened the project in VS Code. After that, run **npm run dev** to start the project.
+
+![start](https://res.cloudinary.com/thewebdev/image/upload/v1622634798/React/pokedex-next/1_pqmuuw.png)*start*
+
+Now, we will remove most of the code from **index.js** file, which is the starting point of our app. So, our **index.js** looks like below.
+
+
+```js
+    import Head from 'next/head'
+
+    export default function Home() {
+        return (
+            <div>
+            <Head>
+                <title>Create Next App</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <main>
+                <h1>
+                Welcome to <a href="https://nextjs.org">Next.js!</a>
+                </h1>
+            </main>
+            </div>
+        )
+    }
+```
+
+Next, we will install the dependencies for Tailwind CSS. So, open the terminal and install the below dependencies.
+
+
+```js
+    npm install --save-dev tailwindcss postcss-preset-env postcss
+```
+
+The next command to run to initialize tailwind is below.
+
+
+```js
+    npx tailwindcss init
+```
+
+It will create a **tailwind.config.js** file in our root directory.
+
+![tailwind.config.js](https://res.cloudinary.com/thewebdev/image/upload/v1622634796/React/pokedex-next/2_ti7qcs.png)*tailwind.config.js*
+
+After that create a **postcss.config.js** file in the root directory and add the below code.
+
+
+```js
+    module.exports = {
+        plugins: ['tailwindcss', 'postcss-preset-env'],
+    }
+```
+
+Lastly, we need to go to **globals.css** file in the **styles **folder and remove everything and add the below for tailwind.
+
+
+```css
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+```
+
+After that we will use it by creating a **components** folder in the root directory and a file **Layout.js** inside it.
+
+
+```js
+    import Head from 'next/head'
+
+    const Layout = ({ title, children }) => {
+        return (
+            <div className="bg-gray-300">
+                <Head>
+                    <title>{title}</title>
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+
+    <main className="container mx-auto max-w-xl pt-8 min-h-screen">
+                    {children}
+                </main>
+            </div>
+        )
+    }
+
+    export default Layout
+```
+
+Next, we will go back to our **index.js** file and use the classes from tailwind css and also wrap everything with our Layout component. Our **index.js** will contain the below content.
+
+
+```js
+    import Layout from '../components/Layout'
+
+    export default function Home() {
+        return (
+            <Layout title="NextJS PokeDex">
+                <h1 className="text-4xl mb-8 text-center">NextJS Pokedex</h1>
+            </Layout>
+        )
+    }
+```
+
+Our app at localhost, will now look as below.
+
+![localhost](https://res.cloudinary.com/thewebdev/image/upload/v1622634797/React/pokedex-next/3_apucih.png)*localhost*
+
+Next, we will use **getStaticProps** in our **index.js** to get the data of all 150 pokemon. This is a very good use case of **getStaticProps**, because want to get all the data from the server at the time of render.
+
+Also, the pokemon api doesn’t return any image and this we need to get from another API. Now this api returns png image with format like 001.png, 010.png and that is the reason, we are adding 00 to the index.
+
+After adding the image to the pokemon array, we are passing it as props to the Home function.
+
+![index.js](https://res.cloudinary.com/thewebdev/image/upload/v1622634796/React/pokedex-next/4_ayiame.png)*index.js*
+
+Now, we can see in the console that we are getting all 150 data properly.
+
+![localhost](https://res.cloudinary.com/thewebdev/image/upload/v1622634796/React/pokedex-next/5_qdny5s.png)*localhost*
+
+Next, we will show the data in our Home function my mapping through it and taking help of different tailwind css classes. Also, notice that we are wrapping everything with an NextJS Link tag, which includes an anchor tag also. Also, in the href we are passing the page to /pokemon/2 type url.
+
+![index.js](https://res.cloudinary.com/thewebdev/image/upload/v1622634797/React/pokedex-next/6_gsqeia.png)*index.js*
+
+Now, our localhost will show all the beautiful pokemons.
+
+![localhost](https://res.cloudinary.com/thewebdev/image/upload/v1622634796/React/pokedex-next/7_bwdbfg.png)*localhost*
+
+Now, we want to show details of individual pokemons, once we click on any pokemon. Create a folder **pokemon** inside **pages** folder. Inside it create a file **[id].js**.
+
+Now, in **[id].js** file we will hit this api using **getServerSideProps**, with a similar method which we have seen in **index.js** file. We are passing the id, which we are getting from the page click in it. We are also again using the logic to get the image. This is again a good use of **getServerSideProps**, because the user can click on any pokemon of his choice and we only want to get the data of that pokemon.
+
+After that we are de-structuring it and showing it inside the component.
+
+
+```js
+    import Layout from '../../components/Layout';
+    import Link from 'next/link';
+
+    const Pokemon = ({ pokemon }) => {
+        return (
+            <Layout title={pokemon.name}>
+                <h1 className="text-4xl mb-2 text-center capitalize">
+                    {pokemon.id}. {pokemon.name}
+                </h1>
+                <div className="flex flex-col items-center bg-purple-50 rounded-md p-8">
+                    <img className="mx-auto" src={pokemon.image} alt={pokemon.name} />
+                    <p>
+                        <span className="font-bold mr-2">Weight:</span> {pokemon.weight}
+                    </p>
+                    <p>
+                        <span className="font-bold mr-2">Height:</span>
+                        {pokemon.height}
+                    </p>
+                    <h2 className="text-2xl mt-6 mb-2">Types</h2>
+                    {pokemon.types.map((type, index) => (
+                        <p key={index}>{type.type.name}</p>
+                    ))}
+                </div>
+                <p className="mt-10 text-center">
+                    <Link href="/">
+                        <a>
+                            <button className="focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-blue-500 hover:bg-blue-600 hover:shadow-lg">Home</button>
+                        </a>
+                    </Link>
+                </p>
+            </Layout>
+        )
+    }
+
+    export const getServerSideProps = async (context) => {
+        const { id } = context.query;
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        const pokemon = await res.json();
+        const paddedId = ('00' + id).slice(-3);
+        pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
+        return {
+            props: { pokemon },
+        };
+    }
+
+    export default Pokemon
+```
+
+Now, our app is complete and on clicking of any pokemon, it is taking us to the detail page showing information about that pokemon.
+
+![localhost](https://res.cloudinary.com/thewebdev/image/upload/v1622634797/React/pokedex-next/8_c6hnmt.gif)*localhost*
+
+You can find github for the same [here](https://github.com/nabendu82/pokedex-nextjs).
+

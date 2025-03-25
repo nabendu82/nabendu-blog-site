@@ -1,0 +1,93 @@
+---
+title: Portfolio site with GitHub pages
+description: Flexbox
+date: 2019-11-21
+tags: ['html', 'css', 'javascript']
+published: true
+---
+
+I have my personal [portfolio site](https://nabendu82.github.io/) hosted on Github pages for sometime now. But i didn't updated it for more then 1.5 years now. I need to put some additional side projects which i had worked in the past 2–3 years and also have to update my current job.
+
+My personal portfolio site is on [https://nabendu82.github.io/](https://nabendu82.github.io/) which was provided by GitHub. I am also planning to add a custom domain, which i had recently purchased.
+
+Hosting a static site is very easy through GitHub pages and you can find the instructions in this awesome video which i found on youtube.
+
+```js
+<iframe className={styles.resp__iframe} src="https://www.youtube.com/embed/8hrJ4oN1u_8" gesture="media"  allow="encrypted-media" allowfullscreen></iframe>
+```
+
+Now, i already have my portfolio site on github [here](https://github.com/nabendu82/nabendu82.github.io). I will clone the same in local to start updating the site.
+
+![Cloning](https://ik.imagekit.io/thewebdev/PortfolioSite/1_w-s_VORMi.png)*Cloning*
+
+I will then open the code in my code editor i.e. VS Code. I have a nice plugin there called **Live Server**, which allows you to change anything in your html files and show it instantaneously. Without this plugin you have to open your html file in a browser and refresh it, every-time you make a change in the code.
+
+So, i am right-clicking inside my **index.html** and clicking on **Open with Live Server** option.
+
+![](https://ik.imagekit.io/thewebdev/PortfolioSite/2_SmnNZDd9Z.png)
+
+This will open my local site on [http://127.0.0.1:5500/index.html](http://127.0.0.1:5500/index.html)
+
+![Local site](https://ik.imagekit.io/thewebdev/PortfolioSite/3_TPTMyCbtfx.png)*Local site*
+
+I added details about my new job and also changed the side project. I commited and pushed to my github. It changed by site instantaneously.
+
+![Updated Site](https://ik.imagekit.io/thewebdev/PortfolioSite/4_gSp4i2-KpF.png)*Updated Site*
+
+Now, it's time to add custom domain. For this i found another great YouTube video.
+
+```js
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/mPGi1IHQxFM" frameborder="0" allowfullscreen></iframe></center>
+```
+
+I have purchased my domain from namecheap. So, i will head to it's dashboard and click on **Manage**.
+
+![Manage](https://ik.imagekit.io/thewebdev/PortfolioSite/5_5JjFlrpyv.png)*Manage*
+
+Then we will go to the Advanced DNS tab. These will be the default values.
+
+![Defaults](https://ik.imagekit.io/thewebdev/PortfolioSite/6_leBaW-BVQ1.png)*Defaults*
+
+Now, edit the CNAME Record and give the github website. For me it is **nabendu82.github.io**
+
+After that click on the small green check.
+
+![Github CNAME](https://ik.imagekit.io/thewebdev/PortfolioSite/7_zutsS2X1O.png)*Github CNAME*
+
+Next, we need to add four **A Record** for github custom domains. Below are the IPs.
+
+
+```js
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+![A Record](https://ik.imagekit.io/thewebdev/PortfolioSite/8_-tCtr3cS6R.png)*A Record*
+
+Next, go tho your github project settings and add the custom domain.
+
+![Custom domain](https://ik.imagekit.io/thewebdev/PortfolioSite/9_M39EWiNGc.png)*Custom domain*
+
+Now, if you go back to the code you will find a **CNAME** file been added by github. For me it is [https://github.com/nabendu82/nabendu82.github.io](https://github.com/nabendu82/nabendu82.github.io)
+
+![CNAME](https://ik.imagekit.io/thewebdev/PortfolioSite/10_iap0H3EaEJ.png)*CNAME*
+
+If it is not created, you have to create one manually. And then add your custom domain name in it. For me it was done automatically.
+
+![Custom domain](https://ik.imagekit.io/thewebdev/PortfolioSite/11_MuNK8O_tCr.png)*Custom domain*
+
+Now, it time to check my domain [nabendu.me](http://nabendu.me/) . When i visit it gives me a big Not Secure warning in the browser.
+
+![Not Secure](https://ik.imagekit.io/thewebdev/PortfolioSite/12_iNZUn9uZ9.png)*Not Secure*
+
+We got the above warning as the site is not yet https. So, i need to go to my Settings again and tick the checkbox to make it secure.
+
+![Secure HTTPS](https://ik.imagekit.io/thewebdev/PortfolioSite/13_7H7glMJ8oJ.png)*Secure HTTPS*
+
+Now when i visit [https://nabendu.me/](https://nabendu.me/) i will be taken to the Secure site with no warnings.
+
+![No error](https://ik.imagekit.io/thewebdev/PortfolioSite/14_Sc9w7Kcem.png)*No error*
+
+Hope you liked my [Portfolio Site](https://nabendu.me/). So, do visit it and use this article to host your awesome portfolio sites.

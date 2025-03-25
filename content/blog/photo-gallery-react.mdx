@@ -1,0 +1,215 @@
+---
+title: Photo gallery using React and Firebase
+description: Flexbox
+date: 2021-05-23
+tags: ['javascript', 'react', 'webdev']
+published: true
+---
+
+We are going to create photo gallery using React and firebase in this post.
+
+So use create-react-app command in your folder to create a new app called firegram-starter-files.
+
+
+```js
+npx create-react-app firegram-stater-files
+```
+
+
+It will take some time that depends on our internet speed
+
+![HTML File](https://res.cloudinary.com/thewebdev/image/upload/v1622713779/React/photo-gallery/2_vrejx4.png)*HTML File*
+
+Next we have to go inside project folder using
+
+
+```js
+cd firegram-stater-file
+```
+
+
+Next we will run our app using 
+
+
+```js
+npm start
+```
+
+
+![HTML File](https://res.cloudinary.com/thewebdev/image/upload/v1622713790/React/photo-gallery/3_opzvb3.png)*HTML File*
+
+When we use **npm start** it will start our app automatically in our system browser.
+
+![HTML File](https://res.cloudinary.com/thewebdev/image/upload/v1622713829/React/photo-gallery/5_lesdyg.png)*HTML File*
+
+Now we will do firebase setup for backend service. Go to **firebase.com** click on first link and click on **get started**
+
+![HTML File](https://res.cloudinary.com/thewebdev/image/upload/v1622788683/React/photo-gallery/6_qecxkd.png)*HTML File*
+
+After that click on get started and enter your **project name** and click on **Continue**
+
+![HTML File](https://res.cloudinary.com/thewebdev/image/upload/v1622714559/React/photo-gallery/7_ha2tet.png)*HTML File*
+
+Next click on **radio button** and click on **create Project**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714549/React/photo-gallery/8_buykff.png)*HTML File*
+
+Next click on **continue**.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714552/React/photo-gallery/9_zdhbhb.png)*HTML File*
+
+We will get the project dashboard screen.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622713845/React/photo-gallery/10_fdgkav.png)*HTML File*
+
+Next click on **web app icon** for creating frontend web app for storage
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714566/React/photo-gallery/11_e9tjpo.png)*HTML File*
+
+Next enter **project name** and click on **checkbox** and click on **register app**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714111/React/photo-gallery/13_yr8uhd.png)*HTML File*
+
+Again click on **next**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714106/React/photo-gallery/14_aal1lb.png)*HTML File*
+
+Install firebase-tools globally using the given command. Then click on **next**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714105/React/photo-gallery/15_hd8rvr.png)*HTML File*
+
+Again click on **continue to console**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714112/React/photo-gallery/16_ulnnnj.png)*HTML File*
+
+Browser will redirect to **project dashboard screen**. Click on **setting icon**  and again **click on project setting**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622714123/React/photo-gallery/17_raonax.png)*HTML File*
+
+We will reach to **project setting page**.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788688/React/photo-gallery/18_k7wabk.png)*HTML File*
+
+Scroll down page click on **config radio button** copy below code.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622713781/React/photo-gallery/19_aemsp5.png)*HTML File*
+
+Next open your **project** in VS code and **delete below files** from project
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622713759/React/photo-gallery/20_lwggw9.png)*HTML File*
+
+Next create one file inside **src folder** with name **firebase.js**.Paste the code, which we have copied from firestore project.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622713830/React/photo-gallery/21_hixjuk.png)*HTML File*
+
+Next we Install firebase in our project using Command.
+
+
+```js
+npm install firebase
+```
+
+
+Open the Integrated terminal with **ctrl+j**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622713756/React/photo-gallery/22_fzblq3.png)*HTML File*
+
+Next go to browser firebase project **dashboard screen**. Click on firebase **database**.Next click on **start in test mode radio button** and click on **next button**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622713818/React/photo-gallery/23_ria6xq.png)*HTML File*
+
+Next click on **enable button**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788909/React/photo-gallery/25_lhwfrd.png)*HTML File*
+
+Now our database is ready to store data
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788896/React/photo-gallery/26_iakxpn.png)*HTML File*
+
+Next click on **Storage icon** and click on **get started**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788897/React/photo-gallery/27_sftxpu.png)*HTML File*
+
+Next click on **rules and delete statement after write**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788898/React/photo-gallery/28_nx8am3.png)*HTML File*
+
+Next create one folder inside src called **Component**. Inside the folder create one file **UploadForm.js**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788898/React/photo-gallery/29_igorhe.png)*HTML File*
+
+Next we will write code to **Upload image** and we using **onChange** event. We will validating that the image is  png or jpeg and displaying that image name below **input button**.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622793547/React/photo-gallery/29_2_prxt7g.png)*HTML File*
+
+Next we will add the styles for Upload form in **index.css*
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788900/React/photo-gallery/30_uiixmv.png)*HTML File*
+
+Our Upload Form will look like below.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788900/React/photo-gallery/31_j2roh7.png)*HTML File*
+
+Next we will create one folder inside **src** folder called **Hooks**.Inside Hooks folder we will create **useStorage.js** file for storing image in database.We will use **customHooks** inside that file
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788909/React/photo-gallery/32_zkhmf0.png)*HTML File*
+
+Next we have to create a file inside **component** folder with name **ProgressBar.js**. This file will display progress Bar on our project screen. We are using **animation framer motion** package that will create our page attractive. We can install in our project using
+
+
+```js
+npm install framer-motion
+```
+
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788905/React/photo-gallery/33_ps9dvc.png)*HTML File*
+
+Next we will design the progress bar in **index.css** file.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622794942/React/photo-gallery/31_2_jimubr.png)*HTML File*
+
+Go to the browser and **click on plus icon** and choose any picture and it will be uploaded.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788906/React/photo-gallery/34_yfqk0u.png)*HTML File*
+
+Our data is saved in **firebase storage**. We can check the same.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788909/React/photo-gallery/35_l16e06.png)*HTML File*
+
+The **image url** and **date** are also saved in firebase **database**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788889/React/photo-gallery/37_e7iw7p.png)*HTML File*
+
+Next we want to create connection between our fire storage and app. For that we have to make one file Inside **component** folder and that will be **imageGrid.js**. 
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788889/React/photo-gallery/38_aksjee.png)*HTML File*
+
+Again we will create **reusable component** for collecting collection from firestore.Create **useFireStore.js** inside Hooks folder. The useFireStore will collect the data from fireStrore
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788891/React/photo-gallery/39_awdqpk.png)*HTML File*
+
+Next we will fetch data from **firebase storage** in **ImageGrid.js**
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788891/React/photo-gallery/40_tyyhbb.png)*HTML File*
+
+Next import **ImageGrid.js** in App.js. We are using **useState** and **passing props** in imageGrid. We successfully fetched our data from database.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788892/React/photo-gallery/41_ccskzo.png)*HTML File*
+
+Next we want to click on the image and it will display like popup.First we have to create one file inside component folder called **Modal.js** .
+
+We will import the **Modal.js in App.js** file. And will be sending **Props in Modal.js**.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788898/React/photo-gallery/44_u3rxqw.png)*HTML File*
+
+Next we will add code for showing Image in browser.
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788900/React/photo-gallery/45_l41kau.png)*HTML File*
+
+Next, we will add the styles in **index.css** file
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788895/React/photo-gallery/46_tbilhf.png)*HTML File*
+
+We have completed image gallery successfully. You can find the code for the same [here](https://github.com/jitu001995/photo-gallery-react)
+
+![HTML FILE](https://res.cloudinary.com/thewebdev/image/upload/v1622788896/React/photo-gallery/47_uzxrjb.png)*HTML File*

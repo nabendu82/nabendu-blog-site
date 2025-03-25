@@ -1,0 +1,331 @@
+---
+title: Flutter News App using NewsAPI
+description: Flutter
+date: 2021-04-20
+tags: ['flutter', 'beginners', 'dart']
+published: true
+---
+
+In this post we are going to make a news app and will use the newsapi for the same.
+
+So, open up a terminal and create a new flutter app using the below command.
+
+
+```js
+    flutter create news_api_app
+```
+
+After that cd into the folder and open the code in VSCode. I have also connected my physical device to my computer via USB.
+
+On running the app from Run ->Start without debugging , i will get the basic app running on my phone.
+
+The basic app will be shown on my phone. Now, we will update our main.dart file and remove most of the earlier code and create a simple **HomePage** class, with a title and background color now.
+
+
+```js
+    void main() {
+    runApp(MyApp());
+    }
+
+    class MyApp extends StatelessWidget {
+    @override
+    Widget build(BuildContext context) {
+        return MaterialApp(
+        home: HomePage(),
+        );
+    }
+    }
+
+    class HomePage extends StatefulWidget {
+    @override
+    _HomePageState createState() => _HomePageState();
+    }
+
+    class _HomePageState extends State<HomePage> {
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+        appBar: AppBar(
+            title: Text("News App", style: TextStyle(color: Colors.black)),
+            backgroundColor: Colors.white
+        ),
+        );
+    }
+    }
+```
+
+Now, our basic app will look like below.
+
+![News](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533155/Flutter/news-app/1_kf6wpe.png)*News*
+
+Now, we will create **components, model, pages** and **services** folder inside the **lib** folder.
+
+After that create a **source_model.dart** file inside the **model** folder. Let’s start by making the source model class so, it will be easier to parse the Json.
+
+Inside the class Source we are creating two variables id and name. Then we have the constructor and also a factory function to map the json.
+
+![source_model.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533156/Flutter/news-app/2_xsfw3a.png)*source_model.dart*
+
+The id and the name in above model corresponds to the data, which we got from newsapi.org endpoint.
+
+We will be hitting this [endpoint](https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=your_own_api) to get the data. Here, you need to use your own api, by registering first.
+
+![newsapi.org](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533156/Flutter/news-app/3_ymcbq7.png)*newsapi.org*
+
+
+Now, create a file **article_model.dart** inside the **model** folder. Here, we just need to copy the property from the json structure above and make a dart object.
+
+
+```js
+    class Article {
+    Source source;
+    String author;
+    String title;
+    String description;
+    String url;
+    String urlToImage;
+    String publishedAt;
+    String content;
+    
+    Article(
+        {this.source,
+        this.author,
+        this.title,
+        this.description,
+        this.url,
+        this.urlToImage,
+        this.publishedAt,
+        this.content});
+        
+        factory Article.fromJson(Map<String, dynamic> json) {
+        return Article(
+        source: Source.fromJson(json['source']),
+        author: json['author'] as String,
+        title: json['title'] as String,
+        description: json['description'] as String,
+        url: json['url'] as String,
+        urlToImage: json['urlToImage'] as String,
+        publishedAt: json['publishedAt'] as String,
+        content: json['content'] as String,
+        );
+    }
+}
+```
+
+Now let’s make the HTTP request services. For that first we need to add http package to our **pubspec.yaml** file. The details for the same are [here](https://pub.dev/packages/http/install).
+
+![pubspec.yaml](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533156/Flutter/news-app/4_mx9nep.png)*pubspec.yaml*
+
+Now, create a file **api_service.dart** inside the **services** folder. This class will allows us to make a simple get http request, to the API and get the Articles and then return a list of Articles.
+
+Now, we will use the same [endpoint](https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=your_own_api), which we have discussed earlier. But we have to break it into newsapi.org then /v2/top-headlines and the queryParameters, before passing into a variable uri.
+
+After we are getting the response from the api, we are using **jsonDecode** to get the response.body.
+
+
+```js
+    class ApiService {
+    final endPointUrl = "newsapi.org";
+    final client = http.Client();
+    
+    Future<List<Article>> getArticle() async {
+        
+        final queryParameters = {
+        'country': 'us',
+        'category': 'technology',
+        'apiKey': 'XXXXXXXXXXXXXXXXXXXXXXXX'
+        };
+        
+        final uri = Uri.https(endPointUrl, '/v2/top-headlines', queryParameters);
+        final response = await client.get(uri);
+        Map<String, dynamic> json = jsonDecode(response.body);
+        List<dynamic> body = json['articles'];
+        List<Article> articles = body.map((dynamic item) => Article.fromJson(item)).toList();
+        return articles;
+    }
+}
+```
+
+Now, back in **main.dart**, we will call the API services with **FutureBuilder** widget. We also need to import our **article_model.dart** and **api_service.dart** at the top.
+
+
+```js
+    import 'package:news_api_app/model/article_model.dart';
+    import 'package:news_api_app/services/api_service.dart';
+```
+
+
+Here, we are using our **ApiService** and getting a client at Line 24. Now, inside the **FutureBuilder**, we are calling the **getArticle()** method from **api_service.dart** and getting all the articles. Then we are checking if we have data by **snapshot.hasData** or else showing a **CircularProgressIndicator()**. We are just using the **ListView.builder** to show the article and we are showing the title only now, through a **ListTile**.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533156/Flutter/news-app/5_jfqfgg.png)*main.dart*
+
+Now, in our App we are getting all the Article title.
+
+![App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533156/Flutter/news-app/6_m2merv.png)*App*
+
+
+Now, we will create our custom list tile. For this create a **customListTile.dart** inside the **components** folder. Here, we are mainly doing a bit of styling and then in Column, showing **urlToImage**, **source.name** and **title**.
+
+
+```js
+    Widget customListTile(Article article) {
+    return Container(
+            margin: EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.0),
+                boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 3.0,
+                ),
+                ]),
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                Container(
+                height: 200.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(article.urlToImage), fit: BoxFit.cover),
+                    borderRadius: BorderRadius.circular(12.0),
+                ),
+                ),
+                SizedBox(height: 8.0),
+                Container(
+                padding: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Text(
+                    article.source.name,
+                    style: TextStyle(
+                    color: Colors.white,
+                    ),
+                ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                article.title,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                ),
+                )
+            ],
+            ),
+        );
+}
+```
+
+Now, back in **main.dart** we will use it instead of **ListTile**. Also, make sure it’s imported at the top.
+
+
+```js
+    import 'package:news_api_app/components/customListTile.dart';
+```
+
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533157/Flutter/news-app/7_xv8qxr.png)*main.dart*
+
+
+Now, we will see these beautiful news in our app.
+
+
+![Beautiful App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533157/Flutter/news-app/8_imck1p.png)*Beautiful App*
+
+Before moving forward, i was getting some errors because sometimes we were getting null in urlToImage field from the API endpoint. So, we need to use a ternary operator and show a coding image from unsplash, if no image provided by API.
+
+
+![customListTile.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533157/Flutter/news-app/9_fkqdiv.png)*customListTile.dart*
+
+
+Now let’s create the article details page. So, create a file **articles_details_page.dart** inside the **pages** folder. This is quite similar to the **customListTile.dart** file. Here, we will receive a single article and will show the image, source name and the description.
+
+
+```js
+    class ArticlePage extends StatelessWidget {
+    final Article article;ArticlePage({this.article});
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+        appBar: AppBar(
+            title: Text(article.title),
+        ),
+        body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                article.urlToImage != null ?
+                    Container(
+                    height: 200.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(article.urlToImage), fit: BoxFit.cover),
+                        borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    ) :
+                    Container(
+                    height: 200.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage('https://source.unsplash.com/weekly?coding'), fit: BoxFit.cover),
+                        borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    ),
+                    SizedBox(
+                    height: 8.0,
+                    ),
+                    Container(
+                    padding: EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Text(
+                        article.source.name,
+                        style: TextStyle(
+                        color: Colors.white,
+                        ),
+                    ),
+                    ),
+                    SizedBox(
+                    height: 8.0,
+                    ),
+                    Text(
+                    article.description,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                    ),
+                    )
+            ],
+            ),
+        ),
+        );
+    }
+}
+```
+
+Now, we will be calling this **ArticlePage** from **customListTile.dart** file. Here, we are wrapping everything with an **InkWell**. In it we have an onTap function, which will open the ArticlePage and will pass the specific article.
+
+![customListTile.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533157/Flutter/news-app/10_puhnlm.png)*customListTile.dart*
+
+Now, in **main.dart** file we need to pass the context to **customListTile**.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533157/Flutter/news-app/11_xxx5hv.png)*main.dart*
+
+Now, our app is complete and working fine.
+
+![Complete App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1619533159/Flutter/news-app/12_edffhr.gif)*Complete App*
+
+The code for the same can be found in [this](https://github.com/nabendu82/login_api_app) github repo.
+

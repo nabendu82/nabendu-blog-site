@@ -1,0 +1,53 @@
+---
+title: Create a PokeDex with Vanilla JS
+description: JavaScript
+date: 2020-10-09
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+In this project we are going to create a PokeDex with Vanilla JavaScript.
+
+We will first create a **PokeDex** folder and three files **index.html**, **styles.css** and **main.js** inside it.
+
+![PokeDex](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/1_33IsUW8OUJ.png)*PokeDex*
+
+After that we are going to open the code in VS Code and add the basic html in **index.html**, with only a header. We are also starting the project with the VS Code extension **Live Server**.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/2_WQOOku87fz.png)*index.html*
+
+After that let’s add the basic style in **styles.css** file.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/3_v-v1SkERTz.png)*styles.css*
+
+Now, head back to the **index.html** and add a div for the pokemon and also include the **main.js** file.
+
+![index.html](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/4_t4_qj-XK7.png)*index.html*
+
+In **main.js** we are first selecting the poke_container and creating a function **getPokemon()**, which uses fetch to call the pokemon api.
+
+For testing purpose we are passing 1 to it and console logging the data. We are getting the data for the pokemon correctly in console.
+
+![Pokemon data](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/5_28e4WaWxCV.png)*Pokemon data*
+
+Now, we are creating a function **fetchPokemon()**, where we are looping through a for loop. We are calling the function **getPokemon()** from inside it with the id from 1 to 150.
+
+![getPokemon()](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/6_4hoVp_bcvK.png)*getPokemon()*
+
+Now, we will create a new function **createPokemonCard()**. Inside it we are creating a new div with class **pokemon**. We are just showing the name now and it is showing perfectly.
+
+![createPokemonCard](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/7_H4e5lKXOhE.png)*createPokemonCard*
+
+We are now completing the **pokeInnerHTML** and showing the image, id , name and type. We had also added the required html.
+
+![PokeDex](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/8_gpeFC4eDrE.png)*PokeDex*
+
+Now, we only need to style our pokemons. So, head over to **styles.css** and make the **poke-container** a flexbox. We are also adding styles for **pokemon** class.
+
+![styles.css](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/9_q1FT2lYo7G.png)*styles.css*
+
+After this we are completing the css by adding styles for img-container, info, number and name.
+
+![Pokemon](https://ik.imagekit.io/thewebdev/JS-Projects/Pokedex/10_QKFs2GswTE.png)*Pokemon*
+
+Our little project is complete. You can find the code for the same [here](https://github.com/nabendu82/PokeDex).
