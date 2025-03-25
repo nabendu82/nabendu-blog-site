@@ -1,0 +1,95 @@
+---
+title: React Redux tutorials for beginners- 1
+description: Redux
+date: 2021-01-05
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+
+Welcome to a brand new series, where are going to learn about Redux and how to use it in React applications.
+
+### Prerequiste
+
+* You should know the fundamentals of React, before to start with Redux.
+
+* Do, React Tutorial for Beginners on my YouTube channel or blog series on my [site](https://thewebdev.tech/series/React-Basics).
+
+### Redux
+
+Redux is a predictable state container for JavaScript apps. — Official site. Three things to notice here -
+
+1. It is for JavaScript apps.
+
+1. It is a state container
+
+1. It is predictable
+
+We will learn about these three points in details.
+
+### Redux is for JavaScript applications
+
+* Redux is not tied to React
+
+* Can be used with React, Angular, Vue or even Vanilla JavaScript.
+
+* Redux is a library for JavaScript applications.
+
+### Redux is a state container
+
+* Redux stores the state of your application
+
+* In a React app, we have state of individual components
+
+* State of an app is the state represented by all the individual components of that app.
+
+* Redux will store and manage the application state.
+
+With a React-redux app, we will still continue to have local state in every component. But the states which are needed by many components, we will move them to Redux. You don't have any restrictions in Redux, like parent to child passing of props. There is a global state and anyone can use it.
+
+Suppose we have an app, which contains states variables like below. Now we will move them to Redux.
+
+
+```js
+    state ={
+      isLoggedIn: true,
+      userName: 'Nabendu',
+      profileUrl: '/home',
+      onlineUsers: []
+    }
+```
+
+
+### Redux is predictable
+
+* In redux, all state transitions are explicit and it is possible to keep track of them.
+
+* The changes to your application's state become predictable.
+
+Redux have a very good and somewhat complex mechanism to keep track of state and also to update them. There is a pattern and a lot of boiler code. But once we learn it, we can master it easily.
+
+### React-redux
+
+React-Redux is the official Redux UI binding library for React. We will learn more about it later on.
+
+![React-redux](https://ik.imagekit.io/thewebdev/React-redux/1/1_tEsuMf7_n.png)*React-redux*
+
+### Coding Example
+
+We can use Redux without React and will do so in the first part of the series. Create a folder **Redux-Demo** and open it with any terminal. Run the command npm init — -yes in it. It will create an empty **package.json** with default settings for us.
+
+![package.json](https://ik.imagekit.io/thewebdev/React-redux/1/2_RYgx33M7wy.png)*package.json*
+
+Now, we will install redux in our project by running the command npm install redux in terminal.
+
+![npm install redux](https://ik.imagekit.io/thewebdev/React-redux/1/3_H4Uy5H43Kn.png)*npm install redux*
+
+Now, open the folder in VS Code and create a file index.js inside it. Put a simple console log inside it.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/1/4_IXN-X0o0x.png)*index.js*
+
+Now, to check whether our simple node project is working fine, we will run node index in the terminal.
+
+![node index](https://ik.imagekit.io/thewebdev/React-redux/1/5_H2FtKQsCEk.png)*node index*
+
+We will continue with this in the next part. 

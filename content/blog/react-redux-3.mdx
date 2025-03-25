@@ -1,0 +1,47 @@
+---
+title: React Redux tutorials for beginners- 3
+description: Redux
+date: 2021-01-07
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+Welcome to part-3 of the series. We will learn about the concept of multiple reducers first.
+
+### Multiple Reducers
+
+We will continue with our example project. Suppose our Egg shop now wants to sell Chicken also, we will have to go through the whole setup again to use it.
+
+Here, we are first adding the constant and after that our action creator **buyChicken()**. Next, our initial state also contains the **numOfChickens** variable. And then we will add it in the reducer.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/3/1_y2Sss_lIN.png)*index.js*
+
+Now, we just need to dispatch the new action creator **buyChicken()**. After that open the terminal and run node index to see the result. We can see both the initial state and the updated state given by our code.
+
+![action creator](https://ik.imagekit.io/thewebdev/React-redux/3/2_EeysfSJ7pe.png)*action creator*
+
+Now, this approach to use one reducer is fine for small project, but in large projects we generally follow a different approach of Combine reducers. We will see that next.
+
+### Combine reducers
+
+For the combine reducer approach, we split everything. First, we will split the **initialState** as **initialEggState** and **initialChickenState**.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/3/3_lp6M_Rb0z.png)*index.js*
+
+Next, we will also divide the reducer in two separate reducer — one for egg and the other for chicken.
+
+![Separate reducers](https://ik.imagekit.io/thewebdev/React-redux/3/4_zzb6KhL34w.png)*Separate reducers*
+
+Now, to combine the reducers, we use a method from redux called **combineReducers**. So, we will import it at the top.
+
+![combineReducers](https://ik.imagekit.io/thewebdev/React-redux/3/5_Ps56HOMpX.png)*combineReducers*
+
+Now, we will use the **combineReducers** to add an **egg** and **chicken** key in an object. The value will be the **eggReducer** and **chickenReducer**.
+
+Then we are using this **rootReducer**, to create our store. Now, when we move to our terminal and run node index, we will see our code in action. But one thing to notice is that the format is changed.
+
+![combineReducers](https://ik.imagekit.io/thewebdev/React-redux/3/6_5aEbH_quo8.png)*combineReducers*
+
+This completes part-3 of the series. 
+
+You can find code till here in [this](https://github.com/nabendu82/Redux-Demo) github repo.

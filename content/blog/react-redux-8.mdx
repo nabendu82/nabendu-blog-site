@@ -1,0 +1,70 @@
+---
+title: React Redux tutorials for beginners- 8
+description: Redux
+date: 2021-01-16
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+
+Welcome to part-8 of the series. We will learn to add a payload to action and also additional props in mapStateToProps and mapDispatchToProps.
+
+### Action Payload
+
+We will learn to add payload to action creator. In our react-redux application, we can buy only one egg. Now, we will add the logic to buy multiple eggs by specifying it in a input text.
+
+Create a new file **NewEggContainer.js** inside the **components** folder. The content is almost same as **EggContainer.js** file, but the changes are marked.
+
+![NewEggContainer.js](https://ik.imagekit.io/thewebdev/React-redux/8/1_kymIZsCyUG.png)*NewEggContainer.js*
+
+Now, it's time to change the action creator because we are now passing arguments to it.
+
+So, open the **eggActions.js** file and pass the number parameter. Here, we are also passing the default parameter of 1 because we are not changing the logic of other containers. Next, we are returning the payload as number.
+
+![eggActions.js](https://ik.imagekit.io/thewebdev/React-redux/8/2_PfW-ogrfs.png)*eggActions.js*
+
+Next, it's time to update our reducer. Here, instead of reducing by 1 we will reduce by action.payload.
+
+![eggReducer.js](https://ik.imagekit.io/thewebdev/React-redux/8/3_SsLMV7jfkk.png)*eggReducer.js*
+
+Now, include the **NewEggContainer** in **App.js** to test it out.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-redux/8/4_uFC2BEj6W.png)*App.js*
+
+Now, goto localhost to test it out and it is working fine and the other functionalities are also ok.
+
+![New Functionality](https://ik.imagekit.io/thewebdev/React-redux/8/5_wdhXnps9mj.gif)*New Functionality*
+
+### mapStateToProps ownProps
+
+We will look into an additional detail for mapStateToProps. We can have a second parameter to mapStateToProps beside the global state which is mapped to component props.
+
+To understand that we will create a new file **ItemContainer.js** inside the **components** folder. Here, in the mapStateToProps we are having a second argument **ownProps**. We are then checking if ownProps.egg is passed then the itemState is equal to state.egg.numOfEggs or else state.chicken.numOfChickens
+
+We are displaying the same in our component.
+
+![ItemContainer.js](https://ik.imagekit.io/thewebdev/React-redux/8/6_nmYfx-d5BU.png)*ItemContainer.js*
+
+Now, back in **App.js** we will call the **ItemContainer** twice and once with the props **egg**.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-redux/8/7_vRXS3y2cF.png)*App.js*
+
+Now, in the localhost we can see the two ItemContainers, corresponding to state of egg and chicken respectively.
+
+![Egg & Chicken](https://ik.imagekit.io/thewebdev/React-redux/8/8_igK73fwaIX.png)*Egg & Chicken*
+
+### mapDispatchToProps ownProps
+
+We will look into an additional detail for mapDispatchToProps. It is similar to what we look for mapStateToProps.
+
+Back in **ItemContainer.js** we add the logic for dispatch based on whether a props is passed. We also have a button to call the type of dispatch.
+
+![ItemContainer.js](https://ik.imagekit.io/thewebdev/React-redux/8/9_P4BKmPziwq.png)*ItemContainer.js*
+
+Now, in the localhost we can see the two buttons and click of it changes the state of egg or chicken.
+
+![Egg or Chicken](https://ik.imagekit.io/thewebdev/React-redux/8/10_JfDBaxs0R.png)*Egg or Chicken*
+
+This completes part-8 of the series. 
+
+You can find code till here in [this ](https://github.com/nabendu82/react-redux-demo)github repo.

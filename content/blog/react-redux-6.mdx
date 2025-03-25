@@ -1,0 +1,102 @@
+---
+title: React Redux tutorials for beginners- 6
+description: Redux
+date: 2021-01-14
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+
+Welcome to part-6 of the series. We will learn about using redux with react with the latest hooks in this part.
+
+### React-redux hooks
+
+This is a new pattern in react-redux, where instead of using the HOC, we can use the hooks provided by redux.
+
+We will first use the **useSelector** hooks, which is equivalent to **mapStateToProps**(). Create a new file **HooksEggContainer.js** in the **components** folder.
+
+Here, we have imported the **useSelector** hook from react-redux and using it to get the value stored in the reducer.
+
+![HooksEggContainer.js](https://ik.imagekit.io/thewebdev/React-redux/6/1_IIZt-Y1tu.png)*HooksEggContainer.js*
+
+Now, we will include it in the **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-redux/6/2_jirWG39A6z.png)*App.js*
+
+Now, if we go back to localhost, we can see it.
+
+![Hook Eggs](https://ik.imagekit.io/thewebdev/React-redux/6/3_EXemYk1Q_.png)*Hook Eggs*
+
+Now, we will add the **useDispatch** hook, which is used to dispatch an action and is quite similar to mapDispatchToProps().
+
+Here, we are first importing the useDispatch. After that we are calling it and storing in a variable dispatch. Next, from the button onClick we are calling it to call the action creator buyEgg().
+
+![HooksEggContainer.js](https://ik.imagekit.io/thewebdev/React-redux/6/4_eiZ9l4jRyn.png)*HooksEggContainer.js*
+
+Now, if we go back to localhost and click on the button it will decrease the egg count.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-redux/6/5_KH1Lfx2lRv.png)*localhost*
+
+### Multiple Reducers
+
+Next, we will look into the practical example of having multiple reducers. For this, we will follow the same steps which we did for Eggs.
+
+Inside the **redux** folder, create a new folder **chicken**. Create three files **chickenActions.js**, **chickenReducer.js** and **chickenTypes.js** inside it. All the code will be exactly similar to the Egg part.
+
+The content of **chickenTypes.js** is below.
+
+![chickenTypes.js](https://ik.imagekit.io/thewebdev/React-redux/6/6_PGx49IJzl.png)*chickenTypes.js*
+
+The content of **chickenActions.js** is below.
+
+![chickenActions.js](https://ik.imagekit.io/thewebdev/React-redux/6/7_dyCj0a8IK8.png)*chickenActions.js*
+
+We also need to make sure to export this action from our **index.js** file.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/6/8_aUGA_5tqcu.png)*index.js*
+
+Next, we will write the code for **chickenReducer.js** file, which is again similar to it's egg counterpart.
+
+![chickenReducer.js](https://ik.imagekit.io/thewebdev/React-redux/6/9_km2AIGDEp.png)*chickenReducer.js*
+
+Next, we will make the redux store aware of this reducer. And now the concept of combine reducer will come into picture. For this create a file **rootReducer.js** inside the redux folder. In it add the code to use both reducers, with the help of combineReducers.
+
+![rootReducer.js](https://ik.imagekit.io/thewebdev/React-redux/6/10_-UismjBae0.png)*rootReducer.js*
+
+After that back in **store.js** use the rootReducer.
+
+![store.js](https://ik.imagekit.io/thewebdev/React-redux/6/11_kTQJO6OxoM.png)*store.js*
+
+Now, to use all these create a new file HookChickenContainer.js inside the components folder. The content for it is exactly similar to it's egg hook counterpart.
+
+![HookChickenContainer.js](https://ik.imagekit.io/thewebdev/React-redux/6/12_-8cwFBTL_b.png)*HookChickenContainer.js*
+
+Now, also include it in the **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-redux/6/13_4_CB5qk1pJ.png)*App.js*
+
+But, if we go to localhost now it will seems sort of broken.
+
+![Broken](https://ik.imagekit.io/thewebdev/React-redux/6/14_CWMVp41BlN.png)*Broken*
+
+This, is because we have divided the state with the use of combineReducer. So, now we have to use it by the name which we have given in the rootReducer.js file.
+
+So, update state in **HookChickenContainer.js** file.
+
+![HookChickenContainer.js](https://ik.imagekit.io/thewebdev/React-redux/6/15_8A1h0qxfA.png)*HookChickenContainer.js*
+
+Similarly, update state in **HookEggContainer.js** file.
+
+![HookEggContainer.js](https://ik.imagekit.io/thewebdev/React-redux/6/16_r1woZU5IWz.png)*HookEggContainer.js*
+
+Also, update the state in the HOC based **EggContainer.js** file.
+
+![EggContainer.js](https://ik.imagekit.io/thewebdev/React-redux/6/17_A7HfP3b-Ip.png)*EggContainer.js*
+
+Now, if we move to localhost everything will work fine.
+
+![Everything fine](https://ik.imagekit.io/thewebdev/React-redux/6/18_5xRuVjG-V.png)*Everything fine*
+
+This completes part-6 of the series. 
+
+You can find code till here in [this ](https://github.com/nabendu82/react-redux-demo)github repo.

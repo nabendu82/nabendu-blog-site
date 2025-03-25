@@ -1,0 +1,92 @@
+---
+title: React Redux tutorials for beginners- 5
+description: Redux
+date: 2021-01-13
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+
+Welcome to part-5 of the series. We will learn about using redux with react in this part and hence the most practical part.
+
+### React-Redux
+
+We will first start with the setup for react-redux. So, open up your terminal and create a new react project by the below command.
+
+
+```js
+    npx create-react-app react-redux-demo
+```
+
+
+After the installation is done, then change to the directory and npm install the **redux** and **react-redux** dependencies.
+
+![npm install](https://ik.imagekit.io/thewebdev/React-redux/5/1_-lK5SSOeV.png)*npm install*
+
+We will first do the basic setup. So, create a folder **components** inside **src** and a file **EggContainer.js** inside it. For now, put the basic content in it.
+
+![EggContainer.js](https://ik.imagekit.io/thewebdev/React-redux/5/2_BmqqUys_2.png)*EggContainer.js*
+
+Now, remove the basic content from **App.js** and put the below content in it.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-redux/5/3_OcicMdcvtn.png)*App.js*
+
+Now, in terminal run **npm start** and when we move to localhost, we can see the below.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-redux/5/4_k4FuyDTqmz.png)*localhost*
+
+Now, our React redux app is also quite similar to the redux app, which we had created before. It contains the same cycle.
+
+![React redux](https://ik.imagekit.io/thewebdev/React-redux/5/5_x2HxkqJ8ew.png)*React redux*
+
+### Action
+
+We will first create our Action creator. Create a new folder **redux** inside **src** folder. Inside the **redux** folder, create an **egg** folder and two files **eggActions.js** and **eggTypes.js**.
+
+Put the below content in **eggActions.js** file. Here, we are creating a simple action creator.
+
+![eggActions.js](https://ik.imagekit.io/thewebdev/React-redux/5/6_YC1sdfIcw4.png)*eggActions.js*
+
+Next, in the **eggTypes.js**, we will just put the constant.
+
+![eggTypes.js](https://ik.imagekit.io/thewebdev/React-redux/5/7_tKuSG4uaNV.png)*eggTypes.js*
+
+### Reducers
+
+We will next create the Reducers and it will also be similar to the redux thing, which we had learned. So, create a file **eggReducer.js** inside egg folder and the below content in it.
+
+Here, we are having an **initialState** and the usual switch case. Inside the switch case, we are returning a new state, by reducing one from the stare.
+
+![eggReducer.js](https://ik.imagekit.io/thewebdev/React-redux/5/8_KlyXAdOBNc.png)*eggReducer.js*
+
+### Redux Store
+
+Now, we will create the store and for that create a file **store.js** inside **redux** folder. Here, we are using the reducer to create the store.
+
+![store.js](https://ik.imagekit.io/thewebdev/React-redux/5/9_2jO6EHB-O.png)*store.js*
+
+Next, we will provide the redux store to our application. We can do this by using it in our **App.js**. Here, we import it and them wrap the whole jsx of App with the Provider as shown below.
+
+![App.js](https://ik.imagekit.io/thewebdev/React-redux/5/10_Kl_DNZYLVi.png)*App.js*
+
+### Final Piece
+
+Now the final part of the puzzle, is back in **EggContainer.js** file. But before doing so, we need to export our action creator, so create a file **index.js** inside the **redux** folder and put the simple export statement.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/5/11_sy0hRgzMzw.png)*index.js*
+
+Next, in **EggContainer.js** we do the following changes. Here, we have two new functions — **mapStateToProps** and **mapDispatchToProps**.
+
+The **mapDispatchToProps** is used to dispatch the action **buyEgg** to the Action creator and is triggered when we click on the button. It will then trigger the reducer, which will change the state and then the **mapStateToProps** will receive the updated state. It will trigger a re-render and will show the new Number of Eggs.
+
+We also need to use the HOC connect in react-redux projects.
+
+![EggContainer.js](https://ik.imagekit.io/thewebdev/React-redux/5/12_c_gDyDlkq.png)*EggContainer.js*
+
+Now, back to localhost, when we click the button the Number of eggs is decreased.
+
+![localhost](https://ik.imagekit.io/thewebdev/React-redux/5/13_99czhhoLfW.png)*localhost*
+
+This completes part-5 of the series. 
+
+You can find code till here in [this ](https://github.com/nabendu82/react-redux-demo)github repo.

@@ -1,0 +1,76 @@
+---
+title: React Redux tutorials for beginners- 9
+description: Redux
+date: 2021-01-17
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+
+Welcome to part-9 of the series. We will learn about Async-actions using a react-redux app in this part.
+
+### Async Actions
+
+The logic will be quite similar to the one we did in our redux app. Our application will fetch a list of users from an API end point and store it in the redux store.
+
+So, go ahead and create a new file **UserContainer.js** inside the **components** folder. Put the basic content in it as of now.
+
+![UserContainer.js](https://ik.imagekit.io/thewebdev/React-redux/9/1_J3O_TfjJz.png)*UserContainer.js*
+
+Now, create a new folder **user** inside the **redux** folder. Inside it create a file **userTypes.js** and put the below content in it.
+
+![userTypes.js](https://ik.imagekit.io/thewebdev/React-redux/9/2_GaC_PT1e1H.png)*userTypes.js*
+
+Now, create the file **userActions.js** inside the same **user** folder. It will contain our three actions of **fetchUsersRequest**, **fetchUsersSuccess** and **fetchUsersFailure**.
+
+![userActions.js](https://ik.imagekit.io/thewebdev/React-redux/9/3_zl4EEMlgXh.png)*userActions.js*
+
+Now, create the file **userReducer.js** inside the same **user** folder. It is almost similar to what we made in the redux application. Here, when the user request is send we are making the loading as true. Then we will receive the payload or error from the API endpoint and depending on it we will populate the users array or the error string.
+
+![userReducer.js](https://ik.imagekit.io/thewebdev/React-redux/9/4_y95yZ5KmCm.png)*userReducer.js*
+
+Now, it's time to include the action creators in the **index.js** file.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/9/5_Rt3jTKZTl.png)*index.js*
+
+Now, we need to include the userReducer in the combine reducer function. So, we will include it in the **rootReducer.js** file.
+
+![rootReducer.js](https://ik.imagekit.io/thewebdev/React-redux/9/6_a2nHnV1LCe.png)*rootReducer.js*
+
+### Redux Thunk Get Request
+
+To make the get request and use the redux thunk middleware, we need to first install two packages of **axios** and **redux-thunk**. So, open your terminal and npm install both of them.
+
+![npm install](https://ik.imagekit.io/thewebdev/React-redux/9/7_1xiXR1-1wN.png)*npm install*
+
+Now, we will apply the redux-thunk middleware to our store. We need to first import it and add it in the **applyMiddleware** function in the **store.js** file.
+
+![store.js](https://ik.imagekit.io/thewebdev/React-redux/9/8_j6rHnjnzQ.png)*store.js*
+
+Next, head back to **userActions.js** to create our **fetchUsers** function. Here, we are first importing axios. After that inside the **fetchUsers**(), wew are first dispatching the **fetchUsersRequest** and then the axios request to the jsonplaceholder endpoint. Depending on the success or failure, we are dispatching the **fetchUsersSuccess** and **fetchUsersFailure** functions.
+
+These will in-turn be received by the reducer function
+
+![userActions.js](https://ik.imagekit.io/thewebdev/React-redux/9/9_fGBa0eeZlk.png)*userActions.js*
+
+Next, we will update the **UserContainer.js** file. Here, we have the usual **mapStateToProps** and **mapDispatchToProps** from where we are receiving the user state and dispatching the fetchUsers().
+
+Inside the **UserContainer**, we are using **useEffect** to dispatch the fetchUsers once. Now, in the return statement we are using ternary operator to get to the **users**array and then displaying it.
+
+![UserContainer.js](https://ik.imagekit.io/thewebdev/React-redux/9/10_FzPQgB4W6V.png)*UserContainer.js*
+
+We also need to include **fetchUsers **in the **index.js** file.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/9/11_H46Q91vZg.png)*index.js*
+
+Now, in **App.js** show the component **UserContainer**
+
+![App.js](https://ik.imagekit.io/thewebdev/React-redux/9/12_Jcyg1BIQFG.png)*App.js*
+
+Now, back in localhost we can see the users.
+
+![Users](https://ik.imagekit.io/thewebdev/React-redux/9/13_uutBJ0Iv4R.png)*Users*
+
+This completes our react-redux series.
+
+You can find code till here in [this ](https://github.com/nabendu82/react-redux-demo)github repo.

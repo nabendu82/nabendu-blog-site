@@ -1,0 +1,70 @@
+---
+title: React Redux tutorials for beginners- 7
+description: Redux
+date: 2021-01-15
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+
+Welcome to part-7 of the series. We will learn to use logger middleware in a react-redux app and also to install and use redux devtool.
+
+### Logger Middleware
+
+We had earlier seen how to install and use logger middleware in our redux application, now we will see the same in react-redux application.
+
+The first step is to install the package, so open the terminal and install it in our react-redux application folder.
+
+![react-redux](https://ik.imagekit.io/thewebdev/React-redux/7/1_b0t9-hrco6.png)*react-redux*
+
+Now, to use it we need to open our **store.js** file and do the below changes.
+
+![store.js](https://ik.imagekit.io/thewebdev/React-redux/7/2_CHh1QUUKQ.png)*store.js*
+
+This logger middleware basically logs the log related to redux store. So, open up the application and the console.
+
+After that click on **Buy Egg** button and now we can see the logs from the redux state changes.
+
+![Redux state changes](https://ik.imagekit.io/thewebdev/React-redux/7/3_aapJlyy43.png)*Redux state changes*
+
+### Redux Devtools
+
+We will look into a great tool, which is very essential when you are building a react-redux application.
+
+This is basically a browser extension, which is available for both chrome and firefox.
+
+I am using firefox, so have installed the extension for firefox.
+
+![Redux devtools](https://ik.imagekit.io/thewebdev/React-redux/7/4_n0oqTUm_IY.png)*Redux devtools*
+
+The next step is to add the redux devtool extension to our react-redux application. The instruction are in this [link](https://github.com/zalmoxisus/redux-devtools-extension). As per the instructions, we have to do a npm install.
+
+![npm install](https://ik.imagekit.io/thewebdev/React-redux/7/5_89gWnlgMxn.png)*npm install*
+
+So, stop the npm start and do the npm install in the terminal.
+
+![npm install](https://ik.imagekit.io/thewebdev/React-redux/7/6_-P3wuvZw5.png)*npm install*
+
+The next step is to use it in the **store.js** file. We do the necessary import and pass the applyMiddleware to **composeWithDevTools**.
+
+![store.js](https://ik.imagekit.io/thewebdev/React-redux/7/7_qOJo6zXSDQ.png)*store.js*
+
+After this restart the project with npm start. Open the console and select the redux devtool.
+
+![Redux devtool](https://ik.imagekit.io/thewebdev/React-redux/7/8_gcP3ny72KQ.png)*Redux devtool*
+
+Now, the initial screen shows the global state containing egg and chicken.
+
+![Egg](https://ik.imagekit.io/thewebdev/React-redux/7/9_mwJZYziNDV.png)*Egg*
+
+Now, when we click any button an action will be dispatched and shown in the other panel and the global state will also be changed.
+
+![Global state](https://ik.imagekit.io/thewebdev/React-redux/7/10_AxyEHXIEh.png)*Global state*
+
+Now, we can also see the different action transition, by clicking on the play button near the bottom.
+
+![Different actions](https://ik.imagekit.io/thewebdev/React-redux/7/11_w8dfMrg5i.gif)*Different actions*
+
+This completes part-7 of the series. 
+
+You can find code till here in [this ](https://github.com/nabendu82/react-redux-demo)github repo.

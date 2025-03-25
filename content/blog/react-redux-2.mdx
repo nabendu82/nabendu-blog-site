@@ -1,0 +1,151 @@
+---
+title: React Redux tutorials for beginners- 2
+description: Redux
+date: 2021-01-06
+tags: ['react', 'beginners', 'redux']
+published: true
+---
+
+
+Welcome to part-2 of the series. Before moving forward with our code, we will look into the three concepts of React.
+
+### Redux Core Concepts
+
+There are three core concepts in Redux. They are -
+
+* A **store** that holds the state of your application.
+* An **action** that describes the changes in the state of the application.
+* A **reducer** which actually carries out the state transition depending on the action.
+
+### Redux Principles
+
+There are three principles in Redux, which we need to follow. They are -
+
+**Principle-1**
+The state of your whole application is stored in an object tree, within a single store. So, we will maintain our application state in a single object, which would be managed by the Redux store.
+
+Let's take an Egg Shop example. Let's assume shopkeeper is tracking the number of eggs in the shop. We will track it in a object, which we are going to see soon in code.
+
+
+```js
+    {
+      numOfEggs: 100
+    }
+```
+
+
+**Principle-2**
+The only way to change the state is to emit an action, which is an object describing what happened.
+
+To update the state of our app, we need to let Redux know about that with an action. We are not allowed to directly update the state object.
+
+Example Egg Shop -
+We let the shopkeeper know about our action — BUY_EGG.
+
+
+```js
+    {
+        type: BUY_EGG
+    }
+```
+
+
+**Principle-3**
+To specify how the state tree is transformed by actions, we write pure reducers. We will learn more about them later.
+
+Reducer will take (previousState, action) and will return a new State
+
+Example Egg Shop -
+Reducer is the shopkeeper.
+
+
+```js
+    const reducer = (state, action) => {
+      switch(action.type){
+          case BUY_EGG: return { 
+          numOfEggs: state.numOfEggs — 1
+        }
+      }
+    }
+```
+
+
+### Three Principles Overview
+
+Now, we will learn these three principles through a diagram. It is actually the Redux lifecycle. Here, JavaScript app dispatches an action, which in turn fires a reducer. The reducer changes the global state in the Redux store.
+
+Next, the JavaScript App also subscribes to this Redux store and get's the new state.
+
+![Redux](https://ik.imagekit.io/thewebdev/React-redux/2/1_lhM3zeivJ.png)*Redux*
+
+### Actions
+
+We will first look into actions. They are -
+
+* The only way our application can interact with the store.
+
+* Carry some information from your app to the redux store.
+
+* They are plain JavaScript objects.
+
+* Have a 'type' property that indicates the type of action being performed.
+
+* The 'type' property is typically defined as string constants.
+
+Now, moving back to the code, we will create our Action. Notice, that we declare a constant at line 1, which represent the empty string 'BUY_EGG'. It is a design pattern in Redux and followed by the community.
+
+![Action](https://ik.imagekit.io/thewebdev/React-redux/2/2_OPcpHm2B0J.png)*Action*
+
+We will use this action, through a **Action creator**. It is a function, which returns this action object. We are doing this because we do like this in Redux and will look into it in more details, later on.
+
+![index.js](https://ik.imagekit.io/thewebdev/React-redux/2/3_KXaRe788ae.png)*index.js*
+
+### Reducers
+
+We will now look into reducers. A brief about them-
+
+* Specify how the app's state changes in response to actions sent to the store.
+
+* They are function that accepts state and action as arguments, and returns the next state of the application.
+
+
+```js
+    (previousState, action) => newState
+```
+
+
+We will now implement them in our Egg shop application, in VS Code. Here, we are first declaring the initialState, which will contain the variable numOfEggs with a initial value.
+
+Then we are creating a function reducer, which takes two parameter-state and action. The state get's the **initialState** by default parameters. Next, we have a switch statement which takes the **action.type** which we only have **BUY_EGG** now. Inside the case, we are returning a new state which makes the **numOfEggs** variable less then 1. We are also using the spread operator on state, and copying the state.
+
+![reducer](https://ik.imagekit.io/thewebdev/React-redux/2/4_EqP3tJZ4n3.png)*reducer*
+
+### Redux Store
+
+We have only one store for the entire application. It's responsibilities are-
+
+* Hold application state
+
+* Allows access to state via getState()
+
+* Allows state to be updated via dispatch(action)
+
+* Registers listeners via subscribe(listener)
+
+* Handles unregistering of listeners via the function returned by subscribe(listener)
+
+Here, we are first importing redux through require statement, since it is node application. Next, we are also using the createStore from redux.
+
+Now, we are first holding the application state in the createStore method at line 26. We can also access the state via getState(), as in line 27. We are also subscribing, where we will show the updated state.
+
+We are dispatching the action creator buyEgg, two times and after that unsubscribing.
+
+![store](https://ik.imagekit.io/thewebdev/React-redux/2/5_5uUDcM8Dy.png)*store*
+
+Now, we can run our program by going to the terminal and running the command node index.
+
+![Our program](https://ik.imagekit.io/thewebdev/React-redux/2/6_D2wp4BMElX.png)*Our program*
+
+We can have all these parts of the store in different components, which we are going to see in react redux application.
+
+This completes part-2 of the series.
