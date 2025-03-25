@@ -15,7 +15,7 @@ export default function Home() {
             Hello, I&apos;m Nabendu
           </h1>
           <p className="max-w-[42rem] mx-auto text-muted-foreground sm:text-xl text-balance">
-            In this blog site, you will learn about HTML, CSS, JavaScript, React, NodeJS, NextJS and more. It is basically my technical learnings over the past 10+ years.
+          On this blog, I share my technical learnings from over a decade of experience. You will find insights on HTML, CSS, JavaScript, React, NodeJS, NextJS, and more, covering everything from fundamentals to advanced concepts. 🚀
           </p>
           <div className="flex flex-col gap-4 justify-center sm:flex-row">
             <Link
