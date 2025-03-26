@@ -10,7 +10,7 @@ Welcome to part-6 of the series. We will continue with our ES6 questions here.
 
 **Question 34-** *Explain classes in ES6?*
 
-**Answer-**Constructor function and ES6 classes are both same. The ES6 classes are nothing but synthetic sugar for constructor function and internally behaves exactly the same.
+**Answer-** Constructor function and ES6 classes are both same. The ES6 classes are nothing but synthetic sugar for constructor function and internally behaves exactly the same.
 
 Consider the below example of Constructor function.
 
@@ -22,9 +22,9 @@ The same can be written with ES6 classes with constructor, but it is exactly the
 
 **Question 35-** *Explain Sub-classes and inheritance in ES6?*
 
-**Answer-**The concept of Sub-classes and inheritance is like that in other languages like Java and C++.
+**Answer-** The concept of Sub-classes and inheritance is like that in other languages like Java and C++.
 
-Let’s consider the below example. We have a Parent class “Mammal” and a Sub-class “Bat” which is inheriting from it. Notice, that we have use the “extends” keyword.
+Let's consider the below example. We have a Parent class “Mammal” and a Sub-class “Bat” which is inheriting from it. Notice, that we have use the “extends” keyword.
 Now to use the “legs” and “name” variable in “Bat” we use the “super()” method. Also, notice that we can use update “walk()”, and add additional functionalities.
 ```js
     class Mammal {
@@ -60,9 +60,9 @@ Now to use the “legs” and “name” variable in “Bat” we use the “sup
 
 **Question 36-** *Explain iterators in JavaScript?*
 
-**Answer-**Recently JavaScript introduced **[Symbol.iterator]** property in data types. This indicates whether a data structure is iterable or not. This includes array, strings, Map, Sets and NodeList. Objects doesn’t have a **[Symbol.iterator]** property.
+**Answer-** Recently JavaScript introduced **[Symbol.iterator]** property in data types. This indicates whether a data structure is iterable or not. This includes array, strings, Map, Sets and NodeList. Objects doesn't have a **[Symbol.iterator]** property.
 
-If we check the **__proto__** of an array, we can find the **[Symbol.iterator]**property.
+If we check the **__proto__** of an array, we can find the **[Symbol.iterator]** property.
 
 ![Iterable array](https://cdn-images-1.medium.com/max/4000/1*BZM2ej_tnboWHRYLkjJ9Vg.png)*Iterable array*
 
@@ -78,13 +78,13 @@ Let consider the below example. Here we create an iterator by the syntax at line
 
 **Question 37-** *Explain Generators in JavaScript?*
 
-**Answer-**Generator are special type of functions, which generates somethings when we iterate over it using iterator. They are different from array as they don’t have values in advance, but generates them on request.
+**Answer-** Generator are special type of functions, which generates somethings when we iterate over it using iterator. They are different from array as they don't have values in advance, but generates them on request.
 
-Let’s look at the below example. The generator function have a special syntax with “*”. Also, inside the generator we have “yield” statements. Each “next()”, goes to the next yield statement.
+Let's look at the below example. The generator function have a special syntax with “*”. Also, inside the generator we have “yield” statements. Each “next()”, goes to the next yield statement.
 
 ![Generator Example](https://cdn-images-1.medium.com/max/5760/1*3xPDe-qK7CZFmzjSviIDlQ.png)*Generator Example*
 
-The above example doesn’t shows any advantages of generator and it is same as iterating through an array. But let’s look at next example, where we have a infinite while loop inside an generator.
+The above example doesn't shows any advantages of generator and it is same as iterating through an array. But let's look at next example, where we have a infinite while loop inside an generator.
 
 First look at this normal function. If we run it, it will cause an infinite loop and crash your browser.
 ```js
@@ -100,15 +100,15 @@ First look at this normal function. If we run it, it will cause an infinite loop
     normalInfinite();
 ```
 
-But the same type of function with generator doesn’t produce an infinite loop. It pauses every time yield is called and will generator the next value of “i” every-time “next()” is called.
+But the same type of function with generator doesn't produce an infinite loop. It pauses every time yield is called and will generator the next value of “i” every-time “next()” is called.
 
 ![Benefit of Generator](https://cdn-images-1.medium.com/max/5760/1*QnbUYUFGTZhULFBMfv1hVg.png)*Benefit of Generator*
 
 **Question 38-** *Explain async await in JavaScript?*
 
-**Answer-**Async await are basically promises under the hood. But they have made the code for promises very easier to implement. If promises had simplified the code for callbacks, then async await have simplified the code for promises.
+**Answer-** Async await are basically promises under the hood. But they have made the code for promises very easier to implement. If promises had simplified the code for callbacks, then async await have simplified the code for promises.
 
-Let’s first check a nested promise example. Here we have three functions which return promises- *cleanRoom, removeGarbage and winIcecream*. Now, when the cleanRoom function is run and resolve is returned from the promise, then the immediate .then block will be run . In the .then we are returning the next removeGarbage and in it’s .then we are returning the winIcecream. We are passing the message from one function to other, so it will be appended.
+Let's first check a nested promise example. Here we have three functions which return promises- *cleanRoom, removeGarbage and winIcecream*. Now, when the cleanRoom function is run and resolve is returned from the promise, then the immediate .then block will be run . In the .then we are returning the next removeGarbage and in it's .then we are returning the winIcecream. We are passing the message from one function to other, so it will be appended.
 ```js
     let cleanRoom = function() {
         return new Promise(function(resolve, reject) {

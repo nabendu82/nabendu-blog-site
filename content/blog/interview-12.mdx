@@ -14,7 +14,7 @@ Welcome to part-12 of the series and the part on Algorithm running time question
         a = a + b;
     }
 ```
-**Answer-**The loop will run for “n” times and “a+b” can be considered as constant “c”. So, the Big O or worst running time will be “c.n”. No, we can ignore the constant as it will be very small with large “n”.
+**Answer-** The loop will run for “n” times and “a+b” can be considered as constant “c”. So, the Big O or worst running time will be “c.n”. No, we can ignore the constant as it will be very small with large “n”.
 
 ![Simple Loop](https://cdn-images-1.medium.com/max/4176/1*KC3cAco_kOWTAhJai4j4qA.png)*Simple Loop*
 
@@ -28,7 +28,7 @@ So, the Big O of a single loop is **O(n)**.
         }
     }
 ```
-**Answer-**The worst running time or Big O of any nested for loop is calculated as below.
+**Answer-** The worst running time or Big O of any nested for loop is calculated as below.
 The outer “for” loop will run for “n” times and the inner “for” loop will run for another “n” times. And the constant will be multiplied with it. But for larger “n” we can ignore the “c”. The Big O is **O(*n*²)**.
 
 ![Nested Loop](https://cdn-images-1.medium.com/max/4204/1*ZlQ3A6WwsKj4J0TPM2Jhlg.png)*Nested Loop*
@@ -45,7 +45,7 @@ The outer “for” loop will run for “n” times and the inner “for” loop
         c = c + d;
     }
 ```
-**Answer-**We have three consecutive statements here. One is a Constant and two for loops, which are after each another. IN such cases we do addition of all.
+**Answer-** We have three consecutive statements here. One is a Constant and two for loops, which are after each another. IN such cases we do addition of all.
 
 As you can see below diagram. The first constant statement running time can be taken as “c1”, the second for loop will be “c2.n” and the third for loop will be “c3.n”.
 
@@ -69,7 +69,7 @@ We can substitute “c2+c3” with a new constant “c2 dash”. Now, we know th
             }
     }
 ```
-**Answer-**For situations like above where we have a if-else statement, we take the running time of the part which produces the worst running time.
+**Answer-** For situations like above where we have a if-else statement, we take the running time of the part which produces the worst running time.
 
 Like the “for loop” inside “if” statement will take **O(n)** and the “nested for loop” will take **O(n²)**.
 Now, we take the worst case of the if-else which is **O(n²)**.
@@ -86,7 +86,7 @@ So, the Big O of the the mentioned if-else statement is **O(*n*²)**.
         ...
     }
 ```
-**Answer-**The above for loop, the value of “i” increases logarithmically and every-time it will increase 2 times. So, if we give **n=32**, then the “for loop” will run 1, 2, 4, 8, 16, 32
+**Answer-** The above for loop, the value of “i” increases logarithmically and every-time it will increase 2 times. So, if we give **n=32**, then the “for loop” will run 1, 2, 4, 8, 16, 32
 
 So, the loop will run for “log n” instead of “n” times. So, the running time of the algorithm will be **O(log n)**
 
@@ -100,7 +100,7 @@ So, we should try to avoid algorithm with **O(n²)**running time. They are gener
 
 **Question 78-** *What is the difference between the three Asymptotic Notations O , Ω and Θ*?
 
-**Answer-**Asymptotic analysis of an algorithm refers to defining the mathematical boundation of its run-time performance. Using asymptotic analysis, we can very well conclude the best case, average case and worst case scenario of an algorithm.
+**Answer-** Asymptotic analysis of an algorithm refers to defining the mathematical boundation of its run-time performance. Using asymptotic analysis, we can very well conclude the best case, average case and worst case scenario of an algorithm.
 
 * **Worst Case**- Maximum time required for program execution. It is called “Big Oh” notation and denoted by O.
 

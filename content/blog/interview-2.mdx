@@ -5,11 +5,11 @@ date: 2018-10-24
 tags: ['javascript', 'webdev', 'career']
 published: true
 ---
-Welcome to part-2 of the series. Let’s start with where we left.
+Welcome to part-2 of the series. Let's start with where we left.
 
 **Question 4-** *What is the difference between function declaration and function expression ?*
 
-**Answer-**Function declaration is defining functions as in most languages, but function expression is assigning an anonymous function to an variable.
+**Answer-** Function declaration is defining functions as in most languages, but function expression is assigning an anonymous function to an variable.
 
 Consider the below example. We can call a function declaration even before defining it but same is not true for function expression and it will give reference error.
 ```js
@@ -33,7 +33,7 @@ Consider the below example. We can call a function declaration even before defin
 
 **Question 5-** *Is JavaScript synchronous or asynchronous and what is event loop?*
 
-**Answer-**JavaScript is a synchronous, single-threaded language. The asynchronous behaviour of JavaScript(setTimeout, callbacks, promises) is not a part of JavaScript itself and built on top of JavaScript language in browser and accessed through browser APIs.
+**Answer-** JavaScript is a synchronous, single-threaded language. The asynchronous behaviour of JavaScript(setTimeout, callbacks, promises) is not a part of JavaScript itself and built on top of JavaScript language in browser and accessed through browser APIs.
 > Now, the browser have a Call Stack, Browser API and Message Queue and the order of there processing is called event loop.
 
 Consider the below code. It outputs A C B, even though B have a setTimeout of 0ms.
@@ -60,7 +60,7 @@ After all the statements of main() is run and the Call Stack is empty, then only
 
 This is how the whole Event Loop works inside a browser and async calls like setTimeout or any API call is executed.
 
-**Note**: *This answer is heavily influenced by [Philip Roberts](http://latentflip.com/)’s talk on [JS Event Loop](https://www.youtube.com/watch?v=8aGhZQkoFbQ).*
+**Note**: *This answer is heavily influenced by [Philip Roberts](http://latentflip.com/)'s talk on [JS Event Loop](https://www.youtube.com/watch?v=8aGhZQkoFbQ).*
 
 **Question 6-** *What will be the output of the below?*
 ```js
@@ -70,17 +70,17 @@ This is how the whole Event Loop works inside a browser and async calls like set
     ,0);
     console.log('C');
 ```
-**Answer-**The output of the same will be A C B. setTimeout even with 0ms will be called last because of event loop concept as shown in Question 5.
+**Answer-** The output of the same will be A C B. setTimeout even with 0ms will be called last because of event loop concept as shown in Question 5.
 
 **Question 7-** *What is a closure and how do we use it?*
 
-**Answer-**Closures are basically a inner function storing the scope information of the variable stored in Outer function.
+**Answer-** Closures are basically a inner function storing the scope information of the variable stored in Outer function.
 
 Consider the below code. The variable **b** have an scope in outer function ie from line 4 to line 10. So, at line 13 when we call the outer function, it can access the value of b, but at line 14 there is no outer function.
 
 So, how does the innerFn() access the value of b. This is where the JS feature of Closures comes into play.
-*When the var inner is created at line 6, the JS engine not only stores the function object information but also it’s scope information. *So, it stores a scope of variable **b** inside the inner function object.
-Now it doesn’t matter where you call inner, whether in this file or some third party file. It will always remember the value of a and b, as if a snapshot is been taken.
+*When the var inner is created at line 6, the JS engine not only stores the function object information but also it's scope information. *So, it stores a scope of variable **b** inside the inner function object.
+Now it doesn't matter where you call inner, whether in this file or some third party file. It will always remember the value of a and b, as if a snapshot is been taken.
 
 ![Closures in play](https://cdn-images-1.medium.com/max/2574/1*kcjnRBznI0PqW5wel1RjOQ.png)*Closures in play*
 
@@ -88,7 +88,7 @@ Now it doesn’t matter where you call inner, whether in this file or some third
 
 **Question 8-** *Explain “this” keyword in JavaScript?*
 
-**Answer-**JavaScript “this” keyword simply means that if you are inside a scope or function or object, “this” means whichever scope/function/object you are in. We can have “this” in various context. Let’s go through them.
+**Answer-** JavaScript “this” keyword simply means that if you are inside a scope or function or object, “this” means whichever scope/function/object you are in. We can have “this” in various context. Let's go through them.
 
 ### “this” inside global scope
 
@@ -110,7 +110,7 @@ Now if we have a function called cleanTable(), then “this” refers to window
 
 **Question 9-** *Explain “this” keyword in call method?*
 
-**Answer-**call method is used for calling a function, with some Object and in such cases the “this” is for that Object. We can also pass some argument to it.
+**Answer-** call method is used for calling a function, with some Object and in such cases the “this” is for that Object. We can also pass some argument to it.
 
 ![*“this” keyword in call method*](https://cdn-images-1.medium.com/max/5760/1*kENdlsGg4HBff4iwD0w7uA.png)**“this” keyword in call method**
 
@@ -207,7 +207,7 @@ Use arrow function in the innerFunc. Arrow functions have special meaning for �
 ```
 **Question 11-** *Explain “this” keyword inside a constructor function or ES6 class?*
 
-**Answer-**Constructor function and ES6 classes are both same. The ES6 classes are nothing but synthetic sugar for constructor function and internally behaves exactly the same.
+**Answer-** Constructor function and ES6 classes are both same. The ES6 classes are nothing but synthetic sugar for constructor function and internally behaves exactly the same.
 
 “this” inside both of them is the instance which creates the variable with new keyword.
 

@@ -5,10 +5,10 @@ date: 2018-10-23
 tags: ['javascript', 'webdev', 'career']
 published: true
 ---
-We all know that JavaScript interviews(especially FrontEnd interviews) can be pretty hard, because interviewer can ask question from old JS, new ES6 JS, DOM element manupulation, old CSS layout, new FlexBox and CSS Grid layout, algorithms and complecities, small coding problem, ReactJS and it’s lifecycle methods.
+We all know that JavaScript interviews(especially FrontEnd interviews) can be pretty hard, because interviewer can ask question from old JS, new ES6 JS, DOM element manupulation, old CSS layout, new FlexBox and CSS Grid layout, algorithms and complecities, small coding problem, ReactJS and it's lifecycle methods.
 
 Now, the interviews are many different types and due to their nature and contains different type of questions. These rounds are mainly followed by small to medium companies and not applied to tech giants(FB, Google, Flipkart etc). They are broadly classified as below.
-* **First round- Generally telephonic-** Starts with tell me about yourself, basic old JS questions about var, React and it’s lifecycle methods.
+* **First round- Generally telephonic-** Starts with tell me about yourself, basic old JS questions about var, React and it's lifecycle methods.
 * **First round- Timebased online question-** Either a set of 30 basic JS, CSS question in 1 hour or 3 difficult questions in 1 hour.
 * **First round- Skype interview-** Starts with tell me about yourself, followed by old JS questions and a small component or program in ReactJS/JavaScript.
 * **First round- Small startups-** Give you a small addition to be done to their existing website.
@@ -19,13 +19,13 @@ Now, the interviews are many different types and due to their nature and contain
 
 This series is based on my experience in giving and taking interview, and the input from many of my FrontEnd developer friends. Also, i have given example from the amazing interview series from [techsith](https://www.youtube.com/watch?v=oxoFVqetl1E&list=PL7pEw9n3GkoWn5TcqAdmSzXcvC3d_tfAh).
 
-Let’s start with Basic JavaScript questions which is generally asked in First round and sometimes in second round also.
+Let's start with Basic JavaScript questions which is generally asked in First round and sometimes in second round also.
 
 **Question 1-** *What is the difference between keyword let, const and var ?*
 
 **Answer-** The variable var was since the beginning of JS but the variables let and const were introduced recently in ES6.
 var is *function scoped*, whereas let and const are *block scoped*.
-We will understand difference between var and let first. Consider the below example. It is having an IIFE and inside it there is an if stement. The if statement creates a scope for let variable but var doesn’t have block scope so, it can be accessed outside it also.
+We will understand difference between var and let first. Consider the below example. It is having an IIFE and inside it there is an if stement. The if statement creates a scope for let variable but var doesn't have block scope so, it can be accessed outside it also.
 
 ```js
     (function(){
@@ -43,7 +43,7 @@ If we run the below we get the value of var but a reference error for let.
 
 We will understand the const now. It was created to declare constant variables in JavaScript. We cannot assign a new value to a variable after the initial declaration for primitive types like integers and strings, but can add values for non-primitive like arrays and objects.
 
-Let’s see examples for it. Reassigning a const integer value gives reference error.
+Let's see examples for it. Reassigning a const integer value gives reference error.
 
 ```js
     (function(){
@@ -113,7 +113,7 @@ And also adding and changing values in objects are possible.
 ```
 **Question 2-** *What is the difference between == and === ?*
 
-**Answer-**Both are comparision operator in JavaScript. The == does an type conversion before comparing, but === does strict comparision and no type conversion.
+**Answer-** Both are comparision operator in JavaScript. The == does an type conversion before comparing, but === does strict comparision and no type conversion.
 
 Consider the below for ==. The comparison between string 1 and numeric 1 produce **true**, because numeric 1 is converted to string before comparing.
 ```js
@@ -135,7 +135,7 @@ Now, consider the same example for ===. It will produce false because no type co
 ```
 **Question 3-** *What is the difference between null and undefined ?*
 
-**Answer-**Both represents empty values. But the difference is when you define a variable and not assign a value JS assigns undefined to it. null is generally assigned by the users in cases where they want to clear some values.
+**Answer-** Both represents empty values. But the difference is when you define a variable and not assign a value JS assigns undefined to it. null is generally assigned by the users in cases where they want to clear some values.
 ```js
     let a;
     console.log(a);
@@ -146,7 +146,7 @@ The other difference is **typeof(undefined) is undefined** but **typeof(null) is
 
 **Question 4-** *What is prototypal inheritance ?*
 
-**Answer-**Prototypal inheritence means, to create new capabilities using prototype. Let consider the below example. Here, we create a Car constructor function and then call it with new keyword. Now, the nabsCar and shikhaCar variables have their own instance of Car, but can have a common protoype function getModel()
+**Answer-** Prototypal inheritence means, to create new capabilities using prototype. Let consider the below example. Here, we create a Car constructor function and then call it with new keyword. Now, the nabsCar and shikhaCar variables have their own instance of Car, but can have a common protoype function getModel()
 ```js
     let Car = function(model) {
         this.model = model;

@@ -10,7 +10,7 @@ Welcome to part-9 of the series and third part in React & Redux questions.
 
 **Question 53-** *How to pass data between sibling components using React router?*
 
-**Answer-**We can pass data between React sibling components using React Router using **history.push** and **match.params**.
+**Answer-** We can pass data between React sibling components using React Router using **history.push** and **match.params**.
 
 Let look into the code. We have a Parent component **App.js**. We have two Child Components **HomePage**and **AboutPage**. Everything is inside a Router from React-router Route. We also have a route for ```/about/{params}```. This is where we will pass the data.
 
@@ -78,13 +78,13 @@ The GitHub repo for the same can be found [here](https://github.com/nabendu82/re
 
 **Question 54-** *What is the difference between `this.state.name="Nabendu"` and `this.setState({name: "Nabendu"})` ?*
 
-**Answer-**First of all setting the state directly by *this.state.name="Nabendu" *is not recommended in React. In React we should never mutate state directly instead use **setState** to change the state.
+**Answer-** First of all setting the state directly by *this.state.name="Nabendu" *is not recommended in React. In React we should never mutate state directly instead use **setState** to change the state.
 
 One more drawback of setting state directly is that React's lifecycle methods — shouldComponentUpdate(), componentWillUpdate(), componentDidUpdate() and render()- depend on state transitions being called with setState().
 
 **Question 55-** *Explain the new feature of React Memo in React v16.6?*
 
-**Answer-**The new feature of React Memo are used to solve the problem which we get if the state is not updating in this.setState, but still all components are re-rendered.
+**Answer-** The new feature of React Memo are used to solve the problem which we get if the state is not updating in this.setState, but still all components are re-rendered.
 To solve this problem we use two solutions. One is to check and compare state in **shouldComponentUpdate**and if they are same, we don't re-render components. The other solution is to use **PureComponents**. See **question 51** for details. But both of them can't be used with functional components.
 
 Let's look at the problem again. Here we have a **FunctionalComp**, which get same state passed every 3 sec.
@@ -151,7 +151,7 @@ You can find the Github repo [here](https://github.com/nabendu82/react-memo).
 
 **Question 56-** *Explain the new feature of Lazy loading and code splitting in React v16.6*?
 
-**Answer-**Lazy loading is the new feature introduced in React v16.6, which allows for some Components to load later then other components. This way we can load the components which are fast like text earlier and components which loads images a bit later.
+**Answer-** Lazy loading is the new feature introduced in React v16.6, which allows for some Components to load later then other components. This way we can load the components which are fast like text earlier and components which loads images a bit later.
 
 Consider the below code for **App.js**. In it there are two Components **ContentComponent** and **myComp**. One have some paragraph containing *lorem ipsum* and other have an image to load from *unsplash*.
 Now, we are lazy loading **myComp** as it have an image to load. Note the special way to import it and also we need to wrap the component in **Suspense**. Now, Suspense will contain the fallback Component which will be shown while **myComp** gets loaded.
@@ -214,7 +214,7 @@ You can find the GitHub repo [here](https://github.com/nabendu82/react-lzy).
 
 **Question 57-** *Explain the flow in a React-Redux app*?
 
-**Answer-**As on Redux site "*Redux is a predictable state container for JavaScript apps.*" Redux can be used separately, but it gained much popularity because it was able to solve the state problem in a React app.
+**Answer-** As on Redux site "*Redux is a predictable state container for JavaScript apps.*" Redux can be used separately, but it gained much popularity because it was able to solve the state problem in a React app.
 In React to pass data(or state) between component we use props to be passed from Parent to Children. If the data needs to be passed to Components 5 level deep then it have to just have to pass through 4 Components, which doesn't require it. Passing data from Child to Parent is also a problem, and we need to use Callback function. This gets complicated soon in large application.
 
 So, to solve this issue we maintain state, which is the main data of the application in a central location. It can be access by any Components which ask for it.
@@ -268,14 +268,19 @@ It will go to '*mapDispatchToProps*', which dispatches it to the action creator.
         mapDispatchToProps
     )(MiddleAge);
 ```
-**The Action Creator.**In this file, you will write the functions that dispatch an action. It perform some action, like an API call using axios. When we get the response back from it, we will dispatch an Object with "type" and "data" as ```{ type: GET_INDIA_DATA, indPopData: response.data }```
+**The Action Creator.** In this file, you will write the functions that dispatch an action. It perform some action, like an API call using axios. When we get the response back from it, we will dispatch an Object with "type" and "data" as ```{ type: GET_INDIA_DATA, indPopData: response.data }```
 *Now this will be heard by only one type of function: the reducer.
 
 ```js
-    export const getIndPopData = (currYear) => dispatch => {
-        return axios.get(`[http://api.population.io:80/1.0/population/${currYear}/India/`).then(response](http://api.population.io:80/1.0/population/${currYear}/India/`).then(response) => {
-            dispatch({ type: GET_INDIA_DATA, indPopData: response.data });
-        });
+    export const getIndPopData = (currYear) => (dispatch) => {
+        return axios
+            .get(`http://api.population.io:80/1.0/population/${currYear}/India/`)
+            .then((response) => {
+                dispatch({ type: GET_INDIA_DATA, indPopData: response.data });
+            })
+            .catch((error) => {
+                console.error("Error fetching population data:", error);
+            });
     };
 ```
 
@@ -334,7 +339,7 @@ The GitHub repo for the above code example is [here](https://github.com/nabendu8
 
 **Question 58-** What is the use of middleware Redux thunk*?
 
-**Answer-**Redux thunk is a middleware which sits between action creator and reducer in the React-Redux flow. It is very useful when we do asynchronous API calls with fetch or axios, which returns a Promise and we then dispatch it to reducer.
+**Answer-** Redux thunk is a middleware which sits between action creator and reducer in the React-Redux flow. It is very useful when we do asynchronous API calls with fetch or axios, which returns a Promise and we then dispatch it to reducer.
 
 Redux thunk mainly works behind the scene. We have use some boiler-plate to use it.
 ```js
@@ -363,11 +368,16 @@ Redux thunk mainly works behind the scene. We have use some boiler-plate to use 
 ```
 In **Question 57** for React-Redux flow, in action creator we call an API end point with axios. It is a network request and will take some milliseconds or more depending on the connection.
 Now, thunk middleware sort of wait for that call, which is a Promise to completed. Once we get the response, which contains the data then only it dispatches it to reducer.
-```
-    export const getIndPopData = (currYear) => dispatch => {
-        return axios.get(`[http://api.population.io:80/1.0/population/${currYear}/India/`).then(response](http://api.population.io:80/1.0/population/${currYear}/India/`).then(response) => {
-            dispatch({ type: GET_INDIA_DATA, indPopData: response.data });
-        });
+```js
+    export const getIndPopData = (currYear) => (dispatch) => {
+        return axios
+            .get(`http://api.population.io:80/1.0/population/${currYear}/India/`)
+            .then((response) => {
+                dispatch({ type: GET_INDIA_DATA, indPopData: response.data });
+            })
+            .catch((error) => {
+                console.error("Error fetching population data:", error);
+            });
     };
 ```
 So, Redux thunk is required in Projects where we do API calls to some endpoint.
@@ -376,7 +386,7 @@ The GitHub repo for this is [here](https://github.com/nabendu82/react-meetup-dem
 
 **Question 59-** *What are Pure Functions and how they are used in reducers*?
 
-**Answer- **A Pure function is a function which :
+**Answer- ** A Pure function is a function which :
 * Given the same input, will always return the same output.
 * Produces no side effects.
 
@@ -407,7 +417,7 @@ Consider, the below code. The function addNum changes the values of external "a"
 ```
 > Reducers are Pure Functions as they don't mutate the state. It generates a new state which is a copy of the old state.
 
-```
+```js
     const initialState = {
         indPopData: [],
 

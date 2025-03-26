@@ -13,7 +13,7 @@ Or there can be a larger take home problem, which needed to be submitted within 
 
 **Question 127-** *Write a function to reverse a string?*
 
-**Answer-**A very common whiteboard question. There is a *reverse* method available on array, so we convert it to array of string.
+**Answer-** A very common whiteboard question. There is a *reverse* method available on array, so we convert it to array of string.
 
 In the below solution str.split(''), will give [ “h”, “e”, “l”, “l”, “o” ]. Now when we do reverse() on it, it will give [ “o”, “l”, “l”, “e”, “h” ].
 
@@ -27,7 +27,7 @@ Now, we need to convert it back to String and we will use the join('')on the abo
 ```
 **Question 128-** *Write a function to sort an array?*
 
-**Answer-**This can be easily done by the inbuilt sort() on array. But the syntax is a bit different and we need to pass a callback function to it.
+**Answer-** This can be easily done by the inbuilt sort() on array. But the syntax is a bit different and we need to pass a callback function to it.
 ```js
     function ascendingArray(arr) {
     let sortedarr = arr.sort((a,b) => {
@@ -39,7 +39,7 @@ Now, we need to convert it back to String and we will use the join('')on the abo
 ```
 **Question 129-** *Write a function to sort an array without using the in-built sort() method?*
 
-**Answer-**This can be done by using two nested for loops. The outer loop for “i” will iterate through the whole array. The inner loop for “j” will check whether the current element is smaller then the comparing element. It then changes position.
+**Answer-** This can be done by using two nested for loops. The outer loop for “i” will iterate through the whole array. The inner loop for “j” will check whether the current element is smaller then the comparing element. It then changes position.
 ```js
     function ascendingWithoutSort(Arr) {
         for (var i = 1; i < Arr.length; i++) {
@@ -56,7 +56,7 @@ Now, we need to convert it back to String and we will use the join('')on the abo
 ```
 **Question 130-** *Given an array of integers and a target sum, return the first pairs that add up to the target sum. Write a function that solves this?*
 
-**Answer-**This can be solve by solution given below, where we have two nested for loop. The we check whether *arr[j] === target — arr[i]* is true, which means we found the combination. Then we return from the function those values.
+**Answer-** This can be solve by solution given below, where we have two nested for loop. The we check whether *arr[j] === target — arr[i]* is true, which means we found the combination. Then we return from the function those values.
 ```js
     const twoSum = (arr, target) => {
         for (let i=0; i<arr.length; i++) {
@@ -76,7 +76,7 @@ Now, we need to convert it back to String and we will use the join('')on the abo
 
 ![Keyboard with hover effect](https://cdn-images-1.medium.com/max/2312/1*7XtBXBvq4miV4tzSb9Fd5A.png)*Keyboard with hover effect*
 
-**Answer-**To create this keyboard within 15 mins, you can use whatever CSS you are comfortable with. It can be done with CSS grid pretty quickly, as we have only 15 mins. The solution can be as below.
+**Answer-** To create this keyboard within 15 mins, you can use whatever CSS you are comfortable with. It can be done with CSS grid pretty quickly, as we have only 15 mins. The solution can be as below.
 ```js
     <div class="keyboard">
             <div class="key">A</div>
@@ -150,7 +150,7 @@ The codepen to the is above is [here](https://codepen.io/nabendu82/pen/JmarqV).
 
 **Question 132-** *Create a simple todo list in React within 30 mins in jsfiddle?*
 
-**Answer-**The key here is 30 mins and the interviewer is constantly watching you code on skype or personally on laptop. So, we should not try to do any fancy stuff. Below is a solution, which have a simple react input field. On click of the button we add the enterred text in the state list array.
+**Answer-** The key here is 30 mins and the interviewer is constantly watching you code on skype or personally on laptop. So, we should not try to do any fancy stuff. Below is a solution, which have a simple react input field. On click of the button we add the enterred text in the state list array.
 From within the component we iterate through the list using map to display the todo list items.
 
 You can find the JSFiddle [here](https://jsfiddle.net/nabendu/e5gdkm8n/?utm_source=website&utm_medium=embed&utm_campaign=e5gdkm8n)
@@ -164,7 +164,7 @@ You can find the JSFiddle [here](https://jsfiddle.net/nabendu/e5gdkm8n/?utm_sour
         [4, 80]
     ]
 ```
-**Answer-**Now we don’t have to use any external library like rechart to show the Bar Chart. So, will plain logic we can do it by the below solution.
+**Answer-** Now we don’t have to use any external library like rechart to show the Bar Chart. So, will plain logic we can do it by the below solution.
 
 You can find the JSFiddle [here](https://jsfiddle.net/nabendu/wtd963gL/?utm_source=website&utm_medium=embed&utm_campaign=wtd963gL)
 
@@ -186,7 +186,7 @@ You can find the JSFiddle [here](https://jsfiddle.net/nabendu/wtd963gL/?utm_sour
 
     - In case you have not seen this game before, please follow this http://www.youtube.com/watch?v=wbv6Adn8jsE
 
-**Answer-**The code for the game which i created using react and redux, can be found [here](https://github.com/nabendu82/connect-4).
+**Answer-** The code for the game which i created using react and redux, can be found [here](https://github.com/nabendu82/connect-4).
 
 The main component which have the initial rendering and winning logic start from this code.
 ```js

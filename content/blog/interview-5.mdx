@@ -12,7 +12,7 @@ Welcome to part-5 of the series. We will start new question regarding new featur
 
 **Answer-** *Maps and WeakMaps* are data structures that were introduced in ES6. They are similar to data structure Objects but one of the main features of Maps is that we can have Object as keys.
 
-Let’s start with the problem with Objects. In the below example, we have an object “x” and another object “a”. Now we are using “a” as a key and push a value to “x”. Now, if we console log “x” the key is shown as [object object], but then also we can extract it’s value by x[a].
+Let's start with the problem with Objects. In the below example, we have an object “x” and another object “a”. Now we are using “a” as a key and push a value to “x”. Now, if we console log “x” the key is shown as [object object], but then also we can extract it's value by x[a].
 
 ![Problem with Objects](https://cdn-images-1.medium.com/max/5760/1*TFNNHUXz28GE5T-e37wv5A.png)*Problem with Objects*
 
@@ -20,7 +20,7 @@ But the real problem occurs when we add another object to “x” for key. It ov
 
 ![Real Problem with Objects](https://cdn-images-1.medium.com/max/5760/1*XpdX3aumK4H70SeWJeRQDw.png)*Real Problem with Objects*
 
-Now we will look at how Maps help. We create Map by the new keyword. And also to add to Map we need use one of it’s method **set**.
+Now we will look at how Maps help. We create Map by the new keyword. And also to add to Map we need use one of it's method **set**.
 In the below example the objects “a” and “b” are been added as key successfully.
 > Notice that the **__proto__** object contains **Symbol.iterator**, so the for..of loop can be used to iterate over it like arrays. The same is not true for Objects.
 
@@ -31,11 +31,11 @@ We iterate over Map using the in-build method entries(). It returns an array of 
 ![iterate over Map](https://cdn-images-1.medium.com/max/5760/1*OudmNaaCLLOj1W6_sRWmEg.png)*iterate over Map*
 
 If we add the same object as key as in line 9 for “a”, the Map will over-write the old value of the key.
-Also, we can delete an entry by passing it’s key in **delete** method.
+Also, we can delete an entry by passing it's key in **delete** method.
 
 ![delete and same key explained](https://cdn-images-1.medium.com/max/5760/1*mlqNJP9_5FdBCkW_0CQu3g.png)*delete and same key explained*
 
-There is one problem with Map and it is that it holds the Map’s key, even if the original key is deleted. That is the reason we use **WeakMap**. So, WeakMap allows garbage collector to work as it holds a weak reference to it’s key but Maps doesn’t allow garbage collector to work.
+There is one problem with Map and it is that it holds the Map's key, even if the original key is deleted. That is the reason we use **WeakMap**. So, WeakMap allows garbage collector to work as it holds a weak reference to it's key but Maps doesn't allow garbage collector to work.
 ```js
     var k1 = {a: 1};
     var k2 = {b: 2};
@@ -72,11 +72,11 @@ Another difference is that keys of WeakMaps are of type Object only. Primitive d
 
 **Question 28-** *What are Sets and WeakSets?*
 
-**Answer-**Sets are also referenced data-types like arrays, but the key feature is that we cannot keep duplicate data. In a nutshell Sets are nothing but unique arrays.
+**Answer-** Sets are also referenced data-types like arrays, but the key feature is that we cannot keep duplicate data. In a nutshell Sets are nothing but unique arrays.
 
 Let consider below example. The way to create a Set is through the constructor function using “new” keyword. We add value to Set by using add method and delete value from Set using delete method.
 
-Notice that it’s **__proto__** object have *Symbol.iterator* like array, which means it is iterable.
+Notice that it's **__proto__** object have *Symbol.iterator* like array, which means it is iterable.
 
 ![Set creation](https://cdn-images-1.medium.com/max/5760/1*3aOoZlK1SKQsC9qP36I3tw.png)*Set creation*
 
@@ -85,7 +85,7 @@ Also, we cannot add duplicates value in a Set. Also we can add values to Set usi
 
 ![No Dups are allowed](https://cdn-images-1.medium.com/max/5760/1*YOdkXu_pLvPO7CIgTCSAmQ.png)*No Dups are allowed*
 
-WeakSets are like WeakMaps and one of key feature is that we cannot have Primitive data-types(Number, String, Boolean, Symbol) as it’s items. So, the below will throw and error.
+WeakSets are like WeakMaps and one of key feature is that we cannot have Primitive data-types(Number, String, Boolean, Symbol) as it's items. So, the below will throw and error.
 ```js
     const ws = new WeakSet();
 
@@ -95,13 +95,13 @@ WeakSets are like WeakMaps and one of key feature is that we cannot have Primiti
     [@Scratchpad](http://twitter.com/Scratchpad)/1:3:1
     */
 ```
-So, we will add Objects to WeakSet. Also, notice that it’s __proto__ doesn’t have many methods and it is not an iterable.
+So, we will add Objects to WeakSet. Also, notice that it's __proto__ doesn't have many methods and it is not an iterable.
 
 ![WeakSet add elements](https://cdn-images-1.medium.com/max/5760/1*Pgs6B6OqMzC-6sbNAQphFg.png)*WeakSet add elements*
 
 **Question 29-** *What are Symbols primitive type in JavaScript?*
 
-**Answer-**Symbols are the new primitive data-type introduced in ES6. Symbols is unique an immutable data-type. They are tokens that can be used as unique ids.
+**Answer-** Symbols are the new primitive data-type introduced in ES6. Symbols is unique an immutable data-type. They are tokens that can be used as unique ids.
 Two Symbols are never the same, even if they are declared as same. Consider the below example.
 ```js
     let symbol1 = Symbol();
@@ -137,7 +137,7 @@ One of the use case of Symbol is to be used as unique keys. We can use them very
 
 **Question 30-** *What are template Strings in ES6?*
 
-**Answer-**Template strings are the new way to write Strings in JavaScript and been introduced in ES6. We can now write Stings using back-ticks(``), which have a special way to interpolate variables.
+**Answer-** Template strings are the new way to write Strings in JavaScript and been introduced in ES6. We can now write Stings using back-ticks(``), which have a special way to interpolate variables.
 
 Consider we want to show the famous Bond Line in our console. We declare a variable name and want to display it inside it.
 
@@ -152,9 +152,9 @@ The old JavaScript way is quite cumbersome and we have to use many + operators t
 
 **Question 31-** *What are default parameters in ES6?*
 
-**Answer-**Default parameters are the parameters, which are used if we don’t pass any value to argument in a function.
+**Answer-** Default parameters are the parameters, which are used if we don't pass any value to argument in a function.
 
-We will see how we use to handle this situation before ES6, if user didn’t supplied a value to argument. So, we check inside the function “add” if “a” has a value or assign 0 to it. Same is done for “b”
+We will see how we use to handle this situation before ES6, if user didn't supplied a value to argument. So, we check inside the function “add” if “a” has a value or assign 0 to it. Same is done for “b”
 ```js
     var add = function(a, b){
         a = a || 0;
@@ -189,7 +189,7 @@ The same can be done in ES6 by changing the parameter to contain the default val
 
 **Question 32-** *What are Spread operator and Rest parameters?*
 
-**Answer-**Just like plus(+) and minus(-) are operators, spread(…) is also an operator in JavaScript. Basically Spread operator spreads on demand.
+**Answer-** Just like plus(+) and minus(-) are operators, spread(…) is also an operator in JavaScript. Basically Spread operator spreads on demand.
 
 When you pass arguments using Spread operators they are called Rest parameters.
 
@@ -216,7 +216,7 @@ The Spread operator can be use separately from function parameter and have some 
 
 Consider that we want to copy an array to other array. Now as you can see in the problem that when we assign variable y to x, we are referencing it and any changes to y will reflect in x.
 In the first solution, we use the new Javascript method Object.assign() to copy all contents of “a” to an empty array and then assigning it to “b”.
-But the better and simple solution is with Spread operator where we spread the array “c”, and take it’s content in an array.
+But the better and simple solution is with Spread operator where we spread the array “c”, and take it's content in an array.
 ```js
     //Problem
     let x = [1, 2, 3, 4];
@@ -281,7 +281,7 @@ We can also use Spread operator in Objects. This is practically used in reducer 
 
 **Question 33-** *Explain Destructuring in ES6?*
 
-**Answer-**With the destructuring syntax, you can extract small fragments from arrays an objects. Destructuring syntax can be used in variable declaration or variable assignment. You can also handle nested structure by using nested destructuring syntax.
+**Answer-** With the destructuring syntax, you can extract small fragments from arrays an objects. Destructuring syntax can be used in variable declaration or variable assignment. You can also handle nested structure by using nested destructuring syntax.
 
 **Object Destructuring**
 Consider the below example. Basically, **you use an object literal on the left-hand-side of an assignment expression** for object destructuring.
@@ -316,7 +316,7 @@ You can pass default values to be assigned to variables in which no values are p
 ```
 
 **Nested Object Destructuring**
-If there is nested object as in below case, we can destructure it by adding it’s value to another object syntax
+If there is nested object as in below case, we can destructure it by adding it's value to another object syntax
 ```js
     const student = {
         name: 'Hriday Biswas',
