@@ -8,14 +8,14 @@ published: true
 
 After learning JavaScript in the previous series, we will learn about DOM(Document Object Model). It is been used to interact with every element of the HTML and can be used to even generate HTML on the fly.
 
-Let’s create a new folder **DOMbasics** and three files **index.html**, **styles.css** and **main.js** inside it.
+Let's create a new folder **DOMbasics** and three files **index.html**, **styles.css** and **main.js** inside it.
 
 ![DOMbasics](https://ik.imagekit.io/thewebdev/DOM-Basics/1/1_m9AECcFgf.png)*DOMbasics*
 
 Since, this is a JavaScript DOM tutorial i am are not tell much about the html and css. So, go ahead and put the below in the **index.html** file.
 
 
-```js
+```html
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -154,7 +154,7 @@ Now, to grab a single element from the HTML, we can use the **document.getElemen
 
 ![getElementById()](https://ik.imagekit.io/thewebdev/DOM-Basics/1/4_zDOHV1xfV.png)*getElementById()*
 
-We also have **document.querySelector()** to get the single HTML element. Here, if we target a class we have to use dot**(.)** followed by class name. Similarly, for id we have to use hash**(#)** followed by id name. We can also directly target an element by using it’s name as **h1**.
+We also have **document.querySelector()** to get the single HTML element. Here, if we target a class we have to use dot**(.)** followed by class name. Similarly, for id we have to use hash**(#)** followed by id name. We can also directly target an element by using it's name as **h1**.
 
 ![querySelector()](https://ik.imagekit.io/thewebdev/DOM-Basics/1/5_Awvv9oasf.png)*querySelector()*
 
@@ -167,12 +167,12 @@ Now, we will learn how to select multiple items. The first thing is **document.q
 Here, we are targeting the all the **item** from the below in **index.html** file.
 
 
-```css
+```html
     <ul class="items">
             <li class="item">Item 1</li>
             <li class="item">Item 2</li>
             <li class="item">Item 3</li>
-     </ul>
+    </ul>
 ```
 
 ![item](https://ik.imagekit.io/thewebdev/DOM-Basics/1/7_WG03pYORWL.png)*item*
@@ -183,7 +183,7 @@ Now, to select multiple items we also have **document.getElementsByClassName()**
 
 As you might have noticed above they returns **HTMLCollection**, instead of **NodeList** as in **querySelectorAll()**
 
-Now, this have a huge drawback, because higher order array methods like **forEach** doesn’t works directly on **HTMLCollection**. But we can use them on **NodeList**, as shown in below figure.
+Now, this have a huge drawback, because higher order array methods like **forEach** doesn't works directly on **HTMLCollection**. But we can use them on **NodeList**, as shown in below figure.
 
 ![NodeList](https://ik.imagekit.io/thewebdev/DOM-Basics/1/9_Rnx38CqupR.png)*NodeList*
 

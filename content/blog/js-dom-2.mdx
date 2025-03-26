@@ -12,18 +12,18 @@ Next, we will learn about **remove()**. We can remove whole element like ul in b
 
 ![remove()](https://ik.imagekit.io/thewebdev/DOM-Basics/2/1_GLeDrzg9M.png)*remove()*
 
-Now, we can even change the content of the elements with the use of **textContent**, **innerText** and **innerHTML**. We are targeting the first **li** inside the **ul** by **ul.firstElementChild** and changing it’s text by **textContent**.
+Now, we can even change the content of the elements with the use of **textContent**, **innerText** and **innerHTML**. We are targeting the first **li** inside the **ul** by **ul.firstElementChild** and changing it's text by **textContent**.
 
-Next, we are targeting the second **li** by **ul.children[1]** and changing it’s text by **innerText**.
+Next, we are targeting the second **li** by **ul.children[1]** and changing it's text by **innerText**.
 
 We are targeting the third **li** by **ul.lastElementChild** and changing it to an HTML by **innerHMTL**. Notice that here, we can use any html tag.
 
 
-```js
+```html
     <ul class="items">
-            <li class="item">Item 1</li>
-            <li class="item">Item 2</li>
-            <li class="item">Item 3</li>
+      <li class="item">Item 1</li>
+      <li class="item">Item 2</li>
+      <li class="item">Item 3</li>
     </ul>
 ```
 
@@ -31,7 +31,7 @@ We are targeting the third **li** by **ul.lastElementChild** and changing it to 
 
 Now, we will learn about **event listener**. We can listen to any event in the DOM like the **click** event. First we are selecting the button and then add an **event listener**to it by addEventListener. Here, we are looking for click and getting an event.
 
-We are using **e.preventDefault()** on Line 5 because our button is a Submit button, which submits a form. We don’t want this behaviour in this scenario, so we need to use it. You don’t need it in case of normal buttons.
+We are using **e.preventDefault()** on Line 5 because our button is a Submit button, which submits a form. We don't want this behaviour in this scenario, so we need to use it. You don't need it in case of normal buttons.
 
 When we are console logging the event, we are getting a **target** object as shown in the figure.
 
@@ -57,7 +57,7 @@ Inside the function, we can get the value entered by the user using **.value**.
 
 ![value](https://ik.imagekit.io/thewebdev/DOM-Basics/2/7_mY02hksvVR.png)*value*
 
-Now, we are doing form validations also.If the user doesn’t enters anything in the name input or email input, we are adding a class error to **msg** div. The **error** class is already defined in our **styles.css**
+Now, we are doing form validations also.If the user doesn't enters anything in the name input or email input, we are adding a class error to **msg** div. The **error** class is already defined in our **styles.css**
 
 After that we are also adding a text to it using **innerHTML**.
 
