@@ -1,0 +1,158 @@
+---
+title: Image Search App using unsplash API in ReactJS — 3
+description: ReactJS
+date: 2019-04-28
+tags: ['javascript', 'react', 'webdev']
+published: true
+---
+
+
+Welcome to part-3 to the series. We will start from where we left in part-2. The network request in part-2 using axios, is an async request. It is because it will take sometime to reach unsplash and get our list of images.
+
+The axios request always returns us a *promise*. Now, there is an old way to get it using the .*then* function. But we will use the new and more efficient *async-await* syntax.
+
+So, we update our *onSearchSubmit* function by adding **async** in-front of it. Next, we add **await** in-front of the *axios.get* method, which actually will cause the api call and will take sometime.
+
+
+```js
+    async onSearchSubmit(term) {
+            const response = await axios.get('https://api.unsplash.com/search/photos', {
+                params: { query: term},
+                headers: {
+                    Authorization: 'Client-ID YOUR_ACCESS_KEY'
+                }
+            })
+
+            console.log(response);
+        }
+```
+
+Now, when we search for any term, we will get an object returned by unsplash api. We are storing that only in **response** variable and then console logging it.
+
+![Unsplash result](https://ik.imagekit.io/thewebdev/Unsplash-API/3/1_El8mKVlhEC.png)*Unsplash result*
+
+On further verifying, we can see that our list of images are in data.result array. We will now introduce state to our App component. We will initialize state to contain an empty array **images** and then use setState to update it with the **data.results** array we got from unsplash.
+
+
+```js
+    class App extends React.Component  {
+        state = { images: [] };
+
+        onSearchSubmit = async (term) => {
+            const response = await axios.get('https://api.unsplash.com/search/photos', {
+                params: { query: term},
+                headers: {
+                    Authorization: 'Client-ID YOUR_ACCESS_KEYS'
+                }
+            })
+
+            this.setState({ images: response.data.results })
+        }
+
+        render() {
+            return (
+                <div>
+                    <SearchBar userSubmit={this.onSearchSubmit}/>
+                    <span>Found: {this.state.images.length} images</span>
+                </div>
+            )
+        }
+
+    }
+```
+
+You we might remember, whenever we use setState in React it re-renders the component including it's child component.
+
+One more thing to notice in the above code is that, we have changed **onSearchSubmit** to be an arrow function. This is required or else, we will get an error due to **this** used in **setState**.
+
+It's time to create our imageList component. Create the file **imageList.js** inside the component directory as in below screenshot.
+
+![imageList component](https://ik.imagekit.io/thewebdev/Unsplash-API/3/2_uo0bx3eKe.png)*imageList component*
+
+We will now make change in the App.js to include this ImageList component. Here we are simply passing list of all images, which is inside an array.
+
+
+```js
+    import React from 'react';
+    import axios from 'axios';
+    import SearchBar from './SearchBar';
+    import ImageList from './imageList';
+
+    class App extends React.Component  {
+        state = { images: [] };
+
+        onSearchSubmit = async (term) => {
+            const response = await axios.get('https://api.unsplash.com/search/photos', {
+                params: { query: term},
+                headers: {
+                    Authorization: 'Client-ID YOUR_ACCESS_KEYS'
+                }
+            })
+
+            this.setState({ images: response.data.results })
+        }
+
+        render() {
+            return (
+                <div>
+                    <SearchBar userSubmit={this.onSearchSubmit}/>
+                    <span>Found: {this.state.images.length} images</span>
+                    <ImageList foundImages={this.state.images} />
+                </div>
+            )
+        }
+
+    }
+
+    export default App;
+```
+
+Let first build a basic imageList component and see what we are getting in the props.
+
+
+```js
+    import React from 'react';
+
+    const ImageList = (props) => {
+        console.log(props.foundImages);
+
+        return (
+            <div>images</div>
+        )
+    }
+
+    export default ImageList;
+```
+
+On doing a Search for *Cars*, we an array of objects. It contains the url, description and id which we will require next to show the images.
+
+![Array of Object](https://ik.imagekit.io/thewebdev/Unsplash-API/3/3_IrlA8fBj3T.png)*Array of Object*
+
+So, we change the code for **imageList.js** to use the **props.foundImages** array. We are using javascript map to go over it. Then we are displaying the image by assigning to the src the urls.regular.
+
+Note, that we also need to give key, which should be an unique value and also an alt tag. If we don't give any one of them, then React will give warnings in console.
+
+
+```js
+    import React from 'react';
+
+    const ImageList = (props) => {
+        const imgs = props.foundImages.map(img => {
+            return <img key={img.id} src={img.urls.regular} alt={img.alt_description} />
+        });
+
+        return (
+            <div>{imgs}</div>
+        )
+    }
+
+    export default ImageList;
+```
+
+Now, head over to localhost and again search for *Cars*, and you will get images of beautiful Cars from unsplash.
+
+![Beautiful Cars](https://ik.imagekit.io/thewebdev/Unsplash-API/3/4_y4yzo7En4.png)*Beautiful Cars*
+
+This concludes part-3 of the series. We are also done with version 1 of our web-app.
+
+But we will also have a version 2, which will have these images display in a nice way.

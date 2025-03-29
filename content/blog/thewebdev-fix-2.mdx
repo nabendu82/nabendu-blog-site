@@ -1,0 +1,81 @@
+---
+title: How I deployed my Gatsby site to AWS S3 - 1
+description: Gatsby
+date: 2020-06-14
+tags: ['AWS', 'devops', 'gatsby']
+published: true
+---
+
+I have been using the amazing service of netlify for the past one year to deploy all my test site and also the production sites.
+
+Two of my main production sites are [https://nabendu.blog/](https://nabendu.blog/) and [https://thewebdev.tech/](https://thewebdev.tech/) . Netlify charges on build time and initially it was ok, but my upcoming blog site had grown a lot and have now most of my blogs.
+
+I serve my blogs through mdx files, which is stored in github. So, my built time for **thewebdev** have increased to 8 mins and my current blog site built time to 2 mins. Now, since i give build almost everyday, i am over the free quota of 300 mins every month. I am getting charged $ 7 for it since the past 2 months and extra 500 mins gets added for the build time.
+
+![Netlify Additional Builds](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/1-0_ZRAewX-gAX.png)*Netlify Additional Builds*
+
+I know that i will go over the 300 mins every month, since i blog very frequently and update my sites. So, i am planning to deploy my upcoming and soon main blog site [https://thewebdev.tech/](https://thewebdev.tech/) to save the cost.
+
+So, i found some good articles and a [youtube video](https://www.youtube.com/watch?v=3tGMsdS3kSc) to deploy a GatsbyJS site to Amazon S3 and will be referring them.
+
+I had and old access to Amazon S3, so i had logged into the account and got the below screen. After that clicked on the **Services** arrow.
+
+![Amazon S3](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/1-1_ba_yv_5guK.png)*Amazon S3*
+
+After that we need to click on S3 from the services.
+
+![S3 Services](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/2_fTM2oudnhZ.png)*S3 Services*
+
+Since, it's an old account which i had not used in the past 2 years, i am been asked to Complete registration. So, i clicked on **Complete your AWS registration** link.
+
+![Registration](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/3_ZZTjjM6AJA.png)*Registration*
+
+After that i got the confirmation message and then clicked on the **Go to the Management Console** button.
+
+![Management console](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/4__RuYnWODlw.png)*Management console*
+
+After that i was taken back to the credit card page, where i had entered my new Credit Card information.
+
+![New Card](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/5_HQPPHrrpk.png)*New Card*
+
+Once, i had entered my new Credit Card info, it deducted $1 from my card to check if it's valid.
+
+![New Card](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/6_lTOSor-_X1.png)*New Card*
+
+After 15 mins my account was re-enabled and i clicked on Services -> S3 again and got the below screen. Here, you need to click on **+ Create Bucket** button.
+
+![S3 bucket](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/7_dD2TBaDpY2.png)*S3 bucket*
+
+But before creating the S3 bucket, we also need to have **aws cli** installed. We can find the instruction [here](https://aws.amazon.com/cli/). As, i am on Mac OS i am installing the relevant package.
+
+![MacOS PKG](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/8_U-r6I0l3-2.png)*MacOS PKG*
+
+Once the pkg file is installed, i clicked on it and go the below screen.
+
+![Screen](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/9_CwxWWl09rm.png)*Screen*
+
+After clicking on Continue button above, we will get below screen.
+
+![Read Me](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/10_kAKZJnrEb.png)*Read Me*
+
+After clicking on Continue button above, we will get below screen.
+
+![License](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/11_RVCDjnemdD.png)*License*
+
+Then, after clicking on Continue button above, we will get below screen, where we need to click on **Agree** button.
+
+![Agree](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/12_KcWFk3tMBP.png)*Agree*
+
+Finally, click on **Install** button.
+
+![Install](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/13_H0s6jKY76P.png)*Install*
+
+Then, the installation will be completed successful.
+
+![Sucessful](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/14_-2bw6B8bVw.png)*Sucessful*
+
+After that we can head over to the terminal and check whether the aws cli was installed successfully, by the aws — version command.
+
+![aws — version](https://ik.imagekit.io/thewebdev/thewebdev-fixes/2/15_7erlJO-N3.png)*aws — version*
+
+This completes Part-1 of the AWS deployment.

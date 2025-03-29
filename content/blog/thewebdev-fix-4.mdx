@@ -1,0 +1,63 @@
+---
+title: How I deployed my Gatsby site to AWS S3 - 3
+description: Gatsby
+date: 2020-06-16
+tags: ['AWS', 'devops', 'gatsby']
+published: true
+---
+
+Welcome to part-3 of the series. We will start with creating an **iam** account before moving forward, as that is what is recommended by AWS. I will be following along with [this](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html) article from AWS.
+
+First, click on your name and then My Account in aws console.
+
+![AWS console](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/2_lKnXoPLLZ7.png)*AWS console*
+
+After that scroll a bit down and you will find **IAM User and Role Access to Billing Information** section. Click on the **Edit** link here.
+
+![IAM](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/3_0KErxfsdH.png)*IAM*
+
+Then a checkbox with **Activate IAM Access** will come. Tick the checkbox and click on **Update** button.
+
+![Activate](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/4_ANm9TZlK1P.png)*Activate*
+
+After that click on IAM in the left menu, to go back to the IAM dashboard.
+
+![IAM Dashboard](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/5_zwsvAiOdar.png)*IAM Dashboard*
+
+Then, in the dashboard click on the **Users**.
+
+![Users](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/6_MNdpFFAvDj.png)*Users*
+
+Here, we will have no users. So, click on **Add user** button.
+
+![Add User](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/7_pwS8stm23.png)*Add User*
+
+Then give the **User name** as **Administrator** and click on the checkbox next to **AWS Management Console access** checkbox. The other two marked things are as per your choice. After that click on **Next: Permissions** button.
+
+![Administrator](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/8_AVf7pwdi4Z.png)*Administrator*
+
+Next, click on **Add user to group** and then the **Create group** button.
+
+![Create group](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/9_awX5Uv4nkV.png)*Create group*
+
+Now, a pop-up will come. Enter **Administrators** in the **Group name** and also click on the checkbox, next to **AdministratorAccess**. After that click on **Create group** button.
+
+![Administrator](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/10_KHZyF10zZU.png)*Administrator*
+
+Now, we will be taken back to the earlier page which now have, an entry for **Administrators**. Click on the **Next: Tags** button on the bottom right of the page.
+
+![Next](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/11_OvI5t4UQX3.png)*Next*
+
+In the next page, enter some tags and click on **Next: Review** button.
+
+![Tags](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/12_ejXkMRMf4.png)*Tags*
+
+In the Review page, once review everything is right and then click on **Create user** button.
+
+![Create user](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/13_h5yZ1pT3tP.png)*Create user*
+
+Now our IAM user with administrator access is created. Here, we can get the password and also send ourself a mail with instructions.
+
+![Admin](https://ik.imagekit.io/thewebdev/thewebdev-fixes/4/14_ELYHFiSgUY.png)*Admin*
+
+This completes part-3 of the series. See you soon.

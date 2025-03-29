@@ -1,0 +1,90 @@
+---
+title: Image Optimization in Gatsby after bad Lighthouse audit
+description: Gatsby
+date: 2020-06-13
+tags: ['javascript', 'react', 'gatsby']
+published: true
+---
+
+
+As most of you know my new blog site is live at [https://thewebdev.tech/](https://thewebdev.tech/)
+
+I recently did a lighthouse audit from google chrome console and my site failed in performance.
+
+![Lighthouse audit](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/1_XgYp3ERUwR.png)*Lighthouse audit*
+
+Now, one of the main reason is large images. All of the images(more then 2k) inside blogs comes from, two powerful and optimized cdn — cloudinary.com and imagekit.io.
+
+The image which you see in homepage along with the blog title , comes from **gatsby-image**. So, they are highly optimized, but i still see some of them here. I will soon load small size files from them.
+
+![Culprit images](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/2_eqOWudIiZl.png)*Culprit images*
+
+But the real issue, as from above screenshot are the book image and the logo image. I am using normal <img />tag in them, so it's time to change them to **gatsby-image**.
+
+To use the **gatsby-image**, we need to have the path in **gatsby-config.js** in **gatsby-source-filesystem**. But my problem was that, i already had the directory setup done for using **gatsby-image** in my posts.
+
+You can find the details about how i set my production blog site, with **gatsby-image** in my upcoming book **Gatsby Cookbook**. You can find more details about it [here](https://thewebdev.tech/gatsby-cookbook-1).
+
+![gatsby-config.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/3_TgjBG6ae5q.png)*gatsby-config.js*
+
+I found good details about setting multiple **gatsby-source-filesystem** from this [blog](https://medium.com/@kyle.robert.gill/ridiculously-easy-image-optimization-with-gatsby-js-59d48e15db6e).
+
+Next, we will use the **Img** inside our **Advert.js**, which is been called from both **index.js** and **RightMenu.js** file.
+
+As usual we have to use graphql query to get the image and use it with **useStaticQuery**.
+
+![Advert.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/4_qZQ7kjCczX.png)*Advert.js*
+
+We also need to add a new style in **advert.module.css** file, because **gatsby-image** creates a div to wrap image and we need some top margin.
+
+![advert.module.css](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/5_9arJWSrHfV.png)*advert.module.css*
+
+Now, our image looks perfect in desktop.
+
+![Desktop](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/6_pX_efXW8CB.png)*Desktop*
+
+And also in mobile.
+
+
+![Mobile view](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/7_gf-2WKyayQ.png)*Mobile view*
+
+
+Now, let's remove the unwanted import from **index.js** file.
+
+![index.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/8_-31P_soEv3.png)*index.js*
+
+Also, remove the not passed props from **Advert**.
+
+![index.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/9_b8K05VqFx.png)*index.js*
+
+We will also remove both of them from **RightMenu.js** file.
+
+![RightMenu.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/10_OKIB9APgC-.png)*RightMenu.js*
+
+Now, we will also change the `<img />` in **Navbar.js**. We will use the same type of code as in **Advert.js** file. We will make use of **useStaticQuery**, to get the response back.
+
+![Navbar.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/11_U3TnSMZm0.png)*Navbar.js*
+
+Next, we will show the image using the new **Img** tag.
+
+![Navbar.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/12_psiYa1uIO7.png)*Navbar.js*
+
+And we will have the logo image been served by gatsby-image.
+
+![Logo image](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/13_YMecJhHTE.png)*Logo image*
+
+As you might have remembered from the start of the post, i had some more images in lighthouse audit which were of larger size.
+
+![Problem images](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/14_FAIS_FfQ7Q.png)*Problem images*
+
+So, i did reduced their quality and hence size by an online reducer and replaced them.
+
+![Reduced images](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/15_C0ix6KUEDy.png)*Reduced images*
+
+I had pushed the code to github and so, my site got deployed in netlify. I ran the lighthouse audit again after the deployment and it had increased my performance. Also, there is no performance issue due to images.
+
+![Lighthouse audit](https://ik.imagekit.io/thewebdev/thewebdev-fixes/1/16_i2CNOoUFT.png)*Lighthouse audit*
+
+This completes the image optimization for my site but there are still a lot of small fixes to be done.
+
+You can find the code for the site in my github repo [here](https://github.com/nabendu82/thewebdev-public).

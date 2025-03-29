@@ -1,0 +1,37 @@
+---
+title: Fixing my mobile site issues with position sticky
+description: Gatsby
+date: 2020-06-28
+tags: ['javascript', 'css', 'gatsby']
+published: true
+---
+
+I get a lot of visits from mobile devices in my site [https://thewebdev.tech/](https://thewebdev.tech/) and i got some issues while visiting my site on mobile.
+
+So, finally decided to fix it. The first issue comes when the site loads, it shows the taglist component in the middle for a second.
+
+![Site Loading](https://ik.imagekit.io/thewebdev/thewebdev-fixes/6/1_09fZuKlgw.gif)*Site Loading*
+
+I did the following changes in **home.module.css** file. So, instead of display: none, i am using another trick to take the items, which needed to be hidden out of the screen.
+
+Next, i am also making the mobile-menu sticky, so that it stays even if the user scrolls the page.
+
+![home.module.css](https://ik.imagekit.io/thewebdev/thewebdev-fixes/6/2_0Hf4-R106.png)*home.module.css*
+
+Now, i am also making the main navbar sticky on all screens, by again making it **position: sticky **in **navbar.module.css** file.
+
+![navbar.module.css](https://ik.imagekit.io/thewebdev/thewebdev-fixes/6/3_GOA4PDS4M6.png)*navbar.module.css*
+
+After this we are making the left menu in mobile of **position: fixed** and also increasing the width a bit. We are updating it in the **Menu.styled.js** file.
+
+![Menu.styled.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/6/4_YteJ6D0yD.png)*Menu.styled.js*
+
+Let's also make the same changes in the right menu by updating the **RightMenu.styled.js** file.
+
+![RightMenu.styled.js](https://ik.imagekit.io/thewebdev/thewebdev-fixes/6/5_4PdHVhSx0J.png)*RightMenu.styled.js*
+
+Now, it fixes our mobile issues and the site is working fine.
+
+![Issues Fixed](https://ik.imagekit.io/thewebdev/thewebdev-fixes/6/6_KW-CHxgT2L.gif)*Issues Fixed*
+
+This completes the fixes and i had pushed the code to the public github repo [here](https://github.com/nabendu82/thewebdev-public).

@@ -1,0 +1,181 @@
+---
+title: Image Search App using unsplash API in ReactJS — 2
+description: ReactJS
+date: 2019-04-27
+tags: ['javascript', 'react', 'webdev']
+published: true
+---
+
+
+Welcome to part-2 to the series. We will start from where we left in part-1. We will work on **SearchBar.js** file and use the standard React syntax to handle form.
+
+
+```js
+    import React from 'react';
+    import './SearchBar.css';
+
+    class SearchBar extends React.Component {
+        state = { val: '' }
+
+        onInputChange = (event) => {
+            this.setState({ val: event.target.value })
+        }
+
+        onFormSubmit = (event) => {
+            event.preventDefault();
+            console.log(this.state.val);
+        }
+
+        render() {
+            return (
+                <div>
+                    <form onSubmit={this.onFormSubmit}  className="flexContainer">
+                        <label><h2>Image Search: </h2></label>
+                        <input
+                            className="inputStyle"
+                            type="text"
+                            value={this.state.val}
+                            onChange={this.onInputChange}
+                        />
+                    </form>
+                </div>
+            )
+        }
+    }
+
+    export default SearchBar;
+```
+
+Details of this whole logic can be found, in another of my blog post at this [link](https://thewebdev.tech/interview-preparation-react-2). Check **Question 50** and **Question 51**.
+
+We can see this in action by typing anything in Search Bar and pressing enter. It will console log the same.
+
+![Magic of Arrow Function](https://ik.imagekit.io/thewebdev/Unsplash-API/2/1_MKcX2feKui.png)*Magic of Arrow Function*
+
+Now, we will start implementing the logic to use our Search term entered by the user. We could use the Search Term(*this.state.val*) in our Search Component only, but we will pass it Back to Parent App component. We want the image list to be shown by a different component ImageList.
+
+For this we will first change our **App.js** to a class based component, as we have to deal with state later on.
+
+
+```js
+    import React from 'react';
+    import SearchBar from './SearchBar';
+
+    class App extends React.Component  {
+        onSearchSubmit(term) {
+            console.log(term);
+        }
+
+        render() {
+            return (
+                <div>
+                    <SearchBar userSubmit={this.onSearchSubmit}/>
+                </div>
+            )
+        }
+
+    }
+
+    export default App;
+```
+
+In the above code the new terms are marked in bold. Here, we are passing a *prop* to SearchBar component called **userSubmit**. It calls a callback function **onSearchSubmit**.
+
+Now in our **SearchBar.js** file, we will change the **onFormSubmit** method to send the user entered Search term in **this.state.val** through the props **userSubmit** to App.js
+
+
+```js
+    onFormSubmit = (event) => {
+        event.preventDefault();
+        this.props.userSubmit(this.state.val);
+    }
+```
+
+Now, on entering anything in our Search bar and then pressing enter, we get the console.log from our App.js file. Details of this whole logic can be found, in another of my blog post at this [link](https://dev.to/nabendu82/interview-preparation-react-redux-2-2ohj). Check **Question 52.**
+
+![console from App.js](https://ik.imagekit.io/thewebdev/Unsplash-API/2/2_FH4hQvA4H.png)*console from App.js*
+
+Now, it's time to load some real data from *unsplash api*. The idea is to take the Search term entered in the Search Bar and use it. Then search those pictures in unsplash and show those pictures in our App.
+
+So, head over to [https://unsplash.com/developers](https://unsplash.com/developers) and register as a developer. Once, you register, it will show the below page.
+
+![unsplash register](https://ik.imagekit.io/thewebdev/Unsplash-API/2/3_1fUSA5p4id.png)*unsplash register*
+
+Now, click on New Application and it will ask for some basic things to be checked. Check the same as below screenshot.
+
+![Basic Checks](https://ik.imagekit.io/thewebdev/Unsplash-API/2/4_Rl-IjUWr5.png)*Basic Checks*
+
+And then scroll down and click on **Accept Terms**. It will open the below popup, where you have to enter your **Application Name** and **Description**.
+
+![Accept Term](https://ik.imagekit.io/thewebdev/Unsplash-API/2/5__Exl0ma36x.png)*Accept Term*
+
+Once you click on **Create application**, it will take you to the completion page. Here you will find the **Access Keys**. Copy it by clicking on the clipboard. Mine is hidden, as you show create your own.
+
+![Access Keys hidden](https://ik.imagekit.io/thewebdev/Unsplash-API/2/6_Zdfm-JOrJ.png)*Access Keys hidden*
+
+Now, we will create the AJAX client to call the unsplash API. We will use the popular third party library **axios** as our AJAX client. We have to install axios first, so head over to your terminal. Close the running app(the npm start) by pressing *Ctrl+c* and type *npm install — save axios*
+
+
+![axios install](https://ik.imagekit.io/thewebdev/Unsplash-API/2/7_RcGZy3SEw.png)*axios install*
+
+Don't forget to start the app again by **npm start**
+
+Now, we will go to our App.js and use axios to make API call to unsplash.
+
+
+```js
+    import React from 'react';
+    import axios from 'axios';
+    import SearchBar from './SearchBar';
+
+    class App extends React.Component  {
+        onSearchSubmit(term) {
+            axios.get('https://api.unsplash.com/search/photos', {
+                params: { query: term},
+                headers: {
+                    Authorization: 'Client-ID YOUR_ACCESS_KEY'
+                }
+            })
+        }
+
+        render() {
+            return (
+                <div>
+                    <SearchBar userSubmit={this.onSearchSubmit}/>
+                </div>
+            )
+        }
+
+    }
+
+    export default App;
+```
+
+Here, we are importing axios first. Then we are using the *axios.get* method. The endpoint of [https://api.unsplash.com/search/photos](https://api.unsplash.com/search/photos) and other details are from unsplash api [documentation](https://unsplash.com/documentation).
+
+In the above code in place of **YOUR_ACCESS_KEY** ,use the **Access Keys** you got while creating the app in unsplash site.
+
+Now head to your [http://localhost:3000/](http://localhost:3000/) and open the developer console. In developer console, open the *Network tab*. Now search for any item and you will see a network request been made, as in screenshot below.
+
+![Network Request.](https://ik.imagekit.io/thewebdev/Unsplash-API/2/8_gg_b1lJcXH.png)*Network Request.*
+
+Now, before moving forward i want to hide the API Keys and not push it to the github. I had recently written an
+article to hide API Keys in React. You can find it [here](https://thewebdev.tech/youtube-api-fix)
+
+So, following that i will first create an **.env** file in the root directory and put the API key in it.
+
+![env](https://ik.imagekit.io/thewebdev/Unsplash-API/2/9_YZ5Te7yhdQ.png)*env*
+
+Now, put the same in **.gitignore**, so that we don't push it to github.
+
+![gitignore](https://ik.imagekit.io/thewebdev/Unsplash-API/2/10_V8Aj4J7BRt.png)*gitignore*
+
+After that we will change the code in our **App.js** file and will get access to the API Keys
+
+![App.js](https://ik.imagekit.io/thewebdev/Unsplash-API/2/11_Lc6FUBG_Oi.png)*App.js*
+
+Again head to your [http://localhost:3000/](http://localhost:3000/) and open the developer console. In developer console, open the *Network tab* and everyting i as earlier.
+
+![Network Request](https://ik.imagekit.io/thewebdev/Unsplash-API/2/12_1ytz-u7Yt.png)*Network Request*
+
+This concludes part-2 of the series.

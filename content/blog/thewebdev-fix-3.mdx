@@ -1,0 +1,59 @@
+---
+title: How I deployed my Gatsby site to AWS S3 - 2
+description: Gatsby
+date: 2020-06-15
+tags: ['AWS', 'devops', 'gatsby']
+published: true
+---
+
+Welcome to part-2 of our AWS journey. I am deploying my blog site to AWS S3 which is currently deployed in Netlify.
+
+So, we will start to create bucket in this part. Give the bucket a unique name and click on **Next** button.
+
+![thewebdev](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/1_woqxWXuV1.png)*thewebdev*
+
+In the next screen keep the default values and click on the **Next** button.
+
+![Default](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/2_hagqJOhWn.png)*Default*
+
+In the next screen also keep the default values and click on the **Next** button.
+
+![Default](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/3_vIIHdX_LKx.png)*Default*
+
+In the next screen we can review our changes and click on the **Create bucket** button.
+
+![Create Bucket](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/4_4Lji0Mo1tQ.png)*Create Bucket*
+
+Now, our bucket **thewebdev-deploy** is created but we need to do some more settings.
+
+![Bucket created](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/5_rRonHzcxsB.png)*Bucket created*
+
+Next, click on the **Permissions** tab and then the **Edit** button.
+
+![Edit](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/6_maDG-01_EJ.png)*Edit*
+
+Then, we need to un-check the checkbox, next to **Block all public access** and click on **Save** button. It will show a pop-up where, we need to type **confirm** and click on **Confirm** button.
+
+![Confirm](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/7_3CqKJH-Aj.png)*Confirm*
+
+We need to restrict the public access, so we will be using [this](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-2) doc and copy the below query.
+
+![Read Access](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/8_lwVJTOIncC.png)*Read Access*
+
+Next, in the Permissions tab only click on Bucket Policy and paste the query from above here. We just need to change the **examplebucket** to the real bucket name, which is **thewebdev-deploy** in my case.
+
+![Bucket Policy](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/9_t7VsxGGUGX.png)*Bucket Policy*
+
+After clicking on the **Save** button, we will get the below message.
+
+![Save](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/10_MrkVpsJ_rb.png)*Save*
+
+Now, click on the **Properties** tab and the click on **Static website hosting**.
+
+![Static](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/11_LfimI-zwf5.png)*Static*
+
+Here, click the radio button **Use this bucket to host a website** and then give the **Index document** as **index.html** and **Error document** as **404.html**. After that click on **Save** button.
+
+![Save button](https://ik.imagekit.io/thewebdev/thewebdev-fixes/3/12_7XpyvDEIe.png)*Save button*
+
+This completes the part-2 of the series.
