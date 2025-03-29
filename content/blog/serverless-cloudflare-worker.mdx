@@ -1,0 +1,189 @@
+---
+title: Serverless Application using Cloudflare Worker
+description: Flexbox
+date: 2021-10-18
+tags: ['css', 'javascript', 'cloudflare']
+published: true
+---
+
+Cloudflare worker is a serverless application platform, that allows you to create applications and deploy them on it's Edge network.
+
+We will learn to build a simple application in this post and deploy it to Cloud flare Edge network. 
+
+The first thing which we need to do is create a Cloudflare worker account. So, head over to `[https://workers.cloudflare.com/](https://workers.cloudflare.com/)` and  **Sign Up**. In the next page give your email and password and click on  **Create Account**  button.
+
+![User](https://res.cloudinary.com/thewebdev/image/upload/v1643888365/Cloudflare%20images/Cloudflare_Worker2_cmnpqk.png)
+
+In the next page, it will ask us to create a sub-domain. It will contain in the link, in which we deploy our app.
+
+![alttext](https://res.cloudinary.com/thewebdev/image/upload/v1643888408/Cloudflare%20images/Cloudflare_Worker3_qcly39.png)
+
+In the next page, click on the  **Continue with Free**  button.
+
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888408/Cloudflare%20images/Cloudflare_Worker4_lf6lqz.png)
+
+Next, it will ask us to confirm from our email.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888408/Cloudflare%20images/Cloudflare_Worker5_kkdoyg.png)
+
+Now, when you click the email link you will be asked for images to verify.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888410/Cloudflare%20images/Cloudflare_Worker6_svnm9f.png)
+
+After verifying we will be able to see our workers in the dashboard.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888408/Cloudflare%20images/Cloudflare_Worker7_vvpga9.png)
+
+Now, the cloudflare account is created and it's time to install wrangler. It is the command line tool we use to create and publish worker project. Install it globally in terminal my below command.
+
+`npm install -g @cloudflare/wrangler`
+
+Once it is install, we can verify it by the below command and check the version number.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888408/Cloudflare%20images/Cloudflare_Worker8_bf8ebj.png)
+
+Now, it's time to authenticate our wrangler with our cloudflare account. So, type  **wrangler login**  in the terminal. It will ask for our permission to open in browser.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888408/Cloudflare%20images/Cloudflare_Worker9_tfjpbj.png)
+
+It will open the browser, but sometimes it doesn't open the correct link. The best thing is to copy the link from the terminal and paste it in browser. Click on Authorize Wrangler button.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888409/Cloudflare%20images/Cloudflare_Worker10_l4wihc.png)
+
+Once you authorize, you will get this below page. You need to close this page.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888409/Cloudflare%20images/Cloudflare_Worker11_iykowi.png)
+
+Sometimes, it gets stuck in the terminal and keep on waiting for the API token. In such cases, you need to see the API key by wrangler config command. In this you need to give your Account id for the cloudflare dashboard. This method is not recommended, but can be used as a last resort.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888409/Cloudflare%20images/Cloudflare_Worker12_snq0sp.png)
+
+Now, run the command wrangler whoami to see if everything is setup correctly. I am currently logged in from my other account.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888409/Cloudflare%20images/Cloudflare_Worker13_vngibn.png)
+
+Now, that you have logged in to wrangler, it's time to create your first project. We need to run the  **wrangler generate**  command for that. You need to give you project name after that.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888409/Cloudflare%20images/Cloudflare_Worker14_hawmk1.png)
+
+There are also various templates to create a basic project. You can get them from  [this](https://developers.cloudflare.com/workers/get-started/quickstarts) link.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888410/Cloudflare%20images/Cloudflare_Worker15_j5b0q5.png)
+
+Now, change to the directory and open it with VS Code.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888410/Cloudflare%20images/Cloudflare_Worker16_z1zos6.png)
+
+The starting point in a wrangler project is the  **index.js**  file and we will learn more about it later. Right now run  **wrangler preview**  to see how this looks like in browser.
+
+It also tells us that we need to put  **account_id** in our config file.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888404/Cloudflare%20images/Cloudflare_Worker17_rxld3c.png)
+
+It will give us a sort of testing environment and we can see our worker, is perfect.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888404/Cloudflare%20images/Cloudflare_Worker18_p3yvad.png)
+
+Let's now learn what the code in  **index.js**  means. The  **addEventListener** is like a browser event listener and listens for the fetch event. In the worker worker right now there are two kinds of requests -
+
+-   fetch- a http request
+-   schedule- add schedule workers, which can be run on time basis
+
+It have a callback function, which tell that for a fetch event, respond with  **handleRequest** function.
+
+The  **handleRequest** is an async function, which is taking the request in as parameter and returning a response. The response first have a body, which is a simple string ‘Hello worker!' in our case. Then it have a set of arguments, which are called options. It defines the type of body, which in our case is plain string.
+
+There are all kind of different things that, we can return in a response. We can learn more about it  [here](https://developers.cloudflare.com/workers/runtime-apis/response).
+
+Now we will publish our project to Cloudflare CDN network, but for need need to set the account id in the config file. So, again run  **wrangler whoami** and take the account id.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888405/Cloudflare%20images/Cloudflare_Worker19_lzhrjn.png)
+
+Put the account id in the  **wrangler.toml**  file, which is the configuration file for our wrangler project.
+
+The  **worker_dev** tell to deploy wrangler in our worker subdomain in wrangler.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888405/Cloudflare%20images/Cloudflare_Worker20_kpdgcf.png)`
+Now, we will first check how our project looks in production by running  **wrangler dev**, which will open the project on  [http://127.0.0.1:8787](http://127.0.0.1:8787/)
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888405/Cloudflare%20images/Cloudflare_Worker21_komu6t.png)
+
+Once we run it in our browser, we will get  **Hello worker!**  shown.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888405/Cloudflare%20images/Cloudflare_Worker22_osrjrp.png)
+
+Now, we will publish the project. We will use the command  **wrangler publish**  to publish it to Cloudflare Edge network.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888405/Cloudflare%20images/Cloudflare_Worker23_bddxfc.png)
+
+It also gives us the url, which will show us the same  **Hello worker!**
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888405/Cloudflare%20images/Cloudflare_Worker24_mfmuss.png)
+
+Now, we will start to add more functionality to the project, instead of displaying the plain  **Hello worker!** text. For that we will create a HTML template, which will show the html page.
+
+For that create a file  **template.js**  and add a simple function returning a template string. The template string contains html skeleton code, with simple title and body.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888405/Cloudflare%20images/Cloudflare_Worker25_eabxay.png)
+
+Back in  **index.js**  file we will import template and then use it in the Response().
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888406/Cloudflare%20images/Cloudflare_Worker26_dfzkfp.png)
+
+Before going forward, we have to change  **javascript** to  **webpack** in  **wrangler.toml**  file. We are using import and other features, so it is required.
+
+Since, we have done changes so we need to re-publish our project. We will do the same by  **wrangler publish**  command.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888406/Cloudflare%20images/Cloudflare_Worker27_mvboeb.png)
+
+Now, when we look into our deployed app, we will see actually the html code is printed.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888406/Cloudflare%20images/Cloudflare_Worker28_tnf2ml.png)
+
+To render an html page, we need to change the header in  **index.js**  file to have a  **content-type**  of  **text/html**.
+
+Need to re-publish the project again after that.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888406/Cloudflare%20images/Cloudflare_Worker29_dzgq8m.png)
+
+Now, our page will look correctly in deployed host.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888406/Cloudflare%20images/Cloudflare_Worker30_ihi0vo.png)
+
+Now, we will do a bit more then just showing plain html. We are passing a request object inside the  **handleRequest** function. It contains a lot of useful information to show.
+
+There is  **request.cf**  which have ton of useful information. The details about it can be found  [here](https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties).
+
+We will first pass  **request.cf**  in the template function in  **index.js**  file.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888406/Cloudflare%20images/Cloudflare_Worker31_okyjwo.png)
+
+Now, before moving to template.js we will install a package for country flags. We are installing it, because we want to show country flag associated with a country.
+
+So, open your terminal and npm install  **country-code-emoji**.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888407/Cloudflare%20images/Cloudflare_Worker32_ueumv3.png)
+
+Now in  **template.js**  file, first import the flag from country-code-emoji. We are also now passing argument  **cf**  in the function. Also added curly brackets in the function, since it contains more statements.
+
+Now, we will get the county emoji with passing, the county code by  **cf.country**. We are showing a fire emoji, if this fails. After that in body, we are showing the country code and flag.
+
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888407/Cloudflare%20images/Cloudflare_Worker33_spg7hr.png)
+
+After  **wrangler publish**, we will see this in the deployed host.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888407/Cloudflare%20images/Cloudflare_Worker34_dwmv0n.png)
+
+We will next add some style in our project. We are also showing more details now, which include the Cloudflare datacenter, city, latitude, longitude and Time Zone.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888407/Cloudflare%20images/Cloudflare_Worker35_isdidk.png)
+
+Now, our project is complete, and we are getting this beautiful information displayed.
+
+![](https://res.cloudinary.com/thewebdev/image/upload/v1643888407/Cloudflare%20images/Cloudflare_Worker36_fjwjtc.png)
+
+
+You can find code for the same  [here](https://github.com/nabendu82/simple-worker-cloudflare).
+

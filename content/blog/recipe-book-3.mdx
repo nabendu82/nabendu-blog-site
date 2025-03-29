@@ -1,0 +1,151 @@
+---
+title: Building a Recipe Book app in Angular-3
+description: Angular
+date: 2021-12-31
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-3 of the recipe book app. We will start with adding routing in this part.
+
+We will add on top of the app we have create in the previous part. You can find the code for the earlier part in [this](https://github.com/nabendu82/recipe-book-v2) github link.
+
+We will be first creating an **app-routing.module.ts** file, in which we will put all the routing details. If we hit an empty path, we will be showing the recipes page. The other two routes will be **recipes** and **shopping-list**.
+
+![app-routing.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665972/New-blogs/Yashvendra_9/2_ddbngf.png)_app-routing.module.ts_
+
+Next, we will add the **AppRoutingModule** in the **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665975/New-blogs/Yashvendra_9/3_qgawcv.png)_app.module.ts_
+
+Finally, we will show a **router-outlet** instead of the earlier code in the **app.component.html** file.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665977/New-blogs/Yashvendra_9/4_wtlnrw.png)_app.component.html_
+
+Now, we can navigate to both **recipes** and **shopping-list** routes, by typing on browser. But we cannot click on the links.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665979/New-blogs/Yashvendra_9/5_sorvfd.png)_localhost_
+
+To add the routes first go to the **header.component.ts** file and remove the Output and onSelect function. It now contains very minimal code.
+
+![header.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665981/New-blogs/Yashvendra_9/6_ketuc0.png)_header.component.ts_
+
+Now, in the **header.component.html** file, we will add a **routerLink** to navigate to the respective Components. We are also adding a routerLinkActive to get the active Component.
+
+![header.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665983/New-blogs/Yashvendra_9/7_wc30ym.png)_header.component.html_
+
+Now, our navigation is working properly on localhost.
+
+![Navigation](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665987/New-blogs/Yashvendra_9/8_osuqnp.gif)_Navigation_
+
+There is an issue, when we click on any recipe and it’s reloading the page. We will fix it now. Go to the **recipe-item.component.html** file and remove the href and put a cursor pointer in it’s place.
+
+![recipe-item.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665989/New-blogs/Yashvendra_9/9_z9we9h.png)_recipe-item.component.html_
+
+Next, we will fix the reloading in **Edit Recipe** and \*8Delete Recipe** by removing the href and put a cursor pointer in it’s place, in the **recipe-detail.component.html\*\* file.
+
+![recipe-detail.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665991/New-blogs/Yashvendra_9/10_rmf8y5.png)_recipe-detail.component.html_
+
+We will also fix the **Save Data** and **Fetch Data** in **header.component.html** in the same way.
+
+![header.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665993/New-blogs/Yashvendra_9/11_qqze6h.png)_header.component.html_
+
+Now, all of our reloading issues are solved. We will be moving to implement child routes for each recipe.
+
+We will also be creating a new component recipe-start, as a child route. Give the below command to generate the component.
+
+```js
+    ng g c recipes/recipe-start 
+```
+
+Our new component will only hold a text. So, update the below in **recipe-start.component.html** file.
+
+![recipe-start.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665995/New-blogs/Yashvendra_9/12_v1b6qp.png)_recipe-start.component.html_
+
+Next, in the **recipes.component.html** file we will add a router-outlet instead of the earlier code.
+
+![recipes.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665997/New-blogs/Yashvendra_9/13_x8tkzk.png)_recipes.component.html_
+
+Now, in the **app-routing.module.ts** file we will be adding children path of **RecipeStartComponent** and **RecipeDetailComponent**
+
+![app-routing.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660665999/New-blogs/Yashvendra_9/14_bx1n6p.png)_app-routing.module.ts_
+
+Now, we will clean up some of the earlier code and will remove the Input from **recipe-detail.component.ts** file.
+
+![recipe-detail.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666002/New-blogs/Yashvendra_9/15_kkuzm6.png)_recipe-detail.component.ts_
+
+Next, we will also remove the function onSelected from **recipe-item.component.html** file.
+
+![recipe-item.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666005/New-blogs/Yashvendra_9/16_ytsbbs.png)_recipe-item.component.html_
+
+Now, in the **recipe-item.component.ts** file, we will remove the function **onSelected** and also the service. It will now look like below.
+
+![recipe-item.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666011/New-blogs/Yashvendra_9/17_tv85q5.png)_recipe-item.component.ts_
+
+Now, we will go to **recipe.service.ts** file and add a new function to get a recipe, when we provide an index number.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666013/New-blogs/Yashvendra_9/18_qlcjwm.png)_recipe.service.ts_
+
+Now in **recipe-detail.component.ts** file, we will use the params and take the id to get the recipe. We are using the observable, because it can update later and not just in initial load.
+
+![recipe-detail.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666015/New-blogs/Yashvendra_9/19_vqlw7r.png)_recipe-detail.component.ts_
+
+Now, if we manually go to any route, we will get that recipe.
+
+![Manual recipe](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666017/New-blogs/Yashvendra_9/20_wscomn.png)_Manual recipe_
+
+Now, we will enable the links to work and for this we will pass the **index** first from the **recipe-list.component.html** file.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666019/New-blogs/Yashvendra_9/21_urdcfr.png)_recipe-list.component.html_
+
+Next, we will add the index in **recipe-item.component.ts** file.
+
+![recipe-item.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666022/New-blogs/Yashvendra_9/22_vecr5o.png)_recipe-item.component.ts_
+
+Finally, we will add the **routerLink** and **routerLinkActive** in **recipe-item.component.html** file.
+
+![recipe-item.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666025/New-blogs/Yashvendra_9/23_fp9i56.png)_recipe-item.component.html_
+
+Now, our links are working fine and showing the correct recipe on click in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666026/New-blogs/Yashvendra_9/24_ux1lrb.png)_localhost_
+
+Now, we will add the logic to add or edit a recipe and for this we will create a new component by below command.
+
+```js 
+    ng g c recipes/recipe-edit 
+```
+
+Now, we will go to the **app-routing.module.ts** file to add the new route for Recipe Edit component. We are using it for both new and the edit recipe.
+
+![app-routing.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666029/New-blogs/Yashvendra_9/25_kffp5z.png)_app-routing.module.ts_
+
+Now, in **recipe-edit.component.ts** file, we will check whether id is present and make it **editMode** depending on that.
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666032/New-blogs/Yashvendra_9/26_sqqbdm.png)_recipe-edit.component.ts_
+
+Now, we will hook the button to create a new recipe. First write a click listener on **recipe-list.component.html** file, which will call a function **onNewRecipe**.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666034/New-blogs/Yashvendra_9/27_gmvijh.png)_recipe-list.component.html_
+
+Now, in the **recipe-list.component.ts** file we will implement the function **onNewRecipe**, which will take us to the new route.
+
+![recipe-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666037/New-blogs/Yashvendra_9/28_lqgzs7.png)_recipe-list.component.ts_
+
+Now, the **New Recipe** button is working properly and taking us to the Recipe Edit component.
+
+![Recipe Edit](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666038/New-blogs/Yashvendra_9/29_o3s67j.png)_Recipe Edit_
+
+Now, we will hook the button to edit a recipe. First write a click listener on **recipe-detail.component.html** file, which will call a function **onEditRecipe**.
+
+![recipe-detail.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666041/New-blogs/Yashvendra_9/30_ztw2xs.png)_recipe-detail.component.html_
+
+Now, we will add the function **onEditRecipe** in **recipe-detail.component.ts** file which will take us to the Edit component.
+
+![recipe-detail.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666043/New-blogs/Yashvendra_9/31_xzyv6q.png)_recipe-detail.component.ts_
+
+Now, our Edit is also working properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660666048/New-blogs/Yashvendra_9/32_gmfzdd.gif)\*\*
+
+This complete the part-3 of our project. We will complete, it in part-4. The code for this part can find in [this](https://github.com/nabendu82/recipe-book-v3) github repo.

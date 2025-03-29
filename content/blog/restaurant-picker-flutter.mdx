@@ -1,0 +1,98 @@
+---
+title: Build a Restaurant Picker app in Flutter
+description: Flexbox
+date: 2021-04-05
+tags: ['flutter', 'beginners', 'dart']
+published: true
+---
+
+After learning flutter in the last two blogs, it time to create flutter apps. We will start by creating two simple flutter apps — Restaurant Picker and Tip Calculator.
+
+So, open up a terminal and create a new flutter app using the below command.
+
+```js
+    flutter create restaurant_picker
+```
+
+After that cd into the folder and open the code in VSCode. I have also connected my physical device to my computer via USB.
+
+On running the app from Run ->Start without debugging , i will get the basic app running on my phone.
+
+The basic app will be shown on my phone as below.
+
+![Basic app](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652576/Flutter/restaurant-picker/1_hvjbhj.png)*Basic app*
+
+After that we will remove everything in in the **main.dart** file, except the void main() part. Then type **stful** and press Enter and write MyApp where the cursor points.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652576/Flutter/restaurant-picker/2_fl2ayw.png)*main.dart*
+
+After that we will put the a **MaterialApp** and a **Scaffold** to get the basic structure. Inside the Scaffold, we have a **Appbar** and a body Text.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652576/Flutter/restaurant-picker/3_i03fxv.png)*main.dart*
+
+After that we will wrap our Text with a Center and for that we will again use the VSCode shortcut, by clicking on the **Text** and then the **Yellow bulb** in the same line. After that in the drop menu click on **Wrap with Center**.
+
+![Wrap](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652575/Flutter/restaurant-picker/4_fqiidu.png)*Wrap*
+
+Our Text is now wrapped with Center and now we will also increase the font size for the same.
+
+![Center](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652575/Flutter/restaurant-picker/5_ursrk0.png)*Center*
+
+After doing a hot reload, our App is looking quite good with centered text.
+
+![Centered Text](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652575/Flutter/restaurant-picker/6_z0tzyo.png)*Centered Text*
+
+
+Again click on the Text for Mcdonald and then the **Yellow bulb** and then **Wrap with Column** from dropdown. Also, added a **mainAxisAlignment** to put everything in center.
+
+We have also formatted the code a bit and also added a font weight to the text.
+
+![main.dart](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652576/Flutter/restaurant-picker/7_nk0p7n.png)*main.dart*
+
+Now, we don't want to hard-code the restaurant. So, we will create a list of string containing restaurants.
+
+After that showing the restaurant no 3 and also added a text centering to it. Also, added a text above the restaurant text asking a question.
+
+![List Strings](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652576/Flutter/restaurant-picker/8_xjleve.png)*List Strings*
+
+Now, instead of hard-coding our restaurant we will use a currIndex variable to hold it.
+
+We are also adding a **SizedBox** with height of 40 after our Text. It is used to give a margin after our Text. After that we are creating a **TextButton** with some styling and a name.
+
+![TextButton](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652576/Flutter/restaurant-picker/9_kth8sp.png)*TextButton*
+
+Now, our app look are completed and it look like below.
+
+
+![App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652576/Flutter/restaurant-picker/10_tftpyv.png)*App*
+
+
+Now, we will create the function to be called when we press the **TextButton**. So, create a function **updateIndex()** at the end and call it from the TextButton's **onPressed** event handler.
+
+Here, we are generating a random number and then setting the index to the random number, which will be from 0 to the length of restaurants array.
+
+We also need to have the math package imported at the top for our Random().
+
+
+```js
+    import 'dart:math';
+```
+
+
+![updateIndex](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652577/Flutter/restaurant-picker/11_abhoas.png)*updateIndex*
+
+Our app is complete and we can leave it here, but we don't want to load any restaurants at the beginning. So, we will remove the initial value of the **currIndex**.
+
+We will also be using an if statement to check if the **currIndex** not equal to null and then only show the Text for restaurants. Also, notice the tab space for Text, which is required.
+
+
+![App complete](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652577/Flutter/restaurant-picker/12_oltktg.png)*App complete*
+
+
+Now, our app is complete and working perfectly.
+
+
+![App complete](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1618652577/Flutter/restaurant-picker/13_lvlzgb.gif)*App complete*
+
+
+You can find the code for the same in [this ](https://github.com/nabendu82/restaurant-picker)github repo.

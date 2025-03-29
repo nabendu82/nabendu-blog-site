@@ -1,0 +1,152 @@
+---
+title: Building a Recipe Book app in Angular-2
+description: Angular
+date: 2021-12-15
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+
+Welcome to part-2 of the recipe book app. We will add on top of the app we have create in the previous [part](https://thewebdev.tech/recipe-book-1). You can find the code for the earlier part in [this](https://github.com/nabendu82/recipe-book) github link.
+
+We will first add a directive to our project to add dropdown functionality to the Manage button. Create a new file **dropdown.directive.ts** in the shared folder.
+
+Here, we are using **HostBinding** to the open class of bootstrap and creating a variable **isOpen.** We are then adding it to a listener with click, with help of **HostListener.**
+
+![dropdown.directive.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739487/New-blogs/ankit-10/2_kvxcdk.png)_dropdown.directive.ts_
+
+We also need to add this directive to the **app.module.ts** file, since we have created the directive manually.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739488/New-blogs/ankit-10/3_w6z0ae.png)_app.module.ts_
+
+Now, we will use this directive in the **recipe-detail.component.html** file.
+
+![recipe-detail.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739487/New-blogs/ankit-10/4_bzxahy.png)_recipe-detail.component.html_
+
+Next, we will also add it in the **header.component.html** file.
+
+![header.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739487/New-blogs/ankit-10/5_jacaei.png)_header.component.html_
+
+Now, both dropdown are working properly.
+
+![Dropdown](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739488/New-blogs/ankit-10/6_qjiwmz.png)_Dropdown_
+
+Next, we will add services in our project. We will be creating a recipe service and a shopping list service.
+
+First create a **recipe.service.ts** file in the recipes folder. Here, we are adding the Recipe array from recipe list. We are making it private, so that only Recipe component can use it. Also adding a function getRecipes(), to send a copy of the recipes.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739488/New-blogs/ankit-10/7_qevleo.png)_recipe.service.ts_
+
+Next, we will be adding the **RecipeService** in the **recipes.component.ts** file, which is the parent component for all Recipes.
+
+![recipes.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739488/New-blogs/ankit-10/8_bf4sdz.png)_recipes.component.ts_
+
+Now, we will use it in the **recipe-list.component.ts** file, by removing the array from their. Our app will behave the same and we have successfully done the service.
+
+![recipe-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739488/New-blogs/ankit-10/9_ducacm.png)_recipe-list.component.ts_
+
+We have a long chain to cross component communication in recipes, which we will solve through services. We will create a new Emitter in **recipe.service.ts** file.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739488/New-blogs/ankit-10/10_gnwgky.png)_recipe.service.ts_
+
+We are getting rid of the EventEmitter first in **recipe-item.component.ts** file and adding this service now.
+
+![recipe-item.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739489/New-blogs/ankit-10/11_zpw03a.png)_recipe-item.component.ts_
+
+We can now go to **recipe-list.component.html** file and get rid of the **recipeSelected** listener.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739489/New-blogs/ankit-10/12_ghlgu4.png)_recipe-list.component.html_
+
+Now, we will also get rid of the emitter in **recipe-list.component.ts** file.
+
+![recipe-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739489/New-blogs/ankit-10/13_eqlfoa.png)_recipe-list.component.ts_
+
+Now, in **recipes.component.html** file, we will get rid of the **recipeThatSelected** event, as we are not using it anymore.
+
+![recipes.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739489/New-blogs/ankit-10/14_wtonya.png)_recipes.component.html_
+
+Now, in the **recipes.component.ts** file we will use the subscribe to get the recipe service.
+
+![recipes.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739489/New-blogs/ankit-10/15_o51rvc.png)_recipes.component.ts_
+
+Our application is working as usual and we will move to shopping service now.
+
+Create a file **shopping-list.service.ts** in the **shopping-list** folder and add the ingredients from **shopping-list.component.ts** file.
+
+![shopping-list.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739489/New-blogs/ankit-10/16_mnbgyf.png)_shopping-list.service.ts_
+
+Now, add it in the **app.module.ts** file, since we also want to use it in the recipe component.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739489/New-blogs/ankit-10/17_nwx4wr.png)_app.module.ts_
+
+Now, we will use this service in **shopping-list.component.ts** file.
+
+![shopping-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739490/New-blogs/ankit-10/18_koh21a.png)_shopping-list.component.ts_
+
+Our app is working fine for shopping list and we will now add the service to add ingredients.
+
+We will first deleted the not required EventEmitter for **shopping-edit.component.ts** file.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739490/New-blogs/ankit-10/19_qckfvl.png)_shopping-edit.component.ts_
+
+We will also remove the listener from **shopping-list.component.html** file.
+
+![shopping-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739490/New-blogs/ankit-10/20_pxffp5.png)_shopping-list.component.html_
+
+Also, in the **shopping-list.component.ts** file, will remove the **onIngredientAdded** method.
+
+![shopping-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739490/New-blogs/ankit-10/21_cvlak2.png)_shopping-list.component.ts_
+
+Now, in the **shopping-edit.component.ts** file we will use the ShoppingListService to add an ingredient.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739490/New-blogs/ankit-10/22_tmmmsc.png)_shopping-edit.component.ts_
+
+Now, in the **shopping-list.service.ts** file, we will add the function to add an Ingredient. Also notice that we have to emit the ingredients, since we are working with the array copy.
+
+![shopping-list.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739490/New-blogs/ankit-10/23_ayv9mc.png)_shopping-list.service.ts_
+
+Finally, we will go to our **shopping-list.component.ts** file and add the subscribe to get all of Ingredient list.
+
+![shopping-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739491/New-blogs/ankit-10/24_xue4iy.png)_shopping-list.component.ts_
+
+Now, we will add logic for each recipe to have ingredient and with click of button make to shopping list.
+
+We will add ingredients first in the **recipe.model.ts** file.
+
+![recipe.model.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739491/New-blogs/ankit-10/25_fseve1.png)_recipe.model.ts_
+
+Now, we need to add the Ingredient in **recipe.service.ts** file.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739491/New-blogs/ankit-10/26_bxfipy.png)_recipe.service.ts_
+
+Now, we will show the ingredient in the **recipe-detail.component.html** file.
+
+![recipe-detail.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739491/New-blogs/ankit-10/27_rhkf5p.png)_recipe-detail.component.html_
+
+It is showing perfectly in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739491/New-blogs/ankit-10/28_pcawaw.png)_localhost_
+
+Now, we want to send these ingredients to the shopping list, if we click on **To Shopping List** from dropdown.
+
+We will first add a click event in **recipe-detail.component.html** file.
+
+![recipe-detail.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739492/New-blogs/ankit-10/29_mzwavu.png)_recipe-detail.component.html_
+
+Next, we will add this function in **recipe-detail.component.ts** file, where it will call another function in recipe service.
+
+![recipe-detail.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739492/New-blogs/ankit-10/30_htaq6p.png)_recipe-detail.component.ts_
+
+Now, in the **recipe.service.ts** file, we will add the function **addIngredientsToList,** which will call a function **addIngredients** in Ingredient service.
+
+We have to add Injectable in recipe service, as it is calling shopping-list service.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739492/New-blogs/ankit-10/31_snfmjq.png)_recipe.service.ts_
+
+Now, in the shopping-list.service.ts file, we will be adding the **addIngredients** function. It will loop through the ingredients and add it in the **ingredients** array, through the **addIngredient** method.
+
+![shopping-list.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739492/New-blogs/ankit-10/32_izap6x.png)_shopping-list.service.ts_
+
+Now, we are able to add ingredients from recipes to shopping list and with this our part 2 is complete. You can find the code for the same in [this](https://github.com/nabendu82/recipe-book-v2)github repo.
+
+![App done](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739493/New-blogs/ankit-10/33_vz69td.gif)_App done_

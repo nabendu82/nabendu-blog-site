@@ -1,0 +1,125 @@
+---
+title: Building a Recipe Book app in Angular-5
+description: Angular
+date: 2022-01-28
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to final part of the recipe book app. We will HTTP requests in our app, in this part.
+
+We will add on top of the app we have create in the previous [part](https://nabendu82.medium.com/building-a-recipe-book-app-in-angular-4-9a8da665c1cb). You can find the code for the earlier part in [this](https://github.com/nabendu82/recipe-book-v4) github link.
+
+We will add functionalities of **Save Data** and **Fetch Data** from Firebase database in our project.
+
+![Save Data](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780927/New-blogs/Yashvendra6_mdx/2_rwmuik.png)_Save Data_
+
+We need to setup a new Project in firebase. The steps are exactly same as mentioned in the [Angular Basics-12](https://nabendu82.medium.com/angular-basics-12-2bf10063a4f4) post. We will follow them and create a new project named angular-recipe-book and it will use the **Realtime Database**.
+
+![Realtime database](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780928/New-blogs/Yashvendra6_mdx/3_ozitgg.png)_Realtime database_
+
+First add the **HttpClientModule** in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780929/New-blogs/Yashvendra6_mdx/4_qequ5j.png)_app.module.ts_
+
+Now, we will create a new service called **data-storage.service.ts** in **shared** folder. Here we will use the **HttpClient** and **RecipeService** and putting all the recipies in our firebase endpoint.
+
+Also notice that we have added **recipes.json** at the end of our firebase endpoint.
+
+![data-storage.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780934/New-blogs/Yashvendra6_mdx/5_p9cmah.png)_data-storage.service.ts_
+
+Now, we will add a function **onSaveData** to the click handler in **header.component.html** file.
+
+![header.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780936/New-blogs/Yashvendra6_mdx/6_j5r3d7.png)_header.component.html_
+
+Next, in the **header.component.ts** file we are implementing the **onSaveData** function by calling the storeRecipes from **dataStorageService** service.
+
+![header.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780937/New-blogs/Yashvendra6_mdx/7_nyoyln.png)_header.component.ts_
+
+Now, just click on the **Save Data** button and our data will be stored in the firebase database.
+
+![Save Data](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780939/New-blogs/Yashvendra6_mdx/8_f8hlix.png)_Save Data_
+
+Now, it's time to fetch the data. We need to create a new recipe service for it first in **recipe.service.ts** file. We are also commenting out the hardcoded recipes.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780941/New-blogs/Yashvendra6_mdx/9_oos6dr.png)_recipe.service.ts_
+
+Now, we will add the function fetchRecipes in **data-storage.service.ts** file. Here, we are just using the GET request to get all data.
+
+![data-storage.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780943/New-blogs/Yashvendra6_mdx/10_shjohs.png)_data-storage.service.ts_
+
+Next, we will add a function **onFetchData()** click handler in **header.component.html** file.
+
+![header.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780944/New-blogs/Yashvendra6_mdx/11_xb6gch.png)_header.component.html_
+
+Now, just add the function **onFetchData()** in **header.component.ts** file.
+
+![header.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780946/New-blogs/Yashvendra6_mdx/12_gok6g9.png)_header.component.ts_
+
+Now, our Fetch and Save are working properly and taking data from stored firebase database.
+
+![Working](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780948/New-blogs/Yashvendra6_mdx/13_ybkvfl.gif)_Working_
+
+It's time to deploy our application, as it's finally complete. For this we will first run the below command in our project.
+
+```js
+    ng build --prod 
+```
+
+![command](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780950/New-blogs/Yashvendra6_mdx/14_bsduge.png)_command_
+
+Now, we will host our project in firebase. So, open the firebase terminal and click on the **Settings-> Project settings.**
+
+![Settings](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780952/New-blogs/Yashvendra6_mdx/15_fpaw6z.png)_Settings_
+
+Next, click on the icon to create web-apps.
+
+![Web-apps](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780953/New-blogs/Yashvendra6_mdx/16_qqvbri.png)_Web-apps_
+
+Now, it will ask to give the app a name. I have kept it same as the name we have given earlier. It is very important to click on Also set up **Firebase Hosting.**
+
+After that click on **Register app** button.
+
+![Firebase hosting](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780955/New-blogs/Yashvendra6_mdx/17_vr8cg7.png)_Firebase hosting_
+
+In the next screen, just press **Next** button.
+
+![Next](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780957/New-blogs/Yashvendra6_mdx/18_uqcplb.png)_Next_
+
+It is important to install the firebase-tools globally, if you have not already done.
+
+![firebase globally](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780958/New-blogs/Yashvendra6_mdx/19_rk8ilg.png)_firebase globally_
+
+Nest, just click on **Continue to the console** button.
+
+![Continue](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780962/New-blogs/Yashvendra6_mdx/20_tp6s3i.png)_Continue_
+
+Now, from the terminal give the command **firebase login** and you will be logged in.
+
+![Command](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780965/New-blogs/Yashvendra6_mdx/21_c89npt.png)_Command_
+
+Now, give the command **firebase** init in command line. It will ask to proceed, where give **Yes** and after that choose **Hosting.**
+
+![Hosting](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780968/New-blogs/Yashvendra6_mdx/22_abtwhf.png)_Hosting_
+
+Now, choose **Use an existing project** and click enter.
+
+![Use an existing project](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780969/New-blogs/Yashvendra6_mdx/23_t902fy.png)_Use an existing project_
+
+Here, i will choose **angular-recipe-book** and press enter.
+
+![angular-recipe-book](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780971/New-blogs/Yashvendra6_mdx/24_hb6pby.png)_angular-recipe-book_
+
+Now, we need to answer some questions. The public directory is the dist and your app name. Rest should be as mentioned.
+
+![recipe](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780973/New-blogs/Yashvendra6_mdx/25_laa9bn.png)_recipe_
+
+The last step is to run **firebase deploy** command from the terminal.
+
+![firebase deploy](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780974/New-blogs/Yashvendra6_mdx/26_aq5vj4.png)_firebase deploy_
+
+Our app is now deployed and we are able to work on it from deployed url. This completes our big Angular project.
+
+![Done](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780977/New-blogs/Yashvendra6_mdx/27_xjoigw.png)_Done_
+
+You can find the code for the same in [this](https://github.com/nabendu82/recipe-book-v5) github repo.

@@ -1,0 +1,110 @@
+---
+title: Android emulator setup for expo on mac
+description: React Native
+date: 2019-09-14
+tags: ['reactnative', 'react', 'webdev']
+published: true
+---
+
+
+For the past one month, i have been doing development in React Native. I am using the expo-cli to create the project and using my physical Android phone for testing. It’s time to install the Android emulator on my laptop, so that i don’t have to check my phone every-time.
+
+For this we have to install Android Studio 3+ first, so head over to this [link](https://developer.android.com/studio?gclid=Cj0KCQjw_OzrBRDmARIsAAIdQ_I0UQhy0lFfam8zT-buyrdJswqnfqX1GYMm5AygdXwnRIPOqRDBU98aAqIEEALw_wcB) or google it and download.
+
+![Android Studio](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387473/AndroEmulator/1_vcrfas.png)*Android Studio*
+
+It is 724 MB for mac, so will take sometime to download. Once the dmg file is downloaded, you will get the below screen. You need to drag Android Studio to Applications
+
+![Downloaded](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387473/AndroEmulator/2_rkhlld.png)*Downloaded*
+
+Now, when you open Android Studio on your mac, it will show below screen. Click on Next
+
+![First](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387473/AndroEmulator/3_ijouqq.png)*First*
+
+On next screen choose Standard and click on Next.
+
+![Standard](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387473/AndroEmulator/4_e4q4qz.png)*Standard*
+
+On the next screen, select any theme and click Next.
+
+![Theme](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387472/AndroEmulator/5_osp0lv.png)*Theme*
+
+On the next screen, click Finish.
+
+![Verify Settings](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387472/AndroEmulator/6_fmcctf.png)*Verify Settings*
+
+On the next screen,it will start the download and will take sometime.
+
+![Downloading Components](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387472/AndroEmulator/7_cf38nt.png)*Downloading Components*
+
+Once the download is complete, you will see the below screen.
+
+![Finally](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387471/AndroEmulator/9_cgkzd3.png)*Finally*
+
+Click on Configure and then Preferences from drop-down.
+
+![Preferences](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387472/AndroEmulator/10_yf4loo.png)*Preferences*
+
+Goto System Settings -> Android SDK and copy the Android SDK location, somewhere.
+
+![Preferences](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387471/AndroEmulator/11_c8ymvh.png)*Preferences*
+
+In the Android Studio Screen, click on Start a new Android Studio Project. Take any default setting for a project and then click on the Search icon on the top right corner. Type AVD and it will open below screen.
+
+![AVD](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387470/AndroEmulator/12_kvcgm6.png)*AVD*
+
+Once you click on +Create Virtual Device, you need to choose a device.
+
+![Device](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387471/AndroEmulator/13_ulijd8.png)*Device*
+
+Then you need to choose an OS from the next screen. Click on download for any latest android version.
+
+![OS](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387471/AndroEmulator/14_vvt31q.png)*OS*
+
+It will open the below screen and download Android image. It will take sometime as the file is huge(1 GB).
+
+![Huge installation](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387471/AndroEmulator/15_qxtrib.png)*Huge installation*
+
+Once the Download is finish, the Finish button will appear. Click on it and then the Next button on the earlier screen.
+
+![Click Next](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387470/AndroEmulator/16_qhinbp.png)*Click Next*
+
+In the next screen change the AVD Name if you want and click finish.
+
+![Finished](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387470/AndroEmulator/17_navrqo.png)*Finished*
+
+Next, we need to open the terminal and add two export in the .bash_profile file. Notice that the path is what was in Android SDK location
+
+![bash_profile](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387469/AndroEmulator/18_lhv6cz.png)*bash_profile*
+
+Next run the below command in terminal
+
+
+```js
+    source ~/.bash_profile
+```
+
+
+After that in Android Studio, open the AVD Manager. It is in the top right corner and will open the Your Virtual Devices pop-up. Inside it click the run button.
+
+![Your Virtual Devices](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387470/AndroEmulator/19_dbwvpp.png)*Your Virtual Devices*
+
+It will open your Android emulator.
+
+
+![Emulator](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387470/AndroEmulator/20_no1fdp.png)*Emulator*
+
+
+Now, start any of your completed React-native project by npm start. If you don’t have any yet, create one using my previous blog to create a Restaurant Search React-native app [here](https://medium.com/@nabendu82/restaurant-search-app-with-react-native-using-zomato-api-11faa7380b89).
+
+Click on Run on Android device/emulator and it will try to open it. First time it will also install expo app on the Android simulator.
+
+![Android emulator](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387469/AndroEmulator/21_gatska.png)*Android emulator*
+
+If successful, you will see our restaurant app running on Android Simulator.
+
+
+![Restaurant app](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1590387470/AndroEmulator/22_qonswu.png)*Restaurant app*
+
+
+Hope you liked this setup blog. See you soon :)

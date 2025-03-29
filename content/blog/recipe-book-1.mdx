@@ -1,0 +1,303 @@
+---
+title: Building a Recipe Book app in Angular-1
+description: Angular
+date: 2021-11-29
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+We are going to build a recipe book app by using the concepts of Angular we learnt earlier. This app will be build in multiple posts, so keep a look for other posts.
+
+Now, go to any folder in your computer and in the terminal type the below command to create the Angular project.
+
+
+```js
+    ng new recipe-book --no-strict
+```
+
+It will ask us a bunch of questions. Let's answer them as mentioned below.
+
+![recipe-book](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738551/New-blogs/ankit-7/2_gkbczo.png)_recipe-book_
+
+Next, we will add bootstrap(version 3) in our project by giving the below command.
+
+
+```js
+    npm i bootstrap@3
+```
+
+Next, we need to add styles for bootstrap in **angular.json** file.
+
+![angular.json](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738551/New-blogs/ankit-7/3_dejtxd.png)_angular.json_
+
+Now, make sure that **ng serve** is running. Create a header component with below command in src->app folder.
+
+![ng g c header](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738551/New-blogs/ankit-7/4_maibd1.png)_ng g c header_
+
+Now, go to **app.component.html** file and remove everything and add the below code.
+
+
+```js
+    <app-header></app-header>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        <p>App component</p>
+        </div>
+    </div>
+    </div>
+```
+
+Now, let's create the complete structure by giving the below commands.
+
+
+```js
+    ng g c recipes
+    ng g c recipes/recipe-detail
+    ng g c recipes/recipe-list
+    ng g c recipes/recipe-list/recipe-item
+    ng g c shopping-list
+    ng g c shopping-list/shopping-edit
+```
+
+Next, we will get the basic structure of the project. First add the below in **app.component.html** file.
+
+
+```js
+    <app-header></app-header>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        <app-recipes></app-recipes>
+        <app-shopping-list></app-shopping-list>
+        </div>
+    </div>
+    </div>
+```
+
+Next, in **recipes.component.html** file add the below.
+
+
+```js
+    <div class="row">
+        <div class="col-md-5">
+            <app-recipe-list></app-recipe-list>
+        </div>
+        <div class="col-md-7">
+            <app-recipe-detail></app-recipe-detail>
+        </div>
+    </div>
+```
+
+Now, in **recipie-list.component.html** add the below.
+
+
+```js
+    <app-recipe-item></app-recipe-item>
+```
+
+Lastly in **shopping-list.component.html** add the below.
+
+
+```js
+    <div class="row">
+        <div class="col-xs-10">
+            <app-shopping-edit></app-shopping-edit>
+            <hr>
+            <p>The List</p>
+        </div>
+    </div>
+```
+
+Now, our basic app with bootstrap styles look like below.
+
+![bootstrap](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738550/New-blogs/ankit-7/5_qjcew9.png)_bootstrap_
+
+Now, first we will work on the header to make it look nice. Add the below in **header.component.html** file. It is basically taken from bootstrap and is a navbar code.
+
+![header.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738553/New-blogs/ankit-7/6_cuf6sz.png)_header.component.html_
+
+Now, we will see this nice header in localhost.
+
+![header](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738550/New-blogs/ankit-7/7_o14jyo.png)_header_
+
+We will have a common recipe model for our project. So, create a file **recipe.model.ts** in **recipes** folder and add the below content in it.
+
+![recipe.model.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738551/New-blogs/ankit-7/8_pnsmbu.png)_recipe.model.ts_
+
+Next, we will update the code for **recipe-list.component.html** file. Here, we are just adding the skeleton to show a button and name and description of the recipe.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738552/New-blogs/ankit-7/9_khfd2f.png)_recipe-list.component.html_
+
+Now, we will complete the bindings for the **recipe-list.component.html** file.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738553/New-blogs/ankit-7/10_emj7kc.png)_recipe-list.component.html_
+
+Now, our two recipes are showing properly.
+
+![Two recipes](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738554/New-blogs/ankit-7/11_rhmujr.png)_Two recipes_
+
+Now, we will add the code for **recipe-detail.component.html** , which is again a static code now. It contains details of each recipe.
+
+
+```js
+<div class="row">
+    <div class="col-xs-12">
+        <img src="" alt="" class="img-responsive">
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h1>Recipe Name</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle">Manage Recipe <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">To Shopping List</a></li>
+                <li><a href="#">Edit Recipe</a></li>
+                <li><a href="#">Delete Recipe</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        Description
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        Ingredients
+    </div>
+</div>
+```
+
+Now, our app is looking more perfect with the Recipe details.
+
+![Details](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738553/New-blogs/ankit-7/12_yvx0yv.png)_Details_
+
+Now, we will work on the **shopping-list.component.html** file which will contain ingredient.
+
+But first we need to create the model file. The ingredients will be used in recipes also, so we will create **ingredient.model.ts** inside a new **shared** folder in **app.**
+
+
+```js
+export class Ingredient {
+    constructor(public name: string, public amount: number) { }
+}
+```
+
+Now, we will update the **shopping-list.component.ts** file to use the ingredients.
+
+![shopping-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738554/New-blogs/ankit-7/13_dpkean.png)_shopping-list.component.ts_
+
+Next, we will update the **shopping-list.component.html** file to show the ingredient.
+
+![shopping-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738555/New-blogs/ankit-7/14_upsd0l.png)_shopping-list.component.html_
+
+Now, our ingredients will be shown in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738554/New-blogs/ankit-7/15_dzlt4k.png)_localhost_
+
+We will now make the **shopping-edit.component.html** file and will add two input box in it and three buttons.
+
+![shopping-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738558/New-blogs/ankit-7/16_jbroff.png)_shopping-edit.component.html_
+
+Our app looks like below now.
+
+![Our App](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738554/New-blogs/ankit-7/17_hdvd1k.png)_Our App_
+
+Now, we will add the logic for showing the Recipes or Shopping List component on click of it in the navigation bar. So, open **header.component.html** file and add eventlistener to both.
+
+![header.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738555/New-blogs/ankit-7/18_nub2uh.png)_header.component.html_
+
+Now, in the **header.component.ts** file, we will add an EventEmitter, which will be called in the onSelect().
+
+![header.components.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738555/New-blogs/ankit-7/19_cwlalg.png)_header.components.ts_
+
+Now, we will go to the parent app component and in the **app.component.ts** file add a variable **loadedFeature** equal to recipe. Also, add an onNavigate(), which will make this **loadedFeature** equal to, whatever is passed from the header component.
+
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738558/New-blogs/ankit-7/20_brdkb6.png)_app.component.ts_
+
+Now, in the **app.component.html** file we will get the featureSelected from the header component and call the **onNavigate()** with the event.
+
+Now, we are showing app-recipes if **recipe** was passed or app-shopping, if **shopping-list** was passed.
+
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738557/New-blogs/ankit-7/21_ti392a.png)_app.component.html_
+
+Now, our navigation is working properly in localhost and showing the respective component on click.
+
+![Working](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738558/New-blogs/ankit-7/22_fzuzs0.gif)_Working_
+
+Now, we will also refactor our code . We will cut the code for a recipes from **recipe-list.component.html** file.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738557/New-blogs/ankit-7/23_j3iemv.png)_recipe-list.component.html_
+
+We are putting the code in **recipe-item.component.html** file, but without the ngFor.
+
+![recipe-item.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738556/New-blogs/ankit-7/24_x02j97.png)_recipe-item.component.html_
+
+Now, in the **recipe-item.component.ts** file we are adding the recipe element, which is an Input type and will pass from recipe list component.
+
+![recipe-item.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738557/New-blogs/ankit-7/25_jgqslw.png)_recipe-item.component.ts_
+
+Now, back in the **recipe-list.component.html** file we are passing the individual recipe by looping through recipes array.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738558/New-blogs/ankit-7/26_hych2d.png)_recipe-list.component.html_
+
+After this refactoring our app is working as usual. Now, from a recipe item component, we will pass the click to recipe detail component and show an individual recipe.
+
+So, first in the **recipe-item.component.html** file add a click handler, which will call a function **onSelected.**
+
+![recipe-item.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738558/New-blogs/ankit-7/27_j0902q.png)_recipe-item.component.html_
+
+Now, in **recipe-item.component.ts** file, we will add an Output decorator and emit the **recipeSelected** event.
+
+![recipe-item.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738559/New-blogs/ankit-7/28_jxyftr.png)_recipe-item.component.ts_
+
+Now, in the **recipe-list.component.html** file, we will bind the **recipeSelected** event to call a function **onRecipeSelected,** with the current recipe.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738560/New-blogs/ankit-7/29_nvrziw.png)_recipe-list.component.html_
+
+Now, from the **recipe-list.component.ts** file, we have to emit this recipe again, so we are using the Output decorator.
+
+![recipe-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738560/New-blogs/ankit-7/30_fsrbp1.png)_recipe-list.component.ts_
+
+Now, we will bind the **recipeThatSelected** in **recipe-list.component.html** file to a **selectedRecipe** event.
+
+After that we are using it to show the recipe detail component.
+
+![recipe-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738562/New-blogs/ankit-7/31_d5n3jv.png)_recipe-list.component.html_
+
+In the **recipe-detail.component.ts** file add the recipe element.
+
+![recipe-detail.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738560/New-blogs/ankit-7/32_znfgea.png)_recipe-detail.component.ts_
+
+Now, in the **recipe-detail.component.html** file we can use the different values of recipes.
+
+![recipe-detail.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738560/New-blogs/ankit-7/33_ixukzo.png)_recipe-detail.component.html_
+
+Now, i localhost the recipes are been shown perfectly. I have also changed the image links.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738561/New-blogs/ankit-7/34_shevl0.png)_localhost_
+
+Now, we will code the functionality to add ingridients in Shopping list. We will be working with reference for this. So, first in **shopping-edit.component.ts** file add references and a click event.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738562/New-blogs/ankit-7/35_nagkcq.png)_shopping-edit.component.ts_
+
+Now, in **shopping-edit.component.html** file, we will be working with ViewChild directive to get the value and also after that emit it.
+
+![shopping-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738563/New-blogs/ankit-7/36_wvoocm.png)_shopping-edit.component.html_
+
+Now, in **shopping-list.component.html** file, we will be binding the ingredientAdded and calling onIngredientAdded.
+
+![shopping-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738561/New-blogs/ankit-7/37_ke6ary.png)_shopping-list.component.html_
+
+Finally in **shopping-list.component.ts** file, we will add items to the ingredients array.
+
+![shopping-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660738562/New-blogs/ankit-7/38_juycpr.png)_shopping-list.component.ts_
+
+We have created an functional app, but still a lot of improvements needed to be done. We will do it in part-2. You can find the code for the same in [this](https://github.com/nabendu82/recipe-book) github link.

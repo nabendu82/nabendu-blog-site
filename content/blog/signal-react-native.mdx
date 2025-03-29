@@ -1,0 +1,545 @@
+---
+title: Signal Clone with React Native
+description: Flexbox
+date: 2021-05-03
+tags: ['reactnative', 'react', 'webdev']
+published: true
+---
+
+
+We are going to build Signal clone in React Native and for this we are going to use Expo and firebase for Database and authentication.
+
+So, go ahead and install expo globally by the following npm command.
+
+
+```js
+    npm i -g expo-cli
+```
+
+
+You also need to install Expo Go app on your mobile device. More details of the installation can be found [here](https://docs.expo.io/get-started/installation/).
+
+After the installation, open the terminal and give the command **expo init signal-clone-expo**.
+
+![expo init](https://ik.imagekit.io/thewebdev/Signal-RN/1_rWPkfDoAb.png)*expo init*
+
+In this choose the blank option and click enter and it will start the installation.
+
+![installing](https://ik.imagekit.io/thewebdev/Signal-RN/2_y729Ri6WsE.png)*installing*
+
+Since, our frontend site will also be hosted through firebase we will create the basic setting while this **expo init** creates our react-native app. So, go to firebase site and click on **Go to console** at the top right corner.
+
+![firebase site](https://ik.imagekit.io/thewebdev/Signal-RN/3_Hc3E8bCcv9.png)*firebase site*
+
+Click on the **Add project** link in the page.
+
+![Add Project](https://ik.imagekit.io/thewebdev/Signal-RN/4_iuLNzdtm2T.png)*Add Project*
+
+Now, in this page give the project a name like **signal-clone-expo** and click on **Continue** button. In the next page click on the **Create project** button.
+
+![signal](https://ik.imagekit.io/thewebdev/Signal-RN/5_a5XxZlScgW.png)*signal*
+
+In the next page click on the **Create project** button after disabling Analytics.
+
+![*Create Project*](https://ik.imagekit.io/thewebdev/Signal-RN/6_JphVWqwIWY.png)**Create Project**
+
+After, sometime we will get this screen. Here, we need to click on the **Continue** button.
+
+![Continue](https://ik.imagekit.io/thewebdev/Signal-RN/7_4Nbzy8UNn.png)*Continue*
+
+Now, click on the **Settings** icon on the top right corner of the screen. After that click on the **Project settings** button.
+
+![signal-clone](https://ik.imagekit.io/thewebdev/Signal-RN/8_0y_9Lbxe9B.png)*signal-clone*
+
+In the next page click on the web-icon on the bottom of the page.
+
+![signal-clone](https://ik.imagekit.io/thewebdev/Signal-RN/9_siYhyIkv-e.png)*signal-clone*
+
+In the next page give the name same as the name of the app, which is **signal-clone-expo** in my case. Also, click on the checkbox for firebase hosting.
+
+![signal-clone-expo](https://ik.imagekit.io/thewebdev/Signal-RN/10_VCHopQqURC.png)*signal-clone-expo*
+
+In the next page, just click the **Next** button.
+
+![Next](https://ik.imagekit.io/thewebdev/Signal-RN/11_FUfqVHegk.png)*Next*
+
+In the next page, it will give the command to install **firebase-tools** globally from the terminal. Since, i have already done it, i am not doing it again.
+
+![firebase-tools](https://ik.imagekit.io/thewebdev/Signal-RN/12_QGvTKpwRX1.png)*firebase-tools*
+
+Ignore the next set of commands as of now and click on **Continue to console** button.
+
+![signal-clone-expo](https://ik.imagekit.io/thewebdev/Signal-RN/13_LP48vxFjyx.png)*signal-clone-expo*
+
+Now, in the next page you need to scroll down and click on the **Config** radio button and then copy the whole data for the **firebaseConfig**.
+
+![signal config](https://ik.imagekit.io/thewebdev/Signal-RN/14_New_RDUPAUkGuI.png)*signal config*
+
+Now, open code in VSCode and create a file **firebase.js** inside the **src** folder and paste the content from above there.
+
+
+```js
+const firebaseConfig = {
+    apiKey: "Axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxw",
+    authDomain: "signal-xxxxxxxxxx.com",
+    projectId: "signal-xxxxx-expo",
+    storageBucket: "signal-xxxxxxxxxxxx.com",
+    messagingSenderId: "6xxxxxxxxx9",
+    appId: "1:6xxxxxxxxxxxxxxxxxxx72"
+};
+```
+
+
+We need to run **npm start** to start the project, from the terminal.
+
+![npm start](https://ik.imagekit.io/thewebdev/Signal-RN/16_HjkoA1LabW.png)*npm start*
+
+It will open the [http://localhost:19002 /](http://localhost:19002/) in browser.
+
+![localhost](https://ik.imagekit.io/thewebdev/Signal-RN/17_O8fdBv_oqT.png)*localhost*
+
+Now, i am running the output on a physical Android device. For running on a physical device, you need to head over to Play Store and install **Expo Go**.
+
+Now, open the app on your phone. You will get the below screen.
+
+
+![Expo App](https://ik.imagekit.io/thewebdev/Signal-RN/18_1_dEX_7m7H.png)*Expo App*
+
+
+Click on Scan QR Code, it will open Camera. Point it to the QR code in the browser and you will the below screen, after all installation is done.
+
+
+![Initial App](https://ik.imagekit.io/thewebdev/Signal-RN/19_e__o50NcI.png)*Initial App*
+
+
+We can also check the web-version of the app by clicking **Run in web browser** in [http://localhost:19002/](http://localhost:19002/) and it will open the web-app in [http://localhost:19006/](http://localhost:19006/)
+
+![Web browser](https://ik.imagekit.io/thewebdev/Signal-RN/20_saKnnfzn7S.png)*Web browser*
+
+Now, in **App.js** if we change the text to **Signal Clone**, it will reflect instantly in our connected mobile device and web-app.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/21_mwW1AkesPL.png)*App.js*
+
+Now, we will use **react navigation** in our project, which is used for routing in react-native. It is similar to react-router, which is used for web. The docs for the same is [here](https://reactnavigation.org/docs/getting-started). As, per the documentation we have to npm install it.
+
+![npm install](https://ik.imagekit.io/thewebdev/Signal-RN/22_YvDP48fQWM.png)*npm install*
+
+We also need to install below, because we are using expo.
+
+
+```js
+    expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+```
+
+
+Next, we will do the necessary imports in **App.js** file and wrap our app with **NavigationContainer**.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/23_gFimuOu6Z.png)*App.js*
+
+After this we need to install stack navigator in terminal.
+
+
+```js
+    npm install @react-navigation/stack
+```
+
+
+Now, it’s time to create the folder structure in our project. So, create a folder **screens** in the root directory and a file **LoginScreen.js** inside it. We have just put the basic code in it.
+
+![LoginScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/24_FyYCnGM6Lw.png)*LoginScreen.js*
+
+Now, we will create a const **Stack** an assign it to **createStackNavigator**(). After that inside the **NavigationContainer**, we are wrapping everything with **Stack.Navigator** and after that in **Stack.Screen**, we will show our first screen ie **LoginScreen**.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/25_i8S3zhHbI4.png)*App.js*
+
+Now, in [http://localhost:19006/](http://localhost:19006/) we can see the **LoginScreen** component.
+
+![LoginScreen](https://ik.imagekit.io/thewebdev/Signal-RN/26_bfgNJlTVdp.png)*LoginScreen*
+
+Next, we will change the style for the screens and give it a blue color and white background. We are creating a **screenOptions** and giving it styles as below.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/27__IoCMRmmO.png)*App.js*
+
+Now, it will show as below.
+
+
+![App](https://ik.imagekit.io/thewebdev/Signal-RN/28_-bAFu42Dd_.png)*App*
+
+
+Now, we will use an external library for our elements called react native elements. The details for the same can be found [here](https://reactnativeelements.com/docs). So, we need to do the below npm install in terminal as per docs.
+
+
+```js
+    npm install react-native-elements
+```
+
+
+Now, we will be starting to use it in our **LoginScreen.js** file. Here, we are doing the necessary imports. After that we are using the Image element with the source as the uri for signal.
+
+![LoginScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/29_61NsZZgShr.png)*LoginScreen.js*
+
+Now, the signal logo will be shown in our app.
+
+
+![Signal logo](https://ik.imagekit.io/thewebdev/Signal-RN/30_UxRLW9Uy4.png)*Signal logo*
+
+
+Now, we will add a email and a password field in **LoginScreen.js**. Here, we are using **Input** from react-native-elements, but all the concept is from reactjs controlled element.
+
+![LoginScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/31_EY6aYxHvEd.png)*LoginScreen.js*
+
+Now, we will get the Email and the Password field in our app.
+
+
+![Email](https://ik.imagekit.io/thewebdev/Signal-RN/32_vrOdTwk1E2.png)*Email*
+
+
+Next, we will add two **buttons** and also change the **View** to a **KeyboardAvoidingView** in **LoginScreen.js** file.
+
+![LoginScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/33_lxjoqm6XPo.png)*LoginScreen.js*
+
+Now, we will see those two buttons also in our app.
+
+
+![App](https://ik.imagekit.io/thewebdev/Signal-RN/34_wD3bZ9M-J.png)*App*
+
+
+Now, we will add the styles in **LoginScreen.js**. Here, we are also adding an empty View, to get a padding when the keyboard on mobile comes up.
+
+![LoginScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/35_ImNyYmEoX.png)*LoginScreen.js*
+
+Now, our login screen is complete and will look like below in an Android device.
+
+
+![Real Android](https://ik.imagekit.io/thewebdev/Signal-RN/36_Yvt2BnEGVr.jpg)*Real Android*
+
+
+Next, we will create the Register Screen. So, create a file **RegisterScreen.js** inside the **screens** folder. Now, we also need to include it in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/37_tEmldxcdXh.png)*App.js*
+
+Now, Stack Navigator gives us access to navigation props which we can use to move around. With it we will create the basic **RegisterScreen.js** file.
+
+![RegisterScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/38_pMbXzOOM2w.png)*RegisterScreen.js*
+
+Now, in **LoginScreen.js** file we will use navigation props and add it in the onPress of Register button.
+
+![LoginScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/39_skqEzk8xWz.png)*LoginScreen.js*
+
+Now, when we click on the Register button in Login screen, we will be taken to the Register component.
+
+
+![App](https://ik.imagekit.io/thewebdev/Signal-RN/40_M8ZTHLimLw.png)*App*
+
+
+Now, we will build our Register screen in **RegisterScreen.js** file. Here, we are have four Input fields and a Button. We also have the respective state variable for all Input fields.
+
+![RegisterScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/41_8UEUwdYZh.png)*RegisterScreen.js*
+
+Our Register Screen will now look like below.
+
+
+![Register Screen](https://ik.imagekit.io/thewebdev/Signal-RN/42_NEmT6G9VPp.png)*Register Screen*
+
+
+Now, we will add styles in **RegisterScreen.js** file.
+
+![RegisterScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/43_s0YW6S7DTK.png)*RegisterScreen.js*
+
+Now, our Register Screen looks like below.
+
+
+![Register Screen](https://ik.imagekit.io/thewebdev/Signal-RN/44_FQZUqFSfn.png)*Register Screen*
+
+
+Now, it’s time to use Authentication in our project. So, we will go to firebase console and click on **Authentication** and then in the **Get Started** button.
+
+![Get Started](https://ik.imagekit.io/thewebdev/Signal-RN/45_wlSPx23bfR.png)*Get Started*
+
+In this screen hover over Email/Password and you will see the Pencil icon.
+
+![Email](https://ik.imagekit.io/thewebdev/Signal-RN/46_WXhQMK7aq0.png)*Email*
+
+On Clicking on the pencil icon above, we will get the below pop-up. We need to click the toggle for **Enable** and then click on the **Save** button.
+
+![Enable](https://ik.imagekit.io/thewebdev/Signal-RN/47_Bb1hP1F7Oj.png)*Enable*
+
+Now, we will be taken back to the previous screen, where the **Email/Password** is Enabled now.
+
+![Email/Password](https://ik.imagekit.io/thewebdev/Signal-RN/48_aQ7EIelbA5.png)*Email/Password*
+
+Now, we will go back and click on **Cloud Firestore** and then **Create database** button.
+
+![Cloud Firestore](https://ik.imagekit.io/thewebdev/Signal-RN/49_KtQzdrP3Y.png)*Cloud Firestore*
+
+In the next screen select **Start in test mode** and then click on **Next** button.
+
+![Test mode](https://ik.imagekit.io/thewebdev/Signal-RN/50_Em7fufaIm1.png)*Test mode*
+
+After that in the next screen click on **Enable** button.
+
+![Enable](https://ik.imagekit.io/thewebdev/Signal-RN/51_jGFO2XE0R2.png)*Enable*
+
+Now, it will take sometime to create the database. So, we can install firebase in our project. Installing firebase in react native project is a bit different then React project and we need to follow the instruction [here](https://docs.expo.io/guides/using-firebase/).
+
+We need to install it through expo from the terminal, with below command.
+
+
+```js
+    expo install firebase
+```
+
+
+Next, we will go back to **firebase.js** file and add the imports, initialisation and exports.
+
+![firebase.js](https://ik.imagekit.io/thewebdev/Signal-RN/52_New_wJCFxL-uSZ.png)*firebase.js*
+
+Now, in **RegisterScreen.js** file, we will use the auth to update the profile of the user with the values entered in the form.
+
+![RegisterScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/53_MXbz5pvGr.png)*RegisterScreen.js*
+
+Now, in **LoginScreen.js** file, we will have a method onAuthStateChanged inside useEffect(). Here, if the user is authenticated we are replacing the screen with the Home Screen. We have also implemented the logic for signIn().
+
+![LoginScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/54_POopMaXC9p.png)*LoginScreen.js*
+
+Now, we need to create a file **HomeScreen.js** inside the **screens** folder and place the basic content in it.
+
+![HomeScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/55_GMBL4gyp0v.png)*HomeScreen.js*
+
+Now, we need to add HomeScreen to our **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/56_JL1dbw1gbI.png)*App.js*
+
+Now, go to Register Screen and register a user and if everything is right, you will be taken to the Home Screen after you press the Register button.
+
+
+![App](https://ik.imagekit.io/thewebdev/Signal-RN/57_h246C34yU.png)*App*
+
+
+Now, we will show a list of chats and for that we will first create a file **CustomListItem.js** inside a **components** folder in root directory.
+
+![CustomListItem.js](https://ik.imagekit.io/thewebdev/Signal-RN/58_uKUTTUgW9v.png)*CustomListItem.js*
+
+Next, back in **HomeScreen.js** we will show this **CustomListItem** component.
+
+![HomeScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/59_1TRjJeAq0T.png)*HomeScreen.js*
+
+Now, our Home will show the chat.
+
+
+![Chat](https://ik.imagekit.io/thewebdev/Signal-RN/60_CUGm8UpDu.png)*Chat*
+
+
+Now, we want to change the Home header and show icons in it. For this, we will use something called **useLayoutEffect** and it happens before the render and before useEffect, so it’s a good place for navigation code. So, in **HomeScreen.js** file we add title, headerStyle and other thing.
+
+The main thing is the Avatar icon in the **headerLeft**, which also have a **signOutUser**() on a **TouchableOpacity**.
+
+![HomeScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/61_xz802D1wJy.png)*HomeScreen.js*
+
+So, if we press on our Avatar we will be logged out.
+
+
+![Signal](https://ik.imagekit.io/thewebdev/Signal-RN/62_34Kbl1lDgy.png)*Signal*
+
+
+Now, we will complete our right icons in headerRight and for this, we are also using vector-icons from expo.
+
+![HomeScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/63_eYHObAWy53.png)*HomeScreen.js*
+
+Now, our App will show the Camera and pencil icon.
+
+
+![Camera](https://ik.imagekit.io/thewebdev/Signal-RN/64_tFCo3FGf0.png)*Camera*
+
+
+Now, on press of the pencil icon we will navigate to the **AddChat** component. So, first let’s add it in **App.js** file.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/65_qFIJxOAFfj.png)*App.js*
+
+Next, create a file **AddChatScreen.js** inside the **screens** folder. Here, we are creating an Input field with a button to create new chat.
+
+![AddChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/66_1kpp2mI5aN.png)*AddChatScreen.js*
+
+Now, in our app we can see this new screen.
+
+
+![Create new Chat](https://ik.imagekit.io/thewebdev/Signal-RN/67_rK_XDVRFjG.png)*Create new Chat*
+
+
+Now, let’s also add the logic to add a chat in firebase database. So, in **AddChatScreen.js** first import the db from firebase. Also, inside the **createChat**() add the **input** to a field **chatName** in the **chats** collection.
+
+![AddChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/68_isk0D07Yu.png)*AddChatScreen.js*
+
+Now, in the Add a new chat screen we can add a new chat and it will come back to the HomeScreen. We will show our Chats here, but right now we can check it in the firebase firestore.
+
+![Firestore](https://ik.imagekit.io/thewebdev/Signal-RN/69_tJiblTeiQd.png)*Firestore*
+
+Now, in **HomeScreen.js** file, we will first get the chats from firebase using useEffect and store it in a state variable chats. After that we are looping through it and passing it to **CustomListItem** component.
+
+![HomeScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/70_-UFszGl84b.png)*HomeScreen.js*
+
+Now, in **CustomListItem.js** file we can show the **chatName** instead of the hardcoded one.
+
+![CustomListItem.js](https://ik.imagekit.io/thewebdev/Signal-RN/71_QqzTWcq68r.png)*CustomListItem.js*
+
+Now, i have created two more chats and they are all showing in the Home Screen now.
+
+
+![Home Screen](https://ik.imagekit.io/thewebdev/Signal-RN/72_EQ_zT5Vhg.png)*Home Screen*
+
+
+Now, back in **CustomListItem.js** we will add a callback function **enterChat**, which will be called with the id and chatName, when we press the chat name.
+
+![CustomListItem.js](https://ik.imagekit.io/thewebdev/Signal-RN/73_VDvFjeacl2.png)*CustomListItem.js*
+
+Now, in **HomeScreen.js** file we will add this function **enterChat**, which we are also passing as a props to **CustomListItem**. Inside the function **enterChat**, we navigate to the Chat screen.
+
+![HomeScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/74_izDmJvBoeI.png)*HomeScreen.js*
+
+Now, back in **App.js** we will import and add the **ChatScreen** component.
+
+![App.js](https://ik.imagekit.io/thewebdev/Signal-RN/75_Kz9GeyddAG.png)*App.js*
+
+Now, we will create a file **ChatScreen.js** inside the screens folder. We will put the basic content in it, where we are also accessing the route params.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/76_tAxbm6iKGI.png)*ChatScreen.js*
+
+Now, if we click on any chat name, we will be taken to the chat screen showing the Chat name.
+
+
+![Chat Name](https://ik.imagekit.io/thewebdev/Signal-RN/77_WxFsARjqeh.png)*Chat Name*
+
+
+Now, we will use the **useLayoutEffect** to customize our header in **ChatScreen.js** file. Here, after the required imports we are having an Avatar and the custom left arrow. Also, added the functionality in the left arrow to go back to the previous screen.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/78_Rx_HxqZYy1.png)*ChatScreen.js*
+
+Now, we will customize the headerRight also in **ChatScreen.js** file, where we will add two icons for Camera and call.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/79_zmdLKe4io.png)*ChatScreen.js*
+
+Now, our Chat screen header is fully customized.
+
+
+![Header](https://ik.imagekit.io/thewebdev/Signal-RN/80_dK0vYVrSrD.png)*Header*
+
+
+Now, we will add logic in the return of the Chat in **ChatScreen.js** file. Here, we mainly have a TextInput and a Send button. The SafeAreaView and KeyboardAvoidingView are required to work properly on all platforms.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/81_eUxGakz5MZ.png)*ChatScreen.js*
+
+Now, we will add some styles for our container, footer and textInput in **ChatScreen.js** file.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/82_ZMgVpQS9B.png)*ChatScreen.js*
+
+Now, our text input and send button looks perfect and are placed in the bottom.
+
+
+![App](https://ik.imagekit.io/thewebdev/Signal-RN/83_shT3uQe5OM.png)*App*
+
+
+We also want to dismiss the keyboard, once the user send the message. For this we need to wrap the Input and send with **TouchableWithoutFeedback** in **ChatScreen.js** file.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/84_BZ58zxbhCz.png)*ChatScreen.js*
+
+Now, we will add the code for sendMessage() in ChatScreen.js. Here, we are going to a specific chat and adding the message, displayName, email, photoURL and timestamp into firebase.
+
+Notice, that we are using global firebase function **serverTimestamp**() and storing the server time in our database. 
+
+The way to import firebase have changed, so please use this import, instead of the one mentioned in screenshot.
+
+
+```js
+    import firebase from "firebase/app"
+```
+
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/85_W2sbwkXKr0.png)*ChatScreen.js*
+
+We will now show the messages on screen and for that we will use the **useLayoutEffect**, because we have access to route in it. We will get the data from firebase and store it in **messages** state array.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/86_Gcy9vC6Kn.png)*ChatScreen.js*
+
+Now, we will show these messages in **ChatScreen.js** file in the **ScrollView**. Here, we are mapping through the messages and showing two different styles for sender and receiver.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/87_MR_PX6ezzc.png)*ChatScreen.js*
+
+Now, we will write the styles for the newly created styles in our **StyleSheet** in **ChatScreen.js** file.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/88_new_NozWtT-FF.png)*ChatScreen.js*
+
+Now, our app is almost complete and i have logged in with other user and it’s is looking great.
+
+
+![Looking Great](https://ik.imagekit.io/thewebdev/Signal-RN/89_mU-NBQ33pG.png)*Looking Great*
+
+
+Now, we will also change the Avatar on the Chat page to the last person who had sent the message.
+
+![ChatScreen.js](https://ik.imagekit.io/thewebdev/Signal-RN/90_Dt-_K6_W_Q.png)*ChatScreen.js*
+
+Now, the Avatar is been changed properly.
+
+
+![Avatar](https://ik.imagekit.io/thewebdev/Signal-RN/91_K9pXvkK67r.png)*Avatar*
+
+
+Now, we want to update the Avatar and the message in the ChatScreen. We need to update the same in **CustomListItem.js** file.
+
+![CustomListItem.js](https://ik.imagekit.io/thewebdev/Signal-RN/92_uWUQFEZIjH.png)*CustomListItem.js*
+
+Now, our App is showing the correct data in the Chat Screen.
+
+
+![Chat Screen](https://ik.imagekit.io/thewebdev/Signal-RN/93_wriKdUNImk.png)*Chat Screen*
+
+
+We will now deploy the web-app in firebase. For getting the apk file for Play Store, we need to follow a different procedure.
+
+So, go to the terminal and do firebase login. If you are logging for the first time in the system, it will open a pop-up to authenticate.
+
+![firebase login](https://ik.imagekit.io/thewebdev/Signal-RN/94_guZIA1zh0.png)*firebase login*
+
+After that give the command **firebase init** and it will ask us to proceed. Then go down to Hosting using arrow keys and press the spacebar to select it and after that press enter.
+
+![firebase init](https://ik.imagekit.io/thewebdev/Signal-RN/95_4Qx_42hjpg.png)*firebase init*
+
+Then select **Use an existing project** and press enter.
+
+![Existing project](https://ik.imagekit.io/thewebdev/Signal-RN/96_y3GcCfITd2.png)*Existing project*
+
+Here, you need to select the correct project.
+
+![Correct project](https://ik.imagekit.io/thewebdev/Signal-RN/97_SvkHjRyfw.png)*Correct project*
+
+Next, we choose the public directory and it is **web-build**. The next option is **Yes** for single-page app and github deploys **No**.
+
+![web-build](https://ik.imagekit.io/thewebdev/Signal-RN/98_BRbohKuBQr.png)*web-build*
+
+Next, we need to run **expo publish** from terminal. If you are doing it for the first time, it will ask to authenticate. I have an expo account, so logging in with it.
+
+![expo publish](https://ik.imagekit.io/thewebdev/Signal-RN/99_imGgyt6rdq.png)*expo publish*
+
+Next, it asked me to enter my credentials and started to publish.
+
+![Publishing](https://ik.imagekit.io/thewebdev/Signal-RN/100_h0IfFGGpC.png)*Publishing*
+
+Now, we need to run the command **expo build:web** from our terminal.
+
+![expo build:web](https://ik.imagekit.io/thewebdev/Signal-RN/101_h3oMFjLDO8.png)*expo build:web*
+
+The last thing we need to do is **firebase deploy** from the terminal.
+
+![firebase deploy](https://ik.imagekit.io/thewebdev/Signal-RN/102_ihGKQYp5ec.png)*firebase deploy*
+
+And our app is deployed on the web.
+
+![Web-deploy](https://ik.imagekit.io/thewebdev/Signal-RN/103_1uVSkISaYs.png)*Web-deploy*
+
+We can also check it on our phone and deploy the apk file to Play Store.
+
+
+![Android phone](https://ik.imagekit.io/thewebdev/Signal-RN/104_D8rF8C00K.jpg)*Android phone*
+
+
+This completes our Signal clone. Hope you liked it.

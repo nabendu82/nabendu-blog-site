@@ -1,0 +1,281 @@
+---
+title: Building a Recipe Book app in Angular-4
+description: Angular
+date: 2022-01-26
+tags: ["javascript", "angular", "webdev"]
+published: true
+---
+
+Welcome to part-4 of the recipe book app. We will start with adding forms in our app.
+
+We will add on top of the app we have create in the previous part. You can find the code for the earlier part in [this](https://github.com/nabendu82/recipe-book-v3) github link.
+
+We will use the template driven approach in shopping edit component first. But we need to get rid of the local reference and click handler first in **shopping-edit.component.html** file.
+
+![shopping-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780244/New-blogs/Yashvendra5_mdx/2_gz3xzo.png)_shopping-edit.component.html_
+
+Now, as we are using template driven approach we will add the ngSubmit an ngForm in form. Beside this we are also adding name and ngModel in inout.
+
+![shopping-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780247/New-blogs/Yashvendra5_mdx/3_pfhgku.png)_shopping-edit.component.html_
+
+One thing i noticed that we don't have FormsModule included in **app.module.ts** file. So, we will include the same in it.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780248/New-blogs/Yashvendra5_mdx/4_aa9cax.png)_app.module.ts_
+
+Now, in **shopping-edit.component.ts** file we will first delete the ViewChild and earlier references.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780250/New-blogs/Yashvendra5_mdx/5_tl2hnr.png)_shopping-edit.component.ts_
+
+Now, we will add the form in onSubmit method and use it's value in newIngredient in **shopping-edit.component.ts** file.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780252/New-blogs/Yashvendra5_mdx/6_hl1cww.png)_shopping-edit.component.ts_
+
+We are now able to add items as usual in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780254/New-blogs/Yashvendra5_mdx/7_isfgzs.png)_localhost_
+
+We will now add validation in our form by adding required in name and amount. We are also adding a regular expression in amount to check, if the user cannot enter negative numbers.
+
+After that we are adding disabled in the submit button in **shopping-edit.component.html** file.
+
+![shopping-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780256/New-blogs/Yashvendra5_mdx/8_ahrha6.png)_shopping-edit.component.html_
+
+Now, the validations are working properly.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780257/New-blogs/Yashvendra5_mdx/9_ozknzj.png)_localhost_
+
+So, it's time to make our items editable. We will first add a new function on the click handler in **shopping-list.component.html** file.
+
+![shopping-list.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780259/New-blogs/Yashvendra5_mdx/10_yphsyu.png)_shopping-list.component.html_
+
+Next, in the **shopping-list.service.ts** file, we will add a new startedEditing EventEmitter and also add a new function getIngredient, to get a single ingredient.
+
+![shopping-list.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780260/New-blogs/Yashvendra5_mdx/11_xfde9f.png)_shopping-list.service.ts_
+
+Now, in the **shopping-list.component.ts** file we will add the function onEditItem to emit the startedEditing.
+
+![shopping-list.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780262/New-blogs/Yashvendra5_mdx/12_qzl5zd.png)_shopping-list.component.ts_
+
+Finally, in the **shopping-edit.component.ts** file we will subscribe to the startedEditing and use setValue to set the name and amount.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780264/New-blogs/Yashvendra5_mdx/13_kdmnhq.png)_shopping-edit.component.ts_
+
+Now, in localhost when we click on any item, we will get it filled in the input boxes.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780265/New-blogs/Yashvendra5_mdx/14_gxadxq.png)_localhost_
+
+Now, we will add the logic to update our form and for this, we will show **Update** or **Add** button based on **editMode** in **shopping-edit.component.html** file.
+
+![shopping-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780267/New-blogs/Yashvendra5_mdx/15_igorcc.png)_shopping-edit.component.html_
+
+Now, in the **shopping-list.service.ts** file, we will add a new function updateIngredient().
+
+![shopping-list.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780269/New-blogs/Yashvendra5_mdx/16_u4hyh6.png)_shopping-list.service.ts_
+
+Lastly in the **shopping-edit.component.ts** file, we will call **updateIngredient** or **addIngredient**, based on **editMode**.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780271/New-blogs/Yashvendra5_mdx/17_xk1yin.png)_shopping-edit.component.ts_
+
+Now, our edit logic is working properly in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780272/New-blogs/Yashvendra5_mdx/18_dabby6.png)_localhost_
+
+Now, we will add the logic to reset the form and also the functionality to clear the entered fields. First add a function onClear in the Clear button in the **shopping-edit.component.html** file.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780274/New-blogs/Yashvendra5_mdx/19_iverxq.png)_shopping-edit.component.ts_
+
+Next, in the **shopping-edit.component.ts** file add the form rest on the submit and also the onClear. We are also making the editMode as false in both.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780275/New-blogs/Yashvendra5_mdx/20_inzprr.png)_shopping-edit.component.ts_
+
+Now, our form is resetting on clicking of **Add/Update** and the **Clear** button also working perfectly on localhost.
+
+Next, we will work on the Delete button. We will add a **deleteIngredient()** first in **shopping-list.service.ts** file, which is using splice to delete the item.
+
+![shopping-list.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780507/New-blogs/Yashvendra5_mdx/21_bjt9jl.png)_shopping-list.service.ts_
+
+Next, we will add the **onDelete()** in **shopping-edit.component.ts** file, which is calling the **deleteIngredient()** first and then the **onClear()**.
+
+![shopping-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780507/New-blogs/Yashvendra5_mdx/22_iemolo.png)_shopping-edit.component.ts_
+
+Lastly in **shopping-edit.component.html** file, we will add the click handler for Delete button.
+
+![shopping-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780508/New-blogs/Yashvendra5_mdx/23_ppczwi.png)_shopping-edit.component.html_
+
+Now, our shopping list form is fully functional and working properly.
+
+![Shopping List](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780509/New-blogs/Yashvendra5_mdx/24_mwamvs.gif)_Shopping List_
+
+Now, we will move to recipe and will use the reactive approach to edit and delete a recipe. But first we will add the **ReactiveFormsModule** in **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780510/New-blogs/Yashvendra5_mdx/25_la8tdv.png)_app.module.ts_
+
+Now, in the **recipe-edit.component.ts** file do some import which are required.
+
+```js
+    import {RecipeService} from '../recipe.service'; import{" "}
+    {(FormControl, FormGroup)} from '@angular/forms'; 
+```
+
+Now, in the **recipe-edit.component.ts** file we will ad a function **initForm()**, which will create a new form with recipeName, recipeImagePath and recipeDescription.
+
+We also have **onSubmit**, which is just console logging the form.
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780512/New-blogs/Yashvendra5_mdx/26_ajjge8.png)_recipe-edit.component.ts_
+
+Our **recipe-edit.component.html** file was empty and we will put this basic code it in. It's an HTML form with reactive controls.
+
+```angular
+<div class="row">
+    <div class="col-xs-12">
+        <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-danger">Cancel</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" formControlName="name" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="imagePath">Image URL</label>
+                        <input type="text" id="imagePath" formControlName="imagePath" class="form-control" >
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea type="text" id="description" class="form-control" formControlName="description"
+                            rows="6"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+```
+
+Now, when we click on Edit Recipe, it is working perfectly and also when we click on Add Recipe a blank form is been shown.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780513/New-blogs/Yashvendra5_mdx/27_yet3g4.png)_localhost_
+
+Now, we will add the logic to show the ingredients. For this in **recipe-edit.component.ts** file add the variable recipeIngredients which is a FormArray.
+
+After this inside the editMode, we are checking whether the ingredients is ther and adding it to a FormGroup by looping through it. Lastly we are adding it to the recipeForm.
+
+We are also adding a helper function of controls, which we are soon going to use in the template.
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780514/New-blogs/Yashvendra5_mdx/28_gncw7j.png)_recipe-edit.component.ts_
+
+Now, in the **recipe-edit.component.html** file, we will add the row to show the ingredients. The ngFor here is using the helper function controls() from the typescript file.
+
+![recipe-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780517/New-blogs/Yashvendra5_mdx/29_csfmxl.png)_recipe-edit.component.html_
+
+Now, the ingredients are also shown properly in localhost.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780518/New-blogs/Yashvendra5_mdx/30_iw7bos.png)_localhost_
+
+Now, we will add a button to add the Ingredients in our Edit recipe and for this we will add the code first in **recipe-edit.component.html** file. Here, we have a button with a click handler calling a function **onAddIngredient()**.
+
+![recipe-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780520/New-blogs/Yashvendra5_mdx/31_g5wdth.png)_recipe-edit.component.html_
+
+Now, we will add the function for the same in **recipe-edit.component.ts** file
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780522/New-blogs/Yashvendra5_mdx/32_wu38bz.png)_recipe-edit.component.ts_
+
+Now, clicking on Add Ingredient in localhost will add the row for ingredients.
+
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780526/New-blogs/Yashvendra5_mdx/33_zul1uu.png)_localhost_
+
+Now, we will add validations in our app. We need to add the validations mainly in the **recipe-edit.component.ts** file. We are mainly adding the required validator, but also adding the pattern validator in amount.
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780528/New-blogs/Yashvendra5_mdx/34_cib5gu.png)_recipe-edit.component.ts_
+
+Now, in the **recipe-edit.component.html** file we will make the Save button disabled if the recipeForm is not valid.
+
+![recipe-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780530/New-blogs/Yashvendra5_mdx/35_s6267d.png)_recipe-edit.component.html_
+
+We are adding a bit of css in **recipe-edit.component.css** file to show red border in case of error.
+
+![recipe-edit.component.css](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780532/New-blogs/Yashvendra5_mdx/36_mx1hm1.png)_recipe-edit.component.css_
+
+Now, if we don't enter the fields we will get a red border.
+
+![red border](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780534/New-blogs/Yashvendra5_mdx/37_sfrwzm.png)_red border_
+
+Now, we will add the logic to submit the form. For this we will first have two services addRecipe and updateRecipe in **recipe.service.ts** file.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780535/New-blogs/Yashvendra5_mdx/38_s8unnv.png)_recipe.service.ts_
+
+Now, in the **recipe-list.components.ts** file, we will add a subscriber to get the new recipe.
+
+![recipe-list.components.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780538/New-blogs/Yashvendra5_mdx/39_umx81a.png)_recipe-list.components.ts_
+
+Now, in the onSubmit(), in **recipe-edit.component.ts** file, we will call the updateRecipe or addRecipe based on editMode.
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780539/New-blogs/Yashvendra5_mdx/40_fw2wo6.png)_recipe-edit.component.ts_
+
+Now, in localhost we are able to add or update a recipe.
+
+![Add or update](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780541/New-blogs/Yashvendra5_mdx/41_sylhmg.png)_Add or update_
+
+Now, we will complete our delete button. First we need to add a deleteRecipe function in **recipe.service.ts** file.
+
+![recipe.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780543/New-blogs/Yashvendra5_mdx/42_xysyce.png)_recipe.service.ts_
+
+After that in the **recipe-detail.component.html** file, we will add a click handler for **onDeleteRecipe()**.
+
+![recipe-detail.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780544/New-blogs/Yashvendra5_mdx/43_npi1a8.png)_recipe-detail.component.html_
+
+Lastly in the **recipe-detail.component.ts** file we will implement the function, which uses the deleteRecipe services to delete the recipe and also the router to navigate back to recipes.
+
+![recipe-detail.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780546/New-blogs/Yashvendra5_mdx/44_oo2opi.png)_recipe-detail.component.ts_
+
+Now, we will add the functionality for Cancel but. For it add a click handler first in **recipe-edit.component.html** file.
+
+![recipe-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780549/New-blogs/Yashvendra5_mdx/45_x11dw6.png)_recipe-edit.component.html_
+
+Next, we will add the **onCancel** to the **recipe-edit.component.ts** file.
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780551/New-blogs/Yashvendra5_mdx/46_tu4qep.png)_recipe-edit.component.ts_
+
+Now, we will add the image preview, while we Edit or Add a new recipe. So, in **recipe-edit.component.html** file first add a reference and then with it, we can show the image.
+
+![recipe-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780552/New-blogs/Yashvendra5_mdx/47_rjhd4n.png)_recipe-edit.component.html_
+
+Now, the preview of the image is working fine.
+
+![Preview](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780555/New-blogs/Yashvendra5_mdx/48_vqr8bf.png)_Preview_
+
+Now, we have a issue of adding a new recipe and navigation away to Shopping list component. Now the new recipe will disapear. This happens because because we have added the RecipeService in the **recipes.component.ts** file. So, we need to delete it from there.
+
+![recipes.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780556/New-blogs/Yashvendra5_mdx/49_romz4r.png)_recipes.component.ts_
+
+Now, we will add it in the **app.module.ts** file.
+
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780558/New-blogs/Yashvendra5_mdx/50_nroodb.png)_app.module.ts_
+
+Finally, we will add the functionalities to delete ingredients. First, add a click handler in **recipe-edit.component.html** file.
+
+![recipe-edit.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780560/New-blogs/Yashvendra5_mdx/51_zyljeg.png)_recipe-edit.component.html_
+
+Now, we will add it's functionalities in **recipe-edit.component.ts** file.
+
+![recipe-edit.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780561/New-blogs/Yashvendra5_mdx/52_zrotzq.png)_recipe-edit.component.ts_
+
+Our long post is complete and we have almost completed the app. We will complete the app by adding HTTP functionalities in the last part.
+
+![Working](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1661780567/New-blogs/Yashvendra5_mdx/53_i5zi41.gif)_Working_
+
+The code for this part can find in [this](https://github.com/nabendu82/recipe-book-v4) github repo.
