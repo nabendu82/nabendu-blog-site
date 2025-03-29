@@ -1,0 +1,44 @@
+---
+title: YDKJS — Objects and Prototypes — 3
+description: YDKJS
+date: 2018-08-19
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+
+Welcome to part-3 of the series. This series is all from the learnings of **Kyle Simpson** and also from the amazing youtube Javascript series by **Kaushik Kothagul** from [Javabrains](https://www.youtube.com/user/koushks/playlists?view=50&shelf_id=1&sort=dd), which is also influenced by **You don't know JS**.
+
+Let's start from where we left in the earlier part. Consider the below code of using constructor functions in JS. The problem in this is that, whenever we create a new variable with new keyword. The inflateTires function is created for each of them.
+
+![The problem with new keyword in constructors](https://ik.imagekit.io/thewebdev/YDKJS/8/1_dtJDsEObam.png)*The problem with new keyword in constructors*
+
+## Introduction to Prototype
+
+In JavaScript as you know everything is a Object. So whenever we create an function, there is a one object which is created. but actually there is another object which is created which is known as the prototype object.
+
+Consider the below example. In the below example **foo** have the property which is able to access the its prototype. The properties also known as prototype and it is written as **foo.prototype**
+
+![The prototype example](https://ik.imagekit.io/thewebdev/YDKJS/8/2_UTPwQj9XPc.png)*The prototype example*
+
+Let consider the below sample to understand it more better. Whenever a function is created there are two object one is the function object another is the prototype object. Now to access the **Prototype** object we have a property on the function object also known as “**prototype**”.
+
+![The prototype confusion](https://ik.imagekit.io/thewebdev/YDKJS/8/3_-NNyfeUY6.png)*The prototype confusion*
+
+When we call function **foo** with the **new keyword** interesting things happens. It create something known as **__proto__**. This is created by the JavaScript engine for every function call using the new keyword.
+
+![calling foo with new keywords](https://ik.imagekit.io/thewebdev/YDKJS/8/4__bS3PFoEYt.png)*calling foo with new keywords*
+
+Let's look in the below diagram, to find what is this weird looking **__proto__** property . Actually whenever we call a function with the new keyword a new object is created which have this **__proto__** property, and it points to the object of the function. If you call the function again with the new keyword it will again create a similar thing.
+
+![The __proto__ property](https://ik.imagekit.io/thewebdev/YDKJS/8/5_9c_ozctRe9.png)*The __proto__ property*
+
+Let's see an example to learn the things which you have seen in the diagram. We have created an Empty function **foo**. Then created a **newFooObj** using the **new** keyword on the function. Now using the property prototype created a test variable which contains some string. Now we can access the test variable using the **newFooObj** object **__proto__** property.
+
+![foo.prototype === newFooObj.__proto__](https://ik.imagekit.io/thewebdev/YDKJS/8/6_QuredGVEk.png)*foo.prototype === newFooObj.__proto__*
+
+Now there is another benefit of the **__proto__** property. We are first checking whether our **newFooObj** have a **hello** variable. It doesn't have one so we create one using the **__proto__** property. Now the **__proto__** property have a **hello** variable which is obvious. But we are also able to access it directly using **newFooObj.hello**. This happens because when the JavaScript compiler runs, and it first tries to find **hello** variable in **newFooObj**. If it is not able to find it checks the prototype object, where it is able to find it.
+
+![The benefit of Prototype](https://ik.imagekit.io/thewebdev/YDKJS/8/7_YFusIx3lVh.png)*The benefit of Prototype*
+
+This concludes the part 3 of the series.

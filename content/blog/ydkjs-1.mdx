@@ -1,0 +1,50 @@
+---
+title: YDKJS — Scopes and Closures — 1
+description: YDKJS
+date: 2018-06-09
+tags: ['javascript', 'beginners', 'webdev']
+published: true
+---
+
+
+Every Javascript developer knows one thing that they don't know enough Javascript. On the top level, it's only var, for , if else just like any other Programming language, but if you want to dive deep and know how JS work. There is no better place then the legendary book series **You don't know JS** by **Kyle Simpson**. It is also available to read free on this [site](https://maximdenisov.gitbooks.io/you-don-t-know-js/content/).
+
+This series is all from the learnings of **Kyle Simpson** and also from the amazing youtube Javascript series by **Kaushik Kothagul** from [Javabrains](https://www.youtube.com/user/koushks/playlists?view=50&shelf_id=1&sort=dd), which is also influenced by **You don't know JS**.
+
+**Note** - Scratchpad used in this series is not available anymore. You can use **JS BIN** instead, to run everthing in this series.
+
+Let's start then with functions. As, it is said functions are first class citizens in javascript. They are actually objects in Javascript. There are basically two ways to create function in JS.
+
+![Two ways to create function](https://ik.imagekit.io/thewebdev/YDKJS/1/1_7MgYgnkedO.png)*Two ways to create function*
+
+Let's now jump into the concept of scope. Whenever we declare a variable by say **var a = 10** , we are declaring it in global scope ie every part of our code can access it. We need them sometime but most time they create chaos.
+
+So, we put the declaring in a scope and it's only accessible within that scope. Treat scope as box and nothing can go outside it.
+
+Consider the below figure.
+
+![scope boxes](https://ik.imagekit.io/thewebdev/YDKJS/1/2_zYmTqR-evL.png)*scope boxes*
+
+Now the variable **a** is only accessible within it's box. We can also have box within box. In the second example the inner scope/box have access to it's variable **b** and also **c**. But the outer scope/box doesn't have access to variable **b**.
+
+Now how do we define these scope/boxes in Javascript. It's a bit different then languages like C, C++, Java.
+
+In these language an **if statement** creates a scope and the below will give undefined when we try to access variable **job**.
+
+![if doesn't creates scope](https://ik.imagekit.io/thewebdev/YDKJS/1/3_HOYeKCM44o.png)*if doesn't creates scope*
+> **Javascript is function scope and only way to create a scope in JS is by creating function.** It is not entirely true and their have been some new additions in language (in ES6) which creates scopes in different way. We will look into them later. But for most part you create scope using functions.
+
+So, to create a scope in JS we put a variable inside a function.
+
+![JS scope by function](https://ik.imagekit.io/thewebdev/YDKJS/1/4_t-LbYMuxw3.png)*JS scope by function*
+
+Now let's see how to have a function not pollute the global namespace. Consider the below example.
+
+![global function](https://ik.imagekit.io/thewebdev/YDKJS/1/5_ryjJ18Y9z.png)*global function*
+
+Now, we created local variables a and b, but then created a global function **myFunc**. Sometime we don't want this behaviour. So, in this case a **IIFE** *(Immediately invoked Function expression)* comes to the rescue. The above can be refactored as below.
+
+![IIFE](https://ik.imagekit.io/thewebdev/YDKJS/1/6_WQXS3ErLsw.png)*IIFE*
+
+In this we create an anonymous function and immediately invoked it.
+

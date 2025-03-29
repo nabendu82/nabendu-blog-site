@@ -1,0 +1,157 @@
+---
+title: Create Youtube Player in ReactJs — Part 3
+description: ReactJs
+date: 2018-04-23
+tags: ['react', 'webdev', 'javascript']
+published: true
+---
+
+We now have three main tasks remaining. First showing the Video player, second the option to click on a video to change it in video player and third is Search capabilities to search for videos.
+
+**Add Video Player**
+
+First to add a Video Player, goto **App.js** and change as below
+
+
+![App.js changes](https://ik.imagekit.io/thewebdev/Youtube-React/3/1_qDcMMVnbq0.png)*App.js changes*
+
+The code for VideoDetails is these two lines.
+
+
+```js
+    import VideoDetail from './components/video_detail';
+    <VideoDetail video={this.state.selectedVideo} />
+```
+
+Notice, we created a new key-value pair **selectedVideo** in state which will be used later to select video. It defaults to the first video when the search is done in YTSearch by **selectedVideo: data[0]** and this gets passed to **VideoDetail** as **props**
+
+Lets update **video_detail.js** next and understand the logic.
+
+
+![video_detail.js](https://ik.imagekit.io/thewebdev/Youtube-React/3/2_w_9ZYn6Puk.png)*video_detail.js*
+
+In it we are receiving the single *video object as prop* and extracting **videoId**, **title** and **description** from it. Then displaying in an iframe and showing title and description below it. Also, using a little bootstrap magic for styling.
+
+Notice the below statements, they are very important
+
+
+```js
+    if(!video){
+        return <div>Loading…</div>;
+    }
+```
+
+Comment them out and you will get the below error
+
+
+![null error](https://ik.imagekit.io/thewebdev/Youtube-React/3/3_-c2sgWVhm.png)*null error*
+
+It occurs because in our **App.js**, we have **selectedVideo: null** initially set in state. Then the YTSearch happens which goes to youtube for search and takes maybe 1–2 sec, and then change the **selectedVideo: data[0]**.
+But React doesn't wait for it and ```render()``` runs, and passes the **selectedVideo** as null to **VideoDetail.**
+To avoid this situation, we are checking *if no video, then show the Loading…*
+
+**Click to change video**
+
+To do this, we have added *onVideoSelect* in *VideoList* in *App.js*
+
+
+```
+    <VideoList
+        onVideoSelect={userSelected => this.setState({selectedVideo: userSelected})}
+        videos={this.state.videos}
+    />
+```
+
+This is a special way to props from parent to children and then back to them. This is known as **callback. **It can be used to pass props to more then 1 level deep and receive data back.
+
+Now let's move to **video_list.js** and receive this props
+
+
+```js
+const videoItems = props.videos.map((video) => {
+    return (
+            <VideoListItem
+                onUserSelected={props.onVideoSelect}
+                key={video.etag}
+                video={video}
+            />
+        );
+    });
+```
+
+We are not doing anything here and passing the props to it's child **VideoListItem**. So, let's move to **video_list_item.js** and update it.
+
+
+```
+<li onClick={() => onUserSelected(video)} className="list-group-item">
+    <div className="video-list media">
+    <div className="media-left">
+    <img className="media-object" src={imageUrl} />
+    </div>
+    <div className="media-body">
+    <div className="media-heading">{video.snippet.title}</div>
+    </div>
+    </div>
+</li>
+```
+
+We have added an **onClick** event handler on **li** element. So, when the user clicks on it, it passes the **video** to **onUserSelected.**
+The ***onUserSelected ***in **video_list.js** passed it back to ***onVideoSelect **in **App.js***
+
+In App.js it is used to update the new video to **selectedVideo** by ```onVideoSelect={userSelected => this.setState({selectedVideo: userSelected})}```
+
+This run the render() again and the new video is passed to **VideoDetail** component and it gets displayed.
+
+**Search capabilities**
+
+To do this, we added onSearchTermChange in *SearchBar* in *App.js*
+
+
+```
+<SearchBar onSearchTermChange={searchTerm => this.videoSearch(searchTerm)} />
+```
+
+
+We are again using callback here. So, let's move to **search_bar.js** . Here we will add this to **onInputChange()** method.
+
+
+```js
+onInputChange(event) {
+    this.setState({ term: event.target.value });
+    this.props.onSearchTermChange(event.target.value);
+}
+```
+
+So, we are passing the event.target.value, which is nothing but the updated text in the input box.
+
+Back in **App.js** we are using this new text value to run the ```videoSearch()``` function again.
+
+**Minor style changes**
+
+Goto *index.css* and change it completely
+
+These are minor styles to make our app look better. All of them are self-explainatory.
+
+
+![index.css](https://ik.imagekit.io/thewebdev/Youtube-React/3/4_PYfZOEhjk8.png)*index.css*
+
+The **index.css** file is called from our **index.js**, which we never changed. So, the styles will be reflected. Only a minor thing need to be added in **search_bar.js**
+Add ```className="search-bar"``` to the top level div as shown below
+
+
+```js
+<div className="search-bar">
+    <input
+    value={this.state.term}
+    onChange={this.onInputChange}
+    />
+</div>
+```
+
+This completes this tutorial and we get this amazing youtube search app.
+
+![Deployment in Heroku](https://ik.imagekit.io/thewebdev/Youtube-React/3/5_kNM9EpnNc.png)*Deployment in Heroku*
+
+The project is deployed in Heroku. You can find it [here](https://nameless-dusk-36203.herokuapp.com/).
+
+You can find the complete code in this [github repo](https://github.com/nabendu82/youtube-player)

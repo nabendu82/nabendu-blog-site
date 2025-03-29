@@ -1,0 +1,401 @@
+﻿---
+title: Whack a Mole game using HTML, CSS, and Javascript
+description: Javascript
+date: 2021-10-01
+tags: ['css', 'javascript', 'webdev']
+published: true
+---
+
+
+Let's have some fun by building a Whack a Mole game using HTML, CSS, and Javascript ⚒ . This game consists of nine dirt holes and a mole. The mole pops up from the holes randomly and player has to click on the mole to get points. The points are displayed at the top of the page.Get ready to whack !!
+
+Folder Structure of the project
+
+1.  _index.html — contains the HTML layout which defines the element structure that would be shown on the page._
+2.  .svg images used in the project are directly placed under the project folder.
+3.  _style.css- contains CSS code for styling. Using CSS we can style the different portions to make them more visually appealing._
+4.  _script.js — contains Javascript code. There are several functions that work together to handle all the functions of the game._
+
+HTML Layout
+===========
+
+Open VSCode and create the basic  HTML structure in an **index.html** file by ! and then pressing tab. Give the **title** as ‘**Whack a Mole'**. Link **style.css** and **script.js** to the created HTML file.
+
+For the title and score of the game, we can use **h1** tag . Add a div class **start** which holds a button. On pressing this button the game will begin.
+
+Next, we will create a div class **game** that contains all the holes and the peeping moles in it. Inside the **game** class create a div class **hole hole1** for the first hole and div class **mole** inside the **hole hole1** class. In a similar way we will create more div classes for other holes and moles. The complete HTML code is below.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Whack A Mole!</title>
+    <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Whack-a-mole!</h1>
+    <h1 class="score"> 0</h1>
+    <div class="start">
+        <button onClick="startGame()">Start!</button>
+    </div>
+    <div class="game">
+        <div class="hole hole1">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole2">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole3">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole4">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole5">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole6">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole7">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole8">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole9">
+            <div class="mole"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+CSS Styling
+===========
+
+Quite a bit of CSS coding is required and I explained only the important parts here and the rest of the CSS code mostly deals with positioning, size, and color of the elements. I shared the GitHub link at the end of the post where you can see the complete code.
+
+Here initially we want only the dirt to be seen and mole should not be visible.The hole is relative positioned because mole will be placed inside it which will move up and down. By default the mole is positioned 'absolute' with 100% displacement from the top. Given that the hole has overflow to hidden, the mole isn't seen.
+
+When the class `up` is added to the hole, then the mole transitions up, as top displacement now becomes 0px.
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+html {
+
+box-sizing: border-box;
+
+font-size: 10px;
+
+background-color: #f3e6e8;
+
+background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
+
+  
+
+}
+
+  
+
+*, *:before, *:after {
+
+box-sizing: inherit;
+
+}
+
+  
+
+body {
+
+padding: 0;
+
+margin: 0;
+
+font-family: 'Shadows Into Light', cursive;
+
+}
+
+  
+
+.start{
+
+text-align: center;
+
+}
+
+  
+
+h1 {
+
+text-align: center;
+
+font-size: 5rem;
+
+margin-bottom: 0;
+
+}
+
+  
+
+.score {
+
+color: rgb(104, 94, 114);
+
+margin-top: 0%;
+
+  
+
+}
+
+  
+
+.game {
+
+width: 800px;
+
+height: 400px;
+
+display: flex;
+
+flex-wrap: wrap;
+
+margin: 0 auto;
+
+  
+
+}
+
+  
+
+.hole {
+
+flex: 1  0  33.33%;
+
+overflow: hidden;
+
+position: relative;
+
+}
+
+  
+
+.hole:after {
+
+display: block;
+
+background: url(dirt.svg) bottom center no-repeat;
+
+background-size: contain;
+
+content: '';
+
+width: 100%;
+
+height:70px;
+
+position: absolute;
+
+z-index: 2;
+
+bottom: -30px;
+
+}
+
+  
+
+.mole {
+
+background: url('mole.svg') bottom center no-repeat;
+
+background-size: 50%;
+
+position: absolute;
+
+top: 100%;
+
+width: 100%;
+
+height: 100%;
+
+transition:all 0.4s ease;
+
+}
+
+  
+
+.hole.up  .mole {
+
+top: 0;
+
+}
+
+  
+
+button{
+
+background: rgba(190, 19, 19, 0.2);
+
+border: red;
+
+font-size: 3rem;
+
+cursor: pointer;
+
+}
+```
+
+The `z-index` property specifies the stack order of an element.
+
+An element with greater stack order is always in front of an element with a lower stack order. Below is the complete CSS code
+
+```js
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');html {box-sizing: border-box;font-size: 10px;background-color: #f3e6e8;background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);}\*, \*:before, \*:after {box-sizing: inherit;}body {padding: 0;margin: 0;font-family: 'Shadows Into Light', cursive;}.start{text-align: center;}h1 {text-align: center;font-size: 5rem;margin-bottom: 0;}.score {color: rgb(104, 94, 114);margin-top: 0%;}.game {width: 800px;height: 400px;display: flex;flex-wrap: wrap;margin: 0 auto;}.hole {flex: 1 0 33.33%;overflow: hidden;position: relative;}.hole:after {display: block;background: url(dirt.svg) bottom center no-repeat;background-size: contain;content: '';width: 100%;height:70px;position: absolute;z-index: 2;bottom: -30px;}.mole {background: url('mole.svg') bottom center no-repeat;background-size: 50%;position: absolute;top: 100%;width: 100%;height: 100%;transition:all 0.4s ease;}.hole.up .mole {top: 0;}button{background: rgba(190, 19, 19, 0.2);border: red;font-size: 3rem;cursor: pointer;}
+```
+
+Javascript logic
+================
+
+Below functions are defined in the javascript code
+
+*   A function to create a random amount of time that the mole will peep.
+*   A function to choose the random hole from which the mole will peep.
+*   A function to make the mole pop from the random hole using the two above functions.
+*   A function to start the game.
+*   A function to “prevent” cheating , once the mole is whacked it should hide again and to set the score
+
+The `Math.random()` function returns a floating-point, pseudo-random number in the range 0–1 (inclusive of 0, but not 1) with approximately uniform distribution over that range — which you can then scale to your desired range. The implementation selects the initial seed to the random number generation algorithm; it cannot be chosen or reset by the user.
+
+We'll be using `Math.random` a lot, see the [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) for more.
+
+Get a random amount of time between min and max time. For our app, min and max represent milliseconds.
+
+```randomHole()``` returns a random hole DOM element.
+
+
+
+We pick an index (`idx`) between 0 and 8, viz the range of valid indices of holes array. If the hole is the same as the last one picked, we just call the function again. We store the most recent hole chosen in the `lastHole` variable.
+
+```peep()``` makes a mole appear and disappear for a random amount of time in a random hole.
+
+
+
+Once we pick the random time period (between 200ms and 1s) and hole, we add the `up` class to the hole element, then register a callback to remove the `up` class after the given period of time.
+
+We start the game when the start button (```<button onClick="startGame()">Start!</button>```) is clicked.
+The game runs for 10 seconds. `timeUp` keeps track whether the game is running. Score is reset to zero and ```peep()``` is called. Then a timeout is set to run at 10 seconds, which marks `timeUp` as true.We need to make a tiny modification to the ```peep()``` function,```peep()``` calls itself if the game is running!
+The whack```()``` function tracks the hits and updates the score
+The ```isTrusted``` read-only property of the Event interface is a Boolean that is true when the event was generated by a user action, and false when the event was created or modified by a script or dispatched via ```EventTarget.dispatchEvent()```.
+
+Complete Javascript code is below
+
+```js
+const holes = document.querySelectorAll('.hole');
+
+const scoreBoard = document.querySelector('.score');
+
+const moles = document.querySelectorAll('.mole');
+
+let lastHole;
+
+let timeUp = false;
+
+let score = 0;
+
+  
+
+function randomTime(min, max) {
+
+return Math.round(Math.random() * (max - min) + min);
+
+}
+
+  
+
+function randomHole(holes) {
+
+const idx = Math.floor(Math.random() * holes.length);
+
+const hole = holes[idx];
+
+if (hole === lastHole) {
+
+return randomHole(holes);
+
+}
+
+lastHole = hole;
+
+return hole;
+
+}
+
+  
+
+function peep() {
+
+const time = randomTime(200, 1000);
+
+const hole = randomHole(holes);
+
+hole.classList.add('up');
+
+setTimeout(() => {
+
+hole.classList.remove('up');
+
+if (!timeUp) peep();
+
+}, time);
+
+}
+
+  
+
+function startGame() {
+
+scoreBoard.textContent = 0;
+
+timeUp = false;
+
+score = 0;
+
+peep();
+
+setTimeout(() => timeUp = true, 10000)
+
+}
+
+  
+
+function whack(e) {
+
+if(!e.isTrusted) return;
+
+score++;
+
+this.parentNode.classList.remove('up');
+
+scoreBoard.textContent = score;
+
+}
+
+  
+
+moles.forEach(mole => mole.addEventListener('click', whack));
+```
+
+Here is the demo,
+
+[![IMAGE_ALT](https://img.youtube.com/vi/A1FWlwY7xvU/0.jpg)](https://www.youtube.com/watch?v=A1FWlwY7xvU)
+  *click on the image to view the demo*
+
+All the above code is present in [GitHub](https://github.com/Divyamcm/Projects/tree/main/Whack-a-mole)
+
+This project is modified version of the project available in [https://javascript30.com/](https://javascript30.com/)
+
+Thanks for your interest.

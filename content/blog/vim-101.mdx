@@ -1,0 +1,115 @@
+---
+title: VIM 101 - A beginners Guide
+description: VIM
+date: 2020-07-12
+tags: ['linux', 'beginners', 'webdev']
+published: true
+---
+
+
+In this post i will try to give you a view of how you can use vim. A very basic guide to get you started with using vim. If you are always looking to improve your efficiency while coding or typing in general you might have come across somebody mentioning about vim.
+
+At first glance vim looks like an age old editor. There is nothing flashy about it. But if you know enough, you will realise that, you can customise it in many ways according to your need and preference. But for a beginner, you must first know how to do basic editing.
+
+## Modes
+Vim has two modes of input. These are:
+
+
+```js
+    - Command Mode
+    - Insert Mode
+```
+
+### Command Mode:
+In this mode what you type is taken as command. Nothing will get inserted into your file in this mode(unless you have made a command for that). Whatever you type in this mode can be seen in the bottom left corner. More on what you can do in this mode later.
+
+### Insert Mode:
+In this mode whatever you type is inserted just like any other text editor.
+
+#### How to switch between Insert mode and Command Mode?
+When you open a new vim window, by default you are in command mode. You won't be able to write yet. To got into insert mode press `i`. At bottom left you can see that now you are in insert mode. Now you can type as usual. To go back to cmd mode just press `ESC`.
+
+#### How to save a file?
+When you have edited you file, you have to know a way to save it as well. Normally editors have `Ctrl + s` as save command. If you haven't searched yet you will try to do the same. But here:
+1. first you go to cmd mode (using `ESC`).
+2. Now you press `:w <filename.extension>`
+3. Or simply `:w` if you dont want to create a new file
+
+#### How to quit vim?
+Now the beginners really get frustrated at this. Well i definitely got. It is just because you realise at this point that why do i have to use a command for even the basic stuff. But if you use vim enough you will realise it is much faster this way and doesn't really require using mouse(cool right!). For this:
+* type `:q` in cmd mode
+* If you still aren't able to quit press `:q!`. Here `!` tells the editor to force quit. Similarly if you weren't able to save before you could have used `:w!`.
+
+![Alt Text](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1594538158/gz8oclbd6gjayh4py2wa_m71lp8.gif)
+
+#### How to navigate without arrow keys?
+In vim without leaving the primary typing area, you can navigate easily. In cmd mode, use:
+* `h` as left arrow
+* `j` as below arrow
+* `k` as up arrow
+* `l` as right arrow
+
+## Useful commands to begin with.
+Now i will introduce some basic commands to tell how editing can be so fun with vim. And of course you need to remember to insert press `i` and to give command `ESC`.
+
+To indent a line :
+* From wherever you are in a line press `>>` in cmd mode(for forward indent). Similarly `<<` for backward indent.
+
+To go to top of your document:
+
+* From wherever you are just go to cmd mode and press `gg`
+
+To go to bottom of your document:
+
+* From wherever you are just go to cmd mode and press `G`
+
+To go to end of line and enter insert mode:
+
+* `A`
+
+To go to beginning of line and enter insert mode:
+
+* `I` (note this is capitalised)
+
+To delete current line (In vim delete and cut are very much the same thing):
+
+* `dd`
+
+To copy current line:
+
+* `yy`
+* In vim copying is called *yanking*. Hence the y.
+
+To Paste copied line:
+
+* `p`
+* will be pasted below the line under cursor.
+
+## Combining commands
+
+In vim you can combine one or more command to have a better result.
+Examples:
+
+To delete 2 lines below including current line:
+* `d2j`
+
+To delete from line number 32 to 56:
+* `:32,56d`
+
+Once you are aware of the basic commands these combinations come instinctively.
+
+## Vimrc
+
+To customise your vim we basically write a script. The language used here is called vimscript Don't worry you don't really need to learn an entire language to begin using vim. For basic editing you will only need commands like mentioned above. However, with growing need you will want to have more features.
+
+And to begin with with you can simply get the snippets of other people and keep experimenting.
+
+### How to edit your vimrc?
+
+* Go to the path where the vimrc is located. To find the path use `:scriptnames` in any vim window. A list of scripts including vimrc will be included.
+* After navigating to the path, use `sudo vim vimrc` to edit the file.
+
+## Conclusion
+
+For a beginner it might seem like a tedious task to learn so many commands to do even the basic stuff. But once you have a good amount of practice, you will find using other IDE based editors to be slower. Using you vimrc you will want to customise your editor in whatever ways possible. You don't have that level of luxury at root level in other editors.
+Here i have only scratched the surface of Vim. But i think it is enough to get you interested. Rest is up to you how deep you want to dive.

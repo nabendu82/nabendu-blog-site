@@ -1,0 +1,71 @@
+---
+title: Create Youtube Player in ReactJs — Part 2
+description: ReactJs
+date: 2018-04-22
+tags: ['react', 'beginners', 'javascript']
+published: true
+---
+
+
+Welcome to part 2. Let's start from where we left, but first add bootstrap to our project so that it looks a bit ok.
+
+Add this in **index.html** in the head part.
+
+
+
+```css
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/48938155eb24b4ccdde09426066869504c6dab3c/dist/css/bootstrap.min.css">
+```
+
+
+![adding bootstrap to index.html](https://ik.imagekit.io/thewebdev/Youtube-React/2/1_rfDQbIe38.png)*adding bootstrap to index.html*
+
+Let's start by updating **App.js**
+
+
+![App.js](https://ik.imagekit.io/thewebdev/Youtube-React/2/2_DpOQ3KCj2Y.png)*App.js*
+
+Here we are first importing the **youtube-search-api**, which we install through npm in previous part. Then in the constructor we are creating a state object which contains a key-value pair of **videos: []**. So, basically an empty array.
+
+In constructor only we are calling a function with parameters 'React tutorials' by **this.videoSearch('React Tutorials');**
+
+Now, in this function we are doing a Youtube search by using the **youtube-search-api.** We are passing the API_KEY and the term **('React Tutorials' here).** So, it does a youtube search with the term and returns us the result from youtube in **data.**It is an array of object as shown below. Do a console.log to find more about it.
+
+![data from youtube search](https://ik.imagekit.io/thewebdev/Youtube-React/2/3_4QGQ9e5QW.png)*data from youtube search*
+
+Now we are setting this data array videos by `this.setState({videos: data})`
+
+Now in the render() we are a new line `<VideoList videos={this.state.videos} />`. Here we have a new component **VideoList** in which we are passing parameter, like in normal HTML tag. But these parameters have special name and this is called passing **props.**In react we have a one-directional data flow, and this props were are passing from **App(parent)** to **VideoList(children)**
+
+Now lets use this props **videos** which is a array of object, in the **VideoList** component. Open the file **video_list.js** and update the below.
+
+![video_list.js](https://ik.imagekit.io/thewebdev/Youtube-React/2/4_4cZMqDSipx.png)*video_list.js*
+
+This is a simple functional component, here in **(props)** we will receive the **videos** passed by **App** as **props.videos**
+
+As it's an array of object, we iterate through it using map and pass each object to **VideoList** child component **VideoListItem** by `<VideoListItem key={video.etag} video={video} />`
+
+Notice, we need a unique key when dealing with array or React will throws us warning. As our data from youtube returns an unique **etag**, we are using that.
+
+Whatever we are getting back from **VideoListItem**, we are storing in a constant **videoItems** and displaying inside a unordered list.
+
+The unordered list `<ul className="col-md-4 list-group">` contains a **className**, which is same a **class** in normal HTML tag.But in react we have to use a **className.** The **col-md-4** is a bootstrap thing.
+
+Lets move to **VideoListItem** now, which is our individual row. We will update the **video_list_item.js** now as below
+
+![video_list_item.js](https://ik.imagekit.io/thewebdev/Youtube-React/2/5_YKktvWZ3Jw.png)***video_list_item.js***
+
+Here again we are receiving props video and accessing it by **props.video**. We will take image and title from here. Let's see what we receive.
+
+![video object](https://ik.imagekit.io/thewebdev/Youtube-React/2/6_NVQao0oYko.png)*video object*
+
+Most of the thing in the code is for styling in bootstrap. But the **imageUrl** we are getting from the video object by **const imageUrl = video.snippet.thumbnails.default.url;**
+
+Displaying it in the image by ```<img className="media-object" src={imageUrl} />``` and also the title by ```<div className="media-heading">{video.snippet.title}</div>```
+
+This is what we get from the above updated to our code in **App.js**, **video_list.js** and **video_list_item.js**
+
+![Updated app](https://ik.imagekit.io/thewebdev/Youtube-React/2/7_ZkQFXsImN7.png)*Updated app*
+
+
+This concludes part 2.

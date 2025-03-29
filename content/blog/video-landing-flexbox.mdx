@@ -1,0 +1,64 @@
+---
+title: Video landing page with Flexbox
+description: Flexbox
+date: 2020-07-27
+tags: ['css', 'beginners', 'webdev']
+published: true
+---
+
+
+A lot of sites nowadays have nice video background. So, i also wanted to created a simple video background landing page for a travel company, with a search bar in the centre.
+
+I had downloaded a royalty free video from the awesome site [https://coverr.co/](https://coverr.co/)
+
+![Video Site](https://ik.imagekit.io/thewebdev/Video-Flexbox/1_noi9Q7aZv.png)*Video Site*
+
+Also, the video was a mp4 and 10MB in size, so i had reduced it using an online converter to webm.
+
+Now, we need to create any folder for the project. Inside it create a folder **videos** and place the video in it. Also create two files — **index.html** and **style.css** in it.
+
+Also, creating a simple markup for our site. We have a div with class of cover, wrapping our header and the form. The form just contains a simple input with a placeholder text.
+
+We are using a video tag to show the webm video and given the attribute to autoplay, mute and play it in a loop.
+
+![index.html](https://ik.imagekit.io/thewebdev/Video-Flexbox/2_h9ekg6vUT.png)*index.html*
+
+Without any styles our webpage looks like below. Notice that i am using the VSCode extension of **Live Server** to have the capabilities of hot reloading.
+
+![Without styles](https://ik.imagekit.io/thewebdev/Video-Flexbox/3_Xv0cYViyby.png)*Without styles*
+
+We will write the basic styles in **style.css** first. Here, we are using an awesome google font lobster for our **h1**. In **html** and ***** we are resetting some of the basics for the browser.
+
+We are also making the video as **position: absolute** and giving the top as 0, to bring it to the start.
+
+![style.css](https://ik.imagekit.io/thewebdev/Video-Flexbox/4_rSRJRqqpgg.png)*style.css*
+
+So, our page looks like below now.
+
+![Page Now](https://ik.imagekit.io/thewebdev/Video-Flexbox/5_-31V7tXoDW.png)*Page Now*
+
+Next, we need to centre both h1 and the search bar. So, we will use **display: flex**, with **justify-content** and **align-items** to centre it.
+
+We are also, required to give **flex-direction: column** or else the h1 and search-bar will come in same row.
+
+![Center](https://ik.imagekit.io/thewebdev/Video-Flexbox/6_dMsjXMXfdm.png)*Center*
+
+Our h1 and search-bar is centered properly now.
+
+![Centered properly](https://ik.imagekit.io/thewebdev/Video-Flexbox/7_VB02phjsm-.png)*Centered properly*
+
+Next, we will just style our flex-form and input to complete our project.
+
+![Project Done](https://ik.imagekit.io/thewebdev/Video-Flexbox/8_vsL96_Fyl.png)*Project Done*
+
+So, our page will look like below in desktop.
+
+![Moving background](https://ik.imagekit.io/thewebdev/Video-Flexbox/9_wP_AbEaES.gif)*Moving background*
+
+And it is also responsive and will look like below on mobile view.
+
+
+![Mobile View](https://ik.imagekit.io/thewebdev/Video-Flexbox/10_BLjGMK4wW.png)*Mobile View*
+
+
+This completes our mini project. You can find the code for the same in my github repo [here](https://github.com/nabendu82/VideoSite-Flexbox).
