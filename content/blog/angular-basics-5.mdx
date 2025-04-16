@@ -28,31 +28,31 @@ Now, we will also add the logging service in **account.component.ts** file
 
 Now, when you check in the app both of them are working fine.
 
-[localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739137/New-blogs/ankit-9/6_bziw4e.png)_localhost_
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739137/New-blogs/ankit-9/6_bziw4e.png)_localhost_
 
 Now, we will look into another user case of service i.e. store and manage data. We will create a service **accounts.service.ts** which will contain our accounts detail, which is currently in app.component.ts file.
 
 It will contain the accounts array and also, an **addAccount** and **updateStatus** function.
 
-[accounts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739138/New-blogs/ankit-9/7_qzwikq.png)_accounts.service.ts_
+![accounts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739138/New-blogs/ankit-9/7_qzwikq.png)_accounts.service.ts_
 
 After that remove the accountAdded and statusChanged functions from **app.component.html** file.
 
-[app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/8_sfs32f.png)_app.component.html_
+![app.component.html](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/8_sfs32f.png)_app.component.html_
 
 Now, in **app.component.ts** file we will remove the array and the function and call our Account service
 
-[app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739139/New-blogs/ankit-9/9_vseyop.png)_app.component.ts_
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739139/New-blogs/ankit-9/9_vseyop.png)_app.component.ts_
 
 Now, in the **new-account.component.ts** file, we can get rid of the emitted name and status.
 
 Instead of that we are adding accounts service in it.
 
-[new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739139/New-blogs/ankit-9/10_mhvx5h.png)_new-account.component.ts_
+![new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739139/New-blogs/ankit-9/10_mhvx5h.png)_new-account.component.ts_
 
 Now, we will make the same changes in **account.component.ts** file, where we are adding the Account service and remove the old emitted service.
 
-[account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739139/New-blogs/ankit-9/11_aifdox.png)_account.component.ts_
+![account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739139/New-blogs/ankit-9/11_aifdox.png)_account.component.ts_
 
 Now, we will not get any error, but our code is broken and in localhost we are not able to add any server.
 
@@ -60,54 +60,54 @@ We are actually having many different instances of the same service. So, we will
 
 We will first remove it from **account.component.ts** file.
 
-[account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739140/New-blogs/ankit-9/12_uktlpq.png)_account.component.ts_
+![account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739140/New-blogs/ankit-9/12_uktlpq.png)_account.component.ts_
 
 And we will also remove it from **new-account.component.ts** file.
 
-[new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739140/New-blogs/ankit-9/13_lf0eri.png)_new-account.component.ts_
+![new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739140/New-blogs/ankit-9/13_lf0eri.png)_new-account.component.ts_
 
 Now, we are again able to add a new server.
 
-[New server](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739140/New-blogs/ankit-9/14_mk2ad4.png)_New server_
+![New server](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739140/New-blogs/ankit-9/14_mk2ad4.png)_New server_
 
 Infact, we should remove the service from **app.component.ts** file also.
 
-[app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/15_kajkkd.png)_app.component.ts_
+![app.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/15_kajkkd.png)_app.component.ts_
 
 We will be adding it in the highest possible place, which is the **app.module.ts** file.
 
 We will also learn to inject one service into another, so we will also be adding the logging service in **app.module.ts** file
 
-[app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/16_juzdsz.png)_app.module.ts_
+![app.module.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/16_juzdsz.png)_app.module.ts_
 
 Next, we will remove the logging service from **account.component.ts** file.
 
-[account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739143/New-blogs/ankit-9/17_rs1ry5.png)_account.component.ts_
+![account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739143/New-blogs/ankit-9/17_rs1ry5.png)_account.component.ts_
 
 We are also removing the logging service from **new-account.component.ts** file.
 
-[new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/18_nvmisa.png)_new-account.component.ts_
+![new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739141/New-blogs/ankit-9/18_nvmisa.png)_new-account.component.ts_
 
 Now, we will add the logging service in **accounts.service.ts** file. We also have to make it Injectable, as we adding adding a service to another service.
 
-[accounts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739142/New-blogs/ankit-9/19_jumsrz.png)_accounts.service.ts_
+![accounts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739142/New-blogs/ankit-9/19_jumsrz.png)_accounts.service.ts_
 
 Now, we will learn to do cross-component communication using services. In account service we want to provide an event which we can emit from a component and catch in other component.
 
 So, in **accounts.service.ts** file we will have an EventEmitter.
 
-[accounts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739142/New-blogs/ankit-9/20_n39dpd.png)_accounts.service.ts_
+![accounts.service.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739142/New-blogs/ankit-9/20_n39dpd.png)_accounts.service.ts_
 
 Now, we will first emit the event from **account.component.ts** file.
 
-[account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739144/New-blogs/ankit-9/21_ggrjez.png)_account.component.ts_
+![account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739144/New-blogs/ankit-9/21_ggrjez.png)_account.component.ts_
 
 Now, we will catch the event in **new-account.component.ts** file by subscribing to it.
 
-[new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739142/New-blogs/ankit-9/22_v9r7zv.png)_new-account.component.ts_
+![new-account.component.ts](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739142/New-blogs/ankit-9/22_v9r7zv.png)_new-account.component.ts_
 
 Now, we are able to communicate between components and the alert is shown on localhost.
 
-[localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739143/New-blogs/ankit-9/23_reljw7.png)_localhost_
+![localhost](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1660739143/New-blogs/ankit-9/23_reljw7.png)_localhost_
 
 This completes our post and you can find the final code in [this](https://github.com/nabendu82/services-deepdive) github repo
