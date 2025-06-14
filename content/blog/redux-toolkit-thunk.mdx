@@ -1,0 +1,65 @@
+---
+title: React Redux Toolkit Project with Thunk
+description: Redux
+date: 2022-05-12
+tags: ["javascript", "react", "redux"]
+published: true
+---
+
+In this post, we are going to update our redux toolkit project which we had build earlier to use thunk middleware. The previous post can be found [here](https://www.nabendu.org/blog/redux-toolkit).
+
+We will also be starting with the code from our earlier post. We are going to change all of the logic of API call from Home.js to movieSlice.js and also going to use thunk in it.
+
+So, in movieSlice.js file do the below changes. Here, we are first importing createAsyncThunk from redux toolkit. After that we are exporting a function fetchAsyncMovies and here using createAsyncThunk, in which the first parameter needs the state name which is movies in our case and is followed by fucntion name which is fetchAsyncMovies in our case.
+
+Then we have an async function in which we are doing the API call with axios and finally returning the array of object, which is response.data.results
+
+Now, inside the createSlice, we also have an extraReducers now. It contains the pending, fulfilled and rejected stages of the async call. In the fulfilled we are taking the payload and adding it to the movies array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908589/14-Jun-25/redux-toolkit-thunk/1_ry5ovd.webp)
+
+Now, in our Home.js file we are using the dispatch to dispatched the fetchAsyncMovies() and have removed all logic of API call from here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908588/14-Jun-25/redux-toolkit-thunk/2_aqkwba.webp)
+
+Our App is working like earlier but we are now going through the thunk stages as shown in the console log.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908587/14-Jun-25/redux-toolkit-thunk/3_xw5ijb.webp)
+
+Similarly the Redux store is also showing the two states properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908585/14-Jun-25/redux-toolkit-thunk/4_x9j308.webp)
+
+Now, we will add the logic to fetch the shows as well in movieSlice.js file. We will create a function fetchAsyncShows, which is exactly similar to fetchAsyncMovies. We are just changing the movie to tv in the api call.
+
+We have also added an empty array of shows in initialState. Next, we need to only add new fulfilled stage in extraReducers, because Pending and Rejected are already there.
+
+We have also added a new function getAllShows to get the details of the sows from global state variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908584/14-Jun-25/redux-toolkit-thunk/5_licamf.webp)
+
+Now, in the Home.js file we will also import the fetchAsyncShows and dispatch it through the useEffect.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908583/14-Jun-25/redux-toolkit-thunk/6_hl3nna.webp)
+
+Now, in MovieListing.js file we will use the getAllShows to get the show details and also add a new section to show the shows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908582/14-Jun-25/redux-toolkit-thunk/7_qduchk.webp)
+
+Now in MovieListing.css file we will add the show-list class.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908581/14-Jun-25/redux-toolkit-thunk/8_q4ztih.webp)
+
+Now, in localhost we are also seeing all of the shows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908581/14-Jun-25/redux-toolkit-thunk/9_xzamln.webp)
+
+Lastly, we will add a bit of hover effect on the cards by adding a hover effect in MovieCard.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908580/14-Jun-25/redux-toolkit-thunk/10_tnqgsb.webp)
+
+Now, when we move our mouse over any card, we will see nice hover effect.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749908580/14-Jun-25/redux-toolkit-thunk/11_v9o01l.webp)
+
+This completes our small project and you can find the code for the same [here](https://github.com/nabendu82/redux-toolkit-thunk).

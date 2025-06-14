@@ -1,0 +1,1558 @@
+---
+title: React Admin Dashboard with Styled Components
+description: React
+date: 2022-05-22
+tags: ["javascript", "react", "web-dev"]
+published: true
+---
+
+In this post, we are going to create an awesome looking ReactJS Admin dashboard, which you can use in any project.
+
+You can also watch this in Video format on my [YouTube](https://www.youtube.com/watch?v=KcTqDEy0BA4) channel.
+
+So, create a new blank React app with the below npx command.
+
+```js
+    npx create-react-app react-admin-dashboard
+```
+
+No, once the project is created change to it and install the below dependencies in it.
+
+```js
+    npm i @material-ui/core @material-ui/icons react-router-dom@5 recharts styled-components
+```
+
+Now, we will remove the unwanted files, which comes with every ReactJS project. So, we will remove these files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910088/14-Jun-25/react-admin-dashboard/1_t9s4l1.webp)
+
+Next, we will remove the unnecessary code from index.js and it will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910079/14-Jun-25/react-admin-dashboard/2_b28nyp.webp)
+
+We will also remove everything from App.js and use this temporary code now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910084/14-Jun-25/react-admin-dashboard/3_ifxumq.webp)
+
+In App.css also remove everything and add the below. Notice that we had changed the font to Poppins for our application and also made the margin as 0.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910081/14-Jun-25/react-admin-dashboard/4_cjmvdh.webp)
+
+Now, when we run our application with npm start, it will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910095/14-Jun-25/react-admin-dashboard/5_lkrv1h.webp)
+
+We will start with creating our Navigation. So, create a file NavBar.js inside a components folder, inside src folder.
+
+We will be using Styled components in our project. So, a lot of component in our structure are Styled component, which we are going to create next.
+
+We are also using some icons from Material UI and also giving an random image from randomuser.me.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910099/14-Jun-25/react-admin-dashboard/6_uryfbu.webp)
+
+Now, put the below styled in the same file i.e. NavBar.js. Here, we are styling the styled components, which we have created earlier.
+
+```js
+    const NavbarContainer = styled.div`
+        width: 100%;
+        height: 50px;
+        background-color: white;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    `
+    const NavbarWrapper = styled.div`
+        height: 100%;
+        padding: 0px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    `
+    const Logo = styled.span`
+        font-weight: bold;
+        font-size: 30px;
+        color: maroon;
+        cursor: pointer;
+    `
+    const TopLeft = styled.div``const TopRight = styled.div`
+        display: flex;
+        align-items: center;
+    `const IconContainer = styled.div`
+        position: relative;
+        cursor: pointer;
+        margin-right: 10px;
+        color: #555;
+    `const IconBadge = styled.span`
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: -5px;
+        right: 0px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+    `
+    const Avatar = styled.img`
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+    `
+```
+
+Now, also import the NavBar component in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910089/14-Jun-25/react-admin-dashboard/7_dpip20.webp)
+
+Now, our NavBar will be show perfectly in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910083/14-Jun-25/react-admin-dashboard/8_b5wr2s.webp)
+
+Now, first create a file SideBar.js inside the components folder. Add this component in the App.js file first.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910091/14-Jun-25/react-admin-dashboard/9_uiyfab.webp)
+
+We will also add some styles for the container and link in the App.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910078/14-Jun-25/react-admin-dashboard/10_kfaodm.webp)
+
+Now, we will first give the structure of the SideBar component in the SideBar.js file. Here, again we are using a lot of Material UI Icons and styled components, which we are going to style next.
+
+```js
+    import React from 'react'
+    import { LineStyle, Timeline, TrendingUp, PermIdentity, Storefront, LocalAtm, Assessment, Drafts, Feedback, Forum, Work, Receipt, PieChart } from "@material-ui/icons";
+    import styled, { css } from "styled-components";const SideBar = () => {
+        return (
+            <SidebarContainer>
+                <SidebarWrapper>
+                    <SidebarMenu>
+                        <SidebarTitle>Dashboard</SidebarTitle>
+                        <SidebarList>
+                                <SidebarListItem>
+                                    <MyLineStyle />
+                                    Home
+                                </SidebarListItem>
+                            <SidebarListItem>
+                                <MyTimeline />
+                                Analytics
+                            </SidebarListItem>
+                            <SidebarListItem>
+                                <MyTrendingUp />
+                                Sales
+                            </SidebarListItem>
+                        </SidebarList>
+                    </SidebarMenu>
+                    <SidebarMenu>
+                        <SidebarTitle>All Menu</SidebarTitle>
+                        <SidebarList>
+                                <SidebarListItem>
+                                    <MyPermIdentity />
+                                    Users
+                                </SidebarListItem>
+                                <SidebarListItem>
+                                    <MyStorefront />
+                                    Products
+                                </SidebarListItem>
+                            <SidebarListItem>
+                                <MyAssessment />
+                                Reports
+                            </SidebarListItem>
+                            <SidebarListItem>
+                                <MyLocalAtm />
+                                Transactions
+                            </SidebarListItem>
+                        </SidebarList>
+                    </SidebarMenu>
+                    <SidebarMenu>
+                        <SidebarTitle>Connect</SidebarTitle>
+                        <SidebarList>
+                            <SidebarListItem>
+                                <MyDrafts />
+                                Mail
+                            </SidebarListItem>
+                            <SidebarListItem>
+                                <MyFeedback />
+                                Feedback
+                            </SidebarListItem>
+                            <SidebarListItem>
+                                <MyForum />
+                                Messages
+                            </SidebarListItem>
+                        </SidebarList>
+                    </SidebarMenu>
+                    <SidebarMenu>
+                        <SidebarTitle>Employees</SidebarTitle>
+                        <SidebarList>
+                            <SidebarListItem>
+                                <MyWork />
+                                Manage
+                            </SidebarListItem>
+                            <SidebarListItem>
+                                <MyPieChart />
+                                Analytics
+                            </SidebarListItem>
+                            <SidebarListItem>
+                                <MyReceipt />
+                                Reports
+                            </SidebarListItem>
+                        </SidebarList>
+                    </SidebarMenu>
+                </SidebarWrapper>
+            </SidebarContainer>
+        )
+    }
+
+    export default SideBar
+```
+
+Next, add the below styled components in the same file. Here, first thing to notice is that the component is flex:1, because the other we will make as flex:4.
+
+Also, notice the way we use hover in styled components. We also wanted to use some common styles in Material UI icons, so added them through css and then used the common styles.
+
+```js
+    const SidebarContainer = styled.div`
+        flex: 1;
+        height: calc(100vh - 50px);
+        background-color: rgb(251, 251, 255);
+        position: sticky;
+        top: 50px;
+    `const SidebarWrapper = styled.div`
+        padding: 20px;
+        color: #555;
+    `
+    const SidebarMenu = styled.div`
+        margin-bottom: 10px;
+    `
+    const SidebarTitle = styled.h3`
+        font-size: 13px;
+        color: rgb(187, 186, 186);
+    `const SidebarList = styled.ul`
+        list-style: none;
+        padding: 5px;
+    `const SidebarListItem = styled.li`
+        padding: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;&:hover {
+            background-color: rgb(240, 240, 255);
+        }
+    `
+    const sharedStyle = css`
+        margin-right: 5px;
+        font-size: 20px !important;
+    `const MyLineStyle = styled(LineStyle)`
+        ${sharedStyle}
+    `const MyTimeline = styled(Timeline)`
+        ${sharedStyle}
+    `const MyTrendingUp = styled(TrendingUp)`
+        ${sharedStyle}
+    `const MyPermIdentity = styled(PermIdentity)`
+        ${sharedStyle}
+    `const MyStorefront = styled(Storefront)`
+        ${sharedStyle}
+    `
+    const MyAssessment = styled(Assessment)`
+        ${sharedStyle}
+    `const MyLocalAtm = styled(LocalAtm)`
+        ${sharedStyle}
+    `const MyDrafts = styled(Drafts)`
+        ${sharedStyle}
+    `const MyFeedback = styled(Feedback)`
+        ${sharedStyle}
+    `const MyForum = styled(Forum)`
+        ${sharedStyle}
+    `const MyWork = styled(Work)`
+        ${sharedStyle}
+    `const MyPieChart = styled(PieChart)`
+        ${sharedStyle}
+    `const MyReceipt = styled(Receipt)`
+        ${sharedStyle}
+    `
+```
+
+Now, our Sidebar is looking awesome but expanding to the whole width. We are going to create component next, which will fix it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910057/14-Jun-25/react-admin-dashboard/11_wdvfnt.webp)
+
+We will now show our Home page. We will first import it in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910098/14-Jun-25/react-admin-dashboard/12_au1ohk.webp)
+
+Next, create a Home.js file in the pages folder, which needed to be created in the src folder.
+
+Here, we are just showing the container as a flex: 4, becuase our Sidebar is flex:1. We also have a Featured component inside it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910060/14-Jun-25/react-admin-dashboard/13_e5yx9z.webp)
+
+Now, before creating the Featured component, we will create it’s data in a dummyData.js file in the src folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910056/14-Jun-25/react-admin-dashboard/14_wmkrwk.webp)
+
+Next create a file Featured.js inside the components folder. Here, we are looping through the featuredData and showing a simple component, consisting of styled components and Material UI icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910093/14-Jun-25/react-admin-dashboard/15_z0jzop.webp)
+
+Now, we will also add the styled components for the Featured component in the same file.
+
+```js
+    const FeaturedContainer = styled.div`
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    `const FeaturedItem = styled.div`
+        flex: 1;
+        margin: 0px 20px;
+        padding: 30px;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    `const FeaturedTitle = styled.span`
+        font-size: 20px;
+    `const FeaturedMoneyContainer = styled.div`
+        margin: 10px 0px;
+        display: flex;
+        align-items: center;
+        .featuredMoney{
+            font-size: 30px;
+            font-weight: 600;
+        }
+        .featuredMoneyRate{
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }.featuredIcon{
+            font-size: 14px;
+            margin-left: 5px;
+            color: green;
+        }.featuredIcon.negative{
+            color: red;
+        }
+    `const FeaturedSub = styled.span`
+        font-size: 15px;
+        color: gray;
+    `
+```
+
+Now, it is looking like below in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910057/14-Jun-25/react-admin-dashboard/16_kkzgc0.webp)
+
+Next, we will use Recharts in our application. It is very easy to use and we will use the Dashed Line Chart in our application. The link for the same is https://recharts.org/en-US/examples/DashedLineChart
+
+First import the Chart component in our Home.js file. We are also importing a userData, which we are going to create soon.
+
+We are passing some props to the Chart component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910054/14-Jun-25/react-admin-dashboard/17_ee623w.webp)
+
+Next, in the dummyData.js we will add the useData, containing name and Active User count.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910085/14-Jun-25/react-admin-dashboard/18_plohcx.webp)
+
+Now, our Chart.js file contains a simple Dashed Line Chart and also using the props which are been passed from the Home component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910094/14-Jun-25/react-admin-dashboard/19_k6l6ih.webp)
+
+Now, we are been shown a nice Chart in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910060/14-Jun-25/react-admin-dashboard/20_sfqkof.webp)
+
+Next, we will add two new components SmWidget and LgWidget in our Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910058/14-Jun-25/react-admin-dashboard/21_xplz9j.webp)
+
+In the SmWidget and LgWidget we will use data from dummyData.js file. So, we will put two variables of newMemberRows and lastTransctionRows in it.
+
+```js
+export const newMemberRows = [
+    {
+        id: 1,
+        username: "Mary Jane",
+        avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+        occupation: "Software Engineer"
+    },
+    {
+        id: 2,
+        username: "Lovely Singh",
+        avatar: "https://randomuser.me/api/portraits/women/10.jpg",
+        occupation: "Software Architect"
+    },
+    {
+        id: 3,
+        username: "Shikha Das",
+        avatar: "https://randomuser.me/api/portraits/women/15.jpg",
+        occupation: "Senior Designer"
+    },
+    {
+        id: 4,
+        username: "Reema Jain",
+        avatar: "https://randomuser.me/api/portraits/women/34.jpg",
+        occupation: "Senior Manager"
+    },
+    {
+        id: 5,
+        username: "Robin Hood",
+        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+        occupation: "Product Manager"
+    }
+]export const lastTransctionRows = [
+    {
+        id: 1,
+        username: "John Traversy",
+        avatar: "https://randomuser.me/api/portraits/men/18.jpg",
+        date: "2 Jun 2021",
+        type: "Approved",
+        bgColor: "#e5faf2",
+        fdColor: "#3bb077",
+        transaction: "$420.00",
+    },
+    {
+        id: 2,
+        username: "Parag Khandar",
+        avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+        date: "2 Jul 2021",
+        type: "Declined",
+        bgColor: "#fff0f1",
+        fdColor: "#d95087",
+        transaction: "$320.00",
+    },
+    {
+        id: 3,
+        username: "Saira Hussian",
+        avatar: "https://randomuser.me/api/portraits/women/77.jpg",
+        date: "25 Aug 2021",
+        type: "Approved",
+        bgColor: "#e5faf2",
+        fdColor: "#3bb077",
+        transaction: "$720.00",
+    },
+    {
+        id: 4,
+        username: "Rohit Malik",
+        avatar: "https://randomuser.me/api/portraits/men/28.jpg",
+        date: "5 Jun 2021",
+        type: "Pending",
+        transaction: "$720.00",
+    },
+]
+```
+
+Next, we will first create the component of SmWidget.js. Here, we are mainly looping through the newMemberRows and showing it as a List. Again, we have used a lot of styled components, which we are going to add next.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910050/14-Jun-25/react-admin-dashboard/22_s8xpla.webp)
+
+Now, we will add the styled component in our SmWidget.js file.
+
+```js
+    const SmWidgetContainer = styled.div`
+        flex: 1;
+        box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+        padding: 20px;
+        margin-right: 20px;
+    `const SmWidgetTitle = styled.span`
+        font-size: 22px;
+        font-weight: 600;
+    `const SmWidgetImg = styled.img`
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    `const SmWidgetList = styled.ul`
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        .SmWidgetListItem{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0px;
+        }
+    `const SmWidgetUser = styled.div`
+        display: flex;
+        flex-direction: column;
+        .SmWidgetUsername{
+            font-weight: 600;
+        }.SmWidgetUserTitle{
+            font-weight: 300;
+        }
+    `const SmWidgetButton = styled.button`
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 10px;
+        padding: 7px 10px;
+        background-color: #eeeef7;
+        color: #555;
+        cursor: pointer;
+        .SmWidgetIcon{
+            font-size: 16px !important;
+            margin-right: 5px;
+        }
+    `
+```
+
+Next, we will create the component of LgWidget.js. Here, we are mainly looping through the lastTransctionRows and showing it as a table. Again, we have used a lot of styled components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910048/14-Jun-25/react-admin-dashboard/23_bouubh.webp)
+
+Now, we will add the styled component in our LgWidget.js file.
+
+```js
+    const LgWidgetContainer = styled.div`
+        flex: 2;
+        -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+        padding: 20px;
+    `const LgWidgetTitle = styled.h3`
+        font-size: 22px;
+        font-weight: 600;
+    `const LgWidgetButton = styled.button`
+        padding: 5px 7px;
+        border: none;
+        border-radius: 10px;
+        background-color:${props => props.bgColor || "#ebf1fe"};
+        color:${props => props.fdColor || "#2a7ade"};
+    `const LgWidgetTable = styled.table`
+        width: 100%;
+        border-spacing: 20px;
+    `const LgWidgetTh = styled.th`
+        text-align: left;
+    `const LgWidgetUser = styled.td`
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+    `const LgWidgetImg = styled.img`
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    `const LightTd = styled.td`
+        font-weight: 300;
+    `
+```
+
+Now, our Widgets are looking great in our localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910047/14-Jun-25/react-admin-dashboard/24_cixwuj.webp)
+
+Next, we will implement react router in our project, because we will have more pages in our project. We have created an UserList.js file in our pages folder and using the /users route to navigate to it in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910044/14-Jun-25/react-admin-dashboard/25_wd4dti.webp)
+
+Before creating the UserList component, we will create data userRows for it in our dummyData.js file.
+
+```js
+export const userRows = [
+    {
+        id: 1,
+        username: "Mary Jane",
+        avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+        email: "mary@gmail.com",
+        status: "active",
+        transaction: "$180.00",
+    },
+    {
+        id: 2,
+        username: "Lovely Singh",
+        avatar: "https://randomuser.me/api/portraits/women/10.jpg",
+        email: "lovely@gmail.com",
+        status: "active",
+        transaction: "$220.00",
+    },
+    {
+        id: 3,
+        username: "Shikha Das",
+        avatar: "https://randomuser.me/api/portraits/women/15.jpg",
+        email: "shikha@gmail.com",
+        status: "active",
+        transaction: "$320.00",
+    },
+    {
+        id: 4,
+        username: "Reema Jain",
+        avatar: "https://randomuser.me/api/portraits/women/34.jpg",
+        email: "reema@gmail.com",
+        status: "active",
+        transaction: "$110.00",
+    },
+    {
+        id: 5,
+        username: "Robin Hood",
+        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+        email: "robin@gmail.com",
+        status: "active",
+        transaction: "$120.00",
+    },
+    {
+        id: 6,
+        username: "Aamir Jain",
+        avatar: "https://randomuser.me/api/portraits/men/12.jpg",
+        email: "aamir@gmail.com",
+        status: "active",
+        transaction: "$220.00",
+    },
+    {
+        id: 7,
+        username: "John Traversy",
+        avatar: "https://randomuser.me/api/portraits/men/18.jpg",
+        email: "john@gmail.com",
+        status: "active",
+        transaction: "$420.00",
+    },
+    {
+        id: 8,
+        username: "Parag Khandar",
+        avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+        email: "parag@gmail.com",
+        status: "active",
+        transaction: "$320.00",
+    },
+    {
+        id: 9,
+        username: "Saira Hussian",
+        avatar: "https://randomuser.me/api/portraits/women/77.jpg",
+        email: "saira@gmail.com",
+        status: "active",
+        transaction: "$720.00",
+    },
+    {
+        id: 10,
+        username: "Rohit Malik",
+        avatar: "https://randomuser.me/api/portraits/men/28.jpg",
+        email: "rohit@gmail.com",
+        status: "active",
+        transaction: "$720.00",
+    },
+];
+```
+
+We are going to create some common styles for the UserList component, which we are going to use later in other components. So, create a file styled-elements.js inside styles folder in src folder. Put the below content now in it.
+
+```js
+    import styled from "styled-components";
+    import { DeleteOutline } from "@material-ui/icons";export const TheList = styled.div`
+        flex: 4;
+    `export const ListItem = styled.div`
+        display: flex;
+        align-items: center;
+    `export const ListImage = styled.img`
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    `export const EditButton = styled.button`
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        background-color: ${props => props.primary ? "DarkMagenta" : "SeaGreen"};
+        color: white;
+        cursor: pointer;
+        margin-right: 20px;
+    `export const MyDeleteOutline = styled(DeleteOutline)`
+        color: red;
+        cursor: pointer;
+    `
+```
+
+We are going to use the Material UI data grid in our project. So, we need to install it with npm first.
+
+```js
+    npm i @material-ui/data-grid
+```
+
+Next, we will first do the required imports in UserList.js file. After that we are creating a state variable of data and making it equal to the userRows from our dummyData file.
+
+Also, create a handleDelete function, which will use filter to delte our row. Next, we are adding the columns as per the Data grid documentation, to create a table.
+
+Lastly, we will use the DataGrid inside our return statement to show our table.
+
+```js
+import React, { useState } from 'react'
+import { DataGrid } from "@material-ui/data-grid";
+import { userRows } from "../dummyData";
+import { Link } from "react-router-dom";
+import { TheList, ListItem, ListImage, EditButton, MyDeleteOutline } from "../styles/styled-elements";const UserList = () => {
+    const [data, setData] = useState(userRows);const handleDelete = (id) => {
+        setData(data.filter((item) => item.id !== id));
+    };const columns = [
+        { field: "id", headerName: "ID", width: 90 },
+        {
+            field: "user",
+            headerName: "User",
+            width: 200,
+            renderCell: (params) => {
+                return (
+                    <ListItem>
+                        <ListImage src={params.row.avatar} alt="image" />
+                        {params.row.username}
+                    </ListItem>
+                );
+            },
+        },
+        { field: "email", headerName: "Email", width: 200 },
+        {
+            field: "status",
+            headerName: "Status",
+            width: 120,
+        },
+        {
+            field: "transaction",
+            headerName: "Transaction Volume",
+            width: 160,
+        },
+        {
+            field: "action",
+            headerName: "Action",
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <>
+                        <Link to={"/user/" + params.row.id}>
+                            <EditButton primary>Edit</EditButton>
+                        </Link>
+                        <MyDeleteOutline
+                            onClick={() => handleDelete(params.row.id)}
+                        />
+                    </>
+                );
+            },
+        },
+    ];return (
+        <TheList>
+            <DataGrid
+                rows={data}
+                disableSelectionOnClick
+                columns={columns}
+                pageSize={10}
+                checkboxSelection
+            />
+        </TheList>
+    )
+}
+
+export default UserList
+```
+
+Now, go to http://localhost:3000/users and we will see this beautiful table. The Delete and Edit are also working fine in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910043/14-Jun-25/react-admin-dashboard/26_d289yv.webp)
+
+Now, we will create the component for User, which will be shown when the user clicks on the Edit button in UseList. We will first add the route for the same in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910045/14-Jun-25/react-admin-dashboard/27_j6mzni.webp)
+
+We will again add some common styles in our styled-elements.js file.
+
+```js
+export const ItemContainer = styled.div`
+    flex: 4;
+    padding: 20px;
+`export const ItemTitleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`export const ItemAddButton = styled.button`
+    width: 80px;
+    border: none;
+    padding: 5px;
+    background-color: indigo;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    text-transform: uppercase;
+`export const ItemShowImg = styled.img`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: ${props => props.mr ? "20px" : "0px"};
+`export const ItemUploadImg = styled.img`
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-right: 20px;
+`export const ItemUpdateButton = styled.button`
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    background-color: midnightblue;
+    color: white;
+    font-weight: 600;
+`export const ItemUpload = styled.div`
+    display: flex;
+    align-items: center;
+`
+```
+
+Now, in the User.js file we will first do the required import and after that have a long static content, showing a two column layout User page.
+
+```js
+import { CalendarToday, LocationSearching, MailOutline, PermIdentity, PhoneAndroid,Publish } from "@material-ui/icons";
+import { Link } from "react-router-dom";
+import { ItemContainer, ItemTitleContainer, ItemAddButton, ItemShowImg, ItemUploadImg, ItemUpdateButton, ItemUpload } from "../styles/styled-elements"
+import styled from "styled-components";export default function User() {
+    return (
+        <ItemContainer>
+            <ItemTitleContainer>
+                <h1>Edit User</h1>
+                <Link to="/newUser">
+                    <ItemAddButton>Create</ItemAddButton>
+                </Link>
+            </ItemTitleContainer>
+            <UserContainer>
+                <ShowUser>
+                    <ShowUserTop>
+                        <ItemShowImg
+                            src="https://randomuser.me/api/portraits/women/77.jpg"
+                            alt="show-image"
+                        />
+                        <ShowTopTitle>
+                            <FontWeight bolder>Rebecca Parker</FontWeight>
+                            <FontWeight>UX Designer</FontWeight>
+                        </ShowTopTitle>
+                    </ShowUserTop>
+                    <ShowUserBottom>
+                        <UserShowTitle>Account Details</UserShowTitle>
+                        <UserShowInfo>
+                            <PermIdentity className="showIcon" />
+                            <span className="showInfoTitle">rebecca99</span>
+                        </UserShowInfo>
+                        <UserShowInfo>
+                            <CalendarToday className="showIcon" />
+                            <span className="showInfoTitle">22-12-1999</span>
+                        </UserShowInfo>
+                        <UserShowTitle>Contact Details</UserShowTitle>
+                        <UserShowInfo>
+                            <PhoneAndroid className="showIcon" />
+                            <span className="showInfoTitle">+91 123 456 67</span>
+                        </UserShowInfo>
+                        <UserShowInfo>
+                            <MailOutline className="showIcon" />
+                            <span className="showInfoTitle">rebecca99@gmail.com</span>
+                        </UserShowInfo>
+                        <UserShowInfo>
+                            <LocationSearching className="showIcon" />
+                            <span className="showInfoTitle">Mumbai | India</span>
+                        </UserShowInfo>
+                    </ShowUserBottom>
+                </ShowUser>
+                <UpdateUser>
+                    <UpdateTitle>Edit</UpdateTitle>
+                    <UpdateForm>
+                        <div>
+                            <UpdateItem>
+                                <label>Username</label>
+                                <input
+                                    type="text"
+                                    placeholder="rebecca99"
+                                />
+                            </UpdateItem>
+                            <UpdateItem>
+                                <label>Full Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="Rebecca Parker"
+                                />
+                            </UpdateItem>
+                            <UpdateItem>
+                                <label>Email</label>
+                                <input
+                                    type="text"
+                                    placeholder="rebecca99@gmail.com"
+                                />
+                            </UpdateItem>
+                            <UpdateItem>
+                                <label>Phone</label>
+                                <input
+                                    type="text"
+                                    placeholder="+91 123 456 67"
+                                />
+                            </UpdateItem>
+                            <UpdateItem>
+                                <label>Address</label>
+                                <input
+                                    type="text"
+                                    placeholder="Mumbai | India"
+                                />
+                            </UpdateItem>
+                        </div>
+                        <UpdateRight>
+                            <ItemUpload>
+                                <ItemUploadImg
+                                    src="https://randomuser.me/api/portraits/women/77.jpg"
+                                    alt="upload-img"
+                                />
+                                <label htmlFor="file">
+                                    <MyPublish />
+                                </label>
+                                <input type="file" id="file" style={{ display: "none" }} />
+                            </ItemUpload>
+                            <ItemUpdateButton>Update</ItemUpdateButton>
+                        </UpdateRight>
+                    </UpdateForm>
+                </UpdateUser>
+            </UserContainer>
+        </ItemContainer>
+    );
+}
+```
+
+We will also add some local styled components in this User.js file.
+
+```js
+const UserContainer = styled.div`
+    display: flex;
+    margin-top: 20px;
+`const ShowUser = styled.div`
+    flex: 1;
+    padding: 20px;
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+`const UpdateUser = styled.div`
+    flex: 2;
+    padding: 20px;
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    margin-left: 20px;
+`const ShowUserTop = styled.div`
+    display: flex;
+    align-items: center;
+`const ShowUserBottom = styled.div`
+    margin-top: 20px;
+`const ShowTopTitle = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+`const FontWeight = styled.span`
+    font-weight: ${props => props.bolder ? "600" : "300"};
+`const UserShowTitle = styled.span`
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(175, 170, 170);
+`const UserShowInfo = styled.div`
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+    color: #444;
+    .showIcon{
+        font-size: 16px !important;
+    }
+    .showInfoTitle{
+        margin-left: 10px;
+    }
+`const UpdateTitle = styled.span`
+    font-size: 24px;
+    font-weight: 600;
+`const UpdateForm = styled.form`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+`const UpdateItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    label{
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+    input{
+        border: none;
+        width: 250px;
+        height: 30px;
+        border-bottom: 1px solid gray;
+    }
+`const UpdateRight = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`const MyPublish = styled(Publish)`
+    cursor: pointer;
+`
+```
+
+Now, a cool user page is been shown when we edit any user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910041/14-Jun-25/react-admin-dashboard/28_qwtyvt.webp)
+
+Now, we will create a NewUser.js component in the pages folder, which will open when the user click on Create button. We will first add the route for the same in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910040/14-Jun-25/react-admin-dashboard/29_xh454g.webp)
+
+Now, we will first add the static code to show the NewUser in NewUser.js file. Again we are using a lot of styled components.
+
+```js
+import React from 'react';
+import { TheList } from "../styles/styled-elements"
+import styled from "styled-components";const NewUser = () => {
+    return (
+        <TheList>
+            <h1>New User</h1>
+            <UserForm>
+                <UserItem>
+                    <label>Username</label>
+                    <input type="text" placeholder="john" />
+                </UserItem>
+                <UserItem>
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Smith" />
+                </UserItem>
+                <UserItem>
+                    <label>Email</label>
+                    <input type="email" placeholder="john@gmail.com" />
+                </UserItem>
+                <UserItem>
+                    <label>Password</label>
+                    <input type="password" placeholder="password" />
+                </UserItem>
+                <UserItem>
+                    <label>Phone</label>
+                    <input type="text" placeholder="+1 123 456 78" />
+                </UserItem>
+                <UserItem>
+                    <label>Address</label>
+                    <input type="text" placeholder="New York | USA" />
+                </UserItem>
+                <UserItem>
+                    <label>Gender</label>
+                    <UserRadio>
+                        <input type="radio" name="gender" id="male" value="male" />
+                        <label for="male">Male</label>
+                        <input type="radio" name="gender" id="female" value="female" />
+                        <label for="female">Female</label>
+                        <input type="radio" name="gender" id="other" value="other" />
+                        <label for="other">Other</label>
+                    </UserRadio>
+                </UserItem>
+                <UserItem>
+                    <label>Active</label>
+                    <select className="newUserSelect" name="active" id="active">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </UserItem>
+                <UserButton>Create</UserButton>
+            </UserForm>
+        </TheList>
+    )
+}
+
+export default NewUser
+```
+
+Next, we will add the required styled components in NewUser.js file.
+
+```js
+const UserForm = styled.form`
+    display: flex;
+    flex-wrap: wrap;
+`const UserItem = styled.div`
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-right: 20px;
+    label {
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: rgb(151, 150, 150);
+    }
+    input {
+        height: 20px;
+        padding: 10px;
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+    select{
+        height: 40px;
+        border-radius: 5px;
+    }
+`const UserRadio = styled.div`
+    input {
+        margin-top: 15px;
+    }
+    label{
+        margin: 10px;
+        font-size: 18px;
+        color: #555;
+    }
+`const UserButton = styled.button`
+    width: 200px;
+    border: none;
+    background-color: #1876F2;
+    color: white;
+    padding: 7px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 30px;
+    cursor: pointer;
+`
+```
+
+Now, we have a beautiful New User page in http://localhost:3000/newUser
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910038/14-Jun-25/react-admin-dashboard/30_t4a9s2.webp)
+
+Now, we will add links to go to Home, Users and Products in SideBar.js file. We need to first import React router link in the file.
+
+```js
+    import { Link } from "react-router-dom";
+```
+
+Next, we will wrap the Home, Users and Products component with the links to respectative routes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910037/14-Jun-25/react-admin-dashboard/31_xrumlg.webp)
+
+Now, we will have Products like Users also. Here, we are again going to follow the same structure.
+
+So, first create a ProductList.js file in the pages folder. After that add the route for the same in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910035/14-Jun-25/react-admin-dashboard/32_zj1pj6.webp)
+
+We will also add a new productRows in dummyData.js file.
+
+```js
+export const productRows = [
+    {
+        id: 1,
+        name: "Macbook Air",
+        img: "https://picsum.photos/200/300/?random=1",
+        stock: 143,
+        status: "active",
+        price: "$999.00",
+    },
+    {
+        id: 2,
+        name: "Macbook Pro",
+        img: "https://picsum.photos/200/300/?random=2",
+        stock: 323,
+        status: "active",
+        price: "$1220.00",
+    },
+    {
+        id: 3,
+        name: "Mac Mini M1",
+        img: "https://picsum.photos/200/300/?random=3",
+        stock: 923,
+        status: "active",
+        price: "$499.00",
+    },
+    {
+        id: 4,
+        name: "iPhone 13 Pro",
+        img: "https://picsum.photos/200/300/?random=4",
+        stock: 723,
+        status: "active",
+        price: "$999.00",
+    },
+    {
+        id: 5,
+        name: "iPhone SE",
+        img: "https://picsum.photos/200/300/?random=5",
+        stock: 823,
+        status: "active",
+        price: "$450.00",
+    },
+    {
+        id: 6,
+        name: "Apple Airpods Pro",
+        img: "https://picsum.photos/200/300/?random=6",
+        stock: 423,
+        status: "active",
+        price: "$459.00",
+    },
+    {
+        id: 7,
+        name: "Apple Airpods Max",
+        img: "https://picsum.photos/200/300/?random=7",
+        stock: 823,
+        status: "active",
+        price: "$820.00",
+    },
+    {
+        id: 8,
+        name: "iMac",
+        img: "https://picsum.photos/200/300/?random=8",
+        stock: 993,
+        status: "active",
+        price: "$1200.00",
+    }
+];
+```
+
+Now, our ProductList.js file will be exactly like UserList.js file. We will have a DataGrid table. We are also re-using the styled components which we had created earlier.
+
+```js
+import React, { useState } from 'react'
+import { TheList, ListItem, ListImage, EditButton, MyDeleteOutline } from "../styles/styled-elements";
+import { DataGrid } from "@material-ui/data-grid";
+import { productRows } from "../dummyData";
+import { Link } from "react-router-dom";const ProductList = () => {
+    const [data, setData] = useState(productRows);const handleDelete = (id) => {
+        setData(data.filter((item) => item.id !== id));
+    };const columns = [
+        { field: "id", headerName: "ID", width: 90 },
+        {
+            field: "product",
+            headerName: "Product",
+            width: 200,
+            renderCell: (params) => {
+                return (
+                    <ListItem>
+                        <ListImage src={params.row.img} alt="image" />
+                        {params.row.name}
+                    </ListItem>
+                );
+            },
+        },
+        { field: "stock", headerName: "Stock", width: 200 },
+        {
+            field: "status",
+            headerName: "Status",
+            width: 120,
+        },
+        {
+            field: "price",
+            headerName: "Price",
+            width: 160,
+        },
+        {
+            field: "action",
+            headerName: "Action",
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <>
+                        <Link to={"/product/" + params.row.id}>
+                            <EditButton>Edit</EditButton>
+                        </Link>
+                        <MyDeleteOutline
+                            onClick={() => handleDelete(params.row.id)}
+                        />
+                    </>
+                );
+            },
+        },
+    ];
+    return (
+        <TheList>
+            <DataGrid
+                rows={data}
+                disableSelectionOnClick
+                columns={columns}
+                pageSize={8}
+                checkboxSelection
+            />
+        </TheList>
+    )
+}
+
+export default ProductList
+```
+
+Now, clicking on the Products links will show us below list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910034/14-Jun-25/react-admin-dashboard/33_xcncsf.webp)
+
+Now, we will create a Product.js file in pages folder, which will be similar to the User.js file. It will be opened when the user clicks on the Edit button.
+
+But first we will add the component in the App.js file, with a route for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910033/14-Jun-25/react-admin-dashboard/34_xgym0j.webp)
+
+Now, in the Product.js file add the below content. Here, we are again using a lot of styled components from our common file.
+
+```js
+import React from 'react'
+import { Link } from "react-router-dom";
+import Chart from "../components/Chart"
+import { productData } from "../dummyData"
+import { Publish } from "@material-ui/icons";
+import { ItemContainer, ItemTitleContainer, ItemAddButton, ItemShowImg, ItemUploadImg, ItemUpdateButton, ItemUpload } from "../styles/styled-elements"
+import styled from "styled-components";const Product = () => {
+    return (
+        <ItemContainer>
+            <ItemTitleContainer>
+                <h1>Edit Product</h1>
+                <Link to="/newproduct">
+                    <ItemAddButton>Create</ItemAddButton>
+                </Link>
+            </ItemTitleContainer>
+            <ProductTopContainer>
+                <TopLeftContainer>
+                    <Chart data={productData} dataKey="Sales" title="Sales Performance" />
+                </TopLeftContainer>
+                <TopRightContainer>
+                    <InfoTopContainer>
+                        <ItemShowImg mr src="https://picsum.photos/200/300/?random=1" alt="show-image" />
+                        <span className="productName">Mac Mini M1</span>
+                    </InfoTopContainer>
+                    <InfoBottomContainer>
+                        <InfoItemContainer>
+                            <span>id:</span>
+                            <span className="productInfoValue">123</span>
+                        </InfoItemContainer>
+                        <InfoItemContainer>
+                            <span>sales:</span>
+                            <span className="productInfoValue">5123</span>
+                        </InfoItemContainer>
+                        <InfoItemContainer>
+                            <span>active:</span>
+                            <span className="productInfoValue">yes</span>
+                        </InfoItemContainer>
+                        <InfoItemContainer>
+                            <span>in stock:</span>
+                            <span className="productInfoValue">no</span>
+                        </InfoItemContainer>
+                    </InfoBottomContainer>
+                </TopRightContainer>
+            </ProductTopContainer>
+            <ProductBottomContainer>
+                <ProductForm>
+                    <FormLeft>
+                        <label>Product Name</label>
+                        <input type="text" placeholder="Apple AirPod" />
+                        <label>In Stock</label>
+                        <select name="inStock" id="idStock">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                        <label>Active</label>
+                        <select name="active" id="active">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </FormLeft>
+                    <FormRight>
+                        <ItemUpload>
+                            <ItemUploadImg src="https://picsum.photos/200/300/?random=1" alt="upload-img" />
+                            <label for="file">
+                                <Publish />
+                            </label>
+                            <input type="file" id="file" style={{ display: "none" }} />
+                        </ItemUpload>
+                        <ItemUpdateButton>Update</ItemUpdateButton>
+                    </FormRight>
+                </ProductForm>
+            </ProductBottomContainer>
+        </ItemContainer>
+    )
+}
+
+export default Product
+```
+
+We are also using some local styled components in same Product.js file.
+
+```js
+const ProductTopContainer = styled.div`
+    display: flex;
+`const TopLeftContainer = styled.div`
+    flex: 1;
+`const TopRightContainer = styled(TopLeftContainer)`
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+`const InfoTopContainer = styled.div`
+    display: flex;
+    align-items: center;
+    .productName {
+        font-weight: 600;
+    }
+`const InfoBottomContainer = styled.div`
+    margin-top: 10px;
+`const InfoItemContainer = styled.div`
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    .productInfoValue {
+        font-weight: 300;
+    }
+`const ProductBottomContainer = styled.div`
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+`const ProductForm = styled.form`
+    display: flex;
+    justify-content: space-between;
+`const FormLeft = styled.div`
+    display: flex;
+    flex-direction: column;
+    label {
+        margin-bottom: 10px;
+        color: gray;
+    }
+    input {
+        margin-bottom: 10px;
+        border: none;
+        padding: 5px;
+        border-bottom: 1px solid gray;
+    }
+    select{
+        margin-bottom: 10px;
+    }
+`const FormRight = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+`
+```
+
+Now, also add the below data in dummyData.js file.
+
+```js
+    export const productData = [
+        {
+            name: "Jan",
+            "Sales": 4000,
+        },
+        {
+            name: "Feb",
+            "Sales": 3000,
+        },
+        {
+            name: "Mar",
+            "Sales": 5000,
+        },
+    ];
+```
+
+Now, our product page looks like below, with nice Chart.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910031/14-Jun-25/react-admin-dashboard/35_tqsull.webp)
+
+Lastly, we will create our NewProduct page, which will be show on clicking on Crete in the above screen. But for that we will first add the route in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910032/14-Jun-25/react-admin-dashboard/36_cktcc0.webp)
+
+Now, in the NewProduct.js file first add the below code. Here, we are using a lot of styled components and using using the logic to implement a Preview container. The Preview component will be used to show the selected image.
+
+```js
+import React, { useState } from 'react'
+import { TheList } from "../styles/styled-elements"
+import styled from "styled-components";const NewProduct = () => {
+    const [selectedImage, setSelectedImage] = useState();const imageChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setSelectedImage(e.target.files[0]);
+        }
+    };const removeSelectedImage = () => {
+        setSelectedImage();
+    };return (
+        <TheList>
+            <NewProductContainer>
+            <ProductLeft>
+                <h1>New Product</h1>
+                <ProductForm>
+                    <ProductItem>
+                        <label>Image</label>
+                        <input type="file" id="file" accept="image/*" onChange={imageChange} />
+                    </ProductItem>
+                    <ProductItem>
+                        <label>Name</label>
+                        <input type="text" placeholder="Apple Airpods" />
+                    </ProductItem>
+                    <ProductItem>
+                        <label>Stock</label>
+                        <input type="text" placeholder="123" />
+                    </ProductItem>
+                    <ProductItem>
+                        <label>Active</label>
+                        <select name="active" id="active">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </ProductItem>
+                    <ProductButton>Create</ProductButton>
+                </ProductForm>
+            </ProductLeft>
+            <ImageContainer>
+                {selectedImage && (
+                    <Preview>
+                        <img
+                            src={URL.createObjectURL(selectedImage)}
+                            alt="preview"
+                        />
+                        <button onClick={removeSelectedImage}>
+                            Remove This Image
+                        </button>
+                    </Preview>
+                )}
+            </ImageContainer>
+            </NewProductContainer>
+        </TheList>
+    )
+}
+
+export default NewProduct
+```
+
+Next, we will add the styled components for the NewProduct.js file.
+
+```js
+const NewProductContainer = styled.div`
+    display: flex;
+`
+const ProductLeft = styled.div`
+    flex: 1;
+`
+const ImageContainer = styled.div`
+    flex: 3;
+`
+const ProductForm = styled.form`
+    margin-top: 10px;
+`const ProductItem = styled.div`
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    label {
+        color: gray;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    input, select {
+        padding: 10px;
+    }
+`const ProductButton = styled.button`
+    margin-top: 10px;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1876F2;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+`const Preview = styled.div`
+    margin-top: 50px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    img{
+        max-width: 100%;
+        max-height: 320px;
+        object-fit: cover;
+    }
+    button{
+        cursor: pointer;
+        padding: 15px;
+        background-color:red;
+        color: white;
+        border: none;
+        font-weight: 600;
+    }
+`
+```
+
+Now, in our New Product page, we can upload a image and see the preview also of it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749910030/14-Jun-25/react-admin-dashboard/37_z8kbwq.webp)
+
+This completes our fairly large ReactJS Admin project.
