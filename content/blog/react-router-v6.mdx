@@ -1,0 +1,133 @@
+---
+title: React Router v6 with a Project
+description: React
+date: 2022-03-16
+tags: ["javascript", "react", "webdev"]
+published: true
+---
+
+We have earlier seen a project with React router v5, but now recently version 6 came out. It have got many breaking changes in comparison with version 5 and we will learn it by creating a fresh project with create-react-app.
+
+```js
+    npx create-react-app router-v6
+```
+
+After that install the router version 6 in the project with below command.
+
+```js
+    npm install react-router-dom@6
+```
+
+As with all ReactJS project, we will get a lot of boiler plate code, so we will remove the below mentioned files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889623/14-Jun-25/react-router-v6/1_wtnajt.webp)
+
+Next, cleaned up the index.js and it looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889622/14-Jun-25/react-router-v6/2_sxewkg.webp)
+
+In the App.js also, we are removing everything and having a h1 only.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889620/14-Jun-25/react-router-v6/3_frmkco.webp)
+
+Now, the http://localhost:3000/ will show this simple code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889619/14-Jun-25/react-router-v6/4_lzrkwb.webp)
+
+Next, create a simple Home.js file in a components folder in src folder and put the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889618/14-Jun-25/react-router-v6/5_kulv3u.webp)
+
+Next, we will update the App.js file to contain the new format of Router. In version 6 the Switch is replaced by Routes and component prop in Route with element.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889618/14-Jun-25/react-router-v6/6_hnccj5.webp)
+
+We will use bootstrap 5 in our simple project. So, open index.html and put the bootstrap link in the head part.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889617/14-Jun-25/react-router-v6/7_g14phl.webp)
+
+Now, we will create a file Courses.js and add a h1 and ul with lis in it. Notice, that we have used bootstrap classes in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889616/14-Jun-25/react-router-v6/8_eqqpvg.webp)
+
+Now, back in App.js we have created two Routes. One is the normal route to show the Courses component. Other is using a new feature of Navigate, in which we are giving a path /apps which will go to the courses route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889615/14-Jun-25/react-router-v6/9_g0d99o.webp)
+
+Now, when we go to /courses or /apps we will be shown the Courses component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889614/14-Jun-25/react-router-v6/10_dfwgjv.webp)
+
+Next, we will create two new components which will be shown inside the Courses component. So, create a file Allcourses.js inside the components folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889613/14-Jun-25/react-router-v6/11_hgykm1.webp)
+
+Next, create a Bundles.js file and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889612/14-Jun-25/react-router-v6/12_ymk3le.webp)
+
+Now, create the Routes for it in our App.js file. Here, we are creating it inside the /courses Route, by changing it from self-closing tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889612/14-Jun-25/react-router-v6/13_p16o1m.webp)
+
+Now, in Courses.js file, we have removed some of the earlier data and added two Links, which will take us to /courses/allcourses and /courses/bundles routes.
+
+We are also using a Outlet here, because we want to show the AllCourses and Bundles component here only.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889611/14-Jun-25/react-router-v6/14_w7c9se.webp)
+
+Now, when we click on the Courses button, we will be shown the Allcourses route in the same component. And the same thing with the Bundles button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889610/14-Jun-25/react-router-v6/15_nwmfsk.webp)
+
+Now, we will add the logic to click on any of the Course and showing a detail of the course. We need the name of the course, so we will be using the wildcard id inside allcourses Route, by creating a new Route in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889609/14-Jun-25/react-router-v6/16_cxxmch.webp)
+
+Now, in the AllCourses.js file we have created and array courseList containing our courses. After that we are mapping through inside our ul and the adding a NavLink to each li.
+
+Here, we will be going to the route ``` /courses/allcourses/${course} ``` on clicking any of the li. We are also adding an Outlet here, so that the component can be displayed here itself.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889609/14-Jun-25/react-router-v6/17_pi1lz9.webp)
+
+Finally, we will create a SingleCourse.js file inside the components folder. Here, we are using a hook useParams to get access to the params of id. After that using bootstrap classes to show it in a nice card.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889608/14-Jun-25/react-router-v6/18_pgwezp.webp)
+
+Now, we are able to click on any course and its data is shown below in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889607/14-Jun-25/react-router-v6/19_ri5f9u.webp)
+
+Now, we will add the logic to pass data from a component to another component. In React router v6, we can do it through the useNavigate hook or can also simply pass it to through a Link.
+
+In the SingleCourse.js file, we are adding an anchor tag and clicking on it will navigate to a new dashboard route. We are passing a state variable as the second parameter and here passing the id.
+
+We are also passing a state variable in the Link tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889606/14-Jun-25/react-router-v6/20_rsaafw.webp)
+
+We also need to add this new Route in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889605/14-Jun-25/react-router-v6/21_qhziv7.webp)
+
+Now, create a file Dashboard.js in the components folder. Here, the main thing is to use the useLocation hook, to get access to location.state variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889606/14-Jun-25/react-router-v6/22_bu5ziy.webp)
+
+Now, we have two Links in the localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889604/14-Jun-25/react-router-v6/23_xi26lp.webp)
+
+Clicking on any of them will pass the correct state to the Dashboard component, which is a beautiful card.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889604/14-Jun-25/react-router-v6/24_m3boss.webp)
+
+Let's finally fix the Home component in Home.js file, as we want an entry point to All Courses.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889604/14-Jun-25/react-router-v6/25_eqemq5.webp)
+
+Now application is working fine and looking good and we have gone through all major concepts of React Router v6.
+
+You can find code for the same in [this](https://github.com/nabendu82/react-router-6) github repo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749889605/14-Jun-25/react-router-v6/26_o5edoc.gif)
