@@ -1,0 +1,173 @@
+---
+title: React Redux Toolkit with Project
+description: Redux
+date: 2022-04-26
+tags: ["javascript", "react", "redux"]
+published: true
+---
+
+Redux team recently introduced Redux Toolkit, because Redux have a lot of boilerplate code and it becomes hard sometimes to understand.
+
+We will create a Movie app to understand this new concept of Redux toolkit. So, create a new react app with the below command .
+
+```js
+    npx create-react-app redux-toolkit-project
+```
+
+Now, React comes with a lot of boiler plate code. So, we will remove these files as shown below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900238/14-Jun-25/redux-toolkit/1_hjjeim.webp)
+
+Now, we will get some errors. So, let's fix them by removing the unnecessary imports from index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900236/14-Jun-25/redux-toolkit/2_jn6ovs.webp)
+
+Now, our App.js will also contain minimal code and will show just a header, as of now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900235/14-Jun-25/redux-toolkit/3_x4lnbg.webp)
+
+Now, localhost shows this simple h1 tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900233/14-Jun-25/redux-toolkit/4_bmba2t.webp)
+
+Now, we will install all of the required packages in our project by the below command.
+
+```js
+    npm i axios react-redux redux @reduxjs/toolkit react-router-dom@5
+```
+
+Next, we will create four folders in our src and also remove all styles from App.css and put four CSS variables, which we are going to use through out the application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900232/14-Jun-25/redux-toolkit/5_ihtntv.webp)
+
+Now, we are going to use the API from https://developers.themoviedb.org/3/discover/movie-discover to get all movie data. We need to register here for free to get our own API key.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900231/14-Jun-25/redux-toolkit/6_oa6m7e.webp)
+
+Next, create an apis folder inside the common folder. Here create two files movieApi.js and MovieApiKey.js. In the movieApi.js do the API call to the baseURL through axio.create.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900230/14-Jun-25/redux-toolkit/7_aiwkng.webp)
+
+Next, in the file MovieApiKey.js put the details of your API key.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900228/14-Jun-25/redux-toolkit/8_j0ve5q.webp)
+
+Now, we will create some files in our components folder. They are Footer.js, Header.js, Home.js, MovideDetails.js and PageNotFound.js. We have also created the corresponding css files.
+
+Now, in the file Header.js put the simple content as of now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900227/14-Jun-25/redux-toolkit/9_hvcyf9.webp)
+
+Next, put a simple content as of now in Footer.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900226/14-Jun-25/redux-toolkit/10_r4kyen.webp)
+
+Next, put a simple content as of now in Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900224/14-Jun-25/redux-toolkit/11_sntept.webp)
+
+Also, put this simple content in PageNotFound.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900223/14-Jun-25/redux-toolkit/12_pvext7.webp)
+
+Also, put this simple content in MovieDetail.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900222/14-Jun-25/redux-toolkit/13_jphyhv.webp)
+
+Now, in App.js file we are adding Routing by adding the Header, Home, MovieDetail, PageNotFound and Footer components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900221/14-Jun-25/redux-toolkit/14_onrhnd.webp)
+
+Now, in the Home route we will see these three components in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900220/14-Jun-25/redux-toolkit/15_frl5gq.webp)
+
+Next, we will first add some common style in App.css file. We are also using a google font of Mali here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900219/14-Jun-25/redux-toolkit/16_gzqeoc.webp)
+
+Next, we will add the code in Header.js file. Here, we are using a Link and a image of user, which we have just put in the images folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900217/14-Jun-25/redux-toolkit/17_kkj6kk.webp)
+
+Now, we will put the styles for the same in Header.css file. Here, we are using flex box to style our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900216/14-Jun-25/redux-toolkit/18_s1z8ad.webp)
+
+Now, our app is looking good in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900214/14-Jun-25/redux-toolkit/19_zvoepk.webp)
+
+Now, we will also use font awesome in our project. So, we will add the same in our index.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900214/14-Jun-25/redux-toolkit/20_vmy5lp.webp)
+
+Next, we will create the content for Footer.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900211/14-Jun-25/redux-toolkit/21_w8iztr.webp)
+
+The simple styles for the footer file in Footer.css.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900210/14-Jun-25/redux-toolkit/22_uuwlfq.webp)
+
+Now, create a simple MovieListing.js file and MovieListing.css file in the components folder and put the simple content in MovieListing.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900209/14-Jun-25/redux-toolkit/23_imrsuz.webp)
+
+Next, we will update our Home.js file to do an API call using useEffect. We are also showing the MovieListing component here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900212/14-Jun-25/redux-toolkit/24_qzrrry.webp)
+
+Now, in localhost we are able to successfully get the data from our movie db endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900207/14-Jun-25/redux-toolkit/25_yovohh.webp)
+
+Now, it’s time to add Redux toolkit logic to our project. Inside the features folder, create a movies folder and inside it movieSlice.js file. Also, create a store.js file inside the features folder, and add the below content in it. Here, we are configuring the store with a reducer, which we are going to create soon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900208/14-Jun-25/redux-toolkit/26_r7y5v2.webp)
+
+Now, we have to add the store in our index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900206/14-Jun-25/redux-toolkit/27_exysnd.webp)
+
+In Redux toolkit, we have the reducer and action creator in a single file known as slice which is our movieSlice.js file. Here, we are first importing createSlice from redux toolkit. After that we have an initial state, containing movies array.
+
+Inside the movieSlice, and in the reducers we are creating an action creator called addMovies, which will make the state equal to the payload.
+
+Lastly, we are exporting addMovies and also getAllMovies, through which we can get the movies state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900205/14-Jun-25/redux-toolkit/28_lpyt84.webp)
+
+Next, in our Home.js file we will dispatch the action creator addMovies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900204/14-Jun-25/redux-toolkit/29_ga2jsv.webp)
+
+Now, when we goto our localhost and open the redux store, we will see the state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900203/14-Jun-25/redux-toolkit/30_iwiyzt.webp)
+
+Now, we will show the data in the MovieListing.js component. Here, we are using the useSelector to get the global state from getAllMovies.
+
+We are receving an array of object here and storing in movies. After that we are looping through it and passing an individual object to the MovieCard component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900202/14-Jun-25/redux-toolkit/31_suoawu.webp)
+
+Next, we will create the styles for the same in MovieListing.css file. Here, we are using CSS grid to style the container.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900201/14-Jun-25/redux-toolkit/32_fbnmmk.webp)
+
+Next, create a MovieCard.js file in the same components folder. Here, we are taking the poster_path, title and release_date from the object and showing it within a HTML structure.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900201/14-Jun-25/redux-toolkit/33_pm15l3.webp)
+
+Lastly, we are showing the styles for the same in MovieCard.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900200/14-Jun-25/redux-toolkit/34_n7xz0c.webp)
+
+Our app is now complete and showing all movies with images from API. You can find the code for the same in [this](https://github.com/nabendu82/redux-toolkit-project) github repo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749900199/14-Jun-25/redux-toolkit/35_hfqq79.webp)
+
+You can also find this in video format on my [YouTube](https://www.youtube.com/watch?v=H3oT7IH_17E) channel.
+
+

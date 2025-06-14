@@ -1,0 +1,69 @@
+---
+title: Learn React redux Thunk with a Project
+description: Redux
+date: 2022-03-26
+tags: ["javascript", "react", "redux"]
+published: true
+---
+
+We have created a React Redux project ealier in [this](https://www.nabendu.org/blog/react-redux-api) post. But we have made the API call in our component itself, which should have been done in the action creator.
+
+We will enhance our earlier project to do the API call in the action creator, using the middleware of thunk.
+
+We will first create an apis folder in the src folder. Inside it create a shopApi.js file. Here, we are using axios to have our baseURL as the fakestorapi.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898953/14-Jun-25/redux-thunk/1_ztaedr.webp)
+
+Now, we will create a new Action creator called FETCH_PRODUCTS in our action-types.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898952/14-Jun-25/redux-thunk/2_etslpy.webp)
+
+Now, in the productsActions.js file, we will create a new action creator of fetchProducts. Notice, that here we are using axios.get('/products') to get to our complete endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898952/14-Jun-25/redux-thunk/3_o9qafk.webp)
+
+Next, in our ProductListing.js file we will remove the earlier code of doing an API call and use the fetchProducts action creator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898951/14-Jun-25/redux-thunk/4_phg6jd.webp)
+
+Now, if we go to http://localhost:3000/ we will get an error that Actions must be plain objects and we should use middleware for async actions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898950/14-Jun-25/redux-thunk/5_nll26r.webp)
+
+Now, every API call takes 1–2 seconds and require a middleware like Redux thunk, if we use in the action creator. So, we will first install it through the terminal through the below command.
+
+```js
+    npm i redux-thunk
+```
+
+Next, we will update the code for store.js file to include the thunk. Notice that we are using composeEnhancers to use the thunk middleware.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898950/14-Jun-25/redux-thunk/6_inoxir.webp)
+
+Now, we will update the code in productsActions.js to use the dispatch to hit the API endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898948/14-Jun-25/redux-thunk/7_e26cob.webp)
+
+Next, we will also add this in our productsReducer.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898947/14-Jun-25/redux-thunk/8_mzw7wl.webp)
+
+Now, back in http://localhost:3000/ we are able to get the data again, but this time through Redux Thunk.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898947/14-Jun-25/redux-thunk/9_vx90c1.webp)
+
+Next, we will do the same in our ProductDetails and not do the API call from there. So, first in productsActions.js we will create new function fetchProduct, using our dispatch.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898946/14-Jun-25/redux-thunk/10_hjynxy.webp)
+
+Now, in ProductDetails.js file, we will remove the earlier API call and now use the dispatch to call fetchProduct from the Action creator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898946/14-Jun-25/redux-thunk/11_nsmz49.webp)
+
+We don't need to make any changes in the Reducer file, as we are already covering the case. Now, we can select an individual item an it is working fine.
+
+This completes our small post to convert our existing application to use Redux thunk. You can find the code for the same in [this](https://github.com/nabendu82/redux-think-project) github repo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749898945/14-Jun-25/redux-thunk/12_brcqli.webp)
+
+You can also find this post in video format in [this](https://www.youtube.com/watch?v=8inELQJJboQ) video.
