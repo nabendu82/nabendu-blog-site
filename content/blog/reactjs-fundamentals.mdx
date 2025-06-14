@@ -1,0 +1,170 @@
+---
+title: ReactJS Fundamentals with a Project
+description: React
+date: 2022-02-20
+tags: ["javascript", "react", "webdev"]
+published: true
+---
+
+We are going to build a simple project with ReactJS and with it learn many ReactJS fundamentals.
+
+So, head over to your terminal and create a new react project with the npx command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876241/14-Jun-25/reactjs-fundamentals/1_ngdcde.webp)
+
+After that change to the directory, open with VS Code and do npm start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876242/14-Jun-25/reactjs-fundamentals/2_qobaji.webp)
+
+Our project is running successfully at http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876241/14-Jun-25/reactjs-fundamentals/3_skitro.webp)
+
+Now, as React project comes with a lot of boilerplate code, we will delete some the below shown files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876240/14-Jun-25/reactjs-fundamentals/4_gtnghb.webp)
+
+After that first go to index.js and remove the unnecessary stuff and it will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876240/14-Jun-25/reactjs-fundamentals/5_ejfyhz.webp)
+
+Now, we will first create the structure of our project, by creating a components and images folder. Create four files into the components folder as shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876240/14-Jun-25/reactjs-fundamentals/6_qwbqvr.webp)
+
+Next, let’s remove everything from App.js and it's looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876239/14-Jun-25/reactjs-fundamentals/7_bziznd.webp)
+
+Next, we will add sematic UI in our project, which we have got from the cdn and add it in the index.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876239/14-Jun-25/reactjs-fundamentals/8_ubvz9s.webp)
+
+Next, we will update our App.js to show the three components of Header, AddContact and ContactList. Notice that we are also importing them at the top.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876239/14-Jun-25/reactjs-fundamentals/9_fhofyn.webp)
+
+Now, in the file Header.js put the below contact. Here, we have created a simple functional component and using some semntic ui classes to show a Contact Manager.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876238/14-Jun-25/reactjs-fundamentals/10_lai1a6.webp)
+
+Now, we will add the code in AddContact.js file. Here, we are again using Semantic UI classes and giving two input fields and a button. We are creating a class based component here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876238/14-Jun-25/reactjs-fundamentals/11_tmez0n.webp)
+
+Next, we will add the code in ContactList.js file, by creating a simple functional component again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876238/14-Jun-25/reactjs-fundamentals/12_qdrqwu.webp)
+
+Now, our app is showing a nice form in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876238/14-Jun-25/reactjs-fundamentals/13_ksylvg.webp)
+
+Now, from App.js we will first pass and array of object contacts to the ContactList component. This way of passing data is called props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876237/14-Jun-25/reactjs-fundamentals/14_hwwxgg.webp)
+
+Now, in ContactList.js file we will get this data as props and loop through it using map and display the name and email of each contact. We are also showing a thrash icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876237/14-Jun-25/reactjs-fundamentals/15_zvkrre.webp)
+
+Now, since the code is repeating we will put it to a different component. So, in the ContactCard.js file put the code from ContactList. We are also adding an inline style for the trash icon. Also, notice that we are destructuring the props here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/16_d7esmw.webp)
+
+Next, we will change our ContactList.js file to call the ContactCard component with the props as contact.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/17_uknwfa.webp)
+
+Now, we will see name, email and a red thrash icon in our app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/18_lyqhtb.webp)
+
+We have added an image in the images folder and now showing it in the ContactCard.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/19_zpk0zx.webp)
+
+We will also remove all styles in App.css and put these basic styles in it.
+
+```css
+.main {
+  margin-top: 5em;
+}.center {
+  justify-content: center;
+  padding: 10px;
+}.ui.search input {
+  width: 100%;
+  border-radius: 0 !important;
+}.item {
+  padding: 15px 0px !important;
+}i.icon {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+```
+Now, our localhost is looking perfect with user icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/20_xhapfe.webp)
+
+Now, we will add the logic to enter Name and email from the AddContact.js file. Here, we are first having name and email state in constructor.
+
+After that we have an add function, in which we are checking if all fields are entered and then alerting if all are not entered.
+
+We have added the onSubmit handler in the form. Also, added the value and onChange in name and email fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/21_uidibu.webp)
+
+Now, we are able to submit name and email from the form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/22_gbsgtu.webp)
+
+Now, we want to remove the hard-coded values of email. We will get the values from AddContact component. Here, we are passing the values through a new props addContactHandler to the parent component of App.js.
+
+We are also making the name and email as empty after passing the state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/23_gkw8s7.webp)
+
+Next in App.js we will remove the hard-coded contacts and create it as a state variable using useState. We are also passing the addContactHandler to AddContact component.
+
+Inside the addContactHandler function, we are using the setContacts to set the state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876236/14-Jun-25/reactjs-fundamentals/24_f1aqcw.webp)
+
+Now, in localhost we are able to submit the name and email and it been shown in the list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/25_n7fxma.webp)
+
+We will add local storage in our app to store the data, but first for each contact we will also add a unique id. For this we will add the package of uuidv4
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/26_hzfgcb.webp)
+
+Now, we will first import the uuid and after that use the uuid() to add an id to each contact.
+
+We are also using useEffect to first set the contacts array in local storage. We are also using the useEffect to run when the component mounts to get all data from the local storage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/27_jwn5gt.webp)
+
+Now, we have again saved two data, which are now also visible in the local storage of the application. Now, even when we refresh the browser, this will be retained.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/28_m2luty.webp)
+
+Lastly, we will create the functionality for the delete button. And for that we need to pass the id from the ContactCard.js file to the ContactList.js file first.
+
+So, we are passing it through the onClick handler and a props named clickHandler.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/29_dwpske.webp)
+
+Now, from the ContactList.js file, we will pass the props back to the parent ie App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/30_v1rtm3.webp)
+
+Now, in the App.js file we will finally use the id to remove the contact from the contacts array by filtering it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876235/14-Jun-25/reactjs-fundamentals/31_xcgvqo.webp)
+
+Now, we are able to delete the contact from localhost and with this the project is done.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749876234/14-Jun-25/reactjs-fundamentals/32_ka08fn.webp)
+
+You can find the video for this article in [this](https://www.youtube.com/watch?v=tzXY34dOGnY) YouTube link.
