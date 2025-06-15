@@ -1,0 +1,224 @@
+---
+title: Learning NodeJs by creating a Notes app
+description: NodeJS
+date: 2022-06-22
+tags: ["javascript", "nodejs", "web-dev"]
+published: true
+---
+
+We will start learning about NodeJS from the beginning of this series and will jump directly into the coding part. What and why use NodeJS a lot of us know and skip those details here.
+
+You can find this in video format on my [YouTube](https://www.youtube.com/watch?v=pxPRWGm7EHw) channel.
+
+We will first learn about the Node.js Module system. First, create a folder simple-app and open it in VS Code. Create a file server.js in it and add the below content in it.
+
+Here, we are first importing the in-built fs module and then using it with writeFileSync() to create a file notepad.txt and add the given text in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968333/14-Jun-25/nodejs-notes/1_w0mrim.webp)
+
+Now, we will run the file from the terminal with node server.js command
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968331/14-Jun-25/nodejs-notes/2_kvlkfb.webp)
+
+And it will create a notepad.txt file in the same directory with our content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968328/14-Jun-25/nodejs-notes/3_pqqyyn.webp)
+
+But if we run the same command with updated value like below in server.js file, it will replace the content in notepad.txt file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968326/14-Jun-25/nodejs-notes/4_impdm0.webp)
+
+Now, if we want to append data to a file and not update the existing data, we use the `appendFileSync()` method.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968324/14-Jun-25/nodejs-notes/5_qplr0z.webp)
+
+Now, after running node server.js, we will get the updated content added in notepad.txt.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968322/14-Jun-25/nodejs-notes/6_nzc78p.webp)
+
+Next, we will learn to use one file details in another file. Create an app.js file and add the below content to it.
+
+Here, we are importing the server.js file and using it in writeAndappend variable. Next, we are calling the `writeAndappend()`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968319/14-Jun-25/nodejs-notes/7_sdfc71.webp)
+
+Now, we will update or server.js file to have a function writeAndappend(), which call the writeFileSync and appendFileSync function. We are also exporting it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968314/14-Jun-25/nodejs-notes/8_asvkfo.webp)
+
+Next, run the app.js from the command line and we will get the console output.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968317/14-Jun-25/nodejs-notes/9_awickk.webp)
+
+We are also getting the proper text added in notepad.txt file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968312/14-Jun-25/nodejs-notes/10_nuqp7d.webp)
+
+Now, we use a lot of third party npm packages in our node application. And to use these packages we need package.json file. For that use the below command.
+
+```js
+    npm init -y
+```
+
+It will take all the default values and create a package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968310/14-Jun-25/nodejs-notes/11_r1oqys.webp)
+
+Now, we will add our first package which is validator and it is used to validate strings. We have to install it with the below command in which we are also mentioning the version.
+
+```js
+    npm i validator@10
+```
+
+Now, in our app we can see a node_modules folder been created and the dependency of validator been added in package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968307/14-Jun-25/nodejs-notes/12_wco2vd.webp)
+
+We can now use it in our app.js file. Here, we are first importing the validator and after that we are using one of the validator method isEmail, we check whether the passed string is an email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968306/14-Jun-25/nodejs-notes/13_cgiwmu.webp)
+
+Now, when we will run node app.js from command line, we will see true for the first command and false for the second one.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968302/14-Jun-25/nodejs-notes/14_fuuqtb.webp)
+
+Next, we will add a very popular package of nodemon in our project. This package continuously run a process, which checks for any changes in our project and it automatically gets reflected. So, add it by the below command.
+
+```js
+    npm i nodemon
+```
+
+Also, update the package.json file to change the start command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968301/14-Jun-25/nodejs-notes/15_ouv7hn.webp)
+
+Now, in the terminal run the command npm start it will check for any changes in app.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968298/14-Jun-25/nodejs-notes/16_ixjlrq.webp)
+
+Now, if we want to get value from the user, through the terminal. We get it through process.argv function. Add the below line in app.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968297/14-Jun-25/nodejs-notes/17_i6cdkm.webp)
+
+Now, on running node app.js Nabendu from terminal, we get an array in which the third item is Nabendu.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968294/14-Jun-25/nodejs-notes/18_xxbfhs.webp)
+
+Now, we will be creating a small Note app, so create a new file index.js and inside it add the below content. Here, we are checking the second item of the array and showing different console in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968292/14-Jun-25/nodejs-notes/19_aqkn0w.webp)
+
+Now, if we run the index.js file with new or delete as a second parameter, we will get the respective output.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968290/14-Jun-25/nodejs-notes/20_am5ils.webp)
+
+Now, we will update our index.js file to take the title and body arguments also. Now, they will be a third and fourth item. We are also passing the data from these two in a new function called newNote in notes.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968288/14-Jun-25/nodejs-notes/21_i87tdm.webp)
+
+Now, create a new file notes.js and add the below content in it. We are just receiving the title and body from here and console loggin it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968286/14-Jun-25/nodejs-notes/22_qzdfm5.webp)
+
+Now, when we run the node index.js command with arguments, we will get the appropriate console logs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968283/14-Jun-25/nodejs-notes/23_knqpjc.webp)
+
+Now, we will add the functionality in notes.js to add the title and body in a notepad.json file.
+
+Here, we are calling a function uploadNotes from newNote function. Inside the uploadNotes function, we are first reading a file notepad.json. After that converting to a string and returning it. If the file is not available then return an empty array.
+
+Back in newNote, we are adding the title and body in the notes array. After that, we are writing to notepad.json using writeFileSync and passing the array of object after stringifying it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968282/14-Jun-25/nodejs-notes/24_tpqdsf.webp)
+
+Now, run the node index.js command with two different title and body from command line.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968279/14-Jun-25/nodejs-notes/25_xo3y6b.webp)
+
+Now, a new notepad.json file will be created with our two objects in an array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968276/14-Jun-25/nodejs-notes/26_bpflqo.webp)
+
+Now, we will add the functionality to delete a note, by passing the title from the command line.
+
+In index.js add the code to take the third argument and then call a function deleteNote.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968275/14-Jun-25/nodejs-notes/27_wmezpf.webp)
+
+Now, in notes.js file we will add the deleteNote function. This function is simply filtering out the matched title and writing back to notepad.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968273/14-Jun-25/nodejs-notes/28_zqmv5y.webp)
+
+Now, from the terminal give the below command and mention the title to delete.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968271/14-Jun-25/nodejs-notes/29_huwwdl.webp)
+
+Now, in the notepad.json the title will be removed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968268/14-Jun-25/nodejs-notes/30_opcx6i.webp)
+
+Now, we will add the simple functionality to list all notes title. Here, again in index.js we will first create look for a new command list. After that we will call a function allNotes().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968267/14-Jun-25/nodejs-notes/31_wovwcs.webp)
+
+Next, in our notes.js file we will create the allNotes function. Here, we are getting the array in notes. After that we are looping through the notes and console logging each title. Notice that we are using arrow functions here, which is completely valid.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968263/14-Jun-25/nodejs-notes/32_gsjfjj.webp)
+
+Now, in the terminal if we give the command node index.js list, we will get the title of all the notes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968261/14-Jun-25/nodejs-notes/33_jt31ex.webp)
+
+Lastly, we will create the logic to find a note and display its content, if the note is found. So, in index.js add a new else if statement.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968259/14-Jun-25/nodejs-notes/34_zdmgid.webp)
+
+Now, we will write the findNote function in notes.js file. The logic for this is also very simple and we are just finding the note from the title and displaying it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968258/14-Jun-25/nodejs-notes/35_ovr3le.webp)
+
+Now, from the command line we can find a note with an existing title or with no title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968256/14-Jun-25/nodejs-notes/36_gufmc1.webp)
+
+We will now learn to add debugger in our code and use the debugging tool available in chrome. First add the debugger at the point, where you want to debug the code in notes.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968254/14-Jun-25/nodejs-notes/37_pfmavx.webp)
+
+Then run the node command, but with inspect added in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968252/14-Jun-25/nodejs-notes/38_unwmmt.webp)
+
+Next, open chrome://inspect in chrome browser to debug our node application. If everything is right, you will see the Target with inspect. Click on the inspect link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968251/14-Jun-25/nodejs-notes/39_uuo4xw.webp)
+
+It will open the Dev tools and you need to click on +Add folder to workspace button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968248/14-Jun-25/nodejs-notes/40_h26lh0.webp)
+
+Now, we need to select the folder containing our app. It will also ask us to allow, which we will do.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968246/14-Jun-25/nodejs-notes/41_x19x6u.webp)
+
+Now, we will see the debugger been paused and can click on the Run button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968244/14-Jun-25/nodejs-notes/42_dmfnpa.webp)
+
+On running, we will see the data at the debugger point in various format and also can see it in console. One shortcut to open this console is by the Esc key.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968241/14-Jun-25/nodejs-notes/43_t1sqs7.webp)
+
+Pressing the run button again, will bring us out of debugger and print the console logs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968243/14-Jun-25/nodejs-notes/44_r9z23z.webp)
+
+We can start the debugger again from the console by running the command restart and can come out of it by pressing the Ctrl+C twice.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749968241/14-Jun-25/nodejs-notes/45_nzzyuo.webp)
+
+This completes our small notes app with Node.js in which we have also learned about debugging. The code for the same is in [this](https://github.com/nabendu82/note-app-nodejs) github repo.
+
+
+
