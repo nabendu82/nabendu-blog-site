@@ -1,0 +1,264 @@
+---
+title: Build a NodeJS app with Final Space API
+description: NodeJS
+date: 2022-06-28
+tags: ["javascript", "nodejs", "web-dev"]
+published: true
+---
+
+In this project we will learn Asynchronous NodeJS by creating a app and doing API call to the famous Final Space API
+
+You can find this in Video format [here](https://www.youtube.com/watch?v=eKmDJ02UZKc)
+
+So, first create a final-space-app folder and change to it. Open it in VS Code nad create a file app.js in it.
+
+We will learn about asynchronous programming first. In the app.js we have four console logs. Two of them are through a setTimeout with 2 second and 0 second delay.
+
+Now, when we run our program the NodeJS dont stops for the Call number two to complete and will print the Call number four. But one thing to notice is that Call number three with a 0 second delay, will also be printed later.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974800/14-Jun-25/nodejs-final-space/1_dratzo.webp)
+
+This happens because of the concept of Event loop in NodeJS. The best explanation for it is in [this](https://www.youtube.com/watch?v=8aGhZQkoFbQ) yotube video.
+
+We will be using the Final Space API to make our app. The link for the same is https://finalspaceapi.com/
+
+To use the API endpoint in our project, we will use the package of postman-request. The link for the same is https://www.npmjs.com/package/postman-request
+
+So, we will first make the project as a npm project by npm init -y command and after that install postman-request using the below npm command.
+
+```js
+npm init -y
+npm i postman-request
+```
+
+Now, in app.js we will remove the earlier code and use request to do api call to https://finalspaceapi.com/api/v0/character/ to get a list of all charaters from final space. Notice that we are also making the json as true, so that we can get the response directly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974801/14-Jun-25/nodejs-final-space/2_sdlcgl.webp)
+
+Now, we will also add the code once we get error in our api call. To check the error, jut hit a wrong endpoint.
+
+Now, when we run app.js, it will show the error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974800/14-Jun-25/nodejs-final-space/3_ilscdm.webp)
+
+We will now use callback in our code, so that we can re-use our code. Refer to [this](https://www.youtube.com/watch?v=agw6nSnf0Qk) YouTube video to learn more about callbacks.
+
+Now, create a folder utils and inside it create a file characters.js. We are moving all of the api call logic to there. Also notice that we have a callback function, which contains our error message or the data we get from the API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974801/14-Jun-25/nodejs-final-space/4_zjqkoy.webp)
+
+Now, back in app.js we will first import the getCharacters function, which will receive a callback once the API call is done.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974800/14-Jun-25/nodejs-final-space/5_vw7mkf.webp)
+
+Again running node app.js with wrong endpoint, will give us the error and correct endpoint will return us back the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974800/14-Jun-25/nodejs-final-space/6_tnqt3s.webp)
+
+Now, we will create a server folder in the root directory and start learning about express first. Now, express is a NodeJS framework which make it easy to build web-server which serves API endpoint in no time
+
+In the server folder, we have created an empty node folder and also installed the packages of express and hbs in it. We will use hbs to create dynamic html code in the server later on.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974797/14-Jun-25/nodejs-final-space/7_walowg.webp)
+
+Before moving forward, we will also install nodemon, so that we don’t have to restart the server after every change.
+
+Also, in the package.json add the new start script.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974797/14-Jun-25/nodejs-final-space/8_juv0o3.webp)
+
+Now, we can use the npm start to start our node application from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974797/14-Jun-25/nodejs-final-space/9_scb1rt.webp)
+
+Now, create a file app.js in the server directory and put the below content in it.
+
+Here, we are first importing and using express. After that we can create GET routes through app.get method. Here, we are creating index, about and help route.
+
+We are sending back object and string inside them. At last we are listening at port 8080.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974797/14-Jun-25/nodejs-final-space/10_dg8gqy.webp)
+
+Now, if we go to http://localhost:8080/ we will get the json object back.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974796/14-Jun-25/nodejs-final-space/11_ykst1u.webp)
+
+Similarly the route http://localhost:8080/about will give us the string.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974797/14-Jun-25/nodejs-final-space/12_mdh29b.webp)
+
+Now, we will use create a folder of public and templates. Inside the templates, we will create the folder of partials and views.
+
+Now, views are the dynamic html files which can be served from our node app. Here, we have created three files about.hbs, help.hbs and index.hbs.
+
+The partials are the small resusable codes, which can be used in views files. We have created footer.hbs and header.hbs here.
+
+Now, in our app.js we have included all of them and also added the required code to use them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974794/14-Jun-25/nodejs-final-space/13_o2hqah.webp)
+
+Now, we will change our app.get to show the hbs file and also pass some parameters to it. Here, we are using the res.render to render the hbs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974794/14-Jun-25/nodejs-final-space/14_xgl6qh.webp)
+
+Now, we will create the header.hbs file and in it, show static code and also will show the varibale of title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974794/14-Jun-25/nodejs-final-space/15_kxr2oj.webp)
+
+In the footer.hbs we will show the name varibale in html tags.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/16_h0ivoa.webp)
+
+Now, in the index.hbs we are showing the header and the footer partials and also some static content. Notice, that we use > to refer to partials.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/17_ujweoh.webp)
+
+Now, the about.hbs will again show the header and footer partials.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/18_l1wabg.webp)
+
+The help.hbs will be like below and will also show the helpText.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/19_unrr1z.webp)
+
+Now, go to http://localhost:8080/ and we will see the content from index.hbs server. All the navigation and other paths are also working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/20_qjpdio.webp)
+
+Now, in the public folder, we will create a css folder and put a style.css file, a img folder and put two images in it and a js folder and main.js file in it.
+
+We can now use these files to add style and functionalities to our hbs files. In the style.css add the below content. Here, we have added styles for all three handlerbar files.
+
+```css
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}html,
+body {
+    background: #000 url('../img/bg.jpg') no-repeat center center/cover;
+    height: 100vh;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}.main-content{
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}a {
+    color: #888888;
+}a:hover {
+    color: #fff;
+    background-color: #888888;
+}p {
+    margin: 10px 0;
+}input {
+    border: 1px solid #cccccc;
+    padding: 8px;
+    margin: 10px 0;
+}button {
+    cursor: pointer;
+    border: 1px solid #888888;
+    background: #888888;
+    color: white;
+    padding: 8px;
+}.card {
+    cursor: pointer;
+    background-color: transparent;
+    height: 300px;
+}.card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}.card-container {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}.card h1 {
+    font-size: 25px;
+    border-bottom: 1px #fff solid;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}.card li, .help-list li {
+    list-style: none;
+    padding-bottom: 10px;
+}.help-text{
+    font-size: 20px;
+    margin: 6px 0;
+}footer {
+    color: #888888;
+    border-top: 1px solid #eeeeee;
+    margin-top: 16px;
+    padding: 16px 0;
+    position: fixed;
+    bottom: 0;
+}header h1{
+    margin-bottom: 6px;
+}.portrait{
+    width: 600px;
+    height: 600px;
+    object-fit: cover;
+    margin: 10px 0;
+}
+```
+
+Now, in the about.hbs file, we will add a image and two paragraphs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/21_lpgdjr.webp)
+
+Now, our About page is looking like below in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/22_mgqo7n.webp)
+
+Now, we will update our help.hbs file we add the style file and data containing links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/23_ghfvbt.webp)
+
+The http://localhost:8080/help looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974792/14-Jun-25/nodejs-final-space/24_rn3xda.webp)
+
+Lastly, we will update the index.hbs file. Here, we have a form containg a input box and button. We also have an empty div of card below it.
+
+Also, notice we have included a main.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974792/14-Jun-25/nodejs-final-space/25_ylm5cn.webp)
+
+Now, in the main.js we will write the code to get the data from location endpoint of final space API. Notice that we are using fetch here, because this code will be executed on client browser.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/26_floyyr.webp)
+
+Now, in our home we can query to get various location data from final space API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974793/14-Jun-25/nodejs-final-space/27_pzpxts.gif)
+
+Now, we will deploy our app through heroku. We should install heroku cli, first to use the awesome features of heroku. The details for the same are [here](https://devcenter.heroku.com/articles/heroku-cli).
+
+Our main code is in the server folder and so, we will make that a git repo. And also dont forget to add a .gitignore with node_modules in it.
+
+To deploy in heroku, we need to change two things. First in the package.json we need to change the start script and also creating a dev script to run with nodemon in local.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974792/14-Jun-25/nodejs-final-space/28_ehiq3o.webp)
+
+Also, in the app.js we are creating a port variable and also listening to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974792/14-Jun-25/nodejs-final-space/29_cfna0q.webp)
+
+Now, got to heroku site and create a new project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974792/14-Jun-25/nodejs-final-space/30_ki2t5h.webp)
+
+Now, we will follow the instruction as per heroku and give the mentioned commands.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974792/14-Jun-25/nodejs-final-space/31_hldh9j.webp)
+
+After the last command our app is deployed successfully, and we are able to use it. The code for the same can be found in [this](https://github.com/nabendu82/final-space-node) github repo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749974792/14-Jun-25/nodejs-final-space/32_bkfmpp.webp)
+
+
+
+
