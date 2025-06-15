@@ -1,0 +1,337 @@
+---
+title: Netflix App Design with ReactJS and Styled components
+description: React
+date: 2022-06-12
+tags: ["javascript", "react", "web-dev"]
+published: true
+---
+
+In this post we are going to design an awesome looking Netflix web-app using ReactJS. We will be using styled component in this project.
+
+You can also watch it on Youtube [here](https://www.youtube.com/watch?v=V9D7azf9MjI)
+
+So, we will first create a new ReactJS project, with the below command.
+
+```js
+    npx create-react-app netflix-styled-react
+```
+
+Next, we will delete the unnecessary files which comes with all React applications.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960917/14-Jun-25/netflix-reactjs/1_bquags.webp)
+
+Next, in the index.js file also we will delete the not required code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960914/14-Jun-25/netflix-reactjs/2_ijt6g1.webp)
+
+Now, remove everything from App.js and only keep an h1 for now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960912/14-Jun-25/netflix-reactjs/3_a5u20w.webp)
+
+In App.css also remove everything and import Poppins from google font and use it through out our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960910/14-Jun-25/netflix-reactjs/4_k1gqy3.webp)
+
+Now, our app will look like below in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960908/14-Jun-25/netflix-reactjs/5_wtndvz.webp)
+
+Now, we will use Material UI and Styled components in our project. So, we need to install them in our project, through npm.
+
+```js
+    npm i @material-ui/core @material-ui/icons styled-components
+```
+
+Now, create a Home.js file in a pages folder in src. But first import it in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960907/14-Jun-25/netflix-reactjs/6_htmtsf.webp)
+
+Now, in the Home.js file we are showing a Navbar component first. Here, we are also using styled components to give the styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960905/14-Jun-25/netflix-reactjs/7_zibrgx.webp)
+
+Now, create a components folder in the src folder and a file Navbar.js inside it. Here, we are first showing all of the structure using styled components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960904/14-Jun-25/netflix-reactjs/8_ulkq3z.webp)
+
+Next, we will add the imports and the styled component in the file Navbar.js. Notice that we are using common css through the css from styled component and using it in the material ui icons.
+
+```js
+    import { ArrowDropDown, Notifications, Search } from "@material-ui/icons";
+    import styled, { css } from "styled-components";const NavContainer = styled.div`
+        width: 100%;
+        color: white;
+        font-size: 14px;
+        position: fixed;
+        top: 0;
+        z-index: 999;
+        background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.3) 50%);
+    `const MainContainer = styled.div`
+        padding: 0px 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+    `const LeftContainer = styled.div`
+        display: flex;
+        align-items: center;
+        img {
+            height: 25px;
+            margin-right: 40px;
+        }span {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+    `const RightContainer = styled.div`
+        display: flex;
+        align-items: center;
+        img {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        span {
+            padding: 10px;
+            cursor: pointer;
+        }
+    `const ProfileContainer = styled.div`
+        .options {
+            display: none;
+            background-color: #0b0b0b;
+            border-radius: 5px;
+        }
+        &:hover {
+            .options {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+            }
+        }
+    `const sharedStyle = css`
+        margin: 0px 15px;
+        cursor: pointer;
+    `const MySearch = styled(Search)`
+        ${sharedStyle}
+    `const MyNotifications = styled(Notifications)`
+        ${sharedStyle}
+    `const MyArrowDropDown = styled(ArrowDropDown)`
+        ${sharedStyle}
+    `
+```
+
+Now, we have a beautiful Navbar been shown in the localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960901/14-Jun-25/netflix-reactjs/9_hrnibj.webp)
+
+Now, we will create a Featured.js file in the components folder. It will show nice image and two buttons. We are first creating the structure which contain styled component and Material UI icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960898/14-Jun-25/netflix-reactjs/10_r8lebx.webp)
+
+Next, we will add the styled components in the file.
+
+```js
+    const FeaturedContainer = styled.div`
+        height: 90vh;
+        position: relative;
+    `const Image = styled.img`
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    `const InfoContainer = styled.div`
+        width: 35%;
+        position: absolute;
+        left: 50px;
+        bottom: 100px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        img {
+            width: 400px;
+        }.desc {
+            margin: 20px 0px;
+        }
+    `const ButtonContainer = styled.div`
+        display: flex;
+    `const StyledButton = styled.button`
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 500;
+        margin-right: 10px;
+        cursor: pointer;
+        background: ${props => props.primary ? "white" : "#0b0b0b"};
+        color: ${props => props.primary ? "#0b0b0b" : "white"};
+        span {
+            margin-left: 5px;
+        }
+    `
+```
+
+We will also import them in Home.js file.
+
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960899/14-Jun-25/netflix-reactjs/11_nx4n31.webp)
+
+Now, we have this nice Featured image in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960897/14-Jun-25/netflix-reactjs/12_w1bakt.webp)
+
+Next, we will create the List component, which will have Netflix like scroll-er to scroll movies. We will first create MovieItem.js file and add the below content in it. It is just showing us a square image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960894/14-Jun-25/netflix-reactjs/13_jzg7cz.webp)
+
+Next, create the MovieList.js file which will show the MovieItem component using styled components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960893/14-Jun-25/netflix-reactjs/14_x9vufs.webp)
+
+Next, we will add the styled components in MovieList.js file which will show all the item as flex and also a forward arrow and backward arrow at the correct position.
+
+```js
+    const ListContainer = styled.div`
+        width: 100%;
+        margin-top: 10px;
+    `
+    const Title = styled.span`
+        color: white;
+        font-size: 20px;
+        font-weight: 500;
+        margin-left: 50px;
+    `const Wrapper = styled.div`
+        position: relative;
+        .sliderArrow {
+            width: 50px;
+            height: 100%;
+            background-color: rgb(22, 22, 22, 0.5);
+            color: white;
+            position: absolute;
+            z-index: 99;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            cursor: pointer;&.left {
+                left: 0;
+            }&.right {
+                right: 0;
+            }
+        }
+    `const MovieContainer = styled.div`
+        margin-left: 50px;
+        display: flex;
+        margin-top: 10px;
+        width: max-content;
+        transform: translateX(0px);
+        transition: all 1s ease;
+    `
+```
+
+Now, also add four MovieList components in Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960891/14-Jun-25/netflix-reactjs/15_u8xuyh.webp)
+
+Now, we will be able to see these nicely in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960890/14-Jun-25/netflix-reactjs/16_nwuv6o.webp)
+
+Now, we will add the functionality to click on the left and right arrow key and scroll the Movie list. So, in MovieList.js file we will add click handlers to both Arrow icons.
+
+Next, we are using ref to target the container. Now, whenever we are clicking the left arrow key, we are moving the x by 230px, which is the width of each Item. We are substracting the 230px in case of clicking on right arrow key.
+
+We are also getting the exact starting point of the container with getBoundingClientRect().x
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960888/14-Jun-25/netflix-reactjs/17_lq2yb1.webp)
+
+Now, our scrolling is moving fine, but we can scroll even if 10 items are reched from the start or the end.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960886/14-Jun-25/netflix-reactjs/18_d5srrq.webp)
+
+To fix this issue, we will create a state variable slideNumber and will allow to click the left only, if it is greater then 0. In the case of roght only allowing, if it is less then 5.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960885/14-Jun-25/netflix-reactjs/19_bjkzjo.webp)
+
+Now, our sliders are working fine and the next thing which we will do is to show a trailer, once we hover over any movie. For that in MovieItem.js we will add a state variable of isHovered and setting it to false initially.
+
+After that in the ItemContainer, we are making isHovered true if the mouse is hovered over a item and false if it is taken away. We need to show the small trailer window at a different place depending on the index and doing the same here.
+
+Finally when the isHovered is true, we are showing a whole video component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960884/14-Jun-25/netflix-reactjs/20_qgwzod.webp)
+
+We also need to add these additional styled components and more imports in MovieItem.js file.
+
+```js
+    import { PlayArrow, Add, ThumbUpAltOutlined, ThumbDownOutlined } from "@material-ui/icons";
+    import { useState } from "react";
+    import styled from "styled-components";const ItemContainer = styled.div`
+        width: 225px;
+        height: 120px;
+        background-color: #0b0b0b;
+        margin-right: 5px;
+        overflow: hidden;
+        cursor: pointer;
+        color: white;
+        &:hover {
+            width: 325px;
+            height: 300px;
+            position: absolute;
+            top: -150px;
+            box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
+            border-radius: 5px;img {
+                height: 140px;
+            }
+        }
+    `const MainImage = styled.img`
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    `const Video = styled.video`
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    `const ItemInfo = styled.div`
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+    `const IconsContainer = styled.div`
+        display: flex;
+        margin-bottom: 10px;.icon {
+            border: 2px solid white;
+            padding: 5px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+            
+    `const InfoTop = styled.div`
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: gray;.limit {
+            border: 1px solid gray;
+            padding: 1px 3px;
+            margin: 0 10px;
+        }
+    `const Description = styled.div`
+        font-size: 13px;
+        margin-bottom: 10px;
+    `const Genre = styled.div`
+        font-size: 14px;
+        color: lightgray;
+    `
+```
+
+Now, a nice trailer will be shown when we hover over any image, like netflix.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749960883/14-Jun-25/netflix-reactjs/21_eygko4.webp)
+
+This completes our small design project with Netflix. Will complete this soon, in MERN app.

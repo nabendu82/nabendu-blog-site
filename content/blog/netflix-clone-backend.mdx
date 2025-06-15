@@ -1,0 +1,408 @@
+---
+title: Netflix Clone backend with JWT Authentication
+description: React
+date: 2022-06-16
+tags: ["javascript", "react", "web-dev"]
+published: true
+---
+
+We are going to build the backend Netlfix clone in this post. We have earlier created the Admin Dashboard in [this](https://www.nabendu.org/blog/react-admin-dashboard) post and the frontend ReactJS code created in the earlier [post](https://www.nabendu.org/blog/netflix-reactjs). We are going to use all three in the next post, to create a complete Netflix MERN clone with Admin dashboard.
+
+You can also watch this in video format [here](https://www.youtube.com/watch?v=frsR4qXrCQ0).
+
+We will a mern-netflix folder and also create an api folder in which all the backend code will go.
+
+Now, we will start to create our backend API using NodeJS. So, first change to the folder and run the command npm init -y to create an empty node application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964096/14-Jun-25/netflix-clone-backend/1_lesr6y.webp)
+
+Next, we will add the dependencies in our project using npm from terminal.
+
+```js
+    npm i express mongoose nodemon dotenv jsonwebtoken
+```
+
+Now, in the package.json file add the script for nodemon, so that we don’t have to restart server after every changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964095/14-Jun-25/netflix-clone-backend/2_y7wuom.webp)
+
+Now, we will first create a cluster in MongoDB Atlas. For that login to your mongodb atlas account and click on New Project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964092/14-Jun-25/netflix-clone-backend/3_aiehjh.webp)
+
+Now, it will ask us to give a name to the database which we are keeping as mern-netflix-db and click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964090/14-Jun-25/netflix-clone-backend/4_qtk3yy.webp)
+
+In the next page, click on the Create Project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964088/14-Jun-25/netflix-clone-backend/5_lwxxlk.webp)
+
+Now, we will get a big Build a Database button on which we need to click.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964086/14-Jun-25/netflix-clone-backend/6_sy1qxi.webp)
+
+In the next page click on the Free tier to get started.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964083/14-Jun-25/netflix-clone-backend/7_jmqz4t.webp)
+
+Now, in the Next page choose the Data cluster near to you and click on the Create Cluster button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964081/14-Jun-25/netflix-clone-backend/8_zxx2nb.webp)
+
+Now, the process have changed a bit and we are allowed to quickstart and give the username and IP address at the beginning only. Click on Finish and Close after giving both.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964080/14-Jun-25/netflix-clone-backend/9_djbc4i.webp)
+
+Now, we will have our database created finally.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964077/14-Jun-25/netflix-clone-backend/10_nui2gq.webp)
+
+Now, to get the connection string for our NodeJS application, we will click on Connect your application tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964076/14-Jun-25/netflix-clone-backend/11_y6h6sc.webp)
+
+Next, we will get the connection string which we need to copy.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964073/14-Jun-25/netflix-clone-backend/12_em2lt7.webp)
+
+Next, we will add the connection string in a .env file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964070/14-Jun-25/netflix-clone-backend/13_jyekjq.webp)
+
+Now, create an index.js file and import ex[ress, mongoose and dotenv in it. After that through mongoose we are connecting to the database.
+
+Lastly, we are listening to port 8800 for our backend server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964068/14-Jun-25/netflix-clone-backend/14_i4axgy.webp)
+
+Now, in the terminal in api folder run the npm start command and we will see the success messages.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964066/14-Jun-25/netflix-clone-backend/15_y0v2sd.webp)
+
+Next, we will create the models which are required in MongoDB. So, create a models folder inside api and User.js file inside it. It will contain the below content, which is basically the way the data will be stored in the UserSchema in our MongoDB database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964064/14-Jun-25/netflix-clone-backend/16_iqt0dg.webp)
+
+Next, we will create the MovieSchema in Movie.js file. Here, we are storing all the details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964061/14-Jun-25/netflix-clone-backend/17_ix1jka.webp)
+
+Next, we will create the ListSchema in List.js which basically contains the List of movies or series.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964060/14-Jun-25/netflix-clone-backend/18_xyvwpq.webp)
+
+Now, we will start to create our Routes. First create a routes folder inside the api folder. After that inside it create auth.js file. In this file we are first importing the express router and also the User model.
+
+We will first create a /register endpoint which is a POST request. Here, we are using the User schema and sending the username, email and password in it.
+
+After that inside a try..catch block we are using the save() method from Mongoose to save the data in database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964057/14-Jun-25/netflix-clone-backend/19_paowem.webp)
+
+Next, in the index.js file we will add this new route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964056/14-Jun-25/netflix-clone-backend/20_pdxmps.webp)
+
+Now, in Postman we will hit the http://localhost:8800/api/auth/register endpoint. Here, we are passing a JSON and did the required changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964053/14-Jun-25/netflix-clone-backend/21_fxep4q.webp)
+
+Now, since this request was successful a new entry for user was created in our MongoDB database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964050/14-Jun-25/netflix-clone-backend/22_i8ssyv.webp)
+
+Now, the problem with this is that the password is clearly visible and if this database is hacked, the hacker gets access to the account. So, first delete this user from MongoDB and then add a package of crypto-js in our backend folder.
+
+```js
+    npm i crypto-js
+```
+
+We can use many hashing algorithms with it and we are going to use AES. Now update the auth.js file as below. Here, we are also using a SECRET_KEY from the .env file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964049/14-Jun-25/netflix-clone-backend/23_alakmh.webp)
+
+Now, in the .env file create a SECRET_KEY variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964046/14-Jun-25/netflix-clone-backend/24_xliuq5.webp)
+
+Now, again send a POST request and the password will be hashed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964045/14-Jun-25/netflix-clone-backend/25_cp6dpm.webp)
+
+Next, we will create the login route in auth.js file. Here, we are first finding the user by email. After that we are decrypting the password and if it is not equal to the req.body.password, we are sending 401 message.
+
+If the password matches, we are sending the user all data expect the password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964042/14-Jun-25/netflix-clone-backend/26_ourz70.webp)
+
+Now, we will be able to login via postman if we give the correct details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964040/14-Jun-25/netflix-clone-backend/27_ujnpuj.webp)
+
+Next, we are going to implement JWT in auth.js, so that it can be more secure and the login details can also be used in the user browser.
+
+Here, we will have an accessToken from jwt to sign. We are sending the id and the isAdmin also. We also need to pass the SECRET_KEY and also the expiresIn time.
+
+We have also added the accessToken to be sent back in status.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964039/14-Jun-25/netflix-clone-backend/28_kxqkp9.webp)
+
+Now, when we try to login we will get the accessToken also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964036/14-Jun-25/netflix-clone-backend/29_fpqbay.webp)
+
+Next, we will create our Users routes. This route will also use verification with JWT and for that reason create a verifyToken.js file in the api folder and add the below content in it.
+
+Here, we are getting the token from the request header and splitting it, because we are going to pass Bearer also. After that we are going to verify it with the SECRET_KEY.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964032/14-Jun-25/netflix-clone-backend/30_jyvxji.webp)
+
+Now, in the index.js file first add the users route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964035/14-Jun-25/netflix-clone-backend/31_tkpdnb.webp)
+
+Finally, create an user.js file in the routes folder. Here, add the below code in which we are adding the route to update a user first.
+
+We are first get the id and passing this through the verify to authenticate the JWT token. After that we are using CryptoJS to encrypt the password again. Next inside a try..catch we are using the mongoose function of findByIdAndUpdate to update the data passed in the body.
+
+We also need a new: true to get the latest updated user back.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964031/14-Jun-25/netflix-clone-backend/32_are7e5.webp)
+
+Now, to check it from Postman create a new PUT route and pass the user id to it. We also need to pass a token with Bearer and the JWT token from the login route in the Header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964028/14-Jun-25/netflix-clone-backend/33_sjifss.webp)
+
+Next, in the Body we will pass the updated username and hit Send. It will update the user in database and send us back the updated user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964026/14-Jun-25/netflix-clone-backend/34_bhyfg7.webp)
+
+Next, we will create the DELETE and the GET single user routes in users.js file. These are simple routes and again using the mongoose methods of findByIdAndDelete and findById, respectively.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964025/14-Jun-25/netflix-clone-backend/35_hfz4m3.webp)
+
+Now, we have added some more users through Postman and from our MongoDB cloud database made one user as admin, by setting isAdmin as true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964021/14-Jun-25/netflix-clone-backend/36_sclzje.webp)
+
+Now, we can delete a user by giving the access token of twd user in postman and pass the user id to be deleted.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964023/14-Jun-25/netflix-clone-backend/37_uasao7.webp)
+
+Now, we can also get the data of a particular user back, by giving the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964020/14-Jun-25/netflix-clone-backend/38_cdmw7a.webp)
+
+Next, we will add two more routes for GET in users.js file. One is to get all the users and other is to get the stats of the users per month.
+
+To get all the users data, we need to be an admin and we have also added the logic to get only the latest 5 users.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964015/14-Jun-25/netflix-clone-backend/39_pp8ygc.webp)
+
+Now, we have updated the createdAt date for some of the users and from Postman did a get request to http://localhost:8800/api/users/stats
+
+We got the data of the users per month.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964014/14-Jun-25/netflix-clone-backend/40_qhwqkd.webp)
+
+Now, we have added some more users and added the token for the admin. After that when we go to http://localhost:8800/api/users we will get the data for all the users.
+
+To get only latest five users hit the endpoint http://localhost:8800/api/users?new=true
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964017/14-Jun-25/netflix-clone-backend/41_gbipha.webp)
+
+Next, we will create the route for Movies and it will be exactly similar to the Users route. So, create a file movies.js inside the routes folder and add the below content in it.
+
+Here, we are adding the CREATE, UPDATE and DELETE routes. All these routes needed us to be admin and similar to the routes created earlier in users.js file.
+
+```js
+const router = require("express").Router();
+const Movie = require("../models/Movie");
+const verify = require("../verifyToken");//CREATE
+router.post("/", verify, async (req, res) => {
+    if (req.user.isAdmin) {
+        const newMovie = new Movie(req.body);
+        try {
+            const savedMovie = await newMovie.save();
+            res.status(201).json(savedMovie);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403).json("You are not allowed to add movies!");
+    }
+});//UPDATE
+router.put("/:id", verify, async (req, res) => {
+    if (req.user.isAdmin) {
+        try {
+            const updatedMovie = await Movie.findByIdAndUpdate(
+                req.params.id, { $set: req.body }, { new: true }
+            );
+            res.status(200).json(updatedMovie);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403).json("You are not allowed to update movies");
+    }
+});//DELETE
+router.delete("/:id", verify, async (req, res) => {
+    if (req.user.isAdmin) {
+        try {
+            await Movie.findByIdAndDelete(req.params.id);
+            res.status(200).json("The movie has been deleted...");
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403).json("You are not allowed to delete movies!");
+    }
+});
+
+module.exports = router;
+```
+
+Next, we will also add the new routes in index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964010/14-Jun-25/netflix-clone-backend/42_h1hcbt.webp)
+
+Now, we will add the movies through postman. Here, in the Header we have to add the admin token again and the json will contain all the fields from our model file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964012/14-Jun-25/netflix-clone-backend/43_gfrayq.webp)
+
+We have also added some series through Postman.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964008/14-Jun-25/netflix-clone-backend/44_jrrqst.webp)
+
+Next, we will also add three routes to get movies, random movies and all movies in movies.js file.
+
+Now, in the random movies, we are using the aggregate function to get movies. We are also using the sample size of 1 here. Here, we can get random series also.
+
+```js
+//GET SINGLE MOVIE
+router.get("/find/:id", verify, async (req, res) => {
+    try {
+        const movie = await Movie.findById(req.params.id);
+        res.status(200).json(movie);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});//GET RANDOM MOVIES
+router.get("/random", verify, async (req, res) => {
+    const type = req.query.type;
+    let movie;
+    try {
+        if (type === "series") {
+            movie = await Movie.aggregate([
+                { $match: { isSeries: true } },
+                { $sample: { size: 1 } },
+            ]);
+        } else {
+            movie = await Movie.aggregate([
+                { $match: { isSeries: false } },
+                { $sample: { size: 1 } },
+            ]);
+        }
+        res.status(200).json(movie);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});//GET ALL MOVIES
+router.get("/", verify, async (req, res) => {
+    if (req.user.isAdmin) {
+        try {
+            const movies = await Movie.find();
+            res.status(200).json(movies.reverse());
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403).json("You are not allowed!");
+    }
+});
+```
+
+Now, again in Postman we are giving the admin token and goin to route http://localhost:8800/api/movies/random will give us random movies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964007/14-Jun-25/netflix-clone-backend/45_hqmzcp.webp)
+
+Now, going to http://localhost:8800/api/movies/random?type=series will give us random series.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964005/14-Jun-25/netflix-clone-backend/46_oo4vgc.webp)
+
+Next, we will create the route for Lists. So, create a file lists.js inside the routes folder and add the below content in it.
+
+Again it is quite similar to movies.js and users.js file.
+
+```js
+const router = require("express").Router();
+const List = require("../models/List");
+const verify = require("../verifyToken");//CREATE
+router.post("/", verify, async (req, res) => {
+    if (req.user.isAdmin) {
+        const newList = new List(req.body);
+        try {
+            const savedList = await newList.save();
+            res.status(201).json(savedList);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403).json("You are not allowed!");
+    }
+});//DELETE
+router.delete("/:id", verify, async (req, res) => {
+    if (req.user.isAdmin) {
+        try {
+            await List.findByIdAndDelete(req.params.id);
+            res.status(201).json("The list has been delete...");
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403).json("You are not allowed!");
+    }
+});//GET
+router.get("/", verify, async (req, res) => {
+    const typeQuery = req.query.type;
+    const genreQuery = req.query.genre;
+    let list = [];
+    try {
+        if (typeQuery) {
+            if (genreQuery) {
+                list = await List.aggregate([
+                    { $sample: { size: 10 } },
+                    { $match: { type: typeQuery, genre: genreQuery } },
+                ]);
+            } else {
+                list = await List.aggregate([
+                    { $sample: { size: 10 } },
+                    { $match: { type: typeQuery } },
+                ]);
+            }
+        } else {
+            list = await List.aggregate([{ $sample: { size: 10 } }]);
+        }
+        res.status(200).json(list);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+module.exports = router;
+```
+
+Now, we will add some list of series from postman. Notice we are passing the id of the series as content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964003/14-Jun-25/netflix-clone-backend/47_xtdlmp.webp)
+
+We will also add some movies list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964001/14-Jun-25/netflix-clone-backend/48_sidxl1.webp)
+
+The GET routes are also working fine, icluding the one in which we pass the type and genre.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1749964002/14-Jun-25/netflix-clone-backend/49_rp5ccs.webp)
+
+This completes our long post to create the backend of our Netflix application.
