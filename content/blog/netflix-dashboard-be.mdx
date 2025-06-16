@@ -1,0 +1,280 @@
+---
+title: Netflix Clone Dashboard and Backend Integration
+description: NodeJS
+date: 2022-07-12
+tags: ["javascript", "nodejs", "reactjs"]
+published: true
+---
+
+In the last four posts, we have created a [ReactJS dashboard](https://www.nabendu.org/blog/react-admin-dashboard), [Netflix App](https://www.nabendu.org/blog/netflix-reactjs) with ReactJS, [Netflix backend](https://www.nabendu.org/blog/netflix-clone-backend) with JWT authentication and integrated the [frontend with backend](https://www.nabendu.org/blog/netflix-dashboard-fe-be). In this post we are going to integrate the dashboard and backend part of the application, and hence complete the application.
+
+You can get this in video format [here](https://www.youtube.com/watch?v=mrfq_jp9HqI)
+
+We will left where, we stopped in the last post. But, we have created one more folder and added the admin dashboard created earlier in it. We now need to run three apps, so we will create an .env file inside the admin folder and add PORT = 4000 in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087767/16-Jun-25/netflix-dashboard-be/1_soqzgu.webp)
+
+Now, we can start our admin app by npm start in the admin folder and we will get the admin app created earlier on http://localhost:4000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087767/16-Jun-25/netflix-dashboard-be/2_cqzzay.webp)
+
+In this admin dashboard, we are getting all of our data from the dummyData.js file. We will now get all the data from our backend api.
+
+For this we need to start the backend api app and also add the below in the package.json for admin app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087768/16-Jun-25/netflix-dashboard-be/3_qd3mlc.webp)
+
+Now, we will show the users data from the API endpoint. So, in the Home.js file first import axios and other hooks from react.
+
+We also need to install axios in the admin folder.
+
+```js
+    import axios from "axios";
+    import { useEffect, useMemo, useState } from "react";
+```
+
+Now, in the Home.js file, we are first using the useMemo hook to store the value of MONTHS. This is required because, we need to use the MONTH variable at some nested place, where even var cannot define scope.
+
+Next, in a useEffect hook we are calling the api endpoint of /users/stats and passing our Bearer token. After, we receive the data we are sorting it with MONTHS and setting the New User, as the total.
+
+Lastly in Chart, we are passing the userStats and also changed the dataKey.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087767/16-Jun-25/netflix-dashboard-be/4_ku8bhs.webp)
+
+Now, in the Home page we are getting the user data from the API endpoint based on months.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087766/16-Jun-25/netflix-dashboard-be/5_lt1r4p.webp)
+
+Now, we will also show the New users in the Small right widget. For this we will first import axios and other hooks from react, in SmWidget.js file.
+
+```js
+    import { useEffect, useState } from "react";
+    import axios from "axios";
+```
+
+Now, we will add a state and will use the useEffect to do the api call and get the last 10 users in SmWidget.js file. After that we are using the new data inside our return statement.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087766/16-Jun-25/netflix-dashboard-be/6_whhptg.webp)
+
+Now, we will get the new users from the API in our homepage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087766/16-Jun-25/netflix-dashboard-be/7_lynoit.webp)
+
+Now, in the Sidebar.js file, we will change the product to Movies, because we are going to show the list of movies in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087765/16-Jun-25/netflix-dashboard-be/8_shgfid.webp)
+
+Next, we will be using Context API in our project to pass common data around. We can use redux also for the same, but we are using Context API in our project.
+
+Create a context folder inside the src folder. Inside it create the authContext folder. Now, inside it create apiCalls.js, AuthActions.js, AuthContext.js and AuthReducer.js file.
+
+Now, add the below content in AuthActions.js file. Notice that it is like the action creator of a redux application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087765/16-Jun-25/netflix-dashboard-be/9_oqh8in.webp)
+
+Next, we will create the AuthReducer.js file. Here, again we are using a lot of Redux like structure.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087765/16-Jun-25/netflix-dashboard-be/10_g2ckhb.webp)
+
+Now, we will add the code in AuthContext.js file. Here, we are using a combination of useReducer with the createContext hook. We are passing the user, isFetching and error state along with dispatch in the Provider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087764/16-Jun-25/netflix-dashboard-be/11_rg4meo.webp)
+
+Now, in the index.js we will wrap the App with AuthContextProvider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087764/16-Jun-25/netflix-dashboard-be/12_epsdw4.webp)
+
+We will now do API call to the auth/login endpoint. So, inside the apiCalls.js file add the below code. Here, we are using axios and also loginFailure, loginStart, loginSuccess from AuthActions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087764/16-Jun-25/netflix-dashboard-be/13_aakteb.webp)
+
+Now, we need a Login page in our admin application. So, we will create a Login.js inside the pages folder.
+
+Here, we have an email and password field and also a Submit button. In the handleLogin, we are passing the login details to the login function in the action creator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087763/16-Jun-25/netflix-dashboard-be/14_lyesss.webp)
+
+We will also add the below styled components in Login.js file.
+
+```js
+    const LoginSection = styled.section`
+        margin: auto;
+        width: 500px;
+        overflow: auto;
+        padding: 3rem 2rem;
+    `const LoginForm = styled.form`
+        padding: 2rem;
+        background: #f4f4f4;
+        label {
+            display: block;
+        }
+        input[type='email'], input[type='password'] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+            display: block;
+            padding: 10px 15px;
+            border: 0;
+            background: #333;
+            color: #fff;
+            border-radius: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+    `
+```
+
+Now, we will use the context in our App.js file. Here, we are getting the user from the AuthContext and using it in Login. If we get the user after logging, we are showing the rest of the components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087764/16-Jun-25/netflix-dashboard-be/15_l9gn53.webp)
+
+Now, if we goto http://localhost:4000/login we will see the nice Login page, and also able to login to it using the admin password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087762/16-Jun-25/netflix-dashboard-be/16_ubztjy.webp)
+
+But, we have an issue here as the login credentials are not saved and we have to do it again. We are going to solve it through local storage. So, in the AuthContext.js file we will add the user and also call it by the useEffect and pass the state.user to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087762/16-Jun-25/netflix-dashboard-be/17_uwu0yn.webp)
+
+Now, in local storage we have the user and we don’t have to login to the app again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087762/16-Jun-25/netflix-dashboard-be/18_oyjngb.webp)
+
+Now, create a movieContext folder in context folder and inside it four files apiCalls.js, MovieActions.js, MovieContext.js and MovieReducer.js. All of the code will be quite similar to what we created earlier.
+
+Put the below code in MovieActions.js file, where we are calling three functions to get all movies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087761/16-Jun-25/netflix-dashboard-be/19_bqh7jt.webp)
+
+Next, in MovieReducer.js we will have these cases and the code is quite similar to what we have created for the auth reducer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087761/16-Jun-25/netflix-dashboard-be/20_fkzitx.webp)
+
+Now, our MovieContext.js will be quite similar to the Auth Context, but we are not storing any json data here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087761/16-Jun-25/netflix-dashboard-be/21_cfh7ns.webp)
+
+Lastly in the apiCalls.js file we will use the getMovies and call our three functions from MovieAction. Notice, that we are getting the token from the localstorage here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087761/16-Jun-25/netflix-dashboard-be/22_o0g193.webp)
+
+Now, we have to add the MovieContextProvider in the index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087760/16-Jun-25/netflix-dashboard-be/23_uwk1kn.webp)
+
+Now, in ProductList.js we will first import the required things.
+
+```js
+    import { useContext } from "react";
+    import { MovieContext } from "../context/movieContext/MovieContext";
+    import { useEffect } from "react";
+    import { getMovies } from "../context/movieContext/apiCalls";
+```
+
+Now in ProductList.js file, we will add movies and dispatch from MovieContext. We are also getting the movies list by calling it from useEffect. We have also updated the different fields in column.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087760/16-Jun-25/netflix-dashboard-be/24_csuwom.webp)
+
+Also, update the rows to show the movies and also need to use getRowId to havee _id as primary row.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087759/16-Jun-25/netflix-dashboard-be/25_ykmff7.webp)
+
+Now, clicking on Movies will show us all of the movies data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087759/16-Jun-25/netflix-dashboard-be/26_s19k3k.webp)
+
+Now, we will add the code to delete a movie. For this in MovieAction.js first add the cases for Delete movie.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087759/16-Jun-25/netflix-dashboard-be/27_c7hmyq.webp)
+
+Now, we will add the cases for the same in MovieReducer.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087758/16-Jun-25/netflix-dashboard-be/28_tmw32d.webp)
+
+Now, we will add the endpoint for deleting the movies in apiCalls.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087758/16-Jun-25/netflix-dashboard-be/29_lo8up1.webp)
+
+Now, we can easily delete the movies by just updating our handleDelete() and passing the _id in it. We have also added the logic for Edit in ProductList.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087758/16-Jun-25/netflix-dashboard-be/30_pypkfo.webp)
+
+Now, in the MoviesList page we can delete a movie and also on Editing it, we are been taken to the Edit page.
+
+Now, in Product.js file we will use the data from movie and update all hard-coded data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087758/16-Jun-25/netflix-dashboard-be/31_pu5vfa.webp)
+
+We will also update the rest of the data in our Product.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087758/16-Jun-25/netflix-dashboard-be/32_vbremv.webp)
+
+Now, the Product data is showing correctly in our Edit page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/33_skqvs2.webp)
+
+Now, when we click the Create button, it will take us to new screen to create a movie. We are doing complete re-designing here from our earlier. But first we will create the new action creators in MovieActions.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/34_lp2f42.webp)
+
+Now, we will add these cases in MovieReducer.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/35_dufmt3.webp)
+
+Now, we will create a new function createMovie in apiCalls.js where we are posting to the /movies endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/36_cgmaha.webp)
+
+Now, in NewProduct.js file, we will first do these imports.
+
+```js
+    import { MovieContext } from "../context/movieContext/MovieContext";
+    import { createMovie } from "../context/movieContext/apiCalls";
+    import { useContext } from "react";
+```
+
+After that in NewProduct.js file, we have removed the earlier styles and put these new styled components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087758/16-Jun-25/netflix-dashboard-be/37_qj93z0.webp)
+
+After that we will add a movie state and also use the MovieContext to dispatch the movie in NewProduct.js file. Here, in the handleChange we are using the dynamic state of ES6 to add all states.
+
+Also changed a lot of items here and taking everything from input box.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/38_xdkyr7.webp)
+
+We will also add the next list of products in our NewProduct.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/39_zomjez.webp)
+
+Now, in our Create page we will add the images and text and will hit the Create button and our movie will be added in the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/40_xrklh4.webp)
+
+Now, in the movies list page we can see this new movie.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/41_cgrqhi.webp)
+
+Now, the Update Movies is a task which the Reader can do, following the same method.
+
+Also, the List endpoint is almost similar to the Movies endpoint and can be done by the reader to enhance the application.
+
+And the User list can also be done in the same way by the reader.
+
+Now, we will move to the client side and first fix some issues. We will add the Genre setting functionality, by first passing it in the Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087758/16-Jun-25/netflix-dashboard-be/42_k2ta7r.webp)
+
+We have to now use it in the Featured.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087757/16-Jun-25/netflix-dashboard-be/43_vlpzn2.webp)
+
+Now, in the Series and the Movies page, we can set the Genre and the movie will come according to that.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750087756/16-Jun-25/netflix-dashboard-be/44_oj9fwe.webp)
+
+This completes our whole app. You can also add authentication to the client by implementing the JWT authentication from the api part.
