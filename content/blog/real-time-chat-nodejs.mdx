@@ -1,0 +1,361 @@
+---
+title: Real time Chat application with Socket.io in NodeJS
+description: NodeJS
+date: 2022-07-27
+tags: ["javascript", "nodejs", "reactjs"]
+published: true
+---
+
+In this post, we are going to create a Chat App with the famous socket.io library in NodeJS.
+
+You can find the post in video format on my [YouTube](https://www.youtube.com/watch?v=nfFZXx8YA1o) channel
+
+First create an empty folder and change to it. After that use npm init -y to create a empty node project. Next, also install express in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594163/22-Jun-25/real-time-chat-nodejs/1_thfqto.webp)
+
+Next, create a index.js file in the root directory an also a public folder. Inside the public folder create index.html file.
+
+Now, install nodemon in dev dependency and add the script for production and dev in package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594163/22-Jun-25/real-time-chat-nodejs/2_mebqcj.webp)
+
+Now, in index.js put the below code. Here, we will add path and express as dependencies. After that use express and also add port.
+
+Now, we are also giving the path of public directory. Lastly, we are listening at port 8080.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594162/22-Jun-25/real-time-chat-nodejs/3_w25c4j.webp)
+
+Now, we will create a basic index.html file in the root directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594160/22-Jun-25/real-time-chat-nodejs/4_nzarac.webp)
+
+Now, start the node app by giving the command npm run dev in the terminal and after that go to http://localhost:8080/ and we will see the output of the html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594159/22-Jun-25/real-time-chat-nodejs/5_t7lk6x.webp)
+
+Now, we will install the famous socket.io library in our project, which will allow us to do real-time communications. So, add it with the below command.
+
+```js
+    npm i socket.io
+```
+
+After that we will update our index.js with the below code. Here, we are first importing the http and the socket.io library.
+
+Next, we are creating a server with http. Also, we are creating a variable io, which is a socket connection.
+
+Now, we have a io.on() containing our all server code. Here, we are first just showing the console log, when a new connection is been made. Next, we are using socket.emit() to emit to the newly created client app.
+
+With socket.broadcast.emit(), we can emit to all clients connected to the server, except the one which is connected.
+
+Next, we are using socket.on() to emit to all the client, if a client leaves or closes the browser.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594159/22-Jun-25/real-time-chat-nodejs/6_t8xp6o.webp)
+
+Next, we will update our index.html file, to contain a simple form, with input and a button.
+
+We are also importing the socket.io.js file and a main.js file
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594159/22-Jun-25/real-time-chat-nodejs/7_xy8uma.webp)
+
+Next, create a main.js file in the public folder and add the below content in it.
+
+Here, we are first importing io. Next, we have a socket.on() to get the message emitted from the server.
+
+We are also listening to the button click with simple JavaScript. Here, we are taking the value entered in the input box and emitting it back to the server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594158/22-Jun-25/real-time-chat-nodejs/8_hd1jfd.webp)
+
+And our chat functionality is working fine with two different clients.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594156/22-Jun-25/real-time-chat-nodejs/9_snmmnv.webp)
+
+We can also acknowledge the message of client from the server. For that in the server code, i.e. in index.js we will add callback.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594155/22-Jun-25/real-time-chat-nodejs/10_beyhdv.webp)
+
+Next, in our client code i.e. main.js file, we are first optimizing the code by moving the element selection at the top.
+
+Now, inside the event listener, we are first disabling the button when the user click on the button. After the message is emitted, we are making it’s value empty and also, changing the focus to it.
+
+We are also sending back a console log, which is actually delivered to the server via the callback created earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594155/22-Jun-25/real-time-chat-nodejs/11_dltuju.webp)
+
+And our app is working fine on two different clients.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594153/22-Jun-25/real-time-chat-nodejs/12_yjtod6.webp)
+
+Now, we will add the functionality to render message on the window, instead of the console as we are doing now. We will be doing this with the mustache template library.
+
+We are first importing it along with moment and qs in index.html file, which we are going to use soon.
+
+Next, we have created and empty div with id of messages. Now, we have a script with id of msg-template and type text/html.
+
+Inside it we will show the dynamic content of message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594154/22-Jun-25/real-time-chat-nodejs/13_g1cut5.webp)
+
+Now, in the main.js we will add the elements to select messages and the HTML text from msg-template.
+
+Next, inside the socket.on(), we are using Mustache to render the message in the empty div.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594152/22-Jun-25/real-time-chat-nodejs/14_jauyzb.webp)
+
+Now, when we enter the messages, we can see them in the clients.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594151/22-Jun-25/real-time-chat-nodejs/15_j3vzit.webp)
+
+Now, we will add the functionality of time in our app. So, create a file utilities.js in the root directory and add the below code in it.
+
+Here, we are creating a function to return text and time and then exporting it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594150/22-Jun-25/real-time-chat-nodejs/16_tg4u3f.webp)
+
+After that in our index.js file, we will first import the generateMsg and then use it at the places, from where the messages was going.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594150/22-Jun-25/real-time-chat-nodejs/17_vksyo8.webp)
+
+Next, in the main.js we will add the text and createdAt. Notice that we are formatting createeAt, through the moment library.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594148/22-Jun-25/real-time-chat-nodejs/18_m3h80h.webp)
+
+Now, we have to make an small change in our index.html to show the createdAt also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594147/22-Jun-25/real-time-chat-nodejs/19_bawx8s.webp)
+
+Now, time is shown perfectly in chat along with the messages.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594147/22-Jun-25/real-time-chat-nodejs/20_x2kmhi.webp)
+
+Now, it’s time to add styles in our app. For this we will update our index.html file to contain the structure. We have also added the link for the style.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594145/22-Jun-25/real-time-chat-nodejs/21_cfaidk.webp)
+
+Now, create a style.css file in the public folder and add the below code in it.
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;700&display=swap');
+/* General Styles */* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}html {
+    font-size: 16px;
+}input {
+    font-size: 14px;
+}body {
+    line-height: 1.4;
+    color: #333333;
+    font-family: 'Poppins', Arial, sans-serif;
+}h1 {
+    margin-bottom: 16px;
+}label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #777;
+}input {
+    border: 1px solid #eeeeee;
+    padding: 12px;
+    outline: none;
+}button {
+    cursor: pointer;
+    padding: 12px;
+    background: #363d9e;
+    border: none;
+    color: white;
+    font-size: 16px;
+    transition: background .3s ease;
+}button:hover {
+    background: #6b47b8;
+}button:disabled {
+    cursor: default;
+    background: #7c5cbf94;
+}/* Chat Page Layout */.chat {
+    display: flex;
+}.sidebar {
+    height: 100vh;
+    color: rgb(36, 32, 32);
+    background: #aab473;
+    width: 225px;
+    overflow-y: scroll
+}/* Chat styles */.chat__main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+}.chat__messages {
+    flex-grow: 1;
+    padding: 24px 24px 0 24px;
+    overflow-y: scroll;
+}/* Message Styles */.message {
+    margin-bottom: 16px;   
+}.message__name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 8px;
+}.message__meta {
+    color: #777;
+    font-size: 14px;
+}.message a {
+    color: #0070CC;
+}/* Message Composition Styles */.msg-box {
+    display: flex;
+    flex-shrink: 0;
+    margin-top: 16px;
+    padding: 24px;
+}.msg-box form {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 16px;
+}.msg-box input {
+    border: 1px solid #eeeeee;
+    width: 100%;
+    padding: 12px;
+    margin: 0 16px 0 0;
+    flex-grow: 1;
+}.msg-box button {
+    font-size: 14px;
+}
+```
+
+The chat app is now looking awesome in the client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594146/22-Jun-25/real-time-chat-nodejs/22_eahsv4.webp)
+
+Now, we will add the login functionality to our project. Here, we will first create a file chat.html and move all content from index.html to it.
+
+After that in index.html file we will add the login functionality. Here, we are now creating a simple box, in which we need to give username and room name. The form action is to take to chat.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594144/22-Jun-25/real-time-chat-nodejs/23_hpoe0i.webp)
+
+Now, we also need to add some additional styles in our style.css file for our join-form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594144/22-Jun-25/real-time-chat-nodejs/24_tbv3kk.webp)
+
+Now, we will see a beautiful Login form in our http://localhost:8080/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594143/22-Jun-25/real-time-chat-nodejs/25_lzwc8i.webp)
+
+Now, we will use the Query String, which is send to the chat page by updating the code in main.js file.
+
+Here, we are using Qs.parse() to extract the username and room in our variable.
+
+After that we are emitting it to the server, using socket.emit().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594142/22-Jun-25/real-time-chat-nodejs/26_p6b9sq.webp)
+
+Next, in the index.js we will use another socket.on(‘join’) to get that data. Inside it we are joining the room.
+
+Now, the Welcome message and user joined message are also only, shown in the room.
+
+We have also now hard-coded the sendMessage to a Bhopal room, which we are going to change soon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594141/22-Jun-25/real-time-chat-nodejs/27_fyie56.webp)
+
+Now, from two different browsers i have entered the Bhopal room and messages going to it only.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594141/22-Jun-25/real-time-chat-nodejs/28_yuqiv2.webp)
+
+Now, create a file user-util.js in the root directory. Here, we have an empty users array. Next, we have addUser, which is taking an object with value of id, username and room. We are also trimming the username and room and changing it to uppercase.
+
+If an existing user exists in the room, we are sending an error message that the Username exists. Or else we are pushing the user object in the users array and also returning the user object.
+
+In removeUser we are finding the index of the user with findIndex and using splice removing it from the users array.
+
+In getUser, we are using find to find the single user. And in getUsersInRoom, we are filtering out all users in a room and returing it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594140/22-Jun-25/real-time-chat-nodejs/29_lxpsjw.webp)
+
+Now, in the main.js we will add the logic for error. Here, we will show the error and also take the user back to the home route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594139/22-Jun-25/real-time-chat-nodejs/30_rqxslg.webp)
+
+Now, we will update the logic in our index.js file.
+
+Here, first import the methods from user-util.js at the top.
+
+```js
+    const { addUser, removeUser, getUser, getUsersInRoom } = require('./user-util')
+```
+
+Now, while joining we are also including the callback. Then we are using the method addUser to pass the id, username and room. It return error or the user, and we are de-structuring the same.
+
+If there is a error, we are returning the callback with error. We have also updated the other methods with user.
+
+Similarly, in disconnect also we are using the removeUser() and sending the message in the room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594139/22-Jun-25/real-time-chat-nodejs/31_w6s7ic.webp)
+
+Now, we are getting the correct message when a user joins or leaves a room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594138/22-Jun-25/real-time-chat-nodejs/32_wl5omh.webp)
+
+Also, if we try to join the same room, with the same name we will get a error and when click on the ok, it will take us back to the home page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594138/22-Jun-25/real-time-chat-nodejs/33_wttdvv.webp)
+
+Now, we will work on the logic to show the real username. For this first in index.js file, we will update the generateMsg() to show a username. For generic messages, we are using Administrator and for messages send by the user, we are using user.username.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594136/22-Jun-25/real-time-chat-nodejs/34_ee3eph.webp)
+
+Next, in utilities.js file, we will update the generateMsg() to include the username also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594135/22-Jun-25/real-time-chat-nodejs/35_d5nufr.webp)
+
+Now, in main.js we will also include the username from the message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594135/22-Jun-25/real-time-chat-nodejs/36_tobh5b.webp)
+
+Lastly, in chat.html file we will include the username variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594135/22-Jun-25/real-time-chat-nodejs/37_w8svkf.webp)
+
+Now, we will be able to see the name of the user who are chatting, in different chat screens.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594135/22-Jun-25/real-time-chat-nodejs/38_nmmewf.webp)
+
+We will be populating the sidebar of the chat application now. For that we will emit the room and the users to all the rooms from index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594135/22-Jun-25/real-time-chat-nodejs/39_pkb7rk.webp)
+
+Next, in the chat.html we will add a new script for sidebar-template. Notice, that here we are looping through the users array and showing the username.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594134/22-Jun-25/real-time-chat-nodejs/40_frxutw.webp)
+
+Now, we will add these new styles in style.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594027/22-Jun-25/real-time-chat-nodejs/41_pq2bgo.webp)
+
+Now, we will add the sidebarTemplate in main.js file. Here, we are receiving the socket event rendering the room and users in the existing empty div of sidebar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594026/22-Jun-25/real-time-chat-nodejs/42_tvpyxe.webp)
+
+Now, our app is complete and users are shown perfectly in Sidebar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594026/22-Jun-25/real-time-chat-nodejs/43_u9rcge.webp)
+
+Now, we will deploy our app in heroku. But before deploying, also create a .gitignore file, so that the node_modules don’t go into heroku and github.
+
+After that go to heroku site and from the dropdown, click on Create new app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594026/22-Jun-25/real-time-chat-nodejs/44_pcg49s.webp)
+
+Next, give the app a name and click on Create app button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594025/22-Jun-25/real-time-chat-nodejs/45_brcsu3.webp)
+
+
+Now, we will get all the instructions to deploy our app. But we need to install Heroku CLI for it first, following the instructions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594025/22-Jun-25/real-time-chat-nodejs/46_g3nnxk.webp)
+
+Now, we will run all the commands from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594025/22-Jun-25/real-time-chat-nodejs/47_pnwevy.webp)
+
+And finally our app is deployed and working properly. You can find the code for the same in [this](https://github.com/nabendu82/chat-socket-app) github repo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750594025/22-Jun-25/real-time-chat-nodejs/48_cw13oc.webp)
+

@@ -1,0 +1,194 @@
+---
+title: Understanding NodeJS by building a Task App
+description: NodeJS
+date: 2022-07-22
+tags: ["javascript", "nodejs", "reactjs"]
+published: true
+---
+
+In this post, we are going to create an awesome Task App in which we are going to use MongoDB to store data.
+
+You can watch this in video format on my [YouTube](https://www.youtube.com/watch?v=_INF8XTbKZ4) channel.
+
+We can use MongoDB cloud database of Atlas for the same, but we are going to use the locally store MongoDB for the same. So, head over to https://www.mongodb.com/ and hover over Products and then click on Community Server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591108/22-Jun-25/nodejs-task-app/1_o40kqq.webp)
+
+After that download the MongoDB for Windows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591108/22-Jun-25/nodejs-task-app/2_vxf45l.webp)
+
+Install mongodb by going through the setup process. After that install, the awesome GUI tool of MongoDB Compass and open it. To start the local instance of MongoDB, click on Connect button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591107/22-Jun-25/nodejs-task-app/3_aaxonj.webp)
+
+We can also run mongodb commands from the shell. Run the command mongo from the command line and then db.version to check the version number.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591107/22-Jun-25/nodejs-task-app/4_hsfvbg.webp)
+
+Now, we will start with our project. So, create a new folder task-manager and change to it. After that create a empty node project by npm init -y command.
+
+We are also installing the mongoDB package version 3 in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591106/22-Jun-25/nodejs-task-app/5_vobvdh.webp)
+
+Now, create a file mongoConn.js and add the below content in it. Here, we are first importing MongoClient from mongodb and then giving the local connection url and a database name.
+
+We are then using MongoClient to connect to the database. We need to use the useNewUrlParser and useUnifiedTopology, or else the log gives warnings.
+
+After that if, we have error we are returning back or else we are connecting to the database. After that we are inserting a new collection users in the database, with insertOne command to insert a single document.
+
+After that in then and catch block, just showing the result or error.
+
+When we run the command node mongoConn.js from the terminal, it will give back our result.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591105/22-Jun-25/nodejs-task-app/6_f3fhpx.webp)
+
+Now, in MongoDB Compass, we can see the result. We have also created some more documents with the same command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591105/22-Jun-25/nodejs-task-app/7_wpfoki.webp)
+
+Now, we can insert many documents in one go, with insertMany(). Notice, that here, we need to pass an array of object.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591106/22-Jun-25/nodejs-task-app/8_e5shrl.webp)
+
+Now, it also got inserted sucessfully in the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591104/22-Jun-25/nodejs-task-app/9_ff46a8.webp)
+
+Now, we will learn how to find a document in colection by findOne(). Notice that it only returns the first document found.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591104/22-Jun-25/nodejs-task-app/10_eroapm.webp)
+
+If we want to find all of the documents, including the duplicate ones, we can use the find() method. It send us back an array, so we need to use the toArray() before passing it to the then.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591104/22-Jun-25/nodejs-task-app/11_hrhkgl.webp)
+
+Now, we will learn how to update a single document. We do this by updateOne() function. In this we are targetting an id, so we have to import the ObjectID with new. After that we are just setting with $set.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591104/22-Jun-25/nodejs-task-app/12_qx6so9.webp)
+
+Now, the data will be updated in database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591103/22-Jun-25/nodejs-task-app/13_t7asnt.webp)
+
+Similary, we can update many documents with updateMany().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591103/22-Jun-25/nodejs-task-app/14_jh0m1w.webp)
+
+And, our matched two data are updated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591102/22-Jun-25/nodejs-task-app/15_mldpci.webp)
+
+Now, we will learn to delete data. Here, we are using the deleteOne to delete single record and deleteMany to delete multiple records.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591102/22-Jun-25/nodejs-task-app/16_spvl2c.webp)
+
+Now, those three records are deleted from our database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591102/22-Jun-25/nodejs-task-app/17_igk31l.webp)
+
+Now, we will add mongoose in our app, which allows us to add models in our code. These models are stored in the MongoDB database.
+
+We are also going to add validator package, which helps us to do the validation in a mongoose model.
+
+Next, we are adding express because we will create route with it. We will also add nodemon as dev dependencies, as we don’t want to restart server after every changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591101/22-Jun-25/nodejs-task-app/18_ht0d7j.webp)
+
+Now, we will create the real Task manager app. So, create a server.js file in the root directory. Also, a folder db and models in root directory. In the db folder create a file mongoose.js. Inside the models folder, create task.js and user.js file.
+
+Now, in the mongoose.js file, we will import mongoose and then connect to our local database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591101/22-Jun-25/nodejs-task-app/19_psrcie.webp)
+
+Now, in the task.js file we will have the model of the task record. Here, we have two fields of desc and done. One is of type string and other of boolean.
+
+We have used required in desc, which means it’s a required filed. Also, we are using trim, which means if the user is passing empty space after the field, it will be trimmed.
+
+The done field also have a default of false.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591101/22-Jun-25/nodejs-task-app/20_y2muk0.webp)
+
+Now, we will create user.js file. Here, we are also using the validator. Using the validator, we can directly validate whether a email is valid. In the password, we are also validating, whether the user have passed the pass word.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591100/22-Jun-25/nodejs-task-app/21_sirwam.webp)
+
+Now, we will finally add code in the server.js. Here, we are first importing express, then the mongoose connection. After that we are also importing the User and the Task model.
+
+We also need to use the app, port and do express.json(), because we send data as json.
+
+Next, we are creating two POST routes for users and tasks. Here, we are just taking the data in request body and then using save() method to save it in the database.
+
+Lastly, we are listening at provided port.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591100/22-Jun-25/nodejs-task-app/22_zmu2rr.webp)
+
+Now, before running our app, we will update the package.json file to update the scripts. Here, the start will be for heroku deployment and the dev, we be for local run.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591100/22-Jun-25/nodejs-task-app/23_y5gxgi.webp)
+
+Now, run the server.js file from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591099/22-Jun-25/nodejs-task-app/24_wrqpgj.webp)
+
+Next, in Postman we will create a route for http://localhost:8000/users where in the body, we are sending the data. Notice that we are using a wrong password, which is not allowed.
+
+So, we are not able to add the user in database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591099/22-Jun-25/nodejs-task-app/25_iirvnq.webp)
+
+Not, we are sending a correct password and we are able to get the success message and also 201 created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591099/22-Jun-25/nodejs-task-app/26_ltkf3x.webp)
+
+Now, if we also check in our database the data is created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591098/22-Jun-25/nodejs-task-app/27_grqbg9.webp)
+
+Next, we have also added two tasks successfully in the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591098/22-Jun-25/nodejs-task-app/28_rraqqj.webp)
+
+Now, we will add the GET routes for users and tasks. We are also adding the routes to get the individual user and task.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591098/22-Jun-25/nodejs-task-app/29_wuezhm.webp)
+
+Now, if we go to http://localhost:8000/tasks route in postman, we will get all the tasks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591098/22-Jun-25/nodejs-task-app/30_kappdn.webp)
+
+Similarly, we can get the individual tasks by giving the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591097/22-Jun-25/nodejs-task-app/31_fsvrnn.webp)
+
+Similarly the users GET routes are working like same. Now, we will create the PUT routes, which are used to update the data in any document.
+
+Here, we are taking the id and then using the mongoose findByIdAndUpdate by passing the parameters in body.
+
+Also, notice that we are using the new syntax of async..await.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591097/22-Jun-25/nodejs-task-app/32_gxyvsl.webp)
+
+Now, in the postman, send a PUT request with the id http://localhost:8000/users/61e16bd0b94a65199a4d5f12. Here, we are updating the password and getting the status of 200 ok.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591098/22-Jun-25/nodejs-task-app/33_fbcqzq.webp)
+
+Now, the password is updated in document.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591097/22-Jun-25/nodejs-task-app/34_fez5vw.webp)
+
+Next, we are also adding the function for the PUT of the task.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591097/22-Jun-25/nodejs-task-app/35_txccif.webp)
+
+Lastly, we will add the routes for delete, in which we just need to pass the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591098/22-Jun-25/nodejs-task-app/36_vq82gv.webp)
+
+Now, in postman we just need to pass the id like below http://localhost:8000/tasks/61e186b9b94a65199a4d5f16
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750591097/22-Jun-25/nodejs-task-app/37_xxd2gt.webp)
+
+
+
