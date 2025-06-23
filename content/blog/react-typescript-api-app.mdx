@@ -1,0 +1,100 @@
+---
+title: Learning React with TypeScript by Building an API app
+description: ReactJS
+date: 2022-08-07
+tags: ["javascript", "web-dev", "reactjs"]
+published: true
+---
+
+We are going to learn TypeScript in a ReactJS project by creating a simple API app. TypeScript add strict type definitions in a project, which is helpful to get the error earlier.
+
+This project can be found on the YouTube channel [here](https://www.youtube.com/watch?v=mYE2-btCMBg)
+
+To create a ReactJS project with TypeScript, we need to add template typescript to the create-react-app command. So, use the below command to create a new typescript-apiapp project.
+
+```js
+    npx create-react-app typescript-apiapp --template typescript
+```
+
+Now, in a React project with TypeScript, all the files are tsx instead of the regular js file. So, after starting the project in the App.tsx file remove everything and add a h1 for ReactJS TypeScript.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683109/22-Jun-25/react-typescript-api-app/1_a3zenc.webp)
+
+Next, create a new components folder inside the src folder. Inside it create two files Header.tsx and Header.css.
+
+In the Header.tsx file put the below content. Here, everything is like a normal React component only, but we need to mention that it is a Function Component and also need to tell about the props, which we don’t have any in this component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683107/22-Jun-25/react-typescript-api-app/2_ovd3bs.webp)
+
+Next, in the Header.css file we will have simple styles for our Header component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683108/22-Jun-25/react-typescript-api-app/3_oigowg.webp)
+
+Next, in the App.tsx we will include the Header component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683108/22-Jun-25/react-typescript-api-app/4_ovbso5.webp)
+
+Now, in the App.css file we will have the common styles, which we are going to use soon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683105/22-Jun-25/react-typescript-api-app/5_aljapa.webp)
+
+Now, a beautiful Header is been shown in our application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683112/22-Jun-25/react-typescript-api-app/6_k80wfa.webp)
+
+Now, we are soon going to get our data from the famous jsonplaceholder site. Now, we will create a note.model.ts file first inside a models folder in src folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683105/22-Jun-25/react-typescript-api-app/7_ttt9iu.webp)
+
+Next, create a ListNotes.tsx file inside the components folder. Here, we are again using a TypeScript based React Functional component. The notes props passed to it is of type Note.
+
+We are just looping through the notes array and showing the title and the body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683105/22-Jun-25/react-typescript-api-app/8_znbnsk.webp)
+
+Now, back in the App.tsx file we will be using a notes as a state and will use the Note model again.
+
+We are passing this notes array to the ListNotes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683104/22-Jun-25/react-typescript-api-app/9_svutdc.webp)
+
+Now, in localhost the data from ListNotes component will be shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683103/22-Jun-25/react-typescript-api-app/10_u9apiu.webp)
+
+Now, we will get the data from jsonplaceholder and for that we will do the API call to the posts endpoint in App.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683103/22-Jun-25/react-typescript-api-app/11_hzeo8l.webp)
+
+We will also refactor the code in ListNotes.tsx file by passing the prop to Notes component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683102/22-Jun-25/react-typescript-api-app/12_sijlrs.webp)
+
+Now, in the Notes.tsx file we will create a simple functional component and again use the Note model and will render the note title and body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683098/22-Jun-25/react-typescript-api-app/13_ndrlac.webp)
+
+Now, will also add the styles for it in the Notes.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683095/22-Jun-25/react-typescript-api-app/14_tpptze.webp)
+
+Now, all the Notes are rendered from the jsonplaceholder site in our localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683096/22-Jun-25/react-typescript-api-app/15_kbt8al.webp)
+
+Now, we will add the functionality for the delete button to complete our app. For this first need to send the setNotes as a props in ListNotes from App.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683096/22-Jun-25/react-typescript-api-app/16_qwlckj.webp)
+
+Next, in the ListNotes.tsx file, we will use the setNotes. Notice that here, we have to mention it type in the props. We are also passing a handleDelete props here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683095/22-Jun-25/react-typescript-api-app/17_v54xkg.webp)
+
+Lastly, we will use this handleDelete in our Notes.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683096/22-Jun-25/react-typescript-api-app/18_ii6ekm.webp)
+
+Now, we are able to delete posts in our app and this completes our small project. You can find code for the same [here](https://github.com/nabendu82/react-typescript-app).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750683096/22-Jun-25/react-typescript-api-app/19_kslj03.webp)
+
