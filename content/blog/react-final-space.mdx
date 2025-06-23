@@ -1,0 +1,226 @@
+---
+title: React App with Final Space API — Tinder Style
+description: ReactJS
+date: 2022-08-17
+tags: ["javascript", "web-dev", "reactjs"]
+published: true
+---
+
+In this app we are going to get data from the awesome Final Space API and display them in the famous swipe style of tinder. We are also going to deploy this app in firebase and will use it as our hosting platform.
+
+You can also find this post in video format on my [YouTube](https://www.youtube.com/watch?v=f_jRL-RxOXw) channel.
+
+We will also be using Material UI for the icons in the project. So, use the create-react-app to create a new app called final-space-tinder.
+
+```js
+    npx create-react-app final-space-tinder
+```
+
+Since, our frontend site will also be hosted through firebase we will create the basic setting while this create-react-app creates our react app. So, go to firebase site and click on the Add project link in the page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686193/22-Jun-25/react-final-space/1_k3qruo.webp)
+
+Now, in this page give the project a name like final-space-tinder and click on Continue button. In the next page click on the Create project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686192/22-Jun-25/react-final-space/2_tnnupd.webp)
+
+In the next page click on the Create project button after disabling Analytics.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686191/22-Jun-25/react-final-space/3_jw4qhs.webp)
+
+After, sometime we will get this screen. Here, we need to click on the Continue button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686190/22-Jun-25/react-final-space/4_nx6pm1.webp)
+
+Now, click on the Settings icon on the top right corner of the screen. After that click on the Project settings button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686188/22-Jun-25/react-final-space/5_bqbrza.webp)
+
+In the next page click on the web-icon on the bottom of the page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686187/22-Jun-25/react-final-space/6_ip5bxf.webp)
+
+In the next page give the name same as the name of the app, which is final-space-tinder in my case. Also, click on the checkbox for firebase hosting
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686186/22-Jun-25/react-final-space/7_oq2ix1.webp)
+
+In the next page, just click the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686185/22-Jun-25/react-final-space/8_m4hvgu.webp)
+
+In the next page, it will give the command to install firebase-tools globally from the terminal. Since, i have already done it, i am not doing it again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686184/22-Jun-25/react-final-space/9_sluv94.webp)
+
+Ignore the next set of commands as of now and click on Continue to console button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686183/22-Jun-25/react-final-space/10_i49lwa.webp)
+
+Now, in terminal type npm start to start our react project and if , it’s successful you will see below in terminal and our app will start on http://localhost:3000/.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686182/22-Jun-25/react-final-space/11_v1oert.webp)
+
+Next, we will delete some of the files because we don’t need them and our app is also showing perfectly on localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686181/22-Jun-25/react-final-space/12_ozyemm.webp)
+
+We will remove all the unnecessary boiler-plate code and our index.js will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686179/22-Jun-25/react-final-space/13_uitlta.webp)
+
+And the App.js contains only Final Space Tinder text. We have also removed all content from App.css file. Also, changed the className to app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686178/22-Jun-25/react-final-space/14_qf214k.webp)
+
+In the index.css update the css to have margin: 0 for all.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686178/22-Jun-25/react-final-space/15_z6daww.webp)
+
+We will be using Material UI for the icons, which we will use next. So, we will install it through the below commands.
+
+```js
+    npm i @material-ui/core @material-ui/icons
+```
+
+Next, create a components folder inside the src folder. Create two file Header.js and Header.css inside it.
+
+Put the below content in Header.js file. Here, we are showing a PersonIcon, logo of Final Space and Forum icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686177/22-Jun-25/react-final-space/16_euaqlx.webp)
+
+In Header.css file put the below styles to style our header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686175/22-Jun-25/react-final-space/17_fgli7v.webp)
+
+Also, include the Header component in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686174/22-Jun-25/react-final-space/18_bsegat.webp)
+
+Now, our Header looks awesome in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686173/22-Jun-25/react-final-space/19_cdmejh.webp)
+
+Before moving forward, we need to install a package react-tinder-card to have the famous swipe feature of tinder.
+
+```js
+    npm i react-tinder-card
+```
+
+Now, create a file FinalSpaceCards.js in the components folder and put the below content in it.
+
+Here, we are first importing the required things and using importing TinderCard from ‘react-tinder-card’.
+
+After that we are doing the API call using useEffect to final space character endpoint and setting the Characters.
+
+Now, inside the return, we are looping through the characters and showing each character.
+
+```js
+import React, { useEffect, useState } from 'react';
+import './FinalSpaceCards.css';
+import TinderCard from 'react-tinder-card'const FinalSpaceCards = () => {
+    const [characters, setCharacters] = useState([])useEffect(() => {
+        fetch('https://finalspaceapi.com/api/v0/character/')
+        .then(res => res.json())
+        .then(data => setCharacters(data))
+        .catch(err => console.log(err))
+    }, [])const swiped = (direction, nameToDelete) => {
+        console.log("receiving " + nameToDelete)
+    }const outOfFrame = (name) => {
+        console.log(name + " left the screen!!")
+    }return (
+        <div className="finalSpaceCards">
+            <div className="finalSpaceCards__container">
+                {characters.map((character) => (
+                    <TinderCard 
+                        className="swipe"
+                        key={character.id}
+                        preventSwipe={['up', 'down']}
+                        onSwipe={(dir) => swiped(dir, character.name)}
+                        onCardLeftScreen={() => outOfFrame(character.name)} 
+                    >
+                        <div style={{ backgroundImage: `url(${character.img_url})`}} className="card">
+                            <h3>Name - {character.name}</h3>
+                            <h4>Species - {character.species}</h4>
+                        </div>
+                    </TinderCard>
+                ))}
+            </div>
+        </div>
+    )
+};
+
+export default FinalSpaceCards;
+```
+
+Lastly, we will add the style for the same in FinalSpaceCards.css file.
+
+```css
+.finalSpaceCards__container{
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}.card{
+    position: relative;
+    background-color: white;
+    width: 400px;
+    padding: 20px;
+    max-width: 85vw;
+    height: 50vh;
+    box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+}.swipe{
+    position: absolute;
+}.cardContent{
+    width: 100%;
+    height: 100%;
+}.card h3{
+    position: absolute;
+    bottom: 0;
+    margin: 10px;
+    color: white;
+}.card h4{
+    position: absolute;
+    top: 0;
+    margin: 10px;
+    color: white;
+}
+```
+
+Lastly, add the FinalSpaceCards component in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686173/22-Jun-25/react-final-space/20_ak3qbz.webp)
+
+Now, our app is complete and we are able to see the different characters in Tinder Style, with swipe been enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686172/22-Jun-25/react-final-space/21_kbjgrp.webp)
+
+It’s time to deploy our app. So, go to the terminal and run firebase login and then firebase init command. Type Y to proceed. Then go down to Hosting using arrow keys and press the spacebar to select it and after that press enter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686171/22-Jun-25/react-final-space/22_eriec9.webp)
+
+Then select Use an existing project and press enter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686170/22-Jun-25/react-final-space/23_t2rnfi.webp)
+
+Now, you need to select the correct project, which we have created earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686169/22-Jun-25/react-final-space/24_eviqgv.webp)
+
+Next, we choose the public directory and it is build. The next option is Yes for single-page app and github deploys No.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686168/22-Jun-25/react-final-space/25_uut0zq.webp)
+
+Now, we need to run npm run build in the terminal for a production optimal build.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686167/22-Jun-25/react-final-space/26_jsz4n3.webp)
+
+Now, the final command is firebase deploy to deploy the frontend to firebase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686166/22-Jun-25/react-final-space/27_kedzmp.webp)
+
+Now, our app is successfully deployed and the functionalities are working perfectly. You can find code for the same [here](https://github.com/nabendu82/final-space-tinder).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750686167/22-Jun-25/react-final-space/28_cfjihx.webp)
+
