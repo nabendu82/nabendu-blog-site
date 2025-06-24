@@ -1,0 +1,1055 @@
+---
+title: Restaurant App using NextJS
+description: NextJS
+date: 2022-08-20
+tags: ["javascript", "nextjs", "reactjs"]
+published: true
+---
+
+In this project, we will build a cool Restaurant app using NextJS. So, open your terminal and create a new NextJS app by below command.
+
+```js
+    npx create-next-app restaurant-next
+```
+
+You can also find this app made on my YouTube channel [here](https://www.youtube.com/watch?v=WEfFqU55V3E).
+
+Now, as per the instructions change to the newly created folder. I have also opened the project in VSCode. After that run npm run dev to start the project.
+
+Next, remove everything from index.js. We are also adding images in an img folder inside public folder. Also, deleted all the css from Home.module.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744777/22-Jun-25/restaurant-app-nextjs/1_j4mjdt.webp)
+
+Next, create a components folder in the root directory and add a Footer.js, Layout.js and Navbar.js inside it.
+
+Now, in the Footer.js put the temporary content as of now. Also create a empty file of Footer.module.css, inside the styles folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744774/22-Jun-25/restaurant-app-nextjs/2_xieebw.webp)
+
+Now, in the Navbar.js put the below content. Here, we are putting the basic structure for the Navbar.
+
+```js
+import Image from "next/image";
+import styles from "../styles/Navbar.module.css";
+
+const Navbar = () => {
+    return (
+        <div className={styles.container}>
+            <div className={styles.item}>
+                <div className={styles.callButton}>
+                    <Image src="/img/telephone.png" alt="phone" width="32" height="32" />
+                </div>
+                <div className={styles.texts}>
+                    <div className={styles.text}>ORDER NOW!</div>
+                    <div className={styles.text}>8829 77 0062</div>
+                </div>
+            </div>
+            <div className={styles.item}>
+                <ul className={styles.list}>
+                    <li className={styles.listItem}>Homepage</li>
+                    <li className={styles.listItem}>Products</li>
+                    <li className={styles.listItem}>Menu</li>
+                    <Image src="/img/logo.png" alt="logo" width="69px" height="69px" />
+                    <li className={styles.listItem}>Events</li>
+                    <li className={styles.listItem}>Blog</li>
+                    <li className={styles.listItem}>Contact</li>
+                </ul>
+            </div>
+            <div className={styles.item}>
+                <div className={styles.cart}>
+                    <Image src="/img/cart.png" alt="cart" width="30px" height="30px" />
+                    <div className={styles.counter}>2</div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Navbar;
+```
+
+Also, create a file Navbar.module.css in the styles folder and put the below content in it.
+
+```css
+.container {
+    height: 100px;
+    padding: 0px 50px;
+    background-color: #5E503F;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+  
+  .item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .item:nth-child(2) {
+    flex: 3;
+  }
+  
+  .item:last-child {
+    justify-content: flex-end;
+  }
+  
+  .callButton {
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .texts {
+    margin-left: 20px;
+    color: white;
+  }
+  
+  .text:first-child {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .text:last-child {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .list {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    color: white;
+  }
+  
+  .listItem {
+    margin: 20px;
+    font-weight: 500;
+  }
+  
+  .cart{
+      position: relative;
+  }
+  
+  .counter{
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #5E503F;
+  }
+  
+  @media screen and (max-width:480px) {
+    .item:nth-child(2) {
+      display: none;
+    }
+  
+    .item:nth-child(1) {
+      flex: 3;
+    }
+  }
+```
+
+Now, in Layout.js file put the below content. Here, we are using both Navbar and Footer components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744775/22-Jun-25/restaurant-app-nextjs/3_nyzvnn.webp)
+
+Now, we need to add the Layout component to _app.js for it to be shown in all pages.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744773/22-Jun-25/restaurant-app-nextjs/4_wb0vjj.webp)
+
+Now, our Navbar looks perfect in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744772/22-Jun-25/restaurant-app-nextjs/5_udtwdf.webp)
+
+Now, we will create a Featured.js file in the components folder. Here, we will be showing the image of a nice pizza.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744769/22-Jun-25/restaurant-app-nextjs/6_uryjwe.webp)
+
+We will also create a file Featured.module.css inside the styles folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744770/22-Jun-25/restaurant-app-nextjs/7_i8yzbv.webp)
+
+Now, our homepage, also shows this awesome Pizza picture.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744768/22-Jun-25/restaurant-app-nextjs/8_fymnnt.webp)
+
+Next, create a ProductList.js file in the components folder and put the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744767/22-Jun-25/restaurant-app-nextjs/9_mtrgly.webp)
+
+Now, add a ProductList.module.css file in the styles folder and put the below content in it.
+
+```css
+.container {
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.desc {
+    font-size: 24px;
+    color: #444;
+    width: 70%;
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 480px) {
+    .title {
+        text-align: center;
+    }
+
+    .desc {
+        width: 90%;
+        text-align: center;
+    }
+}
+```
+
+Now, create a ProductCard.js file in the components folder and put the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744768/22-Jun-25/restaurant-app-nextjs/10_dght19.webp)
+
+Now, add a ProductCard.module.css file in the styles folder and put the below content in it.
+
+```css
+.container {
+    width: 22%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    cursor: pointer;
+  }
+  
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d1411e;
+  }
+  
+  .price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+  }
+  
+  .desc {
+    text-align: center;
+    color: #777;
+  }
+  
+  @media screen and (max-width: 480px) {
+    .container {
+      width: 100%;
+    }
+  
+    .title {
+      font-size: 30px;
+    }
+  
+    .price,
+    .desc {
+      font-size: 24px;
+    }
+  }
+```
+
+Now, add ProductList component in index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744765/22-Jun-25/restaurant-app-nextjs/11_iwswzc.webp)
+
+Now, our localhost shows nice products.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744764/22-Jun-25/restaurant-app-nextjs/12_hqwwwb.webp)
+
+Now, we will complete our Footer.js file. So, add the below content in it.
+
+```js
+import Image from "next/image";
+import styles from "../styles/Footer.module.css";
+
+const Footer = () => {
+    return (
+        <div className={styles.container}>
+            <div className={styles.item}>
+                <Image src="/img/bg.jpg" objectFit="cover" layout="fill" alt="background" />
+            </div>
+            <div className={styles.item}>
+                <div className={styles.card}>
+                    <h2 className={styles.motto}>
+                        OH YES, WE HAVE THE TWD PIZZA. WELL BAKED SLICE OF PIZZA.
+                    </h2>
+                </div>
+                <div className={styles.card}>
+                    <h1 className={styles.title}>FIND OUR RESTAURANTS</h1>
+                    <p className={styles.text}>
+                        45 AwadhPuri #304.
+                        <br /> Bhopal, 85022
+                        <br /> (+91) 86735-10103
+                    </p>
+                    <p className={styles.text}>
+                        2378 M.P. Nagar #265.
+                        <br /> Bhopal, 88022
+                        <br /> (+91) 44867-10114
+                    </p>
+                    <p className={styles.text}>
+                        2145 Bittan Market #104.
+                        <br /> Bhopal, 82022
+                        <br /> (+91) 11867-10123
+                    </p>
+                    <p className={styles.text}>
+                        1614 New Market #125.
+                        <br /> Bhopal, 3245
+                        <br /> (+91) 33867-10133
+                    </p>
+                </div>
+                <div className={styles.card}>
+                    <h1 className={styles.title}>WORKING HOURS</h1>
+                    <p className={styles.text}>
+                        MONDAY - FRIDAY
+                        <br /> 9:00 – 22:00
+                    </p>
+                    <p className={styles.text}>
+                        SATURDAY - SUNDAY
+                        <br /> 12:00 – 24:00
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Footer;
+```
+
+We will also add the styles for the same in Footer.module.css file, in the styles folder.
+
+```css
+.container {
+    height: calc(100vh - 400px);
+    background-color: #222;
+    display: flex;
+  }
+  
+  .item {
+    flex: 1;
+    position: relative;
+    display: flex;
+  }
+  
+  .item:last-child {
+    flex: 2;
+    padding: 50px;
+    justify-content: space-between;
+  }
+  
+  .card {
+    flex: 1;
+    padding: 0 20px;
+  }
+  
+  .title {
+    font-size: 18px;
+    color: #b7903c;
+  }
+  
+  .text {
+    color: lightgray;
+  }
+  
+  .motto {
+    color: rgb(211, 211, 211);
+  }
+  
+  @media screen and (max-width: 480px) {
+    .container {
+      height: auto;
+      text-align: center;
+    }
+    .item:first-child {
+      display: none;
+    }
+  
+    .item {
+      flex-direction: column;
+    }
+  
+    .title {
+      font-size: 30px;
+    }
+  
+    .text {
+      font-size: 20px;
+    }
+  }
+```
+
+Now, a nice footer will be shown in our app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744764/22-Jun-25/restaurant-app-nextjs/13_wrmvnr.webp)
+
+Now, we will create the individual page which will be show when we click any pizza. So, create a product folder inside the pages folder. Inside it create a [id].js file and put the below content in it.
+
+Here, we are showing a static image as of now. In a later post everything will be coming from API.
+
+```js
+import Image from "next/image";
+import { useState } from "react";
+import styles from "../../styles/Product.module.css";
+
+const Product = () => {
+    const [size, setSize] = useState(0);
+    const pizza = {
+        id: 1,
+        img: "/img/pizza1.jpg",
+        name: "Peppy Paneer Pizza",
+        price: [209, 299, 359],
+        desc: "Paneer, capsicum and red paprika. Contains real mozzarella cheese.",
+    };
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.left}>
+                <div className={styles.imgContainer}>
+                    <Image src={pizza.img} objectFit="cover" layout="fill" alt="pizza" />
+                </div>
+            </div>
+            <div className={styles.right}>
+                <h1 className={styles.title}>{pizza.name}</h1>
+                <span className={styles.price}>${pizza.price[size]}</span>
+                <p className={styles.desc}>{pizza.desc}</p>
+                <h3 className={styles.choose}>Choose the size</h3>
+                <div className={styles.sizes}>
+                    <div className={styles.size} onClick={() => setSize(0)}>
+                        <Image src="/img/size.png" layout="fill" alt="size-1" />
+                        <span className={styles.number}>Small</span>
+                    </div>
+                    <div className={styles.size} onClick={() => setSize(1)}>
+                        <Image src="/img/size.png" layout="fill" alt="size-2" />
+                        <span className={styles.number}>Medium</span>
+                    </div>
+                    <div className={styles.size} onClick={() => setSize(2)}>
+                        <Image src="/img/size.png" layout="fill" alt="size-3" />
+                        <span className={styles.number}>Large</span>
+                    </div>
+                </div>
+                <h3 className={styles.choose}>Choose additional ingredients</h3>
+                <div className={styles.ingredients}>
+                    <div className={styles.option}>
+                        <input
+                            type="checkbox"
+                            id="double"
+                            name="double"
+                            className={styles.checkbox}
+                        />
+                        <label htmlFor="double">Double Ingredients</label>
+                    </div>
+                    <div className={styles.option}>
+                        <input
+                            className={styles.checkbox}
+                            type="checkbox"
+                            id="cheese"
+                            name="cheese"
+                        />
+                        <label htmlFor="cheese">Extra Cheese</label>
+                    </div>
+                    <div className={styles.option}>
+                        <input
+                            className={styles.checkbox}
+                            type="checkbox"
+                            id="spicy"
+                            name="spicy"
+                        />
+                        <label htmlFor="spicy">Spicy Makhani</label>
+                    </div>
+                    <div className={styles.option}>
+                        <input
+                            className={styles.checkbox}
+                            type="checkbox"
+                            id="paneer"
+                            name="paneer"
+                        />
+                        <label htmlFor="garlic">Extra Paneer</label>
+                    </div>
+                </div>
+                <div className={styles.add}>
+                    <input type="number" defaultValue={1} className={styles.quantity} />
+                    <button className={styles.button}>Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Product
+```
+
+Next, create Product.module.css file inside the styles folder and put the below content in it.
+
+```css
+.container {
+    height: calc(100vh - 100px);
+    display: flex;
+  }
+  
+  .left {
+    flex: 1;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .right {
+    flex: 1;
+  }
+  
+  .imgContainer {
+    width: 80%;
+    height: 80%;
+    position: relative;
+  }
+  
+  .price {
+    color: #5E503F;
+    font-size: 24px;
+    font-weight: 400;
+    border-bottom: 1px solid #5E503F;
+  }
+  
+  .sizes {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .size {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .size:nth-child(2) {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .size:last-child {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .number {
+    position: absolute;
+    top: -5px;
+    right: -20px;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    padding: 0 5px;
+    border-radius: 10px;
+  }
+  
+  .ingredients {
+    display: flex;
+    margin-bottom: 30px;
+  }
+  
+  .option {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .checkbox {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .quantity {
+    width: 50px;
+    height: 30px;
+  }
+  
+  .button {
+    height: 30px;
+    margin-left: 10px;
+    padding: 5px;
+    background-color: #5E503F;
+    color: white;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 480px) {
+    .container {
+      height: auto;
+      text-align: center;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+  
+    .imgContainer {
+      width: 70vw;
+      height: 70vw;
+    }
+  
+    .title {
+      margin: 5px;
+    }
+  
+    .sizes {
+      width: 100%;
+      padding: 0px 20px;
+    }
+  
+    .ingredients {
+      flex-direction: column;
+    }
+  
+    .option {
+      margin: 10px;
+      font-size: 18px;
+    }
+  
+    .checkbox {
+      width: 25px;
+      height: 25px;
+    }
+  
+    .quantity,
+    .button {
+      height: 50px;
+      padding: 10px 20px;
+    }
+  }
+```
+
+Now, go to any page like http://localhost:3000/product/112 and it will show our nice item page. Also, clicking on the pizza size changes the price.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744762/22-Jun-25/restaurant-app-nextjs/14_avgxsx.webp)
+
+Now, it’s time to create our Cart page. So, create cart.js inside pages folder. Put the below content in it.
+
+```js
+import styles from "../styles/Cart.module.css";
+import Image from "next/image";
+
+const Cart = () => {
+    return (
+        <div className={styles.container}>
+            <div className={styles.left}>
+                <table className={styles.table}>
+                    <tr className={styles.trTitle}>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Extras</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr className={styles.tr}>
+                        <td>
+                            <div className={styles.imgContainer}>
+                                <Image
+                                    src="/img/pizza1.jpg"
+                                    layout="fill"
+                                    objectFit="cover"
+                                    alt="pizza"
+                                />
+                            </div>
+                        </td>
+                        <td>
+                            <span className={styles.name}>Peppy Paneer Pizza</span>
+                        </td>
+                        <td>
+                            <span className={styles.extras}>
+                                Double ingredient, Extra Paneer
+                            </span>
+                        </td>
+                        <td>
+                            <span className={styles.price}>299</span>
+                        </td>
+                        <td>
+                            <span className={styles.quantity}>2</span>
+                        </td>
+                        <td>
+                            <span className={styles.total}>598</span>
+                        </td>
+                    </tr>
+                    <tr className={styles.tr}>
+                        <td>
+                            <div className={styles.imgContainer}>
+                                <Image
+                                    src="/img/pizza2.jpg"
+                                    layout="fill"
+                                    objectFit="cover"
+                                    alt=""
+                                />
+                            </div>
+                        </td>
+                        <td>
+                            <span className={styles.name}>Tandoori Pizza</span>
+                        </td>
+                        <td>
+                            <span className={styles.extras}>
+                                Extra Cheese, Spicy Makhani
+                            </span>
+                        </td>
+                        <td>
+                            <span className={styles.price}>229</span>
+                        </td>
+                        <td>
+                            <span className={styles.quantity}>1</span>
+                        </td>
+                        <td>
+                            <span className={styles.total}>229</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div className={styles.right}>
+                <div className={styles.wrapper}>
+                    <h2 className={styles.title}>CART TOTAL</h2>
+                    <div className={styles.totalText}>
+                        <b className={styles.totalTextTitle}>Subtotal:</b>827
+                    </div>
+                    <div className={styles.totalText}>
+                        <b className={styles.totalTextTitle}>Discount:</b>0.00
+                    </div>
+                    <div className={styles.totalText}>
+                        <b className={styles.totalTextTitle}>Total:</b>827
+                    </div>
+                    <button className={styles.button}>CHECKOUT NOW!</button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Cart;
+```
+
+Next, create Cart.module.css file inside the styles folder and put the below content in it.
+
+```css
+.container {
+    padding: 50px;
+    display: flex;
+  }
+  
+  .left {
+    flex: 2;
+  }
+  
+  .right {
+    flex: 1;
+  }
+  
+  .imgContainer {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+  
+  .table {
+    width: 100%;
+    border-spacing: 20px;
+  }
+  
+  .name {
+    font-weight: 500;
+    color: #5E503F;
+    font-size: 18px;
+  }
+  
+  .total {
+    font-weight: 500;
+    font-size: 18px;
+  }
+  
+  .wrapper {
+    width: 90%;
+    max-height: 300px;
+    background-color: #333;
+    padding: 50px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+  }
+  
+  .totalTextTitle {
+    margin-right: 10px;
+  }
+  
+  .button {
+    height: 30px;
+    color: #5E503F;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  @media screen and (max-width: 480px) {
+    .container {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    .table {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .trTitle{
+      display: none;
+    }
+  
+    .tr{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+  
+    .imgContainer{
+      width: 35vw;
+      height: 35vw;
+    }
+  
+    .name,.total{
+      font-size: 24px;
+    }
+  
+    .extras,.price,.quantity{
+      font-size: 22px;
+    }
+  
+    .price::before{
+      content: "Price: ";
+      font-weight: 500;
+    }
+    .quantity::before{
+      content: "Quantity: ";
+      font-weight: 500;
+    }
+    .total::before{
+      content: "Total: ";
+      font-weight: 500;
+    }
+  
+    .wrapper{
+      width: 100%;
+    }
+  }
+```
+
+Now, go to http://localhost:3000/cart and it will show our nice order part.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744762/22-Jun-25/restaurant-app-nextjs/15_roxgvm.webp)
+
+Finally, we will create the order module. So, create a folder orders inside the pages folder. Create a [id].js file inside it. Put the below content in it.
+
+```js
+import styles from "../../styles/Order.module.css";
+import Image from "next/image";
+
+const Order = () => {
+    const status = 0;
+
+    const statusClass = (index) => {
+        if (index - status < 1) return styles.done;
+        if (index - status === 1) return styles.inProgress;
+        if (index - status > 1) return styles.undone;
+    };
+    return (
+        <div className={styles.container}>
+            <div className={styles.left}>
+                <div className={styles.row}>
+                    <table className={styles.table}>
+                        <tr className={styles.trTitle}>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Address</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr className={styles.tr}>
+                            <td>
+                                <span className={styles.id}>345555555</span>
+                            </td>
+                            <td>
+                                <span className={styles.name}>Hiren Pandey</span>
+                            </td>
+                            <td>
+                                <span className={styles.address}>85. Awadhpuri, Bhopal</span>
+                            </td>
+                            <td>
+                                <span className={styles.total}>₹899</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div className={styles.right}>
+                <div className={styles.wrapper}>
+                    <h2 className={styles.title}>CART TOTAL</h2>
+                    <div className={styles.totalText}>
+                        <b className={styles.totalTextTitle}>Subtotal:</b>₹899
+                    </div>
+                    <div className={styles.totalText}>
+                        <b className={styles.totalTextTitle}>Discount:</b>₹0.00
+                    </div>
+                    <div className={styles.totalText}>
+                        <b className={styles.totalTextTitle}>Total:</b>₹899
+                    </div>
+                    <button disabled className={styles.button}>
+                        PAID
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Order;
+```
+
+Next, create Order.module.css file inside the styles folder and put the below content in it.
+
+```css
+.container {
+    padding: 50px;
+    display: flex;
+  }
+  
+  .left {
+    flex: 2;
+  }
+  
+  .table {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 50px;
+  }
+  
+  .row:last-child {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .right {
+    flex: 1;
+  }
+  
+  .wrapper {
+    width: 90%;
+    max-height: 300px;
+    background-color: #333;
+    color: white;
+    padding: 10px 50px 50px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .totalTextTitle {
+    margin-right: 10px;
+  }
+  
+  .button {
+    background-color: white;
+    height: 30px;
+    color: #5E503F;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: not-allowed;
+  }
+  
+  @media screen and (max-width: 480px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .trTitle {
+      display: none;
+    }
+  
+    .tr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+  
+    .id::before {
+      content: "Order ID: ";
+      font-weight: 500;
+    }
+    .name::before {
+      content: "Customer: ";
+      font-weight: 500;
+    }
+    .address::before {
+      content: "Address: ";
+      font-weight: 500;
+    }
+    .total::before {
+      content: "Total: ";
+      font-weight: 500;
+    }
+  
+    .row:last-child {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .wrapper{
+      width: 100%;
+    }
+  }
+```
+
+Now, goto http://localhost:3000/orders/1 and we will see the nice order page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750744762/22-Jun-25/restaurant-app-nextjs/16_vb9xks.webp)
+
+This completes our long UI for Reataurant app. The code for the same can be found [here](https://github.com/nabendu82/restaurant-next).
+
