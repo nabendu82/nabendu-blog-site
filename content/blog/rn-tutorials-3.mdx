@@ -1,0 +1,108 @@
+---
+title: React Native Tutorials -3
+description: React Native
+date: 2022-08-25
+tags: ["javascript", "reactnative", "reactjs"]
+published: true
+---
+
+Welcome to the part-3 of the series. You can find part-2 [here](https://www.nabendu.org/blog/rn-tutorials-2). We will start where we left.
+
+First we will learn about Text Input. To enter Text Input in React Native, we use the TextInput component. In this component, we need to give the border and other styles or else, it doesn’t appears.
+
+In the App.js file from the earlier part we have added a TextInput. We are also using the name state variable to store the name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774591/22-Jun-25/rn-tutorials-3/1_goo8gp.webp)
+
+The TextInput will look like below on the simulator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774588/22-Jun-25/rn-tutorials-3/2_u6xvim.webp)
+
+Now, we have many options in TextInput and we can get the complete list from [here](https://reactnative.dev/docs/textinput).
+
+We are changing the keyboard input type, maxlength and also making it a password field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774587/22-Jun-25/rn-tutorials-3/3_bi4kbj.webp)
+
+Now, we can see a different keyboard and stars when we enter. Also, we can enter only four items.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774585/22-Jun-25/rn-tutorials-3/4_ckse5p.webp)
+
+Now, we will learn about Button, Touchables and Pressable.
+
+In the App.js file, we will add a Button component. It is the most basic way to add a button in React Native.
+
+We are also changing the title of the button depending on a submitted value.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774592/22-Jun-25/rn-tutorials-3/5_q4gas3.webp)
+
+On checking the button on both iOS simulator and Android emulator, we can see the problem.
+
+It is not showing perfectly on iOS and also not much to style it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774584/22-Jun-25/rn-tutorials-3/6_y3dvbc.webp)
+
+We generally build buttons using TouchableOpacity or TouchableWithoutFeedback, because they have a onPress handler. After that we need to add a View, to style with outline and a Text inside it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774582/22-Jun-25/rn-tutorials-3/7_lchrmh.webp)
+
+Now, our button is looking awesome at both platform.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774580/22-Jun-25/rn-tutorials-3/8_jr0sug.webp)
+
+React Native recently introduced Pressable component, which have a lot of in-built features to create button.
+
+Here, we are using a hitSlop feature, which is used to have a layer of touch around the button on which click can be registered.
+
+Also, we can have a ripple effect in Android.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774579/22-Jun-25/rn-tutorials-3/9_tkhmp0.webp)
+
+Now, we have a nice looking button in both Android and iOS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774577/22-Jun-25/rn-tutorials-3/10_uop2mm.webp)
+
+I have a very good post on Toast messages on Waldo site. Please refer that to create custom toast messages. You can find it [here](https://www.waldo.com/blog/react-native-toast).
+
+We need to also know to create Modal is React Native and we can learn the same from my blog [here](https://www.waldo.com/blog/react-native-modals-step-by-step-guide).
+
+Now, we will learn to add images in our project. We have created an assests folder and added two images in it. Now, we have created a new code after the Pressable. Here, we showing what the user entered text, along with two images.
+
+One image is been shown when nothing is entered, and the other one is been shown when the user pressed the button.
+
+We are showing the images with the in-built Image tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774575/22-Jun-25/rn-tutorials-3/11_wzm3ju.webp)
+
+Now, during initial load, we will see the below image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774574/22-Jun-25/rn-tutorials-3/12_y6dbtq.webp)
+
+After the user enters the OTP and presses the button, we will see below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774572/22-Jun-25/rn-tutorials-3/13_xdqmk8.webp)
+
+Now, we will learn to add a background image, in the whole app. Here, we can use the ImageBackground component. For image taken from the url, we need to give source and uri. We can do the same in Image tag also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774571/22-Jun-25/rn-tutorials-3/14_tai975.webp)
+
+Now, we can see a nice background image in our app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774569/22-Jun-25/rn-tutorials-3/15_wjmrwl.webp)
+
+Lastly, we will learn to create a Custom component. We will take our Pressable button and put in in a seperate file CustomButton.js. We have created it inside a components folder in the root directory.
+
+Here, we are passing the onPress and title as props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774568/22-Jun-25/rn-tutorials-3/16_powvss.webp)
+
+Now, in App.js file we will show this component, instead of the Pressable code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774566/22-Jun-25/rn-tutorials-3/17_i38eae.webp)
+
+Our app will still show the button, with all functionalities.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750774566/22-Jun-25/rn-tutorials-3/18_d390fg.webp)
+
+This completes part-3 of the series. The code for the same can be found [here](https://github.com/nabendu82/ReactNative-Tutorials/tree/Tutorial-3).
+
