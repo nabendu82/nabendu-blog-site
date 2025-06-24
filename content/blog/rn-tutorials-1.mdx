@@ -1,0 +1,99 @@
+---
+title: React Native Tutorials -1
+description: React Native
+date: 2022-08-22
+tags: ["javascript", "reactnative", "reactjs"]
+published: true
+---
+
+I have worked a lot in React Native, but it’s time to learn it from the basics and in a order. So, we will start from the basics.
+
+React Native can be run with expo or react native cli. Using Expo cli is much more easier and the workflow is better. You get a Expo mobile app, in which you can run the app.
+
+With React Native CLi, you need Android Studio on XCode and both of them are resource intensive applications. Both require high end systems.
+
+To start with expo, we need to install Expo globally with the below command. Need to add a sudo, if you are using a Mac.
+
+```js
+    npm install -g expo-cli
+```
+
+Now, to create a new project give the command ***expo init project-name***. It will ask ask for a question. We need to just press enter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767964/22-Jun-25/rn-tutorials-1/1_bdbuyg.webp)
+
+Now, we need to change to the directory and run npm start to start the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767962/22-Jun-25/rn-tutorials-1/2_ftrb05.webp)
+
+After that we can start it in a connected Android emulator, iOS simulator or on the Expo app, by scanning the QR code.
+
+We have started it on iOS simulator by pressing i. Note, that you need to have XCode and other setup code to run on iOS simulator. Every instructions is given perfectly in [this](https://reactnative.dev/docs/environment-setup) official documentation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767961/22-Jun-25/rn-tutorials-1/3_z52bdi.webp)
+
+Now, we will learn to create app with React Native Cli. Again the instructions is given perfectly in [this](https://reactnative.dev/docs/environment-setup) official documentation.
+
+To create a new project, we need to give the command ***npx react-native init projectName***
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767959/22-Jun-25/rn-tutorials-1/4_ndjkl4.webp)
+
+Now, change to the directory and start the project with npx react-native start command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767958/22-Jun-25/rn-tutorials-1/5_k6wmj4.webp)
+
+From another terminal run the command npx react-native run-ios to run on iOS simulator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767957/22-Jun-25/rn-tutorials-1/6_urvonj.webp)
+
+Sometimes, we also need to eject an expo project, to have the full functionality of a Native project. We will learn to do the same on the expo project created earlier.
+
+We just have to give the command npm run eject from the project directory. It will ask us to give the package name for Android and iOS and also suggest us. Just press tab to keep the suggested name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767956/22-Jun-25/rn-tutorials-1/7_fhohus.webp)
+
+Now, on a Mac system on the new M1 chip, we require two more command. Give the below commands from the project directory.
+
+```js
+    sudo arch -x86_64 gem install ffi
+    cd ios && arch -x86_64 pod install
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767955/22-Jun-25/rn-tutorials-1/8_fyuupy.webp)
+
+Now, our expo project have become a react native project and can be started with the two react native commands, on two terminals.
+
+```js
+    npx react-native start
+    npx react-native run-ios
+```
+
+We will start coding in the app we created with React Native cli. Now, all of the React Native apps start with App.js file. And we get the default screen here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767954/22-Jun-25/rn-tutorials-1/9_woyara.webp)
+
+We will remove all of the content from here and add new structure. The snippet of React Native can also be installed from the famous snippets extension.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767953/22-Jun-25/rn-tutorials-1/10_vjrxjr.webp)
+
+Now, remove all the content from App.js file and type rnfes and press tab to get the skeleton.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767951/22-Jun-25/rn-tutorials-1/11_lt8dth.webp)
+
+Now, in React Native we don’t have div or other tags like React. We have specific elements for each thing. Like a View is like a div tag. To give text we give Text element. And to give button, we need to give Button element.
+
+We also style in a different way in React Native. It is basically the object notation, containing camel casing.
+
+In the button, we are giving a onPress handler to open a url, which is the url of my Youtube channel.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767950/22-Jun-25/rn-tutorials-1/12_c5ydsr.webp)
+
+Now, the app is shown perfectly in the iOS simulator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767950/22-Jun-25/rn-tutorials-1/13_nddpcj.webp)
+
+Now, click on the Button, and it will take to my YouTube channel.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750767950/22-Jun-25/rn-tutorials-1/14_aprfi5.webp)
+
+The code for the same can be found [here](https://github.com/nabendu82/ReactNative-Tutorials/tree/Tutorial-1).
