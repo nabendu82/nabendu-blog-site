@@ -1,0 +1,79 @@
+---
+title: React Native Tutorials -2
+description: React Native
+date: 2022-08-23
+tags: ["javascript", "reactnative", "reactjs"]
+published: true
+---
+
+Welcome to the part-2 of the series. You can find part-1 [here](https://www.nabendu.org/blog/rn-tutorials-1). We will start where we left.
+
+We have all ReactJS concept in React Native also. So, the concept of both class based state and with hooks are there.
+
+We will change the App.js from the previous post to contain a simple state title in Text and changing it when we click on the Button. We are using the concept of useState here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772402/22-Jun-25/rn-tutorials-2/1_g2ked5.webp)
+
+After clicking on the button, the text will change.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772404/22-Jun-25/rn-tutorials-2/2_q6ckhv.webp)
+
+We can have all CSS properties in React Native but in a object format. We have add some more CSS properties and also a SafeArea view wrapping the View. Now in a iPhone we have the famous notch, so we generally use this SafeAreaView to create app outside the notch. We have also added a inline styling to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772401/22-Jun-25/rn-tutorials-2/3_gcz2ee.webp)
+
+Now, we will have a nice box at the top.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772399/22-Jun-25/rn-tutorials-2/4_bobrnv.webp)
+
+We will learn about Flexbox now, because React Native comes in-built with it. So, like the web(and React) we don’t have to give display: flex in any element.
+
+Also, by default everything is flex direction column, unlike web where the default is flex direction row.
+
+Now, we will change our App.js file, to contain three Views inside the SafeAreaView. We are giving the Views different colors.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772397/22-Jun-25/rn-tutorials-2/5_he0lsb.webp)
+
+Now, we will get all three boxes as centrally alligned. You can get the detail on flexbox from my post in Waldo. You can find it [here](https://www.waldo.com/blog/react-native-flexbox).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772394/22-Jun-25/rn-tutorials-2/6_nbviy3.webp)
+
+Now, we will learn about Lists and ScrollView. In App.js we will show 10 boxes. Here, we have added them through a list of array. And then mapping over it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772406/22-Jun-25/rn-tutorials-2/7_c9ooir.webp)
+
+Now, we can see everything in a vertical view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772393/22-Jun-25/rn-tutorials-2/8_ybv7bp.webp)
+
+But, if we increase the size of the text, we won’t be able to see the last box of Learn Deno.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772398/22-Jun-25/rn-tutorials-2/9_ep2s02.webp)
+
+Now, to fix this we just need to wrap everything in a ScrollView and we will have the vertical Scroll enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772391/22-Jun-25/rn-tutorials-2/10_oehuyg.webp)
+
+Now, we will learn about the awesome RefreshControl. In a mobile app like this, we can pull and refresh to get the new data from API endpoint.
+
+So, in App.js and inside ScrollView we will add the RefreshControl. Here, we have to pass a state variable of refresh, which will be initially false. When the refresh happening, we are making it true first.
+
+After that we are adding a new item to the existing items array. Finally setting the refresh variable to false.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772392/22-Jun-25/rn-tutorials-2/11_iznqvp.webp)
+
+After refreshing 4times, we will see new items been added.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772390/22-Jun-25/rn-tutorials-2/12_qsoxy3.webp)
+
+Instead of using ScrollView, we can use FlatList to create scrollable list in React Native. You can read about the same in my post [here](https://www.waldo.com/blog/react-native-flatlist).
+
+There is another view called SectionList, which is used to display nested array. Here, we are giving the items in renderItem and the header in renderSectionheader. Also, notice that we are giving a keyExtractor for the unique keys.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772395/22-Jun-25/rn-tutorials-2/13_n1bxzq.webp)
+
+Now, we can see the list on simulator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750772389/22-Jun-25/rn-tutorials-2/14_u33ftg.webp)
+
+The code for the same can be found [here](https://github.com/nabendu82/ReactNative-Tutorials/tree/Tutorial-2).
