@@ -1,0 +1,125 @@
+---
+title: React Native Tutorials -4
+description: React Native
+date: 2022-08-28
+tags: ["javascript", "reactnative", "reactjs"]
+published: true
+---
+
+Welcome to the part-4 of the series. You can find part-3 [here](https://www.nabendu.org/blog/rn-tutorials-3). We will learn about React Navigation in this part.
+
+You can read more about it [here](https://reactnavigation.org/). As per the latest documentation, we need to install these dependencies, if we are using react native cli.
+
+```js
+    npm install @react-navigation/native
+    npm install react-native-screens react-native-safe-area-context
+```
+
+We will be first using Stack navigation in our project. The documentation for the same can be found here. We need to install some additional packages for it.
+
+```js
+    npm install @react-navigation/stack
+    npm install react-native-gesture-handler
+    npm install @react-native-masked-view/masked-view
+```
+
+We will change our code in App.js to first include the required imports. After that we have two components of FirstScreen and SecondScreen.
+
+We are also getting the navigation, as a props and using it to navigate to different screens.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847457/22-Jun-25/rn-tutorials-4/1_dp5few.webp)
+
+Now, in the main function, we have wrapped everything with NavigationContainer. And then wrapped everything with Stack.Navigator. Here, we are using two Stack.Screen to show two different components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847453/22-Jun-25/rn-tutorials-4/2_kp8dx1.webp)
+
+Now, in the iOS simulator we can see the First Screen and a Go Second button, which will take us to the second screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847459/22-Jun-25/rn-tutorials-4/3_jrnwpg.webp)
+
+Now, on the second screen we are seeing the header also and a button to go to the first screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847441/22-Jun-25/rn-tutorials-4/4_o1u4r8.webp)
+
+We will first refactor our code to move the FirstScreen and SecondScreen in different files. So, create two files FirstScreen.js and SecondScreen.js inside the components folder.
+
+Now, we will first add them in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847443/22-Jun-25/rn-tutorials-4/5_ma8tvv.webp)
+
+Now, in FirstScreen.js we will add the below content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847449/22-Jun-25/rn-tutorials-4/6_cs3ees.webp)
+
+Similarly, in SecondScreen.js file we will add the below content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847452/22-Jun-25/rn-tutorials-4/7_cqlclq.webp)
+
+Our app works as earlier. Now, we will first add Bottom tab in our project. We will first need to install it by npm. The details of this can be found here.
+
+```js
+    npm install @react-navigation/bottom-tabs
+```
+
+After that in App.js file, we will import the required things. Also, we have change the Stack Navigator to Tab Navigator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847447/22-Jun-25/rn-tutorials-4/8_njel6z.webp)
+
+Now, we are able to see the nice looking bottom navigation and also able to navigate between them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847434/22-Jun-25/rn-tutorials-4/9_tmxpin.webp)
+
+Now, we will look into Material Top Tabs Navigator. We will first need to install it by npm. The details of this can be found here.
+
+```js
+    npm install @react-navigation/material-top-tabs react-native-tab-view
+```
+
+After that we also need to do pod install on a M1 based mac.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847439/22-Jun-25/rn-tutorials-4/10_qbxak8.webp)
+
+Next, in the App.js we are using the Top Tabs navigator like bottom tabs. But notice that we have also wrapped everything in a SafeAreaView, or else it was not showing due properly on iOS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847437/22-Jun-25/rn-tutorials-4/11_lnujrv.webp)
+
+Now, we are able to see the awesome Top navigator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847436/22-Jun-25/rn-tutorials-4/12_cziwbm.webp)
+
+Now, we will look into Drawer navigation and it’s documentation can be found here. We need to install the below dependencies in it.
+
+```js
+    npm install @react-navigation/drawer
+    npm install react-native-gesture-handler react-native-reanimated
+```
+
+We also need to do the pod install again on a mac running M1 chip.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847431/22-Jun-25/rn-tutorials-4/13_ebpt9k.webp)
+
+Next, we need to add the package of reanimated in the babel.config.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847428/22-Jun-25/rn-tutorials-4/14_bzrohh.webp)
+
+Lastly, in the App.js file we are just using the required imports and using the Drawer. Also, notice that we are using some options in drawer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847445/22-Jun-25/rn-tutorials-4/15_ah5e7l.webp)
+
+Now, our drawer is working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847426/22-Jun-25/rn-tutorials-4/16_nbq0jn.webp)
+
+Now, we will learn to pass data through route. So, in App.js we will first pass an initialParams in FirstScreen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847432/22-Jun-25/rn-tutorials-4/17_abeb7g.webp)
+
+Now, can show it in the FirstScreen.js file using the route.params.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847456/22-Jun-25/rn-tutorials-4/18_g1husk.webp)
+
+Now, we will be able to see the text in our FirstScreen component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750847427/22-Jun-25/rn-tutorials-4/19_sja2hg.webp)
+
+This completes part-3 of the series. The code for the same can be found [here](https://github.com/nabendu82/ReactNative-Tutorials/tree/Tutorial-4).

@@ -1,0 +1,134 @@
+---
+title: React Native Tutorials -5
+description: React Native
+date: 2022-08-30
+tags: ["javascript", "reactnative", "reactjs"]
+published: true
+---
+
+Welcome to the part-5 of the series. You can find part-4 [here](https://www.nabendu.org/blog/rn-tutorials-4). We will learn to integrate SQLite database in this part.
+
+You can also learn to integrate Async Storage in my app from my blog here. Also, read abot Custom fonts from my blog here.
+
+To start with SQLite, we will first have a basic structure in our project. We will have Stack Navigation back in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848784/22-Jun-25/rn-tutorials-5/1_hoshva.webp)
+
+After that create a new LoginComponent.js file and add the below content in it. Here, we have two TextInput and a Button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848782/22-Jun-25/rn-tutorials-5/2_kbbcc9.webp)
+
+It will show like below in our emulator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848777/22-Jun-25/rn-tutorials-5/3_w0bddx.webp)
+
+Now, create a HomeComponent.js file and inside it put the below content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848780/22-Jun-25/rn-tutorials-5/4_en1f73.webp)
+
+It will show like below in our simulator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848772/22-Jun-25/rn-tutorials-5/5_kwaq1j.webp)
+
+We will use [this](https://github.com/andpor/react-native-sqlite-storage) github to add sqlite in our project. So, we will install the module as per the below command.
+
+```js
+    npm i react-native-sqlite-storage
+```
+
+Because we are using a Mac M1 machine, we need to run the below commands.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848775/22-Jun-25/rn-tutorials-5/6_ccyfmx.webp)
+
+After that in LoginComponent.js file, we will first import SQLite and after that open the database.
+
+Inside the useEffect, we are calling the createTable function. Here, we are creating a table with Name and Email.
+
+We have also added an INSERT query inside the setData, which will update the name and email. After that we are navigating to the Home
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848771/22-Jun-25/rn-tutorials-5/7_sjs8dq.webp)
+
+Next, in the HomeComponent.js file, we will again open the connection to the database. After that in useEffect we are calling the getData(). Inside the getData, we are selecting the Name and Email and putting it in the respectative state variables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848768/22-Jun-25/rn-tutorials-5/8_a7jozk.webp)
+
+Now, in the Login screen, enter the Name and Email and press Login button. We will be taken to the Home Screen with our data saved in local SQLite database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848767/22-Jun-25/rn-tutorials-5/9_uzwqkv.webp)
+
+Now, we will add the functionality to update and delete the data in our HomeComponent.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848764/22-Jun-25/rn-tutorials-5/10_i9h5zg.webp)
+
+Now, we are able to update and remove the data sucessfully.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848762/22-Jun-25/rn-tutorials-5/11_t55hya.webp)
+
+We will next use redux in our application for state management. For this we need to install redux, react-redux and redux-thunk in our project. We will be implementing Redux in the way we implement in web
+
+```js
+    npm i redux react-redux redux-thunk
+```
+
+For this first create a redux folder and add four files inside it. In the types.js file, add the below content. Here, we are creating two variables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848760/22-Jun-25/rn-tutorials-5/12_cy17qs.webp)
+
+After that in the actions.js file, add the below content. We have a simple action creator to set the anem and email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848757/22-Jun-25/rn-tutorials-5/13_yjsty1.webp)
+
+Next, in reducers.js add the below content. Here, we have a initialState and a userReducer function for the two cases.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848756/22-Jun-25/rn-tutorials-5/14_l4adr6.webp)
+
+Lastly, we will create the store.js file, which will use the reducer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848753/22-Jun-25/rn-tutorials-5/15_jpfs7q.webp)
+
+Now, as per redux logic we have to wrap the main component with provider. It is App.js in our case.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848751/22-Jun-25/rn-tutorials-5/16_xdx8k0.webp)
+
+Now, in the LoginCompoent.js file, we will use the useDispatch and useSelctor hooks. We will use them to get the latest state of name and email. And also to dispatch the values.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848750/22-Jun-25/rn-tutorials-5/17_li7dzv.webp)
+
+Also, in the HomeComponent.js file we will use the useDispatch and useSelctor hooks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848748/22-Jun-25/rn-tutorials-5/18_vgu8af.webp)
+
+Now, in our app we are able to store the data permanently, even when we refresh the app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848746/22-Jun-25/rn-tutorials-5/19_yvb7x3.webp)
+
+Lastly, we will learn to fetch data in our app using redux. For this first in the types.js file add a new variable for GET_USERS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848743/22-Jun-25/rn-tutorials-5/20_y54e5u.webp)
+
+After that in actions.js file add the import for GET_USERS. After that the json placeholder endpoint, through which we are going to get the data.
+
+After that in the getUsers function, wea re using the fetch api to get the data. Also, dispatching the payload to reducer here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848741/22-Jun-25/rn-tutorials-5/21_wqban3.webp)
+
+Now, in the reducers.js file, we will add the new state of users. And also a case for the same in the switch case.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848740/22-Jun-25/rn-tutorials-5/22_l4wigr.webp)
+
+Now, in the HomeComponent.js file we will first dispatch the getUsers from useEffect hook, after doing the required imports.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848738/22-Jun-25/rn-tutorials-5/23_mbmomq.webp)
+
+Now, we will show our data through a FlatList and will also add styles for it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848735/22-Jun-25/rn-tutorials-5/24_nnu3bo.webp)
+
+In the home screen, we are able to get all the data from our API endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750848736/22-Jun-25/rn-tutorials-5/25_fh3fra.webp)
+
+You can also learn to add Google maps in our project by following this blog.
+
+This completes our part-5 and also the final part. You can find the code for the same [here](https://github.com/nabendu82/ReactNative-Tutorials/tree/Tutorial-5).
+
