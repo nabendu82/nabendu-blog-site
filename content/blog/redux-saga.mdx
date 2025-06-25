@@ -1,0 +1,126 @@
+---
+title: Getting Started with Redux Saga
+description: Redux
+date: 2022-09-01
+tags: ["javascript", "redux", "reactjs"]
+published: true
+---
+
+Most, of us use Redux Thunk for Async tasks but we can use Redux Saga also for the same. In this project, we are going to use Redux Saga for the same.
+
+So, first create a new react project and then change to it. Also install redux in it.
+
+```js
+    npx create-react-app redux-saga
+    cd redux-saga
+    npm i redux
+```
+
+Now, open the project in VS Code and create a components folder in the src folder. And add a file Count.js inside it. Add the below contnent in it. Here, we have two buttons, which increment a count variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851351/22-Jun-25/redux-saga/1_syzahi.webp)
+
+Also create a Count.css file in the component folder and add the below code in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851348/22-Jun-25/redux-saga/2_ho76ow.webp)
+
+Now, we will remove everything from App.js and add the Count component in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851346/22-Jun-25/redux-saga/3_eqpzcl.webp)
+
+Our Counter is working fine in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851344/22-Jun-25/redux-saga/4_hoceoa.webp)
+
+Now, it’s time to convert the normal React project into a redux project. We also need react-redux in our project for that. So, add it with the below command from the project root directory.
+
+```js
+    npm i react-redux
+```
+
+We will create our types, action and reducer in one file. This is called the duck method. So, create a redux folder in the src folder and inside it ducks folder.
+
+Create a file count.js inside ducks folder. Here, we have written the logic for incrementing count.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851342/22-Jun-25/redux-saga/5_bilkcy.webp)
+
+Now, in a store.js file inside our redux folder, we will create our Redux store. We are also creating our combine reducer to utilize future reducers.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851339/22-Jun-25/redux-saga/6_bcx5ol.webp)
+
+Finally, we are wrapping the app with the Provider containing the store in index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851338/22-Jun-25/redux-saga/7_vmxlio.webp)
+
+Now, we will update the Count.js file, to dispatch the increment and the decrement functions using useDispatch hook
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851335/22-Jun-25/redux-saga/8_u6ynn3.webp)
+
+Next, in the App.js file we will show the count using the useSelector hook.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851332/22-Jun-25/redux-saga/9_hjalqe.webp)
+
+Our App will work as earlier only.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851330/22-Jun-25/redux-saga/10_h8jzdl.webp)
+
+Now, we will learn about the midlleware of Redux Saga, which is a must to do API calls in Redux. Redux thunk can be also used in it’s place.
+
+As, with most middleware, Redux Saga also comes in between the action creator and reducer. When a action is fired, it catches it and do the necessary tasks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851328/22-Jun-25/redux-saga/11_brcwhf.webp)
+
+We will install redux saga in our project by the below command.
+
+```js
+    npm i redux-saga
+```
+
+Now, we will create our duck for user. Create a file user.js inside the ducks folder and add the below content in it.
+
+Here, in the setUser we will get the payload. The get user part will be handled by redux saga.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851326/22-Jun-25/redux-saga/12_jv2ff7.webp)
+
+Now, create a folder sagas inside the redux folder. Inside it create a rootSaga.js file. Now here we are using a generator function of watcherSaga(), which will continous watch for any actions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851321/22-Jun-25/redux-saga/13_jotewe.webp)
+
+Back to our store.js file, we will add the new reducer of user. And we will also add the sagaMiddleware and configure to run thew watcherSaga.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851324/22-Jun-25/redux-saga/14_ea3zsl.webp)
+
+Now, create a folder requests inside the sagas folder and add a file user.js inside it. Here, we have written a requestGetUser() function to do a GET request to the jsonplacer holder endpoint, to get a single user.
+
+Notice that we have also installed axios from integrated terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851320/22-Jun-25/redux-saga/15_otgudq.webp)
+
+Next, create a folder handlers inside the sagas folder and add a file user.js inside it. Here, we are again using a yield function to do the async call.
+
+Here, we are called the requestGetUser function from the yield. After getting the response we are calling a put to setUser. Now this setUser is the action creator from our duck file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851317/22-Jun-25/redux-saga/16_fln4fa.webp)
+
+Finally, update the rootSaga.js file to have a takeLatest with GET_USER and calling the handleGetUser function.
+
+This takeLatest function runs continously because of the watcher function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851316/22-Jun-25/redux-saga/17_wvrrho.webp)
+
+We will connect the final piece of the puzzle, by dispatching the getUser() from the App.js file.
+
+We are also taking the latest user state in it. In the return statement, we are showing the user name and email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851313/22-Jun-25/redux-saga/18_xevjeq.webp)
+
+We are also adding a little of css in our App.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851311/22-Jun-25/redux-saga/19_ist9st.webp)
+
+Our app is showing the user data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750851310/22-Jun-25/redux-saga/20_hgxqxp.webp)
+
+This completes our Saga project. You can find the code for the same [here](https://github.com/nabendu82/redux-saga-demo).
+

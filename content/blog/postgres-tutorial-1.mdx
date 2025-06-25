@@ -1,0 +1,122 @@
+---
+title: PostgresSQL tutorial -1
+description: Postgres
+date: 2022-09-03
+tags: ["javascript", "web-dev", "postgres"]
+published: true
+---
+
+In this series we will learn about PostgresSQL. It is a open-source SQL database, which is loved by everyone. In the age of NoSQL database, PostgresSQL is still used by a lot of startups and other companies.
+
+On a Mac, we are going to use Postgres SQL through the site https://postgresapp.com/ and we are going to download it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853706/22-Jun-25/postgres-tutorial-1/1_n2sme8.webp)
+
+Now, windows can be downloaded from the official site at https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+
+The installation process is same as any other windows software.
+
+Now, to open PostgreSQL from the terminal on a Mac, first open the pop-up by clicking on Open Postgres. Then click on any database to open it in terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853703/22-Jun-25/postgres-tutorial-1/2_jhfwiy.webp)
+
+Now, in the terminal give the command help to get list of all commands and \l to get list of all databases.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853701/22-Jun-25/postgres-tutorial-1/3_l6yyvr.webp)
+
+We can connect to exiting database by giving \c followed by database name. And we can quit by giving the \q command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853698/22-Jun-25/postgres-tutorial-1/4_nlgk3x.webp)
+
+Now, we will create a database first with CREATE DATABASE command. After connecting to it using the \c command, we will create our first table using the below command.
+
+```js
+CREATE TABLE employees (
+   id INT,
+   first_name VARCHAR(50),
+   last_name VARCHAR(50),
+   gender VARCHAR(7),
+   dob DATE);
+```
+
+After that we are also checking the created table using the \d command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853696/22-Jun-25/postgres-tutorial-1/5_u05k5t.webp)
+
+Now, we should always give constraints to columns of a table. So, we will first drop the employees table. After that we will create the table with NOT NULL for all columns. The id column will also be a BIGSERIAL and PRIMARY KEY. With the BIGSERIAL, it will have a auto-increment feature.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853693/22-Jun-25/postgres-tutorial-1/6_tnewzv.webp)
+
+Now, we will inser data into the table using the INSERT INTO commands. Here, we are not needed to give the id, as it is auto generated.
+
+We are also checking all the rows of the table with the SELECT command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853690/22-Jun-25/postgres-tutorial-1/7_fati58.webp)
+
+Now, we need to have more data in our table. Now, instead of inserting them manually we will use the https://www.mockaroo.com/
+
+Here, we have given all of our columns, which includes the format and table name also
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853688/22-Jun-25/postgres-tutorial-1/8_fiefb9.webp)
+
+Now, click on DOWNLOAD DATA button above and the open the employees.sql in VS Code. Here, we are also getting the CREATE TABLE command and we are going to delete it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853686/22-Jun-25/postgres-tutorial-1/9_b3ecb9.webp)
+
+Actually, the gender length is bigger then 7 which we had earlier. So, we will drop the table again and update the gender to be of 20 length.
+
+Next, we will insert from our employess.sql file by giving the \i command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853683/22-Jun-25/postgres-tutorial-1/10_wxv3mz.webp)
+
+Now, SELECT * from employees will show us all the 1000 employees.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853682/22-Jun-25/postgres-tutorial-1/11_mkaser.webp)
+
+Now, we can select only some columns from the table by giving the column name in the select command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853678/22-Jun-25/postgres-tutorial-1/12_vmar9b.webp)
+
+We also have an ORDER BY clause, which order in ascending order on the columns name. Here, we are ordering by the column first_name
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853677/22-Jun-25/postgres-tutorial-1/13_lzw8wn.webp)
+
+We can also order in descending, by giving DESC. And we are doing the same in the dob column.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853674/22-Jun-25/postgres-tutorial-1/14_sny1nq.webp)
+
+We can also get all the distinct values in a column, by giving the DISTINCT keyword. And we are doing the same in the gender column.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853672/22-Jun-25/postgres-tutorial-1/15_ra1ccp.webp)
+
+We can use the WHERE keyword to target any column with specific value. Like in the below example, we are getting all employees who are female.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853669/22-Jun-25/postgres-tutorial-1/16_h3lba1.webp)
+
+We can also combine two WHERE clauses with the OR keyword. Here, we are searching from all Male and Female employees.
+
+Also, note that we have an AND keyword also, which requires both condition to be true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853668/22-Jun-25/postgres-tutorial-1/17_uzsfad.webp)
+
+We can also limit the number of rows been displayed with the LIMIT keyword. In the below examples, we are first getting the first 10 rows. Then we are offsetting it by 5, and getting the next 10 rows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853665/22-Jun-25/postgres-tutorial-1/18_ggrkqw.webp)
+
+We can also use the IN keyword to get a bunch of values. Like in the below example, we are getting all employees with gender Male, Female or Bigender.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853663/22-Jun-25/postgres-tutorial-1/19_rzcrsj.webp)
+
+The BETWEEN keyword is used to get all rows in between two specified values. And we are using it to get all employees whose dob is between two dates.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853661/22-Jun-25/postgres-tutorial-1/20_lqka9a.webp)
+
+There is a LIKE keyword, which can be used to match some values. Here % is used to matchzero or more characters and _ is used to match exact one character.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853657/22-Jun-25/postgres-tutorial-1/21_kxc6fa.webp)
+
+We can also ignore the case with the ILIKE keyword.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750853658/22-Jun-25/postgres-tutorial-1/22_kgs6nd.webp)
+
+This completes the part-1 of the series.
