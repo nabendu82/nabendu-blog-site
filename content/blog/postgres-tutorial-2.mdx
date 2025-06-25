@@ -1,0 +1,107 @@
+---
+title: PostgresSQL tutorial -2
+description: Postgres
+date: 2022-09-05
+tags: ["javascript", "web-dev", "postgres"]
+published: true
+---
+
+Welcome to part-2 of the PostgresSQL series. You can find the part-1 [here](https://www.nabendu.org/blog/postgres-tutorial-1). We will start where we have left and continue learning through the terminal.
+
+We will first learn about the GROUP BY keyword, which is used to know the count of certain column. In our case, we are getting the count of each gender.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855527/22-Jun-25/postgres-tutorial-2/1_cwykqx.webp)
+
+We can also add a HAVING keyword, through which we can add condition in the COUNT column. Just like in below example, we want all the counts greater then 20.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855525/22-Jun-25/postgres-tutorial-2/2_z40rjf.webp)
+
+Now, to look into the new set of example we will create a new car table. For this we will again get the dummy data from https://www.mockaroo.com/
+
+Here, after filling the fields click on the DOWNLOAD DATA button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855521/22-Jun-25/postgres-tutorial-2/3_drfhe1.webp)
+
+Now, open the downloaded car.sql file in VS Code. Here we will edit the Create table command to have the correct fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855520/22-Jun-25/postgres-tutorial-2/4_autzxp.webp)
+
+After that we will insert the car.sql in the database, using the \i command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855516/22-Jun-25/postgres-tutorial-2/5_wsab9r.webp)
+
+Now, we have a car table containing all the 1000 rows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855515/22-Jun-25/postgres-tutorial-2/6_j8ngi4.webp)
+
+Now, we can use the Aggregrate functions of MAX, MIN, AVG to get the same from a column. We are using the same on the price column.
+
+We can also get the Average price of each make, by adding the GROUP BY command in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855511/22-Jun-25/postgres-tutorial-2/7_cx1mz1.webp)
+
+Now, with SUM function we can get sum of a column. Here, we are using it in the price column. Again, we are using the GROUP BY on make.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855508/22-Jun-25/postgres-tutorial-2/8_bnpggx.webp)
+
+We can also give arthmatic operations in posgreSQL. Suppose we need to give 10% discount in all cars. So, we will create a new column and deduct .10 from it. Also, notice that we have renamed two of the columns in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855506/22-Jun-25/postgres-tutorial-2/9_czc0io.webp)
+
+We can also get the AGE from a date column. Here, we are passing the NOW() and dob and we will get the difference.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855505/22-Jun-25/postgres-tutorial-2/10_enxdlu.webp)
+
+We will now check the concept of PRIMARY KEY. So, we will create a new table person, without any primary key.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855501/22-Jun-25/postgres-tutorial-2/11_q4r87c.webp)
+
+Now, the problem is that we can inser two rows with the same id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855499/22-Jun-25/postgres-tutorial-2/12_hnmlqu.webp)
+
+We will now try to ALTER the table to add the PRIMARY KEY constraints. But, it won’t be allowed because of the two duplicates id.
+
+Now, we will first delete both of the records and then add the PRIMARY KEY constraints.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855496/22-Jun-25/postgres-tutorial-2/13_tudjpy.webp)
+
+We also have a UNIQUE Key constraints, when given in any column, it will not allow to add duplicate keys.
+
+We have given the same in the email field and now we are not able to add the same email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855495/22-Jun-25/postgres-tutorial-2/14_zp6xig.webp)
+
+Next, we will add another constraint called CHECK and here we are adding that the gender can be Male or Female only.
+
+After that we are able to insert two rows with proper gender. But when we try to insert a row with gender FeMale, it fails.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855492/22-Jun-25/postgres-tutorial-2/15_bvowpn.webp)
+
+Now, we will check how to update row. Here, we are first updating a single item in id 3. After that we are updating two elements in id 1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855490/22-Jun-25/postgres-tutorial-2/16_fo5pkf.webp)
+
+Next, we will learn about JOINS. So, we will create a bike table and a customer table.
+
+Notice, that in the customer table, we have a foreign key called bik_id which is referencing id from bike table. We have also made the bike_id as UNIQUE so each customer can have only 1 bike.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855487/22-Jun-25/postgres-tutorial-2/17_u9hx6n.webp)
+
+After this we will insert some rows in bike and customer table. All the rows in customer table have a bike associated with it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855485/22-Jun-25/postgres-tutorial-2/18_oqjjkq.webp)
+
+We have added one more row in the customer table, which don’t have any bike associated with it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855482/22-Jun-25/postgres-tutorial-2/19_g6rqfs.webp)
+
+Now, we will see the INNER JOIN. Here, we are joining the two tables on the reference key of bike_id in customer and id in bike.
+
+We are also getting some of the columns only from each table. So, the result are three rows which are matched.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855480/22-Jun-25/postgres-tutorial-2/20_d1ll8x.webp)
+
+Lastly, we will do a LEFT JOIN from customer to bike. Here, the customer with no bike will also be shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750855478/22-Jun-25/postgres-tutorial-2/21_eum5xj.webp)

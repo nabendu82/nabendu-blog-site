@@ -1,0 +1,174 @@
+---
+title: Create a PERN Todo List
+description: Postgres
+date: 2022-09-07
+tags: ["javascript", "nodejs", "postgres"]
+published: true
+---
+
+In this project we will learn to create a PERN project. PERN stands of PostgresSQL, Express, ReactJS and NodeJS.
+
+This post is inspired by the awesome PERN video from freecodecamp. The link for the same is [here](https://www.youtube.com/watch?v=ldYcgPKEZC8).
+
+First create a folder from terminal called todo-pern and inside it create a server folder. Here, we will create a empty package.json file by giving the command npm init -y.
+
+After that we are installing express, pg and cors in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856862/22-Jun-25/pern-todo/1_e3tonp.webp)
+
+Next, create an index.js file add the below code. Here, we are first importing express, cors. Then we are using it and listening on port 8001.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856860/22-Jun-25/pern-todo/2_xewpin.webp)
+
+We will add nodemon in our project with the below command, in the server directory.
+
+```js
+    npm i nodemon
+```
+
+Next, we will add this in our package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856850/22-Jun-25/pern-todo/3_yyegnd.webp)
+
+Now, just start the project with npm start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856847/22-Jun-25/pern-todo/4_re4vf6.webp)
+
+After this start PostgresSQL through terminal on your system. Here, we are first checking all the available databases.
+
+Next, we are connecting to postgretest database. After that we are creating a simple table with id and description.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856844/22-Jun-25/pern-todo/5_jytpc3.webp)
+
+Now, create a file db.js inside the server folder. Here, we are connecting to the local running postgres database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856841/22-Jun-25/pern-todo/6_koho4j.webp)
+
+Next, in index.js file we will add the new import for the db. After that we are creating a POST route first. Here, we are taking the description from the request body. After that we are just inserting the value description.
+
+The GET route is an easier route where, we are only doing the Select.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856839/22-Jun-25/pern-todo/7_qiox08.webp)
+
+Now, open Postman and insert the description in the body. After that click on SEND and if everything is successful, we will get the success response.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856835/22-Jun-25/pern-todo/8_tower2.webp)
+
+Now, we will check the GET request and it is also working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856833/22-Jun-25/pern-todo/9_ifpbjt.webp)
+
+Now, we have added some more items in our todo, through the POST route. We can see the same in our database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856829/22-Jun-25/pern-todo/10_xwxcdy.webp)
+
+Next, in the index.js file we will add the code to get a single todo, update a todo and delete a todo. Notice that in all we are using the wildcard of id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856827/22-Jun-25/pern-todo/11_blzupx.webp)
+
+Now, hitting the single route endpoint wit route number will give us that todo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856823/22-Jun-25/pern-todo/12_alqtki.webp)
+
+Next, we can also update a route by using a PUT in place of a POST and changing the body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856820/22-Jun-25/pern-todo/13_rsxjt6.webp)
+
+Notice that the todo is been changed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856818/22-Jun-25/pern-todo/14_eyg9mf.webp)
+
+We will also test the delete route by deleting a todo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856815/22-Jun-25/pern-todo/15_euclnb.webp)
+
+Now, again checking in database it is confirmed that one todo was deleted.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856812/22-Jun-25/pern-todo/16_wh97sf.webp)
+
+Now, we will start with our frontend. Here, in the root directory run the npx command to create a react app with name client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856809/22-Jun-25/pern-todo/17_uf0qwl.webp)
+
+After that open the code in VSCode and delete the unnecessary files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856807/22-Jun-25/pern-todo/18_xoyi8z.webp)
+
+Now, we will update our index.js to contain the below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856804/22-Jun-25/pern-todo/19_m5fcg9.webp)
+
+We will also update our App.js to contain the below code, after removing everything.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856802/22-Jun-25/pern-todo/20_rycxbr.webp)
+
+Now, in the index.html file we will include the bootstrap 4 CSS and also the JavaScript.
+
+We have also created a components folder and added three files in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856799/22-Jun-25/pern-todo/21_zck1xh.webp)
+
+Now, in the InputTodo.js file, we will add a bootstrap form and will take the description from the user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856796/22-Jun-25/pern-todo/22_vnz7d6.webp)
+
+Now, we will include this InputTodo component in our App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856794/22-Jun-25/pern-todo/23_sdjopm.webp)
+
+Now, we will get a nice input box to enter the description.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856790/22-Jun-25/pern-todo/24_vom4wj.webp)
+
+On adding the description, it will be shown on the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856788/22-Jun-25/pern-todo/25_lav4ud.webp)
+
+Now, in the ListTodos.js file add the below code. Here, we are calling a function getTodos() from useEffect. We are getting all the data from our API endpoint and storing it in todos state variable.
+
+We have also created a nice bootstrap table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856785/22-Jun-25/pern-todo/26_xtl2tl.webp)
+
+Now, in the tbody we are mapping through the todos array and showing single todo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856783/22-Jun-25/pern-todo/27_hvglyr.webp)
+
+In localhost, we will now see nice todos from our database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856780/22-Jun-25/pern-todo/28_hoj3bu.webp)
+
+Now, we will also add the logic for delete todo. Here, we have added a button called Delete and clicking on it will call the deleteTodo function.
+
+Now, inside it we re hitting our delete endpoint with the id. We are also filtering the todos to not show this todo. And also using window.location to refresh the page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856778/22-Jun-25/pern-todo/29_ptwfg0.webp)
+
+We have deleted most of the todos and it is working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856775/22-Jun-25/pern-todo/30_wr6843.webp)
+
+Now, we will add the logic to Edit a todo in our project in the EditTodo.js file. Here, we are using a bootstrap modal. Note that the button should have a unique data-target and it should match with the modal.
+
+We have also added the Close logic to set back the todo to the description.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856773/22-Jun-25/pern-todo/31_smxnki.webp)
+
+Now, we will also add the logic for updateDescription in our EditTodo.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856770/22-Jun-25/pern-todo/32_gkpvgb.webp)
+
+Next, we will add the EditTodo component in our ListTodos.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856768/22-Jun-25/pern-todo/33_q6il8m.webp)
+
+Now, clicking on the Edit button will open the modal to edit the todo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856765/22-Jun-25/pern-todo/34_z6rvdh.webp)
+
+On clicking on the Edit button in the pop-up the new updated data will be saved in the databse.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750856764/22-Jun-25/pern-todo/35_nptyvo.webp)
+
+This completes our project. You can find the code for the same [here](https://github.com/nabendu82/todo-pern).
+
