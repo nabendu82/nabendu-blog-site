@@ -1,0 +1,214 @@
+---
+title: React Native Project with NodeJS and MongoDB- Part 3
+description: React Native
+date: 2022-09-13
+tags: ["mongodb", "nodejs", "reactnative"]
+published: true
+---
+
+Welcome to part-3 of the series. You can find the part-2 [here](https://www.nabendu.org/blog/rn-node-mongodb-2).
+
+We will start where, we have left in part-2. Here, first we will add the code to update the password in Account.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924651/22-Jun-25/rn-node-mongodb-3/1_mqeehm.webp)
+
+Next, in the server -> routes -> auth.js file, we will add a new updatePassword route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924651/22-Jun-25/rn-node-mongodb-3/2_c4jxot.webp)
+
+Next, in the server -> controllers -> auth.js file, we will add a new updatePassword function. Here, we are find the user from the _id in the body and updating it with the hashedPassword.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924648/22-Jun-25/rn-node-mongodb-3/3_f5vb9p.webp)
+
+Now, on clicking on Update Password in the app, the password is updating properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924647/22-Jun-25/rn-node-mongodb-3/4_mqguqs.webp)
+
+Now, we will add the logic for Forgot Password. For this we are first adding an onPress handler to the Forgot Password text in SignIn.js file. We are also adding some styles in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924646/22-Jun-25/rn-node-mongodb-3/5_rqxp4o.webp)
+
+We need to also add the ForgotPassword component to the NavigationScreen.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924645/22-Jun-25/rn-node-mongodb-3/6_ryrkwf.webp)
+
+Now, create a new file ForgotPassword.js inside the screens folder. First, we will add the required imports and the state variables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924644/22-Jun-25/rn-node-mongodb-3/7_sig0a6.webp)
+
+Next, inside the return statement we will have a TextInput box in which we will take the user email.
+
+Here, we are also wrapping the NEW PASSWORD and the PASSWORD RESET CODE with the visible state variable.
+
+We also have a button, which shows text according to the visible variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924642/22-Jun-25/rn-node-mongodb-3/8_xfktui.webp)
+
+Next, we will add the styles for the ForgotPassword component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924641/22-Jun-25/rn-node-mongodb-3/9_qp0azs.webp)
+
+Next, we will add the logic for handlePasswordReset and handleSubmit. Here, first the handleSubmit() will be triggered, which will set the visible to be true.
+
+After that if it is sucessful, the user will be able to change the password and the handlePasswordReset will be triggered.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924641/22-Jun-25/rn-node-mongodb-3/10_rqsblf.webp)
+
+Now, in the server -> controllers -> auth.js file, we already have the forgotPassword function. It will be using the send grid to send mail, which we created in the part-2.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924640/22-Jun-25/rn-node-mongodb-3/11_v8efxt.webp)
+
+Now, we also have the resetPassword function in the server -> controllers -> auth.js file
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924651/22-Jun-25/rn-node-mongodb-3/12_yynjen.webp)
+
+Now, in the app go to the ForgotPassword screen and give the password and click on the REQUEST RESET CODE button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924637/22-Jun-25/rn-node-mongodb-3/13_djcfj2.webp)
+
+Once sucessful, we will get the alert to enter the password reset code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924637/22-Jun-25/rn-node-mongodb-3/14_og1w5x.webp)
+
+Now, we will get the password reset code in our email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924636/22-Jun-25/rn-node-mongodb-3/15_ztuh43.webp)
+
+Now, when we enter the password reset code, with the new password, we will get the below pop-up.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924634/22-Jun-25/rn-node-mongodb-3/16_mtg4hb.webp)
+
+Next, we will update the Post.js file. Here, we are taking the Link and the Title from the user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924633/22-Jun-25/rn-node-mongodb-3/17_ybn8y7.webp)
+
+Next, we will update the styles for the Post.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924633/22-Jun-25/rn-node-mongodb-3/18_kxujmy.webp)
+
+Now, we will be able to see the Post page, when we click on the Post link in footer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924631/22-Jun-25/rn-node-mongodb-3/19_x0yife.webp)
+
+Next, we will move to the server and create a link.js file in the models folder. It contains two type of link and title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924630/22-Jun-25/rn-node-mongodb-3/20_lbruld.webp)
+
+Next, we will create the route for the same in link.js file in the routes folder. Here, we have a post and a get route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924629/22-Jun-25/rn-node-mongodb-3/21_l5suf4.webp)
+
+Now, we will create a link.js file in the controllers folder. Here, we have a post and get routes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924628/22-Jun-25/rn-node-mongodb-3/22_g4okla.webp)
+
+Next, we will also add the route in the index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924627/22-Jun-25/rn-node-mongodb-3/23_an39rm.webp)
+
+Now, we will go back to the Post.js file and add the route in the handleSubmit, where we are passing the link and the title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924626/22-Jun-25/rn-node-mongodb-3/24_gpywlo.webp)
+
+We want to have this link data at Home component also, so we will create context for it. Create a file link.js inside the context folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924625/22-Jun-25/rn-node-mongodb-3/25_yvdyo5.webp)
+
+Now, we will also add it in the Navigation.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924623/22-Jun-25/rn-node-mongodb-3/26_i8plec.webp)
+
+Lastly add the received data from post-link endpoint to the setLinks context api in Post.js file. Here, we are also navigating to home after 0.5 seconds.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924622/22-Jun-25/rn-node-mongodb-3/27_mjmqyr.webp)
+
+Now, in the Home.js we will use the get endpoint to get the links data and show it by mapping through it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924621/22-Jun-25/rn-node-mongodb-3/28_c0crjs.webp)
+
+Now, we are getting the links in the Home page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924624/22-Jun-25/rn-node-mongodb-3/29_ralut8.webp)
+
+Now, we will show these links in a nice style and also show a random image in Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924621/22-Jun-25/rn-node-mongodb-3/30_ftbqrg.webp)
+
+Now, we will also add the styles for the same in Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924620/22-Jun-25/rn-node-mongodb-3/31_vx5elb.webp)
+
+Now, in Home component we are able to see these links in a nice view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924618/22-Jun-25/rn-node-mongodb-3/32_epi7m1.webp)
+
+Now, we want to show these links in a web-view. So, we will install library for the same in client folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924617/22-Jun-25/rn-node-mongodb-3/33_ujqizb.webp)
+
+Next, in the Home.js file we will add a onPress handler, which will call the function handlePress. It will navigate use to a new LinkView.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924617/22-Jun-25/rn-node-mongodb-3/34_llohqm.webp)
+
+Now, we will also add it in the NavigationScreen.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924616/22-Jun-25/rn-node-mongodb-3/35_pe5bgy.webp)
+
+Now, we will create a LinkView.js file in the screens folder. Here, we are using the WebView and setting it to the weblink.
+
+We are also checking that if a link doesn’t includes http ot https, then to include it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924615/22-Jun-25/rn-node-mongodb-3/36_rrfc6z.webp)
+
+Now, when we click on any link in the Home page, it will take us to the mobile view of the site.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924614/22-Jun-25/rn-node-mongodb-3/37_gaw8ph.webp)
+
+Now, we will implement View Count in our app. Here, we will show the number of times a link was visited. So, in Home.js first we will hit a new route view-count with the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924611/22-Jun-25/rn-node-mongodb-3/38_molca7.webp)
+
+After that in the server -> routes -> link.js we will put the new route, which will call the function viewCount.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924608/22-Jun-25/rn-node-mongodb-3/39_yeqdjc.webp)
+
+We also need to add this in the server -> models -> link.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924608/22-Jun-25/rn-node-mongodb-3/40_bvozir.webp)
+
+Now, we will add the viewCount function in the server -> controllers -> link.js file.
+
+Here, we are updating the views with 1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924613/22-Jun-25/rn-node-mongodb-3/41_arjops.webp)
+
+Now, we will show this new views in Home.js file. Here, we are using position to move it at the top of the image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924614/22-Jun-25/rn-node-mongodb-3/42_orb2os.webp)
+
+Next, we are also setting it in the context, by adding it in the setLinks. Here, we are mapping through all the links to get the specified link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924609/22-Jun-25/rn-node-mongodb-3/43_b83ecl.webp)
+
+Now, we will see the views in each link which will be updated if we visit it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924609/22-Jun-25/rn-node-mongodb-3/44_klo0j6.webp)
+
+Finally, we will update our Links.js file. It will be exactly as the Home.js file. So, we are first doing the imports and writing the functions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924611/22-Jun-25/rn-node-mongodb-3/45_olcbk4.webp)
+
+Our return part also contains similar code to Home.js file. The differences are that we are showing a horizontal scroll. And we are also showing the most popular views and only the last three.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924610/22-Jun-25/rn-node-mongodb-3/46_tpbvqg.webp)
+
+The styles in the Links.js file is also quite similar to Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924608/22-Jun-25/rn-node-mongodb-3/47_embc6r.webp)
+
+Now, when we click on the Links component, we see a beautiful horizontal scroll.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750924607/22-Jun-25/rn-node-mongodb-3/48_gqvfgl.webp)
+
+This completes our long React Native major project. Hoping you liked it. You can find the code for the same [here](https://github.com/nabendu82/RNnodeMongo).
+
