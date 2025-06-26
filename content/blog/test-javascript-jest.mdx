@@ -1,0 +1,97 @@
+---
+title: Testing JavaScript Application with Jest
+description: JavaScript
+date: 2022-09-17
+tags: ["web-dev", "javascript", "jest"]
+published: true
+---
+
+In this post we will learn to test our JavaScript application with Jest testing framework.
+
+This post have been inspired from [this](https://www.youtube.com/watch?v=ajiAl5UNzBU) youtube video.
+
+The official docs for starting with Jest can be found [here](https://jestjs.io/docs/getting-started). So, as per the instructions, we will create a new project and create a package.json file with ***npm init -y*** command.
+
+After that we will install jest as a dev dependency.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940442/22-Jun-25/test-javascript-jest/1_fjehjn.webp)
+
+We will now create our first simple test. So, create a folder 1-Simple and two files multiply.js and multiply.test.js inside it.
+
+In the multiply.js file, we have a simple multiply function, which we are exporting.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940441/22-Jun-25/test-javascript-jest/2_degro9.webp)
+
+Next, we will create our test cases in multiply.test.js file. Here, we are first importing the multiply function.
+
+Next, we have a describe block which is used to group common tests. We have two test cases with it block. Now, the it block have a test name first and in a callback function, we have a expect. Here, we are checking whether the multiply gives the correct result.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940440/22-Jun-25/test-javascript-jest/3_nofpxz.webp)
+
+Next, in the package.json file we will update the script to contain jest. After that in the integrated terminal, we will run the test cases with npm test. Here, we can see all test cases passing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940439/22-Jun-25/test-javascript-jest/4_lijotj.webp)
+
+Now, we will look into some more tests. So, create a file strToArr.js in the 1-Simple folder and add the below content in it. Here, we have a simple function to convert the passed strings to and array of strings. We are using rest operators for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940438/22-Jun-25/test-javascript-jest/5_mzem77.webp)
+
+Now, create a file strToArr.test.js in the 1-Simple folder and add the below content in it. Here, we are first calling the function with three strings.
+
+Next, in the String test, we are taking the first element of the returned array and matching it using the regular expression in toMatch() function.
+
+After that we are doing the Array test using the toContain(). Both of our test cases are sucessful in the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940437/22-Jun-25/test-javascript-jest/6_jrmdtx.webp)
+
+Now, we will learn to test Asynchronous functions. So, create a new folder 2-API and a file api.js inside it. Here, we are doing a simple api call with async await, to the jsonplaceholder endpoint and get the data back.
+
+We also need to install axios to do the api call.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940435/22-Jun-25/test-javascript-jest/7_epnu3x.webp)
+
+The jsonplaceholder endpoint returns an object as shown below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940435/22-Jun-25/test-javascript-jest/8_pqrawv.webp)
+
+Now, to test our fetchPost function, we need to do the API call also in the api.test.js file.
+
+Here, in the first test case for userId, we are again using async-await. After getting the result we are using a simple toBe to test if the userId is 1.
+
+In the next test we are using the then block to do the api call. Here, after receiving the data, we are checking whether the title contains the string aut facere. It contains the string, which we can see from screenshot in previous section.
+
+Both of our test cases are passing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940435/22-Jun-25/test-javascript-jest/9_d3ayx8.webp)
+
+Next, we will learn about an important concept of setup. So, create a new folder 3-Setup and add a file setup.test.js in it.
+
+Here, we have a colors array. In the first test case, we are pushing a new color at the beginning and testing it.
+
+In the second test, we are pushing a new color at the end and testing it.
+
+In the last test, we are testing whether the array is of length 4.
+
+When we run the test, the first two passes. But the last one fails, because the array length have been increased to 6 because of adding two elements by the two test cases before it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940434/22-Jun-25/test-javascript-jest/10_mamzgv.webp)
+
+In the setup.test.js file, we will add a beforeEach(). In it we are making the array of length 4. This beforeEach statement runs before every test case. So, now our third test case also passes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940432/22-Jun-25/test-javascript-jest/11_qrjwmh.webp)
+
+In the API example, we did a real API call in the test case also. We generally mock the api call in a test case. This is done because, we don’t want to be dependent on an external API as it might not be completed. Or it can have some errors. Also, sometimes these API calls requires money as they are changed on the number of api calls been made.
+
+Create a folder 4-Mock and add a file fetch.js in it. Here, we are doing the same api call as earlier, but we are console logging the results and also just returning it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940431/22-Jun-25/test-javascript-jest/12_rpe1wg.webp)
+
+Now, in the mock.test.js file in the same directory, put the below content. Here, we are using jest.spyOn() to mock the axios call’s get call. Here, we are returning a different object with values of our own.
+
+After this we are testing as usual with the toBe, after doing an api call with fetchPost().
+
+Now, when we run this test case everything passes. But we can also see the console log from fetch.js file. Here, we are getting the data from our mock call and not the real data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750940431/22-Jun-25/test-javascript-jest/13_gsczzi.webp)
+
+This completes our small Jest tutorials. The code for the same can be found [here](https://github.com/nabendu82/jest-project).

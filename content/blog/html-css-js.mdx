@@ -1,0 +1,145 @@
+---
+title: 3 HTML, CSS, JavaScript project in 1 hours
+description: JavaScript
+date: 2022-09-15
+tags: ["web-dev", "html", "css"]
+published: true
+---
+
+In this post we are going to create three simple project using HTML, CSS and JavaScript in 1 hour.
+
+These projects are inspired by the awesome course from Brad Traversy. You can find it [here](https://www.udemy.com/course/50-projects-50-days/).
+
+We will first do a cool Animation scroll project. So, first create a folder 1-Animation-Scroll and a file index.html in it. Add the below content in it. Here, we have a lot of div with class of box. We have also included the css and the js file in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938978/22-Jun-25/html-css-js/1_vcbutr.webp)
+
+Next, we will add the styles in style.css file. Here, we are using a google font. After that we are centrally aligning everything in the body.
+
+Next for each of the box, we are giving a width, height and centralling aligning the text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938977/22-Jun-25/html-css-js/2_eodmtn.webp)
+
+Now, our website looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938975/22-Jun-25/html-css-js/3_ftrsdx.webp)
+
+Next, we will add a transform to the box and make it all dissappear to 400% to the left for odd boxes. We are making the even boxes to disappear to -400%.
+
+We have a show class which will fix these box.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938973/22-Jun-25/html-css-js/4_zp6vfy.webp)
+
+Next in the main.js file, we are first selecting all the boxes. Then we have added an event listener on the scroll, which will call a function called boxesCheck().
+
+Inside the function we are first getting the total height of the website by using window.innerHeight. After that we are getting the top of each box using the getBoundingClientRect property.
+
+Now, we are checking if boxTop is less then bottomTrigger and then adding the show class. Or else we are removing it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938973/22-Jun-25/html-css-js/5_o1qdvh.webp)
+
+Now, when we scroll box keep adding from left and right.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938972/22-Jun-25/html-css-js/6_pxnwnc.gif)
+
+Next, we will make a Landing Split page. So, first create a folder with name 2-Landing-Split and add a file index.html in it. We are also adding two images in it.
+
+Here, we have amain div with class container. Also, two div for left and right, which contains a text and button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938970/22-Jun-25/html-css-js/7_odd9pu.webp)
+
+Then in the style.css, we are first using a google font.After that we have made the container relative and box as absolute, with width of 50%.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938969/22-Jun-25/html-css-js/8_ygk27b.webp)
+
+Next, we will add the images in the left and the right box. Here, we are also adding an overlay with different color in both boxes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938968/22-Jun-25/html-css-js/9_g07sp9.webp)
+
+Now, our web-page looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938966/22-Jun-25/html-css-js/10_zm1kp5.webp)
+
+Next, we will add the styling for the h1 and the button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938966/22-Jun-25/html-css-js/11_li3g6u.webp)
+
+After that we will also add the hover effect for the buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938965/22-Jun-25/html-css-js/12_oqtqdl.webp)
+
+Now, our text and button are aligned properly and also hovering effect showing correctly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938964/22-Jun-25/html-css-js/13_z3cdlo.webp)
+
+Next, we will add some classes which will make the width 75% and 25% on hover. We are also adding some transition for these changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938962/22-Jun-25/html-css-js/14_mxl5fu.webp)
+
+Now, we will add a simple JavaScript logic where we are adding event listener for left, right. We will add the left-hover and the right-hover class to the container on entering the left and the right box, respectively.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938962/22-Jun-25/html-css-js/15_w1csbp.webp)
+
+Now, our animation is showing properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938982/22-Jun-25/html-css-js/16_nixbah.gif)
+
+The last project which we will make is a form wave project. So, create a new folder 3-Form-wave and create a file index.html. Add the below content in it.
+
+Here, we have a div of class container. Inside it we have a simple form with email, passowrd and button fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938962/22-Jun-25/html-css-js/17_owfyh1.webp)
+
+Next in the style.css file we will put the initial style of body, container and the h1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938960/22-Jun-25/html-css-js/18_fnfs1a.webp)
+
+Now, our form look likes below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938959/22-Jun-25/html-css-js/19_rk6mmk.webp)
+
+Next, we will add more styles for the form-control, input and the input focus.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938958/22-Jun-25/html-css-js/20_cdtwlo.webp)
+
+Now, our form will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938957/22-Jun-25/html-css-js/21_hdnxda.webp)
+
+Lastly, we will style the button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938956/22-Jun-25/html-css-js/22_hg0itr.webp)
+
+And our form will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938955/22-Jun-25/html-css-js/23_kh6wti.webp)
+
+Now, we will put the logic in main.js file. Here, we are taking each label, which is Email and Password.
+
+After selecting both we are getting a nodelist, which we are looping through forEach.
+
+Here, we are wrapping each letter in a span with different transition delay.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938954/22-Jun-25/html-css-js/24_txc0za.webp)
+
+We also have a console log in the main.js and it is clear that we are getting two big strings with each letter in a span.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938953/22-Jun-25/html-css-js/25_nphtz9.webp)
+
+We can confirm the same in the DOM also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938953/22-Jun-25/html-css-js/26_tizht6.webp)
+
+Lastly, we will add the final css. Here, we are first making the label as absolute and moving on top of input field.
+
+After that in the focus, we are changing it color and also moving it along the y axis.
+
+We also have a smooth transition for the span.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938953/22-Jun-25/html-css-js/27_pbvct3.webp)
+
+We are going to see this nice animation when we click on any input field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750938954/22-Jun-25/html-css-js/28_cygl26.gif)
+
+This completes our three projects. You can find the code for the same [here](https://github.com/nabendu82/JavaScript-Projects).
