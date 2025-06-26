@@ -1,0 +1,226 @@
+---
+title: React Native Project with NodeJS and MongoDB- Part 2
+description: React Native
+date: 2022-09-11
+tags: ["mongodb", "nodejs", "reactnative"]
+published: true
+---
+
+Welcome to the part-2 of the series and we will start where we left. You can find part-1 [here](https://www.nabendu.org/blog/rn-node-mongodb-1).
+
+We will first install react native vector icons in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918272/22-Jun-25/rn-node-mongodb-2/1_ru9vsi.webp)
+
+After that include a FooterList component in the Home.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918272/22-Jun-25/rn-node-mongodb-2/2_akodq9.webp)
+
+Next, create a footer folder in the components folder and a file FooterList.js inside it. Add the below content in it.
+
+Here, we are sending the text and the name props to a FooterItem component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918272/22-Jun-25/rn-node-mongodb-2/3_wpkyvm.webp)
+
+Now, create a FooterItem.js file inside the footer folder. Here, we are using the FontAwesome5 icons with the passed props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918272/22-Jun-25/rn-node-mongodb-2/4_fxitpk.webp)
+
+Now, in our Home component we will see nice icons in footer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918272/22-Jun-25/rn-node-mongodb-2/5_somczu.webp)
+
+Now, we will refactor our code by moving all content from App.js file. Here, we have inserted a Navigation component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918272/22-Jun-25/rn-node-mongodb-2/6_epiuhz.webp)
+
+Next create a Navigation.js file inside the components folder and add the below code in it.
+
+Here, we are calling a NavigationScreen component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918271/22-Jun-25/rn-node-mongodb-2/7_oba3ca.webp)
+
+In the NavigationScreen.js file we have most of the code from App.js file. But we have also added the concept of authentication.
+
+Here, we are checking whether we have the token and if we have it then showing the Home Screen or else showing the SignIn component.
+
+We have also included a new HeaderTabs in the Home Screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918271/22-Jun-25/rn-node-mongodb-2/8_stim3t.webp)
+
+Now, create a header folder inside the components folder and a HeaderTabs.js file inside it.
+
+Here, we have a Signout buttton which will remove our Async Storage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918271/22-Jun-25/rn-node-mongodb-2/9_syhosx.webp)
+
+Now, our app have a working Signout button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918267/22-Jun-25/rn-node-mongodb-2/10_h77dbh.webp)
+
+Now, we will create some new screens. So, first create a file Account.js inside the screens folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918267/22-Jun-25/rn-node-mongodb-2/11_gctyk1.webp)
+
+Next create a file Links.js inside the screens folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918267/22-Jun-25/rn-node-mongodb-2/12_xrjww3.webp)
+
+Lastly, create a file Post.js inside the screens folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918266/22-Jun-25/rn-node-mongodb-2/13_acj72b.webp)
+
+Now, we will add these new components route in our NavigationScreen.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918266/22-Jun-25/rn-node-mongodb-2/14_hbwpor.webp)
+
+Next, in the FooterList.js file we will add three new props to the FooterItem component. They are routeName, screenName and handlePress.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918266/22-Jun-25/rn-node-mongodb-2/15_i1tmma.webp)
+
+Now, we will update our FooterItem.js file. Here, by using the screenName and routeName we are showing an active tab. Also, onPress have the handlePress function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918264/22-Jun-25/rn-node-mongodb-2/16_punxpr.webp)
+
+Now, our components are changing perfectly with active one shown in purple.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918263/22-Jun-25/rn-node-mongodb-2/17_l9qq6y.webp)
+
+Now, we will update our Account.js file to first have the required imports and useState. We are also getting the name, email and role from the context API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918264/22-Jun-25/rn-node-mongodb-2/18_gkm8uz.webp)
+
+Next, we will create the handleSubmit which is quite similar to the SignIn component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918263/22-Jun-25/rn-node-mongodb-2/19_h3fcbu.webp)
+
+Lastly we will add the code in return and the styles for it. Again it is quite similar to the SignIn component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918263/22-Jun-25/rn-node-mongodb-2/20_clxcg3.webp)
+
+Now, our App will show this nice view in Account.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918260/22-Jun-25/rn-node-mongodb-2/21_palpcl.webp)
+
+Now, we will add the logic to upload image in Account.js file. Here, we are creating a image state variable and having a hard-coded url as of now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918260/22-Jun-25/rn-node-mongodb-2/22_lzw8jg.webp)
+
+Next, we will show an image and also a camera icon to upload image. Notice that when we will not have a image for the first time, we are showing the camera icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918260/22-Jun-25/rn-node-mongodb-2/23_c01cnm.webp)
+
+Now, a nice image is shown in the app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918259/22-Jun-25/rn-node-mongodb-2/24_ncb3uh.webp)
+
+Now, we will use cloudinary to upload our images. So, login to your cloudinary account.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918259/22-Jun-25/rn-node-mongodb-2/25_limkpl.webp)
+
+After that click on Settings and then Upload tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918260/22-Jun-25/rn-node-mongodb-2/26_v3cxho.webp)
+
+After scrolling a bit down, we will get Upload presets. Here the ml_default should be signed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918259/22-Jun-25/rn-node-mongodb-2/27_klvdjc.webp)
+
+Now, we will take the cloudinary name, API key and secrets from the home page and create variables from the same in .env file inside server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918257/22-Jun-25/rn-node-mongodb-2/28_a8qcve.webp)
+
+Now, we will add expo image picker in our client side.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918256/22-Jun-25/rn-node-mongodb-2/29_xjkfzu.webp)
+
+Next, we will use it in the Account.js file. Here, we are adding a new state variable and also removed the hard-coded url.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918256/22-Jun-25/rn-node-mongodb-2/30_jbmof7.webp)
+
+Now, we will update our handleUpload function. Here, we are using the ImagePicker functions to get the image and set the base64Image to uploadImage.
+
+We are also passing this to the backend route, which we need to create.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918259/22-Jun-25/rn-node-mongodb-2/31_pnnbvl.webp)
+
+Now, in the app when we click on the Upload button, we will first be asked for permissions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918255/22-Jun-25/rn-node-mongodb-2/32_du6xn7.webp)
+
+Next, we will be taken to the simulator photo gallery.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918255/22-Jun-25/rn-node-mongodb-2/33_budw4f.webp)
+
+Here, on picking a image we will be taken to the next scree. Here, press on Choose.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918256/22-Jun-25/rn-node-mongodb-2/34_qtdiba.webp)
+
+Now, our uploaded image will be shown in the component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918254/22-Jun-25/rn-node-mongodb-2/35_mq4fiw.webp)
+
+Next, we need to create the upload-image route in the server. But first we will change all of our imports to the old NodeJS kind import, because some old node_modules were creating problem.
+
+First update them in index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918253/22-Jun-25/rn-node-mongodb-2/36_iy7q0a.webp)
+
+Next, we will update them in auth.js file in routes folder. Here, we are also creating a new route for upload-image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918253/22-Jun-25/rn-node-mongodb-2/37_rgidcm.webp)
+
+Next, we will update the imports in auth.js for the controllers. We are also adding the cloudinary config.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918253/22-Jun-25/rn-node-mongodb-2/38_a7msgd.webp)
+
+Now, we will update the imports in user.js for the models.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918253/22-Jun-25/rn-node-mongodb-2/39_pruf2v.webp)
+
+Next, we will update imports in auth.js for the helpers.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918253/22-Jun-25/rn-node-mongodb-2/40_eyxs1t.webp)
+
+We are also changing our nodemon in package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918253/22-Jun-25/rn-node-mongodb-2/41_u8njro.webp)
+
+Now, in the auth.js in the context folder in client, we are adding the required header for POST request. We have also added logic to handle token expiry.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918253/22-Jun-25/rn-node-mongodb-2/42_lq05in.webp)
+
+We were getting an error for json request, so we have to update the limit of it in index.js file inside the server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918254/22-Jun-25/rn-node-mongodb-2/43_e1yi8t.webp)
+
+Next, we will add the cloudinary package in the server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918252/22-Jun-25/rn-node-mongodb-2/44_rnf7k1.webp)
+
+Now, we will update our uploadImage function in auth.js inside controllers.
+
+Here, we are using cloudinary to upload our image to cloudinary. Also, getting a unique id with nanoid().
+
+After that updating the record to include the public_id and url from cloudinary.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918252/22-Jun-25/rn-node-mongodb-2/45_kr5eoi.webp)
+
+Next, we will update our handleUpload function to get the user from the stored Async storage and pass it to upload-image endpoint in Account.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918252/22-Jun-25/rn-node-mongodb-2/46_cw9ahp.webp)
+
+Now, when we upload an image, it is updated in the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918252/22-Jun-25/rn-node-mongodb-2/47_wyxek2.webp)
+
+Next, we will update our Async storage also so that the user image is saved, even if we refresh the device.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918252/22-Jun-25/rn-node-mongodb-2/48_n3iyxa.webp)
+
+Now, our image will be shown permanently.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750918251/22-Jun-25/rn-node-mongodb-2/49_ce9fov.webp)
+
+This completes part-2 of the series.
+
