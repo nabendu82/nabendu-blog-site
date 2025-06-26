@@ -1,0 +1,181 @@
+---
+title: Cryptocurrency Price tracker in Angular
+description: Angular
+date: 2022-09-19
+tags: ["web-dev", "javascript", "angular"]
+published: true
+---
+
+In this project we are going to create a cool crypto currency app in Angular.
+
+This project have been inspired by [this](https://www.youtube.com/watch?v=vb6b67HiuC8) awesome youtube video.
+
+So, go ahead and create new angular app with below command. Also, add routing and CSS in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947241/22-Jun-25/cryptocurrency-angular/1_z7y3il.webp)
+
+Next, we will go to the folder and add material ui in it, by using ng add. We will be asked to choose a theme and we are choosing Custom.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947239/22-Jun-25/cryptocurrency-angular/2_g9a4g0.webp)
+
+Next, we have to choose typography styles and angular material as yes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947238/22-Jun-25/cryptocurrency-angular/3_ms3c76.webp)
+
+Now, we are going to use https://material.angular.io/ in our project. We are going to use Material toolbar in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947236/22-Jun-25/cryptocurrency-angular/4_l3jgmg.webp)
+
+Now, go to app.module.ts file and add the required modules with import in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947234/22-Jun-25/cryptocurrency-angular/5_b5clso.webp)
+
+Next, in the app.component.ts file add a variable of selectedCurrency and also a function of sendCurrency().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947233/22-Jun-25/cryptocurrency-angular/6_ttlnrk.webp)
+
+Now, we will also add style for our App component in app.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947231/22-Jun-25/cryptocurrency-angular/7_nhqxmr.webp)
+
+Finally, we will add the code in app.component.html file. Here, we are using all Angular material component.
+
+Also, in the select sending the event to sendCurrency function. We are also using two way data binding in selectedCurrency.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947230/22-Jun-25/cryptocurrency-angular/8_w4frsl.webp)
+
+Now, run ng serve and in localhost we will see this beautiful navbar. On selecting the USD from dropdown we are getting it in the console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947227/22-Jun-25/cryptocurrency-angular/9_qtdo5q.webp)
+
+Now, we will create two new components with the ng g c command from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947224/22-Jun-25/cryptocurrency-angular/10_fg4yeh.webp)
+
+Now, we need to also add routes for these new components in app-routing.module.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947220/22-Jun-25/cryptocurrency-angular/11_rzhypd.webp)
+
+Now, if we go to http://localhost:4200/crypto-list the routing is working properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947219/22-Jun-25/cryptocurrency-angular/12_wcr5bc.webp)
+
+We will also be adding bootstrap in our project. So, we will add bootstrap version 5 link in index.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947223/22-Jun-25/cryptocurrency-angular/13_n4o8uh.webp)
+
+Next, in the crypto-list.component.html file, we will add the basic doe to show an header and also a marquee tag
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947218/22-Jun-25/cryptocurrency-angular/14_ynaucb.webp)
+
+We will also add the style for the same in the crypto-list.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947224/22-Jun-25/cryptocurrency-angular/15_b7y331.webp)
+
+Now in our website, we will see a nice section with a image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947228/22-Jun-25/cryptocurrency-angular/16_oxnlty.webp)
+
+Now, we will create a service component by giving the command ng g s service/api from the integrated terminal.
+
+Now, in the api.service.ts file, we will use the HttpClient. Here, we are using diffrent coingecko APIs to get different data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947216/22-Jun-25/cryptocurrency-angular/17_bgij9e.webp)
+
+We will also add the HttpClientModule in the app.module.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947214/22-Jun-25/cryptocurrency-angular/18_bqqyyg.webp)
+
+Now, in the crypto-list.component.ts file, we are getting the banner data and all data using the Api services.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947214/22-Jun-25/cryptocurrency-angular/19_vtah4h.webp)
+
+Now, when we will open the console in the home page, we will see the data coming from API endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947213/22-Jun-25/cryptocurrency-angular/20_zdktqk.webp)
+
+Now, we will update our crypto-list.component.html file to show the banner data, inside the marquee tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947209/22-Jun-25/cryptocurrency-angular/21_kcbu4q.webp)
+
+Now, we will add style for the same in crypto-list.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947208/22-Jun-25/cryptocurrency-angular/22_bqwhcf.webp)
+
+Now, we will see the top crypto currencies in a nice rolling format.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947208/22-Jun-25/cryptocurrency-angular/23_sk1273.webp)
+
+Now, below this image, we will show all of Crypto currency data in a tabular format.
+
+For this we need to first import MatTableModule in the app.module.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947205/22-Jun-25/cryptocurrency-angular/24_peigcq.webp)
+
+Now, as per the docs we need to add a dataSource and also the displayedColumns in our crypto-list.component.ts file. Here, we are making the dataSource equal to the data, we are getting back from the API call.
+
+We have also added a function to go to the crypto-detail component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947204/22-Jun-25/cryptocurrency-angular/25_hdsagj.webp)
+
+Now, in the crypto-list.component.html file, we will add a new div to show the data in tabular form. The code from the table, we have got from Angular Material component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947211/22-Jun-25/cryptocurrency-angular/26_vsshr5.webp)
+
+Now, we will add style for the same in crypto-list.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947202/22-Jun-25/cryptocurrency-angular/27_jwjntw.webp)
+
+Now, we have a nice looking table with filter, showing all crypto currencies details in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947201/22-Jun-25/cryptocurrency-angular/28_lyooof.webp)
+
+Now, we need to show the details of a crypto currency when a user clicks on a crypto currency.
+
+So, we will add the code for the same in crypto-detail.component.ts file. Here, we are taking the id from the params and calling the crypto currency with it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947200/22-Jun-25/cryptocurrency-angular/29_rzgb8r.webp)
+
+Now, when we click on any crypto currency, we will get the detail about it in the console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947199/22-Jun-25/cryptocurrency-angular/30_nze899.webp)
+
+Now, we will add the html code for the same in crypto-detail.component.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947198/22-Jun-25/cryptocurrency-angular/31_wb1pqf.webp)
+
+We will also add some styles in the in crypto-detail.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947197/22-Jun-25/cryptocurrency-angular/32_lxfgju.webp)
+
+Now, we will get all the data for the crypto currency in the detail page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947191/22-Jun-25/cryptocurrency-angular/33_hzbfos.webp)
+
+Now, we will add the logic to change INR to USD and vice versa. For this we will create a new service called currency from command line.
+
+In the file currency.service.ts , we are using BehaviorSubject from Angular to get the selected currency. Also, we are setting to the next currency.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947193/22-Jun-25/cryptocurrency-angular/34_yniwiv.webp)
+
+Next, back in our app.component.ts file, we will add this service and use the setCurrency() to set it to the value the user selected.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947190/22-Jun-25/cryptocurrency-angular/35_bszsva.webp)
+
+Now, we need to use the getCurrency in the crypto-list.component.ts file. Here, we are using the subscribe to get the value and assigning it to this.currency variable. We are also calling the getAllData() and getBannerData() in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947195/22-Jun-25/cryptocurrency-angular/36_k6fq4q.webp)
+
+Now, in the home page, if we change the currency it is getting reflected.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947194/22-Jun-25/cryptocurrency-angular/37_myeajf.webp)
+
+We also need to use the getCurrency in the crypto-detail.component.ts file. Here, we are using the subscribe to get the value and assigning it to this.currency variable. We are also calling the getcryptoData() in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947193/22-Jun-25/cryptocurrency-angular/38_q3gkpt.webp)
+
+Now, when we click on any crypto currency, we can change the currency in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750947190/22-Jun-25/cryptocurrency-angular/39_vicizk.webp)
+
+This completes our Crypto currency ap. You can get the code for the same [here](https://github.com/nabendu82/crypto-tracker-angular).
