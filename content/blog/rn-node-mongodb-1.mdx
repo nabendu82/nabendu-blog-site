@@ -1,0 +1,363 @@
+---
+title: React Native Project with NodeJS and MongoDB- Part 1
+description: React Native
+date: 2022-09-09
+tags: ["mongodb", "nodejs", "reactnative"]
+published: true
+---
+
+In this post we will create a major project with React Native, which will have data stored in a MongoDB database and also use NodeJS.
+
+This post is created from the learning of [this](https://www.udemy.com/course/react-native-nodejs-mongodb/) awesome Udemy course, by Ryan Dhungel.
+
+So, we will create a new expo project with the below command.
+
+```js
+    expo init RNnodeMongo
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913921/22-Jun-25/rn-node-mongodb-1/1_fjn3b6.webp)
+
+Now, once it is successful we will change the directory and open it with VS Code and then do npm start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913920/22-Jun-25/rn-node-mongodb-1/2_m0i23y.webp)
+
+Once the npm start is successful, we need to press i to start the iOS simulator.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913920/22-Jun-25/rn-node-mongodb-1/3_bmcwmi.webp)
+
+Next, create a screens folder in the root directory and then a file SignUp.js inside it. Add the below content in it. Here, we have a header text and then a View. Inside the View we have a text and a input to take the text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913920/22-Jun-25/rn-node-mongodb-1/4_exxghd.webp)
+
+Now, add the SignUp component in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913920/22-Jun-25/rn-node-mongodb-1/5_hmp2qo.webp)
+
+Now, it will show like below in our device.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913915/22-Jun-25/rn-node-mongodb-1/6_ak636b.webp)
+
+Next, we will add more input fields in our project and also state to it, so that we can type in it.
+
+We have also added a Text field to see the state in a JSON string
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913915/22-Jun-25/rn-node-mongodb-1/7_pctr1z.webp)
+
+Our app now shows all three fields and we can also enter in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913914/22-Jun-25/rn-node-mongodb-1/8_dpuxhs.webp)
+
+We will also make each field more usable by adding autoCapitalize, autoCorrect and secureTextEntry to the fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913914/22-Jun-25/rn-node-mongodb-1/9_squbah.webp)
+
+Now, we will also add a button to submit the fields. Here, we are also adding the styles for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913915/22-Jun-25/rn-node-mongodb-1/10_mfk5rk.webp)
+
+Now, our app looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913914/22-Jun-25/rn-node-mongodb-1/11_livovp.webp)
+
+Now, we will add axios in our project and also the logic for handleSubmit. Notice that we have not implemented backend yet.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913914/22-Jun-25/rn-node-mongodb-1/12_bk5snk.webp)
+
+Now, there is a problem in our app. When the on-screen keyboard comes up some of the fields are hidden.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913914/22-Jun-25/rn-node-mongodb-1/13_awzl4n.webp)
+
+We can solve this issue by having a module KeyboardAwareScrollView wrap everything. We have also wrapped a View around everything.
+
+We have also installed this external library and used it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913914/22-Jun-25/rn-node-mongodb-1/14_ueug1x.webp)
+
+Now, we will also add a logo image in our project. We have already added it in the assets folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913914/22-Jun-25/rn-node-mongodb-1/15_u6tadz.webp)
+
+Now, our app will look like below with keyboard not effecting the view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913913/22-Jun-25/rn-node-mongodb-1/16_xfdmzl.webp)
+
+We will also add a Text in our SignUp.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913913/22-Jun-25/rn-node-mongodb-1/17_yfn190.webp)
+
+Now create a new file SignIn.js and add the below content in it. It is almost similar to SignUp.js file.
+
+```js
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
+import React, { useState } from 'react'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+const SignIn = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const handleSubmit = async () => {
+        if (name === '' || email === '' || password === '') {
+            alert("All fields are required");
+            return;
+        }
+        await axios.post("http://localhost:8001/api/signin", { name, email, password });
+        alert("Sign In Successful");
+    };
+    return (
+        <KeyboardAwareScrollView contentCotainerStyle={styles.container}>
+            <View style={{ marginVertical: 100 }}>
+            <View style={styles.imageContainer}>
+                <Image source={require("../assets/logo.png")} style={styles.imageStyles} />
+            </View>
+                <Text style={styles.signupText}>Sign In</Text>
+                <View style={{ marginHorizontal: 24 }}>
+                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>EMAIL</Text>
+                    <TextInput style={styles.signupInput} value={email} onChangeText={text => setEmail(text)} autoCompleteType="email" keyboardType="email-address" />
+                </View>
+                <View style={{ marginHorizontal: 24 }}>
+                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>PASSWORD</Text>
+                    <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplteType="password" />
+                </View>
+                <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+                <Text style={{ fontSize: 12, textAlign: 'center' }}>Not yet registered? Sign Up</Text>
+                <Text style={{ fontSize: 12, textAlign: 'center', marginTop: 10 }}>Forgot Password?</Text>
+            </View>
+        </KeyboardAwareScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    signupText: {
+        fontSize: 30,
+        textAlign: 'center'
+    },
+    signupInput: {
+        borderBottomWidth: 0.5,
+        height: 48,
+        borderBottomColor: "#8e93a1",
+        marginBottom: 30,
+    },
+    buttonStyle: {
+        backgroundColor: "darkmagenta",
+        height: 50,
+        marginBottom: 20,
+        justifyContent: "center",
+        marginHorizontal: 15,
+        borderRadius: 15,
+    },
+    buttonText: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#fff',
+        textTransform: 'uppercase',
+        fontWeight: 'bold'
+    },
+    imageContainer: { justifyContent: "center", alignItems: "center" },
+    imageStyles: { width: 100, height: 100, marginVertical: 20 }
+})
+
+export default SignIn
+```
+
+We are also showing it temporarily in App.js file. We are going to implement navigation next.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913909/22-Jun-25/rn-node-mongodb-1/18_jjwbxn.webp)
+
+Our SignIn component looks like below now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913909/22-Jun-25/rn-node-mongodb-1/19_g7sova.webp)
+
+We will add React Native navigation in our project and the best place to get started is the docs https://reactnavigation.org/docs/getting-started/
+
+We need to install the below dependencies in the project.
+
+```js
+    npm install @react-navigation/native
+    expo install react-native-screens react-native-safe-area-context
+    npm install @react-navigation/native-stack
+```
+
+Next, we will add the Navigation in our App.js file. Here, we are creating a Stack Navigator. We are putting our two components in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913908/22-Jun-25/rn-node-mongodb-1/20_f7agio.webp)
+
+Now, in the SignIn.js file, we will add the functionality to navigate to the SignUp page. Here, we are using navigation.navigate.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913909/22-Jun-25/rn-node-mongodb-1/21_m1auhq.webp)
+
+Next, in the SignUp.js file also we will use the same type of code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913908/22-Jun-25/rn-node-mongodb-1/22_ptu3oe.webp)
+
+Now, our navigation is working fine, so we will move to the server side. For this in the root directory we will create a server folder. Then change to it and use npm init -y to create a package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913908/22-Jun-25/rn-node-mongodb-1/23_jmlii2.webp)
+
+We also installed the required package for our server side code here.
+
+```js
+    npm i express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
+```
+
+We have also moved all the earlier code to a client folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913907/22-Jun-25/rn-node-mongodb-1/24_yasgpz.webp)
+
+Now, create a index.js file in the server folder and add the below code in it. Here, we are importing the required things. After that connecting to the database and also listening on port 8000.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913908/22-Jun-25/rn-node-mongodb-1/25_g2hlqw.webp)
+
+We will also create a .gitignore file and add node_modules and env file to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913908/22-Jun-25/rn-node-mongodb-1/26_i6tmu9.webp)
+
+Next in a .env file, we are putting the variables which we are soon going to generate.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913907/22-Jun-25/rn-node-mongodb-1/27_bnjfit.webp)
+
+Now, create a routes folder and a file auth.js inside it. Here, we are using the express Router. We have created a simple get route and the rest of the routes will be in the controllers folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913907/22-Jun-25/rn-node-mongodb-1/28_stxfqb.webp)
+
+Now, create a controllers folder and add a file auth.js inside it. Put the below content in it.
+
+Here, we have the different routes of signup, signin, forgot-password and reset-password. We are taking use of different libraries like JWT, nano to create these routes.
+
+We are going to learn more about them later.
+
+```js
+import User from "../models/user";import { hashPassword, comparePassword } from "../helpers/auth";import jwt from "jsonwebtoken";import nanoid from "nanoid";// sendgridrequire("dotenv").config();const sgMail = require("@sendgrid/mail");sgMail.setApiKey(process.env.SENDGRID_KEY);export const signup = async (req, res) => {console.log("Signup Hit");try {// validationconst { name, email, password } = req.body;if (!name) {return res.json({error: "Name is required",});}if (!email) {return res.json({error: "Email is required",});}if (!password || password.length < 6) {return res.json({error: "Password is required and should be 6 characters long",});}const exist = await User.findOne({ email });if (exist) {return res.json({error: "Email is taken",});}// hash passwordconst hashedPassword = await hashPassword(password);try {const user = await new User({name,email,password: hashedPassword,}).save();// create signed tokenconst token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {expiresIn: "7d",});//   console.log(user);const { password, ...rest } = user._doc;return res.json({token,user: rest,});} catch (err) {console.log(err);}} catch (err) {console.log(err);}};export const signin = async (req, res) => {// console.log(req.body);try {const { email, password } = req.body;// check if our db has user with that emailconst user = await User.findOne({ email });if (!user) {return res.json({error: "No user found",});}// check passwordconst match = await comparePassword(password, user.password);if (!match) {return res.json({error: "Wrong password",});}// create signed tokenconst token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {expiresIn: "7d",});user.password = undefined;user.secret = undefined;res.json({token,user,});} catch (err) {console.log(err);return res.status(400).send("Error. Try again.");}};export const forgotPassword = async (req, res) => {const { email } = req.body;// find user by emailconst user = await User.findOne({ email });console.log("USER ===> ", user);if (!user) {return res.json({ error: "User not found" });}// generate codeconst resetCode = nanoid(5).toUpperCase();// save to dbuser.resetCode = resetCode;user.save();// prepare emailconst emailData = {from: process.env.EMAIL_FROM,to: user.email,subject: "Password reset code",html: "<h1>Your password  reset code is: {resetCode}</h1>"};// send emailtry {const data = await sgMail.send(emailData);console.log(data);res.json({ ok: true });} catch (err) {console.log(err);res.json({ ok: false });}};export const resetPassword = async (req, res) => {try {const { email, password, resetCode } = req.body;// find user based on email and resetCodeconst user = await User.findOne({ email, resetCode });// if user not foundif (!user) {return res.json({ error: "Email or reset code is invalid" });}// if password is shortif (!password || password.length < 6) {return res.json({error: "Password is required and should be 6 characters long",});}// hash passwordconst hashedPassword = await hashPassword(password);user.password = hashedPassword;user.resetCode = "";user.save();return res.json({ ok: true });} catch (err) {console.log(err);}};
+```
+
+Now, create folder helpers and a file auth.js inside it. Here, we have made a helper function of hashPassword, which uses bcrypt to hash the passwords.
+
+We are using the hashPassword in the controllers folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913904/22-Jun-25/rn-node-mongodb-1/29_w9whdp.webp)
+
+Now, create a models folder and a filer user.js inside it. Here, wea re creating the model for our mongoDB.
+
+```js
+import mongoose from "mongoose";const { Schema } = mongoose;const userSchema = new Schema({name: {type: String,trim: true,required: true,},email: {type: String,trim: true,required: true,unique: true,},password: {type: String,required: true,min: 6,max: 64,},role: {type: String,default: "Subscriber",},image: {public_id: "",url: "",},resetCode: "",},{ timestamps: true });export default mongoose.model("User", userSchema);
+```
+
+Next, in the package.json file we will update our start command and it will run the nodemon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913904/22-Jun-25/rn-node-mongodb-1/30_w87mpm.webp)
+
+Now, we will install nodemon globally and also run the npm start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913904/22-Jun-25/rn-node-mongodb-1/31_hvlndp.webp)
+
+Next, we will create a new mongoDB project and get a connection string. The exact steps can be found very easily online.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913904/22-Jun-25/rn-node-mongodb-1/32_wdecme.webp)
+
+Now, we will also install Send Grid which will be used later to send forgot email.
+
+For this first register in send grid. After that click on the Settings -> API Keys and then Create API Key.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913904/22-Jun-25/rn-node-mongodb-1/33_y3ynhk.webp)
+
+In the next window we have to give the API key a name and click on Create & View button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913904/22-Jun-25/rn-node-mongodb-1/34_nuf6em.webp)
+
+Now, we will get the API key which we need to copy. We need to do one more setting here. So, click on Create a sender identity button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913903/22-Jun-25/rn-node-mongodb-1/35_sreuo4.webp)
+
+In the next page click on Create a Single Sender button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913902/22-Jun-25/rn-node-mongodb-1/36_oac0pc.webp)
+
+Here, you have give the email address and other details. After that click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913901/22-Jun-25/rn-node-mongodb-1/37_rjasfe.webp)
+
+Now, we can add all this data to our .env file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913901/22-Jun-25/rn-node-mongodb-1/38_lluxcr.webp)
+
+Now in the SignUp.js file we will import axios and also check the console log for the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913901/22-Jun-25/rn-node-mongodb-1/39_rqmdmw.webp)
+
+In our app now, we will be able to see the log after Signin up. It also indicated that our backend is getting connected with the frontend perfectly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913901/22-Jun-25/rn-node-mongodb-1/40_l5au2n.webp)
+
+Now, we will do the same update in SignIn.js file. Here, we have also removed the validation for name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913901/22-Jun-25/rn-node-mongodb-1/41_jcjipt.webp)
+
+Now, in localhost we are seeing the log when we are signing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913901/22-Jun-25/rn-node-mongodb-1/42_jarxl5.webp)
+
+We also have validations for all fields in our backend. We need to implement the same in the frontend. So, we will update our SignIn.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913901/22-Jun-25/rn-node-mongodb-1/43_wsv90q.webp)
+
+Next, we will update our SignUp.js file also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/44_oynlap.webp)
+
+Now, if we give a smaller password for SIgn up we will get an error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/45_tdjyxd.webp)
+
+Now, we will add Async storage in our client folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/46_umdtfv.webp)
+
+Next, we will import AsyncStorage first and after that store the data in the phone storage by using the setItem in SignUp.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/47_id1p6w.webp)
+
+We will do the same in SignIn.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913899/22-Jun-25/rn-node-mongodb-1/48_umripg.webp)
+
+Now, we will introduce Context API in our project so that we can move data around. Create a folder context and a file auth.js inside it. Here, we are using the createContext hook to create a context.
+
+The data which we are getting from the Async Storage, we are assigning in a variable called state.
+
+In the return we are wrapping the children props with the Provider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/49_wzenbg.webp)
+
+Now, we have to wrap our App.js with the Provider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/50_twpbcu.webp)
+
+Now in SignUp.js file we will use the context to get the value. After setting the data in AsyncStorage, we are navigating to the Home.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/51_uuvsdd.webp)
+
+We will do the same thing in SignIn.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/52_jfkagu.webp)
+
+Now, we will create a simple Home component in screens folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913899/22-Jun-25/rn-node-mongodb-1/53_namoo6.webp)
+
+We will also need to add a route for the same in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913900/22-Jun-25/rn-node-mongodb-1/54_zidzin.webp)
+
+Now, we will be navigated to the Home component after we SignUp or SignIn.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750913899/22-Jun-25/rn-node-mongodb-1/55_ycxfgf.webp)
+
+This completes part-1 of the series.
+
