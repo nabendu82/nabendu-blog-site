@@ -1,0 +1,251 @@
+---
+title: Google Clone using ReactJS with Styled Components
+description: ReactJS
+date: 2022-09-28
+tags: ["reactjs", "javascript", "web-dev"]
+published: true
+---
+
+In this project we are going to create a google clone using ReactJS. Here, we will be using Styled components to style the project. We will also be using Context API, to transfer data between two pages.
+
+Google provides us awesome APIs to do the search and we will be using the same. This blog have been inspired by [this](https://www.youtube.com/watch?v=t1mYiXRe284&list=PL6aoYO5bSdyyBzSE6eHiU7lDsL2fAiDmO&index=2) awesome YouTube playlist by Camel Coder.
+
+First we will create a new project for the google clone from the terminal, using create-react-app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014848/27-Jun-25/google-clone-reactjs/1_a3geyf.webp)
+
+As with any other React project, we will remove some of the boiler-plate code files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014844/27-Jun-25/google-clone-reactjs/2_wctnfy.webp)
+
+After that we will make our index.js much more cleaner as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014843/27-Jun-25/google-clone-reactjs/3_ztp3f3.webp)
+
+We will remove everything from App.css file and make all margin to 0.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014839/27-Jun-25/google-clone-reactjs/4_mh0hnm.webp)
+
+Now, remove the boiler plate code from App.js file and add a test file. Also, starting the react app with npm start will show, it on localhost:3000.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014838/27-Jun-25/google-clone-reactjs/5_yiqykn.webp)
+
+We are going to use Material UI version 4 in our project. So, we need to install the mentioned package in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014835/27-Jun-25/google-clone-reactjs/6_byif0b.webp)
+
+We also need to install material ui icons in our project. We are installing both through the integrated terminal.
+
+Also, we have created a structure in our project. Here, inside a components folder, we have created a Home.js file.
+
+In the Home.js file, we have put the below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014834/27-Jun-25/google-clone-reactjs/7_cwisdl.webp)
+
+Now, we will show the Home component from App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014830/27-Jun-25/google-clone-reactjs/8_she8jw.webp)
+
+Back to Home.js file, we will show two icons from material ui and also an image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014829/27-Jun-25/google-clone-reactjs/9_vk8qnt.webp)
+
+Now, in localhost we will see everything without styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014825/27-Jun-25/google-clone-reactjs/10_tjqvcd.webp)
+
+We are going to use Styled components in our project. So, we need to first install it using below command.
+
+```js
+    npm i styled-components
+```
+
+Next, in the Home.js file, we will put the styles with the styled component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014824/27-Jun-25/google-clone-reactjs/11_r2umqf.webp)
+
+Now, we have replaced all of the divs with respective styled components in Home.js file. Notice that we have also added a Search component in our file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014820/27-Jun-25/google-clone-reactjs/12_njskxn.webp)
+
+Now, our localhost will be more styled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014818/27-Jun-25/google-clone-reactjs/13_q2rfgq.webp)
+
+Now, in the Search.js file we have done the initial imports. After that we have added styles for SearchInput.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014815/27-Jun-25/google-clone-reactjs/14_tj95jh.webp)
+
+We will also add styles for SearchButton in our Search.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014813/27-Jun-25/google-clone-reactjs/15_uxm5wm.webp)
+
+Finally inside the Search component in our Search.js file, we will use the styled components, along with material ui icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014810/27-Jun-25/google-clone-reactjs/16_v6kefw.webp)
+
+Now, our localhost is looking perfect and as Google home page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014808/27-Jun-25/google-clone-reactjs/17_rdbvnu.webp)
+
+Next, we will install React Router version 5 in our project. We have also created two routes in App.js file. One for Home and other for Search results.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014805/27-Jun-25/google-clone-reactjs/18_csbuka.webp)
+
+Now, we will create a new SearchPage.js file and add the below code in it. Here, we are also calling the Search component with a hide prop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014803/27-Jun-25/google-clone-reactjs/19_i8xytj.webp)
+
+Back in the Search.js file, we are getting the new props and also updated the code to show the button, only if the props are not passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014801/27-Jun-25/google-clone-reactjs/20_ekonyd.webp)
+
+Now, if we go to http://localhost:3000/search we will see the new page. Notice, here in the search bar we don’t have any buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014798/27-Jun-25/google-clone-reactjs/21_jqtuup.webp)
+
+Back in SearchPage.js file we will add material ui icons imports.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014795/27-Jun-25/google-clone-reactjs/22_jwrwrl.webp)
+
+After calling the Search component in SearchPage.js file, we have added code to show different options.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014793/27-Jun-25/google-clone-reactjs/23_dg5ym3.webp)
+
+We need to remove margin-top styles in Search.js file, to fix issues.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014791/27-Jun-25/google-clone-reactjs/24_qonoda.webp)
+
+Now, in the Home.js file we will add a margin-bottom for images.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014788/27-Jun-25/google-clone-reactjs/25_gnnu4d.webp)
+
+Now, in SearchPage.js file we will start adding styled components. Here, added styles for SearchPageHeader and SearchPageOptions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014786/27-Jun-25/google-clone-reactjs/26_qb4yj9.webp)
+
+Next, we will add some more styles for Options and SearchPageOption in SearchPage.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014783/27-Jun-25/google-clone-reactjs/27_nlclle.webp)
+
+Now, we will change all the divs to Styled components in SearchPage.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014781/27-Jun-25/google-clone-reactjs/28_r8lisr.webp)
+
+Now, our search component is showing perfectly in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014778/27-Jun-25/google-clone-reactjs/29_rrw1mw.webp)
+
+We will create new styled components in SearchPage.js file. These are to show the results.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014777/27-Jun-25/google-clone-reactjs/30_tgazw0.webp)
+
+Now, we will add the styles for the same in SearchPage.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014774/27-Jun-25/google-clone-reactjs/31_twhtcq.webp)
+
+Now, our static content will be shown perfectly in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014772/27-Jun-25/google-clone-reactjs/32_un5vlh.webp)
+
+In the Search.js file we will use useHistory() from react router dom. Here, we have also added an onSumit handler calling the function search.
+
+Inside the function search(), we are console logging the input. After that we are going to the SearchPage component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014770/27-Jun-25/google-clone-reactjs/33_fnvkjs.webp)
+
+Now, we will search anything in the home page and click on the Google Search button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014768/27-Jun-25/google-clone-reactjs/34_zumabh.webp)
+
+After that we will go to the /search route and also the console log will be shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014765/27-Jun-25/google-clone-reactjs/35_n5f97p.webp)
+
+We are going to use Context API in our project to easily move data from one component to another.
+
+So, create a types.js file in the src folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014763/27-Jun-25/google-clone-reactjs/36_l0uoaf.webp)
+
+Next, we will create a reducer.js in the src folder and add the below content in it. Here, we are importing the tpes and after that we have a initialState and inside the reducer we are updaing the term.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014760/27-Jun-25/google-clone-reactjs/37_jmgwpm.webp)
+
+Now, we need to create a SearchProvider.js file inside the src folder. Here, we have to use the createContext and use the Provider.
+
+Here, we are using the useReducer hook and also exporting the useStateValue containing the context.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014758/27-Jun-25/google-clone-reactjs/38_gyzy7d.webp)
+
+Now, in the index.js file we will wrap the App componen with SearchProvider and will pass the initialState and reducer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014757/27-Jun-25/google-clone-reactjs/39_m9vsqe.webp)
+
+Now, we will dispatch the tpe and input from Search.js file from the search function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014754/27-Jun-25/google-clone-reactjs/40_ihvlww.webp)
+
+Now, in SearchPage.js file we wil be able to get the term using useStateValue().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014753/27-Jun-25/google-clone-reactjs/41_pqjvjn.webp)
+
+Now, again when we search something, we will get it from SearchPage.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014750/27-Jun-25/google-clone-reactjs/42_w1jxf5.webp)
+
+Now, we will get the API Keys from google to get result from it. So, first go to https://developers.google.com/custom-search/v1/overview and click on Get a Key button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014747/27-Jun-25/google-clone-reactjs/43_x8jjqj.webp)
+
+It will open a pop-up like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014745/27-Jun-25/google-clone-reactjs/44_afpbm3.webp)
+
+Select any project and then click on NEXT button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014744/27-Jun-25/google-clone-reactjs/45_wdw1z4.webp)
+
+It will reveal the API Keys, which we need to note down.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014742/27-Jun-25/google-clone-reactjs/46_n9skds.webp)
+
+We also need to get the Search Engine id. So, go to https://programmablesearchengine.google.com/controlpanel/create
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014739/27-Jun-25/google-clone-reactjs/47_mibu1z.webp)
+
+Now, we need to give the search engine, the website. After that verify the credentials and click on Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014737/27-Jun-25/google-clone-reactjs/48_byvqkk.webp)
+
+Now, we will get the Search engine ID. We also need to check the Search the entire web selected.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014732/27-Jun-25/google-clone-reactjs/49_yywmxd.webp)
+
+Now, create an .env file in the root directory and put the API Key and Search engine id in it.
+
+The constants should have REACT_APP in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014733/27-Jun-25/google-clone-reactjs/50_nixzxo.webp)
+
+Now, we will create a custom hook called useGoogle.js inside the src folder. Here, we are calling the custom endpoint of https://www.googleapis.com/customsearch/v1?key from google. In it we are passing the keys along with the search term.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014736/27-Jun-25/google-clone-reactjs/51_mzeybg.webp)
+
+Now, we will use this hook in our SearchPage.js file. We are just console logging the data now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014727/27-Jun-25/google-clone-reactjs/52_jd4ufv.webp)
+
+Now, on searching anything in localhost, we will get data back from google.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014729/27-Jun-25/google-clone-reactjs/53_lxholq.webp)
+
+Now, we will update the hard-coded data with variables from the API call in SearchPage.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014726/27-Jun-25/google-clone-reactjs/54_evenvv.webp)
+
+Now, we will get the perfect result in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751014725/27-Jun-25/google-clone-reactjs/55_c0snm0.webp)
+
+This completes our awesome google clone. You can find the code for the same [here](https://github.com/nabendu82/google-clone-react).
