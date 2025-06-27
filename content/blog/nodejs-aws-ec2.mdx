@@ -1,0 +1,181 @@
+---
+title: Deploying NodeJS Express App in Amazon EC2
+description: Devops
+date: 2023-03-24
+tags: ["devops", "aws", "ec2"]
+published: true
+---
+
+In this post, we are going to deploy a NodeJS Express app in Amazon EC2. Since the amazing service of Heroku is now paid, it’s always good to deploy the backend NodeJS app directly in Amazon EC2.
+
+But for this we need a NodeJS application. We have created the same and pushed it in [github](https://github.com/nabendu82/taskmanager-simple-aws).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030092/27-Jun-25/nodejs-aws-ec2/1_ccjciw.webp)
+
+The Node Express app have a POST and GET route and they are working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030089/27-Jun-25/nodejs-aws-ec2/2_bo0f07.webp)
+
+Now, we will login to amazon console and click on EC2.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030086/27-Jun-25/nodejs-aws-ec2/3_rjqrax.webp)
+
+In the next screen click on the Launch instance button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030084/27-Jun-25/nodejs-aws-ec2/4_wjqi1j.webp)
+
+Now, scroll a bit down and click on Browse more AMIs link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030080/27-Jun-25/nodejs-aws-ec2/5_pkncfl.webp)
+
+On the next screen find out the Ubuntu server which is free and click on Select button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030078/27-Jun-25/nodejs-aws-ec2/6_ggm8lb.webp)
+
+Now, we will be back in the earlier screen. Here, in the Key pair(login) section click on Create new key pair link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030075/27-Jun-25/nodejs-aws-ec2/7_ma8aug.webp)
+
+Now, give the key pair a name and make sure .pem is selected if you are using a Mac. Select .ppk if you are using Windows system.
+
+Click on the Create key pair to create it, which will be downloaded in your default download location of the system.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030071/27-Jun-25/nodejs-aws-ec2/8_xdyw4s.webp)
+
+Back in the earlier screen, scroll a bit down and in the Network settings make sure all checkboxes are ticked and the dropdown should be Anywhere.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030070/27-Jun-25/nodejs-aws-ec2/9_lkkd5y.webp)
+
+Now, in the same screen scroll to top and give this instance a name and also click on Launch instance button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030065/27-Jun-25/nodejs-aws-ec2/10_nhuepr.webp)
+
+Now, we will get the success message in the next screen. Here, at the bottom click on View all instances button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030061/27-Jun-25/nodejs-aws-ec2/11_lvzz6o.webp)
+
+In the next screen, all the instances will be shown. Here click on on the Instance ID.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030058/27-Jun-25/nodejs-aws-ec2/12_x8r3d0.webp)
+
+In the next screen click on the Security Groups. And then click on the checkbox in the launch-wizard-1 row.
+
+In the below screen, click on the tab Inbound rules and then the button Edit Inbound rules button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030054/27-Jun-25/nodejs-aws-ec2/13_zjifxs.webp)
+
+In the next screen, click on the Add rule button first. After that a new row will appear. Here in Type select Custom TCP and in Port range type 8000.
+
+In the Source select Anywhere-IPv4 and after that click on the Save rules button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030052/27-Jun-25/nodejs-aws-ec2/14_qp72sc.webp)
+
+Now, when we open the instance by clicking on it, we will find all the details. After that click on the Connect button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030049/27-Jun-25/nodejs-aws-ec2/15_pn5tsb.webp)
+
+In the next screen click on the SSH client screen and then copy the unique ssh command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030046/27-Jun-25/nodejs-aws-ec2/16_katjj6.webp)
+
+Next, first go to the Downloads folder in terminal, because the .pem file is here. Now, paste the command copied earlier, but also add sudo to it as we are on a Mac.
+
+It will ask for Mac root password and also to confirm fingerprint. Once, everything is given, we will be logged into the ubuntu system.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030043/27-Jun-25/nodejs-aws-ec2/17_beayst.webp)
+
+Now, on this system we need to run sudo apt update to update all packages.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030041/27-Jun-25/nodejs-aws-ec2/18_wxvkxf.webp)
+
+Now, we need to download the latest version of NodeJS on the system. So give the below curl command to download the same.
+
+```js
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030039/27-Jun-25/nodejs-aws-ec2/19_isng39.webp)
+
+Next, we will install this downloaded package by giving the below command.
+
+```js
+    sudo apt-get install -y nodejs
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030036/27-Jun-25/nodejs-aws-ec2/20_ibq6pq.webp)
+
+Once NodeJS is installed, we can confirm that it and npm are installed by giving the below commands
+
+```js
+    node --version
+    npm --version
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030034/27-Jun-25/nodejs-aws-ec2/21_x3qmhb.webp)
+
+Next, we need to install git on this system. So, give the below command to install the same.
+
+```js
+    sudo apt install git
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030031/27-Jun-25/nodejs-aws-ec2/22_l4hytt.webp)
+
+Next, we need to connect to our github account. So, give these usual git command, starting with version check.
+
+```js
+    git --version
+    git config --global user.name "Your Name"
+    git config --global user.email "youremail@domain.com"
+    git config --list
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030029/27-Jun-25/nodejs-aws-ec2/23_nky6gv.webp)
+
+Now, we will install the package of PM2, which allows the Node server to run even which this ubuntu machine is closed. So, give the below command in terminal to install it globally.
+
+```js
+    sudo npm i pm2 -g
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030026/27-Jun-25/nodejs-aws-ec2/24_gygih1.webp)
+
+Now, on this machine we will make a directory and then clone our simple task manager app.
+
+After that we will change to it and do npm i.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030024/27-Jun-25/nodejs-aws-ec2/25_lrfyxm.webp)
+
+In our project the server.js is the starting point, so we will start it with the below pm2 command.
+
+```js
+    pm2 start server.js
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030021/27-Jun-25/nodejs-aws-ec2/26_qirsp3.webp)
+
+We can also check the logs with the pm2 logs command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030019/27-Jun-25/nodejs-aws-ec2/27_bhbosp.webp)
+
+Now, we will go back to our AWS EC2 instance on open the Public IPv4 address.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030016/27-Jun-25/nodejs-aws-ec2/28_bucsm6.webp)
+
+Now, when opening in browser, we need to add :8000 in the url. Also given the API end point in our app. And now our Node app is on the web.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030014/27-Jun-25/nodejs-aws-ec2/29_ptsbg0.webp)
+
+We also have a POST endpoint in our simple appp. And we will test it through Postman.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030012/27-Jun-25/nodejs-aws-ec2/30_cbeakq.webp)
+
+Now, again if we go back to the back to the browser to the tasks enpoint, we will see the new object been added.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030009/27-Jun-25/nodejs-aws-ec2/31_keflvu.webp)
+
+We can also check the processes running on our ubuntu using pm2 list command and stop this process with pm2 stop server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751030008/27-Jun-25/nodejs-aws-ec2/32_cbrikn.webp)
+
+This completes our deployment of NodeJS app on EC2 instance.
