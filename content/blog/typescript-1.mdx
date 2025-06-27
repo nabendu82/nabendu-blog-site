@@ -1,0 +1,158 @@
+---
+title: TypeScript Crash Course -1
+description: Typescript
+date: 2022-09-22
+tags: ["web-dev", "javascript", "typescript"]
+published: true
+---
+
+In this post we will learn TypeScript, which is a superset of JavaScript. It was built by Microsoft to fix the issues of loose binding in JavaScript.
+
+This post is inspired by this YouTube video from Lalith Academy. VSCode have inbuilt TypeScript, so open any folder in it and create a file index.ts in it.
+
+We will write the below code in it. Here, we have two variables one is myNum and other is anotherNum. We have given anotherNum a type of number.
+
+Now, for both myNum and anotherNum, we cannot take anything else then number.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000558/27-Jun-25/typescript-1/1_kegnyb.webp)
+
+If we hover our mouse over the error, we can see the real issue.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000559/27-Jun-25/typescript-1/2_k8ghie.webp)
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000556/27-Jun-25/typescript-1/3_gghdhj.webp)
+
+As in the above example, even if we don’t assign a type, then also TypeScript assigns a type. Hover the mouse over myNum and it will show the type of number.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000554/27-Jun-25/typescript-1/4_o9yebe.webp)
+
+The same is true for String and Boolean.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000553/27-Jun-25/typescript-1/5_nw6n8w.webp)
+
+Now, the question from above is when do we want to assign a type and when TypeScript automatically assigns it.
+
+In most cases, we should leave it to TypeScript to assign type. In the below case, we have a variable salary in which we didn’t assigned a type.
+
+Later on we are assigning a number, string and a boolean to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000550/27-Jun-25/typescript-1/6_v1dmfm.webp)
+
+Now, this is not right and in these scenarios where we want to assign value later on, we give an explicit type.
+
+And now we will start getting the type errors.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000548/27-Jun-25/typescript-1/7_qc0fzg.webp)
+
+Now, we will learn about Objects in TypeScript. In the below example, we have just given an object, which have two strings, one number and one boolean.
+
+If we hover our mouse over the object, it will tell us the data types.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000547/27-Jun-25/typescript-1/8_fatbed.webp)
+
+Now, we will create a new object, where we will give the type of each key. We will get error if we try to assign a different value to a key or a key, which doesn’t exists.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000545/27-Jun-25/typescript-1/9_sj0zhi.webp)
+
+Now, we will look into Arrays. In typescript, if we give an array of strings like languages in below example. We cannot push a number or boolean to it.
+
+We can also explicitly declare that a we have a array of type, like we have declared an array of type number.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000543/27-Jun-25/typescript-1/10_d2lktc.webp)
+
+Now, we will learn to make an array of Object. Here, we are giving the type and in the Object we are mentioning the type of keys in object.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000542/27-Jun-25/typescript-1/11_qdjtpk.webp)
+
+If we want to write the type of array of arrays, we need to use two [] in the type inference.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000540/27-Jun-25/typescript-1/12_viwioy.webp)
+
+Now, we will look into the example of functions. Suppose, we need to add two numbers and have created a function addNums for it.
+
+If we don’t give the type, we will be not get the error even if we give one string.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000538/27-Jun-25/typescript-1/13_jjbxum.webp)
+
+So, we should always give the type as in multiNums. It is also advisible to give the return type, as it can catch the error, if we give wrong return type as in modNums.
+
+If we don’t give a return type, we should give void as in printSum.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000536/27-Jun-25/typescript-1/14_a19ipm.webp)
+
+We can also take Union types, in which a variable can have multiple types. We have a variable numOrStr which can of type number or string.
+
+We also have an array, which can only have elements of type number or string.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000535/27-Jun-25/typescript-1/15_yvwbxm.webp)
+
+In Literal types, we can specify the only terms which are accepted. In myLiteral the values of ‘Nabendu’ , ‘Mousam’ ,‘Shikha’ ,‘Hriday’ are only accepted.
+
+Here, we are giving ‘Parag’ and it is giving us error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000533/27-Jun-25/typescript-1/16_jannro.webp)
+
+Now, we will look into enum which is a combination of Union type with literal type. Here, we give a predefined type with the enum variable.
+
+After that we can use it in our code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000532/27-Jun-25/typescript-1/17_t5ikpd.webp)
+
+Now, we will look into Optionals. Suppose we want an age field which should be a number or we don’t want to give it.
+
+In the below example we have an optionalObj in which we have declared age as number and undefined. But the problem with this approach is that we need to give it undefined, if we don’t want to specify it.
+
+In the betterOptObj, we have given age with ?, which means if we give it it should be number or else it is not required.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000530/27-Jun-25/typescript-1/18_tgifpg.webp)
+
+Next, we will look into Interfaces. They are better way to give types of different properties of an Object. Like in the below example, we have an Developer interface, which mention some properties.
+
+We can now use it in two different variables called person1 and person2.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000529/27-Jun-25/typescript-1/19_one5cu.webp)
+
+We have Types also and they are similar to Interfaces. As we can see in below example, we have used it in DeveloperType.
+
+But Interfaces can be used only in Objects, but Types can be used in string, array of objects or anything else.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000528/27-Jun-25/typescript-1/20_efhhk5.webp)
+
+Now, we will learn about Classes. There is one feature more in TypeScript class, which is that they can have public and private variables like OOPs languages like Java and C++.
+
+Here, we have a class CreateRoom, in which we have a room as public variable and family as private array.
+
+We can add values to familay array only through the addFamilyMember function and also can get the values with the showFamily function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000526/27-Jun-25/typescript-1/21_mhnpsy.webp)
+
+We can also have readonly varaibles in TypeScript classes. In the below example, we have dobShikha as a readonly variable. We can access it from outside of class, but we cannot update it.
+
+We can make a variable private and readonly both like dobHriday. And now we cannot access it from the outside also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000524/27-Jun-25/typescript-1/22_kbxwcc.webp)
+
+We can cleanup a TypeScript class by using the constructor. Here, we have removed the this code of room in the contructor and made it public.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000518/27-Jun-25/typescript-1/23_oqfgc8.webp)
+
+We are done with TypeScript basics, but the browser only understands JavaScript. To run the TypeScript code, we will first add package.json to our file using npm init -y command.
+
+After that we need to add two packages of typescript and ts-node. We also need to make this a TypeScript project by giving the command npx tsc — init.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000523/27-Jun-25/typescript-1/24_ht9ztg.webp)
+
+Next, we will create a new file classDemo.js andutilize the class from the earlier part. Here, we have no error in the file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000521/27-Jun-25/typescript-1/25_tzkls9.webp)
+
+We also need to create a start script in the package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000518/27-Jun-25/typescript-1/26_ifybgc.webp)
+
+Next, we will run the classDemo file from the terminal and will get the desired output.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751000519/27-Jun-25/typescript-1/27_uuijum.webp)
+
+You can find the code for the same [here](https://github.com/nabendu82/TypeScript-Demo).
+

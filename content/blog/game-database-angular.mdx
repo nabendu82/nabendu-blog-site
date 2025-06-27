@@ -1,0 +1,230 @@
+---
+title: Game Database Project in Angular
+description: Angular
+date: 2022-09-20
+tags: ["web-dev", "javascript", "angular"]
+published: true
+---
+
+We are going to build a cool game database project in Angular. In this project we are going to get the data from an API, which contains details of more then 50,000 game and use various features of Angular to show them.
+
+This project is inspired by [this](https://www.youtube.com/watch?v=LiOzTQAz13Q) YouTube video from Freecodcamp YouTube channel.
+
+We will first create a new Angular project by the below command. We are using angular routing and CSS in this project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998064/27-Jun-25/game-database-angular/1_ep9tqk.webp)
+
+We also don’t want to use strict TypeScript features in our project. So, we will make the strictTemplates false in the tsconfig.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998062/27-Jun-25/game-database-angular/2_llcr7s.webp)
+
+We will also add Angular material in our project. Here we are choosing the purple theme.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998060/27-Jun-25/game-database-angular/3_kixetc.webp)
+
+We are also installing another package of angular-gauge in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998065/27-Jun-25/game-database-angular/4_vz96bl.webp)
+
+Now, we need to add these modules in our app.module.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998059/27-Jun-25/game-database-angular/5_rsjzhm.webp)
+
+We will also update the styles.css to contain our generic styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998056/27-Jun-25/game-database-angular/6_frkfin.webp)
+
+Now, we will create our first component with ng g c command called search-bar. We are giving this command in the integrated terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998054/27-Jun-25/game-database-angular/7_qbscce.webp)
+
+Next, remove everything from app.component.html file and add our search bar component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998052/27-Jun-25/game-database-angular/8_dawp9w.webp)
+
+Now, we will add the code for search bar in the search-bar.component.html file. Here, inside a form we have an input box to submit the game name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998053/27-Jun-25/game-database-angular/9_jjzike.webp)
+
+Next in the search-bar.component.ts file we will navigate to the search and will be provided with the value.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998048/27-Jun-25/game-database-angular/10_uhaaxb.webp)
+
+Now, we will put the style for the same in search-bar.component.css file. Here, we are putting the style for the container, form and input.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998049/27-Jun-25/game-database-angular/11_wiehho.webp)
+
+We will also put the style for the button and the logo in our search-bar.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998044/27-Jun-25/game-database-angular/12_fwcl8a.webp)
+
+We need to update the app-routing.module.ts file to show a HomeComponent initially and also when we search.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998043/27-Jun-25/game-database-angular/13_mzzksd.webp)
+
+We also need to add router-outlet in our project for routing to work. Add the same in app.component.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998041/27-Jun-25/game-database-angular/14_r33akf.webp)
+
+In the home.component.html file, we will show the for field with the help of mat fields from Angular material.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998040/27-Jun-25/game-database-angular/15_vw3jdm.webp)
+
+In the home.component.ts file, we need to add a sort string.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998041/27-Jun-25/game-database-angular/16_fah6cx.webp)
+
+We will also add the styles for the home component in home.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998035/27-Jun-25/game-database-angular/17_dzlvzh.webp)
+
+Now, our header and filter are looking perfect in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998034/27-Jun-25/game-database-angular/18_g3ll84.webp)
+
+Next, we will create services in our project from the command line.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998031/27-Jun-25/game-database-angular/19_swetgg.webp)
+
+We need to put the BASE_URL of our API endpoint in environment.prod.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998028/27-Jun-25/game-database-angular/20_irfrpi.webp)
+
+We also need to put the BASE_URL of our API endpoint in environment.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998027/27-Jun-25/game-database-angular/21_wznnt9.webp)
+
+We need to have Models for our API data. So, we will create a models.ts file in the app folder. Here we are exporting the Game and APIResponse model.
+
+We are also taking the help of some other models here in the Game nodel.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998026/27-Jun-25/game-database-angular/22_oznzhd.webp)
+
+Now, in the http.service.ts file we will use the HttpClient from Angular to do the API call. Here, in the getGameList we are hitting the games endpoint and getting the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998023/27-Jun-25/game-database-angular/23_kt9qrz.webp)
+
+We will be using Rapid API to get data from RAWG Video Games Database. Search for the same in rapidapi and you will get your rapid api key and host.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998032/27-Jun-25/game-database-angular/24_xx2ato.webp)
+
+Next, click on About and you will get the rawg link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998021/27-Jun-25/game-database-angular/25_dwipvw.webp)
+
+We need to get an API key from RAWG also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998020/27-Jun-25/game-database-angular/26_rfjdw7.webp)
+
+We will create interceptor through which will help with error and header part of the API call. Create an interceptor folder in the app directory and a file http-errors.interceptor.ts inside it.
+
+Here, it will throw the errors which we will get in the API call.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998018/27-Jun-25/game-database-angular/27_qexln3.webp)
+
+Next, create a file http-headers.interceptor.ts inside interceptor folder, and add the below content in it.
+
+Here, we are provide the rapid api key and also the RAWG api key.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998016/27-Jun-25/game-database-angular/28_y5gktd.webp)
+
+We also need to add these in the app.module.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998014/27-Jun-25/game-database-angular/29_t5h2f2.webp)
+
+Finally, we will do the API call in our home.component.ts file. Here, we are using the HttpService to hit the endpoint with metacrit keyword. We are also changing it if user did the search.
+
+The result is stored in the games variable from the API call.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998013/27-Jun-25/game-database-angular/30_nlx2o2.webp)
+
+Now, when we open the console in localhost, we will be able to see the results from the API call.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998010/27-Jun-25/game-database-angular/31_tf6nxx.webp)
+
+Now, in the home.component.html file we will add a new section. Here, we will use the data which we got from the API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998009/27-Jun-25/game-database-angular/32_gzv8nf.webp)
+
+Now, we will add the styles for the same in home.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998007/27-Jun-25/game-database-angular/33_mhq4ud.webp)
+
+Next, we will add some more styles for the same in home.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998005/27-Jun-25/game-database-angular/34_cb0fau.webp)
+
+Now, our homepage will show all these nice games from the API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998004/27-Jun-25/game-database-angular/35_voxlar.webp)
+
+We also need to add the calling to the searchGames function in the Search bar of our home.component.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998003/27-Jun-25/game-database-angular/36_e9apfx.webp)
+
+Now, both of the search and sort are working on the localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998002/27-Jun-25/game-database-angular/37_xvjzeh.webp)
+
+Next, in the home.component.ts file we will write a function openGameDetails which will take us to the details component and also provide the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750998000/27-Jun-25/game-database-angular/38_imvu4r.webp)
+
+Now, we will create the details component with the ng g c command and also add the route for the same in app-routing.module.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997998/27-Jun-25/game-database-angular/39_j8hfjf.webp)
+
+We also need to add a new function of getGameDetails in http.service.ts file. It will hit two API endpoints to get the game info and trailers request.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997997/27-Jun-25/game-database-angular/40_repsev.webp)
+
+Now, we will write the html for details component in details.component.html file. Here, we are showing all the data from the API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997995/27-Jun-25/game-database-angular/41_jw5ujr.webp)
+
+We will call the getDetails on the ngOnInit() in details.component.ts file. And store the response in the game and gameRating variable.
+
+We are also using the support function of getColor, which we are using to show different colors based on value of ratings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997994/27-Jun-25/game-database-angular/42_wx5j5j.webp)
+
+Next, we will add styles for the same in details.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997992/27-Jun-25/game-database-angular/43_bk0hw3.webp)
+
+Next, we will some more styles for the same in details.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997992/27-Jun-25/game-database-angular/44_vhiwwb.webp)
+
+Now, our data is showing good in the details page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997990/27-Jun-25/game-database-angular/45_e0hzli.webp)
+
+We will call a new game-tabs component from details.component.html file. And we have also created the same from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997988/27-Jun-25/game-database-angular/46_o0rotk.webp)
+
+We will add a variable game in the game-tabs.component.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997987/27-Jun-25/game-database-angular/47_yju7ah.webp)
+
+We will add the html in the game-tabs.component.html file. It will show the screenshots and if available the trailers.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997986/27-Jun-25/game-database-angular/48_frttij.webp)
+
+We will also add the styles for the same in game-tabs.component.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997984/27-Jun-25/game-database-angular/49_wfkjqi.webp)
+
+Now, we are getting the perfect screenshots in details page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997983/27-Jun-25/game-database-angular/50_stftsb.webp)
+
+We will also get the trailers, if they are available.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1750997983/27-Jun-25/game-database-angular/51_qgjeh9.webp)
+
+This completes our project and you can find the code for the same [here](https://github.com/nabendu82/game-db-angular).
+
+
+
