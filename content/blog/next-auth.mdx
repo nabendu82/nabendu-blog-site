@@ -1,0 +1,75 @@
+---
+title: NextJS Authentication with Next Auth
+description: NextJS
+date: 2022-09-26
+tags: ["reactjs", "javascript", "nextjs"]
+published: true
+---
+
+In this post we will learn to do authentication in our NextJS app easily, though the awesome Next Auth package. The link for the same is NextAuth.js (next-auth.js.org)
+
+First, we need to create a new NextJS app with the below command.
+
+```js
+    npx create-next-app nextjs-auth
+```
+
+After that as per the documentation, inside the api folder, create an auth folder. Inside it create a file […nextauth].js and add the below boiler plate code in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006490/27-Jun-25/next-auth/1_zba4mq.webp)
+
+Now, we need to get the Github credentials. So, go to [Your Profile](https://github.com/settings/profile) and scroll down and click on Developer settings tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006487/27-Jun-25/next-auth/2_hcace9.webp)
+
+Now, in the next page, click on New Github App button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006481/27-Jun-25/next-auth/3_rykc40.webp)
+
+Now, we need to give the app a name, description and also Homepage URL and Callback URL as mentioned below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006471/27-Jun-25/next-auth/4_atdioi.webp)
+
+While scrolling down also unselect Webhook. After that towards the end give the profile access and click on Create Github App button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006467/27-Jun-25/next-auth/5_cp5his.webp)
+
+Now, you will get the Client ID on the next screen. Also need to click on Generate a new client secret button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006477/27-Jun-25/next-auth/6_nxlpok.webp)
+
+Now, you will also get the Client secrets exposed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006483/27-Jun-25/next-auth/7_fpjxok.webp)
+
+Back in our application, we need to create an .env.local file in the root directory. Here, we are adding the client secret from the previous steps.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006472/27-Jun-25/next-auth/8_qrphtj.webp)
+
+Now, in the _app.js file, we need to wrap the SessionProvider as shown below. We also need to install next-auth in our app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006486/27-Jun-25/next-auth/9_qfgtqc.webp)
+
+Now, in the index.js file, we will use signIn, useSession, signOut from next-auth. Here, we have two buttons, one for Sign in and other for sign out.
+
+Both of these are using the inbuilt functions. We are also using session to check if the session exists.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006479/27-Jun-25/next-auth/10_qx7twi.webp)
+
+Now, in localhost, we will see the Not siged in text and Sign in button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006468/27-Jun-25/next-auth/11_medrci.webp)
+
+On clicking on the Sign in button, we will be shown the Sign in with Github page. Here, we need to click on it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006466/27-Jun-25/next-auth/12_lvhywv.webp)
+
+And we will be signed in successfully and the Sign out button will be displayed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006478/27-Jun-25/next-auth/13_b5hams.webp)
+
+If we click on the Sign out button, we will be sign out again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751006474/27-Jun-25/next-auth/14_tuxyqb.webp)
+
+This completes our small app. The code for the same can be found in [this](https://github.com/nabendu82/nextjs-auth) github link.
