@@ -1,0 +1,363 @@
+---
+title: Google Drive Clone with ReactJS, Firebase and Authentication
+description: ReactJS
+date: 2022-09-29
+tags: ["reactjs", "javascript", "firebase"]
+published: true
+---
+
+In this post we are going to make a Google Drive clone using ReactJS. We will be also using firebase to store the files and for authentication.
+
+Beside this we will be using styled components to style our project. This project have been inspired by [this](https://www.youtube.com/watch?v=7BXU9qPGH2s&list=PL6aoYO5bSdyyiD11fYDA3OpZDXNxCHtFd&index=2) awesome series from Camel Coder.
+
+We need to first create a new project with create-react-app called google drive from terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019171/27-Jun-25/google-drive-reactjs/1_loreb8.webp)
+
+Once the project is created, we will delete some of the boiler plate files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019169/27-Jun-25/google-drive-reactjs/2_mynuhz.webp)
+
+Next, in index.js file we will delete the not required code and it will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019164/27-Jun-25/google-drive-reactjs/3_sxrtqc.webp)
+
+Next, in App.js file we will delete the not required code and it will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019166/27-Jun-25/google-drive-reactjs/4_e8hvlw.webp)
+
+We will also make all margin to 0 in the index.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019160/27-Jun-25/google-drive-reactjs/5_lwukcy.webp)
+
+Now, run the project with npm start and it will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019159/27-Jun-25/google-drive-reactjs/6_bex6sv.webp)
+
+Next, create a components folder inside src folder. And in it create a Header.js file. Next in the App.js file, we will include it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019155/27-Jun-25/google-drive-reactjs/7_bhtixx.webp)
+
+Now, in the Header.js file we will add the below styled components. We have also installed the package of styled-components in the integrated terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019154/27-Jun-25/google-drive-reactjs/8_vyfylg.webp)
+
+Now, we will use the created Styled components and also show a image using img tag in the Header.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019151/27-Jun-25/google-drive-reactjs/9_gnqnet.webp)
+
+Now, in localhost we will see a nice Drive logo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019148/27-Jun-25/google-drive-reactjs/10_zjfdcf.webp)
+
+Now, we will also add Material UI version 4 in our project and import some icons at the top, in Header.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019145/27-Jun-25/google-drive-reactjs/11_miq8od.webp)
+
+Next, we will update our HeaderContainer styled component and also add styled components for HeaderSearch in Header.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019144/27-Jun-25/google-drive-reactjs/12_njoqxb.webp)
+
+Now, we will also add HeaderSearch and other icons in our Header.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019140/27-Jun-25/google-drive-reactjs/13_fphikm.webp)
+
+Now, our header is almost perfect, except the end of it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019138/27-Jun-25/google-drive-reactjs/14_pxgblj.webp)
+
+To make the icons perfect, we will add a new styled component in Header.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019135/27-Jun-25/google-drive-reactjs/15_ujgfim.webp)
+
+Now, the end part is also shown perfect in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019133/27-Jun-25/google-drive-reactjs/16_y8smns.webp)
+
+Now, we will update our App.js to include Sidebar component also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019129/27-Jun-25/google-drive-reactjs/17_jtzqse.webp)
+
+Next, we will create our Sidebar. So, create a file Sidebar.js inside the components folder. Here, we are first adding the required imports.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019128/27-Jun-25/google-drive-reactjs/18_negbza.webp)
+
+Now, we will add the basic structure in Sidebar.js. Here, we are using the basic structure and a image also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019125/27-Jun-25/google-drive-reactjs/19_t8eywu.webp)
+
+The basic sidebar is shown with no styling in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019122/27-Jun-25/google-drive-reactjs/20_a5kmp4.webp)
+
+We will also add a new SidebarOptions styled component in Sidebar.js file. Here, we are showing an icon and a progress bar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019120/27-Jun-25/google-drive-reactjs/21_hmhy3s.webp)
+
+Now, we will also see the new icons and progress bar in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019117/27-Jun-25/google-drive-reactjs/22_lm7qv6.webp)
+
+Next, we are going to add our App class code in index.css file. This class we are using in App component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019114/27-Jun-25/google-drive-reactjs/23_u9xyu9.webp)
+
+Our styles are more aligned now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019112/27-Jun-25/google-drive-reactjs/24_dvi0v6.webp)
+
+We also need to change all divs to a SidebarOption in Sidebar.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019109/27-Jun-25/google-drive-reactjs/25_znkffl.webp)
+
+Next, we are going to add the styles in our styled components in Sidebar.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019108/27-Jun-25/google-drive-reactjs/26_drn3ly.png)
+
+Now, our Sidebar is looking perfect in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019104/27-Jun-25/google-drive-reactjs/27_hayvyl.webp)
+
+We will also add the styles for the progress bar and icons in Sidebar.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019101/27-Jun-25/google-drive-reactjs/28_r5ovsg.webp)
+
+Now, our progress bar and icons are also showing perfect in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019099/27-Jun-25/google-drive-reactjs/29_ivoypl.webp)
+
+Now, we will create a new Data.js file in components folder. And we will also add it in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019096/27-Jun-25/google-drive-reactjs/30_vhwpfv.webp)
+
+Now, in Data.js file we will add all imports and some styled components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019094/27-Jun-25/google-drive-reactjs/31_ck7dcl.webp)
+
+We are going to use the created styled components in Data.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019091/27-Jun-25/google-drive-reactjs/32_yhqrim.webp)
+
+Now, our Data component will be shown perfectly in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019089/27-Jun-25/google-drive-reactjs/33_d3psya.webp)
+
+Next, we will add some more styled components in Data.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019086/27-Jun-25/google-drive-reactjs/34_cegr6i.webp)
+
+We will also add a style for DataListRow in Data.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019084/27-Jun-25/google-drive-reactjs/35_h1vvwp.webp)
+
+Now, after the DataHeader, we will show the new styled components in Data.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019081/27-Jun-25/google-drive-reactjs/36_zzgq7y.webp)
+
+Now, our Data component is finished and it is showing perfectly in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019079/27-Jun-25/google-drive-reactjs/37_j6zawn.webp)
+
+Now, we will setup firebase. So, first go to console.firebase.google.com and click on Add Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019076/27-Jun-25/google-drive-reactjs/38_r4y5lt.webp)
+
+Next, we need to give the project a name. And click on the Continue button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019074/27-Jun-25/google-drive-reactjs/39_xerepe.webp)
+
+In the next screen disable the Google Analytics and click on the Create project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019071/27-Jun-25/google-drive-reactjs/40_rvcicg.webp)
+
+Once the project is created, we can click the Continue button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019068/27-Jun-25/google-drive-reactjs/41_k2aiv6.webp)
+
+First we will setup the Authentication. So, click on Authentication and then the Get Started button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019065/27-Jun-25/google-drive-reactjs/42_i12hzi.webp)
+
+In the next screen, we will choose Google.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019064/27-Jun-25/google-drive-reactjs/43_sfuna0.webp)
+
+Now, we need to give our email id in the next screen and click on Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019060/27-Jun-25/google-drive-reactjs/44_yyypfc.webp)
+
+In the next screen, it will show that the google authentication is Enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019059/27-Jun-25/google-drive-reactjs/45_ridjs3.webp)
+
+Now, we will setup the database. So, click on the Firestore Database and then Create database button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019055/27-Jun-25/google-drive-reactjs/46_xucleg.webp)
+
+In the pop-up click on the radio button for Start in Test mode. And then click on Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019054/27-Jun-25/google-drive-reactjs/47_djw0bm.webp)
+
+Now, we will give the location and click on Enable button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019050/27-Jun-25/google-drive-reactjs/48_jyc3mh.webp)
+
+Now, we need to set the Storage for storing the files. So, click on Storageand then Rules. Inside it we are allowing all.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019048/27-Jun-25/google-drive-reactjs/49_htpnco.webp)
+
+Now, we need to get the keys. So, click on the Settings cog and then Project settings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019044/27-Jun-25/google-drive-reactjs/50_jlakiu.webp)
+
+Now, scroll down in the next page. After that click on the Web button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019043/27-Jun-25/google-drive-reactjs/51_i9jzg2.webp)
+
+In the next screen, we need to give the app a name. Also, setup Firebase Hosting. And then click on Register app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019039/27-Jun-25/google-drive-reactjs/52_rnxvqf.webp)
+
+Next, it will ask us to install firebase. This step we will do later. After that click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019038/27-Jun-25/google-drive-reactjs/53_rk81b6.webp)
+
+The next screen will also ask us to install firebase tools. This step we have to do only once. After that click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019035/27-Jun-25/google-drive-reactjs/54_pb2sfi.webp)
+
+It will again show us some more deploy steps. We need to just clickon the Continue to the console button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019033/27-Jun-25/google-drive-reactjs/55_ia2hu1.webp)
+
+In the next screen, we will get our config which we need to copy.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019029/27-Jun-25/google-drive-reactjs/56_xleeaz.webp)
+
+Now, create a firebase.js file inside the src folder. And put the config from above in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019028/27-Jun-25/google-drive-reactjs/57_r99mlh.webp)
+
+We will now add the boiler plate code to use firebase db, storage, auth and provider in firebase.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019024/27-Jun-25/google-drive-reactjs/58_h8460j.webp)
+
+Now, we will have a Modal to be shown while uploading file. So, in Sidebar.js file we will import Modal from Material UI and also some styled components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019023/27-Jun-25/google-drive-reactjs/59_x15ab7.webp)
+
+We are going to have some more styles for ModalBody in Sidebar.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019019/27-Jun-25/google-drive-reactjs/60_ce8asb.webp)
+
+Now, inside the Sidebar function, we will have a new state of open. And we will also show the modal with the styled components with two input.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019018/27-Jun-25/google-drive-reactjs/61_fpncyi.webp)
+
+Now, our nice pop-up will be shown in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019014/27-Jun-25/google-drive-reactjs/62_vrowgy.webp)
+
+When the user clicks Submit, we want to show a uploading text. For this we will have a styled component and an uploading state in the Sidebar.js file.
+
+Now, we will show the uploading para if the uploading state is true or else the input buttons.
+
+We have also given the onClick handler to the Sidebar button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019013/27-Jun-25/google-drive-reactjs/63_kme2op.webp)
+
+Now, we will add the main logic to upload a file in Sidebar.js file. First the onChange in input of file, will get the file selected.
+
+Now, the handleUpload, which runs when we click the Submit button, will have the main logic.
+
+Here, we are first using the storage code to upload the storage in firbase. After that we are using the uploaded file details to save the details of the file in firestore database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019010/27-Jun-25/google-drive-reactjs/64_fbqm4b.webp)
+
+We also need to have the imports of firebase in Sidebar.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019005/27-Jun-25/google-drive-reactjs/65_bnkb4h.webp)
+
+Now, again go to localhost and upload a file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019008/27-Jun-25/google-drive-reactjs/66_zjuozs.webp)
+
+Now, if we check the Storage we can see the file been uploaded.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019003/27-Jun-25/google-drive-reactjs/67_ctfs1b.webp)
+
+We will also see the details of it in firestore database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751019000/27-Jun-25/google-drive-reactjs/68_qy5oe6.webp)
+
+Now, we also want to show these uploaded files. So, in the Data.js file we will first do the required imports.
+
+After that we have a files state. Now from inside a useEffect, we are calling firebase databse and getting the array and setting it to files array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018998/27-Jun-25/google-drive-reactjs/69_siyhdq.webp)
+
+Now, we also need a function to change the size to KB, MB in the Data.js file. For this we have got a function from stack overflow.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018996/27-Jun-25/google-drive-reactjs/70_ylcmpv.webp)
+
+Now, we will map through the file to show it in both folder format and in list in the Data.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018994/27-Jun-25/google-drive-reactjs/71_hzu1bb.webp)
+
+Now, we will see the files in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018991/27-Jun-25/google-drive-reactjs/72_uonrqw.webp)
+
+Now, we will also add Authentication in our project. So, we will add styles for the same first in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018989/27-Jun-25/google-drive-reactjs/73_ynsbuc.webp)
+
+Now, we will use the signInWithPopup() method from firebase to login to the app. Here, we will login the login screen if we don’t find the user in App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018988/27-Jun-25/google-drive-reactjs/74_ps4bn9.webp)
+
+We will also use the new props of photoURL in the Header.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018985/27-Jun-25/google-drive-reactjs/75_gvwjwv.webp)
+
+Now, when we go to the app for first time, we will see the login screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018983/27-Jun-25/google-drive-reactjs/76_ss24b5.webp)
+
+Now, when we login through our gmail account we will see the photo of the logged in user also at the top right.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018981/27-Jun-25/google-drive-reactjs/77_l5ayfp.webp)
+
+It’s time to deploy our app and make it live. So, go to the terminal and run firebase login
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018979/27-Jun-25/google-drive-reactjs/78_lbxdep.webp)
+
+After that give firebase init command. Here use arrow key and press the spacebar to Hosting and after that press enter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018977/27-Jun-25/google-drive-reactjs/79_asduhr.webp)
+
+Then select Use an existing project and press enter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018974/27-Jun-25/google-drive-reactjs/80_ip2cxd.webp)
+
+Here, you need to select the correct project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018973/27-Jun-25/google-drive-reactjs/81_gcfvcq.webp)
+
+Next, we choose the public directory and it is build. The next option is Yes for single-page app and github deploys No.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018968/27-Jun-25/google-drive-reactjs/82_u9cdih.webp)
+
+Now, we need to run npm run build in the terminal for a production optimal build.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018970/27-Jun-25/google-drive-reactjs/83_bvtffr.webp)
+
+Now, the final command is firebase deploy to deploy the frontend to firebase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018966/27-Jun-25/google-drive-reactjs/84_xvrgca.webp)
+
+Now, our app is sucessfully deployed and the functionalities are working perfectly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751018965/27-Jun-25/google-drive-reactjs/85_cvlhev.webp)
+
+You can find the code for the same [here](https://github.com/nabendu82/google-drive-react).
