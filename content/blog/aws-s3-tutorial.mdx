@@ -1,0 +1,201 @@
+---
+title: AWS S3 Tutorial for Beginners
+description: Devops
+date: 2023-03-23
+tags: ["devops", "aws", "s3"]
+published: true
+---
+
+In this post, we are going to learn about AWS S3. It is the most basic service to deploy a website. AWS S3 is an object storage service from Amazon.
+
+There is a concept of Bucket. They are containers where objects are stored and then uploaded to Amazon S3. There will never be an object without a Bucket.
+
+To start with AWS, we need to login to the [console](https://aws.amazon.com/console/).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023744/27-Jun-25/aws-s3-tutorial/1_gh6dfm.webp)
+
+If you don’t have an AWS account, then create one by giving an email address. Also note that it is mandatory to give your debit card or credit card for registering. After registration is done, we can opt for the free plan.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023741/27-Jun-25/aws-s3-tutorial/2_tcqjbv.webp)
+
+You will get the below screen, once registration is complete. Here, simply click on Go to the AWS Management Console button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023738/27-Jun-25/aws-s3-tutorial/3_edorvt.webp)
+
+For first time user the console will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023737/27-Jun-25/aws-s3-tutorial/4_oyidu2.webp)
+
+We have clicked on S3 in the above screenshot and it will open a new screen, where click on the Create bucket button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023732/27-Jun-25/aws-s3-tutorial/5_guwfgt.webp)
+
+Now, in the next screen put the Bucket name and choose a region near to your location.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023730/27-Jun-25/aws-s3-tutorial/6_ibnl1j.webp)
+
+Scroll a bit down and keep all the default option. After that click on the Create bucket button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023728/27-Jun-25/aws-s3-tutorial/7_rumu6p.webp)
+
+Now, the bucket will be created and shown in the console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023725/27-Jun-25/aws-s3-tutorial/8_mzkimz.webp)
+
+On clicking on the bucket link, a new screen will open. Here, click on the Upload button to upload files or folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023723/27-Jun-25/aws-s3-tutorial/9_jjhdd1.webp)
+
+Now, in the next screen we will click on the Add files button to add a file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023719/27-Jun-25/aws-s3-tutorial/10_uwkhad.webp)
+
+We have added a simple image file from our local computer and after that clicked on the Upload button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023717/27-Jun-25/aws-s3-tutorial/11_x6hn7u.webp)
+
+Once the upload is completed, it will show Succeeded status. Click on the Close button on the upper right corner.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023713/27-Jun-25/aws-s3-tutorial/12_if6pws.webp)
+
+Back to the bucket, we can see the basic properties in the Properties tab now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023712/27-Jun-25/aws-s3-tutorial/13_qi7np3.webp)
+
+Amazon S3 charges different for different types of Buckets. By default it will put everything in the costlier S3 Standard bucket. All the buckets are shown in below image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023708/27-Jun-25/aws-s3-tutorial/14_nvo3uj.webp)
+
+We can move our data to different buckets from top to bottom, which charges the least by creating lifecycle rules.
+
+So, click on the Management tab and then the Create lifecycle rule button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023705/27-Jun-25/aws-s3-tutorial/15_h9wice.webp)
+
+Now, we are giving the rule a name and limiting it’s scope to filter. In the Prefix, we need add the thing in which this rule will be applicable. In our case it is logs folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023703/27-Jun-25/aws-s3-tutorial/16_devyyy.webp)
+
+After scrolling down a bit, we need to check the checkbox to move objects between storage classes. Also we need to add the different storage classes our object will be moved after certain days.
+
+Also, need to acknowledge a checkbox for Transitioning small objects.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023700/27-Jun-25/aws-s3-tutorial/17_utqae5.webp)
+
+In the previous screen, if we click on Amazon S3 pricing, we can see the pricing of each storage class.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023697/27-Jun-25/aws-s3-tutorial/18_dl6bzj.webp)
+
+Back in the previous screen, we have scrolled down and clicked on Create rule button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023748/27-Jun-25/aws-s3-tutorial/19_wakogc.webp)
+
+We got an error for Glacier Deep Archive, as we need to increase the days. We have increased the days to 180 and again clicked on Create rule button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023695/27-Jun-25/aws-s3-tutorial/20_ejnerd.webp)
+
+This time our rule got created and we see the same as enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023693/27-Jun-25/aws-s3-tutorial/21_b2yghh.webp)
+
+Now, we will create the logs folder, which will go through different bucket classes. So, again back in Buckets click on Create folder button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023689/27-Jun-25/aws-s3-tutorial/22_dh3lpo.webp)
+
+Now, give the folder name as logs and click on the Create folder button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023688/27-Jun-25/aws-s3-tutorial/23_ntri7p.webp)
+
+Now, the logs folder will be created in our bucket.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023684/27-Jun-25/aws-s3-tutorial/24_sjyo8o.webp)
+
+Now, click on the logs folder and upload any file. Here, we have uploaded a sample Apache log file. Now, this file will be moved to different class after the mentioned number of days.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023682/27-Jun-25/aws-s3-tutorial/25_yq8xnz.webp)
+
+Now, we will look into Bucket Policy. It allows on deny access to a bucket to specific users or services. The IAM policy in S3 allows this access. Here, we have to upload a JSON object.
+
+For this first go to the bucket and click on Permissions tab. After that click on the Edit button in the Bucket policy.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023679/27-Jun-25/aws-s3-tutorial/26_oy0hkm.webp)
+
+Now, in the next screen click on the Policy generator to generate the JSON. But also copy the Bucket ARN, which we will need in the next screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023677/27-Jun-25/aws-s3-tutorial/27_zuhkoa.webp)
+
+In the next screen click on the the Select Type of Policy and make it S3 Bucket Policy. The Effect will be Allow and Principal will be *.
+
+In the Actions click on the checkbox for All Actions. And in the ARN, give the ARN copied earlier. After that click on the Add Statement button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023673/27-Jun-25/aws-s3-tutorial/28_ud82ce.webp)
+
+Now, click on the Generate Policy button and it will open a pop-up with the policy JSON. Copy the content for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023672/27-Jun-25/aws-s3-tutorial/29_hle52w.webp)
+
+Now, we will copy the policy in the Edit bucket policy screen. Also, notice that we added a /* to choose all objects.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023668/27-Jun-25/aws-s3-tutorial/30_yadpr7.webp)
+
+Now, scroll a bit down and click on Save changes button. But we are getting a big error as we made everything public in this bucket.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023667/27-Jun-25/aws-s3-tutorial/31_mle7xq.webp)
+
+To solve the issue, we need to go back to the Permissions tab and click the Edit button in Block public access section.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023664/27-Jun-25/aws-s3-tutorial/32_kslnwp.webp)
+
+Now, uncheck the checkbox for Block all public access and click on the Save changes button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023662/27-Jun-25/aws-s3-tutorial/33_jijuyi.webp)
+
+Since, it’s for all public access to this bucket it will ask us to confirm.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023659/27-Jun-25/aws-s3-tutorial/34_etqdlo.webp)
+
+Back in the Edit bucket policy screen, we have clicked on the Save Changes again and it got saved. But we got a red Publicly accessible tag in our bucket.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023657/27-Jun-25/aws-s3-tutorial/35_sfmsmt.webp)
+
+Now, we will learn to add Versioning in our bucket. For this in the Properties of the Bucket, click on Edit in the Bucket Versioning section.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023654/27-Jun-25/aws-s3-tutorial/36_rq7nkg.webp)
+
+In the next screen click on Enable and then Save changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023653/27-Jun-25/aws-s3-tutorial/37_rkazfy.webp)
+
+Now, we will upload a simple HTML project in our bucket.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023650/27-Jun-25/aws-s3-tutorial/38_yp65jr.webp)
+
+Once the three files are uploaded, click on the index.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023647/27-Jun-25/aws-s3-tutorial/39_vs9f4n.webp)
+
+In the next screen we will see an Object URL. Copy it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023646/27-Jun-25/aws-s3-tutorial/40_ztk69s.webp)
+
+Now, opening the url will open our simple project, which is working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023643/27-Jun-25/aws-s3-tutorial/41_sj2pxc.webp)
+
+Now, back in S3 click on the Version tab and we will see the versioning been done.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023642/27-Jun-25/aws-s3-tutorial/42_q5kzm8.webp)
+
+To see the versioning in action, we have updated our small project and uploaded the files again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023637/27-Jun-25/aws-s3-tutorial/43_ozi982.webp)
+
+Now, if we go to Versions tab, we will see the new version.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023636/27-Jun-25/aws-s3-tutorial/44_xvvr6k.webp)
+
+And revisiting the public url will show our updated site.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751023639/27-Jun-25/aws-s3-tutorial/45_ig6phs.webp)
+
+This completes our AWS S3 tutorial, where we also learned to host a static site.
