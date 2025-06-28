@@ -1,0 +1,431 @@
+---
+title: Car rental app in NextJS 13, Tailwind, GraphQL and TypeScript
+description: NextJS
+date: 2023-09-15
+tags: ["nextjs", "reactjs", "javascript"]
+published: true
+---
+
+In this article we are going to create a nice looking Car rental app in NextJS 13 with Tailwind CSS. We are also going to use GraphQL endpoints through an amazing application of HyGraph. And we are going to code it all in TypeScript.
+
+This post has been inspired by [this](https://www.youtube.com/watch?v=OTTZEwWN4l4) awesome tutorial by TubeGuruji.
+
+Now, open up the terminal and give the below command to create a NextJS 13 app. We are sticking to this particular version. Also, make sure to give the answer same option as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100262/27-Jun-25/car-rental-nextjs/1_worjhy.webp)
+
+Once the app is created, change to it and then open with VS Code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100258/27-Jun-25/car-rental-nextjs/2_i4tsw7.webp)
+
+Next from the terminal give the command npm run dev and it will open in localhost:3000
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100254/27-Jun-25/car-rental-nextjs/3_e2ucej.webp)
+
+Our app starts from page.tsx file and we will remove everything from here and only put a h1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100250/27-Jun-25/car-rental-nextjs/4_qu6emv.webp)
+
+In the globals.css file, we will remove all styles as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100245/27-Jun-25/car-rental-nextjs/5_jlwse1.webp)
+
+Now, we will use the awesome free to use app of clerk for authentication. So, register using google and head over to https://dashboard.clerk.com/
+
+Here, click on Add application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100240/27-Jun-25/car-rental-nextjs/6_ttg21g.webp)
+
+Now, we will give our app a name and then click on CREATE APPLICATION button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100237/27-Jun-25/car-rental-nextjs/7_xd11x6.webp)
+
+Next, move to API Keys and copy the keys.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100233/27-Jun-25/car-rental-nextjs/8_kq6uyu.webp)
+
+Now, head over to documentation of clerk to know the install command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100229/27-Jun-25/car-rental-nextjs/9_irkt0l.webp)
+
+So, head over to the code and create an .env.local file and add your API keys. Also, from the integrated terminal, we are installing clerk for nextjs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100224/27-Jun-25/car-rental-nextjs/10_nafjl2.webp)
+
+Now, in the layout.tsx file which wraps all the components, we will add ClerkProvider and wrap it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100221/27-Jun-25/car-rental-nextjs/11_figsjz.webp)
+
+Next, we need to add a middleware.ts file in the root directory with this content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100217/27-Jun-25/car-rental-nextjs/12_je0cj9.webp)
+
+Back in layout.tsx file we will use the in-built SignedIn and SignedOut components from clerk.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100213/27-Jun-25/car-rental-nextjs/13_ve8msy.webp)
+
+Now, head over to http://localhost:3000/ and we will be re-directed to a nice Signin page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100209/27-Jun-25/car-rental-nextjs/14_qm1bk7.webp)
+
+Once, we login through a google account, we will be taken to http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100205/27-Jun-25/car-rental-nextjs/15_ukr3wz.webp)
+
+Next, create a components folder in the root directory and here a NavBar.tsx file. Inside it we are creating a simple component with image and other navbar text with tailwind css classes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100202/27-Jun-25/car-rental-nextjs/16_uejb8s.webp)
+
+Now, include this NavBar component in layout.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100198/27-Jun-25/car-rental-nextjs/17_yhinfh.webp)
+
+Back in http://localhost:3000/ we will see out Nav bar been completed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100194/27-Jun-25/car-rental-nextjs/18_efw2ng.webp)
+
+Now, we will create out Hero component. So, in a Hero.tsx file we will add some h2, button and image using tailwind css classes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100189/27-Jun-25/car-rental-nextjs/19_htqphw.webp)
+
+Back in the page.tsx file, we will add our Hero component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100186/27-Jun-25/car-rental-nextjs/20_yj9brr.webp)
+
+We can easily change font in NextJS in layout.tsx file. Here, we are giving a google font.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100182/27-Jun-25/car-rental-nextjs/21_h1ajbs.webp)
+
+Now, we will create the SearchInput.tsx file in components folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100178/27-Jun-25/car-rental-nextjs/22_rq2zu3.webp)
+
+Now, include this component in the page.tsx file, below the Hero component and we will see a nice looking search bar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100174/27-Jun-25/car-rental-nextjs/23_n10zhc.webp)
+
+Now, we will go to [Daisy UI](https://daisyui.com/components/) where we get in-built tailwind css components for NextJS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100170/27-Jun-25/car-rental-nextjs/24_g4veym.webp)
+
+Now, we need to add the daisyui in tailwind.config.ts and also install the package.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100166/27-Jun-25/car-rental-nextjs/25_sbbr1e.webp)
+
+Next, we will create a CarsFilterOption.tsx file in the components folder and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100163/27-Jun-25/car-rental-nextjs/26_fdx3j4.webp)
+
+Now, we will add this component in page.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100159/27-Jun-25/car-rental-nextjs/27_koe6a5.webp)
+
+Back in http://localhost:3000/ we see a nice filter component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100155/27-Jun-25/car-rental-nextjs/28_yq4v7g.webp)
+
+Now, we will use [Hygraph](https://hygraph.com/) in our project. It is a CMS which also gives us GraphQL endpoints.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100150/27-Jun-25/car-rental-nextjs/29_gml0g9.webp)
+
+After logging in click on Add project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100146/27-Jun-25/car-rental-nextjs/30_gzmybx.webp)
+
+Give the project a name, description and region.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100142/27-Jun-25/car-rental-nextjs/31_mieqq0.webp)
+
+Now, in the dashboard click on Schema and then +Add button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100139/27-Jun-25/car-rental-nextjs/32_hliece.webp)
+
+In the pop-up give the Display name as CarList.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100134/27-Jun-25/car-rental-nextjs/33_j9pfbm.webp)
+
+Now, click on Single line text from right side.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100130/27-Jun-25/car-rental-nextjs/34_ppy45b.webp)
+
+In the pop-up give the Display name as Name and also check the checkbox for title field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100126/27-Jun-25/car-rental-nextjs/35_vugkvk.webp)
+
+In the validation tab, we can also make this field mandatory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100122/27-Jun-25/car-rental-nextjs/36_rjreao.webp)
+
+The next field will be a Asset picker and here the Display name will be image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100118/27-Jun-25/car-rental-nextjs/37_efsf8n.webp)
+
+Next, a Number field called Price.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100114/27-Jun-25/car-rental-nextjs/38_agdy8r.webp)
+
+And we will create another Number field called CarAvg.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100109/27-Jun-25/car-rental-nextjs/39_ms6vvo.webp)
+
+Now, click on Dropdown and it will ask to create enumerations.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100106/27-Jun-25/car-rental-nextjs/40_pbaftm.webp)
+
+In the next pop-up it will ask us to Add Enumeration.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100102/27-Jun-25/car-rental-nextjs/41_jp6c8e.webp)
+
+Here, give the Display name as CarBrand and add some values.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100098/27-Jun-25/car-rental-nextjs/42_bidysx.webp)
+
+Now, again click on Dropdown and then give Display name as CarBrand and also choose the enumeration as CarBrand.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100075/27-Jun-25/car-rental-nextjs/43_b4rsdy.webp)
+
+Now, add another enumeration called CarType and two values in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100063/27-Jun-25/car-rental-nextjs/44_cq9r8f.webp)
+
+Again create a dropdown with Display name and Enumeration as CarType.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100055/27-Jun-25/car-rental-nextjs/45_x4mn6l.webp)
+
+Our CarList schema now have these fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100067/27-Jun-25/car-rental-nextjs/46_l8c4xi.webp)
+
+Now, click on Content and then Add entry button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100059/27-Jun-25/car-rental-nextjs/47_iyaqza.webp)
+
+Here, we will fill the data in various fields and also add an image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100070/27-Jun-25/car-rental-nextjs/48_eljde3.webp)
+
+We have added some cars with data in our CMS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100094/27-Jun-25/car-rental-nextjs/49_po7znt.webp)
+
+Now, head over to API playground and we will see the query after selecting from left menu. We are also running it to see the result of our graphql query.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100090/27-Jun-25/car-rental-nextjs/50_jmlpqx.webp)
+
+Now, go to the Project settings and then Environments and we will see the api endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100079/27-Jun-25/car-rental-nextjs/51_roaowt.webp)
+
+Back in our project, create a services folder and index.tsx file in it. Here, we will create a function getCarsList and add our query from hygraph. We are also using the url here.
+
+Beside this we are also installing the package of graphql and graphql-request in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100086/27-Jun-25/car-rental-nextjs/52_z8qyih.webp)
+
+Now, go back to hygraph and click on API Access and then Yes, initialize defaults.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100048/27-Jun-25/car-rental-nextjs/53_f8enea.webp)
+
+Now, we will get Read access to all endpoints.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100051/27-Jun-25/car-rental-nextjs/54_qviqot.webp)
+
+Even with these permissions it was giving some errors, so add the below dependencies and devDependencies in package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100044/27-Jun-25/car-rental-nextjs/55_c0vmob.webp)
+
+Now, in the page.tsx file we will first add “use client” which is required if we use react hooks in NextJS project. Next, we are calling the getCarsList() from a function carList(), which is in-turn called from useEffect.
+
+We are saving result in carsList state and then sending it to CarsList component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100083/27-Jun-25/car-rental-nextjs/56_ijieks.webp)
+
+Next, create a CarsList.tsx file in the components folder and add the below content in it. Here, we are calling a CarCard component and passing each object to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100040/27-Jun-25/car-rental-nextjs/57_vwijlb.webp)
+
+Next, we will create a CarCard.tsx file in the components folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099997/27-Jun-25/car-rental-nextjs/58_ezj7bn.webp)
+
+Back to http://localhost:3000/ we will get all the name of the car and also all data in console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100032/27-Jun-25/car-rental-nextjs/59_iyfxkg.webp)
+
+Now, we will update our CarCard.tsx file and add more data in it including props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100005/27-Jun-25/car-rental-nextjs/60_lwymip.webp)
+
+Now, all the images and other details of cars are shown correctly in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100000/27-Jun-25/car-rental-nextjs/61_tij4oy.webp)
+
+We were using normal img tag in the CarCard.tsx file, which we will convert to Image tag from NextJS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100009/27-Jun-25/car-rental-nextjs/62_sthk9v.webp)
+
+But in http://localhost:3000/ we got an error which shows our image path.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099994/27-Jun-25/car-rental-nextjs/63_ldj04c.webp)
+
+To solve this issue we need to add this domain in the next.config.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099989/27-Jun-25/car-rental-nextjs/64_epayri.webp)
+
+We have also added some more data in CarCard.tsx file, which includes some react icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100011/27-Jun-25/car-rental-nextjs/65_aqn8ye.webp)
+
+Back to http://localhost:3000/ we get more data and everything works fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099985/27-Jun-25/car-rental-nextjs/66_xrcu8x.webp)
+
+Now, we will add the Rent Now button with an svg image in CarCard.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100035/27-Jun-25/car-rental-nextjs/67_vyowoa.webp)
+
+It will show the nice Rent Now button, when we hover over a car.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099981/27-Jun-25/car-rental-nextjs/68_aqkplj.webp)
+
+Now, we will add filtering logic in our project. Here, in the CarsFiltersOption.tsx file we will add brandList state. In a useEffect we are calling the filterCarList().
+
+We are using Set to filter out duplicate entries inside it. Also, we are converting back the Set into array.
+
+Next, we are looping the brandList inside return statement to show each brand.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100023/27-Jun-25/car-rental-nextjs/69_nmdhfb.webp)
+
+Now, we will be able to see all unique brands in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099978/27-Jun-25/car-rental-nextjs/70_m3j43n.webp)
+
+Next, we will add a props of setBrand and a onChange which will change the setBrand in CarsFiltersOption.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100028/27-Jun-25/car-rental-nextjs/71_kqoh1a.webp)
+
+Now, back in page.tsx file we will send the props of setBrand, where we are calling a filterCarList with the value. Based on this we are filtering all the cars which brand matches to one passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100020/27-Jun-25/car-rental-nextjs/72_whehku.webp)
+
+Now, our filtering logic is working fine in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099974/27-Jun-25/car-rental-nextjs/73_up0oqx.webp)
+
+Now, we will add functionality to Price in CarsFiltersOption.tsx file. Here, we are again passing a prop called orderCarList and onChange of price sending the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751100015/27-Jun-25/car-rental-nextjs/74_tk6rj6.webp)
+
+Back in page.tsx file we will again use this props and sort our cars based on the price.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099970/27-Jun-25/car-rental-nextjs/75_hw76pd.webp)
+
+Now, our sorting is working perfectly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099966/27-Jun-25/car-rental-nextjs/76_p0sylu.webp)
+
+Next, we will add the Booking modal in our project. It will be shown when we click on the Rent Now button. We are creating a new state of selectedCar and when we click on a car, w are passing the selectedCar to the BookingModal component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099963/27-Jun-25/car-rental-nextjs/77_vyiskm.webp)
+
+Now, we will create a BookingModal.jsx file in the components folder. Here, we are getting the car and sending it to a new CarCard component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099959/27-Jun-25/car-rental-nextjs/78_rjeegn.webp)
+
+Now, click on any car and a pop-up will show it’s details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099955/27-Jun-25/car-rental-nextjs/79_bh6pwy.webp)
+
+Now, in the BookingModal.jsx file we will call a Form component with the car props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099952/27-Jun-25/car-rental-nextjs/80_aqmv0j.webp)
+
+Now, we will create a Form.tsx file and here, we will have a Tailwind form with different inputs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099949/27-Jun-25/car-rental-nextjs/81_inbn02.webp)
+
+Now, in http://localhost:3000/ we will see a nice form with two buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099944/27-Jun-25/car-rental-nextjs/82_fmsfxm.webp)
+
+Now, in the Form.tsx file we will add the states, handleChange and handleSubmit with a console log.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099941/27-Jun-25/car-rental-nextjs/83_gv9amy.webp)
+
+Next, we will add the onChange handler calling the handleChange in all input fields in Form.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099938/27-Jun-25/car-rental-nextjs/84_bv4csn.webp)
+
+Back in hygraph we need to create a new Schema for Booking.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099934/27-Jun-25/car-rental-nextjs/85_ik67rd.webp)
+
+The first field will be User Name which will be a Single line text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099930/27-Jun-25/car-rental-nextjs/86_pdo2i0.webp)
+
+Next, we have added seven more fields and all of them are Single line text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099928/27-Jun-25/car-rental-nextjs/87_hj5o8e.webp)
+
+Now, we need to create a relation with the CarList model. So, we will create a Reference. Here, we need to choose the radio button as shown and also refer to the CarList model.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099924/27-Jun-25/car-rental-nextjs/88_qaqila.webp)
+
+Next in the Configure reference, we will add the Display name and API ID.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099920/27-Jun-25/car-rental-nextjs/89_vu1slw.webp)
+
+Now, our CarList reference is created successfully.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099918/27-Jun-25/car-rental-nextjs/90_gszxro.webp)
+
+Next, we will go to the API playground and choose Mutation from bottom.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099914/27-Jun-25/car-rental-nextjs/91_d9dcnx.webp)
+
+Now, we will choose the appropriate things and click on play button and we will get the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099911/27-Jun-25/car-rental-nextjs/92_vwssel.webp)
+
+Now, we will also add this id in our mutation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099909/27-Jun-25/car-rental-nextjs/93_mnhz7t.webp)
+
+Now, we will go back to the index.tsx file and create a new function createBooking. Here, we will take the formValue to create our mutation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099905/27-Jun-25/car-rental-nextjs/94_otro2e.webp)
+
+Now, in the Form.tsx file we will set the formValue through an useffect hook.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099902/27-Jun-25/car-rental-nextjs/95_a9nsli.webp)
+
+Now, when we submit a details of a car we will get it in the console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099898/27-Jun-25/car-rental-nextjs/96_lkd1kv.webp)
+
+No, we will pass the formValue to createBooking function from handleSubmit in the Form.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099895/27-Jun-25/car-rental-nextjs/97_xkc313.webp)
+
+We have only read access in hygraph. To update it to write we go to Projec settings and then API Access. Here, we will select Read, Create, Update, Delete and click on Add.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099893/27-Jun-25/car-rental-nextjs/98_daiqiy.webp)
+
+Now, we will see all the permissions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099889/27-Jun-25/car-rental-nextjs/99_z6wapk.webp)
+
+Back in http://localhost:3000/, we will click on a car and submit some data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099886/27-Jun-25/car-rental-nextjs/100_nas8h7.webp)
+
+Now, we will see the data in hygraph been created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099883/27-Jun-25/car-rental-nextjs/101_tnmxhx.webp)
+
+We will also see all the details with the correct Car name been captured in the system.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751099881/27-Jun-25/car-rental-nextjs/102_vvorfk.webp)
+
+This completes our Rental app. You can find the code for the same [here](https://github.com/nabendu82/car-rental-yt).
