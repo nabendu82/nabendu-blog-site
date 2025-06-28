@@ -1,0 +1,85 @@
+---
+title: NodeJS App testing with Jest
+description: NodeJS
+date: 2023-08-01
+tags: ["web-dev", "nodejs", "javascript"]
+published: true
+---
+
+In this post we are going to test a pretty production grade NodeJS app, created in our earlier [post](https://www.nabendu.org/blog/netflix-clone-backend).
+
+Te instruction to use Jest is very well mentioned in their official website. We have also opened our previous backend code in VS Code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751093009/27-Jun-25/nodejs-testing/1_spm8hg.webp)
+
+Next, as per the instructions we have installed jest in our project as dev dependency.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751093006/27-Jun-25/nodejs-testing/2_zekrzf.webp)
+
+Next, we need to add the jest.config.js file in our root directory and also notice the important testMatch should be enabled. The code for the same can be taken from the github at the end of this post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751093003/27-Jun-25/nodejs-testing/3_fmdmui.webp)
+
+Also, in the package.json add the test script as shown below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751093000/27-Jun-25/nodejs-testing/4_wfmffo.webp)
+
+We are going to test the important post endpoint of register in our auth.js file. We have also created a __tests__ folder in our root directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092997/27-Jun-25/nodejs-testing/5_fhnksg.webp)
+
+It is very difficult to test callback functions as in above case. So, we will create a controllers folder in the root directory and create a file auth.js inside it. We have moved the callback function here and also named it authRegisterConroller.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092995/27-Jun-25/nodejs-testing/6_p1yqcv.webp)
+
+Back in the auth.js file from the routes, we have removed the callback function. And added the function of authRegisterConroller.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092992/27-Jun-25/nodejs-testing/7_kscrvu.webp)
+
+Finally, we will create an auth.test.js file inside the __tests__ folder. Here, we have first imported the desired dependencies. After that we are first mocking the User and the crypto-js with jest.mock().
+
+After that from a describe block, we are writing the tests. Here, in the first test in the req.body we are saving a dummy username, email and password.
+
+Next, we are creating a variable of saveMock, which will again use jest.fn(). It will save the resolved value which we will get back after save() is performed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092988/27-Jun-25/nodejs-testing/8_jzbthi.webp)
+
+Next, we will use the User.mockReturnValue() to save he data from saveMock. After that we are creating a res variable, where we are returning the status and the json.
+
+Finally, we are calling the authRegisterConroller function with req and res. We are performing our first expect on User, where it will be called once. We are also expecting it to be called with username, email and password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092986/27-Jun-25/nodejs-testing/9_oha4ih.webp)
+
+Now, we will run the npm run test from the command line and it will pass.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092982/27-Jun-25/nodejs-testing/10_a6crsb.webp)
+
+Now, we will write some more tests. Here, we are expecting the saveMock to have been called once, the status to be 201 and also the json to be as passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092980/27-Jun-25/nodejs-testing/11_ns9td7.webp)
+
+Again running the npm run test, will pass all tests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092976/27-Jun-25/nodejs-testing/12_ijxequ.webp)
+
+We will write another test for error case, when the user will not be found. Here, we are first creating the req object again. Then with User.mockReturnValue(), we are getting back the error, with the mock calls.
+
+Again, we are creating the res object and again calling the auhRegisterConroller with req and res.
+
+Finally, we are performing our two tests of getting a status of 500and also the message of Save error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092974/27-Jun-25/nodejs-testing/13_wqnvcs.webp)
+
+Now, on running the npm run test our test fails because we didn’t received the correct object.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092972/27-Jun-25/nodejs-testing/14_r4tyge.webp)
+
+To fix this error, we have to update the auth.js code in the controllers folder. Here, we have updated the object with message as key and err.message as value.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092968/27-Jun-25/nodejs-testing/15_vbpkzc.webp)
+
+Now, our test runs successfully.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751092966/27-Jun-25/nodejs-testing/16_lfuncy.webp)
+
+With this we complete our post on NodeJS testing through Jest. You can find the code for the same [here](https://github.com/nabendu82/nodejs-testing).
