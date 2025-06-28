@@ -1,0 +1,371 @@
+---
+title: React Testing with Jest and RTL in TypeScript
+description: ReactJS
+date: 2023-07-08
+tags: ["web-dev", "reactjs", "javascript"]
+published: true
+---
+
+In this post we are going to learn to test a React app. Here, we are going to use Jest and React Testing Library(RTL). Both of these are in-built in the create-react-app and we have to do minimal configuration.
+
+This post has been influenced by [this](https://www.youtube.com/watch?v=T2sv8jXoP4s&list=PLC3y8-rFHvwirqe1KHFCHJ0RqNuN61SJd) awesome React Testing tutorial by Codevolution.
+
+To start with the project, we will first create a new react app with the familiar command, but also notice the template to include typescript.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751088021/27-Jun-25/react-testing/1_cnawdk.webp)
+
+Once the project is created, we can open the package.json file and here, we will see the testing libraries are already installed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751088019/27-Jun-25/react-testing/2_edpaov.webp)
+
+All react projects comes in-built with test setup. The App.tsx file is tested with the App.test.tsx file. To run the test open the terminal and give the command npm test. After that press the a button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751088015/27-Jun-25/react-testing/3_kr4gpu.webp)
+
+Our only test file has passed the test.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751088011/27-Jun-25/react-testing/4_c9klsx.webp)
+
+Now, we will write our own tests. So, create a components folder inside the src folder. Inside it create a welcome folder. Now, inside the welcome folder create two files named — Welcome.test.tsx and Welcome.tsx.
+
+In the file Welcome.tsx, we have a simple functional component which is taking props and using it in message. Notice, that we are using TypeScript so we have to give the type of the prop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751088002/27-Jun-25/react-testing/5_gffr3q.webp)
+
+Now, we will write our first test in Welcome.test.tsx file. Here, we are first importing render and screen from testing library. Next, we are also importing the Welcome.
+
+We write our tests with the test function, which takes a message as first parameter and an arrow function as the second. In the first test we are first rendering the Welcome component. After that we are checking if the text Welcome is in the screen with getByText and storing in an elem varible. Next, we are using expect() and toBeInTheDocument() to check if the element is there.
+
+In the second test, also we are doing all similar things as first test, but we are also passing a props of lang.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087999/27-Jun-25/react-testing/6_xnkvpa.webp)
+
+Now, agin open a terminal and goto the welcome directory and type npm test and press enter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087991/27-Jun-25/react-testing/7_j0o3ji.webp)
+
+Now, we can see in the terminal that both the tests have passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087989/27-Jun-25/react-testing/8_vdbpkj.webp)
+
+We can also wrap the tests in a describe method. It is a way of grouping things.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087995/27-Jun-25/react-testing/9_ouz8zm.webp)
+
+Now, we can see the describe message been shown and after that the test messages been shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751088009/27-Jun-25/react-testing/10_wcp2ag.webp)
+
+Now, we will add coverage in our project. For this we have to add a new script in package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751088005/27-Jun-25/react-testing/11_p1dlbb.webp)
+
+Back in the terminal run the command npm run coverage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087985/27-Jun-25/react-testing/12_jlgnkn.png)
+
+We can see the coverage of each file been shown in the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087979/27-Jun-25/react-testing/13_l53eiw.webp)
+
+We only want to show the coverage for components folder. So, we have updated our coverage command with the same in package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087959/27-Jun-25/react-testing/14_rdbimr.webp)
+
+Back in the terminal, we can see the coverage from the components folder only and we are all green.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087981/27-Jun-25/react-testing/15_dycfw4.webp)
+
+Now, we will learn different ways to test a React component. For this first we will have a simple form component. So, create a form folder inside components folder and inside it Form.tsx file. Put the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087955/27-Jun-25/react-testing/16_mpysuy.webp)
+
+Next, we will include the Form component in our App.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087961/27-Jun-25/react-testing/17_qsalqj.webp)
+
+Now, in localhost we will see a simple form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087951/27-Jun-25/react-testing/18_rft1kd.webp)
+
+Next, we will also delete our App.test.tsx file, since we are not using it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087975/27-Jun-25/react-testing/19_br8r8i.webp)
+
+Now, create a file Form.test.tsx in the form folder and add the below code in it. Here, after the necessary imports we have a describe block and inside it our first test block.
+
+Here, we are using getByRole to select different element in our form. Like the textbox, will select an input box. The combobox will select a drop-down. The checkbox will select a checkbox and button will select a button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087971/27-Jun-25/react-testing/20_ln3iqy.webp)
+
+On running the tests again, we will see everything have passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087945/27-Jun-25/react-testing/21_viwdmm.webp)
+
+Now, we will add a textarea in our Form.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087949/27-Jun-25/react-testing/22_cearvx.webp)
+
+Now, the test running in the terminal will fail as it is finding multiple elements with role textbox. Actually, both input of type text and textarea are considered as textbox in Jest.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087941/27-Jun-25/react-testing/23_nsw6ze.webp)
+
+Now, to fix this we need to pass a second parameter in getByRole. This parameter specifies the text in the label for the two elements. Now, in the terminal our test passes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087939/27-Jun-25/react-testing/24_uzr3ar.webp)
+
+Back in the Form.tsx we will add a h1 and a h5.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087935/27-Jun-25/react-testing/25_xwd0yi.webp)
+
+Now, in Form.test.tsx file we will add new getByRole checks for heading. Here, we will give the level also for the heading.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087932/27-Jun-25/react-testing/26_wbo3en.webp)
+
+Our new tests have also passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087969/27-Jun-25/react-testing/27_sbp00m.webp)
+
+We will look into the next type of check now. It is called getByLabelText, which checks the text in the label tag. Here, also we can give a second parameter of selector to distinguish between them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087965/27-Jun-25/react-testing/28_bskcjd.webp)
+
+Again, our new tests passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087929/27-Jun-25/react-testing/29_ucawtk.webp)
+
+Back in the Form.tsx file we will add a placeholder text in an input box.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087925/27-Jun-25/react-testing/30_kfpapq.webp)
+
+Now, in Form.test.tsx file we will add the new check. This is getByPlaceholderText which checks the placeholder text. And on checking the test in terminal, it passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087922/27-Jun-25/react-testing/31_xwhvtg.webp)
+
+Next, we will add a paragraph with some text in Form.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087919/27-Jun-25/react-testing/32_zygpwn.webp)
+
+Now, in Form.test.tsx file we will add the new check. This is getByText which checks the text of any element. Here, we are passing the text of the newly created paragraph tag. And on checking the test in terminal, it passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087915/27-Jun-25/react-testing/33_poa2qu.webp)
+
+Back in Form.tsx file, we will add an image element with an alt tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087912/27-Jun-25/react-testing/34_abo4sv.webp)
+
+Now, in Form.test.tsx file we will add the new check. This is getByAltText which checks the alt tag text of any element. Here, we are passing the alt text of the newly created image tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087909/27-Jun-25/react-testing/35_jjbfrr.webp)
+
+And on checking the test in terminal, it passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087902/27-Jun-25/react-testing/36_yi3oia.webp)
+
+Now, we will add a span element with a title tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087905/27-Jun-25/react-testing/37_k72fjz.webp)
+
+Back in Form.test.tsx file, we will add the check of getByTitle. Here, we will pass the title text. On checking on terminal, this test passes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087899/27-Jun-25/react-testing/38_tizzia.webp)
+
+Back in Form.tsx file, we will add a div with the data-testid tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087895/27-Jun-25/react-testing/39_avcltc.webp)
+
+Back in Form.test.tsx file, we will add the check of getByTestId. Here, we will pass the testid text. On checking on terminal, this test passes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087892/27-Jun-25/react-testing/40_cri98j.webp)
+
+Next, we will learn to test arrays, useState and useEffect hook. For this create a folder lang inside components folder. Inside this folder create Languages.tsx and Languages.types.ts file. The types file will contain the type of the props languages, which will be an array of strings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087885/27-Jun-25/react-testing/41_cnzhec.webp)
+
+Next in the Languages.tsx file, we will get the props languages. After that inside the return statement, we will map through languages and show the individual lang.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087882/27-Jun-25/react-testing/42_t5yrwk.webp)
+
+Now, in a Languages.test.tsx file we will write our first tests. Here, inside the describe, we are first creating the langs array of string. Next, we have two tests.
+
+In the first test through getByRole, we are first checking if we have a list ie an ul tag. Then in the second test we are checking, if we have list items in an array with getAllByRole. Here, with an expect we are checking if we have the list element array to be of same length as the langs array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087889/27-Jun-25/react-testing/43_z0whga.webp)
+
+On checking the test results, we can find all of them passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087878/27-Jun-25/react-testing/44_flvfye.webp)
+
+Now, we will update the Languages.tsx file to have a state of isLoggedIn, which is initially set to false. Inside the return, if the isLoggedIn is true, we are showing a button with Start Course.
+
+Now, if the isLoggedIn is false, we are showing a button with text Login. And also, an onClick handler, which changes the isLoggedIn to true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087875/27-Jun-25/react-testing/45_ji7uqv.webp)
+
+Back in the Languages.test.tsx file, we will add two new tests. In the first test we will get the button with test Login. Since, when the Languages component loads the button with Login will be shown, so this test is true.
+
+In the second test we are checking the button with test of Start Course. We will not find this button in the component, so we are checking with toBeInTheDocument(). On checking in terminal, both of these tests are true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087872/27-Jun-25/react-testing/46_lxxdo9.webp)
+
+Next, we will update the Languages.tsx file to have an useEffect hook. Here, inside a setTimeout() of 1 second we are changing the isLoggedIn to be true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087869/27-Jun-25/react-testing/47_m8aij5.webp)
+
+Now, we will add a new test in the Languages.test.tsx file. Here, we will use the findByRole() method which also expects a timeout method. We have made it 2 seconds, so that we are on the safer side, as this method executes automatically after 1001 milliseconds.
+
+So, this method will execute after 1 sec because of the component. Notice, that since it’s an async task, so we have to use async and await here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087865/27-Jun-25/react-testing/48_pc3snx.webp)
+
+On checking the terminal again, we will see the new test been passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087862/27-Jun-25/react-testing/49_usklov.webp)
+
+Next, we will learn to test click events in our project. For this we need user-event from testing-library. It is already installed by default, but the version is 13 and we need version 14.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087860/27-Jun-25/react-testing/50_lzscq6.webp)
+
+So, open the terminal and install the library with latest option. In the package.json, we can see the version 14 now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087855/27-Jun-25/react-testing/51_pg1ouh.webp)
+
+Now, create a count folder inside the components folder. Inside it create a simple functional component in Count.tsx where we have a count state. The count state is incremented on the button click.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087853/27-Jun-25/react-testing/52_ib3gdo.webp)
+
+Now, create a new Count.test.tsx file where we are first doing the required imports, including user from user-event. Inside a describe block, the first test is checking the h1 and the button is present in the document.
+
+The second test is checking if the initial render of count is 0.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087850/27-Jun-25/react-testing/53_r6zxxt.webp)
+
+In the third test, we will check the clicking of the button. Here, we first need to do user.setup(), followed by rendering he Count component and selecting the increment button.
+
+Next, with user.click() we can perform a real click of the button. Now, with the single click the count will become 1 and we are checking the same next.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087845/27-Jun-25/react-testing/54_fgifiz.webp)
+
+Now, on checking the terminal and running npm test, we will find all tests been passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087842/27-Jun-25/react-testing/55_nnefqt.webp)
+
+Back in Count.tsx we will add a new state of amount. For this state we have an input type number, which will change its value.
+
+Also, we have a button with text Set, which will change the count state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087840/27-Jun-25/react-testing/56_vsmvkj.webp)
+
+In localhost we can check the same. Enter any number in the text box and click the Set button. It will be displayed as a count.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087836/27-Jun-25/react-testing/57_ww18if.webp)
+
+Now, we will write test for the same in Count.test.tsx file. The first test is about entering text in the text box and clicking the Set button. Here, we are first setting the value 10 in the text box. Notice, that text box of type number is called spinbutton in getByRole. Next, we are choosing the button Set and then emulation a click through user. Finally, we are checking if the heading has the display of 10.
+
+The second test is for focus which happens when we press tab in a web-page. Here, we are first selecting the input, button with Set and Increment text. After that we are emulating the press of tab by user.tab(). Now, we expect the focus to be on the increment button, which comes first in the page. Next, tab will have the focus on the input box. And the next tab will have the focus on the Set button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087832/27-Jun-25/react-testing/58_bxhjju.webp)
+
+Again running npm test on the terminal will pass all the tests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087830/27-Jun-25/react-testing/59_sjqdjs.webp)
+
+Next, we will learn to add tests when we have a Provider like Context API or a Theme Provider. For this we will first add material ui in our project with the below command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087826/27-Jun-25/react-testing/60_rmkv35.webp)
+
+Next, create a providers folder inside the src folder. Inside it create a file called ModeProviders.tsx and add the below content in it. Here, using ThemeProvider and createTheme from material ui. In this we are passing the children, which will be a component inside the ThemeProvider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087824/27-Jun-25/react-testing/61_uyztkg.webp)
+
+Now, create a folder mui inside the components folder called MuiMode.tsx. Next, in the App.tsx file, we will call the MuiMode component, wrapped with the ModeProviders.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087821/27-Jun-25/react-testing/62_waneus.webp)
+
+Now, in the MuiMode.tsx file we will use the Typography and the palette mode from material ui. Notice, that we useTheme we can use the palette created in the ModeProviders.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087818/27-Jun-25/react-testing/63_n7b8gv.webp)
+
+Now, open localhost and we will see a dark mode.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087815/27-Jun-25/react-testing/64_k99f5u.webp)
+
+Now, in the ModeProviders.tsx file we will make the mode as light.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087812/27-Jun-25/react-testing/65_bdtlfh.webp)
+
+Back in localhost we will see a light mode.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087809/27-Jun-25/react-testing/66_gf1n4r.webp)
+
+Now, we will write the test for the same. So, create a file MuiMode.test.tsx in the mui folder. Here, we have imported the MuiMode and ModeProviders. Inside the test we are rendering the MuiMode component, but notice that the wrapper is ModeProviders.
+
+After that we are just checking whether the heading is light mode.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087806/27-Jun-25/react-testing/67_ma5uvp.webp)
+
+Back in the terminal we can check the test been passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087804/27-Jun-25/react-testing/68_ph4jcc.webp)
+
+Now, we will test when a props is passed in a function, including Method as props. So, create a counter folder inside components and two files Counter.tsx and Counter.types.ts inside it.
+
+In the Counter.types.ts file we will export a type CounterProps. Here, we have a count, handleIncrement and handleDecrement props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087800/27-Jun-25/react-testing/69_nvp8m6.webp)
+
+Next, in the Counter.tsx file we will have a simple functional component, which will take as props the CounterProps. Inside the return we are showing a h1 and a paragraph with count props.
+
+Next, the Increment and Decrement button will callback the functions through a props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087798/27-Jun-25/react-testing/70_nworqn.webp)
+
+Now, in the Counter.test.tsx file we will have two tests. Here, the first test is just checking if the Counter text is present in the document. The second test is first creating two mock functions with jest.fn(). Next, we are rendering the Counter component with count, handleIncrement and handleDecrement.
+
+Now, we are choosing the increment and decrement buttons and using the user.click to click on them. Finally, we are expecting them to be called 1 time.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087795/27-Jun-25/react-testing/71_dccljo.webp)
+
+On running the tests again in terminal, everything is passing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087792/27-Jun-25/react-testing/72_ynitt8.webp)
+
+In the final test of the post, we will test an API call. So, create an users folder in the components folder. Inside it create Users.test.tsx and Users.tsx file.
+
+In the Users.tsx file, we have a simple API call to the json placeholder users endpoint. Here, we are calling the API endpoint through useEffect hook and storing the name in the users array.
+
+Inside the return we are showing the error in case of error. Or we are lopping through the users array and showing the each user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087790/27-Jun-25/react-testing/73_ohsajo.webp)
+
+Now to do a mock API call we [MSW](https://mswjs.io/). So, as per their documentation we are installing it first.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087786/27-Jun-25/react-testing/74_zjuvwl.webp)
+
+Next, we have to create a mocks folder in the src folder. Inside it create handlers.ts and server.ts file.
+
+Now, inside the handlers.ts file, we will first import the rest from msw. Next, with this rest we are doing the fake API call to jsonplacehloder endpoint. Here, we are receiving a status of 200 and also a json containing an array of objects containing the name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087784/27-Jun-25/react-testing/75_pazc8e.webp)
+
+In the server.ts file, we will do a boilerplate setup like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087781/27-Jun-25/react-testing/76_cm9qs2.webp)
+
+We also need to update the setupTests.ts file in the root directory as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087779/27-Jun-25/react-testing/77_eaoa2k.webp)
+
+Now, we will write our first two tests in Users.test.tsx file. Here, in the first test we are checking if we have the text of Users on the screen.
+
+In the second test we are checking if we have the list item of length 3. Notice that it is of length 3, because our mock data from handlers.ts file is of length 3.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087776/27-Jun-25/react-testing/78_c6j3ri.webp)
+
+In the third test we are checking if we have an error. Here, again we are using the rest.get() to hit the jsonplaceholder API endpoint. But this time sending an error code of 500.
+
+After that we are rendering the Users. Here, we are checking if we the tesxt of Error fetching users. Note that we get this error text in case of error from the Users.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751087774/27-Jun-25/react-testing/79_mc8suv.webp)
+
+This completes our long post on React Testing. Hope you found it useful. You can get the code from [this](https://github.com/nabendu82/react-testing) github link.
