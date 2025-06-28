@@ -1,0 +1,217 @@
+---
+title: Learn Vue.js by Creating a Basic App
+description: VueJS
+date: 2023-10-01
+tags: ["javascript", "vuejs", "web-dev"]
+published: true
+---
+
+In this basic project we will learn all about VueJS. This project have been inspired by [this](https://www.udemy.com/course/vuejs-2-the-complete-guide/) awesome Udemy course by Maximillian.
+
+To start with this project get the basic boiler plate of a VueJS app from this file.
+
+After extracting the zip file, open the folder in terminal. Then do npm i to install all the dependencies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123236/27-Jun-25/learn-vuejs/1_pp4rru.webp)
+
+Now, in the App.vue file, inside the script, we will have our data(). Here, we are returning and array of object called storedResources.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123234/27-Jun-25/learn-vuejs/2_uwn88b.webp)
+
+Now, we will add a component ResourceList in App.vue. From the template we will use a v-for to loop through the storedResources and call the resource-list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123237/27-Jun-25/learn-vuejs/3_ubhtla.webp)
+
+Now, we will create a components folder inside the src folder. And inside it we will create the resources folder. Here, we will create a ResourceList.vue file.
+
+Here, we are taking the title, description and link from the props and showing it inside the template.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123233/27-Jun-25/learn-vuejs/4_rprllr.webp)
+
+Back in the App.vue we will pass the title, description and link props. Notice, the : at the start, which is to bind the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123232/27-Jun-25/learn-vuejs/5_ukyc64.webp)
+
+The starting point of our VueJS app is main.js. So, in it we will add our App component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123231/27-Jun-25/learn-vuejs/6_a00xuh.webp)
+
+Now, in http://localhost:8080/ we will see the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123231/27-Jun-25/learn-vuejs/7_fl4n7w.webp)
+
+We will also add styles in the ResourceList.vue file. Here, we have added the scoped tag in style. It means the styles will be restricted to this file only.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123230/27-Jun-25/learn-vuejs/8_urznmj.webp)
+
+Now, in http://localhost:8080/ our app will have a little of style.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123228/27-Jun-25/learn-vuejs/9_new1pz.webp)
+
+Now, we will refactor our code to have the individual items in a new file of ResourceItem.vue. So, we have moved all of the logic of ResourceList top this file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123227/27-Jun-25/learn-vuejs/10_q8cetp.webp)
+
+Now, in the ResourceList.vue file we will call the ResourceItem component, with all props passed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123227/27-Jun-25/learn-vuejs/11_prwt2i.webp)
+
+Now, in the App.vue file, we will call the resource-list component, with the storedResources been passed as props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123225/27-Jun-25/learn-vuejs/12_k7eduj.webp)
+
+Our app behaves as usual with no error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123225/27-Jun-25/learn-vuejs/13_q3cnhl.webp)
+
+Now, inside the components, we will create an UI folder and a BaseCard.vue file inside it. Here, we have the basic style and a slot. Inside the slot we can pass other component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123223/27-Jun-25/learn-vuejs/14_d15jie.webp)
+
+Now, in the ResourceItem.vue component, we will wrap everything with this base-card component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123222/27-Jun-25/learn-vuejs/15_gjvlo4.webp)
+
+We will import this BaseCard component in the main.js file, so that we can use it in other components also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123220/27-Jun-25/learn-vuejs/16_uoo4jc.webp)
+
+Now, we will get nice styles for the individual items.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123219/27-Jun-25/learn-vuejs/17_m8zq3y.webp)
+
+Next, we will create a layouts folder inside the components folder. Inside it we will create TheHeader.vue file. Here, we are taking the title as props and some basic header styling.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123218/27-Jun-25/learn-vuejs/18_sgftm4.webp)
+
+Now, we will add the TheHeader component in our App.vue file and also pass a title in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123219/27-Jun-25/learn-vuejs/19_hq2su8.webp)
+
+Now, we will get a nice Header in http://localhost:8080/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123216/27-Jun-25/learn-vuejs/20_orai5t.webp)
+
+Now, we will create a BaseButton.vue file inside the UI folder. Here, we have the code for a generic button, which takes the props of type and mode. And also slot as children.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123216/27-Jun-25/learn-vuejs/21_v28exf.webp)
+
+Again, we will add this BaseButton in the main.js file, so that it can be used in different part of the app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123215/27-Jun-25/learn-vuejs/22_z7r5mt.webp)
+
+Now, inside the ResourceItem.vue file, we will add this base-button and pass Delete.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123212/27-Jun-25/learn-vuejs/23_lzr6od.webp)
+
+Now, we will see these nice looking button in our app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123211/27-Jun-25/learn-vuejs/24_a0zopf.webp)
+
+We can also pass a prop of mode in the base-button in ResourceItem.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123209/27-Jun-25/learn-vuejs/26_qgq0vn.webp)
+
+Now, our buttons have different styles in http://localhost:8080/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123212/27-Jun-25/learn-vuejs/27_qyzjml.webp)
+
+Now, inside the resources folder, we will create an AddResource.vue and TheResources.vue file and add basic code in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123207/27-Jun-25/learn-vuejs/28_nhqjlc.webp)
+
+Now, in the TheResources.vue file we will first use the base-card and base-button components. Here, when we click the button, it set the selectedTab to a string of add-resource or resource-list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123208/27-Jun-25/learn-vuejs/29_mmvxqb.webp)
+
+Next, we will include the TheResources component in the App.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123207/27-Jun-25/learn-vuejs/30_v3u98z.webp)
+
+Now, in the App.vue file, we have removed the storedResources data and also calling the TheResources component instead of the ResourceList component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123205/27-Jun-25/learn-vuejs/31_vpjdmv.webp)
+
+Now, in the TheResources.vue file, we will add the storedResources array in the data(). We will also provide it as resources.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123204/27-Jun-25/learn-vuejs/32_uoula9.webp)
+
+Now, we will inject this in the ResourceList.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123204/27-Jun-25/learn-vuejs/33_c2rdx7.webp)
+
+Now, in http://localhost:8080/ we will see two buttons for Resources and Add Resources with all items been shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123203/27-Jun-25/learn-vuejs/34_ebfte4.webp)
+
+Also, clicking on the Add Resource button will show the text of Add Resource.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123202/27-Jun-25/learn-vuejs/35_udvy7d.webp)
+
+Back in TheResources.vue file, we will add the props of mode in the buttons. Here, using the computed property we are deciding the mode as null or flat.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123202/27-Jun-25/learn-vuejs/36_bdyjmg.webp)
+
+Now, the selected component is shown in a different button style.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123200/27-Jun-25/learn-vuejs/37_xwuqgs.webp)
+
+Now, we will complete the code for AddResource.vue file to have a form to take the title, description and the link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123199/27-Jun-25/learn-vuejs/38_xcvvg1.webp)
+
+Now, clicking on Add Resource button, will show this nice ooking form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123199/27-Jun-25/learn-vuejs/39_bnmain.webp)
+
+Now, in the AddResource.vue file, we will add refs to each input. The form will also call a submitData function.
+
+In the submitData function, we will use the refs to take the entered values and inject the addResource.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123198/27-Jun-25/learn-vuejs/40_knadjd.webp)
+
+In the TheResources.vue file, we will have the addResource function taking the title, description and url and creating a new resource. Also, we are adding it to the storedResources array at the start. And also making the selectedTab as resource-list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123197/27-Jun-25/learn-vuejs/41_hewfq8.webp)
+
+Now, when we add a resource, it is getting added in the Resources.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123196/27-Jun-25/learn-vuejs/42_u28adw.webp)
+
+Now, we will create a BaseDialog.vue file inside the UI folder. Here, we will have a dialog which will take three slots with title and close.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123197/27-Jun-25/learn-vuejs/43_moyqtf.webp)
+
+We will also add styles for the same in BaseDialog.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123195/27-Jun-25/learn-vuejs/44_v2aalw.webp)
+
+Now, in the AddResource.vue file, we will call the base-dialog component with template passing data and the action.
+
+Inside the script, we will have a variable of inputIsInvalid initially set to false. Now, inside the submitData function, if we are not entering any data, we are setting it to true. We also have a confirmError function, setting the inputIsInvalid to false.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123194/27-Jun-25/learn-vuejs/45_dxsbpd.webp)
+
+We are finally adding the BaseDialog component in the main.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123193/27-Jun-25/learn-vuejs/46_xhgwso.webp)
+
+Now, if we are not entering any field, we are getting error in a nice pop-up.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123193/27-Jun-25/learn-vuejs/47_v1gpaq.webp)
+
+Next, we will add the logic to delete a resource. In the TheResources.vue file, we will add a function of removeResource, which will take the id and remove the resource from that id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123193/27-Jun-25/learn-vuejs/48_dljy9i.webp)
+
+Now, we will inject this deleteResource in the ResourceItem.vue file, where on click of the Delete button will call the deleteResource method with the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123192/27-Jun-25/learn-vuejs/49_ucbmg2.webp)
+
+Back in the ResourceList.vue file, we will also pass the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123192/27-Jun-25/learn-vuejs/50_xitvbz.webp)
+
+Now, we are even able to delete a file. This completes our small basic project in VueJS. You can find the code for the same [here](https://github.com/nabendu82/resource-app-vue).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751123191/27-Jun-25/learn-vuejs/51_vmwtmp.webp)
