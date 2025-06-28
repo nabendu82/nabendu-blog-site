@@ -1,0 +1,158 @@
+---
+title: 3D Portal worlds with React Three Fiber
+description: ReactJS
+date: 2023-09-30
+tags: ["nextjs", "reactjs", "fiber"]
+published: true
+---
+
+In this post we are going to create a nice 3D portal worlds using React Three Fiber. This post have been inspired by the awesome YouTube video by [this](https://www.youtube.com/watch?v=2W_VR92Pqgs) Wawa Sensei.
+
+First clone [this](https://github.com/wass08/r3f-vite-starter) repository containing basic React Fiber setup. After cloning, we have changed the directory and install all the packages using yarn command. Also, started the project using yarn dev command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111693/27-Jun-25/3d-portal-fiber/1_yyajus.webp)
+
+We will see the basic 3D cube on http://127.0.0.1:5173/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111692/27-Jun-25/3d-portal-fiber/2_fvp2x0.webp)
+
+We will create the background scene using the awesome site of [Blockade Labs](https://www.blockadelabs.com/). Here, click on Conjure your world to get started.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111692/27-Jun-25/3d-portal-fiber/3_uihd1r.webp)
+
+Next, we will give water world in the test box and click on Generate button. After creating the world you can download the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111692/27-Jun-25/3d-portal-fiber/4_pyywbt.webp)
+
+We have created three worlds and put them inside the textures folder inside public folder. You can get these from the github repo at the end of this post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111692/27-Jun-25/3d-portal-fiber/5_xmr4e1.webp)
+
+Now, open the Experience.jsx file which controls camera and other things in our React Fiber project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111691/27-Jun-25/3d-portal-fiber/6_dtu8cb.webp)
+
+Next, we will make slight change in Experience.jsx file, so that we can see the backside also. Here, we are also using the water world background file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111688/27-Jun-25/3d-portal-fiber/7_nmxvam.webp)
+
+Now, in http://127.0.0.1:5173/ we can see the background.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111688/27-Jun-25/3d-portal-fiber/8_g1zie8.webp)
+
+Now, we will also change the camera position a bit in the App.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111687/27-Jun-25/3d-portal-fiber/9_mdpjzw.webp)
+
+Now, the camera position is better in http://127.0.0.1:5173/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111687/27-Jun-25/3d-portal-fiber/10_mptdab.webp)
+
+Now, we will get our monster from the awesome [quaternius](https://quaternius.com/packs/ultimatemonsters.html) site.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111687/27-Jun-25/3d-portal-fiber/11_xljpuu.webp)
+
+They share a google drive link and inside it goto the glTF folder and download any monster of your choice.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111687/27-Jun-25/3d-portal-fiber/12_ifag5f.webp)
+
+Now, we have downloaded three monster and put them in the models folder. Next, from the terminal give the command to take the gltf file and create an jsx file. Here, we have created and Yeti.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111687/27-Jun-25/3d-portal-fiber/13_jozudm.webp)
+
+In the Yeti.jsx file change the function name to Yeti.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111686/27-Jun-25/3d-portal-fiber/14_xtotqa.webp)
+
+Now, in the Experience.jsx file we will include the Yeti file and also change the background.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111685/27-Jun-25/3d-portal-fiber/15_fxlzwv.webp)
+
+Now, we will see a nice Yeti image on a background in http://127.0.0.1:5173/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111683/27-Jun-25/3d-portal-fiber/16_oauy2n.webp)
+
+Back in Yeti.jsx file, we will console log the actions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111683/27-Jun-25/3d-portal-fiber/17_onhm5q.webp)
+
+Now, in the console log we will see the various actions of Yeti.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111684/27-Jun-25/3d-portal-fiber/18_qc3rv0.webp)
+
+In the Yeti.jsx file, we will use the useEffect hook from React. Here, we are making the Idle action to play when the Yeti is shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111682/27-Jun-25/3d-portal-fiber/19_kuhzti.webp)
+
+Now, in http://127.0.0.1:5173/ we can see the Idle action of the Yeti.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111682/27-Jun-25/3d-portal-fiber/20_t71uuo.gif)
+
+Next, we will update the Experience.jsx file to show the Yeti in a Rounded box which can be moved.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111682/27-Jun-25/3d-portal-fiber/21_cxjttd.webp)
+
+Back in http://127.0.0.1:5173/ we will see the Yeti in small rounded box. We want to show three different monster in three different rectangular boxes. So, we will create a MonsterStage component in our Experience.jsx file and pass a background and the Yeti component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111681/27-Jun-25/3d-portal-fiber/23_z9hqqk.webp)
+
+We are going to call this MonsterStage component, two more times with the position and rotation been different.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111681/27-Jun-25/3d-portal-fiber/24_clvzb1.webp)
+
+Now, we will see the perfect background with three cards in http://127.0.0.1:5173/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111681/27-Jun-25/3d-portal-fiber/25_njutki.webp)
+
+We will run the same gltfjsx command to generate the remaining monsters from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111681/27-Jun-25/3d-portal-fiber/26_dxwmuq.webp)
+
+In the Tribal.jsx file, we will change the function name to Tribal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111681/27-Jun-25/3d-portal-fiber/27_q8ixel.webp)
+
+In the MushroomKing.jsx file, we will change the function name to MushroomKing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111680/27-Jun-25/3d-portal-fiber/28_wzmo5h.webp)
+
+Back in the Experience.jsx file, we will add the Tribal and MushroomKing components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111680/27-Jun-25/3d-portal-fiber/29_c7egoa.webp)
+
+Now, we will see all the three monsters at the right place in http://127.0.0.1:5173/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111680/27-Jun-25/3d-portal-fiber/30_yqz5bm.webp)
+
+Now, in the Tribal.jsx file we will add the Idle animations.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111680/27-Jun-25/3d-portal-fiber/31_a5ybsx.webp)
+
+In the MushroomKing.jsx file, we will add the Idle animations.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111680/27-Jun-25/3d-portal-fiber/32_upspzw.webp)
+
+Now, we will get the perfect Idle animation for all three monsters.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111681/27-Jun-25/3d-portal-fiber/33_ykrxvz.gif)
+
+Now, in the Experience.jsx file we will add a hovered state. We will pass this hovered state to the MosterStage of different monster.
+
+Inside the MonsterStage, we are using a pointer event to set the hover to true when we enter and set it to false when we leave.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111680/27-Jun-25/3d-portal-fiber/34_oumqaw.webp)
+
+Now, in the Tribal.jsx file, we will use this hovered props to set the animation to Weapon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111679/27-Jun-25/3d-portal-fiber/35_akz3ob.webp)
+
+Next, in the MushroomKing.jsx file, we will use this hovered props to set the animation to Punch.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111679/27-Jun-25/3d-portal-fiber/36_nm3v9q.webp)
+
+Finally, in the Yeti.jsx file, we will use this hovered props to set the animation to Duck.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751111680/27-Jun-25/3d-portal-fiber/37_hsx87j.webp)
+
+You can find the code for the same in [this](https://github.com/nabendu82/react-fiber-portal) github repo.
+
