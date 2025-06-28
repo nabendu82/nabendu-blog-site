@@ -1,0 +1,117 @@
+---
+title: Create animated Shaders with React Fiber using Threejs
+description: ReactJS
+date: 2023-09-09
+tags: ["web-dev", "reactjs", "javascript"]
+published: true
+---
+
+In this post, we are going to create an hover image transition in React Fiber using Threejs. Here, we are going to show nice animations when hover over images.
+
+This post have been inspired by [this](https://www.youtube.com/watch?v=SOF7GBmC6gE) awesome YouTube video by Wawa Sensei.
+
+To start first get the starter pack from [here](https://github.com/wass08/r3f-vite-starter). After that clone the project using the below command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097427/27-Jun-25/animated-react-fiber/1_adt2rd.webp)
+
+Once the folder is created, change to it and then do yarn to install the npm packages. Also, do yarn dev to start the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097424/27-Jun-25/animated-react-fiber/2_pqqesj.webp)
+
+Here, we have a basic React Three fiber project showing a cube.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097420/27-Jun-25/animated-react-fiber/3_xkgyis.webp)
+
+There are a lot of React Three example projects on the official site. We are going to use the Shadermaterials project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097417/27-Jun-25/animated-react-fiber/4_jbd8i6.webp)
+
+On opening the project, it shows nice animation effect when we hover over the image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097414/27-Jun-25/animated-react-fiber/5_ofvoug.webp)
+
+Back in our project, we will create textures folder inside the public folder. Here, we have put four images one is a portrait and other full body. These can be taken from the GitHub repo at the end of this article.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097411/27-Jun-25/animated-react-fiber/6_fquzsb.webp)
+
+We will now create displacement folder inside the textures folder. And add two files for transition.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097407/27-Jun-25/animated-react-fiber/7_i3nvng.webp)
+
+Back to the project in our App.jsx we have the Canvas showing the camera position, a background and call to an Experience component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097404/27-Jun-25/animated-react-fiber/8_a8qkw2.webp)
+
+Back to our Shadersmaterials sandbox, we will copy most of the code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097401/27-Jun-25/animated-react-fiber/9_gjyluj.webp)
+
+Now, we will create a new file called FadingDisplacement.jsx and here, we will first import the required things.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097398/27-Jun-25/animated-react-fiber/10_a7gn8c.webp)
+
+After that we have added the code of ImageFadeMaterial, which we got from the sandbox.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097394/27-Jun-25/animated-react-fiber/11_mqynzi.webp)
+
+Next, our export will also contain code from the sandbox.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097391/27-Jun-25/animated-react-fiber/12_nptjxl.webp)
+
+Lastly in the same FadingDisplacement.jsx file, we will add our images.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097388/27-Jun-25/animated-react-fiber/13_oadi0i.webp)
+
+Now, we will add our FadingDisplacement component in our Experience.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097385/27-Jun-25/animated-react-fiber/14_ddjfnd.webp)
+
+Now, in our localhost, we can see the image with animation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097382/27-Jun-25/animated-react-fiber/15_uu59vo.webp)
+
+But the camera position was not correct, so we will fix the same by changing the position and fov in App.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097378/27-Jun-25/animated-react-fiber/16_uu9ewk.webp)
+
+Now, our image looks perfect and the hover effect also works.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097375/27-Jun-25/animated-react-fiber/17_advuet.webp)
+
+Now, our code was not highlighting properly, so we will add the Comment tagged templates extension.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097374/27-Jun-25/animated-react-fiber/18_s9o3yt.webp)
+
+For code highlighting, we have to add the comment /*glsl*/ before the targeted code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097370/27-Jun-25/animated-react-fiber/19_bejyia.webp)
+
+In the Fading code, we can control the direction of the hover effect. Here, we have changed to have the hover effect from the y axis.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097363/27-Jun-25/animated-react-fiber/20_ne1xcz.webp)
+
+We have also made the hover effect last a bit longer by changing the duration.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097367/27-Jun-25/animated-react-fiber/21_juujdw.webp)
+
+Now, we will create another component called FadingImage.jsx, but here the animation will be on x axis.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097361/27-Jun-25/animated-react-fiber/22_yail5d.webp)
+
+Now, we will add props in this file and also add different images.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097358/27-Jun-25/animated-react-fiber/23_vcsigo.webp)
+
+We will also introduce props in our FadingDisplacement.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097355/27-Jun-25/animated-react-fiber/24_sklvnb.webp)
+
+Now, we will add both component with positions in Experience.jsx file
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097353/27-Jun-25/animated-react-fiber/25_orsbyt.webp)
+
+Now, we will see these beautiful animations while hovering over images.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751097447/27-Jun-25/animated-react-fiber/26_mpvmro.gif)
+
+The code for the same can be found [here](https://github.com/nabendu82/image-transition-r3f).
