@@ -1,0 +1,555 @@
+---
+title: NextJS 13 Crash Course(2023)
+description: NextJS
+date: 2023-06-17
+tags: ["web-dev", "reactjs", "nextjs"]
+published: true
+---
+
+NextJS have gone through an major upgradation in 2023 and they released version 13. This is quite new and the old code will break, which we did in [2021](https://www.nabendu.org/blog/nextjs-crash-course) Crash Course.
+
+This course have been inspired by [this](https://www.youtube.com/watch?v=wm5gMKuwSYk) awesome YouTube video by JavaScript Mastery. Check it out, to know why exactly to use NextJS. As we will directly start with the code.
+
+Here, we will be creating a Full Stack NextJS 13 app with both the frontend and backend created in NextJS.
+
+First goto the terminal and give the below command to create a brand new NextJS 13 app. We need to give the project a name and give the exact options as shown below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042264/27-Jun-25/next13-crash-course/1_ucrjlw.webp)
+
+Next, we will also add some dependencies for bcrypt, mongoose and next-auth.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042260/27-Jun-25/next13-crash-course/2_xvthvf.webp)
+
+After that open the app in VS Code and delete all files in the app folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042257/27-Jun-25/next13-crash-course/3_vmh8yt.webp)
+
+We are also deleting all files from the public folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042255/27-Jun-25/next13-crash-course/4_jfuvsc.webp)
+
+Next, we will create four folder of components, models, styles, utils and one .env file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042251/27-Jun-25/next13-crash-course/5_nbgvai.webp)
+
+We will also change our tailwind.config.js file to have the below content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042249/27-Jun-25/next13-crash-course/6_dyxqob.webp)
+
+Also, will update the globals.css file to contain our styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042245/27-Jun-25/next13-crash-course/7_bqygzc.webp)
+
+Next, in the public folder we will add an assets folder. Inside it we will have icons and images folder. All of these code and images can be taken from the GitHub link at the end of the article.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042242/27-Jun-25/next13-crash-course/8_qhspmo.webp)
+
+Now in the app folder, we will create two files layout.js and page.js. Put the below code in layout.js file. Notice, that the way to import has been changed in NextJS 13. Also, just adding the metadata object will add this in all pages.
+
+The Layout component as in earlier versions, will be shown in all pages.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042240/27-Jun-25/next13-crash-course/9_s945oz.webp)
+
+Also, before starting we need to make changes in jsconfig.json as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042236/27-Jun-25/next13-crash-course/10_yzousn.webp)
+
+In the page.js we will put the initial code for our Home Page as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042232/27-Jun-25/next13-crash-course/11_mfir8k.webp)
+
+Now, NextJS 13 was not working properly with NodeJS 16 installed in our system. But some projects were dependent on that Node version. So, we used nvm to install two different Node versions.
+
+And after that used version 18.15.0. The complete instructions for the same can be found here.
+
+Lastly, we have started our NextJS project with npm run dev command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042229/27-Jun-25/next13-crash-course/12_ikzpah.webp)
+
+Now, visiting http://localhost:3000/ in the browser will show us the Home Page file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042275/27-Jun-25/next13-crash-course/13_o3qjtt.webp)
+
+Now, in our page.js file we will add the below code. This code contains some texts with tainwind CSS styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042274/27-Jun-25/next13-crash-course/14_o8trxc.webp)
+
+Now, our home page looks much better.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042270/27-Jun-25/next13-crash-course/15_wqbpql.webp)
+
+In the components folder we will add some files and in all of them a basic React Functional component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042266/27-Jun-25/next13-crash-course/16_z9mcwg.webp)
+
+Next, we will import our Nav component in our layout.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042226/27-Jun-25/next13-crash-course/17_wyvbho.webp)
+
+Now, in Nav.js file we will add a basic code for a Navbar. Here, we have to use the text “use client” at the top, if our code with use the React concepts of useState, useEffect or any other hook.
+
+Also, we are using the famous Image component from NextJS which optimizes the image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042225/27-Jun-25/next13-crash-course/18_ozhbyf.webp)
+
+In Nav.js file we will show the Sign Out button and a image showing the profile if the user is logged in. For now, we have taken an temporary variable of isLoggedIn.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042217/27-Jun-25/next13-crash-course/19_ehpd5y.webp)
+
+If the user is not logged in we will use the authentication feature from next-auth. For this we will use a providers state variable and set it to the data we will get from the in-built getProviders() function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042215/27-Jun-25/next13-crash-course/20_p5lyvr.webp)
+
+Now, in the else part of our ternanry operator, we will check the providers and use it in the Sign In button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042220/27-Jun-25/next13-crash-course/21_qrvfye.webp)
+
+Now, to use Next Auth we need to have the SessionProvider from next-auth, wrap the children component. We will do the same in Provider.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042210/27-Jun-25/next13-crash-course/22_pklv71.webp)
+
+Next, we will wrap the Provider component around all the body code of Layout.js file. This will have it in all the pages, which we will create in future.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042209/27-Jun-25/next13-crash-course/23_jlf5mk.webp)
+
+Now, we will setup AUthentication through Google. So, goto https://console.cloud.google.com/ . If you already have a project, it will open that.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042205/27-Jun-25/next13-crash-course/24_ot6wli.webp)
+
+Now, click on the existing project dropdown. It will open a pop-up and here click on New Project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042202/27-Jun-25/next13-crash-course/25_b8nro8.webp)
+
+Next, we have to give the project a name which we have given easyaiprompt and then click on Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042199/27-Jun-25/next13-crash-course/26_sxsoyn.webp)
+
+After the project is created a pop-up will come and here click on Select Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042196/27-Jun-25/next13-crash-course/27_rfaedt.webp)
+
+Now, click on the Hamburger menu on the top left and after that click on APIs and services tab. Inside it click on OAuth consent screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042193/27-Jun-25/next13-crash-course/28_pabgeq.webp)
+
+In the next screen click on the CREATE button. Don’t select any Radio button option.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042190/27-Jun-25/next13-crash-course/29_uac0bb.webp)
+
+After that in the OAuth consent screen we need to give the app a name and also select the support email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042188/27-Jun-25/next13-crash-course/30_bkzdvf.webp)
+
+Scroll a bit down and again give your contact information in Developer contact information. After that click on SAVE AND CONTINUE button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042184/27-Jun-25/next13-crash-course/31_dgb3qk.webp)
+
+Now, click on the Credentials tab. After that on CREATE CREDENTIALS button and then on OAuth client ID.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042180/27-Jun-25/next13-crash-course/32_naov6i.webp)
+
+In the next screen the Application type will be Web application. And the JavaScript origins and Redirect URIs will be http://localhost:3000/ . Click on the CREATE button to continue.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042177/27-Jun-25/next13-crash-course/33_s8bfqe.webp)
+
+A pop-up will be opened which will show both Client ID and Client secret. We need to note both of them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042175/27-Jun-25/next13-crash-course/34_aguf4p.webp)
+
+Now, in the .env file put both of the keys as GOOGLE_ID and GOOGLE_CLIENT_SECRET.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042171/27-Jun-25/next13-crash-course/35_vho0iu.webp)
+
+Now, in NextJS whenever we need to create API endppoint it needed to be done inside and api folder. Here, to use Next auth we will create an api folder inside app folder.
+
+Inside that create an auth folder and inside it […nextauth] folder. Inside this folder create the route.js file. Add the below content in it, which will have the providers from google. And also a session and signIn function.
+
+We have to export it as both GET and POST. This boiler-plate code has been taken from next-auth official [site](https://next-auth.js.org/getting-started/introduction).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042167/27-Jun-25/next13-crash-course/36_twiutm.webp)
+
+Now, in the utils folder we will create a db.js file and put the below content in it. Here, we are importing mongoose first and after that have a connectToDB function.
+
+Inside it we are connecting to mongoose through the connect method.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042166/27-Jun-25/next13-crash-course/37_kjioym.webp)
+
+Now, we will use MongoDB cloud for our database. So, head over to http://cloud.mongodb.com/ and login with your Google account.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042162/27-Jun-25/next13-crash-course/38_jfg3cd.webp)
+
+Since, we have a lot of projects we will click on the existing project and then scroll down and click on New Project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042159/27-Jun-25/next13-crash-course/39_cmkasx.webp)
+
+Now, we need to give the project a name which is easyaiprompt in our case. And click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042155/27-Jun-25/next13-crash-course/40_fpycw0.webp)
+
+In the next screen click on the Create Project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042152/27-Jun-25/next13-crash-course/41_o62nhf.webp)
+
+Now, in the next screen click on the big Build a Database button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042150/27-Jun-25/next13-crash-course/42_o3omdx.webp)
+
+In the next screen first choose the FREE tier of M0, then keep the Provider as AWS. Choose a Region near to you location, which for us is Mumbai. Give the cluster a name, which for us is EasyAIPrompt. After that click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042146/27-Jun-25/next13-crash-course/43_gczxtv.webp)
+
+In the next screen, we have to give an username and password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042144/27-Jun-25/next13-crash-course/44_fus55y.webp)
+
+It will automatically add our current IP address. After that click on Finish and Close button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042140/27-Jun-25/next13-crash-course/45_n971rn.webp)
+
+After that click on Network Access and then click on ADD IP ADDRESS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042136/27-Jun-25/next13-crash-course/46_ot51ak.webp)
+
+In the pop-up click on ALLOW ACCESS FROM ANYWHERE button and then Confirm button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042134/27-Jun-25/next13-crash-course/47_x3txff.webp)
+
+After that click on the Database tab and then the Connect button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042131/27-Jun-25/next13-crash-course/48_mhe9wp.webp)
+
+In the next pop-up click on MongoDB for VS Code tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042127/27-Jun-25/next13-crash-course/49_zo7uvy.webp)
+
+In the next tab, we will get our MongoDB URI, which we need to copy. After that in .env file add it as the MONGODB_URI variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042124/27-Jun-25/next13-crash-course/50_gspsoi.webp)
+
+To use MongoDB through mongoose, we need models. So, in the models folder create user.js file and add the below content in it. Here, we have an email, username and image type. The code is almost similar to what we have in a NodeJS project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042120/27-Jun-25/next13-crash-course/51_z3mclm.webp)
+
+Back in the route.js file, we will first do the import to database and User model. Next, in signIn function we will connect to the db and with the findOne function from mongoose will find the user.
+
+Next, we are creating the user with the email, name and picture from the profile.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042118/27-Jun-25/next13-crash-course/52_r61tuw.webp)
+
+We will also write the code for the session function. Here, we will find the user again with the findOne function. In it we will pass the email from the session.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042114/27-Jun-25/next13-crash-course/53_uo9na6.webp)
+
+Now, we need three more variable of NEXTAUTH_URL, NEXTAUTH_URL_INTERNAL and NEXTAUTH_SECRET in our .env file. Here, the urls should be http://localhost:3000/ and the secret can be any random string.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042107/27-Jun-25/next13-crash-course/54_wjs64m.webp)
+
+Before moving forward, we also need to update the next.config.js file with below data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042112/27-Jun-25/next13-crash-course/55_ulemjn.webp)
+
+Finally, we will remove the hardcode isLoggedIn variable in Nav.js file and get the user data using the useSession hook.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042106/27-Jun-25/next13-crash-course/56_lgckqi.webp)
+
+We need to do one more configuration in Google Console. So, head over to https://console.cloud.google.com/ and click on the Web client 1 link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042099/27-Jun-25/next13-crash-course/57_dmsgna.webp)
+
+Now, in Authorised redirect URIs give a second URI as http://localhost:3000/api/auth/callback/google and click on the SAVE button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042101/27-Jun-25/next13-crash-course/58_cm68im.webp)
+
+Now, in http://localhost:3000/ click on the Sign in button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042096/27-Jun-25/next13-crash-course/59_hutty0.webp)
+
+We will get the pop-up containing the connected google ids in the browser. Click on it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042092/27-Jun-25/next13-crash-course/60_hpdorz.webp)
+
+Once we are sucessfully signed in, we will get the three buttons for Create Post, Sign Out and Profile.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042089/27-Jun-25/next13-crash-course/61_anism2.webp)
+
+Now, instead of showing a dummy image, we will show the image of logged in user in the profile. So, head over to Nav.js file and update the Image to show image from session.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042086/27-Jun-25/next13-crash-course/62_r9zkkr.webp)
+
+Now, in http://localhost:3000/ we will see the logged in user’s image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042014/27-Jun-25/next13-crash-course/63_ns0vlb.webp)
+
+We forgot to do one thing in route.js file and that is to wrap the functions with callbacks. So, we will do the same in the file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042083/27-Jun-25/next13-crash-course/64_scqcca.webp)
+
+One more rectification is required and it is to have strictQuery enabled in db.js file. This will stop the warnings in console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042029/27-Jun-25/next13-crash-course/65_whzii1.webp)
+
+Now, in our console we will get the MongoDB database connected message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042071/27-Jun-25/next13-crash-course/66_ka06xz.webp)
+
+Now, since the login functionality is complete, we will add logic to create a prompt. Here, in app folder create a folder create-prompt and then inside it page.js file.
+
+Here, we are adding the initial code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041990/27-Jun-25/next13-crash-course/67_ed53i4.webp)
+
+Now, click on the Create Post button and this component data will be shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041985/27-Jun-25/next13-crash-course/68_mjjvqt.webp)
+
+Now, we will update our page.js file for CreatePrompt to use some states and also call the Form component with some props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042077/27-Jun-25/next13-crash-course/69_ittnf2.webp)
+
+Next, we will update our Form.js component to take these props first. After that inside a form, we will have a textarea to take the prompt data from the user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042082/27-Jun-25/next13-crash-course/70_emgyjq.webp)
+
+Back in http://localhost:3000/create-prompt we will see a nice looking form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041997/27-Jun-25/next13-crash-course/71_rtcyzz.webp)
+
+We will complete our Form.js component by adding one input to take the tag. And we will also have a Cancel and submitting button. Notice that since we have passed the props Create, the second button will be shown as Create.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042065/27-Jun-25/next13-crash-course/72_blmgmz.webp)
+
+Now, our form is complete in http://localhost:3000/create-prompt and showing all fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041979/27-Jun-25/next13-crash-course/73_nhkdrc.webp)
+
+Back in the page.js file, we will first use the router and session. Next in the createPrompt function we will call a POST endpoint /api/prompt/new, with the passed data of prompt, id and tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042075/27-Jun-25/next13-crash-course/74_ghtuxv.webp)
+
+Now, we have to create the backend logic for this new route. So, create a prompt.js file inside models folder. Here, we have creator, prompt and tag type. Note, that the creator is referencing the User’s id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042055/27-Jun-25/next13-crash-course/75_phnkud.webp)
+
+Now, inside the api folder create the prompt folder. And inside it create new folder. Now create a route.js file inside it and add below content.
+
+Here, we will create a POST function. Here, we will use a NodeJS type code to save the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042067/27-Jun-25/next13-crash-course/76_j0aomj.webp)
+
+Finally, we will go back to http://localhost:3000/create-prompt and write a text in Prompt and also add a tag and click on Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042007/27-Jun-25/next13-crash-course/77_msgjuy.webp)
+
+On checking in database the data will be saved properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042061/27-Jun-25/next13-crash-course/78_ljhsfl.webp)
+
+Now, our data is saved but we want to show it in the home page. So, add the Feed component in page.js file of Home.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042052/27-Jun-25/next13-crash-course/79_y9rynq.webp)
+
+We will update our Feed.js component now.Here, we have first added a simple search bar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041976/27-Jun-25/next13-crash-course/80_gndwbe.webp)
+
+On going to http://localhost:3000/ we can see the new search bar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041972/27-Jun-25/next13-crash-course/81_zx4von.webp)
+
+Now, to show the list of prompts, we will import a PromptList component in Feed.js file. We are passing list of all posts and a click handler of handleTagClick.
+
+Also, in an useEffect we are calling the GET api endpoint of /api/prompt. On getting the data we are setting it to posts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042050/27-Jun-25/next13-crash-course/82_cdimzh.webp)
+
+Next, we will create the code in PromptList.js file. Here, we are looping through the data and passing it to PromptCard component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041982/27-Jun-25/next13-crash-course/83_kpy5da.webp)
+
+Now, inside the already existing prompt folder we will add a route.js file. Here, we are adding the function of GET, which is using the mongoose function of find() to get all prompts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041966/27-Jun-25/next13-crash-course/84_gaznur.webp)
+
+Now, in a PromptCard.js file in components directory add the below code. Here, we are using tailwind css to show the image, username and email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042037/27-Jun-25/next13-crash-course/85_lrviht.webp)
+
+Now, after that code, we will show a copy icon button which will change based on copied state. Also showing the prompt and the tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042031/27-Jun-25/next13-crash-course/86_ph0irz.webp)
+
+Next, in the copy_btn div in PromptCard.js file, we will add an onClick function of handleCopy. Also, in tag we are adding the function of handleTagClick and passing the tag.
+
+After that we are also creating the handleCopy function where we are making the state variable equal to the prompt text. Also, need use the navigator.clipboard.writeText() function. We are also making the copied variable false after 3 seconds.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042059/27-Jun-25/next13-crash-course/87_pnjmgv.webp)
+
+Now, in http://localhost:3000/ we can see all our posts and also the copy to clipboard functionality is working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041970/27-Jun-25/next13-crash-course/88_oajzre.webp)
+
+Now, we will create the logic for Edit and Delete of prompt and tag text. But this functionality will only be given to the logged in user to his/her prompts.
+
+So, first create a profile folder inside the app folder. Inside it create a page.js file. Here, we are simply calling the Profile component with required props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042036/27-Jun-25/next13-crash-course/89_n8yxth.webp)
+
+Next, in the page.js file we are creating an state variable of myPosts. Then using useEffect, we are calling the endpoint of `/api/users/${session?.user.id}/posts`. Notice that we are using the user id of a specific user.
+
+Once we get the data we are setting it to the state variable myPosts. We are also sending this myPosts to the Profile component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042040/27-Jun-25/next13-crash-course/90_vharxk.webp)
+
+Now, we will create this above route. But this route have a wildcard of id, so we need to keep that in mind. Inside the api folder create an users folder.
+
+Inside that create [id] folder and inside it posts folder. Then create a file route.js inside it and add the GET method in it. Here, we are finding the posts by passing the id, which we will get as params.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041960/27-Jun-25/next13-crash-course/91_p7hsav.webp)
+
+Now, in the Profile.js component, we will add the below code. Here, after getting the data, we are passing it to the PromptCard component after mapping through it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042026/27-Jun-25/next13-crash-course/92_zvygjl.webp)
+
+Now, click on the Profile image on the top right corner and it will open http://localhost:3000/profile. This page will show only the Prompts belonging to this user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041957/27-Jun-25/next13-crash-course/93_ruc4vp.webp)
+
+Next, in the PromptCard.js file, we will add the data, pathName and router.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042005/27-Jun-25/next13-crash-course/94_qn8fms.webp)
+
+Also, at the end in PromptCard.js file, we will check if user.id is equal to creator id and the path is /profle. If that is the case, we will show a Edit and Delete link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042010/27-Jun-25/next13-crash-course/95_n3up1u.webp)
+
+On going back to http://localhost:3000/profile we will see the Edit and the Delete links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041955/27-Jun-25/next13-crash-course/96_wrc4p3.webp)
+
+Now, we need to create new routes for GET, DELETE and PATCH for this. So, create a new folder [id] inside prompt folder. Inside it create a route.js file and put the code for GET and DELETE.
+
+The GET and DELETE functions are using the params to get a single Prompt or delete a single prompt.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042020/27-Jun-25/next13-crash-course/97_hf4tpf.webp)
+
+We are also adding the code for PATCH in route.js file. Here, we are agin using params.id to identify the past. And then saving prompt and tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042017/27-Jun-25/next13-crash-course/98_kqljpl.webp)
+
+Now, in page.js file for the profile we will add a new path of `/update-prompt?id=${post._id}` in the handleEdit function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041989/27-Jun-25/next13-crash-course/99_adfrke.webp)
+
+Now, create an update-prompt folder inside app folder. Inside it create a page.js file. Put the below content in it. Here, we are first doing the necessary imports and also getting the promptId from the useSearchParams hook.
+
+Here, using the GET api of `/api/prompt/[id]`, we are getting this prompt data. And then setting it to the post state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042001/27-Jun-25/next13-crash-course/100_psdurm.webp)
+
+Next, in the same page.js file we will call the Form component with props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041995/27-Jun-25/next13-crash-course/101_pbsvl2.webp)
+
+Now, if we click on the Edit button in a post a new page will be opened, with prompt and tag data been populated in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041951/27-Jun-25/next13-crash-course/102_rkqw9t.webp)
+
+Next, in the same page.js file we will add the code for updatePrompt(). Here, we are using the PATCH api of `/api/prompt/[id]` created earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751042023/27-Jun-25/next13-crash-course/103_cvi386.webp)
+
+Back in browser, we will update the post and click the Edit button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041949/27-Jun-25/next13-crash-course/104_qlgakm.webp)
+
+Once it is done, we will be redirected to http://localhost:3000/ and the updated Prompt and tag will be shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041945/27-Jun-25/next13-crash-course/105_tn1nph.webp)
+
+Now, we will add the delete functionality for a prompt. Back in page.js file of profile we will add code in handleDelete function.
+
+Here, we will be calling the route of `/api/prompt/[id]`. Also, we will be filtering the posts to remove this post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041939/27-Jun-25/next13-crash-course/106_cssu0f.webp)
+
+With this logic goto a profile and click on the Delete link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041937/27-Jun-25/next13-crash-course/107_q4cok9.webp)
+
+The Prompt will be deleted from our app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041942/27-Jun-25/next13-crash-course/108_pwtuw6.webp)
+
+One of the last functionality remaining in our app is for the Search bar. So, in the Feed.js component we will add the below code. Here, we have a simple search functionality using includes which work for both prompt text and tag text.
+
+We have also updated the handleTagClick to put the clicked tag in the Search bar and update the result.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041964/27-Jun-25/next13-crash-course/109_zurgwt.webp)
+
+In the return in the Feed.js component, we will add a ternary operator. Here, if the searchText is present we will pass the searchedResults as data or else the whole allPosts as data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041935/27-Jun-25/next13-crash-course/110_adwdme.webp)
+
+Now, first goto http://localhost:3000/ and it will show all posts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041932/27-Jun-25/next13-crash-course/111_nvf43h.webp)
+
+Now, write the word swift or click on the swift tag and it will show only swift prompts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041930/27-Jun-25/next13-crash-course/112_kjztdk.webp)
+
+Now, our app is complete and it’s time to deploy the same. We will deploy our app through vercel, who are creators of NextJS and also a deployment provider. So, head over to https://vercel.com/ and login with Github.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041926/27-Jun-25/next13-crash-course/113_bgcvqg.webp)
+
+Since, we already have a lot of projects already deployed, we will click on Add New dropdown and select Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041924/27-Jun-25/next13-crash-course/114_olszul.webp)
+
+We have already pushed our project to [github](https://github.com/nabendu82/next-13-crash-course). But we also need to add it using vercel. So, we will search for it and the click on Configure Github App.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041921/27-Jun-25/next13-crash-course/115_tq5mer.webp)
+
+In the pop-up we have to give access to our repository. After that we will find the import button in the repository. Click on the Import button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041919/27-Jun-25/next13-crash-course/116_dafmso.webp)
+
+Since, our project is using a lot of Environment variables we have to give them in Environment variables. We still have not given NEXTAUTH_URL and NEXTAUTH_URL_INTERNAL, because they are localhost and we need to change it after deployment.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041916/27-Jun-25/next13-crash-course/117_deiaj6.webp)
+
+Once the deployment is done, click on Continue to Dashboard.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041911/27-Jun-25/next13-crash-course/118_nzwagk.webp)
+
+Then click on the Visit button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041909/27-Jun-25/next13-crash-course/119_g72xf7.webp)
+
+Our site is live but the Sign in functionality will not work.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041914/27-Jun-25/next13-crash-course/120_cj6zai.webp)
+
+Back in https://vercel.com/ goto settings and edit the Environment Variables to give the NEXTAUTH_URL and NEXTAUTH_URL_INTERNAL. Give it the deployed host link from previous screenshot.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041905/27-Jun-25/next13-crash-course/121_irk5m2.webp)
+
+We also have to add this in https://console.cloud.google.com/. Here, click on Web client 1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041904/27-Jun-25/next13-crash-course/122_sr6fkk.webp)
+
+Here, in both Authorised JavaScript origins and Authorised redirect URIs add the deployed links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041900/27-Jun-25/next13-crash-course/123_idtwr6.webp)
+
+Back in vercel, hit the Redeploy.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041898/27-Jun-25/next13-crash-course/124_sszrll.webp)
+
+Now, our web-app will be working fine with login functionalities and all other things.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751041897/27-Jun-25/next13-crash-course/125_oke8hu.webp)
+
+Hope you liked this post. The code for the same can be found in [this](https://github.com/nabendu82/next-13-crash-course) github link.
+
+
