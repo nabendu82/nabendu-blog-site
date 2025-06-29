@@ -1,0 +1,626 @@
+---
+title: Coach App in VueJS with Authentication & Vuex
+description: VueJS
+date: 2023-10-02
+tags: ["javascript", "vuejs", "web-dev"]
+published: true
+---
+
+In this post we are going to create a fairly large VueJS app with authentication.
+
+This project have been inspired by [this](https://www.udemy.com/course/vuejs-2-the-complete-guide/) awesome Udemy course by Maximillian.
+
+To start with this project get the basic boiler plate of a VueJS app from [this](https://drive.google.com/file/d/1_koqvIkGMj_U9Ffuwy_qCSbZlHjkuQeO/view) file.
+
+After extracting the zip file, open the folder in terminal. Then do npm i to install all the dependencies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129233/27-Jun-25/coach-app-vuejs/1_ac09fi.webp)
+
+Next, we will create a pages folder inside the src folder. And inside it create a coaches and requests folder. We will create different files in it and also a router.js file in the root directory.
+
+In the router.js file, we will add different routes which will call different component. Also, notice the nested route which we have created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129233/27-Jun-25/coach-app-vuejs/2_qhffuc.webp)
+
+Next, in the main.js file we will add our router and App file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129230/27-Jun-25/coach-app-vuejs/3_gpygxa.webp)
+
+Now, we will create a components folder and inside it TheHeader.vue file. This file will have a basic template of header with router-link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129228/27-Jun-25/coach-app-vuejs/4_nq5ulv.webp)
+
+Next, we will add the styles in TheHeader.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129228/27-Jun-25/coach-app-vuejs/5_xkn3gq.webp)
+
+Next, we will add TheHeader component in App.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129224/27-Jun-25/coach-app-vuejs/6_y0lymd.webp)
+
+Now, we will add a basic template in CoachRegistration.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129223/27-Jun-25/coach-app-vuejs/7_q3ndwc.webp)
+
+And a basic template in ContactCoach.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129221/27-Jun-25/coach-app-vuejs/8_bbuopq.webp)
+
+And a basic template in RequestsReceived.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129220/27-Jun-25/coach-app-vuejs/9_vl8yzn.webp)
+
+Next, in the CoachesList.vue file also, we will have a basic template.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129227/27-Jun-25/coach-app-vuejs/10_jqkmhb.webp)
+
+Now, in http://localhost:8080/coaches we will see a nice header and other basic components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129218/27-Jun-25/coach-app-vuejs/11_twtn6h.webp)
+
+Now, we will introduce Vuex in our app for global state management. It is like Redux in ReactJS. So, create a store folder inside src and inside it modules folder.
+
+Inside the modules folder create coaches and requests folder. Inside the coaches folder, we will create different files related to vuex. Also, we will have a index.js file in the modules folder.
+
+In the index.js of the coaches folder, we will include all mutations, actions and getters.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129218/27-Jun-25/coach-app-vuejs/12_emjhbp.webp)
+
+Next, in the root index.js file we will create a store and call the coachesModule. Notice, this concept is also similar to store in Redux.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129217/27-Jun-25/coach-app-vuejs/13_ifhimu.webp)
+
+Back in the index.js of the coaches, we will have a namespace and also a state containing our coaches array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129214/27-Jun-25/coach-app-vuejs/14_fekzlh.webp)
+
+In the mutation.js file, we will export an empty object.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129213/27-Jun-25/coach-app-vuejs/15_vyyitx.webp)
+
+In the actions.js file, we will export an empty object.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129211/27-Jun-25/coach-app-vuejs/16_ehwy9b.webp)
+
+In the getters.js file we will get the state of coaches and check whether coach state is there, through two functions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129211/27-Jun-25/coach-app-vuejs/17_z4hhmr.webp)
+
+Back in our main.js file, we will add the store.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129209/27-Jun-25/coach-app-vuejs/18_lhbtcj.webp)
+
+Now, in the CoachesList.vue file we will add a basic template which will get all our coaches and also use the hasCoaches using computed properties. We are using the coaches array to show all coach name now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129208/27-Jun-25/coach-app-vuejs/19_isf6qs.webp)
+
+We are now seeing the two coaches name and the buttons in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129207/27-Jun-25/coach-app-vuejs/20_hp1rhu.webp)
+
+Next, we will have a CoachItem.vue file in which we will get the id, firstName, rate and areas as props.
+
+We will also have a fullName, coachContactLink, coachDetailsLink in the computed properties.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129205/27-Jun-25/coach-app-vuejs/21_rpb0mi.webp)
+
+We will also add the styles in CoachItem.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129203/27-Jun-25/coach-app-vuejs/22_gyl3nh.webp)
+
+Next, in the CoachesList.vue file, we will call the CoachItem component and pass different props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129203/27-Jun-25/coach-app-vuejs/23_midlbk.webp)
+
+Back in http://localhost:8080/coaches we will see all Coaches.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129202/27-Jun-25/coach-app-vuejs/24_brvalf.webp)
+
+In the CoachesList.vue file also, we will add some styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129199/27-Jun-25/coach-app-vuejs/25_cfde9k.webp)
+
+Back in http://localhost:8080/coaches we will see much better styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129198/27-Jun-25/coach-app-vuejs/26_rmuafg.webp)
+
+Now, we will create an ui folder inside components folder. And three files in it. In the BaseCard.vue file, we will add a template and some styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129198/27-Jun-25/coach-app-vuejs/27_ojckjw.webp)
+
+We will add the BaseCard in the main.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129195/27-Jun-25/coach-app-vuejs/28_gmwa2e.webp)
+
+Now, we will wrap most of the html in CoachesList.vue with base-card component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129194/27-Jun-25/coach-app-vuejs/29_kd6frg.webp)
+
+Now, we have nice card wrapping our coaches in http://localhost:8080/coaches
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129192/27-Jun-25/coach-app-vuejs/30_hvf4uk.webp)
+
+Now, we will create the BaseButton.vue file with the basic template and script.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129191/27-Jun-25/coach-app-vuejs/31_c72tp9.webp)
+
+Also, we will add the styles in BaseButton.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129192/27-Jun-25/coach-app-vuejs/32_fwdkhm.webp)
+
+Now, we will include the BaseButton in main.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129188/27-Jun-25/coach-app-vuejs/33_sfawax.webp)
+
+Now, we will use the base-button for our buttons in CoachesList.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129187/27-Jun-25/coach-app-vuejs/34_lamrbk.webp)
+
+Also, we will include them in the CoachItem.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129186/27-Jun-25/coach-app-vuejs/35_j3ezfg.webp)
+
+Now, we have nice looking buttons in http://localhost:8080/coaches
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129185/27-Jun-25/coach-app-vuejs/36_wrvnrh.webp)
+
+Now, we will create a BaseBadge.vue file, in which we will get some props and will have some styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129182/27-Jun-25/coach-app-vuejs/37_e16xo3.webp)
+
+Now, we will also include the BaseBadge in the main.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129181/27-Jun-25/coach-app-vuejs/38_rvzy25.webp)
+
+Now, we will use the base-badge in the CoachItem.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129179/27-Jun-25/coach-app-vuejs/39_cvme6q.webp)
+
+Now, our styles will look even better in http://localhost:8080/coaches
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129182/27-Jun-25/coach-app-vuejs/40_jomkrs.webp)
+
+Now, we will add template and script in the CoachDetail.vue file. Here, we have a router-view which will include the router.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129178/27-Jun-25/coach-app-vuejs/41_fi1sos.webp)
+
+Next, we have also added some computed properties in the CoachDetail.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129177/27-Jun-25/coach-app-vuejs/42_knzzsb.webp)
+
+We also need to make the props as true in router.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129176/27-Jun-25/coach-app-vuejs/43_ayxpuh.webp)
+
+Now, our coach details page will show all the details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129173/27-Jun-25/coach-app-vuejs/44_ijd1ol.webp)
+
+Next, we will update the CoachFilter.vue file, which will have three checkboxes. And they will call the setFilter function. This function will also emit the change-filter text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129172/27-Jun-25/coach-app-vuejs/45_g970bi.webp)
+
+We will also add styles for the CoachFilter.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129171/27-Jun-25/coach-app-vuejs/46_denu78.webp)
+
+In the CoachesList.vue file we will add the coach-filter component. We will also get the change-filter emitter and call the setFilters(). We have also added the computer properties of isCoach and filteredCoaches.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129169/27-Jun-25/coach-app-vuejs/47_fvhxlz.webp)
+
+Next, we will create a CoachForm.vue file and add the template data in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129168/27-Jun-25/coach-app-vuejs/48_f0duu8.webp)
+
+We will also add some more checkboxes in CoachForm.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129166/27-Jun-25/coach-app-vuejs/49_zhnvps.webp)
+
+Next, we will add the code in script for CoachForm.vue file. Here, we will linking all the fields and also adding code for submitting the form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129165/27-Jun-25/coach-app-vuejs/50_upzo1u.webp)
+
+Next, we will add some styles for the CoachForm.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129164/27-Jun-25/coach-app-vuejs/51_qhsbaw.webp)
+
+Now, in the CoachRegistration.vue file, will add the CoachForm component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129161/27-Jun-25/coach-app-vuejs/52_hd2gpy.webp)
+
+Now, when we goto http://localhost:8080/register we will see the nice form and on clicking on Register, we will get the output.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129160/27-Jun-25/coach-app-vuejs/53_hzparb.webp)
+
+Now, in the mutation.js file we will add the registerCoach function, which will push the payload in the coaches array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129157/27-Jun-25/coach-app-vuejs/54_duzaov.webp)
+
+Now, in the actions.js file we will create the registerCoach function, which will take the coachData and commit it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129156/27-Jun-25/coach-app-vuejs/55_vezofq.webp)
+
+Now, from the CoachRegistration.vue file we will dispatch this data to the registerCoach function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129156/27-Jun-25/coach-app-vuejs/56_o8pdux.webp)
+
+Now, in the index.js of the store we will get a state and a getters returning the userId.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129153/27-Jun-25/coach-app-vuejs/57_z6xdnx.webp)
+
+Also in the actions.js file we will add the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129152/27-Jun-25/coach-app-vuejs/58_rbe5yp.webp)
+
+Now, in the getters.js file we will also have an isCoach function which will get the coaches and userId. And it will return true if it finds the userId.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129149/27-Jun-25/coach-app-vuejs/59_oz2ulh.webp)
+
+Now, if we add a coach we will get it in http://localhost:8080/coaches
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129151/27-Jun-25/coach-app-vuejs/60_sncy0g.webp)
+
+Now, we will create a new form in ContactCoach.vue file. Here, we are also dispatching this data to the contactCoach.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129161/27-Jun-25/coach-app-vuejs/61_uusvqw.webp)
+
+We will also add some styles in the ContactCoach.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129148/27-Jun-25/coach-app-vuejs/62_ejeals.webp)
+
+Now, we will create the vuex files in requests folder and in the index.js file add all the different files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129146/27-Jun-25/coach-app-vuejs/63_mosv7j.webp)
+
+In the mutations.js file we will create an addRequest function which will add the payload to requests state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129145/27-Jun-25/coach-app-vuejs/64_psnbje.webp)
+
+Next, in the getters.js file we will have a requests and a hasRequests function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129144/27-Jun-25/coach-app-vuejs/65_jqgffd.webp)
+
+In the actions.js file we will have a contactCoach function, which will add our payload.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129143/27-Jun-25/coach-app-vuejs/66_fgj11d.webp)
+
+Now, we will add our requestsModule in the root index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129141/27-Jun-25/coach-app-vuejs/67_yhicvb.webp)
+
+Now, we will create the RequestItem.vue file in which we will add template, script and styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129139/27-Jun-25/coach-app-vuejs/68_y0evd9.webp)
+
+In the RequestsReceived.vue file we will use the RequestItem component and have the receivedRequests and hasRequests computed properties.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129137/27-Jun-25/coach-app-vuejs/69_tirlf5.webp)
+
+Now, we can contact a coach and send a request.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129139/27-Jun-25/coach-app-vuejs/70_ieth3l.webp)
+
+We can see the received requests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129135/27-Jun-25/coach-app-vuejs/71_ehygvv.webp)
+
+We forgot to add params in our ContactCoach.vue file. So, we will do the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129134/27-Jun-25/coach-app-vuejs/72_ohzvss.webp)
+
+Next, we will create the getters.js for the requests. Here, we have the requests and hasRequests functions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129132/27-Jun-25/coach-app-vuejs/73_yriwjb.webp)
+
+Next, we will add a Realtime database from firebase in our project. You will get a unique url for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129131/27-Jun-25/coach-app-vuejs/74_qtksw6.webp)
+
+Now, we will update our actions.js file to do a fetch call to the firebase url and take the data in PUT call.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129130/27-Jun-25/coach-app-vuejs/75_fo5s3y.webp)
+
+Now, back in localhost register as a coach.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129128/27-Jun-25/coach-app-vuejs/76_bc7c1p.webp)
+
+The data is saved in the firebase database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129127/27-Jun-25/coach-app-vuejs/77_drohj7.webp)
+
+Now, in the mutations.js for the coaches we will add a setCoaches method.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129126/27-Jun-25/coach-app-vuejs/78_x1k8tq.webp)
+
+Next, in the actions.js file for the coaches we will add the loadCoaches method. Here, we are doing a GET API call and storing the data in the responseData. And then committing it to the coaches array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129123/27-Jun-25/coach-app-vuejs/79_ohsvya.webp)
+
+Now, in our CoachesList.vue file, we will have the loadCoaches() called when the component will be created through the created() lifecycle method.
+
+Also, it will be called when we click on the Refresh button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129122/27-Jun-25/coach-app-vuejs/80_qgvksz.webp)
+
+Next, we will create a BaseSpinner.vue file for the spinner component. Here, we have some div and styles for the spinner.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129121/27-Jun-25/coach-app-vuejs/81_ijwru2.webp)
+
+Next, in the CoachesList.vue file we will show this base-spinner if the isLoading is true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129119/27-Jun-25/coach-app-vuejs/82_fthcwm.webp)
+
+Next, we will include the BaseSpinner component in our main.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129117/27-Jun-25/coach-app-vuejs/83_zd0ndg.webp)
+
+In the CoachesList.vue file we will show the getters when isLoading is false.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129122/27-Jun-25/coach-app-vuejs/84_omih0n.webp)
+
+Next, in CoachesList.vue file we show the Register as Coach button, if isCoach and isLoading is false. Also, the coach-item will be shown if hasCoaches is true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129116/27-Jun-25/coach-app-vuejs/85_ioubvy.webp)
+
+Next, we will create the BaseDialog.vue file where we will create a basic template with some styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129114/27-Jun-25/coach-app-vuejs/86_bg5nyd.webp)
+
+Now, we will include the BaseDialog in the main.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129113/27-Jun-25/coach-app-vuejs/87_hzx95q.webp)
+
+In the CoachesList.vue file, we will show this base-dialog in case of and error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129111/27-Jun-25/coach-app-vuejs/88_uchhia.webp)
+
+Now, we will make an error in the actions.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129110/27-Jun-25/coach-app-vuejs/89_vgkxl4.webp)
+
+Now, in http://localhost:8080/coaches we will get the error pop-up.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129109/27-Jun-25/coach-app-vuejs/90_iwpwsc.webp)
+
+Now, in the actions.js for requests, we will add a contactCoach function. This will take the email and message and make an POST call to requests in firebase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129107/27-Jun-25/coach-app-vuejs/91_musvxx.webp)
+
+Once, we submit a request to contact an Coach, it will be saved in the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129106/27-Jun-25/coach-app-vuejs/92_uy2umg.webp)
+
+Now, in the actions.js for requests, we will add a fetchRequests function. It will get all the data for requests from the databse and save it in the requests array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129106/27-Jun-25/coach-app-vuejs/93_fe1dv7.webp)
+
+Now, in the mutations.js file we will add the setRequests function to set the payload as requests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129103/27-Jun-25/coach-app-vuejs/94_pbjmqb.webp)
+
+Now, in RequestsReceived.vue file we will call the method loadRequests() in the created lifecycle.Here, we are getting all the data from the store through fetchRequests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129102/27-Jun-25/coach-app-vuejs/95_biamuv.webp)
+
+In the RequestsReceived.vue file we will show the dialog for error. Will also add the base-spinner.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129100/27-Jun-25/coach-app-vuejs/96_lqv4pz.webp)
+
+Now, in http://localhost:8080/requests we will see the requests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129099/27-Jun-25/coach-app-vuejs/97_u3y5c3.webp)
+
+We will also create a NotFound.vue file where, we will show the Page not found.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129098/27-Jun-25/coach-app-vuejs/98_jipdh4.webp)
+
+Now, go to any non-existing page and we will see this component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129096/27-Jun-25/coach-app-vuejs/99_lr1u5o.webp)
+
+Now, we will add authentication in our project by first going to the Realtime Database and then going to the Rules tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129095/27-Jun-25/coach-app-vuejs/100_judihd.webp)
+
+Next, we will add the rules for the coaches and the requests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129094/27-Jun-25/coach-app-vuejs/101_jh0awx.webp)
+
+Now, without login if we click on Requests we will get an error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129093/27-Jun-25/coach-app-vuejs/102_vcz1pe.webp)
+
+Now, we will create an auth folder in pages. And inside it UserAuth.vue file. Here, we have a basic form to take email and password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129091/27-Jun-25/coach-app-vuejs/103_akllz6.webp)
+
+Next, in the script in UserAuth.vue file we have data and different computed property to show different label on the button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129090/27-Jun-25/coach-app-vuejs/104_rnwphm.webp)
+
+We will also add the methods of submitForm, switchAuthMode and handleError in UserAuth.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129088/27-Jun-25/coach-app-vuejs/105_ylnbx3.webp)
+
+Now, we will add the required styles in UserAuth.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129087/27-Jun-25/coach-app-vuejs/106_gsetpg.webp)
+
+Now, we will add a new route for our UserAuth in the router.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129086/27-Jun-25/coach-app-vuejs/107_egppsd.webp)
+
+Now, when we will goto http://localhost:8080/auth we will see our auth screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129085/27-Jun-25/coach-app-vuejs/108_hiqwjt.webp)
+
+Now, we will add Authentication in our firebase console. Here, click on Get started button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129083/27-Jun-25/coach-app-vuejs/109_ja3ib9.webp)
+
+Next, click on the Sign-in method in the screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129081/27-Jun-25/coach-app-vuejs/110_w3zwfw.webp)
+
+Click on the Add new provider and then the Email/Password button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129081/27-Jun-25/coach-app-vuejs/111_pj1mhc.webp)
+
+Next, enable the Email/Password and click on Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129080/27-Jun-25/coach-app-vuejs/112_lyibgh.webp)
+
+Now, in the next screen we will see the Email /Password been enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129077/27-Jun-25/coach-app-vuejs/113_gdzofm.webp)
+
+Now, we will create an auth folder in the modules. And add the files required for vuex. Here, in the index.js file we have again added the different files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129077/27-Jun-25/coach-app-vuejs/114_sfhjlw.webp)
+
+Now, we will add our authModule in the root index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129076/27-Jun-25/coach-app-vuejs/115_tef1zp.webp)
+
+In the getters.js fo auth, we will add the userId and token function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129073/27-Jun-25/coach-app-vuejs/116_kzfvb6.webp)
+
+Back in firebase console click on Settings icon and then Project settings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129072/27-Jun-25/coach-app-vuejs/117_khrjab.webp)
+
+Now, we will get our Web API Key in the next screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129072/27-Jun-25/coach-app-vuejs/118_p9egaf.webp)
+
+Now, in the actions.js of the auth we will add the POST with fetch in signup(). We also need to give the api keys here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129071/27-Jun-25/coach-app-vuejs/119_q5gbbw.webp)
+
+Next, in the mutations.js of the auth we will have the setUser function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129068/27-Jun-25/coach-app-vuejs/120_pj3pve.webp)
+
+Back in the actions.js of the auth we will add the login(). Here, again in a fetch we need to give the api keys.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129067/27-Jun-25/coach-app-vuejs/121_voeklw.webp)
+
+Next, in actions.js of the coaches we will use the token in registerCoach().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129066/27-Jun-25/coach-app-vuejs/122_kwtfh2.webp)
+
+Next, in fetchRequests of actions.js of requests we will use the token.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129064/27-Jun-25/coach-app-vuejs/123_g3gxfq.webp)
+
+Now, go to http://localhost:8080/auth and we can login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129063/27-Jun-25/coach-app-vuejs/124_oe66bf.webp)
+
+Next, in getters.js file in auth we will add isAuthenticated().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129062/27-Jun-25/coach-app-vuejs/125_yzbipp.webp)
+
+Next, in CoachesList.vue file we will add a redirect for Login and also isLoggedIn() in computed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129060/27-Jun-25/coach-app-vuejs/126_cfmwns.webp)
+
+Now, in the TheHeader.vue file we will have isLoggedIn() and call the isAuthenticated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129059/27-Jun-25/coach-app-vuejs/127_pm4q82.webp)
+
+We will also add the Logout button to call the logout function in TheHeader.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129059/27-Jun-25/coach-app-vuejs/128_dxq6qf.webp)
+
+In the actions.js file in auth we will add the logout().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129057/27-Jun-25/coach-app-vuejs/129_vpubqp.webp)
+
+In the UserAuth.vue file we will have a path to go to coaches after sucessfully login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129056/27-Jun-25/coach-app-vuejs/130_vfywlu.webp)
+
+We will change the redirectUrl and replace it in UserAuth.vue file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129055/27-Jun-25/coach-app-vuejs/131_qclygc.webp)
+
+Now, in router.js file we will use the meta in different paths. Also, beforeEach on router which will take to coaches route if not authenticated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129053/27-Jun-25/coach-app-vuejs/132_jsf4qd.webp)
+
+We will now remove the tokenExpiration from the mutations.js of the auth.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129052/27-Jun-25/coach-app-vuejs/133_k5csav.webp)
+
+Next, in the getters.js of the auth we will have the didAutoLogout function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129051/27-Jun-25/coach-app-vuejs/134_hh3ppv.webp)
+
+Also, in the mutations.js of auth, we will add the didAutoLogout in the setUser and we will also have a setAutoLogout().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129050/27-Jun-25/coach-app-vuejs/135_dxhpjn.webp)
+
+Now, we will add the didAutoLogout in the index.js file of the auth.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129049/27-Jun-25/coach-app-vuejs/136_bnftav.webp)
+
+Next, in actions.js of auth, we will add the login and logout function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129048/27-Jun-25/coach-app-vuejs/137_o7ryxl.webp)
+
+Now, in the actions.js file we will add the auth function. Here, we will goto different url depending on the login or signup using fetch.
+
+We are also getting the expirationDate and setting it in the localStorage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129047/27-Jun-25/coach-app-vuejs/138_pg40xl.webp)
+
+We will also add the tryLogin, logout and autoLogout function in the actions.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129046/27-Jun-25/coach-app-vuejs/139_nektvx.webp)
+
+In the App.vue file we will add the didAutoLogout() in the computed. In the created lifecycle we are calling the tryLogin. Also, we are watching for the didAutoLogout().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129045/27-Jun-25/coach-app-vuejs/140_kahqna.webp)
+
+Our app is done, but we will also deploy it in firebase. So, click on Hosting in firebase console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129043/27-Jun-25/coach-app-vuejs/141_lr0wgw.webp)
+
+It will ask us to install firebase tools. If we have not done the same, we need to install it globally.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129042/27-Jun-25/coach-app-vuejs/142_dpcc3g.webp)
+
+It will give us the command next. Just click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129042/27-Jun-25/coach-app-vuejs/143_we4dyp.webp)
+
+Next, click on Continue to the console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129040/27-Jun-25/coach-app-vuejs/144_tk1sov.webp)
+
+Now, from the terminal give the command firebase login and it will give a pop-up to login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129039/27-Jun-25/coach-app-vuejs/145_egqctj.webp)
+
+After that give the firebase init command and here select the Hosting function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129040/27-Jun-25/coach-app-vuejs/146_sscev4.webp)
+
+Next, we need to select the mentioned options in the screenshot below. Choose the correct project which you have created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129038/27-Jun-25/coach-app-vuejs/147_ey6yqd.webp)
+
+Next, run the command npm run build from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129037/27-Jun-25/coach-app-vuejs/148_zetvtz.webp)
+
+Next, give the command firebase deploy to deploy our code to firebase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129037/27-Jun-25/coach-app-vuejs/149_dceaft.webp)
+
+Our code got deployed sucessfully and all functionalities working fine. You can find the code for the same in [this](https://github.com/nabendu82/coach-finder-vue) github repo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751129036/27-Jun-25/coach-app-vuejs/150_kdteme.webp)
+
