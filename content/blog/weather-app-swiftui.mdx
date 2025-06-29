@@ -1,0 +1,125 @@
+---
+title: Beginners Weather App in SwiftUI
+description: Swift
+date: 2023-10-08
+tags: ["ios", "swift", "mobile-dev"]
+published: true
+---
+
+In this post we will start our SwiftUI journey. Here, we will create a basic and simple Weather app in SwiftUI.
+
+Apple have given up Storyboard some years back, which was drag and drop way to create layout. And have shifted to coding the layout through SwiftUI.
+
+This post have been inspired by the awesome SwiftUI Fundamentals [video](https://www.youtube.com/watch?v=b1oC7sLIgpI) by Sean Allen.
+
+So, first start XCode and click on File -> New and Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195563/27-Jun-25/weather-app-swiftui/1_wcya7n.webp)
+
+In the next pop-up select the App.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195559/27-Jun-25/weather-app-swiftui/2_gwpkl5.webp)
+
+In the Product Name give Weather-App, but make sure Interface is SwiftUI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195559/27-Jun-25/weather-app-swiftui/3_pzikhj.webp)
+
+In the next window give the location to save the project and click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195555/27-Jun-25/weather-app-swiftui/4_efjxsi.webp)
+
+Now, the XCode will open with a basic Preview.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195553/27-Jun-25/weather-app-swiftui/5_zd7rrr.webp)
+
+SwiftUI is based on three stack- ZStack(z-index Stack), VStack(Vertical Stack) and HStack(Horizontal Stack).
+
+We will first create a ZStack to give the background color to the app. Here, we are using a Linear Gradient to give the color.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195558/27-Jun-25/weather-app-swiftui/6_h9gell.webp)
+
+Next, we will create a VStack containing a text, font sizes and font color.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195554/27-Jun-25/weather-app-swiftui/7_qdo1m7.webp)
+
+Apple provides awesome fonts which we can use in our project. So, head over to https://developer.apple.com/sf-symbols/ and download and install them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195551/27-Jun-25/weather-app-swiftui/8_i3f5to.webp)
+
+The SF Symbols are app, which you can open in your system. We have copied the name of a cloud with sun image from here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195550/27-Jun-25/weather-app-swiftui/9_oeoh4l.webp)
+
+Next, in a VStack we will add a image and make it 180x180. Also, we are adding a Spacer beneath it. This spacer will move the image up.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195548/27-Jun-25/weather-app-swiftui/10_qscg09.webp)
+
+Next, we will add a text with degree and also add spacing in the VStack.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195546/27-Jun-25/weather-app-swiftui/11_ismcjm.webp)
+
+Now, we will create a HStack and inside it a VStack with day of week, image and degrees.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195547/27-Jun-25/weather-app-swiftui/12_xfoyu7.webp)
+
+This will be a repeating code, so we will refactor it. In SwiftUI to refactor click on a section with Cmd press and then in dropdown menu click on Extract Subview.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195545/27-Jun-25/weather-app-swiftui/13_p9nz1s.webp)
+
+Next, we will name this view WeatherDayView and pass the three required variables in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195542/27-Jun-25/weather-app-swiftui/14_t8mee8.webp)
+
+We will call the WeatherDayView four more times with different variables. Also, we are changing the down color to purple.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195543/27-Jun-25/weather-app-swiftui/15_hyu0qu.webp)
+
+We can also add padding to add spacing in our app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195541/27-Jun-25/weather-app-swiftui/16_yaf3bi.webp)
+
+Next, we will create a button where we have to give a label containing it’s text and styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195540/27-Jun-25/weather-app-swiftui/17_v0unqb.webp)
+
+Our basic app is complete, but we will refactor it in subviews. First click on the LinearGradient with Cmd press and extract the subview.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195539/27-Jun-25/weather-app-swiftui/18_kk5ydr.webp)
+
+We have also refactored other parts and named them accordingly. And we are also passing different variables to them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195538/27-Jun-25/weather-app-swiftui/19_fy0dho.webp)
+
+Now, all of our extracted and updated subviews are as follows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195537/27-Jun-25/weather-app-swiftui/20_gjrxha.webp)
+
+Next, we will also extract the button in a WeatherButton subview.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195535/27-Jun-25/weather-app-swiftui/21_xq42kq.webp)
+
+The logic for the same with different variables are as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195534/27-Jun-25/weather-app-swiftui/22_mj7u04.webp)
+
+Since, the button is a generic component we can put it in different swift file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195533/27-Jun-25/weather-app-swiftui/23_xdtz3y.webp)
+
+Now, we will create a dark mode in our app. For this we will use state in our project. Here, we have declared a state variable of isNight and made it initially to false.
+
+Now, using a ternary operator we are giving different values to it, based on isNight is true or false.
+
+We are changing the isNight on toggle on click of the button. Now, the night mode is visible.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195532/27-Jun-25/weather-app-swiftui/24_nrxm2w.webp)
+
+We can also refactor our code to use binding. Here, we are passing the isNight variable to the BackgroundView.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195532/27-Jun-25/weather-app-swiftui/25_qhfj9i.webp)
+
+In the BackgroundView, we are binding the isNight variable and putting the ternary logic here. Our app behave as earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751195531/27-Jun-25/weather-app-swiftui/26_zrhhza.webp)
+
+This completes our beginners app. You can find the code for the same [here](https://github.com/nabendu82/weather-app-swiftui).

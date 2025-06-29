@@ -1,0 +1,168 @@
+---
+title: Scanner App using SwiftUI
+description: Swift
+date: 2023-11-08
+tags: ["ios", "swift", "mobile-dev"]
+published: true
+---
+
+In this post we will continue our SwiftUI journey which started in the earlier [post](https://www.nabendu.org/blog/framework-site-swiftui). Here, we will create a a bit more advanced in SwiftUI project.
+
+This post have been inspired by the awesome SwiftUI Fundamentals [video](https://www.youtube.com/watch?v=b1oC7sLIgpI) by Sean Allen.
+
+So, first start XCode and click on File -> New and Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198479/27-Jun-25/scanner-app-swiftui/1_yg4qbd.webp)
+
+After that in iOS select App and then click on Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198478/27-Jun-25/scanner-app-swiftui/2_y5yrlh.webp)
+
+Next, give the product a name which is BarcodeScanner in our case. Also, we will choose the Interface as SwiftUI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198475/27-Jun-25/scanner-app-swiftui/3_s4njre.webp)
+
+Next, we will save the project on the Desktop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198474/27-Jun-25/scanner-app-swiftui/4_h0o2tn.webp)
+
+Our project will be opened with the Content View showing the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198471/27-Jun-25/scanner-app-swiftui/5_qrkkyi.webp)
+
+We will change the default name of our project, by right-clicking on ContentView and the Refactor -> Rename.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198469/27-Jun-25/scanner-app-swiftui/6_xzbpgz.webp)
+
+After that we have given the name BarcodeScannerView to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198467/27-Jun-25/scanner-app-swiftui/7_lvkvlv.webp)
+
+Now, we will add a NavigationView with a VStack. Inside it we will have a Rectangle and a text Scanned Barcode. We will also have the text, Not Yet Scanned. And also a navigation title with Barcode Scanner.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198465/27-Jun-25/scanner-app-swiftui/8_x5vn7q.webp)
+
+Since, we need to have access to Camera we need to first click on BarcodeScanner. After that in the next screen click on TARGETS and then BarcodeScanner.
+
+After that in the Bundle name click on the + sign.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198464/27-Jun-25/scanner-app-swiftui/9_ti8op7.webp)
+
+Next, write Privacy and scroll down.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198462/27-Jun-25/scanner-app-swiftui/10_wyvuhj.webp)
+
+Select the option Privacy — Camera Usage Description.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198459/27-Jun-25/scanner-app-swiftui/11_pdzohi.webp)
+
+We also need to give a value. So, write “We need the Camera to Scan Barcodes”.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198459/27-Jun-25/scanner-app-swiftui/12_ddxr7i.webp)
+
+Now, we will create a new file so click on Cmd + N and select a Swift File.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198456/27-Jun-25/scanner-app-swiftui/13_lgeg2t.webp)
+
+Now, the new file is called ScannerViewController.swift file. Here, we have imported UIKit and AVFoundation.
+
+Now, we have a class called ScannerVC which will have CaptureSession and PreviewLayer variables. In the init() of the class, we are taking the scannerDelegate.
+
+Next, we have a setupCaptureSession function which will capture the video.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198455/27-Jun-25/scanner-app-swiftui/14_ctbneo.webp)
+
+Next, in the captureSession we will check for input and output. And add the input and output respectively. Next, we will also get the previewLayer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198454/27-Jun-25/scanner-app-swiftui/15_tjzxm9.webp)
+
+Next, we will add code in the extension ScannerVC. Here, we will have a function metadataOutput, which will have metadataObjects, machineReadableObject and barcode.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198450/27-Jun-25/scanner-app-swiftui/16_kb1aqx.webp)
+
+Now, we will add an enum CameraError which will contain two case for errors. And will also add a func called disSurface which will use this error in the protocol.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198450/27-Jun-25/scanner-app-swiftui/17_dgxreq.webp)
+
+Now, we will use these two errors at various part of our function setupCaptureSession.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198446/27-Jun-25/scanner-app-swiftui/18_fok37e.webp)
+
+We will also add the error call in our extension ScannerVC.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198437/27-Jun-25/scanner-app-swiftui/19_s2koti.webp)
+
+Now, we will create a viewDidLoad() and call the setupCaptureSession here. We will also have a viewDidLayoutSubviews() calling our previewLayer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198444/27-Jun-25/scanner-app-swiftui/20_ravtpt.webp)
+
+Next, we will create a new SwiftUI View file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198441/27-Jun-25/scanner-app-swiftui/21_edyh44.webp)
+
+In the new file ScannerView.swift, we will have the makeUIViewController call the ScannerVC from the earlier file. We are also using the error and barcode in this file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198449/27-Jun-25/scanner-app-swiftui/22_a2iv4t.webp)
+
+Next, in the root file of BarcodeScannerView.swift we will call the ScannerView().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198435/27-Jun-25/scanner-app-swiftui/23_bel6ez.webp)
+
+Now, if we run the app in XCode, we will get “Something is wrong with the camera” error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198434/27-Jun-25/scanner-app-swiftui/24_p4bphv.webp)
+
+Next, we will create a state of scannedCode and pass it in ScannerView in BarcodeScannerView.swift file. Now, depending upon whether it’s empty, we will show the text “Not Yet Scanned” or the scannedCode.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198438/27-Jun-25/scanner-app-swiftui/25_u5mmwf.webp)
+
+Back in the ScannerView.swift we will have the scannedCode value through binding. Next, inside the Coordinator class we will map the barcode to the scannedCode.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198440/27-Jun-25/scanner-app-swiftui/26_yukhwl.webp)
+
+Now, in the BarcodeScannerView.swift file, we will have an struct called AlertItem. Using it we will create a struct called AlertContext, which will have two AlertItem.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198445/27-Jun-25/scanner-app-swiftui/27_o3dysu.webp)
+
+In the ScannerViewController.swift file, we will have an enum called CameraError, which will contain two cases.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198433/27-Jun-25/scanner-app-swiftui/28_cau6l4.webp)
+
+We will now add an empty print statement in the ScannerView.swift file, or else we will get error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198431/27-Jun-25/scanner-app-swiftui/29_jdqlkm.webp)
+
+We will also update the AlertItem in BarcodeScannerView.swift file, with an id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198429/27-Jun-25/scanner-app-swiftui/30_auymab.webp)
+
+Next, we will update the alert in the BarcodeScannerView.swift file, with an Alert item.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198427/27-Jun-25/scanner-app-swiftui/31_p5flzv.webp)
+
+We will also add a binding for AlertItem in the ScannerView.swift file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198425/27-Jun-25/scanner-app-swiftui/32_lggdhr.webp)
+
+The ScannerView in the BarcodeScannerView.swift file, will also get the alertItem now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198429/27-Jun-25/scanner-app-swiftui/33_lgzuom.webp)
+
+We will update the didSurface function in the ScannerView.swift file. Here, we will put error cases.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198424/27-Jun-25/scanner-app-swiftui/34_crwt6r.webp)
+
+Now, if we again start the simulator, we will get the correct error with the pop-up.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198422/27-Jun-25/scanner-app-swiftui/35_zs3bz1.webp)
+
+Our app is complete, but we will refactor it a bit by creating a new Swift File.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198421/27-Jun-25/scanner-app-swiftui/36_hvu1ma.webp)
+
+Here, we have moved our alerts to a new file called Alert.swift.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751198423/27-Jun-25/scanner-app-swiftui/37_xlafvr.webp)
+
+This completes our small swift app. You can find the code for the same [here](https://github.com/nabendu82/BarcodeScanner).
+

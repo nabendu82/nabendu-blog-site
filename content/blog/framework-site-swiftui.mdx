@@ -1,0 +1,151 @@
+---
+title: Simple Apple Framework Site in SwiftUI
+description: Swift
+date: 2023-10-11
+tags: ["ios", "swift", "mobile-dev"]
+published: true
+---
+
+In this post we will continue our SwiftUI journey which started in the earlier [post](https://www.nabendu.org/blog/weather-app-swiftui). Here, we will create a a bit more advanced in SwiftUI project.
+
+This post have been inspired by the awesome SwiftUI Fundamentals [video](https://www.youtube.com/watch?v=b1oC7sLIgpI) by Sean Allen.
+
+So, first start XCode and click on File -> New and Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197011/27-Jun-25/framework-site-swiftui/1_dyy0l9.webp)
+
+Next, give the product a name which is Apple-Frameworks in our case. Also, we will choose the Interface as SwiftUI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197009/27-Jun-25/framework-site-swiftui/2_bjrbot.webp)
+
+Next, we will save the project on the Desktop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197008/27-Jun-25/framework-site-swiftui/3_unlfij.webp)
+
+Our project will be opened with the Content View showing the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197006/27-Jun-25/framework-site-swiftui/4_rhlso7.webp)
+
+Now, we will create a new file by pressing Cmd + N and then selecting th Swift File and clicking on Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197004/27-Jun-25/framework-site-swiftui/5_dtg3pp.webp)
+
+In the next screen, we will name this new file Framework.swift and click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197003/27-Jun-25/framework-site-swiftui/6_jdphz3.webp)
+
+Next, we will add a struct called Framework in the file, with some fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197001/27-Jun-25/framework-site-swiftui/7_walson.webp)
+
+Next, we will have a sampleFramework containing a single item. And also and array called frameworks containing many elements. All the data can be taken from the github repo at the end of this post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197000/27-Jun-25/framework-site-swiftui/8_l1chdu.webp)
+
+We will also add the related icons in the Assets.xcassets folder. These images can again be taken from the github repo at the end of this post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196998/27-Jun-25/framework-site-swiftui/9_gw5d4p.webp)
+
+Back in the ContentView.swift file we will add a struct called FrameWorkTitleView which will take the name and imageName. Here, we are showing the image and text in a VStack with different properties.
+
+We are also calling this struct from inside the body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196996/27-Jun-25/framework-site-swiftui/10_gpxvpm.webp)
+
+We will create a columns array and make three columns with GridItem. Next, from inside the body we will add FrameWorkTitleView within a LazyVGrid.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196995/27-Jun-25/framework-site-swiftui/11_vgmq2v.webp)
+
+We will go back to our Framework.swift file and add an id using UUID in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196993/27-Jun-25/framework-site-swiftui/12_cnfih0.webp)
+
+Now, back in the ContentView.swift file, we will use ForEach and call the MockData.frameworks. Here, we are looping and showing each item by passing name and image in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196992/27-Jun-25/framework-site-swiftui/13_dxvt2q.webp)
+
+Although we were seeing all the items, but we will update our code a bit to use the framework. Here, we have also made the mode as dark.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196990/27-Jun-25/framework-site-swiftui/14_holjre.webp)
+
+Next, we will create a NavigationView and within it a ScrollView, so that we can scroll through the items. We have also added a title and given padding.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196989/27-Jun-25/framework-site-swiftui/15_yacyhk.webp)
+
+Next, we will create a new file but a SwiftUI View file now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196988/27-Jun-25/framework-site-swiftui/16_odllk7.webp)
+
+We will name this file FrameworkDetailView.swift
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196984/27-Jun-25/framework-site-swiftui/17_wrdbcf.webp)
+
+Here, we will call the FrameWorkTitleView and also load the MockData with the single item of sampleFramework.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196985/27-Jun-25/framework-site-swiftui/18_mzzvtw.webp)
+
+Next, we will add some styles with Text and a button. We are showing here the description, which we got from the sampleFramework data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196982/27-Jun-25/framework-site-swiftui/19_w7g7fb.webp)
+
+Now, we will create another SwiftUI View file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196981/27-Jun-25/framework-site-swiftui/20_ksaf7b.webp)
+
+This new file will be called AppleButton.swift and we will add a nice red button in it. Here, we will pass the title in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196979/27-Jun-25/framework-site-swiftui/21_ndhwu5.webp)
+
+Now from the FrameworkDetailView.swift file, we will remove the button code and pass the Learn More text to the new AppleButton file. We have also made the mode as Dark Mode from the preview.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196979/27-Jun-25/framework-site-swiftui/22_gbtew8.webp)
+
+Now we will add the Close button in the FrameworkDetailView.swift file. Here, we have a HStack and show the xmark.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196978/27-Jun-25/framework-site-swiftui/23_ivt9o9.webp)
+
+Next, we will create another Swift File by pressing Cmd + N.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196976/27-Jun-25/framework-site-swiftui/24_h2ei0h.webp)
+
+This new file will be called FrameworkView.swift and here, we will have a class with a variable called selectedFramework.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196974/27-Jun-25/framework-site-swiftui/25_greta4.webp)
+
+Next, we will use the StateObject in the ContentView.swift file. Here, we will add a tap gesture and here we will pass the selectedFramework as framework.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196973/27-Jun-25/framework-site-swiftui/26_uwvtt5.webp)
+
+Back in the FrameworkView.swift file we will make the didSet and make isShowingDetailView as true. It is initially as false.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196972/27-Jun-25/framework-site-swiftui/27_ice2lw.webp)
+
+Now, we will go back to the ContentView.swift and add a sheet which will take the isShowingDetailView. Here, in the FrameworkDetailView we are passing the selectedFramework.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196971/27-Jun-25/framework-site-swiftui/28_oj1rkp.webp)
+
+Now, in the FrameworkDetailView.swift we will first bind the isShowingDetailView. After that we will make the isShowingDetailView as false on click of the button.
+
+We also need to add it in the PreviewProvider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196969/27-Jun-25/framework-site-swiftui/29_mqzoie.webp)
+
+Back in the ContentView.swift file, we will also pass the isShowingDetailView.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196968/27-Jun-25/framework-site-swiftui/30_zvny0q.webp)
+
+We will finally create a new Swift File.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196967/27-Jun-25/framework-site-swiftui/31_pmpizq.webp)
+
+The new Swift File will be named SafariView.swift and it is used to open the url passed to it in a new view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196967/27-Jun-25/framework-site-swiftui/32_qerpgg.webp)
+
+Now, in FrameworkDetailView.swift file we will have the state variable of isShowingSafariView, initially as false. It will be true on press of the button. And it will pass the url from the framework. We have also given an optional url.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751196966/27-Jun-25/framework-site-swiftui/33_ktwdoj.webp)
+
+Now, our complete app is working. You can find the github for the same [here](https://github.com/nabendu82/apple-framework-swiftui).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751197014/27-Jun-25/framework-site-swiftui/34_jg9i0z.gif)
