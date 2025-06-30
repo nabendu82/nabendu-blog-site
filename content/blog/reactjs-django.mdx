@@ -1,0 +1,175 @@
+---
+title: Full Stack app with ReactJS & Django
+description: Django
+date: 2023-11-23
+tags: ["django", "python", "react"]
+published: true
+---
+
+In the previous [post](https://www.nabendu.org/blog/beginner-app-django), we have started our Django journey. But in it the frontend was created using the templating language. In real world projects Django is used only to create API endpoints.
+
+And then we create frontend using ReactJS/Angular/VueJS. In this post, we are going to build the API with Django and the frontend with ReactJS.
+
+So, first we will create a react app in our desktop with the create-react-app command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261516/30-Jun-25/reactjs-django/1_gtithu.webp)
+
+Now, go inside the newly created react-django folder and create a python virtual environment. We will also activate the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261515/30-Jun-25/reactjs-django/2_ang2fp.webp)
+
+Now, we will install django in our project by pip. Also create a backend folder with django-admin. Inside the backend folder, we will create a app called api_app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261511/30-Jun-25/reactjs-django/3_viybjz.webp)
+
+Now, we will open the project in VS Code and here, we will find all frontend and backend folders.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261510/30-Jun-25/reactjs-django/4_y3iox3.webp)
+
+Now, we will create an urls.py, serializers.py file in the api_app folder. Also, inside the models.py file we will add the model containing four fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261506/30-Jun-25/reactjs-django/5_xauhlj.webp)
+
+Now, in the admin.py file we have to add the Patient.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261505/30-Jun-25/reactjs-django/6_kysp9n.webp)
+
+Now, we will install the djangorestframework in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261502/30-Jun-25/reactjs-django/7_cgnzql.webp)
+
+We also need to install django-cors-headers in our project to be able to connect from a react frontend.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261500/30-Jun-25/reactjs-django/8_khoxhn.webp)
+
+Now, in the backend folder settings.py file, we need to add rest_framework, api_app, corsheaders in the INSTALLED_APPS. Also, need to add cors option in MIDDLEWARE and also allow it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261498/30-Jun-25/reactjs-django/9_d6522b.webp)
+
+Now, in the serializers.py file we need to include the Patient fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261495/30-Jun-25/reactjs-django/10_nxo8wp.webp)
+
+Now, in the views.py file we will add the PatientSerializer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261493/30-Jun-25/reactjs-django/11_kqboak.webp)
+
+Now, in the backend folders urls.py file we will include a path for a new api_app.urls.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261490/30-Jun-25/reactjs-django/12_sdtevz.webp)
+
+Now, in the api_app folders urls.py file we will register the patient.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261486/30-Jun-25/reactjs-django/13_zjbqeh.webp)
+
+Now, from command line we need to make the migrations as model changes were done.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261489/30-Jun-25/reactjs-django/14_z8twzx.webp)
+
+We will also run the migrate command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261485/30-Jun-25/reactjs-django/15_v4ewms.webp)
+
+Now, we will create a superuser for the in-built admin system. Finally we will run our server.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261481/30-Jun-25/reactjs-django/16_yje59x.webp)
+
+Now, in http://127.0.0.1:8000/ we will see the REST framework working perfectly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261480/30-Jun-25/reactjs-django/17_s3jijt.webp)
+
+Here, we can also do POST request and add a new patient.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261477/30-Jun-25/reactjs-django/18_a83hdp.webp)
+
+After adding two patients, we can see both of them in the admin view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261474/30-Jun-25/reactjs-django/19_smohd8.webp)
+
+Back in http://127.0.0.1:8000/patient we can see two patients data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261475/30-Jun-25/reactjs-django/20_p55tmo.webp)
+
+Now, we will start the react frontend by giving the command npm start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261471/30-Jun-25/reactjs-django/21_s0fhqa.webp)
+
+Now, we will remove some of the boiler-plate code in our React app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261470/30-Jun-25/reactjs-django/22_pkkp6f.webp)
+
+We will remove the unnecessary code from index.js and it will look like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261467/30-Jun-25/reactjs-django/23_gxfsog.webp)
+
+Now, to do api calls we will add axios in our react project. Also, create a components and services folder in the src.
+
+Also, our App.js consists a simple h1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261465/30-Jun-25/reactjs-django/24_grllba.webp)
+
+Now, in the ApiService.js file in the services folder, we will use axios. Here, we have a function which is getting the patient data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261463/30-Jun-25/reactjs-django/25_ydrfj7.webp)
+
+Now, we will create a PatientList.js file inside the components folder and include it in the App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261461/30-Jun-25/reactjs-django/26_e7pu96.webp)
+
+In the PatientList.js file through useEffect hook, we are calling the getpatient(). And after that setting it to patients state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261460/30-Jun-25/reactjs-django/27_caskq3.webp)
+
+Now, in the console of http://localhost:3000/ we can see the perfect response.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261457/30-Jun-25/reactjs-django/28_bbhkjv.webp)
+
+We will show the data in a nice way. So, we will add bootstrap in index.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261455/30-Jun-25/reactjs-django/29_j2lizl.webp)
+
+Now, inside the return of PatientList.js file, we will use bootrap classes to show a nice table. Also, we will map through the patients array and show the different fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261454/30-Jun-25/reactjs-django/30_flvac7.webp)
+
+Now, in http://localhost:3000/ we will see all of the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261451/30-Jun-25/reactjs-django/31_i5hypi.webp)
+
+Now, we will also add the logic to AddPatient in the frontend. So, we will add a state for the same and also call a function handleCancelBtn to change it. We are also calling the getpatient() in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261449/30-Jun-25/reactjs-django/32_dug53d.webp)
+
+Now, towards the end in PatientList.js file, we will add a Add Patient button. Here, we will also call the AddPatient component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261448/30-Jun-25/reactjs-django/33_kkgluz.webp)
+
+In the AddPatient.js file we will a POST call toe patient endpoint and send the first_name, last_name and blood. We also have three states to take them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261446/30-Jun-25/reactjs-django/34_uhkx0b.webp)
+
+In the return statement of AddPatient.js file, we will take the three values from the user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261445/30-Jun-25/reactjs-django/35_zwcrdw.webp)
+
+Now, we have a Add Patient button in http://localhost:3000/ in which we can all the details of a new patient.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261442/30-Jun-25/reactjs-django/36_ouoq0d.webp)
+
+Now, we will create the delete functionality by sending the patient_id to a handleDeleteBtn. We have also change a bit of logic for Add New Patient.
+
+Also, removed the Edit functionality, which is expected as an assignment for the reader
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261441/30-Jun-25/reactjs-django/37_z9pfkk.webp)
+
+Now, the handleDeleteBtn function will take the id and call the deletepatient function. After the delete is done it will filter out the patient.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261440/30-Jun-25/reactjs-django/38_yhttcg.webp)
+
+Now, in the ApiService.js file we will create the deletepatient function, which will take the id and do a delete request to our endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261437/30-Jun-25/reactjs-django/39_xfyqmv.webp)
+
+Our app is now working fine and you can get the code for the same [here](https://github.com/nabendu82/React-django).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751261436/30-Jun-25/reactjs-django/40_juiluh.webp)

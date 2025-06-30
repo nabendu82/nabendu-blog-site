@@ -1,0 +1,39 @@
+---
+title: ReactJS Interview Questions — File Explorer
+description: ReactJS
+date: 2023-12-06
+tags: ["interview", "web-dev", "react"]
+published: true
+---
+
+In a lot of machine coding interview, we need to create a File explorer like VS Code. We are going to solve that in this post.
+
+Here, in a React codesandbox, we have created a data folder inside the src folder. Next, we have created a folderData.js file inside it. Our data is a json which is nested and contains folders and files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751265453/30-Jun-25/reactjs-interview-questions/1_tqotdn.webp)
+
+In App.js, we will use the json data by using it through state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751265452/30-Jun-25/reactjs-interview-questions/2_yhinhr.webp)
+
+Next, we will send the data as props to a new Folder component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751265449/30-Jun-25/reactjs-interview-questions/3_tvgwwz.webp)
+
+Inside the Folder.js file we will get the explorer data. Here, we are checking if it’s a folder then show it’s name with folder icon. Also, mapping through the it’s and showing it’s name.
+
+If it’s a file we are showing file icon and it’s name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751265447/30-Jun-25/reactjs-interview-questions/4_mkuz6p.webp)
+
+Now, we will add style in the file. Here, we are also making the folder as clickable by giving it a state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751265446/30-Jun-25/reactjs-interview-questions/5_ijxmmi.webp)
+
+The main thing in the code is the recursive part. Here, we are calling the Folder component again from the items.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751265444/30-Jun-25/reactjs-interview-questions/6_q7jpfx.webp)
+
+We will also add little style in our project and it’s completed. You can find the code for the whole project [here](https://codesandbox.io/p/sandbox/youthful-star-54lryv).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751265443/30-Jun-25/reactjs-interview-questions/7_pnn2q9.webp)
