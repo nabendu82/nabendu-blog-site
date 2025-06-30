@@ -1,0 +1,359 @@
+---
+title: Beginner app with Django
+description: Django
+date: 2023-11-22
+tags: ["django", "python", "web-dev"]
+published: true
+---
+
+I am starting my Django journey as a lot of backend developers in my current job and earlier projects, uses it. In backend technologies, i have used NodeJS the most.
+
+So, it was time to learn a new backend tech and got [this](https://www.youtube.com/watch?v=t10QcFx7d5k) awesome tutorial from freecodecamp. This post is based on the same, but the difference is the OS. I used a Mac which changes a lot of commands and installations.
+
+In this project, we will not only create the API endpoints. But also the complete frontend with template langauge(we can do this in NodeJS also). Bt most real world case will be API endpoint with Django/NodeJS and frontend with ReactJS.
+
+Since, mac comes inbuilt with python3 just give the below command inside a folder to create the pythin virtual environment.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201201/30-Jun-25/beginner-app-django/1_crlzid.webp)
+
+Next, we need to activate this virtual environment by the source command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201198/30-Jun-25/beginner-app-django/2_p7eyft.webp)
+
+Now, we need to install django into our environment, using the pythpn command of pip.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201198/30-Jun-25/beginner-app-django/3_kmlnsj.webp)
+
+We will be using MySQL in our project, so we will install mysql connectors in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201194/30-Jun-25/beginner-app-django/4_zehpzq.webp)
+
+To install mysql, we need to brew install pkg-config and mysql.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201194/30-Jun-25/beginner-app-django/5_r5tz2r.webp)
+
+Finally, we will install mysql through pip.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201191/30-Jun-25/beginner-app-django/6_viea3x.webp)
+
+We also need to download MySQL for ARM on our mac.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201188/30-Jun-25/beginner-app-django/7_sxzth3.webp)
+
+Once the DMG is donloaded, open it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201186/30-Jun-25/beginner-app-django/8_bqy8nf.webp)
+
+In the next screen, just click on the Continue button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201184/30-Jun-25/beginner-app-django/9_rxi4hu.webp)
+
+It will ask us to confirm and the total space to be taken on Mac. Just click on Install button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201183/30-Jun-25/beginner-app-django/10_bbvwsx.webp)
+
+In the next screen, we need to give a password, which we need to remember.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201180/30-Jun-25/beginner-app-django/11_eawk1j.webp)
+
+Now, we will start a new django admin project with the startproject command. Once the new project dcrm is created, we will go inside it and start our app with the manage.py command and giving our app name website.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201179/30-Jun-25/beginner-app-django/12_bsalrc.webp)
+
+Now, we have opened the project in VS Code and inside the settings.py file, we need to add our app of website.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201176/30-Jun-25/beginner-app-django/13_qe0ock.webp)
+
+Also, need to give the database details in the same file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201173/30-Jun-25/beginner-app-django/14_gdaort.webp)
+
+Now, we will create a mydb.py file in the root directory. This file just contains the command to create a database in the local mysql database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201173/30-Jun-25/beginner-app-django/15_o3o3kw.webp)
+
+Now, we will create the database by executing our mydb.py file from command line.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201169/30-Jun-25/beginner-app-django/16_ui9oxc.webp)
+
+We also will verify, if the mysql database was created by logging in to it from the command line. And then giving the command show databases;
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201165/30-Jun-25/beginner-app-django/17_e5ww1p.webp)
+
+Since, we have added a database, we need to give the below python migrate command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201163/30-Jun-25/beginner-app-django/18_o29tmv.webp)
+
+After the migration, we will go inside the database in our mysql database and check the tables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201159/30-Jun-25/beginner-app-django/19_bet4fd.webp)
+
+We will also create a super user for our django installation. Again we need to remember the credentials.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201158/30-Jun-25/beginner-app-django/20_esquao.webp)
+
+We will finally run the server by the nelow cpmmand and if everything is on, we will get Django up at localhost:8000
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201155/30-Jun-25/beginner-app-django/21_tew9n3.webp)
+
+Now, inside the urls.py inside dcrm folder, we will add the path for website.urls
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201154/30-Jun-25/beginner-app-django/22_xhylk7.webp)
+
+Now, in the website folder we will add a urls.py file and inside it create a new view of home.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201151/30-Jun-25/beginner-app-django/23_yfnbbx.webp)
+
+Now, in the views.py file we will add a home.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201148/30-Jun-25/beginner-app-django/24_fqhqhc.webp)
+
+Now, create a templates folder inside the website folder. Inside it create a home.html file and add a simple h1 tag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201149/30-Jun-25/beginner-app-django/25_lawuzv.webp)
+
+Now, localhost:8000 will show our h1 tag interpreted properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201168/30-Jun-25/beginner-app-django/26_w4h9ef.webp)
+
+Now, we will create a base.html file in the templates folder. Here, we have a proper HTML structure with bootstrap links.Inside the body, we have a container div. This contains a bit of template language showing a block.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201145/30-Jun-25/beginner-app-django/27_hnrrzt.webp)
+
+Back in the home.html we will first extend the base.html and inside the block will add the h1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201143/30-Jun-25/beginner-app-django/28_jbo1tg.webp)
+
+Now, in localhost:8000 we will see the h1 text, but with proper bootstrap stylings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201161/30-Jun-25/beginner-app-django/29_vaxjre.webp)
+
+Now, we will create a simple navbar.html in our project. Here, again the code is taken from bootstrap.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201140/30-Jun-25/beginner-app-django/30_g4i9r9.webp)
+
+Now, we will using the navbar.html in our base.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201135/30-Jun-25/beginner-app-django/31_mvts1i.webp)
+
+Now, in localhost:8000 we will see a nice navbar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201133/30-Jun-25/beginner-app-django/32_seesad.webp)
+
+Now, django comes with admin dashboard and authentication in-built. So, in the views.py file we will ass function for login and logout, with the correct imports.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201136/30-Jun-25/beginner-app-django/33_terkli.webp)
+
+Now, in the urls.py we will add the path for logout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201126/30-Jun-25/beginner-app-django/34_mila2i.webp)
+
+Now, in home.html file we will add a login form with basic bootstrap stylings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201130/30-Jun-25/beginner-app-django/35_a85vrm.webp)
+
+Now, in localhost:8000 we will see a nice login form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201122/30-Jun-25/beginner-app-django/36_z0kyuz.webp)
+
+Back in home.html, we will show a differnt text of Hello World, if the user is authenticated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201119/30-Jun-25/beginner-app-django/37_uoqqlx.webp)
+
+To check the above functionality first visit http://localhost:8000/admin and give your superuer credentials. After that in http://localhost:8000 we will see the Hello World text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201139/30-Jun-25/beginner-app-django/38_yuh8d2.webp)
+
+Now, in views.py file we add the logic for home. Here, if you are authenticated, you will get a success message and redirected to home. Also, in case of error will get an error message and redirected to home.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201118/30-Jun-25/beginner-app-django/39_qpyesq.webp)
+
+Now, in base.html we will add if statement for messages. If we have messages, we will for loop through them and show it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201116/30-Jun-25/beginner-app-django/40_joqisy.webp)
+
+Now, in http://localhost:8000/ give the admin credentials.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201124/30-Jun-25/beginner-app-django/41_ja8umn.webp)
+
+We will get the success message and also the Hello World text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201114/30-Jun-25/beginner-app-django/42_mcz41w.webp)
+
+If we give the wrong credentials, we will get the error message. And also get back the login screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201111/30-Jun-25/beginner-app-django/43_nkjqng.webp)
+
+Back in views.py file we will have a logout_user showing the proper message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201109/30-Jun-25/beginner-app-django/44_fqzqal.webp)
+
+Now, in navbar.html file we will add the Logout and Login links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201108/30-Jun-25/beginner-app-django/45_bcdtpw.webp)
+
+Now, the navbar shows the proper links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201105/30-Jun-25/beginner-app-django/46_s3lx4k.webp)
+
+Now, we will create a register route in the urls.py file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201102/30-Jun-25/beginner-app-django/47_xxe7sk.webp)
+
+We will create a common form to be used in our add by defining it in the forms.py file. This have different common fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201101/30-Jun-25/beginner-app-django/48_bbfxgc.webp)
+
+Now, in views.py file we will create a function register_user. It will check the username and password1 to register.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201098/30-Jun-25/beginner-app-django/49_ngmvbw.webp)
+
+Now, we will create a register.html file in the templates folder. Here, we will use the forms.py file with minimum fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201129/30-Jun-25/beginner-app-django/50_bpwmfa.webp)
+
+Now, we will also add the register link in the navbar.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201097/30-Jun-25/beginner-app-django/51_f2h7xn.webp)
+
+Now, in the http://localhost:8000/register we will see a nice register form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201094/30-Jun-25/beginner-app-django/52_kj11oo.webp)
+
+If we don’t fill all the fields or fill with some error, we will get a message for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201091/30-Jun-25/beginner-app-django/53_wf7u69.webp)
+
+But if we fill everything right, we will get the correct message and also redirected to home route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201089/30-Jun-25/beginner-app-django/54_ecg1vh.webp)
+
+Now, we want to show some data in home route for logged in user. So, in the models.py file we will add the fields which we want to show, along with data types.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201086/30-Jun-25/beginner-app-django/55_cxd3k0.webp)
+
+Since, we have added new model, we need to run below commands for database migrations.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201084/30-Jun-25/beginner-app-django/56_c19fj4.webp)
+
+Now, in MySQL database we will find a new table for website_record.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201083/30-Jun-25/beginner-app-django/57_gz5gpb.webp)
+
+In the admin.py file we also need to register this Record.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201079/30-Jun-25/beginner-app-django/58_rppm9s.webp)
+
+Now, from http://localhost:8000/admin we will add new records.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201079/30-Jun-25/beginner-app-django/59_h8y10u.webp)
+
+We have added two records and both are shown in the Django admin.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201076/30-Jun-25/beginner-app-django/60_r1kzzr.webp)
+
+Now, in the views.py file, we need to import this Record and pass it in home.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201093/30-Jun-25/beginner-app-django/61_zelnjl.webp)
+
+Now, in the home.html file, we will show these records if user is authenticated in a nice bootstrap table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201074/30-Jun-25/beginner-app-django/62_d3yvm3.webp)
+
+Now, in http://localhost:8000/ we will see both of the record.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201072/30-Jun-25/beginner-app-django/63_kdm3of.webp)
+
+Now, we want to show individual record also so, in urls.py we will add a new path which will take the integer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201070/30-Jun-25/beginner-app-django/64_oerjer.webp)
+
+Also, in the views.py file we add a customer_record function. It will take the record number and get the exact record and pass to record.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201068/30-Jun-25/beginner-app-django/65_cb7x9s.webp)
+
+Now, create a record.html file in the templates folder. Here, we are extending base.html and after that showing the record, with a back button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201064/30-Jun-25/beginner-app-django/66_ewecuq.webp)
+
+Now, for each record we will also get a hyperlink.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201067/30-Jun-25/beginner-app-django/67_ufxmpa.webp)
+
+Clicking on anyone of them will open the details of the record.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201063/30-Jun-25/beginner-app-django/68_jj1lta.webp)
+
+Now, we will add the functionality to delete a record. So, we will add a new path in urls.py file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201060/30-Jun-25/beginner-app-django/69_k15bro.webp)
+
+Now, in views.py file we will add the function for delete_record. This will take the id and delete the record.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201059/30-Jun-25/beginner-app-django/70_xzbbrf.webp)
+
+Now, in record.html we will also add a button to delete the record. Her we are passing the record id to the delete_record function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201060/30-Jun-25/beginner-app-django/71_ihgucj.webp)
+
+Now, we get a nice Delete button for each record.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201056/30-Jun-25/beginner-app-django/72_rsqfle.webp)
+
+Clicking on the delete button deletes the record, with the correct message and redirection.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201052/30-Jun-25/beginner-app-django/73_gntxtf.webp)
+
+Now, we will add the path to add record in urls.py file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201050/30-Jun-25/beginner-app-django/74_psbpnb.webp)
+
+Next, we will add the add_record function in the views.py file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201048/30-Jun-25/beginner-app-django/75_eyirou.webp)
+
+Now, in the forms.py file we will create a new class to AddRecordForm.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201054/30-Jun-25/beginner-app-django/76_uymi34.webp)
+
+Now, we will create an add_record.html file and use the form, with a Add Record and Back button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201045/30-Jun-25/beginner-app-django/77_xnrrqx.webp)
+
+We will also add the Add Record link in the navbar.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201043/30-Jun-25/beginner-app-django/78_udhqeo.webp)
+
+Now, we can Add Record in http://localhost:8000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201042/30-Jun-25/beginner-app-django/79_x6np1v.webp)
+
+The last functionality is to update_record, which we will add in urls.py file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201047/30-Jun-25/beginner-app-django/80_uk9d9g.webp)
+
+Now, we will create the update_record function in views.py file which will call the update_record.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201040/30-Jun-25/beginner-app-django/81_kauisq.webp)
+
+Now, the update_record.html file will contain the form with Update Record button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201039/30-Jun-25/beginner-app-django/82_ppnuao.webp)
+
+We will also add the Update Record button in the record.html file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201038/30-Jun-25/beginner-app-django/83_vvz9iy.webp)
+
+Now, we can click on the Update Record button in the record page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201036/30-Jun-25/beginner-app-django/84_pf8ugb.webp)
+
+And then we can update the record.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201034/30-Jun-25/beginner-app-django/85_yrwueq.webp)
+
+The record gets updated properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751201033/30-Jun-25/beginner-app-django/86_skq6jc.webp)
+
+This completes our post. You can find the code for the same [here](https://github.com/nabendu82/django-crm).
