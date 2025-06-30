@@ -1,0 +1,517 @@
+---
+title: NextJS 14 Blog app
+description: NextJS
+date: 2024-03-02
+tags: ["nextjs", "web-dev", "react"]
+published: true
+---
+
+In this post we will learn to create a simple blog app using the latest NextJS 14. This blog have been inspired by [this](https://www.youtube.com/watch?v=vCOSTG10Y4o) YouTube video.
+
+The first thing we need to do is install latest NextJS on our system.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269270/30-Jun-25/nextjs-14-blog/1_pnzax9.webp)
+
+So, open the terminal and run the command. Here, select the options a shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269272/30-Jun-25/nextjs-14-blog/2_falstx.webp)
+
+To run the NextJS project run the command npm run dev from terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269267/30-Jun-25/nextjs-14-blog/3_z9flpw.webp)
+
+In NextJS the starting point is page.jsx file. So, we are adding a simple Home component to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269264/30-Jun-25/nextjs-14-blog/4_ayyoul.webp)
+
+After this create an about folder and the page.jsx file in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269262/30-Jun-25/nextjs-14-blog/5_elbqwj.webp)
+
+Create a blog and contact folder and inside them page.jsx file. We created simple components in them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269259/30-Jun-25/nextjs-14-blog/6_mvifii.webp)
+
+Now, to create pages for different blogs, we will create a [slug] folder. And inside it page.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269257/30-Jun-25/nextjs-14-blog/7_bxfihg.webp)
+
+Now, go to http://localhost:3000/blog/title-2 and we will see a single post page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269254/30-Jun-25/nextjs-14-blog/8_fgc3sq.webp)
+
+Now, we will have an (auth) folder and inside it forgot-password, login and register folder. Create a page.jsx inside login folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269252/30-Jun-25/nextjs-14-blog/9_obagwx.webp)
+
+Now, create a components folder in src folder and inside it navbar folder. Also, create a lib folder inside the src folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269249/30-Jun-25/nextjs-14-blog/10_gqxjhz.webp)
+
+Inside components create a footer folder and inside it Footer.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269247/30-Jun-25/nextjs-14-blog/11_rbamrx.webp)
+
+Now, inside the layout.jsx file add the Navbar and Footer components. These will be shown in all pages.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269244/30-Jun-25/nextjs-14-blog/12_bcw0sj.webp)
+
+Now, http://localhost:3000/ will show the Navbar, Home Page and Footer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269242/30-Jun-25/nextjs-14-blog/13_jt92vw.webp)
+
+Now, in navbar create a links folder and inside it Links.jsx file. Inside it we have a simple code to map through a links array of object. And then pass it to NextJS Link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269239/30-Jun-25/nextjs-14-blog/14_pvokpq.webp)
+
+In the Navbar.jsx file we will add the Links component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269237/30-Jun-25/nextjs-14-blog/15_zyqau7.webp)
+
+No, in http://localhost:3000/ we will see the links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269234/30-Jun-25/nextjs-14-blog/16_m0v0fc.webp)
+
+Now, create a loading.jsx file and a Loading component in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269232/30-Jun-25/nextjs-14-blog/17_lgb7cm.webp)
+
+Also, create an error.jsx in the app folder and add the simple content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269229/30-Jun-25/nextjs-14-blog/18_aw5azx.webp)
+
+Now, when we go to http://localhost:3000/ we ill get the error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269227/30-Jun-25/nextjs-14-blog/19_oykypx.webp)
+
+So, back in error.jsx file we will put the use client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269224/30-Jun-25/nextjs-14-blog/20_g2tb5m.webp)
+
+Now, we will also create a not-found.jsx file inside the app folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269219/30-Jun-25/nextjs-14-blog/21_nibvgz.webp)
+
+Now, when we go to any non existing page, we will get the Not Found page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269221/30-Jun-25/nextjs-14-blog/22_mwznqq.webp)
+
+Now, in globals.css file, we will add the below CSS content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269216/30-Jun-25/nextjs-14-blog/23_dlgdcu.webp)
+
+Now, in http://localhost:3000/ we will see all dark background.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269214/30-Jun-25/nextjs-14-blog/24_dewicw.webp)
+
+We will also add a div with container class in the layout.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269211/30-Jun-25/nextjs-14-blog/25_owasso.webp)
+
+Now, create a navbar.module.css file inside the navbar folder and put the below CSS code in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269209/30-Jun-25/nextjs-14-blog/26_j77czu.webp)
+
+Now, in the Navbar.jsx file we will add a Link and use the css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269204/30-Jun-25/nextjs-14-blog/27_nd2jxw.webp)
+
+Now, create a navLink folder inside the links folder. Here, in the NavLink component, we will use the pathName to navigate to to the item.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269206/30-Jun-25/nextjs-14-blog/28_krtr8f.webp)
+
+Now, we will create a navLink.module.css file inside the navLink folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269201/30-Jun-25/nextjs-14-blog/29_md7awl.webp)
+
+Now, in the Links.jsx file, we will use the temporary session and pass different data to NavLink component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269196/30-Jun-25/nextjs-14-blog/30_ye7szv.webp)
+
+Back in the the Links.jsx file, we will add an Image and NavLink.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269198/30-Jun-25/nextjs-14-blog/31_uldksf.webp)
+
+Now, in links.module.css file we will add the CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269193/30-Jun-25/nextjs-14-blog/32_mt6zvl.webp)
+
+Also, in the globals.css file we will add the media CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269191/30-Jun-25/nextjs-14-blog/33_awpnm1.webp)
+
+Now, in the public folder we will add the images for our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269188/30-Jun-25/nextjs-14-blog/34_tgnfiq.webp)
+
+Now, in the home.module.css file we will add the required CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269186/30-Jun-25/nextjs-14-blog/35_tq2g1j.webp)
+
+We will add some more styles in the home.module.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269183/30-Jun-25/nextjs-14-blog/36_qcjppv.webp)
+
+Now, in the page.jsx file in app folder, we will add the below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269181/30-Jun-25/nextjs-14-blog/37_tzg2hb.webp)
+
+Now, in http://localhost:3000/ we see the Homepage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269178/30-Jun-25/nextjs-14-blog/38_buhh7k.webp)
+
+Now, we will update the footer.module.css file and add the below CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269176/30-Jun-25/nextjs-14-blog/39_iu9izr.webp)
+
+In the Footer.jsx file we will add the below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269173/30-Jun-25/nextjs-14-blog/40_gymem1.webp)
+
+Now, we will see the correct footer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269170/30-Jun-25/nextjs-14-blog/41_ug3udu.webp)
+
+Now, we will add styles in the about.module.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269166/30-Jun-25/nextjs-14-blog/42_nborni.webp)
+
+Now, in the about folder, we will add the page.jsx file. Here, we will have a simple AboutPage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269163/30-Jun-25/nextjs-14-blog/43_bltpkq.webp)
+
+Our About page is looking correct now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269168/30-Jun-25/nextjs-14-blog/44_o33buk.webp)
+
+We will create a contact.module.css file and add the below CSS in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269158/30-Jun-25/nextjs-14-blog/45_vnceni.webp)
+
+Now, in the page.jsx file inside the contact folder, we will add a basic form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269153/30-Jun-25/nextjs-14-blog/46_ye1u2l.webp)
+
+Now, in the components folder, we will add a postCard folder. Inside it we add a postCard.jsx and postCard.module.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269160/30-Jun-25/nextjs-14-blog/47_r6x4cr.webp)
+
+We will also add a blog.module.css file inside the blog folder and add the below CSS in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269148/30-Jun-25/nextjs-14-blog/48_vfxmsf.webp)
+
+Now, in the page.jsx file inside the blog folder, we will call the PostCard components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269150/30-Jun-25/nextjs-14-blog/49_ntqgtq.webp)
+
+Now, in the postCard.jsx file we will add the below content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269155/30-Jun-25/nextjs-14-blog/50_iihsns.webp)
+
+Now, in the postCard.module.css file we will add the below CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269145/30-Jun-25/nextjs-14-blog/51_l9pigp.webp)
+
+Now, to show images from a specific file we will add the url for the images in next.config.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269140/30-Jun-25/nextjs-14-blog/52_nunanv.webp)
+
+Now, in the BlogPage, we will add some styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269138/30-Jun-25/nextjs-14-blog/53_kkwg8q.webp)
+
+We will add a paragraph with some lorem text in the postCard.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269135/30-Jun-25/nextjs-14-blog/54_hc0auo.webp)
+
+Now, in the blog page, we will see the blogs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269143/30-Jun-25/nextjs-14-blog/55_lhabbo.webp)
+
+Now, to show the Single Post page, we will add the below content in page.jsx file in the [slug] folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269130/30-Jun-25/nextjs-14-blog/56_fzqkch.webp)
+
+Now, we will add the below styles in singlePost.module.css file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269128/30-Jun-25/nextjs-14-blog/57_cdxpcb.webp)
+
+Now, we will use the concept of new Server Actions of NextJS 14. Here, we are calling a getData function, which is fetching data from an API endpoint. And then getting the data.
+
+Earlier to do the same, we need to use the useEffect hook and make the NextJS component as client side component(ReactJS type).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269125/30-Jun-25/nextjs-14-blog/58_fx3bd0.webp)
+
+Now, in the PostCard component, we will get the post props and will be using it to show the title and body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269122/30-Jun-25/nextjs-14-blog/59_jugcff.webp)
+
+Now, http://localhost:3000/blog will show title and body from the API endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269133/30-Jun-25/nextjs-14-blog/60_qenlfw.webp)
+
+Now, for a SinglePostPage component, we will again be using the Server Actions of NextJS 14.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269120/30-Jun-25/nextjs-14-blog/61_ajuwoa.webp)
+
+Now, clicking on any post will take us to the individual post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269117/30-Jun-25/nextjs-14-blog/62_lihpxh.webp)
+
+Now, we will create a postUser folder inside the components folder. Here, in the postUser.module.css file, we will put the below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269115/30-Jun-25/nextjs-14-blog/63_fhg020.webp)
+
+Now, in the postUser.jsx file, we will again use Server Actions to pass the userId and get the user details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269110/30-Jun-25/nextjs-14-blog/64_b9ptun.webp)
+
+Now, in the page.jsx file in [slug] folder we will call the PostUser component with passing userId as props. Also, we are using Suspense to show Loading while the component loads.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269108/30-Jun-25/nextjs-14-blog/65_gfe7ou.webp)
+
+Now, we will get the correct user in the single post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269105/30-Jun-25/nextjs-14-blog/66_xygnru.webp)
+
+Now, we will create a data.js file inside the lib folder. Here, we are putting the users and posts assay. And also the getPosts, getPost and getUser function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269102/30-Jun-25/nextjs-14-blog/67_hemssi.webp)
+
+Now, in the BlogPage component, we will call the getPosts function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269100/30-Jun-25/nextjs-14-blog/68_q3a2hn.webp)
+
+Now, in the SinglePostPage component, we will call the getPost function and pass the slug. We will also show the PostUser, if the post is present.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269098/30-Jun-25/nextjs-14-blog/69_sgf5xl.webp)
+
+We will store our data in MongoDB. So, we will open cloud mongodb and create a New Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269112/30-Jun-25/nextjs-14-blog/70_u48iku.webp)
+
+We will name the project nextjs-14 and click on Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269095/30-Jun-25/nextjs-14-blog/71_qal4bc.webp)
+
+In the next screen click on the Create Project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269092/30-Jun-25/nextjs-14-blog/72_g22zq8.webp)
+
+Next, click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269091/30-Jun-25/nextjs-14-blog/73_qomkyy.webp)
+
+Next, click on M0 then AWS and the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269086/30-Jun-25/nextjs-14-blog/74_cat9wm.webp)
+
+Now, give a username and password and click on the Create User button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269082/30-Jun-25/nextjs-14-blog/75_j2euzv.webp)
+
+Next, click on Finish and Close to use the current IP address.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269087/30-Jun-25/nextjs-14-blog/76_ckyrvb.webp)
+
+Now, click on Network Access and then Allow Access From Anywhere.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269081/30-Jun-25/nextjs-14-blog/77_j1bhyw.webp)
+
+Next, in Database click on the Connect button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269077/30-Jun-25/nextjs-14-blog/78_kigslx.webp)
+
+Now, in the pop-up click on the Drivers.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269073/30-Jun-25/nextjs-14-blog/79_x15muy.webp)
+
+In the next pop-up copy the whole url.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269071/30-Jun-25/nextjs-14-blog/80_xuenle.webp)
+
+Now, in the .env file put the MONGO variable containing the URL.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269067/30-Jun-25/nextjs-14-blog/81_bi33yt.webp)
+
+Also, in the .gitignore put the .env file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269066/30-Jun-25/nextjs-14-blog/82_qsir8k.webp)
+
+Now, from the terminal install mongoose version 8.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269062/30-Jun-25/nextjs-14-blog/83_lhoknh.webp)
+
+Now, create a file utils.js and put the below code in it. It is to connect to the database
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269076/30-Jun-25/nextjs-14-blog/84_pjrqkf.webp)
+
+Next, we will create models.js file. It will contain the structure of data for user in database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269059/30-Jun-25/nextjs-14-blog/85_gs3m4f.webp)
+
+Now, also create the post models in the models.js file. We are also exporting the User and Post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269057/30-Jun-25/nextjs-14-blog/86_lkyrpk.webp)
+
+Now, in data.js file put the getPosts and getPost function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269054/30-Jun-25/nextjs-14-blog/87_o4fpon.webp)
+
+Now, we will also add getUser and getUsers in data.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269052/30-Jun-25/nextjs-14-blog/88_s1sl7s.webp)
+
+Next, we will open the MongoDB cloud again and click on Browse Collections.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269048/30-Jun-25/nextjs-14-blog/89_tvsgen.webp)
+
+Next, click on Add My Own Data button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269047/30-Jun-25/nextjs-14-blog/90_gm0qpn.webp)
+
+Now, click on Insert Document
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269044/30-Jun-25/nextjs-14-blog/91_bkxigj.webp)
+
+Now, for the users we will give the respective fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269042/30-Jun-25/nextjs-14-blog/92_lbkpoc.webp)
+
+We have manually put three users.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269038/30-Jun-25/nextjs-14-blog/93_io03mi.webp)
+
+Now, we will create posts also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269037/30-Jun-25/nextjs-14-blog/94_zf0geb.webp)
+
+Here, also we will put the required fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269033/30-Jun-25/nextjs-14-blog/95_ghrs4a.webp)
+
+Now, we will add some posts items.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269032/30-Jun-25/nextjs-14-blog/96_igbsdi.webp)
+
+Back in the PostCard component, we will put the single post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269028/30-Jun-25/nextjs-14-blog/97_n0vazj.webp)
+
+Now, we are getting all the posts from the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269027/30-Jun-25/nextjs-14-blog/98_vmhtfp.webp)
+
+We will also add createdAt in the posts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269023/30-Jun-25/nextjs-14-blog/99_blk0v0.webp)
+
+Now, in the SinglePostPage, we will put the post which we got from the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269022/30-Jun-25/nextjs-14-blog/100_ecavlw.webp)
+
+In the PostUser we will add a NextJS image and then use the database data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269019/30-Jun-25/nextjs-14-blog/101_crlcow.webp)
+
+Now, clicking on a single post will show the detail from database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269017/30-Jun-25/nextjs-14-blog/102_ez2qfg.webp)
+
+We will also use noStore() in data.js file. It helps to not store the cache.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269014/30-Jun-25/nextjs-14-blog/103_u5eqxu.webp)
+
+Now, we will add generateMetadata in SinglePostPage. Here we are adding slug and showing title and description.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269012/30-Jun-25/nextjs-14-blog/104_wunopb.webp)
+
+Now, for each post we will see the title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269008/30-Jun-25/nextjs-14-blog/105_fkli4q.webp)
+
+Now, we will create an action.js file. Here, we will have a server component. In it we will have addPost and deletePost. These functions will add or delete a post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269007/30-Jun-25/nextjs-14-blog/106_defnk4.webp)
+
+Next, we will create serveractiontest folder and inside it page.jsx file. Here, we have a simple form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269004/30-Jun-25/nextjs-14-blog/107_lssubb.webp)
+
+Now, when we go to http://localhost:3000/serveractiontest we will see the simple form. Here, we are also submitting the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751269001/30-Jun-25/nextjs-14-blog/108_icnoaa.webp)
+
+Now, in http://localhost:3000/blog we will get the new data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268999/30-Jun-25/nextjs-14-blog/109_x7kpmi.webp)
+
+Now, from the database get the id for the newly created field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268997/30-Jun-25/nextjs-14-blog/110_wuzyam.webp)
+
+Now, give the id in http://localhost:3000/serveractiontest and hit the delete button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268994/30-Jun-25/nextjs-14-blog/111_g0mfmc.webp)
+
+Back in http://localhost:3000/blog we will see the post been deleted.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268990/30-Jun-25/nextjs-14-blog/112_ev5dtq.webp)
+
+Now, we will show the data through the api folder. So, create an api folder and inside it blog folder. Now, create a route.js file inside it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268992/30-Jun-25/nextjs-14-blog/113_vnwoqc.webp)
+
+Now, in the BlogPage component we will create a getPosts function and call the api/blog route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268990/30-Jun-25/nextjs-14-blog/114_msrbjl.webp)
+
+Now, again our http://localhost:3000/blog is working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268987/30-Jun-25/nextjs-14-blog/115_mnarmq.webp)
+
+Now, inside blog folder create a [slug] folder. And inside it create route.js file. Here, we have created the GET and DELETE functions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268983/30-Jun-25/nextjs-14-blog/116_fry71r.webp)
+
+Now, back in page.jsx inside the [slug] folder, we will add the new getPost which uses the api endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268982/30-Jun-25/nextjs-14-blog/117_ykrnx2.webp)
+
+We have renamed the serveractiontest to create folder. And added create.module.css file with styles in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268979/30-Jun-25/nextjs-14-blog/118_t1bubl.webp)
+
+Now, we have updated the page.jsx inside the create folder. We have changed the name of the component, also added styles and action function in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268977/30-Jun-25/nextjs-14-blog/119_vav8f9.webp)
+
+Now, in the action.js file we will add the img.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268974/30-Jun-25/nextjs-14-blog/120_hnmqts.webp)
+
+Now, in the Links.jsx file we will add a new title and path.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268972/30-Jun-25/nextjs-14-blog/121_x9hvbe.webp)
+
+Now, our form is looking good in http://localhost:3000/create
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268971/30-Jun-25/nextjs-14-blog/122_mzflm7.webp)
+
+Now, we will create an user folder inside api folder. And then a route.js file inside it. It will contain our user GET route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268968/30-Jun-25/nextjs-14-blog/123_nty9ip.webp)
+
+Now, we will update the Create component to show username and id also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268967/30-Jun-25/nextjs-14-blog/124_lmworf.webp)
+
+Now, in the http://localhost:3000/create we will add a new item. Note that we are getting user id of all users, which is helpful in creating a post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268964/30-Jun-25/nextjs-14-blog/125_zvqey5.webp)
+
+Our newly added post is shown in http://localhost:3000/blog
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751268963/30-Jun-25/nextjs-14-blog/126_iu0i4w.webp)
+
+This completes our post. The code for the same can be found [here](https://github.com/nabendu82/nextjs-14).
