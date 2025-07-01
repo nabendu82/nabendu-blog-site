@@ -1,0 +1,293 @@
+---
+title: Serverless NodeJS with Neon Serverless Postgres and AWS Lambda
+description: NodeJS
+date: 2024-04-16
+tags: ["aws", "lambda", "nodejs"]
+published: true
+---
+
+In this post we will learn to create an Express and Node app running on AWS Lambda. We will use Neon Serverless Postgres and the famous Serverless Framework.
+
+This project have been created learning from the awesome YouTube video by freeCodeCamp. The link for the same is [here](https://www.youtube.com/watch?v=cxgAN7T3rq8).
+
+First go to your AWS account and search for lamda.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292885/30-Jun-25/serverless-nodejs/1_xbarmi.webp)
+
+Next click on Create a function button and check the NodeJS versions available on Lamdha. We will be using version 20 in this tutorial. So, upddate the version accordingly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292880/30-Jun-25/serverless-nodejs/2_avpnjc.webp)
+
+We will be mostly using the serverless framework in this project. The link for the same is here. As per the documentation we will add serverless globally by the command ***npm i -g serverless***.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292879/30-Jun-25/serverless-nodejs/3_cdfpxa.webp)
+
+Now, in the terminal run serverless and then select AWS — Node.js — Express API
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292873/30-Jun-25/serverless-nodejs/4_zek3f4.webp)
+
+Next, give the project a name which in our case is serverless-api-nodejs. Also, Register and deploy should be selected as No.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292870/30-Jun-25/serverless-nodejs/5_scmbqm.webp)
+
+A folder will be created by the name serverless-api-nodejs. So, cd to it and open it in VS Code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292867/30-Jun-25/serverless-nodejs/6_d4kzlz.webp)
+
+In VS Code click on File and then Save Workspace As… option.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292865/30-Jun-25/serverless-nodejs/7_zj2dyg.webp)
+
+A pop-up will come where just click on the Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292859/30-Jun-25/serverless-nodejs/8_rdkfs7.webp)
+
+Also, initiate git in the folder by running git init command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292862/30-Jun-25/serverless-nodejs/9_tjntyh.webp)
+
+We will be using the serverless Postgres in our project. So, add the same using the npm package for the same. Here, we are adding two dependencies in the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292854/30-Jun-25/serverless-nodejs/10_nzmats.webp)
+
+The command of neonctl auth will open a verification link on our default browser. Here, verify with github.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292876/30-Jun-25/serverless-nodejs/11_c5ei2a.webp)
+
+Once the authentication is done sucessfully, we will get the below screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292850/30-Jun-25/serverless-nodejs/12_srwjtk.webp)
+
+In the neonctl auth in the terminal, also we will get a success message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292855/30-Jun-25/serverless-nodejs/13_vwp6nv.webp)
+
+We will also add Drizzle ORM to use our Postgres later.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292849/30-Jun-25/serverless-nodejs/14_b9fox2.webp)
+
+Next, from the terminal we will add the serverless plugin to use serverless in offline development mode. Use the command mentioned in the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292846/30-Jun-25/serverless-nodejs/15_jljmqs.webp)
+
+Now, run the serverless offline command and it will open our server on http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292841/30-Jun-25/serverless-nodejs/16_tqcopc.webp)
+
+Now, instead of running this command we will add the script of dev in package.json file. After that we will run the npm run dev command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292840/30-Jun-25/serverless-nodejs/17_bmq432.webp)
+
+Now, we will move our index.js file inside a src folder. Alo, in the serverless.yml file we will update this path and also NodeJS version to 20.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292836/30-Jun-25/serverless-nodejs/18_c33hfv.webp)
+
+Now, for the environment variables we will use the special dotenv plugin by installing it from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292835/30-Jun-25/serverless-nodejs/19_uhoxar.webp)
+
+Also, in the .gitignore file add the .env* to have them not uploaded in github.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292830/30-Jun-25/serverless-nodejs/20_ewfufs.webp)
+
+Now, we will create an .env file in the root directory and add some variables in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292829/30-Jun-25/serverless-nodejs/21_h7yogx.webp)
+
+Also, in the .env.dev file in the root irectory put the below content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292825/30-Jun-25/serverless-nodejs/22_qbym1c.webp)
+
+Back in the serverless.yml file we will add line to use the .env files. Also, in the environment will have DEBUG and DATABASE_URL been used.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292822/30-Jun-25/serverless-nodejs/23_fulyff.webp)
+
+From the index.js file we will send the DEBUG and DATABASE_URL from the / endpoint. After adding this run the npm run dev command again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292820/30-Jun-25/serverless-nodejs/24_tpo8nx.webp)
+
+Now, in http://localhost:3000/ we will get the DEBUG and DATABASE_URL data also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292817/30-Jun-25/serverless-nodejs/25_xzbzdu.webp)
+
+Now, we will go to https://neon.tech/ and login to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292815/30-Jun-25/serverless-nodejs/26_ju6yi8.webp)
+
+After login click on Create project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292811/30-Jun-25/serverless-nodejs/27_m6gekz.webp)
+
+Once created we will get the connection string for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292805/30-Jun-25/serverless-nodejs/28_zrtlyj.webp)
+
+Now, add the connection string to the .env.dev file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292809/30-Jun-25/serverless-nodejs/29_x2psfz.webp)
+
+Now, in the SQL Editor in neon.tech we will run the given command to add some random rows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292804/30-Jun-25/serverless-nodejs/30_pnjkls.webp)
+
+We can also create a new branch in neon.tech by going to Branches and then clicking on Create branch.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292800/30-Jun-25/serverless-nodejs/31_lrgnyk.webp)
+
+Give the new branch the name of dev and click on Create new branch button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292798/30-Jun-25/serverless-nodejs/32_hcxsh2.webp)
+
+Now, go to Projects and then click on the three dots and then the Settings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292795/30-Jun-25/serverless-nodejs/33_xnkkc6.webp)
+
+In the next page click on the Delete tab and then Delete project button to delete this project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292792/30-Jun-25/serverless-nodejs/34_q87rbf.webp)
+
+We will again use the Neon CLI to get the project list by giving the below commands.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292789/30-Jun-25/serverless-nodejs/35_a02fik.webp)
+
+Now, we will create the project from command line by giving the create command and then check the connection string also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292786/30-Jun-25/serverless-nodejs/36_uierfs.webp)
+
+We can also create branches from command line and get a list of it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292781/30-Jun-25/serverless-nodejs/38_ylvezn.webp)
+
+Now, we will give the main branch connection string in the .env file. And the dev branch connection string in the .env.dev file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292779/30-Jun-25/serverless-nodejs/39_xulhpj.webp)
+
+Now, in the index.js file we will connect to the database and do a select command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292776/30-Jun-25/serverless-nodejs/40_krhzoi.webp)
+
+Back in http://localhost:3000/ we will see the results with current time.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292772/30-Jun-25/serverless-nodejs/41_rqrxkc.webp)
+
+Next, we will also add the cache in the index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292771/30-Jun-25/serverless-nodejs/42_z1cmvr.webp)
+
+Now, we will deploy to prod by creating an .env.prod file. And then add a script to deploy the project. Here, we have given the region as the one which we got from neonctl projects list command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292767/30-Jun-25/serverless-nodejs/43_jquakx.webp)
+
+Now, go to aws and click on IAM user .
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292766/30-Jun-25/serverless-nodejs/44_quhkyl.webp)
+
+After that click on User Groups and then Create group.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292761/30-Jun-25/serverless-nodejs/45_ouzq6i.webp)
+
+In the next window give the user group name, which in our case is serverless-framework. And then click on Create Group button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292760/30-Jun-25/serverless-nodejs/46_yg63jp.webp)
+
+Next, click on Users and then Create user button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292757/30-Jun-25/serverless-nodejs/47_izwjns.webp)
+
+Next give the user a name which is serverless-api-nodejs in our case. And then click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292755/30-Jun-25/serverless-nodejs/48_jy7b52.webp)
+
+Next, add the user to a group which is serverless-framework in out case.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292752/30-Jun-25/serverless-nodejs/49_vvyfcn.webp)
+
+Finally, click the Create User button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292750/30-Jun-25/serverless-nodejs/50_noqk5z.webp)
+
+Now, we have a new user serverless-api-nodejs
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292747/30-Jun-25/serverless-nodejs/51_mjfsdm.webp)
+
+Now, go to the Security credentials and click on Create access key button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292745/30-Jun-25/serverless-nodejs/52_efouu6.webp)
+
+In the next page click on Other and then the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292742/30-Jun-25/serverless-nodejs/53_uzipd5.webp)
+
+Now, in the final window click on the Create access key button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292740/30-Jun-25/serverless-nodejs/54_hxnoyv.webp)
+
+The access key is created which we need to copy along with the secret.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292736/30-Jun-25/serverless-nodejs/55_z142p3.webp)
+
+Now, in the .env file add both of them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292735/30-Jun-25/serverless-nodejs/56_hxr0ix.webp)
+
+Now, create a reference folder and add the policy.json file in it. The data for the same can be taken from [this](https://github.com/codingforentrepreneurs/serverless-nodejs-api/blob/main/reference/serverless-iam-policy.md) link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292731/30-Jun-25/serverless-nodejs/57_lcqtto.webp)
+
+We are not going to put this file in github. So, add it in .gitignore file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292730/30-Jun-25/serverless-nodejs/58_lyhexu.webp)
+
+Now, go to the AWS dashboard and get the Account ID.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292727/30-Jun-25/serverless-nodejs/59_dmzqjg.webp)
+
+Now, go back to the policy.json file and search for :AWS_ID: and replace all of it with `:<YOUR_AWS_ACCOUNT_ID>:`
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292724/30-Jun-25/serverless-nodejs/60_rjtlti.webp)
+
+Now click on Policies and then Create policy in AWS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292722/30-Jun-25/serverless-nodejs/61_h3ycrf.webp)
+
+Now, copy the policy.json file content to the Policy editor.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292720/30-Jun-25/serverless-nodejs/62_rqzgrm.webp)
+
+After saving it, give the policy a name which is serverless-framework-permissions in our case.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292718/30-Jun-25/serverless-nodejs/63_pmlrau.webp)
+
+Now, go to User groups and then click on Permissions. Now click on the dropdown and then Attach policies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292716/30-Jun-25/serverless-nodejs/64_reg1dy.webp)
+
+In the next screen we will be shown a number of policies. So, search for serverless and we will find or policy. Click on the checkbox to select the policy and then Attach policies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292714/30-Jun-25/serverless-nodejs/65_uyglad.webp)
+
+We have also added a remove script in the package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292711/30-Jun-25/serverless-nodejs/66_kyod3i.webp)
+
+Now, run the npm run deploy but it was failed because Lamda was unable to configure environment variables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292709/30-Jun-25/serverless-nodejs/67_ohjnsp.webp)
+
+To fix this we need to exclude some files by adding them in serverless.yml file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292707/30-Jun-25/serverless-nodejs/68_uyzr6d.webp)
+
+Now, npm run deploy will work and we will get a random deployment link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292705/30-Jun-25/serverless-nodejs/69_yamyin.webp)
+
+Now, going to the url will show the result from our API endpoint of NodeJS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292702/30-Jun-25/serverless-nodejs/70_w6en2t.webp)
+
+Now going to AWS S3 will show a bucket been automatically been created. But this will only start if we hit the serverless endpoint and charged accordingly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751292702/30-Jun-25/serverless-nodejs/71_kari7d.webp)
+
+This complete our tutorial. The code for the same can be found in [this](https://github.com/nabendu82/serverless-api-nodejs) github repository.
