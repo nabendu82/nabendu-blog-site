@@ -1,0 +1,401 @@
+---
+title: Vercel Clone with React, NodeJS, S3 and Redis
+description: NodeJS
+date: 2024-04-24
+tags: ["aws", "redis", "nodejs"]
+published: true
+---
+
+In this post we will create a Vercel clone. Here, we will learn to use advanced backend code and learn S3 and Redis in the way.
+
+This post have been created following awesome YouTube video by Harkirat Singh. You can find it [here](https://www.youtube.com/watch?v=c8_tafixiAs).
+
+We will be creating three main backend service in this post. And also the frontend at the end. The three services are -
+
+    - Upload Service
+    - Deployment Service
+    - Request handler Service
+
+The flow is as below -
+
+    - From the frontend, we will send an Github URL to the upload server. Then from github we will clone the repository. And upload the React project to S3. Also, we will send the id to an Queuing system like Redis Queue, which will be used by the second service.
+    - The Deployment service will get these id from the Queue and will different concurrent workers build the React project to HTML, CSS and JS and again store to S3.
+    - The request handler service will handle the request from the Frontend and will send back the deployed site containing HTML, CSS and JS to the browser from S3. We will also send the frontend the status after upload and deployment is done and finally a random url of the deployed site.
+
+First we will create the Upload Service. So, in the terminal make a new directory vercel-new and change to it. After that with npm init -y create an empty package.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349916/30-Jun-25/vercel-clone-react/1_bw1m2c.webp)
+
+Now, give the command npm i typescript to install typescript. And then npx tsc — init to initialize a TypeScript project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349912/30-Jun-25/vercel-clone-react/2_ok6kr1.webp)
+
+Now, open the tsconfig.json file and change the rootDir to ./src.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349910/30-Jun-25/vercel-clone-react/3_t0ce1r.webp)
+
+Also, make the outDir as ./dist.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349906/30-Jun-25/vercel-clone-react/4_f0jkli.webp)
+
+Now, we will install the dependencies for express, redis, aws-sdk, simple-git, cors and typescript dependencies for express and cors. Install the exact version as given in the screenshot.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349903/30-Jun-25/vercel-clone-react/5_uhhjgv.webp)
+
+Now, in VS Code create a src folder and inside it index.ts file. This file will now contain a simple express and cors imports. Following by using both and then listening to port 3000.
+
+From the terminal, we are also running the command npx tsc -b to convert the index.ts file to index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349901/30-Jun-25/vercel-clone-react/6_qfglj1.webp)
+
+Now, give the command node dist/index.js to run the file and it will sho the Upload service statement.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349897/30-Jun-25/vercel-clone-react/7_dgm8kt.webp)
+
+Back in index.ts file, we will first use express.json() and then create a post endpoint on /deploy. It will just take the repoUrl from the body and send back an empty json.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349895/30-Jun-25/vercel-clone-react/8_bjexc4.webp)
+
+Now, we will create an utils.ts file inside the src folder. Here, we have a simple function to generate a random 8 word string.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349891/30-Jun-25/vercel-clone-react/9_vvvzc8.webp)
+
+We are using a npm package called Simple Git which is used to run git commands.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349889/30-Jun-25/vercel-clone-react/10_yyucdo.webp)
+
+Back in index.ts file, we will first import simpleGit, generate and path. After that inside the app.post() we will first generate a random id. With simpleGit() we will clone the repo provided in body and put it in folder output/id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349885/30-Jun-25/vercel-clone-react/11_yupxh0.webp)
+
+We have first run the npx tsc -b and node dist/index.js command again.
+
+Next, open the Thunder Client extension in VS Code. You can use Postman also in it’s place. Here, we are sending a POST request to http://localhost:3000/deploy and in the Body passing a repoUrl with a real React project github repo. We are getting a Status 200 OK after sending this request.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349882/30-Jun-25/vercel-clone-react/12_ehxa2h.webp)
+
+We will make some small changes in index.ts file. And run the npx tsc -b and node dist/index.js command again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349880/30-Jun-25/vercel-clone-react/13_ulcye8.webp)
+
+Back in the Thunder Client send the request and we will see a output folder been created with a random string folder containing our ReactJS code from the repo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349876/30-Jun-25/vercel-clone-react/14_txnk9b.webp)
+
+Now, create a file.ts file and put the below code in it. This contains a recursive function getAllFiles(), which takes the folderOath and returns us all the files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349872/30-Jun-25/vercel-clone-react/15_pn2kwy.webp)
+
+Back in the index.ts file we will call the getAllFiles and passs the path of the output/id, which contain our extracted ReactJS code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349871/30-Jun-25/vercel-clone-react/16_jtetv2.webp)
+
+Run the npx tsc -b and node dist/index.js command again. And in the Thunder Client hit the Send again. This time we will also get the console log for all the files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349866/30-Jun-25/vercel-clone-react/17_eyyljt.webp)
+
+Now, instead of AWS S3, we will use Cloudflare R2. It is exactly similar to S3 and built with aws sdk only. So, all the code remains the same if you use S3 also.
+
+So, first open https://www.cloudflare.com/ and login/register to it. It will open the Dashboard.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349865/30-Jun-25/vercel-clone-react/18_whwrhx.webp)
+
+After this click on R2. Here, like AWS you have to give your Credit Card details, but you won’t be charged. The free usage is quite large in comparision with S3.
+
+At the time of this post, it is 10 GB/month and 1 million requests/month is free.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349861/30-Jun-25/vercel-clone-react/19_um2lny.webp)
+
+After the Credit Card verification, we will get the option to Create Bucket. So, click on it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349859/30-Jun-25/vercel-clone-react/20_t3dxsq.webp)
+
+In the next screen, we will give the bucket a name which is vercel-new in our case and hit the Create bucket button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349856/30-Jun-25/vercel-clone-react/21_b3kwes.webp)
+
+Now, we have a new bucket and need to create an API token. So, click on Manage R2 API Tokens link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349852/30-Jun-25/vercel-clone-react/22_xecb99.webp)
+
+In the next window click on Create API token button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349850/30-Jun-25/vercel-clone-react/23_uzxazv.webp)
+
+In the next window click on Admin Read & Write and then Create API Token button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349846/30-Jun-25/vercel-clone-react/24_zae5i7.webp)
+
+Now, copy the Access Key ID, Secret Access Key and url from the next screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349843/30-Jun-25/vercel-clone-react/25_gwdnnr.webp)
+
+Now, create a r2.ts file and add the below code in it. Here, we are using our secret keys. And have an uploadFile function, which reads our files from the localFIlePath and uploads it to R2 using the s3.upload().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349840/30-Jun-25/vercel-clone-react/26_keuc9h.webp)
+
+Back in index.ts file we are importing the uploadFile first. Next through forEach we are looping through each files and sending it to uploadFile.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349837/30-Jun-25/vercel-clone-react/27_dflgmr.webp)
+
+Run the npx tsc -b and node dist/index.js command again. And again click on Send button in Thunder Client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349835/30-Jun-25/vercel-clone-react/28_wdl5mr.webp)
+
+Now, in cloudflare we will see a output folder and inside it the random name folder. Inside it all of our React files are stored.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349831/30-Jun-25/vercel-clone-react/29_cblo6f.webp)
+
+Now, our Upload Service is over. But we have to do one last thing and that is to pass the id to the next service.
+
+So, in the index.ts file we will create a Redis publisher. And then in a Redis List called build-queue pass the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349828/30-Jun-25/vercel-clone-react/30_qhbyza.webp)
+
+To use redis, we also need to start redis on our machine. I have docker installed, so will start redis through it using the below command. If you want to learn about [Docker](https://www.youtube.com/watch?v=31k6AtW-b3Y) and [Redis](https://www.youtube.com/watch?v=Vx2zPMPvmug) please check Piyush Garg videos.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349825/30-Jun-25/vercel-clone-react/31_zq23iz.webp)
+
+Now, go to http://localhost:8001/redis-stack/browser and we will see the build-queue list(Like array in JavaScript) been created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349822/30-Jun-25/vercel-clone-react/32_wvfke6.webp)
+
+Now, we will create our deployment service. For this we have gone inside our vercel-main folder. We have first created a vercel-upload-sc folder and moved our earlier code in it.
+
+Next, we have created the vercel-deploy-sc folder in vercel-main and created a new package.json with npm init -y command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349816/30-Jun-25/vercel-clone-react/33_pccrwm.webp)
+
+Now inside the vercel-deploy-sc folder, we will give the commands of npm i typescript and npx tsc — init as earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349819/30-Jun-25/vercel-clone-react/34_fmg7um.webp)
+
+Now, we will change the rootDir to ./src in the tsconfig.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349812/30-Jun-25/vercel-clone-react/35_evz9sn.webp)
+
+We will also change the outDir to ./dist in the tsconfig.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349811/30-Jun-25/vercel-clone-react/36_za0f8a.webp)
+
+Now, create a src folder and inside it index.ts file. After that in the package.json file add the new dependencies with exact version number. Then run the npm i command from the terminal to install these dependencies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349807/30-Jun-25/vercel-clone-react/37_duuyp5.webp)
+
+Now, in the index.ts file we will have a subscriber first. After that we will have a main(), which is having an infinite while loop. It will use the Redis subscriber to pop any request from build-queue.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349804/30-Jun-25/vercel-clone-react/38_ogcpkp.webp)
+
+Next, we will open redis-cli from the terminal and push two strings to the LIST build-queue.
+
+We have also run the npx tsc -b and node dist/index.js command in vercel-deploy-sc. This will receive those strings passed through redis-cli.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349801/30-Jun-25/vercel-clone-react/39_bgeyog.webp)
+
+Now, we will create a r2.ts file in our deploy service. Here, we are importing S3, fs and path first. Next, we have to s3 variable creating a new S3 object and passing accessKeyId, secretAccessKey and endpoint(Not shown).
+
+After that we have a downloadS3Folder function. It is first listening to the vercel-new bucket and get allFiles. After that we are looping through allFiles in s3 and storing them in local directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349798/30-Jun-25/vercel-clone-react/40_bca1fc.webp)
+
+Now, we will call the downloadS3Folder from index.ts file and pass output/id as a parameter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349795/30-Jun-25/vercel-clone-react/41_c9akm7.webp)
+
+Next, do a LPUSH of an existing directory from cloudflare to build-queue, from redis-cli.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349791/30-Jun-25/vercel-clone-react/42_wfd7sv.webp)
+
+We have also pushed another existing folder in redis-cli. Now, we can see both of them inside the output folder in dist folder. And also the success messages in vercel-deploy-sc running command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349789/30-Jun-25/vercel-clone-react/43_vujloa.webp)
+
+Now, we will create an utils.ts file. Here, we are importing exec from child_process. Next, in the buildProject function, we are calling exec to go to output/id directory and do a npm install and npm run build on the React project.
+
+By using the child_process these commands can run parallel on same ststem.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349785/30-Jun-25/vercel-clone-react/44_pci9j6.webp)
+
+Now, we are calling the buildProject from the index.ts file and providing the id. We have also run the npx tsc -b and node dist/index.js command agin to get the latest updates and running the service.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349780/30-Jun-25/vercel-clone-react/45_lma99r.webp)
+
+Now, do a LPUSH of a real directory from redis-cli. After sometime inside the output/id folder, we will have a dist folder containing the index.html and other CSS, JS and images files required for showing the site directly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349782/30-Jun-25/vercel-clone-react/46_ngzx8x.webp)
+
+Next, we will create three new functions in r2.ts file. The first function of copyFinalDist is sending the output/id/dist folder path to getAllFiles(). After getting all files, it is looping through it and calling the uploadFile() for each file and passing the dist/id plus the file name and local file path.
+
+The getAllFiles() is a recursive function, where the fullFilePath will be pushed in an array and returned back.
+
+Lastly, uploadFile() we are passing the fileName and localFilePath. Here, we are first storing the fileContent using readFileSync(). Next, with s3.upload(), we are passing the fileContent, bucket name and file name to store the file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349776/30-Jun-25/vercel-clone-react/47_lfmzo0.webp)
+
+Back in index.ts file, we will first import copyFinalDist from r2.ts file. Next, we will be calling it and passing the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349773/30-Jun-25/vercel-clone-react/48_pwdjbr.webp)
+
+Again, we will be passing a real folder string stored in r2 through LPUSH to build-queue. After 2–5 seconds we will see the dist folder with static html, css, js and image files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349771/30-Jun-25/vercel-clone-react/49_nff3ip.webp)
+
+Now, in cloudflare dashboard and inside our id folder we will see the static content been stored.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349766/30-Jun-25/vercel-clone-react/50_yggie6.webp)
+
+Now, we will create our last Request handler service. Here, we are creating a vercel-rq-handler folder. And running the three commands which we have given in the previous two services.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349764/30-Jun-25/vercel-clone-react/51_yhxir5.webp)
+
+As earlier make the rootDir as ./src in the tsconfig.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349761/30-Jun-25/vercel-clone-react/52_iz0f0e.webp)
+
+Also, the outDir as ./dist in the tsconfig.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349758/30-Jun-25/vercel-clone-react/53_l551nh.webp)
+
+Now, as earlier create a src folder and inside it index.ts file. In the package.json file, we have installed the dependencies with correct version. And then from the terminal run the npm i command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349755/30-Jun-25/vercel-clone-react/54_hleaxa.webp)
+
+Now, in the index.ts file for the request handler, we will first import the express and S3. After that we have an app.get(/*) which will take every url.
+
+Here, we are getting the id from the hostname. Now, using the bucket name, complete path with id, we are getting the contents. Finally, we are setting the Content-Type and sending contents.Body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349752/30-Jun-25/vercel-clone-react/55_d5kafg.webp)
+
+All our three services are done. But we will implement a functionality where the frontend will know about the status of upload and deployment, before sharing the uploaded link.
+
+Again, we will use Redis to do this task. So, we will create a hash called status and set a key value pair of id and “uploaded” string. We are publishing this once all operations are done in the vercel-upload-sc index.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349750/30-Jun-25/vercel-clone-react/56_bcm6k2.webp)
+
+Also, from then index.ts file inside vercel-deploy-sc folder, we are sending the hash status and set a key value pair of id and “deployed” string. Here, we had also created a publisher first.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349746/30-Jun-25/vercel-clone-react/57_kwtddr.webp)
+
+Back in the index.ts file in vercel-upload-sc folder, we have first create a redis subscriber.
+
+Next, we have created a GET route of /status. Here, we got the id with req.query.id first. And then got the hash of status by passing the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349744/30-Jun-25/vercel-clone-react/58_jbeiyx.webp)
+
+Now, run all the three services separately again by building them with npx tsc -b command first. And then run them with node dist/index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349740/30-Jun-25/vercel-clone-react/59_uihdwl.webp)
+
+Now, go to Thunder Client and send a new react project github url to /deploy endpoint. Here, we will get the response with id from the Upload service.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349738/30-Jun-25/vercel-clone-react/60_sdpgtv.webp)
+
+Next, we will hit the /status endpoint and provide the id received earlier. Here, we will get the status of Uploaded after some time, once the upload is done to S3.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349735/30-Jun-25/vercel-clone-react/61_un89xa.webp)
+
+Now, again send the /status endpoint with the earlier id after sometime. We will receive the status of deployed once the deployment is completed by the Deploy service.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349732/30-Jun-25/vercel-clone-react/62_twn6fj.webp)
+
+Our site is deployed and we can check it because of Request handler service. But since it is not a https url, it’s difficult to show on local system.
+
+So, we have to update the /etc/hosts manually. So, sudo to it on the Mac.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349730/30-Jun-25/vercel-clone-react/63_ql7v6q.webp)
+
+Add the line with the deployed site string plus .vercel.com pointing to localhost(127.0.0.1)
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349727/30-Jun-25/vercel-clone-react/64_kjpbbo.webp)
+
+Make sure that the vercel-rq-handler is updated and running.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349724/30-Jun-25/vercel-clone-react/65_h8bktb.webp)
+
+It was difficult to run the deployed http site on the browser. So, we got the content of the deployed site using the curl command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349721/30-Jun-25/vercel-clone-react/66_d8x3ei.webp)
+
+We have added the frontend folder inside our vercel-main folder. The code for the same can be taken from the github repo at the end. We have npm i it and then run the frontend with npm run dev command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349719/30-Jun-25/vercel-clone-react/67_kwfwqz.webp)
+
+Now, we will understand the frontend a bit. Here, as usual with a Vite project the App.tsx file in the starting point. It calls a component Landing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349716/30-Jun-25/vercel-clone-react/68_lw6kv4.webp)
+
+Now, the landing.tsx file imports a lot of components, which we will see next. Here, we have a BACKEND_UPLOAD_URL and some state variables, which we will use next.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349714/30-Jun-25/vercel-clone-react/69_nibaty.webp)
+
+Next, we have added the different components of Card, CardHeader, CardTitle, CardDescription CardContent in landing.tsx file. These components will mainly be used for styling with some style props been passed.
+
+Next, we have the Label and Input component with the props been passed. The Input will set the repoUrl by taking user input.
+
+The button will also pass the props to the Button component, but the main functionalities are done here only. Here, we have an async function call on clicking the button.
+
+It will first set uploading to true and then do a POST api call to http://localhost:3000/deploy and will pass the repoUrl enter by the user in the Input field. Once it gets the response it will set the UploadId to res.data.id and will also set uploading to false.
+
+After this we are using a setInterval which runs every 3 seconds. Here, we are hitting the GET url of `http://localhost:3000/status/<id>` . Now, if we get the status of deployed we are stopping the interval and also setting the deployed to true.
+
+Lastly, we are showing the text of Deploying with id or uploading.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349711/30-Jun-25/vercel-clone-react/70_yw3hbh.webp)
+
+Now after the Card component, we will add more code in landing.tsx file. Here, after we get the deployed as true, we are showing a new Card. Here, we will also show the deployment url
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349709/30-Jun-25/vercel-clone-react/71_edioso.webp)
+
+Now, we will see the code for different components used in our Layout component. First, we will look in card.tsx file. Here, we are using forwardRef, which lets us expose DOM node to parent component.
+
+Here, we have written the logic for Card, CardHeader, CardTitle, CardDescription, CardContent and CardFooter which are adding its own style classes and also taking classes from the parent component.
+
+Here, we are also using cn from an utlis file, which we will look next.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349706/30-Jun-25/vercel-clone-react/72_mdxx6w.webp)
+
+In the utils.ts file, we have a function cn which is using twMerge to merge various tailwind classes. This is used because we are getting some classes from Parent component (Landing) and some from Child components (Card, Label etc)
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349703/30-Jun-25/vercel-clone-react/73_yknz2p.webp)
+
+Next, we will check the label.tsx file. Here, we are using LabelPrimitive from react-label and then adding classes from Parent component (Landing) to this component using the cn from utils.js.
+
+For using type we have also created a labelVariants.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349701/30-Jun-25/vercel-clone-react/74_oeemsu.webp)
+
+Next, we will see the input.tsx file. Here, we are again using the forwardRef. We are getting the types with the interface of InputProps.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349699/30-Jun-25/vercel-clone-react/75_dr4eya.webp)
+
+Next, we will see the button.tsx file. Here, we have a lot of tailwind classes for the styling
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349696/30-Jun-25/vercel-clone-react/76_p41zbu.webp)
+
+After the initial code in button.tsx file, we have an interface ButtonProps for the types. In the main Button component, we are getting props from Parent component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349694/30-Jun-25/vercel-clone-react/77_cluguu.webp)
+
+We were getting a bit of error in the whole flow. So, in the index.ts file of the vercel-upload-sc we have added a 5 seconds delay after the upload have been done.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349691/30-Jun-25/vercel-clone-react/78_wawotq.webp)
+
+Now, again first run the npx tsc -b and node dist/index.js file in the vercel-deploy-sc folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349689/30-Jun-25/vercel-clone-react/79_xkjqfu.webp)
+
+Now, we will open the frontend in http://localhost:5173/ and enter a valid github repo of React Project. And hit the Upload button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349686/30-Jun-25/vercel-clone-react/80_bfqvox.webp)
+
+Once the deployment is done successfully, we will get the below screen with the link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349683/30-Jun-25/vercel-clone-react/81_suz6oq.webp)
+
+We cannot open this link in our computer without adding it in /etc/hosts. And after that also we can only see it through curl, because it’s http.
+
+PS: If someone have solution see it in browser after putting in /etc/hosts, please write in comment and I will update this part.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751349683/30-Jun-25/vercel-clone-react/82_r9nau2.webp)
+
+This completes our post. You can find the code for the same [here](https://github.com/nabendu82/vercel-clone).
