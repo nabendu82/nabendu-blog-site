@@ -1,0 +1,507 @@
+---
+title: AirBnB clone with NextJS 14 -Part 1
+description: NextJS
+date: 2024-10-22
+tags: ["web-dev", "reactjs", "nextjs"]
+published: true
+---
+
+In this post, we are going to built an AirBnB clone using NextJS 14 and Tailwind CSS. We are also going to use Appwrite for login, register and storage features. It is similar to firebase and make backend interaction easier.
+
+This post have been inspired by the awesome YouTube video by Traversy Media. You can find the link [here](https://www.youtube.com/watch?v=l9zh0pqEHyc).
+
+So, let’s get started and create a new NextJS 14 project by giving the create-next-app command in terminal. Give the exact command and also No or Yes similar to the screenshot.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365886/30-Jun-25/airbnb-clone-1/1_tysrkx.webp)
+
+Now, change to the new folder bnb-clone, then open in VS Code and start the app with npm run dev command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365882/30-Jun-25/airbnb-clone-1/2_mko5nv.webp)
+
+Now, open the app in http://localhost:3000/ and we will see the below NextJS screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365880/30-Jun-25/airbnb-clone-1/3_q6dofx.webp)
+
+Next, go to page.js file which is the Home screen and remove everything and add a h1 tag
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365863/30-Jun-25/airbnb-clone-1/4_bhjyto.webp)
+
+From the globals.css file, we have removed all code except the tailwind part.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365854/30-Jun-25/airbnb-clone-1/5_kcly39.webp)
+
+Next in layout.js file, which contains code for all files, we have removed all earlier code and kept a basic code with a new font.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365860/30-Jun-25/airbnb-clone-1/6_c44x9u.webp)
+
+Now create an assets folder in the root directory. Inside it create an images folder and put a logo.svg file. Also, create a components folder in root directory and create a Header.jsx file inside it.
+
+Here, we have first imported Image, Link from Next and recently added logo. In the return, we have a header element containing the logo and the nav bar elements.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365914/30-Jun-25/airbnb-clone-1/7_jxjow3.webp)
+
+After that we have added the right side menu and also the Mobile menu in the Header.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365920/30-Jun-25/airbnb-clone-1/8_ozpna2.webp)
+
+Now, our http://localhost:3000/ in desktop view looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365856/30-Jun-25/airbnb-clone-1/9_yjrv0h.webp)
+
+The mobile menu is responsive and looks like below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751368524/30-Jun-25/airbnb-clone-1/9-1_j88s0y.webp)
+
+Now, we will add react-icons in our project to show icons. So, add the same from the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365837/30-Jun-25/airbnb-clone-1/10_spoayg.webp)
+
+Now, we have first imported react-icons in Header.jsx file. After that added the respectative icons instead of the `<i>` tags.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365918/30-Jun-25/airbnb-clone-1/11_b78hie.webp)
+
+The http://localhost:3000/ now shows perfect icons in the navbar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365844/30-Jun-25/airbnb-clone-1/12_wrlqa0.webp)
+
+Next, we will create the footer component. So, create a file Footer.jsx inside the components folder and add the below code in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365872/30-Jun-25/airbnb-clone-1/13_z9v6vt.webp)
+
+Next, we will add the footer component in the layout.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365821/30-Jun-25/airbnb-clone-1/14_lfi0hi.webp)
+
+Now, go to http://localhost:3000/ and we will see the footer component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365850/30-Jun-25/airbnb-clone-1/15_i9uf8l.webp)
+
+Now, create a data folder in the root directory and add a rooms.json file in it. We will use this array of object to show rooms with details on home page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365899/30-Jun-25/airbnb-clone-1/16_jjglyk.webp)
+
+Next, we will create a public folder in the root directory. Inside it will create images and inside it rooms folder. We will put five room images in it.
+
+We have also created a RoomCard.jsx file inside the components folder. It is taking the room props and image, address, availability and price.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365905/30-Jun-25/airbnb-clone-1/17_yczjaf.webp)
+
+Now, in page.js file we will first loop through rooms from rooms.json file. And pass each room to the RoomCard component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365866/30-Jun-25/airbnb-clone-1/18_lknbyt.webp)
+
+Back in http://localhost:3000/ we will see the rooms showing properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365824/30-Jun-25/airbnb-clone-1/19_v0ltdx.webp)
+
+We will create a file Heading.jsx in the components folder, which takes title as props and show it with tailwind styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365841/30-Jun-25/airbnb-clone-1/20_ajg3ad.webp)
+
+Now, we will call the Heading component from page.js file and pass a title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365806/30-Jun-25/airbnb-clone-1/21_jdnbh0.webp)
+
+Now, home page in http://localhost:3000/ we will also get the heading.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365834/30-Jun-25/airbnb-clone-1/22_pt8fuh.webp)
+
+Now, we will create the page to show a single room. Inside the app folder, create a rooms folder. In the rooms folder, create an [id] folder. Create a page.jsx file in it and add the below code in it.
+
+Here, we are getting params as a prop and extracting id from it. From the id we are finding a particular room from the rooms array using find. Inside the return we are showing the Image and the room description.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365902/30-Jun-25/airbnb-clone-1/23_ssoqzt.webp)
+
+Now, click on any room in the home page and we will get the image and description of it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365814/30-Jun-25/airbnb-clone-1/24_ohcvg2.webp)
+
+Now, we will show all the other details of the room using an ul in the rooms page.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365892/30-Jun-25/airbnb-clone-1/25_b2fqea.webp)
+
+Now, the room will show more details in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365798/30-Jun-25/airbnb-clone-1/26_qduxqe.webp)
+
+Now, we will write the code for Booking Form which will be added in the room page. So, add a BookingForm.jsx file in the components folder. Here, we have four input and a button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365912/30-Jun-25/airbnb-clone-1/27_bzkpoc.webp)
+
+Now, add the BookingForm component in the rooms page.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365895/30-Jun-25/airbnb-clone-1/28_lzate4.webp)
+
+Now, the room will show the form also in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365792/30-Jun-25/airbnb-clone-1/29_io8njk.webp)
+
+Now, we will implement appwrite, which is a backend service as firebase. Through it we can add a NoSQL database with ease. First login to it and click on Create project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365831/30-Jun-25/airbnb-clone-1/30_rhmmqy.webp)
+
+Now, give the project a name and project id and click on Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365754/30-Jun-25/airbnb-clone-1/31_zjb4kz.webp)
+
+After that we have to select a region, which is only Frankfurt at the moment. Click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365750/30-Jun-25/airbnb-clone-1/32_j7czqk.webp)
+
+Now, click on Web in the next screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365803/30-Jun-25/airbnb-clone-1/33_fhdsfa.webp)
+
+In the next screen for Hostname registration give a name and make sure Hostname is localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365747/30-Jun-25/airbnb-clone-1/34_hpln2r.webp)
+
+In the next screen just click on the Next button
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365760/30-Jun-25/airbnb-clone-1/35_jvcgf2.webp)
+
+In the next screen also, just click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365771/30-Jun-25/airbnb-clone-1/36_lwnzh1.webp)
+
+In the next screen click on the Go to dashboard button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365756/30-Jun-25/airbnb-clone-1/37_sro84v.webp)
+
+Now, click on Databases tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365744/30-Jun-25/airbnb-clone-1/38_symn9b.webp)
+
+Now, click on Create database button which will open a pop-up. Here, give a name and database id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365731/30-Jun-25/airbnb-clone-1/39_a262rx.webp)
+
+Now, since it’s a NoSQL database we need to create a collection. So, click on Create collection button which will open a pop-up. Here, give a name and Collection ID. And then click on Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365779/30-Jun-25/airbnb-clone-1/40_njgtrw.webp)
+
+After that we will be taken inside the collection. Here, click on Attributes tab and click on Create attribute button, which will open a drop-down. Here, click on String.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365786/30-Jun-25/airbnb-clone-1/41_lc20p6.webp)
+
+A pop-up will opne in which give the Attribute Key as user_id, give a Size and make it Required. After that clci on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365782/30-Jun-25/airbnb-clone-1/42_vryqvt.webp)
+
+Now, create attributes for name, description, address, location, availability, sqft, capacity, price_per_hour, amenities and image following the similar process. All are String and some are Required.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365776/30-Jun-25/airbnb-clone-1/43_xuhg7f.webp)
+
+Next, go to Auth tab and click on Create user button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365722/30-Jun-25/airbnb-clone-1/44_hk1sba.webp)
+
+Here, give the Name, Email and Password and click on Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365719/30-Jun-25/airbnb-clone-1/45_b34gvo.webp)
+
+Now, we will get an inique user id. Just copy it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365690/30-Jun-25/airbnb-clone-1/46_jvqp4d.webp)
+
+Now, go back to the Database tab and click on rooms collection. Here go to Documents tab and click on Create document button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365684/30-Jun-25/airbnb-clone-1/47_d9oc9e.webp)
+
+Here, in the user_id give the same id copied earlier from Auth. Give the name and description also. We are taking all from rooms.json file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365876/30-Jun-25/airbnb-clone-1/48_ero5c8.webp)
+
+Fill the rest of the fields also and click on the Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365712/30-Jun-25/airbnb-clone-1/49_nvz7fq.webp)
+
+In the next screen just click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365729/30-Jun-25/airbnb-clone-1/50_sscksp.webp)
+
+Add three more records from rooms.json file, following the same process. After that click on the Settings tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365710/30-Jun-25/airbnb-clone-1/51_svlb3e.webp)
+
+After that scroll a bit down and give the permissions and click on Update button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365693/30-Jun-25/airbnb-clone-1/52_z9q9ih.webp)
+
+Now, go to Overview tab and click on API keys and then Create API key button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365665/30-Jun-25/airbnb-clone-1/53_ptb837.webp)
+
+In the next screen give the name and keep the Expiration Date as Never. Click on the Next button after that.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365655/30-Jun-25/airbnb-clone-1/54_xjuwol.webp)
+
+In the next screen click on Select all and then Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365696/30-Jun-25/airbnb-clone-1/55_poyrxx.webp)
+
+Next, copy the API key secret from the next screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365703/30-Jun-25/airbnb-clone-1/56_zvqrqg.webp)
+
+Now, create a .env file and inside it some constants. Here, in NEXT_APPWRITE_KEY paste the API key secret from the earlier screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365715/30-Jun-25/airbnb-clone-1/57_k3j5qs.webp)
+
+Now, open a terminal and install node-appwrite, which is used to connect the React code to appwrite.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365700/30-Jun-25/airbnb-clone-1/58_gvmw2o.webp)
+
+Next, create a config folder in the root directory and create a appwrite.js file inside it. Here, we are first importing from node-appwrite. After that creating a async function createAdminClient where we are creating a client first, from the secrets.
+
+After that we are returning account, databases and storage by using the client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365680/30-Jun-25/airbnb-clone-1/59_ypqik8.webp)
+
+After this in appwrite.js file, create an async function of createSessionClient. Here, again we are creating a client first and returning account and databases.
+
+Finally, we are exporting both createAdminClient and createSessionClient.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365677/30-Jun-25/airbnb-clone-1/60_klkpek.webp)
+
+Now, through actions we will get all data from backend. So, create a folder actions inside app folder and a file getAllRooms.js inside it.
+
+Here, we have a getAllRooms function. We are calling createAdminClient to get access to the databases.
+
+After that we are getting all the rooms and returning it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365649/30-Jun-25/airbnb-clone-1/61_mak1ep.webp)
+
+Now, go back to the page.js file. Here, we are first making the Home function async and calling the getAllRooms with await.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365660/30-Jun-25/airbnb-clone-1/62_emcsd1.webp)
+
+Now, in http://localhost:3000/ we will get the rooms from the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365670/30-Jun-25/airbnb-clone-1/63_tmhi1d.webp)
+
+Now, we will get the data for a single room. So, create a function getSingleRoom.js inside the actions folder. It is similar to the getAllRooms file, the difference is that it is taking the id to get the single room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365725/30-Jun-25/airbnb-clone-1/64_lyqhmx.webp)
+
+Now, use the getSingleRoom in page.jsx inside `rooms=>[id]` folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365870/30-Jun-25/airbnb-clone-1/65_j8v8ej.webp)
+
+Now, when we click on a room we will get the details of it from the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365630/30-Jun-25/airbnb-clone-1/66_dzitv0.webp)
+
+We will update the href in Header.jsx file as they were not right.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365909/30-Jun-25/airbnb-clone-1/67_v7tswt.webp)
+
+Now, create a folder login inside app and a page.jsx file in it. Here, we have an input for email and password. And a button for login, also have a link to register.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365817/30-Jun-25/airbnb-clone-1/68_kvwjur.webp)
+
+Now, go to http://localhost:3000/login and we will see the Login page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365627/30-Jun-25/airbnb-clone-1/69_e7ofh6.webp)
+
+Now, create a folder register inside app and a page.jsx file in it. Here, we have an input for name, email, password and confirm password. And a button for register, also have a link to login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365889/30-Jun-25/airbnb-clone-1/70_pdtg7d.webp)
+
+Now, go to http://localhost:3000/register or click on Register in homepage and we will see the register page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365636/30-Jun-25/airbnb-clone-1/71_wtew3u.webp)
+
+Now, we will create a middleware.js file in the root directory. It runs everytime we go to the route in the config. Inside the middleware function, we are hard-coding isAuthenticated as false. Then we have a if statement checking !isAuthenticated, which will redirect to /login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365847/30-Jun-25/airbnb-clone-1/72_x4dcyw.webp)
+
+Now, create a folder bookings inside app and a page.jsx file in it. Here, we just have a basic file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365651/30-Jun-25/airbnb-clone-1/73_oswzht.webp)
+
+Now, when we click on Bookings, it is re-directed to /login page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365640/30-Jun-25/airbnb-clone-1/74_vlwzet.webp)
+
+Now, create a new action of createSession. Here, we are first just getting the email and password and showing them in console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365634/30-Jun-25/airbnb-clone-1/75_had0ax.webp)
+
+Now, go back to the login->page.jsx file. Here, we have made the file client side first by using use client at top. After that we have import react hook of useEffect and useFormState and also createSession, which is recently created.
+
+Now, inside the LoginPage component we are using the useFormState hook by passing createSession and an empty object to it. In the form we have made the action as formAction.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365764/30-Jun-25/airbnb-clone-1/76_bts6cm.webp)
+
+Now, in http://localhost:3000/login give a email and password and click on Login button. We will see the email and password been logged in the console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365616/30-Jun-25/airbnb-clone-1/77_xeht8r.webp)
+
+We are also going to use React toast in our project. So, install react-toastify package from the terminal. Next in layout.js add the ToastContainer and css as import. Now, add ToastContainer inside the body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365737/30-Jun-25/airbnb-clone-1/78_gdz5rr.webp)
+
+Now, we will update the createSession.js file we check the non-availability of email and password first and return an error or return success true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365625/30-Jun-25/airbnb-clone-1/79_gdd9de.webp)
+
+Back in the LoginPage component, import the toast and useRouter first. After that we are using the useEffect hook. Here, in case of error, we are throwing a toast with erro.
+
+In case of success we are showing toast with success and also going back to the home(/) route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365810/30-Jun-25/airbnb-clone-1/80_zxssek.webp)
+
+Now, go back to login page and enter a email and password and click on Login button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365594/30-Jun-25/airbnb-clone-1/81_vwyblq.webp)
+
+We will see the toast message and also the redirection to http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365600/30-Jun-25/airbnb-clone-1/82_k6rmum.webp)
+
+Now, we will complete the createSession.js file. Here, we are first importing createAdminClient and cookies. After that inside the function, we are destructuring account from createAdminClient.
+
+Inside a try statement, we are creating a const session from email and password been passed to in-built function of createEmailPasswordSession. After that we are creating a cookies and naming it appwrite-session and passing some required parameters.
+
+Next, we are returning success. In the catch block we are loggin the erro and returning an error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365741/30-Jun-25/airbnb-clone-1/83_jt4dv6.webp)
+
+Now, go back to Login page and give the real email which we have given earlier in appwrite site. But give a wrong credential and click the Login button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365605/30-Jun-25/airbnb-clone-1/84_ohzwuk.webp)
+
+Here, we will get the toast of Invalid Credentials. But if we give the right credentials, we will be able to login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365613/30-Jun-25/airbnb-clone-1/85_r6srwx.webp)
+
+Now, we will create the logic for Sign Out. So, create a destroySession.js file inside the actions folder. Here inside the function we are getting the cookies appwrite-session first.
+
+Next, inside the try block we are getting the account again and deleting the current session. After that clearing the session cookie and returning sucess true. In case of error returning error through catch block.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365667/30-Jun-25/airbnb-clone-1/86_jgk4jw.webp)
+
+Now, in the Header.jsx file, we are making it client component first. After that we are importing destroySession, useRouter and toast.
+
+Inside the Header we are using the router and writing the logic for handleLogout function. This function calls the destroySession function. In the case of success, go back to home route.
+
+In case of failure shows the error as toast message. We have also updated the Link to a button calling the handleLogout on click.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365687/30-Jun-25/airbnb-clone-1/87_cfi8dx.webp)
+
+Now, go to http://localhost:3000/ and click on Login button. Also, notice that we have a cookie called appwrite-session before clicking.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365602/30-Jun-25/airbnb-clone-1/88_rojxvi.webp)
+
+We will see the toast message for Logged in sucessfully .
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365621/30-Jun-25/airbnb-clone-1/89_aqyyse.webp)
+
+Once we click on Sign Out we will see the cookie been deleted and we will also be re-directed to http://localhost:3000/login
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365597/30-Jun-25/airbnb-clone-1/90_yo9ftk.webp)
+
+Now, we will create the code to check the authentication. So, create a file checkAuth.js inside the actions folder. Here, we are first get the cookies of appwrite-session. If the cookie is not available, we are setting isAuthenticated as false.
+
+Inside a try block, we are first getting the account using createSessionClient. After that we are getting the user. Next, we are returning isAuthenticated as true along with the user details of id, name and email. The catch block is returning the isAuthenticated as false.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365706/30-Jun-25/airbnb-clone-1/91_rotgcf.webp)
+
+Next, inside the Header.jsx file we are first importing the checkAuth and react hook of useEffect and useState. Inside the Header component, we are create a state of isAuthenticated.
+
+Then in the useEffect calling checkAuth and setting isAuthenticated to the result.isAuthenticated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365735/30-Jun-25/airbnb-clone-1/92_mbg4b2.webp)
+
+Now, inside the return statement of Header.jsx file, we are wrapping the Booking and Add Room with isAuthenticated. Then wrapping the Login and Register with not isAuthenticated. Again My Rooms is wrapped with isAuthenticated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365675/30-Jun-25/airbnb-clone-1/93_ah8xh8.webp)
+
+Also, in the Mobile menu of Header.jsx file wrapping the Booking and Add Room with isAuthenticated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365642/30-Jun-25/airbnb-clone-1/94_ahj7ce.webp)
+
+We want to shift the authentication logic to Context API, so that it can be used through out the app. So, create a new folder context in the root directory. Here, create a file authContext.js.
+
+Here, we are first importing required things from React and also checkAuth. Then created a variable AuthContext from createContext. We are exporting the AuthProvider, which takes a children props.
+
+Here, we have create the state of isAuthenticated and currentUser. After that in useEffect we are calling checkAuth and setting the isAuthenticated and currentUser.
+
+Finally, we are returning the Provider with the required value and children. We have also created a custom hook called useAuth. Here using the useContext hook, we are setting a variable of context and returning it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365767/30-Jun-25/airbnb-clone-1/95_qbczrg.webp)
+
+We can use this directly in the layout.js file, but then to use a React feature we have to make it client. That means the whole app will become client side and we don’t want it. So, we will create a simple wrapper component. Create a file AuthWrapper.jsx inside the components folder.
+
+In this client component, we are importing AuthProvider first. After that in a function AuthWrapper, we have children props. This returns the children props inside AuthProvider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365827/30-Jun-25/airbnb-clone-1/96_f9bkyj.webp)
+
+Now, in the layout.js file first import AuthWrapper and then in the return wrap all the code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365610/30-Jun-25/airbnb-clone-1/97_sw0m95.webp)
+
+Next, in the Header.jsx file we will remove the earlier code for local state and use data from context. So, we are importing useAuth first. After that inside the Header calling the useAuth and getting isAuthenticated and setIsAuthenticated from it.
+
+Now, inside the handleLogout we are setting the isAuthenticated to flase in case of success.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365619/30-Jun-25/airbnb-clone-1/98_gpgosj.webp)
+
+Now, in the root page.jsx file for LoginPage, we are calling the useAuth and extracting setIsAuthenticated from it. Now, inside the useEffect we are setting the isAuthenticated to true in case of success.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365658/30-Jun-25/airbnb-clone-1/99_ull0tl.webp)
+
+Now go to http://localhost:3000/ and if we are not logged in, we will not see any session variable. So, click on the Login button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365607/30-Jun-25/airbnb-clone-1/100_vmfnj3.webp)
+
+Once, we are logged in we will see the correct buttons and also the session of appwrite-session.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365645/30-Jun-25/airbnb-clone-1/101_wi9mj5.webp)
+
+Now, in the middleware.js file, we will call the checkAuth to get the isAuthenticated instead of hardcoded false.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365584/30-Jun-25/airbnb-clone-1/102_gktmmj.webp)
+
+Now go to http://localhost:3000/bookings and if logged in we will see the component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365581/30-Jun-25/airbnb-clone-1/103_uuaxxd.webp)
+
+Now, we will write the logic to Register a new user. So, create a file createUser.js inside actions folder. It is similar to createSession.js file, but we are taking name, password and confirmPassword also.
+
+After doing some checks we are extracting account from createAdminClient. Inside the try block, we are using account.create and passing a unique id, email, password and name. After that we are returning success.
+
+In the case of error we are catching it in the catch block and returning the error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365589/30-Jun-25/airbnb-clone-1/104_n89egf.webp)
+
+Now, in the RegisterPage component, we are first making it client. Then importing the required things including createUser action.
+
+Inside the component function, we are using useFormState and passing createUser to it. In a useEffect in case of error showing it in toast. In case of success, showing a toast of success. Also, pushing the user to login page.
+
+For using this we just need ot make the form action as formAction.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365591/30-Jun-25/airbnb-clone-1/105_svgqmq.webp)
+
+Now, Log out and click on Register or go to http://localhost:3000/register . Here, we are giving a 4 character password and getting the correct error toast.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365579/30-Jun-25/airbnb-clone-1/106_i7mllg.webp)
+
+Now, give passwords which don’t match and you will get the the correct error toast.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365586/30-Jun-25/airbnb-clone-1/107_byvavv.webp)
+
+Now, give everything correct and a new user will be created. We can check the same in appwrite.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365576/30-Jun-25/airbnb-clone-1/108_dxkbrl.webp)
+
+Now, go to http://localhost:3000/login and login with the newly created user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365573/30-Jun-25/airbnb-clone-1/109_eowdcw.webp)
+
+We are able to successfully login with the new user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751365572/30-Jun-25/airbnb-clone-1/110_ceh5vl.webp)
+
+We still have a lot to complete, but that will be done in part 2 of the post. The part-2 can be found here. You can find the code [here](https://github.com/nabendu82/bnb-clone).
