@@ -1,0 +1,383 @@
+---
+title: Docker Crash Course
+description: Devops
+date: 2024-12-07
+tags: ["web-dev", "devops", "docker"]
+published: true
+---
+
+In this post, we will learn about docker basics where we will learn from the start. This post has been inspired by [this](https://www.youtube.com/watch?v=31k6AtW-b3Y) awesome YouTube video by Piyush Garg.
+
+But let’s first understand why do we need docker. Suppose you are a developer and have a local machine, with the windows configuration shown in below diagram.
+
+The problem happens when we have a team and the new developer takes our code from the github link. This person have a mac and he downloads the latest versions of NodeJS, MongoDB and Redis.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446624/30-Jun-25/docker-crash-course/1_un9zsq.webp)
+
+This is where the problem is and the project will not run in the first go. As both of the environments are different. Even if the developer 2 downgrades all the softwares, there are changes it will still not run because of the difference in OS.
+
+It is actually very difficult to replicate the environment and this is where docker helps. If we try to deploy it in cloud that is another problem as we have to replicate the environment.
+
+With docker we create a container and in the container, we do all the configuration. Then we can have multiple copies of this container for scaling. And also can share it with our team.
+
+So, it doesn’t matter whether a developer is running Linux, Windows or MacOS it will work. As this container is a mini OS in itself with it’s version to packages. Even with a mini OS, these containers are very light-weight which can be build, destroyed and deployed on the cloud.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446624/30-Jun-25/docker-crash-course/2_e5pysd.webp)
+
+Now, we will install docker. For this go to docker download folder and download it according to the system.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446621/30-Jun-25/docker-crash-course/3_hbvw4d.webp)
+
+For Mac it will give a dmg file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446621/30-Jun-25/docker-crash-course/4_hymfe8.webp)
+
+We have to drag this to the Applications.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446620/30-Jun-25/docker-crash-course/5_hgcuwm.webp)
+
+It will then ask to open the application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446620/30-Jun-25/docker-crash-course/6_cmrlst.webp)
+
+Next, click on the Accept button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446620/30-Jun-25/docker-crash-course/7_euivac.webp)
+
+In the next pop-up select the Use recommended settings and then give the password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446620/30-Jun-25/docker-crash-course/8_bvgwyt.webp)
+
+After that it is recommended to Sign in.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446620/30-Jun-25/docker-crash-course/9_xlm6rr.webp)
+
+Now, the docker desktop will be visible.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446615/30-Jun-25/docker-crash-course/10_e30cz1.webp)
+
+Open a terminal and give the command docker and you will see the below screen. It shows docker is installed properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446615/30-Jun-25/docker-crash-course/11_q2b0fw.webp)
+
+Now, we will first see the version of docker with docker -v command. Now, we will run an Ubuntu container. So, we will run the command docker run -it ubuntu.
+
+Here, it means interactive mode and ubuntu is the image name. This command tells docker to run an container, in which i need ubuntu image or operating system.
+
+This command will not found ubuntu image, so it will download and install it. We can aslso see on docker desktop a new container is been created.
+
+We are also taken inside the ubuntu container. So, doing a ls will give the ubuntu folders and whoami command will show we are root user in ubuntu.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446615/30-Jun-25/docker-crash-course/12_bmzdwm.webp)
+
+But from where this image was downloaded. It is done from the official site hub.docker.com. In this site there are all the public containers from which anyone can use it. It is a sort of github for containers.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446615/30-Jun-25/docker-crash-course/13_pm45uy.webp)
+
+Let us now learn in more details what are images and containers. Images are like OS and containers are the machines on which that OS is run.
+
+Like i have Ubuntu OS software, which i can run on my different laptops. But in case of docker this image is also lightweight and the containers are also light-weight.
+
+If we run the same image on different containers, they are isolated. Just like our OS and laptop example. The data in these containers will be different.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446614/30-Jun-25/docker-crash-course/14_wluflx.webp)
+
+To show this, we have opened one more terminal and run the command docker run -it ubuntu. In the docker Desktop, we can now see two container.
+
+We have created data-1 directory in the first container and data-2 directory in the second container. On doing ls, we can see both the directories on different containers.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446614/30-Jun-25/docker-crash-course/15_co6luj.webp)
+
+Now, we will learn some more commands in docker. So, first exit from the container. Then run docker container ls which will show all running containers.
+
+The command docker container ls -a gives a list of all container, even the stopped ones. We can also start a container from command line using command docker start container_name.
+
+Similarly we can stop a container by giving command docker stop container_name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446615/30-Jun-25/docker-crash-course/16_tuuzig.webp)
+
+We are starting an container called eager_keller(random name given by docker). And with the command docker exec eager_keller ls -ltr we can see all of it’s content.
+
+Notice that after this command we are back to our mac.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446614/30-Jun-25/docker-crash-course/17_hbigc0.webp)
+
+The same command with -it(Interactive mode)will take us inside the ubuntu container and we can work in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446610/30-Jun-25/docker-crash-course/18_i0dcp2.webp)
+
+To see all the images on our local machine we can run the docker images command. But how many images we have. You can see that by going to hub.docker.com and see all the images.
+
+To get all the trusted images which are either made by docker or the big company like ubuntu or nodejs, we can chek the below checkboxes as shown in below screenshot.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446610/30-Jun-25/docker-crash-course/19_uiixkv.webp)
+
+We can run node inside an ubuntu container, but we can run it on it’s own also. Below is the official node image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446610/30-Jun-25/docker-crash-course/20_gyillo.webp)
+
+Back in terminal, we have run docker images again to check the images in our system. Then with the command docker run -t node we had created a container running node.
+
+We are also taken to repel where we can run a console log to check node is working. After exit, we are running docker images again and we will notice the node image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446610/30-Jun-25/docker-crash-course/21_c3xexs.webp)
+
+Now, we will learn about an important concept called Port Mapping. First, we are running an image called mynodeapp with the docker run command. It shows that the server is running on Port 9000.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446609/30-Jun-25/docker-crash-course/22_thkuaw.webp)
+
+Now, go to http://localhost:9000/ but we will see the site not reached error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446609/30-Jun-25/docker-crash-course/23_kklnkn.webp)
+
+It is not running because 9000 port is inside the container and not on our local system. To run it we need to use -p to map 9000 port in the container to 9000 port on our local system.
+
+Again, go to http://localhost:9000/ and we will see the result of the GET api.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446609/30-Jun-25/docker-crash-course/24_v1jdps.webp)
+
+Now, before going to the next part we will select all the containers and delete them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446609/30-Jun-25/docker-crash-course/25_nwnctz.webp)
+
+We will also select all the images and delete them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446605/30-Jun-25/docker-crash-course/26_fcvrqt.webp)
+
+Now, we will see the most important part of the post. If we have a NodeJS application, then how to dockerize it.
+
+In the desktop we are creating a new folder node-docker and changing to it and then opening it in VS Code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446605/30-Jun-25/docker-crash-course/27_z3ebj4.webp)
+
+We have opened the Integrated Terminal in VS Code and did npm init -y to create a new node project. Also installed express in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446605/30-Jun-25/docker-crash-course/28_ukl9ag.webp)
+
+After that created an index.js file and created an simple node express app. It have and GET API endpoint, returning a message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446605/30-Jun-25/docker-crash-course/29_vu8jge.webp)
+
+Now, we want to dockerize this application. For this create a file called Dockerfile. Only this name with the correct letters and casing is allowed.
+
+It is a kind of configuration, that we have to make an image. Now, we have NodeJS application withindex.js , package.json, package-lock.json files. We will create an image from it, so that other developers can run a container using this image.
+
+So, in the Dockerfile first choose a base image and for this the command FROM ubuntu is used. Now, since our OS is ubuntu, we have to use commands to install nodejs on it first.
+
+So, as with any ubuntu machine we will ypdate it by RUN apt-get update command. We will be installing node through the curl command, so we need to install it first.
+
+After that we are installing NodeJS v18 from a link using curl command. Then we have again used apt-get upgrade and then using RUN apt-get install -y nodejs we have installed nodejs.
+
+Now, we will code our code in the image. For that we will use the COPY commands. Here, we are copying all of our three files. The copy command is COPY source destination. So, when we write COPY index.js index.js then it means copy index.js from our local file to inside the image.
+
+Now, we will run the usual install command with RUN npm install. And finally with ENTRYPOINT we will run our main index.js file. It is like running node index.js on our local machine.
+
+Now, to convert it into an image, we will write the command docker build -t node-docker . in the integrated terminal. Here, we are first using docker build -t to build the image. Then giving the image a name of node-docker and . to tell Dockerfile is in the same path.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446604/30-Jun-25/docker-crash-course/30_vgxu44.webp)
+
+All the commands will be execute line-by-line and once it is completed succesfully, we will see a new image in docker desktop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446604/30-Jun-25/docker-crash-course/31_dtpuu8.webp)
+
+This image is on my local computer and to run it we will use the docker run command. Here, we are also port mapping it to 8000. Then in http://localhost:8000/ we can see out GET API result.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446602/30-Jun-25/docker-crash-course/32_r9n7bc.webp)
+
+Now, we want to go inside the container and for that first take the container id from docker desktop. After that give the `docker exec -it <container_id> bash` command to go inside the container.
+
+On doing ls -ltr , we can see our index.js and other files. Also with the cat index.js command we can see the content of the file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446601/30-Jun-25/docker-crash-course/33_l9yqt5.webp)
+
+In our index.js we have a line const PORT = process.env.PORT || 8000; It means first take the port from environment file and if it is not there then run on port 8000.
+
+If we want to tun on port 4000 then we can update our docker run command with -e PORT=4000. Here -e means environment variable. We have also changed our port mapping to 4000.
+
+Now, we have to go to http://localhost:4000/ to get the output of the GET API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446601/30-Jun-25/docker-crash-course/34_obs1uq.webp)
+
+The image is only on our local machine. Now, we will publish it to docker hub. First go to https://hub.docker.com/ and then login or signup. After that click on Repositories and then Create repository button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446600/30-Jun-25/docker-crash-course/35_jnbu74.webp)
+
+The give the image a name which is node-docker in our case. We have also given a small description. We have kept it public. Next, click on the Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446600/30-Jun-25/docker-crash-course/36_ihsli0.webp)
+
+Now, in the next screen we will get the complete name to be used, which is nabendu82/node-docker in our case. Now, go back to the terminal and run the docker build -t command again but with nabendu82/node-docker.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446599/30-Jun-25/docker-crash-course/37_e9qvxm.webp)
+
+Now, docker desktop we have a new image. Back in terminal give docker login first and it will ask for our username and password. Once we have logged in succesfully give the `docker push <image_name>` to push it to docker hub.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446597/30-Jun-25/docker-crash-course/38_b6vbzy.webp)
+
+Back in docker hub we will see our image been updated.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446598/30-Jun-25/docker-crash-course/39_rxdaa3.webp)
+
+Now, we will learn about a very important thing called Docker Compose. In real world development, we can have multiple containers. One for PostgreSQL, one for Redis, one for Kafka. They will have their own configuration and port mapping.
+
+Instead of creating multiple containers, we can use docker compose. With docker compose we can setup, create and destroy multiple containers. Let’s assume our index.js needs PostgreSQL and Redis both.
+
+So, we will create a file docker-compose.yml . Because we want to use multiple containers, so we can give configuration in it. First we will give the version of the file.
+
+After that we will create services. The first service is postgres and the image is also postgres, which we will get from docker hub. The tabs must be like below, since it’s a yml file.
+
+We will write more configuration which is port mapping of 5432. Then we are giving the environment variables of postgres. Now, we want to use one more service and we are naming it redis.
+
+The image is also redis and port mapping is done to 6379.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446597/30-Jun-25/docker-crash-course/40_ztm9r5.webp)
+
+After this we have to give the command docker compose up in the terminal. In docker desktop we can see that inside node-docker we have postgres and redis running.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446597/30-Jun-25/docker-crash-course/41_mejgdl.webp)
+
+We can bring down all compose containers with command docker compose down command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446596/30-Jun-25/docker-crash-course/42_jjrjdg.webp)
+
+Now, we will cover advanced topic in docker which starts with Docker Networking. This advanced docker post have been inspired by this video from Piyush Garg.
+
+Open the terminal and use the command docker run -it — name my_container busybox. Here, we are giving our container a name and using the busybox image from docker hub.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446595/30-Jun-25/docker-crash-course/43_myt5ra.webp)
+
+Now, we will give the command ping google.com and it works. This container is able talk with the outer world internet, but how?
+
+This only is docker networking.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446594/30-Jun-25/docker-crash-course/44_h32xsc.webp)
+
+To learn more about networking go to https://docs.docker.com/engine/network/drivers/ . And here we can see we have different network drivers like bridge, host and others.
+
+Because of these drivers only our container can talk with the internet. The default network is bridge which we can check by docker network ls command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446594/30-Jun-25/docker-crash-course/45_voye97.webp)
+
+This time we will change our bridge network from the default bridge by giving network as host in the docker run command. The host mode means it is directly connected from my host machine network. The ping to google.com is still working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446593/30-Jun-25/docker-crash-course/46_d5zvj6.webp)
+
+The difference between the two is that in bridge we have to give port mapping. So, we use commands like docker run -it -p 8000:8000 nodejs , because those ports were inside docker.
+
+In host mode networking, we don’t need to give port mapping and will use command docker run -it nodejs. It is because your host machine and docker container are on the same network.
+
+The last docker networking mode is none. Now, this container will not have access to internet and that is the reason our ping to google.com failed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446592/30-Jun-25/docker-crash-course/47_e2sbv7.webp)
+
+ou can create your own custom networks also using docker. So, we have given a command docker network create -d bridge demo. It gives instructions to create a new network in bridge mode called demo.
+
+The docker network ls command confirms the same. Now with docker run we are using this network and creating a container name iron_man from ubuntu image.
+
+Now, open a new terminal and use the docker run command using network demo and give it a name tony_shark but use the image busybox. Now, we have two different containers, on the same network demo on different OS.
+
+The benefit of on the same network is that, these containers can communicate with each other. Now ping iron_man will work from the busybox container tony_stark.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446592/30-Jun-25/docker-crash-course/48_wf29mo.webp)
+
+Now, run the command docker network inspect demo. It will show the two containers — tony_shark and iron_man on the network and will also give their IP addresses.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446591/30-Jun-25/docker-crash-course/49_lk6trx.webp)
+
+Next, advanced topic which we will learn is Volume Mounting. Suppose we have a docker container created using ubuntu image. In the container we will definetely have files.
+
+Now, if we delete that container, then it’s data will also be removed. To prevent this thing we have Volume mounting. With this we can mount volumes inside docker.
+
+For this in our local machine, we can create a folder and mount that folder to the remote folder. So, we have created an ubuntu_local folder on our Mac. After that run the usual docker run -it command, bu this time with the mac directory followed by remote directory(ubuntu_remote) of the ubuntu.
+
+Once we are inside ubuntu, we are changing to home and then ubuntu_remote. Here, we are creating a file index.js. And we can see this file in our mac ubuntu_local folder on desktop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446591/30-Jun-25/docker-crash-course/50_ucuviq.webp)
+
+Now, we have deleted the ubuntu container from docker desktop, but the index.js file is still their. Now, we have again run the docker run command and mounted the same ubuntu_local folder on ubuntu_busy folder. This time even we have used the busybox image.
+
+Now, we have added a new file style.css and it got added in our Mac.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446591/30-Jun-25/docker-crash-course/51_fgxzb0.webp)
+
+Now, we will learn about Efficient Caching in Layers. Earlier, we have dockerized a NodeJS application. The Dockerfile actually do efficient caching.
+
+If we change something in the index.js file and build it again, then only commands from COPY index.js index.js and below will run.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446590/30-Jun-25/docker-crash-course/52_lzcr35.webp)
+
+Now, before moving forward we will add a .dockerignore file and add node_modules in it. It is similar to .gitignore file used in all git projects.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446591/30-Jun-25/docker-crash-course/53_grafai.webp)
+
+Now, we will do one more optimization. In ubuntu our project was made in the home directory and it’s messy. So, we will add a code WORKDIR /app before the COPY commands.
+
+It means all the commands after it will be run in /app in ubuntu. We have again run the docker build command after that.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446590/30-Jun-25/docker-crash-course/54_dzmc63.webp)
+
+Now, we can also run an image from docker desktop. In the Images tab, find your image and click on the play button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446589/30-Jun-25/docker-crash-course/55_cdd13f.webp)
+
+We will get a pop-up and here click on Run button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446588/30-Jun-25/docker-crash-course/56_lg6zdl.webp)
+
+We got the image id in docker desktop and copied it. Then in terminal used docker exec -it command to run the image. Here, we will be directly in the /app folder in which we can see the node_modules and all the files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446588/30-Jun-25/docker-crash-course/57_hczuss.webp)
+
+Now, in this part we are going to learn about Multi-stage builds. This post have been inspired by [this](https://www.youtube.com/watch?v=AiiFbsAlLaI) video from Piyush Garg.
+
+We are going to change the earlier projecty into a TypeScript project. For that in package.json we have added the scripts and dev dependencies for typescript.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446587/30-Jun-25/docker-crash-course/58_lgmt9m.webp)
+
+We are going to use the new Multi-stage builds in our project. Because things like TypeScript is not used in the production and we can divide the build with this approach.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446587/30-Jun-25/docker-crash-course/59_y5di4l.webp)
+
+We have a tsconfig.json file as in all TypeScript projects. Our Dockerfile is changed and it is a multi-stage build now. In stage 1, we are building the project.
+
+In Stage 2 we are taking the build folder and then doing npm start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446587/30-Jun-25/docker-crash-course/60_clozdi.webp)
+
+Now, we will delete our earlier index.js file. Also, we have created a src folder and inside it routes folder and index.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446587/30-Jun-25/docker-crash-course/61_xtp3cd.webp)
+
+Now, do npm i in the integrated terminal an a node_modules and package-lock.json file will be created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446587/30-Jun-25/docker-crash-course/62_rkdmrd.webp)
+
+Our index.ts file is simple and is using the router.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446586/30-Jun-25/docker-crash-course/63_vasywk.webp)
+
+Our router.ts file contains two routes. One is a simple / endpoint and other /health endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446586/30-Jun-25/docker-crash-course/64_qy9xty.webp)
+
+Now, we will run npm run build which will create a dist folder. Then npm start will run the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446586/30-Jun-25/docker-crash-course/65_iuvtyy.webp)
+
+Now, we are going to built the image by giving the command docker build -t my_img . in the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446586/30-Jun-25/docker-crash-course/66_zlngb0.webp)
+
+Now, we will run our container in local using docker run -it -p 8000:8000 my_img command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446586/30-Jun-25/docker-crash-course/67_eggnuj.webp)
+
+Now, we will go to http://localhost:8000/ and we will see the / endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446586/30-Jun-25/docker-crash-course/68_yi75hu.webp)
+
+Now, go to http://localhost:8000/health and we will see the /health endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751446586/30-Jun-25/docker-crash-course/69_ucji9q.webp)
+
+This completes our docker crash course. You can find the code for it [here](https://github.com/nabendu82/node-docker).
