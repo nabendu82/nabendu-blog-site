@@ -1,0 +1,373 @@
+---
+title: AirBnB clone with NextJS 14 -Part 2
+description: NextJS
+date: 2024-10-29
+tags: ["web-dev", "reactjs", "nextjs"]
+published: true
+---
+
+In this post we are going to complete the NextJS 14 AirBnB clone, which we started in [part-1](https://www.nabendu.org/blog/airbnb-clone-1).
+
+This post have been inspired by the awesome YouTube video by Traversy Media. You can find the link [here](https://www.youtube.com/watch?v=l9zh0pqEHyc).
+
+Here, first we will write the code to add room. So, create a new action in createRoom.js file. It is similar to earlier actions. Here, we are first importing the required things.
+
+Then inside the function createRoom, we are first getting the databases from the createAdminClient. Nexy, in the try block we are getting the user from checkAuth. After that we are using databases.createDocument().
+
+Here, we are passing the database and collection name from environment file and also ID. Next, we are passing an object with user id and other data required in room.
+
+We are returning success at the end of try block. In case of error we are returning error. in catch block.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380547/30-Jun-25/airbnb-clone-2/1_prgwml.webp)
+
+Next, we will create an add folder inside rooms folder and page.jsx inside it.Here, we are importing the required things including useFormState and also createRoom created earlier.
+
+Inside the AddRoomPage component, we have used the useFormState and passed the createRoom. After that used the router and useEffect. Inside the useEffect, if their is an error we are showing in a toast. In the case of success we are showing a toast and pushing to home route.
+
+In the return we have a Heading and then a form containing name, description and sqft.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380543/30-Jun-25/airbnb-clone-2/2_tonx80.webp)
+
+In the same file, we are also adding input for capacity, price per person, address, location, availability, amenities, image and finally a submit button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380538/30-Jun-25/airbnb-clone-2/3_jiwurb.webp)
+
+Now, click on Add room or go to http://localhost:3000/rooms/add and fill the required fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380536/30-Jun-25/airbnb-clone-2/4_limdfe.webp)
+
+After that click on the Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380531/30-Jun-25/airbnb-clone-2/5_kj54ml.webp)
+
+Now, you will see a new room is created but the image is missing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380527/30-Jun-25/airbnb-clone-2/6_hcirad.webp)
+
+For showing the image we will go back to appwrite and click on Storage and then Create bucket button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380524/30-Jun-25/airbnb-clone-2/7_wngo4s.webp)
+
+In the pop-up we are given it a Name and Bucket ID. Both are rooms in our case.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380520/30-Jun-25/airbnb-clone-2/8_kbconv.webp)
+
+We also need to give access to it. So, go to Settings and then Permissions. After that for role click on Any.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380528/30-Jun-25/airbnb-clone-2/9_xirwfs.webp)
+
+For Role we have given READ permissions. Now, click on Add role and then All users.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380514/30-Jun-25/airbnb-clone-2/10_hni5fz.webp)
+
+For Users give all permissions and click on Update button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380511/30-Jun-25/airbnb-clone-2/11_kfjn0x.webp)
+
+Now, go back to createRoom.js file. Here, we need to add the upload image logic. Here, we have first added storage in createAdminClient. Next created a variable imageID.
+
+Then in formData getting the image. Then ina if statement checking if the image is there and other parameters. Then in a try block inside the if we will store the image in appwrite using createFile function. And we are assigning the response to imageID.
+
+We are catching the error in a catch block and returning the error. Also, in ther else we are console logging for further error. We are also passing the image in the createDocument().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380506/30-Jun-25/airbnb-clone-2/12_eajbl6.webp)
+
+Again go back to http://localhost:3000/rooms/add and this time add an image before clicking the Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380475/30-Jun-25/airbnb-clone-2/13_scyavt.webp)
+
+Again we have no image in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380497/30-Jun-25/airbnb-clone-2/14_myfhub.webp)
+
+But going back to appwrite, we will see the image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380487/30-Jun-25/airbnb-clone-2/15_pw73do.webp)
+
+We will add the logic to show image in home page and also Single page. But first we are adding a no-image.jpg file inside public -> images folder. This is if user doesn’t upload a image as it’s not required field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380478/30-Jun-25/airbnb-clone-2/16_ufonbw.webp)
+
+Now, in the RoomCard.jsx file, we are getting the bucketId and projectId from environment file. After that the imageUrl from the appwrite link passing bucketId and projectId.
+
+Then we have an imageSrc variable in which we are checking if room.image is their, then use the imageUrl or else will take the no-image.jpg. Inside the return we are now passing imageSrc in src of Image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380500/30-Jun-25/airbnb-clone-2/17_ze9gvt.webp)
+
+Now, we show image from external source like appwrite in NextJS, we need to update the next.config.mjs file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380482/30-Jun-25/airbnb-clone-2/18_d5sxrz.webp)
+
+Now, we will see the No Image and an image in the newly created rooms in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380492/30-Jun-25/airbnb-clone-2/19_xj8gyz.webp)
+
+Now, the old rooms won’t work fine. So, in appwrite, we will select them and click on Delete button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380467/30-Jun-25/airbnb-clone-2/20_gnuxc4.webp)
+
+Next, we will get a pop-up for confirmation of Delete.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380471/30-Jun-25/airbnb-clone-2/21_mn5evp.webp)
+
+Back in http://localhost:3000/ we will see only the new rooms.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380457/30-Jun-25/airbnb-clone-2/22_gze9yp.webp)
+
+Now, we need to show the image in Single page also. So, we need to update the rooms -> [id] -> page.jsx file which have the RoomPage component.
+
+Here, we are adding the same code which we added earlier for RoomCard.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380503/30-Jun-25/airbnb-clone-2/23_s80nre.webp)
+
+Now, if we click on the View Room for room with an image we will see the image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380451/30-Jun-25/airbnb-clone-2/24_eatee0.webp)
+
+Also, click on the View Room for room with no image we will see the No photo image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380447/30-Jun-25/airbnb-clone-2/25_r7xdj1.webp)
+
+Now, we will create logic to show rooms of the logged in user. So, we will create an action file getMyRooms.js inside actions folder.
+
+This is similar to earlier actions and here we are first getting the logged in user details from cookies. Then in the try block, we are getting the account and databases details from createSessionClient().
+
+Then we are getting the userId and then the rooms associated with it. And we are returning the rooms. In the catch block, we are redirect to error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380488/30-Jun-25/airbnb-clone-2/26_tkzfgm.webp)
+
+Next, create a new component called MyRoomCard.jsx inside the components folder. Here, we will get the room props and show the name and the link to take to that room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380440/30-Jun-25/airbnb-clone-2/27_znxkio.webp)
+
+Now, we will create a my folder inside the rooms folder. Inside it we will create the usual page.jsx file. This will use getMyRooms() created earlier to get all the rooms.
+
+After that inside the return statement, we are looping through the rooms and sending each room to MyRoomCard component, created previously.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380442/30-Jun-25/airbnb-clone-2/28_pekqld.webp)
+
+Now, click on My Rooms or go to http://localhost:3000/rooms/my and we will see all rooms associated with the user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380464/30-Jun-25/airbnb-clone-2/29_kihlex.webp)
+
+Now, Sign Out and login with other user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380436/30-Jun-25/airbnb-clone-2/30_nlen9i.webp)
+
+Now, click on My Rooms or go to http://localhost:3000/rooms/my and we will see no rooms for this user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380432/30-Jun-25/airbnb-clone-2/31_mwsrqr.webp)
+
+Now, we will create a new room for this user by going to http://localhost:3000/rooms/add or clicking on Add Room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380428/30-Jun-25/airbnb-clone-2/32_zaegtb.webp)
+
+Now, click on My Rooms and we will see the newly created room for the user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380426/30-Jun-25/airbnb-clone-2/33_keimbr.webp)
+
+Now, we will add the logic to delete a room. So, create a new action called deleteRoom.js inside the actions folder. It is similar to the previous action.
+
+Here, after getting the rooms for the user, we are getting that particular room by the passed in roomId. After that in a if statement, we are using another appwrite function of deleteDocument() to delete the room.
+
+After that returning success and in case of error returning error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380454/30-Jun-25/airbnb-clone-2/34_fo8jrt.webp)
+
+Next, inside the components folder create DeleteRoomButton.jsx file. Here, we have a button inside the return, which is calling an handleDelete function.
+
+Now, the handleDelete function is first having a confirmation pop-up. After that using deleteRoom() created earlier we are deleting the room and showing a toast message. In case of failure also, we re showing a toast message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380422/30-Jun-25/airbnb-clone-2/35_xzoifg.webp)
+
+Now, we will add this DeleteRoomButton in the MyRoomCard.jsx file. Here, we are passing the roomId of the room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380461/30-Jun-25/airbnb-clone-2/36_iughtr.webp)
+
+Now, in http://localhost:3000/ we will remove a room which have an inappropriate title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380417/30-Jun-25/airbnb-clone-2/37_ele5ce.webp)
+
+Next, click on My Rooms and click on the Delete button for the room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380414/30-Jun-25/airbnb-clone-2/38_zexfda.webp)
+
+It will show a confirmation pop-up. Here, click on the OK button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380411/30-Jun-25/airbnb-clone-2/39_mg0ss7.webp)
+
+We will get a success toast of Room deleted successfully!.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380407/30-Jun-25/airbnb-clone-2/40_ewfyec.webp)
+
+Now, we want to create the booking logic. So, go to https://cloud.appwrite.io and click on Databases. Then click on Create collection button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380403/30-Jun-25/airbnb-clone-2/41_slsj4v.webp)
+
+A pop-up will be opened and here give the collection the name of bookings and ID of bookings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380400/30-Jun-25/airbnb-clone-2/42_ucdddm.webp)
+
+Next, click on the Attributes tab and after that Create attribute button. A drop-down will open and here click on String.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380397/30-Jun-25/airbnb-clone-2/43_vwyupl.webp)
+
+Give the Attribute key as user_id and other fields. Then click on Create button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380393/30-Jun-25/airbnb-clone-2/44_g17bxp.webp)
+
+Again click on Create attribute button and scroll down and click on Relationship.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380390/30-Jun-25/airbnb-clone-2/45_qcbbwh.webp)
+
+In the pop-up select One-way relationship. The Attribute key as room_id and Relation as Many to one. Also, select Cascade for On deleting a document.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380386/30-Jun-25/airbnb-clone-2/46_d26abq.webp)
+
+For the new attribute select Datetime in Create attribute dropdown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380382/30-Jun-25/airbnb-clone-2/47_bfgzeg.webp)
+
+Now, give the Attribute key as check_in and make it required.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380379/30-Jun-25/airbnb-clone-2/48_kqnsgw.webp)
+
+We have also created and attribute called check_out which is of type Datetime
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380375/30-Jun-25/airbnb-clone-2/49_bvhzpc.webp)
+
+Now, go to Settings tab for bookings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380372/30-Jun-25/airbnb-clone-2/50_wo3wgm.webp)
+
+Scroll a bit down to go to Permissions and here click on + and then click on All users.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380365/30-Jun-25/airbnb-clone-2/51_vyne0n.webp)
+
+Here, we have selected all permissions and then click on Update button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380368/30-Jun-25/airbnb-clone-2/52_ihnotn.webp)
+
+Now, in the page.jsx file of rooms -> [id] send the room as a props in BookingForm.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380357/30-Jun-25/airbnb-clone-2/53_h1gbtw.webp)
+
+Now, we will create a new action of bookRoom.js inside actions folder. It is similar to earlier actions, but inside the try block we are getting different date and time for check in and check out.
+
+After that we are creating a booking with the createDocument function and passing bookingData. We are returning success as true or error in case of error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380362/30-Jun-25/airbnb-clone-2/54_jcqfgw.webp)
+
+Next, we will link the BookingForm.jsx file with this action. After making it a client component and adding the necessary imports, we are adding useFormState and router.
+
+Inside the useEffect we are sending the success or the error toast. Inside the return we will add action and also a value for room_id input.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380354/30-Jun-25/airbnb-clone-2/55_qh8rir.webp)
+
+Now, go to a room and book a room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380351/30-Jun-25/airbnb-clone-2/56_j9ljvu.webp)
+
+We will get the toast of Room has been booked.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380347/30-Jun-25/airbnb-clone-2/57_bmgagv.webp)
+
+Also, going to https://cloud.appwrite.io will show the room is been booked in bookings collection.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380345/30-Jun-25/airbnb-clone-2/58_sd8fd4.webp)
+
+Now, we will add the logic to show something when a room is been booked. So, create getMyBookings.js inside actions folder.
+
+It is similar to earlier action files. Here, we are first getting the user and through the user id, getting all his bookings. We are returning bookings in case of success. Or returning error in case of failure.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380342/30-Jun-25/airbnb-clone-2/59_s3ewe6.webp)
+
+Next, create a component called BookedRoomCard.jsx inside the components folder. Here, we are showing the room name and the check in and check out time. To convert the time to correct format we are using a formatDate function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380338/30-Jun-25/airbnb-clone-2/60_bjuzir.webp)
+
+Now, inside the app folder, create a bookings folder. And a page.jsx file in it. This file is taking the bookings array from getMyBookings action and looping through it. After that it is passing each booking to BookedRoomCard component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380335/30-Jun-25/airbnb-clone-2/61_xzeyro.webp)
+
+Now, click on the Bookings or go to http://localhost:3000/bookings and we will see the booking.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380332/30-Jun-25/airbnb-clone-2/62_ao6c3x.webp)
+
+Next, we will create the logic to delete a booking. So, create a file cancelBooking.js inside actions folder.
+
+Here, we are getting a bookingId in props. We are getting the user from the session. First we are getting the user and the booking. Also, checking if the booking belongs to the current user.
+
+We are finally deleting the booking from the database using deleteDocument() of appwrite. Returning a success true if it’s done or an error if some issue.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380328/30-Jun-25/airbnb-clone-2/63_rzphyi.webp)
+
+Now, create a file CancelBookingButton.jsx inside components folder. Here, we have a button inside the return which calls handleCancelClick function.
+
+The handleCancelClick() after taking the confirmation calls the cancelBooking action created earlier and passes the bookingId.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380326/30-Jun-25/airbnb-clone-2/64_tldpwl.webp)
+
+Now, we will add the CancelBookingButton component in BookedRoomCard.jsx file and pass the booking id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380322/30-Jun-25/airbnb-clone-2/65_dbagtk.webp)
+
+Now, click on Bookings or go to http://localhost:3000/bookings and click on the new Cancel Booking button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380319/30-Jun-25/airbnb-clone-2/66_wtqg9y.webp)
+
+A pop-up will come for the confirmation. Here, click on OK.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380316/30-Jun-25/airbnb-clone-2/67_ij4mlz.webp)
+
+We will be redirected to http://localhost:3000/bookings and the booking will be cancelled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380313/30-Jun-25/airbnb-clone-2/68_tkkn3y.webp)
+
+Now, we will write the logic to check if a room is available for booking. We cannot allow multiple booking at the same time. So, create an action checkRoomAvailability.js inside actions folder.
+
+Here, we are getting roomId, checkIn and checkOut in props. We are using a function toUTCDateTime() to convert the checkIn and checkOut. Here, we are using a luxon library.
+
+After that we are fetching all bookings for the room. Next, we are looping through the bookings array and checking for an overlap. We are using the dateRangesOverlap() to check the overlap.
+
+We are returning false in case of overlap or returning true.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380311/30-Jun-25/airbnb-clone-2/69_sqtdkl.webp)
+
+Since, we are using a luxon library, we need to install it through terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380307/30-Jun-25/airbnb-clone-2/70_v8ccvw.webp)
+
+Now, we will add the checkRoomAvailability in the bookRoom.js file. Here, before the bookingData, we are checking if the room is available by passing all data in checkRoomAvailability(). If we are getting false, we are returning error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380304/30-Jun-25/airbnb-clone-2/71_lhtal4.webp)
+
+Now, click on a room and give a Check in and check out date and time and click on Book Room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380302/30-Jun-25/airbnb-clone-2/72_ompxxe.webp)
+
+The room is booked. Note the time is from 9:30 PM to 10:30 PM on Oct 29.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380298/30-Jun-25/airbnb-clone-2/73_qk8l2r.webp)
+
+Now, we will again book the same room but the Check in time is Oct 29 10:25 PM, which is overlapping with earlier booking.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380296/30-Jun-25/airbnb-clone-2/74_i2ehjp.webp)
+
+We are getting a toast error This room is already booked for the selected time.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380293/30-Jun-25/airbnb-clone-2/75_sjph01.webp)
+
+We have changed the Check in time is Oct 29 10:35 PM and we are able to book the room.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380290/30-Jun-25/airbnb-clone-2/76_ho9php.webp)
+
+We have deployed the app in vercel and we are still not able to book overlapping time.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380287/30-Jun-25/airbnb-clone-2/77_aerwat.webp)
+
+But a different time we are able to book. Here, we have booked the room for a different user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751380285/30-Jun-25/airbnb-clone-2/78_r2fo2x.webp)
+
+This completes our AirBnB clone. You can find the complete code [here](https://github.com/nabendu82/bnb-clone).
