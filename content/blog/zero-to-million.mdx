@@ -1,0 +1,131 @@
+---
+title: Scale from Zero to a Million Users
+description: Database
+date: 2024-12-04
+tags: ["web-dev", "rdbms", "nosql"]
+published: true
+---
+
+One of the very popular interview question is to scale from zero to one million users. We will see the whole journey from the start to one million users.
+
+This post have been inspired by this awesome video. This also comes as a part of HLD(High Level Design). There are nine different steps which are below.
+
+    - Single Server
+    - Application and DB Server Seperation
+    - Load Balancer plus Multiple app servers
+    - Database Replication
+    - Cache
+    - CDN
+    - Data Center
+    - Messaging Queue
+    - Database Scaling
+
+So, we will start with the different steps.
+
+## Single Server
+
+This is the starting point where the app server and database are in same server. When we start we use services like Firebase, which are used for frontend React, database and hoisting also.
+
+The client can access it from the mobile or web, which is generally us only or some interviewer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430557/30-Jun-25/zero-to-million/1_vdzs76.webp)
+
+## Application and DB Server Seperation
+
+Now, we want to scale and we will have a Mid tier. It will host our application server. It will then be connected to our database server.
+
+We can think of the Frontend(ReactJS) and Backend(NodeJS) code in some AWS EC2 instance and the database in a seperate server(Cloud MongoDB or PostgreSQL).
+
+Now, we need it because we want to grow the Application and DB seperately. So, that they can be independent.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430554/30-Jun-25/zero-to-million/2_ufxdub.webp)
+
+## Load Balancer plus Multiple App Server
+
+Now, we will have multiple app servers. But the client will not talk with them directly but through something called Load Balancer. The client will talk with the Load balancer.
+
+The Load balancer will decide which app server to forward the request. Load balancer also bring security, because the Load balancer and App sever talks on private IP.
+
+The Load balancer will divide the traffic equally to multiple app server. Their are different type of algorithm like Round robin for it. Also, we have multiple app server to divide the incoming requests to them, so that they are not blocked.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430551/30-Jun-25/zero-to-million/3_b8hati.webp)
+
+## Database Replication
+
+Now, we will increase the database replication. Here, we are improving the Data tier. The database replication concept comes with Master-Slave concept.
+
+Here, we have a master database and multiple slave databases. Here, all the write(INSERT or UPDATE) requests will go to the master db. And all the read(SELECT) requests will go to the slave databases.
+
+The read operations are now optimized and will go to different slave DBs. If one slave DB fails, there is no problem. But if the master DB fails then a Slave DB will become the master DB.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430547/30-Jun-25/zero-to-million/4_oildl8.webp)
+
+## Cache
+
+Now, to improve the performance we will use Cache. Now, whenever our application server talks with DB, this is a kind of a network call. This is an expensive call. Actually, DB operations are very expensive.
+
+So, everytime before going to the DB, if we check in Cache and cache have the data it is called a cache hit. If the cache doesn’t have the data then the application have to go to he DB, which is known as cache miss.
+
+The Cache in this case is services like Redis. It also have a concept of TTL(Time To Live) like 60 minutes, after which the data from cache needed to be taken again from Database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430544/30-Jun-25/zero-to-million/5_mzlivf.webp)
+
+## CDN
+
+Now, we will see what is CDN(Content Delivery Network). CDN also do caching but it is different then services like Redis. Suppose your system is in India and you are grwing very fast in other countries also.
+
+So, your data center is in India and the users comes from India, Japan and US. Since, the data center is in India, so the user from india will get response from our server in very less time like 1 millisecond.
+
+Japan user will get the response in 3 milliseconds and US user will get response in 5 milliseconds. The longer time our web-app responds will be a bad user experience.
+
+So, to solve this latency problem we will use CDN like CloudFlare. CDN does the caching of static data like HTML, CSS and Video files, which doesn’t changes a lot.
+
+Whenever a request from an user comes it will go to the nearest CDN. Like an US user visiting our website will go to the US CDN node. Similarly, france, India and Japan user will get data from their respectative CDNs.
+
+Suppose the US CDN doesn’t have a data requested by the user. Then it will ask the nearest CDN which is france in this case for the data. Even if it doesn’t have the data then it will go to the original data center in India.
+
+So, it is further increasing the performance and security.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430542/30-Jun-25/zero-to-million/6_nal3md.webp)
+
+## Data Center
+
+Now, to further improve the performance we can have more data centers. Like on in India and one in US. Here, the Load Balancer will choose the data center.
+
+Again the US and France clients will go to the respectative CDNs and if they don’t get the data even between themself. It will then go to the Load Balancer and it will direct to the Data Center in the US.
+
+Similar case with the Japan and India user. First to CDN and then Load Balancer will direct to Data Center in India. The data centers also talk with each other to duplicate the data in databases. So, if one data center is down the other can be used.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430538/30-Jun-25/zero-to-million/7_pdnay3.webp)
+
+## Messaging Queue
+
+Now, the next step is to use Messaging Queue like RabbitMQ or Kafka. Even the step 7 can handle million of requests, but Messaging Queue gives the Asynchronous nature to our system.
+
+It is used for heavy load operations like send notifications, mail sent to users. These all operations can be async. Plus it is also a must in apps where a large amount of data comes per second.
+
+The best example is app like Uber/Zomato where the driver/delivery person have GPS and sends notification to Uber/Zomato server. The volume is so high even for a city, that a system with multiple data center will also fail.
+
+Below is an example of Kafka, where the Producer is a driver who will send multiple live location request per second. It will be handled by a Kafka Topic, which have various partiion to handle millions of drivers requests.
+
+Depending on the type of data it will send to a different Consumer, which is nothing but a App Server. Like in case of Zomato, the driver location will be sent to a Driver Service Consumer. And restaurant food preparation will be sent to a restaurant service consumer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430536/30-Jun-25/zero-to-million/8_p1gpfu.webp)
+
+The Messaging Queue directly send data to a App Server which is the consumer in our case. It is used by all large application(not just Zomato/Uber) for some services, like sending email notifications or app notification. These can be sent asynchronously to millions of users.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751430534/30-Jun-25/zero-to-million/9_vmk5eu.webp)
+
+## Database Scaling
+
+Now, the last step is database scaling which is of two types. The types are vertical and horizontal.
+
+Vertical scalability means increasing the CPU and RAM of existing databases. But the disadvantage is that you cannot increase the CPU or RAM after a limit.
+
+Horizontal means we increase the database nodes. The implementation of horizontal scaling is called sharding. Sharding is again of two ways — Horizontal and Vertical.
+
+Horizontal sharding means we divide the rows. If we have a table with 100000 rows. We can divide it into multiple tables with rows. Say the first table contains rows 0 to 50000 and second table contains rows 50001 to 100000.
+
+Vertical sharding means if we divide the columns. Suppose, we have a table with 10 columns, then we divide it into two tables. Table 1 gets column 1 to 5 and table two gets column 6 to 10.
+
+This completes our post to scale a system from zero to millions of users.
