@@ -1,0 +1,409 @@
+---
+title: AirBnB clone with MERN stack -1
+description: ReactJS
+date: 2024-12-16
+tags: ["web-dev", "reactjs", "nodejs"]
+published: true
+---
+
+In this post we are going to build a AirBnB clone with MERN(MongoDB, Express, React, NodeJS). This post have been inspired by [this](https://www.youtube.com/watch?v=MpQbwtSiZ7E) awesome video by Coding With Dawid.
+
+We will open terminal and create an airbnb-mern folder and change to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465055/30-Jun-25/airbnb-mern-1/1_amo6cv.webp)
+
+Next, give the command yarn create vite and then give project a name, framework and variant.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465054/30-Jun-25/airbnb-mern-1/2_csvzbx.webp)
+
+Now, we will change to the client directory and run yarn to install all dependencies. After that run yarn dev to run the react app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465053/30-Jun-25/airbnb-mern-1/3_g7ayza.webp)
+
+Now, open the App.css and remove everything.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465052/30-Jun-25/airbnb-mern-1/4_lai5ln.webp)
+
+Now, inside the client directory, we will install tailwindcss, postcss and autoprefixer with yarn add command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465052/30-Jun-25/airbnb-mern-1/5_t1hqvs.webp)
+
+To configure tailwind we have to add marked things in tailwind.config.js file. We have created the same using npx tailwindcss init -p from terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465049/30-Jun-25/airbnb-mern-1/6_soek8a.webp)
+
+Now, remove all code from index.css file and put these line of code for tailwind.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465051/30-Jun-25/airbnb-mern-1/7_f3trbo.webp)
+
+Now, to check if tailwind is working, in App.jsx we have removed everything and given a tailwind style. In http://localhost:5173/ the style is showing properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465048/30-Jun-25/airbnb-mern-1/8_tj3ydc.webp)
+
+Now, we will add an icon from https://heroicons.com/ in App.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465048/30-Jun-25/airbnb-mern-1/9_vj1w0o.webp)
+
+Added some more code in App.jsx file with tailwind classes. Also, added a search icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465046/30-Jun-25/airbnb-mern-1/10_dbae91.webp)
+
+Now, the http://localhost:5173/ shows the header properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465045/30-Jun-25/airbnb-mern-1/11_mudaap.webp)
+
+Next, we have added a primary color in the tailwind.config.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465045/30-Jun-25/airbnb-mern-1/12_lncsxo.webp)
+
+Now, we are using this primary color in the button of App.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465041/30-Jun-25/airbnb-mern-1/13_cqaskq.webp)
+
+Next, we have added an icon for bar in App.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465040/30-Jun-25/airbnb-mern-1/14_mn6wlp.webp)
+
+Also, added an user icon in App.jsx file from https://heroicons.com/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465045/30-Jun-25/airbnb-mern-1/15_kubtev.webp)
+
+Now http://localhost:5173/ have these icons in the header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465043/30-Jun-25/airbnb-mern-1/16_tmzexe.webp)
+
+We are going to use react router v6 in our project. So, added it from the integrated terminal. After that in main.jsx file wrapped the App component with BrowserRouter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465040/30-Jun-25/airbnb-mern-1/17_mft8nm.webp)
+
+Now, create a components folder in the src folder. Inside it create an index.jsx file. We have moved the code from App.jsx to here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465039/30-Jun-25/airbnb-mern-1/18_te3ecj.webp)
+
+Now, in the App.jsx file we have imported Route and Routes from react router dom and also Index component. After that using the route code we are showing the Index component in the home route.
+
+Now, http://localhost:5173/ will show the index component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465037/30-Jun-25/airbnb-mern-1/19_tj3iw7.webp)
+
+Now, create a Login.jsx file inside the components folder, which contains basic code now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465036/30-Jun-25/airbnb-mern-1/20_b8qlmq.webp)
+
+We have next added a new /login route rendering the Login component in App.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465035/30-Jun-25/airbnb-mern-1/21_lhrcsp.webp)
+
+Also, added the react router Link in the bar image icon of Index.jsx file. Clicking on it will open the http://localhost:5173/login page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465034/30-Jun-25/airbnb-mern-1/22_rwkjup.webp)
+
+The header will be used in all components. So, we will move all code from Index.jsx file to a new Header.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465035/30-Jun-25/airbnb-mern-1/23_c7ckcs.webp)
+
+Now, create a new Layout.jsx file inside the src folder. Here, we will render the Header component and also the Outlet from react-router-dom.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465033/30-Jun-25/airbnb-mern-1/24_wuyaqn.webp)
+
+Now, in the App.jsx file inside the Routes we will add a Route for Layout and wrap all components inside it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465031/30-Jun-25/airbnb-mern-1/25_ypbrfr.webp)
+
+We have removed all the code from Index.jsx file and added a basic functional component in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465030/30-Jun-25/airbnb-mern-1/26_o71plc.webp)
+
+In the Layout.jsx file we forgot to add a padding. So, added the same in it which is getting reflected in http://localhost:5173/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465030/30-Jun-25/airbnb-mern-1/27_m7ryal.webp)
+
+Now, in the index.css file, we have added some common code for input, textarea and button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465030/30-Jun-25/airbnb-mern-1/28_jeqfu4.webp)
+
+Again added some missing styles in the Layout.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465041/30-Jun-25/airbnb-mern-1/29_gueztq.webp)
+
+In the Login.jsx file we have added a form with input email, password and a button with tailwind classes.
+
+The http://localhost:5173/login is reflecting all these.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465029/30-Jun-25/airbnb-mern-1/30_z6was8.webp)
+
+Also, added a text for register with /register Link in the Login.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465026/30-Jun-25/airbnb-mern-1/31_qcq3rv.webp)
+
+In the App.jsx file added the /register link rendering a Register component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465025/30-Jun-25/airbnb-mern-1/32_k4ebuk.webp)
+
+Now, create a Register.jsx file in the components folder. Here, we have a input type text, email and password, along with a Register button.
+
+We also have a Link to take us back to the login component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465024/30-Jun-25/airbnb-mern-1/33_zqp0pz.webp)
+
+Now, we will start creating our backend. So, first create an api folder inside the airbnb-mern folder. Inside it with yarn init -y we have created a package.json file. We have also added the package of express in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465020/30-Jun-25/airbnb-mern-1/34_ezvisv.webp)
+
+Next, we have added nodemon as dev dependency through terminal. Also, added scripts to start in production and dev.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465021/30-Jun-25/airbnb-mern-1/35_nefive.webp)
+
+We have created an index.js file and added a simple /test route in it. Started the node express app with yarn dev command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465017/30-Jun-25/airbnb-mern-1/36_n3x7n7.webp)
+
+Now, http://localhost:4000/test is showing the endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465014/30-Jun-25/airbnb-mern-1/37_jugudd.webp)
+
+Back in the Register.jsx file we have imported axios first. After that added state for name, email and password. Added the states in the text, email and password text fields.
+
+Also, created a function registerUser which will run on submitting the form. In the registerUser function, through axios we are doing a POST call to register endpoint. We are also sending the name, email and password to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465024/30-Jun-25/airbnb-mern-1/38_itjpe9.webp)
+
+Back in the index.js file of server, we have added cors package. Also, with app.use() we are using express.json(). And in cors() we have given the origin as http://localhost:5173/
+
+Finally we have created POST route for register, where we are getting name, email and password from req.body. And returning it with res.json().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465025/30-Jun-25/airbnb-mern-1/39_fprnb2.webp)
+
+In the App.jsx filwe we have imported axios and made the baseURL as http://localhost:4000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465016/30-Jun-25/airbnb-mern-1/40_axwzvc.webp)
+
+Now, go to http://localhost:5173/register and give the name, email and password and click on Register button. In the Network tab we can see the register POST as success and we will also get a alert for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465011/30-Jun-25/airbnb-mern-1/41_axkj2v.webp)
+
+Now, it’s time to create our database which will be MongoDB. So, in https://cloud.mongodb.com/ create a New Project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465007/30-Jun-25/airbnb-mern-1/42_jc1nod.webp)
+
+We will give the project name of airbnb-mern and click on Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465008/30-Jun-25/airbnb-mern-1/43_brruww.webp)
+
+In the next screen click on the Create Project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465004/30-Jun-25/airbnb-mern-1/44_kl8tbb.webp)
+
+In the next screen click on the Create button to create a Cluster.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751517261/30-Jun-25/airbnb-mern-1/44-1_opv6gh.webp)
+
+Now, we will select the free plan on M0 and click on Create Deployment button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465004/30-Jun-25/airbnb-mern-1/45_jztm0e.webp)
+
+We will get a pop-up next, where give an username and password and click on Create Database User button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465012/30-Jun-25/airbnb-mern-1/46_mpy8xu.webp)
+
+In the next pop-up click on Choose a connection method button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465009/30-Jun-25/airbnb-mern-1/47_s71wl9.webp)
+
+In the next pop-up click on MongoDB for VS Code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465001/30-Jun-25/airbnb-mern-1/48_boa3og.webp)
+
+Now, we will get a connection string with username, password and a random url.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465017/30-Jun-25/airbnb-mern-1/49_usxqon.webp)
+
+Now, click on Network Access tab and after that ADD IP ADDRESS button. It will open a pop-up and here click on ALLOW ACCESS FROM ANYWHERE and then click on Confirm button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465002/30-Jun-25/airbnb-mern-1/50_tdudga.webp)
+
+Now, in the api folder create an .env file and add a variable of MONGO_URL containing our connection string from MongoDB. We have also installed the mongoose package in terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465005/30-Jun-25/airbnb-mern-1/51_thiedp.webp)
+
+Mongoose requires an model. So, create a models folder inside api folder. Here, create User.js file and add the below code in it. It requires mongoose and Schema. Our UserSchema contains name, email and password.
+
+The email is unique and after that we are exporting UserModel. Notice we have also added the package of dotenv which is required for the .env file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465000/30-Jun-25/airbnb-mern-1/52_hxfyfs.webp)
+
+Back in index.js file we have first installed the package of bcryptjs. Next, we have imported mongoose User and bcrypt. We have also create an unique salt with the genSaltSync() from bcrypt.
+
+We have also added dotenv added earlier. Next, we have created app.post for /register. Here, we are first connecting to mongoose and after that getting name, email and password from req.body.
+
+Inside a try catch block we are creating a new user with User.create() and passing name, email and hashed password in it. We are passing it back as json.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465023/30-Jun-25/airbnb-mern-1/53_g0vlhb.webp)
+
+Now, go back to http://localhost:5173/register and register a user again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465003/30-Jun-25/airbnb-mern-1/54_ipphcw.webp)
+
+In https://cloud.mongodb.com/ inside our cluster we will see an users data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465006/30-Jun-25/airbnb-mern-1/55_fdw5dx.webp)
+
+Now, in the Login.jsx file we will have email and password state. On submitting the form we will call the handleLoginSubmit function which will hit th POST endpoint of /login and pass email and password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465018/30-Jun-25/airbnb-mern-1/56_xhpktu.webp)
+
+Now, in the index.js file of server, we will add jsonwebtoken and import it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465024/30-Jun-25/airbnb-mern-1/57_a9vkzt.webp)
+
+Now, we will first give a jwtSecret which can be any random string. Next, we will create POST for login, which will connect to mongoose first. Then it will take the email and password from req.body.
+
+Nexr, we have an userDoc variable which will `useUser.findOne({ email })` to find the document(row in NoSQL database). After getting the document of the user, we had to decrypt the password stored in the collection(table in NoSQL database).
+
+For this we are using bcrypt.compareSync(). If the passwoed is ok, we are using jwt.sign() and sending email, id and jwtSecret and getting token or error back. Incase of getting token, we are passing the userDoc as a cookie named token.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465019/30-Jun-25/airbnb-mern-1/58_jnq8gv.webp)
+
+In the App.jsx we also have to set an axios.defaults.withCredentials as true to use the cookies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464999/30-Jun-25/airbnb-mern-1/59_toyh4y.webp)
+
+Now, in Login.jsx file we will have a redirect state, which is initially false. Here, after successful login we will make the redirect as true.
+
+We are also checking if redirect is true then using Navigate from react-router-dom going to home(/) route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464998/30-Jun-25/airbnb-mern-1/60_wra83f.webp)
+
+Now, in http://localhost:5173/login login with the correct credentials and we will see the alert and also the POST login as success.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464997/30-Jun-25/airbnb-mern-1/61_hjra6h.webp)
+
+Also, we are been redirected to the Index component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464997/30-Jun-25/airbnb-mern-1/62_giw3mz.webp)
+
+We will now add context in our project. So, in App.jsx file first import UserContextProvider from UserContext, which we will create soon. Next, wrap everything with UserContextProvider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465015/30-Jun-25/airbnb-mern-1/63_diuqe1.webp)
+
+Now, create an UserContext.jsx file inside the src folder. Here, we are exporting UserContextProvider which takes a children props. We have a state of user and passing user and setUser in the Provider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464996/30-Jun-25/airbnb-mern-1/64_saoakh.webp)
+
+Now, in the Login.jsx file we are importing useContext from react. And also importing UserContext from the UserContext.jsx file.
+
+Next, we are getting the setUser from the UserContext file. Once we are getting the data from the API call to /login, we are updating the user with the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464995/30-Jun-25/airbnb-mern-1/65_quylvt.webp)
+
+Now, in the Header.jsx file we are again importing useContext and UserContext. Here, we are getting the user from the UserContext.
+
+Now, if we have the user we are showing the name in the header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465010/30-Jun-25/airbnb-mern-1/66_ql5ieg.webp)
+
+Again in http://localhost:5173/login login with the correct credentials.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464995/30-Jun-25/airbnb-mern-1/67_sypfvn.webp)
+
+Now, in http://localhost:5173/ we will see the name of the user in the header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464994/30-Jun-25/airbnb-mern-1/68_faqwji.webp)
+
+But, if we refresh the browser the username is gone.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464992/30-Jun-25/airbnb-mern-1/69_r67kui.webp)
+
+For having the cookie values, we will install cookie-parser in server. Now, in the index.js file we will import cookie-parser and then use it.
+
+We will create a new GET endpoint of /profile and here, we will get the token from req.cookies. Next, with jwt.verifyusing token and jwtSecret, we are finding the user by id. Next, we are sending back the name, email and _id in res.json().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751465010/30-Jun-25/airbnb-mern-1/70_jokmlh.webp)
+
+Now, in the UserContext.jsx file we will import axios first. After that using useEffect, we are hitting /profile endpoint and getting the data, which we are setting in the user state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464992/30-Jun-25/airbnb-mern-1/71_hkb4aw.webp)
+
+Now, when we go to http://localhost:5173/ we will hit the profile endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464991/30-Jun-25/airbnb-mern-1/73_dcunux.webp)
+
+Now, go to Application tab and in Cookies we will see a token with the value.
+
+Also, refresh the browser after this.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464990/30-Jun-25/airbnb-mern-1/74_qxbcnp.webp)
+
+After the login we will see the name, which will not be gone even after refesh because it is stored in cookie.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464989/30-Jun-25/airbnb-mern-1/75_kewt77.webp)
+
+Now, in the Header.jsx file we will change the `<a>` tag to a Link which will take to the home. Also, clicking on the user icon or name will take to /account if user is their or else to the /login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464989/30-Jun-25/airbnb-mern-1/76_hkx75l.webp)
+
+Now, in App.jsx file we will create a new route of /account which will render the Profile component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464988/30-Jun-25/airbnb-mern-1/77_xoitkl.webp)
+
+Back in the UserContext.jsx file we will have a new state of ready which is initially false. Inside the useEffect we will make the ready as true and we will also be passing it in the Provider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464988/30-Jun-25/airbnb-mern-1/78_ugljx7.webp)
+
+Now, we will create a Profile.jsx file inside the components folder. It will take the ready, user and setUser from the UserContext. It have an if state to check if ready is false, it will return Loading.
+
+If ready if true and user is false, it will navigate to login page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464988/30-Jun-25/airbnb-mern-1/79_a8doi7.webp)
+
+Now, in the App.jsx file we will have two new routes for /account/bookings and /account/places. Both of it will render the Profile component, which we are going to change later.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464987/30-Jun-25/airbnb-mern-1/80_jc3cg2.webp)
+
+Now, in the Profile.jsx file we will import an AccountNav first, which we are going to create next. Next, we are getting subpage from useParams hook.
+
+If the subpage is undefined we will make the subpage as profile. Inside the return we are showing the AccountNav component. If the subpage is profile, we areshowing the logged in user name and email.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464987/30-Jun-25/airbnb-mern-1/81_camsbn.webp)
+
+Now, create an AccountNav.jsx file inside the src folder. Here, we are importing Link and useLocation from react-router-dom first. Inside the component, we are getting the pathname.
+
+After that we are getting the subpage with `pathname.split(‘/’)` and getting the third element in the array. If the subpage is undefined, we are making it as profile.
+
+Next, we have a function linkClasses which is used for styling. And we have a nav in the return, which we will create next.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464986/30-Jun-25/airbnb-mern-1/82_c9q13e.webp)
+
+We have three Link in AccountNav.jsx file which will show different images and takes to different endpoints.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464985/30-Jun-25/airbnb-mern-1/83_g4qtny.webp)
+
+Now, go to http://localhost:5173/account and we will see the account.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464985/30-Jun-25/airbnb-mern-1/84_kolgrf.webp)
+
+Now, clicking on the My bookings will take to http://localhost:5173/account/bookings page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464984/30-Jun-25/airbnb-mern-1/85_tz3lrd.webp)
+
+In Profile.jsx file we will create a redirect state and a logout function, which will be called on clicking the logout button.
+
+It will call a POST api to /logout. We are also using ready to go to correct redirect url.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464984/30-Jun-25/airbnb-mern-1/86_v4yfsq.webp)
+
+In the index.js file of server we have created a post for logout. It is just making the token as empty string in cookie.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464984/30-Jun-25/airbnb-mern-1/87_rrztsx.webp)
+
+Now, logout and here initially we have no cookie. After this login again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464984/30-Jun-25/airbnb-mern-1/88_tvnrxn.webp)
+
+After sucessful login we will see the token in cookie.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751464984/30-Jun-25/airbnb-mern-1/89_ggcwke.webp)
+
+This completes the part-1 of the series and we will complete this app in part-2. You can find the code for this post in [this](https://github.com/nabendu82/airbnb-mern) github repo.
+
+
