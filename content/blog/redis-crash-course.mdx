@@ -1,0 +1,287 @@
+---
+title: Redis Crash Course
+description: Devops
+date: 2025-01-15
+tags: ["devops", "redis", "docker"]
+published: true
+---
+
+In this post we are going to learn about Redis, which is a must service for performance in apps which gets a lot of traffic.
+
+This post have been inspired by [this](https://www.youtube.com/watch?v=Vx2zPMPvmug) awesome YouTube video from Piyush Garg.
+
+So, why do we need Redis. Look at the below image. Here a user hits a API server from the browser. Then whether it’s a GET request or a POST request, we get the data from a database.
+
+Let’s assume it’s a GET request and the database is PostgreSQL. Now the data which the user wants might be in four diffeent tables and Foreign keys between them. So, the task will require a lot of time even with scaling. But here Redis comes to the rescue, which basically caches the data. And sends the data quickly back.
+
+We also have a TTL(Time to Live) in Redis, and the data get refreshed periodically so that we don’t get a old data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513026/30-Jun-25/redis/1_yaitxn.webp)
+
+To install redis on our system, the best way is through docker. You can learn more about docker and to install it in an earlier post.
+
+So, open a terminal and run the below command which we have got from redis site. It will use the redis port of 6379 and use our local port of 8001.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513050/30-Jun-25/redis/2_t8fkqd.webp)
+
+In docker desktop to can see redis-stack been added.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513030/30-Jun-25/redis/3_sz5nwy.webp)
+
+Now, go to http://localhost:8001/ and we will be asked for permission the first time.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513028/30-Jun-25/redis/4_dhap4i.webp)
+
+It will open a Redis Browser which will also have a cli. Here, just write ping and we will get a pong response.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513040/30-Jun-25/redis/5_nbx4ff.webp)
+
+Also, in the terminal type docker ps which will return us the unique container id for our docker. After that run the command docker exec it `<container_id>` and we will be connected to redis.
+
+After that give the command redis-cli and then we can again give the ping command, which will return back pong.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513025/30-Jun-25/redis/6_tglek1.webp)
+
+Now, redis have different data structures and we will look into them. The first is called Redis Strings. They are like key value pair and we create them through the SET command. Here, we first give the key, mostly like bike:1 and value like a string value.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513055/30-Jun-25/redis/7_vhvsda.webp)
+
+Now, in the redis-cli we will set different values for bike. And to get them we have to use the GET command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513024/30-Jun-25/redis/8_ev3ay5.webp)
+
+Now, in the Redis browser we will also see three strings and clicking on one of them will show it’s value.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513032/30-Jun-25/redis/9_z4tguw.webp)
+
+In the terminal we will create a new string pair for car. And now in the redis browser, we can see a group.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513039/30-Jun-25/redis/10_nkinl8.webp)
+
+We also have a property of NX and if we use it in SET, we get a unique key. In the below example, we are not able to use car:4 again.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513051/30-Jun-25/redis/11_kou5if.webp)
+
+Now, if we want to get more then one value of akey, we need to use the MGET command as below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513019/30-Jun-25/redis/12_yjda8r.webp)
+
+Now, if we add something say age as a number. We can use the incr command as below to increase it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513051/30-Jun-25/redis/13_c5xjs0.webp)
+
+Since, we have increased the age by 4 previously in the browser we will see it as 42.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513045/30-Jun-25/redis/14_uarxf0.webp)
+
+Now, we will create a small project with Redis. For this we have create a folder called redis-node and changed to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513034/30-Jun-25/redis/15_vl5y70.webp)
+
+After that using npm init -y created an empty node project. Also installed an open-source package called ioredis in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513021/30-Jun-25/redis/16_xojrk0.webp)
+
+We have opened the project in VS Code and created a .gitignore, client.js and string.js file. Here, in the .gitignore added node_modules.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513016/30-Jun-25/redis/17_imiwsg.webp)
+
+Now, in the client.js file we are importing Redis from ioredis. And then creating a new instance of it called client. We are also exporting the client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513015/30-Jun-25/redis/18_j7obrl.webp)
+
+Now, in the string.js file we are importing client. And then created an init() function. Here, we are using client.get() to execute GET in redis.
+
+When we are running node string.js from terminal, we are getting the correct result.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513019/30-Jun-25/redis/19_uol15x.webp)
+
+We can also use the set() of redis to create a new key-value pair of car:5 and tiago ev. And then we are getting the value of car:5.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513030/30-Jun-25/redis/20_pyq5sb.webp)
+
+Now, we will look into the concept of TTL(Time To Live) in redis. By default their is no limit.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513011/30-Jun-25/redis/21_epdqim.webp)
+
+Now, we will add expire of car:5 as 10. It means that after 10 seconds this value will be removed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513006/30-Jun-25/redis/22_n5pscu.webp)
+
+Now, after 10 seconds we will see the car:5 will be removed. Here, we have seen after 9 seconds, so it’s still there. In real world scenario the TTL is generally set to something like 6–10 hours. After that the data is removed and new data is fetched from database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513005/30-Jun-25/redis/23_vzkv8j.webp)
+
+Now, we will look into Redis lists. As per the defination they are linked lists of string values.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513048/30-Jun-25/redis/24_h6hqda.webp)
+
+Just like array in JavaScript, we need to push in it. Here, we use the lpush command and the list name, followed by the value.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513033/30-Jun-25/redis/25_q4gl4b.webp)
+
+Through list we can make a Queue or a Stack. If we insert from the left and remove from the right it’s a queue. If we insert at the left and remove at the right, it’s a stack.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513003/30-Jun-25/redis/26_iwrhcm.webp)
+
+Now, we remove from left we use the lpop command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513009/30-Jun-25/redis/27_u02sua.webp)
+
+Now, opening the List in the redis browser we will see the heicopter list which currently have two items.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513011/30-Jun-25/redis/28_mhpj45.webp)
+
+Now, we have added to elements to the right using the rpush and then with llen, we can see the list length.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513003/30-Jun-25/redis/29_hvsodb.webp)
+
+We can also use blpop which removes elements from the head of the list. Here 10 means after 10 seconds
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513007/30-Jun-25/redis/30_ui1fg6.webp)
+
+If we have removed all elements using blpop, it will be blocked as in the below case.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513037/30-Jun-25/redis/31_o6bhum.webp)
+
+So, this will be unblocked after 10 seonds.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513000/30-Jun-25/redis/32_sbxkcz.webp)
+
+Now, create a file list.js in our project. Here, we have created a new list called aircrafts with lpush. We are pushing 5 aircrafts and after that with rpop removing one from the start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512999/30-Jun-25/redis/33_z2hzt3.webp)
+
+Now, in redis browser we will see a list called aircrafts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512998/30-Jun-25/redis/34_haxwog.webp)
+
+With the lrange command we can get the list of elements. Here, 0 is start and -1 is the end.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512996/30-Jun-25/redis/35_gm8jhl.webp)
+
+Now, we will learn about Redis sets. As per the defination it is an unordered collection of unique strings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513045/30-Jun-25/redis/36_rdq0si.webp)
+
+Here, we add a new member to the SET using SADD command. Notice that we are not able to add a duplicate item.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512995/30-Jun-25/redis/37_wwnwxq.webp)
+
+Now, in the Redis browser we can see the SET.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512993/30-Jun-25/redis/38_upnhpg.webp)
+
+Now, we can remove a member from SET using the SREM command. And we can check if the member exists in a SET with the SISMEMBER command. It returns 0, if the member doesn’t exists. And it returns 1 if member exists.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512993/30-Jun-25/redis/39_hjdiir.webp)
+
+Now, we will look into Redis hashes. As per the defination they are types structured as collections of field-value pairs.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512991/30-Jun-25/redis/40_ms7ws0.webp)
+
+To create hashes we need to use the HSET command. Here, we have given a motorcycle:1 as key. It contains the model as Splendor, brand as Bajaj, type as ‘Bajaj bikes’ and price as 49720.
+
+We can think of hashes as array of objects in JavaScript.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512990/30-Jun-25/redis/41_qmf89k.webp)
+
+We can do the same from the code also. Here, through hset we are adding values for motorcycle:2. And getting the model value through hget.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512989/30-Jun-25/redis/42_khugwh.webp)
+
+Next, we will look into Redis sorted sets. By defination it is a collection of unique strings, ordered by an associates score.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513044/30-Jun-25/redis/43_iushjs.webp)
+
+We have created a sorted set through the ZADD command called cars_brands. Notice that we have also given the score for all of the strings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513001/30-Jun-25/redis/44_y1ceub.webp)
+
+Now, we will look into Redis Streams which is actually like Kafka. You can learn more about kafka in our earlier post [here](https://www.nabendu.org/blog/kafka-crash-course).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513041/30-Jun-25/redis/45_jwxgw7.webp)
+
+We will use an example which is already given. It is that we will add a stream entry for a racer when he passes a location_id of 1.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513036/30-Jun-25/redis/46_phzo1o.webp)
+
+Now, through the XADD command we created race:india. Here, different riders with their position are added and we have given a same location_id.
+
+Now, to get the data we are using the XRANGE command and given the first unique id plus the count of 2.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513046/30-Jun-25/redis/47_mf7ky5.webp)
+
+Now, we will learn about Redis geospatial. By the defination it let’s us store the coordinates and search for them. With GEOADD we can add a location by longitute and latitude.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513021/30-Jun-25/redis/48_xuxlcx.webp)
+
+Now, we can find locations with GEOSEARCH command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512988/30-Jun-25/redis/49_vx2zaz.webp)
+
+Next, we will look into Redis bitmaps. They are set of bit-oriented operations defined on the String type which is treated like a bit vector.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513012/30-Jun-25/redis/50_w7jle4.webp)
+
+We use SETBIT and GETBIT in it as per the screenshot below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751513016/30-Jun-25/redis/51_xhxypt.webp)
+
+Now, we will look into Redis Pub/Sub which is a Publish/Subscribe messaging paradigm.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512987/30-Jun-25/redis/52_obv8wv.webp)
+
+We have opened a terminal and published two messages by PUBLISH notifications command.
+
+In another terminal, we have connected to redi-cli again. After that SUBSCRIBE notifications will give us our notifications.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512986/30-Jun-25/redis/53_nscrvk.webp)
+
+Now, back in our project we will see the concept of TTL and the caching of redis. We will be getting data from the famour jsonplaceholder API endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512985/30-Jun-25/redis/54_vhpgru.webp)
+
+In the server.js file we have created a simple express app. Here, we are hittin the https://jsonplaceholder.typicode.com/posts and returning the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512984/30-Jun-25/redis/55_cxbpr8.webp)
+
+We are listening to PORT 9000 and also started the node app with node server.js command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512983/30-Jun-25/redis/56_opxbmr.webp)
+
+Now, we will hit http://localhost:9000/ from Thunder Client(Like Postman) in VS Code. Note the time to receive data is 617ms.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512982/30-Jun-25/redis/57_pywlzz.webp)
+
+If we hit the GET endpoint again, it’s 550ms due to in-build caching.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512981/30-Jun-25/redis/58_vd5hni.webp)
+
+We will update the code for server.js now. Here, we are importing client first, which have redis. Next, we have created a constant cacheValue which ises client.get(‘posts’) to get all posts.
+
+if we have cacheValue then will return the cacheValue with res.json(). After the API call with axios, we are setting the posts with the data. But the data will expire in 60 seconds.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512980/30-Jun-25/redis/59_xet93z.webp)
+
+Again we have hit the endpoint with Thunder Client. First time it took 625ms.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512979/30-Jun-25/redis/60_cezsru.webp)
+
+Not next time it only took 6ms, since the data is cached with Redis.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512979/30-Jun-25/redis/61_uclut8.webp)
+
+Again hitting the API endpoint reduces it to 4ms.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512978/30-Jun-25/redis/62_p9q4sj.webp)
+
+But after expiration of 60 seconds, it’s again takes more time which is 540ms.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512978/30-Jun-25/redis/63_xrfrvg.webp)
+
+We can also see the sting for those 60 seconds in Redis browser. After which it is removed till the next hit.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512977/30-Jun-25/redis/64_qgrtpd.webp)
+
+This completes our Redis Crash course. You can get the code for the same [here](https://github.com/nabendu82/redis-node).
