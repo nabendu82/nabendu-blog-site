@@ -1,0 +1,119 @@
+---
+title: Microservices Crash Course with Molecular JS
+description: Devops
+date: 2025-01-13
+tags: ["devops", "moleculer", "nodejs"]
+published: true
+---
+
+In this post we are going to learn about Microservices and create a basic app with the awesome open-source package of Moleculer JS. This post have been created refering to [this](https://www.youtube.com/watch?v=fEDT4lWWe9g) awesome YouTube tutorial of Traversy Media.
+
+Microservices is a different paradigm them Monolithic architecture which was used for so many years. Below is a diagram from Monolithic architecture.
+
+It is built and deployed as a single unit. For this reason it is easy to develop, test and deploy. The infrastructure is simpler and it is built with a single tech stack like NodeJS of Springboot. The biggest issue with Monolithic architecture is that, it can run into issues when scaling.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512186/30-Jun-25/microservices/1_swuff5.webp)
+
+Now, we will look into the Microservices architecture. It is a collection of small and loosely coupled services. Now, all these servuces are self-contained and can be developed, deployed and scaled indepedently. They communicate with each other with protocols like HTTP.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512185/30-Jun-25/microservices/2_jlpk3t.webp)
+
+The microservices architecture is not tied to any specific technology and each can be created in different technologies. Like one can be created in NodeJS, other in Springbook and other in .NET.
+
+But this adds more complexity to the application. It have a larger infrastructure cost, so more expensive than monolith.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512184/30-Jun-25/microservices/3_onnrym.webp)
+
+Now, let’s learn about the deployment of both. Since, in Monolithic all the services are modules only so the development and production deployment is done in one go and same infrastructure.
+
+Bu the microservices the service are different and the deployment is different. We generally deploy through seperate docker instances.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512182/30-Jun-25/microservices/4_qy83qp.webp)
+
+Microservices app have a API gateway. So, when we hit it through Web-app or Mobile-app we route it to the different services. The API gateway also takes care of security, rate limiting, logging and aggregation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512181/30-Jun-25/microservices/5_d1s0f9.webp)
+
+Now, the pros of microservices are scalibility, flexibility, modular and decentralized. There are some cons also like it’s complex and there is an operational overhead. The data management, development time and debugging also takes time.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512180/30-Jun-25/microservices/6_i8aqfk.webp)
+
+For our microservices demo, we are going to use the awesome open source service of [Moleculer](https://moleculer.services/).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512179/30-Jun-25/microservices/7_zlvor5.webp)
+
+The services which moleculer provides out of the box are Load balancer, fault tolerance and service discovery.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512179/30-Jun-25/microservices/8_g8azoj.webp)
+
+Now from the terminal we have created a new folder called microservices-nodejs and inside it did npm init -y to create a NodeJS project. Then installed moleculer with the command npm i moleculer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512178/30-Jun-25/microservices/9_tdw26j.webp)
+
+We have opened the project in VS Code and added a .gitignore file in it. Here, added node_modules in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512177/30-Jun-25/microservices/10_epyoua.webp)
+
+We have created an index.js file and also in the package.json file added type as module. With this we will be able to use import in NodeJS project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512176/30-Jun-25/microservices/11_wl9lwc.webp)
+
+Now, in the index.js file add the below code. Here, we are first importing ServiceBroker from moleculer. With the ServiceBroker, we are creating a broker object.
+
+Then we are using the createService function from moleculer using the broker. Here, we have given it a name of greeter and the actions have a sayHello function. It takes a ctx parameter and returns a Hello with the ctx.params.name.
+
+After that we have a startApp async function in which we are starting the broker first. After that using broker.call() to call the greeter’s sayHello function and pass name as Nabendu. After that we are stopping the broker.
+
+Lastly we are calling the startApp function. Also, from the integrated terminal using node index.js to run the file. Here, we will see that the greeter serive is started then the Hello Nabendu is printed and then the greeter service is stopped.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512176/30-Jun-25/microservices/12_pbwjcy.webp)
+
+Now, we will create a services folder in the root directory. And inside it will create a user.service.js file. Here, we are again importing the ServiceBroker and getting a broker instance.
+
+Then we have a function generateId() which return a unique random id. And also have a users array. Next, we are calling the createService() and giving it name of user. Again we have a function in actions called createUser.
+
+This function will extract username and email from ctx.params. Then it will create a newUser variable from username, email and a unique id. After that it is pushing the newUser in the users array. And then returning the newUser.
+
+We also have a async getUsers() which is returning the users array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512174/30-Jun-25/microservices/13_z5e0hz.webp)
+
+Back in index.js file, we have removed the earlier code and are importing UserService from user.service.js file now. Next, we have a startApp async function.
+
+Here, we are starting the UserService first with UserService.start(). Then we are creating a newUser with the createUser function and passing a username and email to it.
+
+We are logging the returned user and also calling the getUsers function to log the users array. We also have a catch to catch the error. And in finally to stop the UserService.
+
+We are again running the index.js file from the terminal and getting back new user and the user array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512174/30-Jun-25/microservices/14_v54vpk.webp)
+
+Now, we will create an email.service.js file inside the services folder. Here, we have again used the createService() and inside it we have a sendMail(). It is taking recipient, subject and content from ctx.params.
+
+Next, we have a console log of sending email to recipient with subject. We are also console logging the content. And then return the Email sent to recipient text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512174/30-Jun-25/microservices/15_sab8pd.webp)
+
+Now, we will use the EmailService in the index.js file. Here, we are also starting the EmailService with start() after importing it.
+
+Next, we are simulating a sending email by calling the sendEmail function, where we are passing recipient, subject and content. After that we are console logging the emailResult.
+
+We are also stopping the email serive in the finally block.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512173/30-Jun-25/microservices/16_fikmod.webp)
+
+Now, we will create an auth.service.js file inside the services folder. Here, with createService we are again creating a authUser function. We are extracting username and password from ctx.params.
+
+If the username is admin and password is password, we are returning success and message. Or else we are returning success as failure and a message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512172/30-Jun-25/microservices/17_oedmbu.webp)
+
+Back in the index.js file we are starting the AuthService and then inside the try block, we are simulating a auth. We are calling the authUser function with a username and password and console logging the result. We are also stopping the AuthService in the finally block.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512172/30-Jun-25/microservices/18_usba9d.webp)
+
+In terminal when we ran node index.js we are getting all the console logs from UserService, EmailService and AuthService.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751512172/30-Jun-25/microservices/19_soi1s2.webp)
+
+This completes our small post on Microservices and you can find the code for the same [here](https://github.com/nabendu82/microservices-nodejs).
