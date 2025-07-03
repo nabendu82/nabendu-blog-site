@@ -1,0 +1,395 @@
+---
+title: AirBnB clone with MERN stack -2
+description: ReactJS
+date: 2024-12-22
+tags: ["web-dev", "reactjs", "nodejs"]
+published: true
+---
+
+In this post, we are going to complete the AirBnB clone using MERN stack. The part-1 of the series can be found [here](https://www.nabendu.org/blog/airbnb-mern-1).
+
+We will start where we left and start with showing places. So, first in the server side, inside models folder create Place.js file. Here, we have imported mongoose first and after that given type of different fields.
+
+Notice that owner have reference to the User model.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466699/30-Jun-25/airbnb-mern-2/1_cfl5zi.webp)
+
+Now, in App.jsx file we will change the components for /bookings and /places.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466696/30-Jun-25/airbnb-mern-2/2_ytgayi.webp)
+
+Now, create a Bookings.jsx file inside the components folder. Here, we are showing the AccountNav and just a text for now.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466696/30-Jun-25/airbnb-mern-2/3_gg7wfs.webp)
+
+Now, create a Places.jsx file inside the components folder. Here, we are showing the AccountNav and a Link which takes us to /account/places/new.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466696/30-Jun-25/airbnb-mern-2/4_ymik9q.webp)
+
+Now, we will update the Profile.jsx file. Here, if the subpage is equal to places we will show the Places component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466695/30-Jun-25/airbnb-mern-2/5_i9hewt.webp)
+
+Now, Clicking on My bookings will take us to http://localhost:5173/account/bookings which will show the basic Bookings Page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466692/30-Jun-25/airbnb-mern-2/6_sa4g62.webp)
+
+Now, Clicking on My accomodations will take us to http://localhost:5173/account/bookings which will show the basic Places Page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466657/30-Jun-25/airbnb-mern-2/7_hsyqfp.webp)
+
+Now, click on My profile which will take us to http://localhost:5173/account .It will show that we have token. Now, click on Logout button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466653/30-Jun-25/airbnb-mern-2/8_suxkj3.webp)
+
+After clicking on thew Logout previously, we are taken to the home page, where the token is empty.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466654/30-Jun-25/airbnb-mern-2/9_qppjsr.webp)
+
+Now, create a PlacesForm.jsx file in the components folder. Here, we have states which we are going to use soon. After that we have three functions, which we are going to use soon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466686/30-Jun-25/airbnb-mern-2/10_ipgulp.webp)
+
+Now, inside the return statement we are first rendering AccountNav component. After that we have a form, inside it using the preInput() we are showing the text.
+
+We have various input boxes for all the states created earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466685/30-Jun-25/airbnb-mern-2/11_pavz2c.webp)
+
+Back in the App.jsx file we will have a new route for /account/places/new which will render the PlacesForm component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466674/30-Jun-25/airbnb-mern-2/12_qshce4.webp)
+
+Now, going to http://localhost:5173/account/places/new we will see the whole form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466652/30-Jun-25/airbnb-mern-2/13_ngvh66.webp)
+
+Now, we will add Perks in http://localhost:5173/account/places/new. For this create a Perks.jsx file inside src folder. Put the below code in it, which will contain and handleCBClick function targeting the name and checked for two inputs for wifi and parking.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466690/30-Jun-25/airbnb-mern-2/14_la5ass.webp)
+
+Now, we will put the rest of the input and icons for tv, radio, pets and entrance in Perks.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466691/30-Jun-25/airbnb-mern-2/15_vs2lhd.webp)
+
+We will render the Perks from the PlacesForm.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466680/30-Jun-25/airbnb-mern-2/16_rv7zac.webp)
+
+Now, in http://localhost:5173/account/places/new we will see the Perks been added.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466649/30-Jun-25/airbnb-mern-2/17_icrgmb.webp)
+
+Now, we will add the image-downlader package from terminal and also import it in index.js file in api folder. We have also created an uploads folder inside the api folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466674/30-Jun-25/airbnb-mern-2/18_g00fgu.webp)
+
+Next, we will create a new link called /upload-by-link for POST in the index.js file. Here, we are taking the link from req.body and after that we are creating a newName.
+
+Using the imageDownloader we are downloading the image to the /uploads folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466647/30-Jun-25/airbnb-mern-2/19_qwm4n5.webp)
+
+Now, create a PhotosUploader.jsx file inside the src folder. Here, we are getting the props of addedPhotos and onChange. After that we have an state of photoLink which we are using in the input field.
+
+We also have a button, which is calling the function addPhotoByLink. This function is doing API call to /upload-by-link and passing the photoLink.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466681/30-Jun-25/airbnb-mern-2/20_t2xn9b.webp)
+
+Now, we will call this PhotosUploader from PlacesForm.jsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466676/30-Jun-25/airbnb-mern-2/21_atavri.webp)
+
+Next, we will add path with express.static() in index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466644/30-Jun-25/airbnb-mern-2/22_tjhb23.webp)
+
+Now, in the PhotosUploader.jsx file we will take the addedPhotos and map through it and show them with Image component. And a button with icon to remove the photo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466669/30-Jun-25/airbnb-mern-2/23_mocknc.webp)
+
+Now, create an Image.jsx file in the src folder and add the below code in it. Here, we are taking the src and rest of the params. We are then adding http://localhost:4000/uploads/ to src. Then we are returning the img with src, alt and rest parameter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466643/30-Jun-25/airbnb-mern-2/24_bchgbq.webp)
+
+Now, goto http://localhost:5173/account/places/new and add image links and click on Add photo. We have added two photos which are been shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466669/30-Jun-25/airbnb-mern-2/25_thrakf.webp)
+
+If we go to uploads folder, we can see the two photos been uploaded.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466684/30-Jun-25/airbnb-mern-2/26_cfa8az.webp)
+
+Now, we will write the logic to upload images from local computer. So, create a function uploadPhoto in PhotosUploader.jsx file. Here, we are taking the files and sending it through axios to /upload endpoint.
+
+We also have an input type file with an icon, which calls the function uploadPhoto.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466684/30-Jun-25/airbnb-mern-2/27_rxovub.webp)
+
+Now, go back to index.js file of the server and import multer and fs. We have also added the external package of multer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466678/30-Jun-25/airbnb-mern-2/28_jdwndt.webp)
+
+Now, we will create a photosMiddleware with multer. After that a POST request to /upload which uses photosMiddleware array. Next we will loop through the files and add it in the uploads folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466648/30-Jun-25/airbnb-mern-2/29_sensrn.webp)
+
+Now, goto http://localhost:5173/account/places/new and click on Upload. It will open the explorer. Here, add two images.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466650/30-Jun-25/airbnb-mern-2/30_dmbzkp.webp)
+
+We have the new images been added sucessfully.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466641/30-Jun-25/airbnb-mern-2/31_ulm8yj.webp)
+
+We have some warnings from react and it is also sucessting way to fix it. So, chose the warning and change it into camelCase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466682/30-Jun-25/airbnb-mern-2/32_vklxko.webp)
+
+Now, go to PlacesForm.jsx and add a function savePlace. It will take all the data and do a POST request to a new endpoint od /places.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466641/30-Jun-25/airbnb-mern-2/33_vkd4du.webp)
+
+Now, in the index.js file we will add the model of Place first. After that we will create the /places POST. Here, we are taking the token first from the cookies. Next, we are extracting title, address and other things from req.body.
+
+After verifying the token using jwt.verify() method, we are adding the data in databse using Place.create(). Lastly, we are passing the placeDoc data back.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466670/30-Jun-25/airbnb-mern-2/34_g3n2f4.webp)
+
+Now, go to http://localhost:5173/account/places/new and add all data including photos and click Save.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466640/30-Jun-25/airbnb-mern-2/35_fjcncx.webp)
+
+All of the data will be added in the places model in MongoDB database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466668/30-Jun-25/airbnb-mern-2/36_y6zsst.webp)
+
+Now, we will add the codes to show the added places. So, we will create a new endpoint of /user-places in index.js file. It will take the token from the cookies. It is then use jwt.verify() and get the id from userData and use it to find the place.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466638/30-Jun-25/airbnb-mern-2/37_wsytib.webp)
+
+We will also create a file of PlaceImg.jsx. It will take some params and show the image from place.photos[index].
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466637/30-Jun-25/airbnb-mern-2/38_vwz7zv.webp)
+
+Now, back in Places.jsx file, we will create a state of places. The using useEffect we will call /user-places endpoint and get the data. We will set the data to places array.
+
+Now, inside the return statement we will loop through the places and show a Link tag, with PlaceImg passing the place.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466669/30-Jun-25/airbnb-mern-2/39_rzethf.webp)
+
+Now, the data of the place will be shown in http://localhost:5173/account/places
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466636/30-Jun-25/airbnb-mern-2/40_yyoxkn.webp)
+
+Now, we write the logic for single place. So, we will add a new route in App.jsx file, for /account/places/:id , which will render the PlacesForm component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466665/30-Jun-25/airbnb-mern-2/41_aymcna.webp)
+
+Now, in the PlacesForm.jsx file we will get the id from useParams(). Next, in an useEffect with dependency on id, we will do the GET api call to /places/:id.
+
+In the response we will get the data, which we will set in title, address and other states.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466675/30-Jun-25/airbnb-mern-2/42_wmf5qi.webp)
+
+Now, we will create the GET api for /places/:id in index.js file. Here, we are first getting the id from the params. After that with findById() we are getting details of the place.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466635/30-Jun-25/airbnb-mern-2/43_nf4l6j.webp)
+
+Now, click on an existing place in localhost and we will get the details updated in the place.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466634/30-Jun-25/airbnb-mern-2/44_fsksv4.webp)
+
+Now, in the PlaceForm.jsx file we will also add the logic for id, which will do a PUT request to /places and pass the id and the complete data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466633/30-Jun-25/airbnb-mern-2/45_jmhofp.webp)
+
+Now, in the index.js file we will create a PUT request for /places. Here, we will first get the token from cookies and the data from body.
+
+After that in jwt.verify(), we will find the place with findById(). Then if the id and owner id are same, we will use set to update and save to save the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466654/30-Jun-25/airbnb-mern-2/46_vmqma9.webp)
+
+Now, click on a place and change something and then click on Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466658/30-Jun-25/airbnb-mern-2/47_j342l6.webp)
+
+Now, in http://localhost:5173/account/places the updated description will be shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466631/30-Jun-25/airbnb-mern-2/48_ziegip.webp)
+
+We have uploaded two new photos and it’s also working fine.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466680/30-Jun-25/airbnb-mern-2/49_srkfw5.webp)
+
+Now, we will add logic to remove a phot or make another photo as main photo. By default the first photo is the main photo.
+
+So, in PhotosUploader.jsx file, in the remove button we have the removePhoto function. We have create a new button to make the photo as main photo.
+
+Here, the function selectAsMainPhoto is taking link as a parameter. If the link is equal to the first photo we are showing a filled star, or else an outlined star.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466689/30-Jun-25/airbnb-mern-2/50_bbo6tr.webp)
+
+Now, we have created the function removePhoto and selectAsMainPhoto in PhotosUploader.jsx file. Here, in removePhoto we are making the sending the selected photo by filter.
+
+On selectAsMainPhoto we are adding it ahead of all the other photos through filter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466631/30-Jun-25/airbnb-mern-2/51_nxrkoc.webp)
+
+Now, make some other photo as main photo in localhost and click on Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466661/30-Jun-25/airbnb-mern-2/52_kzyb1j.webp)
+
+Now, the selected photo will be shown as main photo in http://localhost:5173/account/places
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466630/30-Jun-25/airbnb-mern-2/53_pz41l1.webp)
+
+Next, we are going to show all places in the home page. For this we will create a new GET route to /places in index.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466675/30-Jun-25/airbnb-mern-2/54_jyndqx.webp)
+
+Now, in the Index.jsx file, we have added places state. In the useEffect, we are calling the /places endpoint and setting the places to data.
+
+Inside the return we are showing the first photo, address, title and price.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466662/30-Jun-25/airbnb-mern-2/55_yxsxwx.webp)
+
+In the Layout.jsx we have added a little bit of paddding.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466629/30-Jun-25/airbnb-mern-2/56_nnzoia.webp)
+
+Now, in http://localhost:5173/ we will see the only place with photo and other details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466658/30-Jun-25/airbnb-mern-2/57_u5humk.webp)
+
+We have added another place and we are seeing the same in http://localhost:5173/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466653/30-Jun-25/airbnb-mern-2/58_lrwjvv.webp)
+
+Now, we will add the logic to show the details of a single place when the user clicks on it in the home page. For this in App.jsx file we will add a new route of /place/:id which will call the Place component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466660/30-Jun-25/airbnb-mern-2/59_catthh.webp)
+
+Now, we will create a Place.jsx file inside the components folder. Here, in initial code we are doing some imports. And after that getting the id from the useParams() hook. We have a place state and the useEffect is doing an API GET call to /places/id and getting the place details in response.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466628/30-Jun-25/airbnb-mern-2/60_atzyua.webp)
+
+Now, we will update the return in Place.jsx file. Here, we are showing various details like title, description, checkIn, checkOut, maxGuests, extraInfo.
+
+We are also passing address and place to AddressLink and PlaceGallery components, which we are going to create next.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466627/30-Jun-25/airbnb-mern-2/61_xwckgr.webp)
+
+Now, create an AddressLink.jsx file in src folder and add the below code in it. Here, we are showing an anchor tag with google maps taking the address.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466626/30-Jun-25/airbnb-mern-2/62_e6jj2e.webp)
+
+Now, create a PlaceGallery.jsx file in src folder and add the below code in it. Here, using various styling we are showing the photo one and photo two. We also have a button with Show more photos.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466664/30-Jun-25/airbnb-mern-2/63_eeeokc.webp)
+
+Next, in the PlaceGallery.jsx file we will have a showAllPhotos state. Next, if the showAllPhotos is true, we will show all the photos by mapping through it and passing each detail to Image component.
+
+We also have a Close photos button, which close this toggle.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466625/30-Jun-25/airbnb-mern-2/64_jrhcgf.webp)
+
+Now, when we click on a place three photos with other details will be open. Here, click on the Show more photos button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466688/30-Jun-25/airbnb-mern-2/65_lujdug.webp)
+
+Now, we will get all the photos expanded and the Close photos button also. Clicking this button will close this toggle.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466625/30-Jun-25/airbnb-mern-2/66_trw1sa.webp)
+
+Now, we will create the booking logic. So, first call a new component BookingWidget from Place.jsx and pass the place detail in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466645/30-Jun-25/airbnb-mern-2/67_hibkxe.webp)
+
+Now, create a BookingWidget.jsx file inside the src folder. Here, we have various states of checkIn, checkOut, numberOfGuests, name, phone. Inside the return statement, we are showing the price.
+
+We have five input box to change the checkIn, checkOut, numberOfGuests, name, phone.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466624/30-Jun-25/airbnb-mern-2/68_nspurq.webp)
+
+Now, for a place we will also get the booking in form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466664/30-Jun-25/airbnb-mern-2/69_csecty.webp)
+
+We will now add a date utility library called date-fns.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466623/30-Jun-25/airbnb-mern-2/70_ujvoef.webp)
+
+Back in the BookingWidget.jsx file, we will import the function differenceInCalendarDays from date-fns. Now, we will get the numberOfNights from the checkOut and checkIn date.
+
+We are using the numberOfNights inside the return statement. Here, we are showing the name and phone input fields if only the numberOfNights is greater then 0. In Book this place, we are also using it to show the total price.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466622/30-Jun-25/airbnb-mern-2/71_rdv47b.webp)
+
+Now, when we are changing the Check in and Check out, we will see the total price in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466620/30-Jun-25/airbnb-mern-2/72_ay6oqz.webp)
+
+Now, we will create the Booking.js file inside the models folder. In this file we will create the schema for booking in which the place will be reference to the Place model.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466622/30-Jun-25/airbnb-mern-2/73_vizruk.webp)
+
+Now, include the Booking model in the index.js file. Here, we have also created a function called getUserDataFromReq. This function will return a Promise.
+
+It will do jwt.verify and verify the token and send the userData back in resolve.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466620/30-Jun-25/airbnb-mern-2/74_blesqc.webp)
+
+Now, we will create the POST and GET for /bookings. In the post, we are getting the userData and also place, checkIn and other things from req.body. Then with Booking.create() we ar adding the data in MongoDB database and sending back the doc.
+
+In the get, , we are getting the userData and getting the id from it. Next, we are using Booking.find() to fing the bookings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466619/30-Jun-25/airbnb-mern-2/75_zyd7gd.webp)
+
+Back in BookingWidget.jsx file we are importing axios and Navigate. Then inside the bookThisPlace function we are passing the data to /bookings POST endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466619/30-Jun-25/airbnb-mern-2/76_mzggvn.webp)
+
+Now, create a Booking.jsx file in the components folder. We are going to complete it later on.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466618/30-Jun-25/airbnb-mern-2/77_sbu85z.webp)
+
+Next, in App.jsx file we will add route for /account/bookings and /account/bookings/:id which will call the Bookings and Booking components respectively.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466618/30-Jun-25/airbnb-mern-2/78_j7esuz.webp)
+
+Now, create a BookingDates.jsx file inside the src folder. This helper component will be used to show number of nights and dates using date-fns functions and icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466617/30-Jun-25/airbnb-mern-2/79_el6uej.webp)
+
+Next, create the Bookings.jsx file inside the components folder. Here, we are importing required thing. And then inside the useEffect calling the GET endpoint of /bookings and updating the bookings state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466616/30-Jun-25/airbnb-mern-2/80_uyszjq.webp)
+
+Now, inside the return statement we will use the AccountNav component first. After that will map through the bookings array. Here, we will show the title and price. Also, will pass the booking to BookingDates component created earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466615/30-Jun-25/airbnb-mern-2/81_pcqvyn.webp)
+
+Back inside a place in localhost, add details for bookings and click on Book this place button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466615/30-Jun-25/airbnb-mern-2/82_xobjyy.webp)
+
+The POST api to /bookings was sucessful and we landed in Booking component with Booking text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466614/30-Jun-25/airbnb-mern-2/83_zhofkt.webp)
+
+Now, in http://localhost:5173/account/bookings we will see our booking with some details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466614/30-Jun-25/airbnb-mern-2/84_artcqh.webp)
+
+Now, we will update the Booking.jsx file. Here, we have a booking state and then from a useEffect we are hitting the GET API for /bookings.
+
+Inside the return statement, we are showing various details like title, address, price. Also, passing address and place props to AddressLink and PlaceGallery respectively.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466613/30-Jun-25/airbnb-mern-2/85_y4lxhv.webp)
+
+Now, once a booking is done we will see a nice booking detail page in localhost.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751466614/30-Jun-25/airbnb-mern-2/86_jmjmti.webp)
+
+This completes the final part of the post. You can find code for the same in [this](https://github.com/nabendu82/airbnb-mern) github repo.
