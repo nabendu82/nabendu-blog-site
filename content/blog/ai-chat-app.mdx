@@ -1,0 +1,205 @@
+---
+title: AI Chat app in NextJS and Vector DB
+description: GenAI
+date: 2025-06-07
+tags: ["genai", "vectordb", "nextjs"]
+published: true
+---
+
+In this post we are going to build an AI RAG application. It will be a chat application, which will be trained by uploading PDF files. For Vector DB, we will be using Qdrant DB.
+
+This post have been created by following [this](https://www.youtube.com/watch?v=2DXiOtEwWtU) awesome YouTube video from Piyush Garg. For this first from a terminal we have created a pdf-rag folder. Inside that folder, we have created a client folder.
+
+In this app we will be using pnpm instead of npm, so given the command pnpm dlx create-next-app@latest to create the next app. Give all the options as in the screenshot.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554792/4-Jul-25/chat-app/1_c2cnzm.webp)
+
+Now, from the client folder run the next app by giving pnpm dev command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554779/4-Jul-25/chat-app/2_fmjo8l.webp)
+
+We will be using clerk for authentication. So, give the command pnpm add @clerk/nextjs for adding clerk.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554773/4-Jul-25/chat-app/3_mewnrg.webp)
+
+To use clerk, we need to create a file called middleware.ts inside client folder. Here, give the below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554758/4-Jul-25/chat-app/4_bxgju2.webp)
+
+Now, we also need to create a new app from clerk dashboard. Since, i already have a clerk application. I have to click on Create application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554741/4-Jul-25/chat-app/5_itmzxe.webp)
+
+In the next screen, we need to give the application a name and click on Google. And then Create application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554820/4-Jul-25/chat-app/6_zqp1ya.webp)
+
+Now, we will aldo get the Cleark API from the next screen. Just copy it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554802/4-Jul-25/chat-app/7_xsd7u8.webp)
+
+Next, we have added the .env file with the above data inside the client folder. Also, updated the layout.tsx file to use Clerk.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554752/4-Jul-25/chat-app/8_kogqgz.webp)
+
+Now, we will install lucide-react for our icons in terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554746/4-Jul-25/chat-app/9_tu1d5w.webp)
+
+Next, create a components folder inside the app folder. And here create FileUploadComponent.tsx file. Here, we have a simple Upload icon inside the return statement, which calls a function handleFileUploadButtonClick on clicking it.
+
+The function handleFileUploadButtonClick takes the file and calls an API endpoint, which we will create in the future.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554797/4-Jul-25/chat-app/10_zrurni.webp)
+
+Now, in the main page.tsx file we will call the FileUploadComponent.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554794/4-Jul-25/chat-app/11_jkmiye.webp)
+
+Now, in http://localhost:3000/ we can see the Upload button with icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554783/4-Jul-25/chat-app/12_dixhxx.webp)
+
+Now, we will create the server component. So, for it inside the server give the command pnpm init command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554769/4-Jul-25/chat-app/13_yql7eh.webp)
+
+We will add some packages in the server component like express, express type and node type.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554763/4-Jul-25/chat-app/14_macdw5.webp)
+
+Inside the server create an index.js file in which we have a simple express code now. We have also installed cors.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554735/4-Jul-25/chat-app/15_dvsfsa.webp)
+
+In the package.json file we have made the type of module and also added a dev command. After that in terminal ran pnpm dev.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554817/4-Jul-25/chat-app/16_oxcxud.webp)
+
+Next, we have created an uploads folder inside server. Also have added the package of multer and multer types. Next, inside the index.js file imported multer.
+
+Then created a POST call which takes the single pdf file and right now only gives a message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554807/4-Jul-25/chat-app/17_tjkgfw.webp)
+
+Next, we have added a storage which will take the file and add it in the uploads folder with an unique name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554757/4-Jul-25/chat-app/18_br08lh.webp)
+
+Now, in http://localhost:3000/ we have uploaded a pdf and can see a successful POST call in the console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554744/4-Jul-25/chat-app/19_okttq3.webp)
+
+We can also see the pdf file in the uploads folder with a unique name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554814/4-Jul-25/chat-app/20_c1pyvp.webp)
+
+Now, we will use a queuing service called BullMQ.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554808/4-Jul-25/chat-app/21_n96djw.webp)
+
+We will also use valkey in the project and for it we will use a docker container.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554751/4-Jul-25/chat-app/22_ibfcg3.webp)
+
+Now, create a docker-compose.yml file in the root directory. In it we will use the valkey image and map it to port 6379.
+
+I am using a light-weight docker called colima. But you can use docker desktop also. After starting coliman, i am using the docker-compose up -d command to run the docker-compose.yml file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554748/4-Jul-25/chat-app/23_fi02md.webp)
+
+Back in index.js file we will import Queue from bullmq and also wrote the code to create a new Queue.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554785/4-Jul-25/chat-app/24_xu5zro.webp)
+
+Now, inside the POST api for /upload/pdf we will add the queue and pass the required things.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554768/4-Jul-25/chat-app/25_immiph.webp)
+
+Now, we will create a worker.js file inside the server folder. Here, we are importing Worker from bullmq. Then creating a new Worker, which have the same name of file-upload-queue as the queue created earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554798/4-Jul-25/chat-app/26_yhjvxu.webp)
+
+Next, in the package.json file we will create a command to run the worker. And then start it in a new terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554789/4-Jul-25/chat-app/27_enkzs8.webp)
+
+Now, we will add some dependencies which we will use in our project next in the server’s package.json file. It includes langchain and openai.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554778/4-Jul-25/chat-app/28_i4jnby.webp)
+
+In the worker.js we will add the different function from langchain, openai and qdrant.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554776/4-Jul-25/chat-app/29_pr3nhd.webp)
+
+We will also add qdrant in the docker-compose.yml file and re-run the docker-compose command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554801/4-Jul-25/chat-app/30_ieuhbw.webp)
+
+We have added a .env file in the server folder. Also added the package of dotenv.
+
+Now, in the worker.js file we will get the pdf data. Then with use OpenAIEmbeddings and for it we will require an OpenAI API key. Then we will use these embeddings to store data in Qdrant Vector DB.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554791/4-Jul-25/chat-app/31_tanueq.webp)
+
+Now, we will again upload a PDF and will get the correct console log from the worker.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554787/4-Jul-25/chat-app/32_npm1wj.webp)
+
+We can also see the data stored in Qdrant DB by going to http://localhost:6333/dashboard
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554766/4-Jul-25/chat-app/33_xwkggj.webp)
+
+Here, we can see all of the data from pdf file been broken into small chunks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554754/4-Jul-25/chat-app/34_f41trd.webp)
+
+Back in index.js file we will create a client from OpenAI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554743/4-Jul-25/chat-app/35_ybq6ox.webp)
+
+Now, we will create an new GET endpoint in index.js file. Here, we are taking the message from the chat. Then checking the collection from Qdrant DB.
+
+Then we have a SYSTEM_PROMPT which is required by OpenAI. Next, in the chatResult, we are using a model and passing the messages as SYSTEM_PROMPT and userQuery. We are finally returning the message from chatResult.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554812/4-Jul-25/chat-app/36_l9yv4q.webp)
+
+In the client package.json we are adding some packages related to styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554810/4-Jul-25/chat-app/37_vmhrgk.webp)
+
+Now, we have created a components folder in the client folder. And inside it an ui folder. Here, we have two files button.tsx and input.tsx. The code for the same can be taken from the github repo at the end of this post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554760/4-Jul-25/chat-app/38_vsyts7.webp)
+
+Now, create a lib folder inside client. And in it utils.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554738/4-Jul-25/chat-app/39_rtqx7t.webp)
+
+Now, create a ChatComponent.tsx inside the components folder. Here, we have first imported the required components and also created two interface.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554804/4-Jul-25/chat-app/40_onaxof.webp)
+
+Next, inside the ChatComponent function, we will have the Input taking the user input and when we click on the Button, it calls the GET api for /chat created earlier and send the message in it.
+
+After it receives the messages, it adds them in a array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554818/4-Jul-25/chat-app/41_q0brz6.webp)
+
+Now, we will also call the ChatComponent from the page.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554736/4-Jul-25/chat-app/42_ifr2ce.webp)
+
+Back in the ChatComponent.tsx file, we will loop through the messages array and show each message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554762/4-Jul-25/chat-app/43_ql8ypr.webp)
+
+Since, we have uploaded a PDF for Dog training. We will ask “Commands for dog” and got back the result.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554771/4-Jul-25/chat-app/44_ypjveq.webp)
+
+Added some more styles in the project for the chat app to look better.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554782/4-Jul-25/chat-app/45_kewql1.webp)
+
+You can find the code for this app [here](https://github.com/nabendu82/ai-pdf-chat).
