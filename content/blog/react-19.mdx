@@ -1,0 +1,205 @@
+---
+title: React 19 tutorials
+description: ReactJS
+date: 2025-01-17
+tags: ["reactjs", "web-dev", "javascript"]
+published: true
+---
+
+In this post we will learn about the new features in React 19, which is officially released few days back.
+
+This post has been inspired by [this](https://www.youtube.com/watch?v=EPaLg4U_K1o) awesome YouTube video by Traversy Media. And also [this](https://www.youtube.com/watch?v=4JsTCSYst9M) YouTube video by RoadsideCoder.
+
+For all the vite fans, it’s better to use create-react-app as it’s coming with React 19. Vite is still shipping React 18, and we need to some hacks to make it React 19.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555127/4-Jul-25/react-19/1_hmomn9.webp)
+
+After creating the app open the package.json which clearly shows React 19.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555130/4-Jul-25/react-19/2_rv3agx.webp)
+
+We will use Tailwind CSS in our project. So, need to give the below commands.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555113/4-Jul-25/react-19/3_fxutam.webp)
+
+After this as per the documentation, we also need to add the below content in the newly created tailwind.config.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555103/4-Jul-25/react-19/4_zbulsz.webp)
+
+We will also remove all of the styles from index.css and add the below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555063/4-Jul-25/react-19/5_y2nd48.webp)
+
+Now, in the App.js we will add some tailwind css styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555159/4-Jul-25/react-19/6_ose4lo.webp)
+
+Now, go to http://localhost:3000/ in browser and we will see tailwind css in action.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555140/4-Jul-25/react-19/7_yzuwbf.webp)
+
+For checking the updates in React 19, first we will see the pain with React 18. We have created a file JokeUseEffect.js and added the below code in it.
+
+In this we are hitting a popular API to get a random joke. Here, we are using the usual React way of useEffect with empty array. We are using fetch API to get the data. And then setting the data to joke state.
+
+And also setting state loading to false. Inside the return, we are showing a Loading test if loading state is ture. Or else will show the value of joke.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555096/4-Jul-25/react-19/8_mowj8y.webp)
+
+Now, rendering the JokeUseEffect from App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555084/4-Jul-25/react-19/9_fw1srt.webp)
+
+Now, in http://localhost:3000/ we will see Loading… for 1–2 sec and then will see the data renturned by the API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555134/4-Jul-25/react-19/10_fvt1zy.webp)
+
+Now, we have created a file JokeUse.js inside the components folder. Here, we are using the new use hook from React 19. According to the official defination, it lets us read the values of Promises or Context.
+
+Here, we have a jokePromise variable in which we are using fetch and the then is getting the res.json(). We have also wrapped oyr return in JokeUse with the Suspense which have a fallback of Loading.
+
+We have a new component called JokeItem, which have a variable joke. It uses the use hook to call the jokePromise. After that it returns the html with joke value.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555132/4-Jul-25/react-19/11_d6tzcw.webp)
+
+Now, we are rendering the JokeUse from App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555144/4-Jul-25/react-19/12_so9yqc.webp)
+
+Now, in http://localhost:3000/ the API is hit as earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555111/4-Jul-25/react-19/13_xdndtc.webp)
+
+Now, we will also use the use hook to show result from the jsonplaceholder posts API. Here, we get an array of object but the code is similar to the Joke API code. The only difference is that we are mapping through the posts array and displaying title and body of each post.
+
+We have created a Posts.js file for the same.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555107/4-Jul-25/react-19/14_tv0hfq.webp)
+
+Now, we are rendering the Posts from App.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555052/4-Jul-25/react-19/15_qlewwv.webp)
+
+Now, in http://localhost:3000/ we will get the list of posts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555157/4-Jul-25/react-19/16_g4pcmf.webp)
+
+Now, we will see the changes in the useContext API. We have created a Theme.js file. Here, we have the usual code of creating a ThemeCOntext with createContext().
+
+We are simply toggling the theme between light and dark. Also, in the return statement we are using the provider and passing the value of theme and toggleTheme and the children props.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555142/4-Jul-25/react-19/17_iwns4x.webp)
+
+In the same file, we have a ThemeCard component, which is using the useContext hook to take the ThemeContext. And extacting the theme and toggleTheme.
+
+In the return statement we are changing the theme of everything according to the theme. And we also have a button to toggle the theme. The final component called Theme is using the ThemeProvider component and passing ThemeCard as children.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555102/4-Jul-25/react-19/18_ythzmr.webp)
+
+Now, we are rendering the Theme component from App.js file. In http://localhost:3000/ we call switch between themes by switching the button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555080/4-Jul-25/react-19/19_am3acq.webp)
+
+Now, the changes which are done in React 19 is that the useContext hook is replaced by the use hook. And we did the same in Theme.js file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555153/4-Jul-25/react-19/20_bypvaa.webp)
+
+In http://localhost:3000/ we ar still able to switch between themes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555147/4-Jul-25/react-19/21_ggx11a.webp)
+
+Now, we will see the changes in Form which traditionally uses a lot of code. So, we have created a PostForm.js file. Here, we have a PostItem component, which is taking post props and displaying the title and body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555094/4-Jul-25/react-19/22_tn4ho9.webp)
+
+After this we have a Form component and it is taking an addPost props. We are using the state of title and body. The handleSubmit function which runs on clicking the Submit button, create a newPost from title and body. After that it is using addPost and passing the newPost.
+
+In the return we have the usual React 18 type of controlled component, where value and onChange is there for title and body.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555092/4-Jul-25/react-19/23_triwxk.webp)
+
+The final part of the PostForm.js file contains the PostForm component. Here, we have a posts state and a addPost function. It uses the prevPosts and add newPost to it.
+
+The return statement renders the Form component and passes addPost as props. Also, we are mapping through posts and passing each post to the PostItem component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555122/4-Jul-25/react-19/24_ftqcd8.webp)
+
+Now, in http://localhost:3000/ we are able to give a title and body and add items.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555119/4-Jul-25/react-19/25_guocwx.webp)
+
+Now, instead of value and onChange in all input fields we will use the name. Also, instead of onSumbit, now we have action in React 19, which is calling a function formAction.
+
+Notice that we have also removed state and handleSubmit function. The formAction gets a special props called formData. And we can get the fields with formData.get().
+
+We are storing this in title and body respectively and creating the newPost object. We are passing this to the addPost().
+
+We have created a new file called PostFormActions.js and made this changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555138/4-Jul-25/react-19/26_mdb6aa.webp)
+
+Our form is still working like earlier in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555124/4-Jul-25/react-19/27_zrje3u.webp)
+
+Now, we will look into the concept of useFormStatus. For this we have created a new file called PostFormStatus.js which is similar to our earlier file PostFormActions.js.
+
+But here the button logic we have shifted to a component called SubmitButton.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555117/4-Jul-25/react-19/28_zo1fl4.webp)
+
+Now, we are importing a new hook called useFormStatus from react-dom. Also, we have created the SubmitButton component, which is using pending from useFormStatus. The return statement have the same button as earlier.
+
+But it is disabled if pending is true. Also, if pending is true we will see the Submitting text or else Submit text. We have also added a delay in the formAction, so that we can see the transition from Submitting to Submit.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555116/4-Jul-25/react-19/29_mgbrir.webp)
+
+Now, in http://localhost:3000/ we write a title and body and click on the Submit button, it will show Submitting… for 2 seconds and then the details will be added.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555136/4-Jul-25/react-19/30_q43qej.webp)
+
+Next, we will learn about useOptimistic hook. As per the defination, it lets you show different state while async action is going on. We have created a TodoList.js file and added the usual todo code.
+
+Here, we have used the formData which we have learnt earlier. But we have a state of todos and updating it with setTodos.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555126/4-Jul-25/react-19/31_zjo1zr.webp)
+
+In http://localhost:3000/ the list is getting added properly but the pending is not shown and we need to add additional code for it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555154/4-Jul-25/react-19/32_ksxq7t.webp)
+
+We are going to use the pending by using useOptimistic hook. Here, we have defined an optimistics state, which can be changed with setOptimistics. The syntax is quite similar to useState hook.
+
+Inside the useOptimistic, we are taking the todos state as first parameter. The second parameter is a function which takes oldTodos and newTodo. Inside the function the oldTodos is spreaded and added text as newTodo and made pending to true.
+
+Inside the handleAddTodo we are using setOptimistics and passing the newTodo. Inside the return statement, instead of todos we are passing the optimistics array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555109/4-Jul-25/react-19/33_mssde1.webp)
+
+Now, in http://localhost:3000/ after adding an item and clicking SUbmit button we will see the (Adding…) for 2 seconds.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555098/4-Jul-25/react-19/34_hjp5id.webp)
+
+Now, we will look into the changes in forwardRefs changes. For this we will create a new file called RefContainer.js and add the below code in it.
+
+Here, we have the a inputRef and that is passed as a ref to a CustomInput component. The button onClick will call handleFocus function which will focus the input.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555069/4-Jul-25/react-19/35_gsqn2u.webp)
+
+Next, we will create the CustomInput.js file where we need forwardRef to get the ref. Here, we are using the ref in a input.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555151/4-Jul-25/react-19/36_szsbvh.webp)
+
+Now, the http://localhost:3000/ when we will click on the Focus button we will get the click on the input.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555148/4-Jul-25/react-19/37_fmzfxb.webp)
+
+Now, the changes in React 19 is that instead of forwardRef we can use the ref as a normal prop, as in the code below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555105/4-Jul-25/react-19/38_bpctym.webp)
+
+Our focus still works the same in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555061/4-Jul-25/react-19/39_oespgd.webp)
+
+This completes our React 19 demo. You can find the code for the same [here](https://github.com/nabendu82/react19-demo).
