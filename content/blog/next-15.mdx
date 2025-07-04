@@ -1,0 +1,555 @@
+---
+title: NextJS 15 crash Course
+description: NextJS
+date: 2025-02-08
+tags: ["reactjs", "web-dev", "nextjs"]
+published: true
+---
+
+In this post we are going to learn NextJS 15 by creating an awesome web-app. This post have been inspired by [this](https://www.youtube.com/watch?v=Zq5fmkH0T78) YouTube video by JavaScript Mastery.
+
+First we need to create the project. So, open any terminal and give the create-next-app command. Make sure to choose the exact options as shown in the image below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554979/4-Jul-25/next-15/1_lqjdr8.webp)
+
+Now, in the page.tsx file which is our home page, we will remove everything. And then add a h1 with tailwind CSS class. In http://localhost:3000/ it is showing correctly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554931/4-Jul-25/next-15/2_j9ck3h.webp)
+
+Although we have the latest Next 15, but we need to update below in package.json file for our app to work.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554913/4-Jul-25/next-15/3_zy61zs.webp)
+
+We will be using Next auth in our project. So, we will install next-auth and add auth secret in .env.local file with npx auth secret command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554880/4-Jul-25/next-15/4_cnd6ra.webp)
+
+Now, create an auth.ts file in the root directory andadd the NextAuth code in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554831/4-Jul-25/next-15/5_m8i9es.webp)
+
+Now, create an api folder in the root. Inside it create auth folder and then inside it […nextauth]
+
+Next, create a file route.ts file. Here, we are importing the previously created handlers from auth. And then export GET and POST.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555066/4-Jul-25/next-15/6_fbc8fv.webp)
+
+We are going to create an OAuth app and the details of it are in the OAuth app documentation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555077/4-Jul-25/next-15/7_pvhpj2.webp)
+
+We are going to use OAuth authentication of github. So, first goto Settings in githib and then scroll down to Developer settings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554861/4-Jul-25/next-15/8_s2vemo.webp)
+
+After this click on OAuth Apps and then New OAuth App.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554847/4-Jul-25/next-15/9_clsgho.webp)
+
+In the next page give the app a name and the Homepage URL should be http://localhost:3000 . Give a proper description and the callback URL should be as given in image below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555047/4-Jul-25/next-15/10_x8nnzy.webp)
+
+After registering you will get a ClientIS and Client secrets and we need to save both of them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555055/4-Jul-25/next-15/11_rhdbtj.webp)
+
+Now, goto .env.local file and add the ke for AUTH_GITHUB_ID and AUTH_GITHUB_SECRET.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554940/4-Jul-25/next-15/12_ra1mjp.webp)
+
+Now, in auth.ts we will use GitHub as the provider.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554907/4-Jul-25/next-15/13_vgq43x.webp)
+
+Now, we will create a (root) folder inside the app folder. This will act like a homepage. So, we have put our page.tsx file inside it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554888/4-Jul-25/next-15/14_l3837o.webp)
+
+Now, we will create the Navbar. So, create a Navbar.tsx file inside a components folder. Inside it we have a Link to goto the home page.
+
+We are also using session from auth to see if the user is there. If we have user we will show Create, Logout and user name. Or else we will show the Login button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554823/4-Jul-25/next-15/15_hufw7x.webp)
+
+Next, we will update the code in Navbar.tsx file. Here, we will wrap the button with a form. Logout will call the signOut() from auth. And Login will call the signIn function from auth with github as the params.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555042/4-Jul-25/next-15/16_vsvn2z.webp)
+
+From the (root) folder, we have a layout.tsx file. Here, we will get the children props and call it with the Navbar component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555017/4-Jul-25/next-15/17_koa1vn.webp)
+
+We have a problem in the github settings and here we will make the https to http.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554872/4-Jul-25/next-15/18_ynjozb.webp)
+
+Now, go to http://localhost:3000/ and we will see the Login button along with the header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554843/4-Jul-25/next-15/19_msfyel.webp)
+
+Once we clicked on the Login,. it will take us to GitHub authentication.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555059/4-Jul-25/next-15/20_ctu7rl.webp)
+
+Now, it will ask us for authorization.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555031/4-Jul-25/next-15/21_lafyhy.webp)
+
+Once we suggesfully logged in, we will see the Create, Logout and user name on top right.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554854/4-Jul-25/next-15/22_nnq4vd.webp)
+
+Now, in the tailwind.config.ts file we will add some default styles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554853/4-Jul-25/next-15/23_tdlvfj.webp)
+
+We have addes some more styles and also installed the package of tailwindcss-animate.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554944/4-Jul-25/next-15/24_vxpik9.webp)
+
+We have also added the tailwindcss typography package.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554903/4-Jul-25/next-15/25_ce9zez.webp)
+
+Next, we have added some font files in a folder called fonts. After that we have updated the root layout.tsx file to use these fonts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555078/4-Jul-25/next-15/26_wujcvy.webp)
+
+In the return of layout.tsx file we will change the className in body yo this workSans.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554957/4-Jul-25/next-15/27_tedsbr.webp)
+
+Now, in http://localhost:3000/ we will see the updated fonts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554925/4-Jul-25/next-15/28_qmtmda.webp)
+
+Now, in the global.css we will be using the Work Sans google font. And we have also updated the style files here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554923/4-Jul-25/next-15/29_nevmmf.webp)
+
+We will use a component library called Shacdn in this project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554998/4-Jul-25/next-15/30_uo8u00.webp)
+
+Now, in the terminal we will use the npx command to add shadcn in our project. Keep the configuration as shown in the image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554967/4-Jul-25/next-15/31_apekx2.webp)
+
+Now, in the page.tsx file of the (root) we will add some styles with text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554949/4-Jul-25/next-15/32_semxr4.webp)
+
+Now, http://localhost:3000/ shows us the perfect header in the homepage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554897/4-Jul-25/next-15/33_fnebzp.webp)
+
+Now, we will create a Search bar in the home page. For this first create SearchFormReset.tsx in the components folder. Here, we have a button which onClick reset the form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554862/4-Jul-25/next-15/34_e7v1e7.webp)
+
+Now, create SearchForm.tsx inside the components folder. Here, we are using Form from next form. We have a input which have a div, which will show SearchFormReset if query is there. It also have a button with S.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554849/4-Jul-25/next-15/35_fyp3gm.webp)
+
+Next, we are rendering the SearchForm from page.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555038/4-Jul-25/next-15/36_apdzq8.webp)
+
+Now, in http://localhost:3000/ we will have the search bar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555025/4-Jul-25/next-15/37_ui5chl.webp)
+
+Now, we will add the query params in the page.tsx file. Here, we have made the function as async. It will have a searchParama which is of type Promise and will have query.
+
+Now, this query we will pass to the SearchForm as params.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554884/4-Jul-25/next-15/38_rqtcbu.webp)
+
+Now, in the SearchForm.tsx file we will be receiving the query as a parameter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554827/4-Jul-25/next-15/39_nmk6zx.webp)
+
+Now, in http://localhost:3000/ we can see S because we have query params.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555016/4-Jul-25/next-15/40_qhyewn.webp)
+
+Now, if we type something in the input we will also see a X. And the query will be seen in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555057/4-Jul-25/next-15/41_xiouwq.webp)
+
+Now, we will change the X to a proper style. For this we will use lucide-react in SearchFormReset.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554826/4-Jul-25/next-15/42_g4oaxf.webp)
+
+We will alsos be using Search from lucide-react in SearchForm.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554886/4-Jul-25/next-15/43_ghgukb.webp)
+
+Now, our icons are much better in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554909/4-Jul-25/next-15/44_ekgcww.webp)
+
+Now, we will add a button from shadcn. For this we will use the npx shadcn@latest add button command. It will generate a button.tsx file in ui folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554938/4-Jul-25/next-15/45_ab5kpw.webp)
+
+Now, we will write logic to show cards in the home page. For this we will add the formatDate() in the utils.ts file first.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554982/4-Jul-25/next-15/46_b2xhf6.webp)
+
+Now, in the next.config.ts file we have to add code to allows images including svg images from any site.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554992/4-Jul-25/next-15/47_bjedis.webp)
+
+Now, create a file StartupCard.tsx in the components folder. Here, we will be extracting all the fields from the post. After that we are showing those fields inside the return statement.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554896/4-Jul-25/next-15/48_qvkz5q.webp)
+
+Now, back in the page.tsx file we will first add a dummy posts. It is an array of objects, which contains various data in an object.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554953/4-Jul-25/next-15/49_dwegkr.webp)
+
+Now, we will create a new section in the page.tsx file inside the return statement. Here, we will map through the posts and send each item to the StartupCard.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554984/4-Jul-25/next-15/50_yv1twv.webp)
+
+Now, we will see a nice card with some details in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554996/4-Jul-25/next-15/51_m4ap5f.webp)
+
+Now, we will add all the other details in the StartupCard.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554906/4-Jul-25/next-15/52_hxaixd.webp)
+
+Now, in http://localhost:3000/ we will see all the details of the startup.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554942/4-Jul-25/next-15/53_rxy94j.webp)
+
+Next, we will add Sanity in our project. Sanity is a CMS, which have a very good free tier and we will use it to store our data.
+
+After login to sanity, we have given a Project name of next15-demo and clicked on Create project button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554821/4-Jul-25/next-15/54_vxcuau.webp)
+
+It will give us some commands to enter in the terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554889/4-Jul-25/next-15/55_xdvk00.webp)
+
+But we need to login to sanity also. So, we are giving the command npx sanity login first.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555022/4-Jul-25/next-15/56_uyykez.webp)
+
+Now, we will give the npm command which we have given earlier. Choose the option as in the image below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555091/4-Jul-25/next-15/57_vsvhrn.webp)
+
+We also have to install the next-sanity in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554842/4-Jul-25/next-15/58_xq5tor.webp)
+
+A folder if studio-next15-demo will be created and inside it .env.local will be created. Move the content of it to the .env.local in the root directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554871/4-Jul-25/next-15/59_xbxlgj.webp)
+
+Now, we will use the sanity in our local for this project. So, go to http://localhost:3000/studio and login through google, as we have selected it earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555023/4-Jul-25/next-15/60_sjh5eb.webp)
+
+Now, click on Structure and we will see no No document types screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555041/4-Jul-25/next-15/61_wz0t24.webp)
+
+Now, inside the sanity folder and inside schemaTypes folder, create an author.ts file. Here, we have defined the type for the author.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554851/4-Jul-25/next-15/62_mauljn.webp)
+
+Now, also create a startup.ts inside the schemaTypes folder. Here, we have defined the type for the startup.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554865/4-Jul-25/next-15/63_uo7ouj.webp)
+
+Now, in the index.ts file in the schemaTypes folder we will add the author and startup.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554899/4-Jul-25/next-15/64_f2fmik.webp)
+
+Now, in a structure.ts file inside the sanity folder we need to put the author and startup.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554947/4-Jul-25/next-15/65_w50mgh.webp)
+
+Now, in the sanity.config.ts file we will use markdownSchema. We also need to add this plugin.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554963/4-Jul-25/next-15/66_shlrum.webp)
+
+We also need to add the plugin of easymde. And now if we go to http://localhost:3000/studio/structure we will see the Authors and Startups folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555000/4-Jul-25/next-15/67_ejpvcv.webp)
+
+After clicking on the Authors, we will add a new author. We have entered various fileds here and then click on the Publish button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554917/4-Jul-25/next-15/68_pt9y23.webp)
+
+Also, after clicking on the Startups we have added a new startup with different fields and also clicked on the Publish button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554936/4-Jul-25/next-15/69_krkbch.webp)
+
+To get the data which we have just stored in sanity, we use a special type of query language. Here, we are searching the startup and getting various fields. We have also tested the same in the in-built editor.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554959/4-Jul-25/next-15/70_bwtmmh.webp)
+
+Now, add this sql in the queries.ts file inside the lib folder, which is inside the sanity folder. Here, we are storing it inside a constant called STARTUPS_QUERY.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555007/4-Jul-25/next-15/71_g5gbtd.webp)
+
+Now, in the page.tsx file we will get the posts through a fetch() from sanity.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554902/4-Jul-25/next-15/72_gh4upl.webp)
+
+Now, in http://localhost:3000/ we are getting data from sanity.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554946/4-Jul-25/next-15/73_jb7ot6.webp)
+
+Now, give the below command in terminal to create the extract.json file, which will be required.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554857/4-Jul-25/next-15/74_eu7wqs.webp)
+
+We also need to create a sanity-typegen.json file in the root directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554858/4-Jul-25/next-15/75_arrsn7.webp)
+
+Now, in the package.json file we need to add some scripts.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555019/4-Jul-25/next-15/76_ofbwcn.webp)
+
+Now, run the command npm run typegen and it will create types for us in the types.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555044/4-Jul-25/next-15/77_lza7fr.webp)
+
+Back in the StartupCard.tsx file we will import Author and Startup from types. After that we will also give the StartupTypeCard type, to get rid of our type error.
+
+Inside the return we have added the image and name in Image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554837/4-Jul-25/next-15/78_lnxrnc.webp)
+
+Now, the StartupTypeCard we will import in the page.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554878/4-Jul-25/next-15/79_icpzen.webp)
+
+In the client.ts file we will make the useCdn as false, so that our records in CDN are updated instantly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554882/4-Jul-25/next-15/80_x3iztc.webp)
+
+Now, we will create a file live.ts inside the lib folder. We are also installing a package called server-only. And using it for the client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554829/4-Jul-25/next-15/81_bmo0vk.webp)
+
+In the .env.local we also have to add a variable called NEXT_PUBLIC_SANITY_API_VERSION.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555067/4-Jul-25/next-15/82_rnb9je.webp)
+
+Now, in the root page.tsx file we will use the SanityLive component. And also fetch the data from sanityFetch().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555013/4-Jul-25/next-15/83_mpihkl.webp)
+
+Back in the Sanity studio, we have added one more startup and clicked on the Publish button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554991/4-Jul-25/next-15/84_uuw6vv.webp)
+
+It will instantly appear in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554981/4-Jul-25/next-15/85_msudva.webp)
+
+Back in the queries.ts file we will update the STARTUPS_QUERY for adding the search.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554932/4-Jul-25/next-15/86_w0disz.webp)
+
+Now, we will add the params in page.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554912/4-Jul-25/next-15/87_yi6y4g.webp)
+
+Now, in http://localhost:3000/ if we search something it will appear.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555003/4-Jul-25/next-15/88_la7kqs.webp)
+
+Now, we will create the individual page. And for this startup folder inside the (root) folder. Inside the startup folder create a [id] folder and inside it page.tsx folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554966/4-Jul-25/next-15/89_h5luga.webp)
+
+Now, click on any startup and you will get the id for it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554926/4-Jul-25/next-15/90_k03yje.webp)
+
+Back in our sql editor, we will update it to give us the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554919/4-Jul-25/next-15/91_bflbh0.webp)
+
+Now, we will add this query in the queries.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554994/4-Jul-25/next-15/92_hsq02o.webp)
+
+In next.config.ts file we need to add the object called devIndicators.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554975/4-Jul-25/next-15/93_ncsudh.webp)
+
+We will update the page.tsx file of the startup folder. Here, we have imported client, STARTUP_BY_ID_QUERY and notFound. After that we have used fetch to get the post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555071/4-Jul-25/next-15/94_ov6yxf.webp)
+
+Now, we got the correct title for the post.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555011/4-Jul-25/next-15/95_fn7sor.webp)
+
+Since, we are getting the data we will update the return statement in page.tsx file of the startup folder, to get all data in style.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554874/4-Jul-25/next-15/96_cvsxt8.webp)
+
+Now, in http://localhost:3000/ we will get all the data of the startup.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554833/4-Jul-25/next-15/97_dtf0ej.webp)
+
+Now, we also want to show an markdon content in startup page.tsx file. So, we have imported markdown-it.
+
+Next, we have created a variable parsedContent to use it. Now, we are using an article to show the parsedContent.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555087/4-Jul-25/next-15/98_s7qkcs.webp)
+
+Now, we will also see the markdown content in startup page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555029/4-Jul-25/next-15/99_p8t0hn.webp)
+
+Now, we will add the logic to create a post. For this we need to have a token in sanity.io. Here, click on the APIU tab and then Tokens.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554839/4-Jul-25/next-15/100_jybwnu.webp)
+
+Here, click on the Add API token button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554868/4-Jul-25/next-15/101_hmm7bk.webp)
+
+Give the token a name and then the Editor access and then Save button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555033/4-Jul-25/next-15/102_uqy1r7.webp)
+
+We need to add the token which we have received in the .env.local file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555034/4-Jul-25/next-15/103_oayt5t.webp)
+
+Now, we need to export the token from the env.ts file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554971/4-Jul-25/next-15/104_bqmatp.webp)
+
+Now, create a new file write-client.ts in the lib folder. Here, again we have to use the server-only and will create a writeClient variable using createClient().
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555002/4-Jul-25/next-15/105_aer7p6.webp)
+
+Now, in the queries.ts file, we will add the query to get the author by github id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554892/4-Jul-25/next-15/106_aw0mdo.webp)
+
+Next, in auth.ts we also have to add a callbacks which will have a function called signIn. It will use client to use the AUTHOR_BY_GITHUB_ID_QUERY to check the id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554956/4-Jul-25/next-15/107_rr1blu.webp)
+
+We will also add a function for jwt inside the callback in queries.ts file, were we are returning the token. Similarly, we have a function for session where we are returning the session.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554986/4-Jul-25/next-15/108_sln1vz.webp)
+
+We will now create a new file called next-auth.d.ts. Here, we will declare the Session and JWT for the typescript types.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554988/4-Jul-25/next-15/109_ygwjup.webp)
+
+Now, in the root page.tsx file we will get the session from the auth.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554894/4-Jul-25/next-15/110_lf5gyb.webp)
+
+Now, in sanity studio, we have deleted the author created individually.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554952/4-Jul-25/next-15/111_gtc8vt.webp)
+
+Back in http://localhost:3000/ we will see the usernmae to be there.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554969/4-Jul-25/next-15/112_ynjjt4.webp)
+
+But back in Sanity Studio we can see the data updated from our github.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555006/4-Jul-25/next-15/113_g44rvt.webp)
+
+We can also see the correct session id in the terminal for which we had console.log()
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555027/4-Jul-25/next-15/114_twlqnc.webp)
+
+Now, we will create the logic to create a startup page. For this create a create folder inside the startup folder. And inside it create a page.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555036/4-Jul-25/next-15/115_wp38cr.webp)
+
+Now, going to http://localhost:3000/startup/create will show a blank page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554845/4-Jul-25/next-15/116_nqbgfy.webp)
+
+We will now create a form for this page. So, create StartupForm.tsx inside the ui folder. We are also installing input textarea and toast from shadcn.
+
+We have then added the Input and Textarea to create a title and description field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554866/4-Jul-25/next-15/117_eggk9w.webp)
+
+Next, we have created two Input and one MDEditor in StartupForm.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555082/4-Jul-25/next-15/118_oljflo.webp)
+
+We have also added a Button in in StartupForm.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555051/4-Jul-25/next-15/119_ki18tf.webp)
+
+Now, we have rendered this StartupForm from the page.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554836/4-Jul-25/next-15/120_itbz5s.webp)
+
+Now, going to http://localhost:3000/startup/create will show a nice form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554876/4-Jul-25/next-15/121_oafrhb.webp)
+
+We will also add a validation.ts file for our form inside the lib folder. This is for validation the form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555009/4-Jul-25/next-15/122_q27ep4.webp)
+
+Back in StartupForm.tsx file, we will import the validation and zod which is used for TypeScript validation.
+
+The form will have an action which will be formAction. Also, the handleFormSubmit will take the formValues and validate it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555088/4-Jul-25/next-15/123_ns5n4g.webp)
+
+We will also add the Toaster component in the layout.tsx file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554973/4-Jul-25/next-15/124_amqqil.webp)
+
+Now, in StartupForm.tsx file, we import useToast and useRouter and use them. Inside the handleFormSubmit we are taking the result and pushing to /startup. We aer also showing the toast message at various places.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555049/4-Jul-25/next-15/125_cajv9i.webp)
+
+Now, write some content in http://localhost:3000/startup/create and click on Submit Your Pitch. Here, we have given wrong data at two places.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554921/4-Jul-25/next-15/126_o4omps.webp)
+
+As, we have given wrong data we have got error popup and also error output below the text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554928/4-Jul-25/next-15/127_alc1fn.webp)
+
+In the lib we will add utils.ts file. Here, we have created a new function called parseServerActionResponse()
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554961/4-Jul-25/next-15/128_eemc19.webp)
+
+Now, we will create a file of actions.ts and here, we will create the function of createPitch. It will take the session and also create a slug with the slugify package.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751555074/4-Jul-25/next-15/129_ekdtf6.webp)
+
+Back in the StartupForm.tsx file, we will use the createPitch() to pass the formData.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554915/4-Jul-25/next-15/130_xmdiuf.webp)
+
+This time we will give proper data and click on the Create a pitch button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554934/4-Jul-25/next-15/131_njmxas.webp)
+
+Our pitch will be shown in http://localhost:3000/
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1751554977/4-Jul-25/next-15/132_kvglnl.webp)
+
+This completes our post. You can find the code for the same [here](https://github.com/nabendu82/next15-demo).
