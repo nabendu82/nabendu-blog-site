@@ -1,0 +1,464 @@
+---
+title: Employee Mgmt System in MERN - 1
+description: ReactJS
+date: 2025-11-09
+tags: ["reactjs", "nodejs", "javascript"]
+published: true
+---
+
+In this post we will create an **Employee Management System** using MERN stack. This project and post have been inspired by [this](https://www.youtube.com/watch?v=P_L-06VRcBI&list=PLnZgHKyxHOEBDDNhEhcx6SJBMa_uqfWcM&index=1) YouTube playlist. So, from the terminal after creating a folder **EMS** give the below command. And also the name and framework as mentioned.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516639/ems-1/1_twhto5.png)
+
+After that go inside the **frontend** folder we will install the required dependencies and also start the project with **npm run dev**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516639/ems-1/2_rgzlil.png)
+
+Now, remove all the data from **App.css** file
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516639/ems-1/3_st2ljc.png)
+
+Also, remove all the data from **index.css** file
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516639/ems-1/4_itv06k.png)
+
+Now, we have removed all the data from **App.jsx** file and added the basics **Hello World**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516639/ems-1/5_seqkg9.png)
+
+Next, we will add tailwind dependencies in our frontend
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516639/ems-1/6_kgkjlm.png)
+
+For further adding tailwind we need to update the **vite.config.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516640/ems-1/7_n6ejhb.png)
+
+Also, add the below line in **index.css** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516640/ems-1/8_gelbuz.png)
+
+Now, it's time to test Tailwind CSS. So, we added some classes in **App.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516640/ems-1/9_ujfspo.png)
+
+
+Now, again running **npm run dev** will show the tailwind in localhost
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516641/ems-1/10_v6dm2a.png)
+
+Now, create the folder of **components**, **pages** and **utils** inside **src** folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516640/ems-1/11_s9ziff.png)
+
+We will start with basic setup of backend now. So, create a **backend** folder inside **EMS** folder. Here give the below commands in the image below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516641/ems-1/12_sgbfut.png)
+
+Now, create a **.gitignore** file inside **backend** folder and add the below data in the image
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516641/ems-1/13_iff6u5.png)
+
+Also, in the **package.json** file, we will make the below changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516642/ems-1/14_vfpiqs.png)
+
+Next create a **.env** file and add the PORT data in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516642/ems-1/15_asndxg.png)
+
+Also, in the **package.json** file, we will add the below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516643/ems-1/16_yicoa6.png)
+
+Next, we will update the **index.js** file and add the below code. Also, will do **npm start**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516643/ems-1/17_dyubtx.png)
+
+Next, create a **models** folder and an **User.js** file inside it. Add the code in it to add the model of User.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516643/ems-1/18_qmrnbq.png)
+
+We will also add the code to create seed data, by creating a file **userSeed.js** file. Here create a function userRegister which have the code to create a new User with default admin credentials.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516644/ems-1/19_ywvudi.png)
+
+Now, we will create a new **MongoDB** database in mongodb cloud. Here, click on **New Project**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762516644/ems-1/20_zidlmv.png)
+
+In the next page we will give the project name of **ems_backend** and click on Next button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518130/ems-1/21_mz7meu.png)
+
+In the next page just click on **Create Project** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518131/ems-1/22_bm6ieo.png)
+
+Now, we will choose the Free tier and click on **Create Deployment**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518131/ems-1/23_oygtvr.png)
+
+In the next pop-up we need to give the username and password for the database user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518131/ems-1/24_zpqtis.png)
+
+Now, select the **MongoDB for VS Code**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518132/ems-1/25_kfyvjp.png)
+
+Now, we will get the connection string which we need to copy.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518131/ems-1/26_qc5yoz.png)
+
+Now, go to the **Network Access** and select **ALLOW ACCESS FROM ANYWHERE**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518132/ems-1/27_s18bhl.png)
+
+Back in the **.env** file we need to add **MONGODB_URL** with the connection string copied earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518133/ems-1/28_yrxjy2.png)
+
+Now, inside the **backend** folder create a **db** folder and inside it **db.js** file. In it add the code from the image below, which is used to connect to the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518137/ems-1/29_ezkiir.png)
+
+Back in **userSeed.js** file will will add the highlighted code to connect to database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518137/ems-1/30_srl8sq.png)
+
+Now, we will start the backedn also by running the below command from terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518137/ems-1/31_w1qz2x.png)
+
+In the MongoDB cloud, we will see an users document been created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518138/ems-1/32_lh8xz0.png)
+
+Back in the frontend, create a **pages** folder inside **src** folder. Inside it create the files mentioned in image. Also, in the **App.jsx** file, we will add our routing logic.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518138/ems-1/33_i9csn7.png)
+
+Now, in the **Login.jsx** file we will add the below code with Tailwind CSS classess.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518139/ems-1/34_bnhls5.png)
+
+We will add some more data with Tailwind CSS classess.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518143/ems-1/35_dktjph.png)
+
+We will complete the **Login.jsx** file with below code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518138/ems-1/36_d331iu.png)
+
+Now, going to http://localhost:5173/login will show this beautiful login screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518143/ems-1/37_xdtbmi.png)
+
+Next, back in **Login.jsx** file we will add state for email and password. And also an onSubmit in the form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518143/ems-1/38_kwkyit.png)
+
+Now, we will also add **onChange** to email and password, **input** fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518145/ems-1/39_cjlsgq.png)
+
+We will also add an **handleSubmit** function we send email and password data through axios POST request.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762518145/ems-1/40_ayjpww.png)
+
+Now, we have to create the end point to be used in frontend. So, for that in **backend** folder create a **controllers** folder and then an **authController.js** file in it.
+
+Create a **login** function in it, which compares the entered email and password to find if they are correct. After that it generates the JWT token and returns it back along with other data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584918/ems-1/41_mxbtr3.png)
+
+Next, in the **.env** file give a variable called **JWT_SECRET** and give any value to it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584917/ems-1/42_olv3te.png)
+
+Now, in **backend** folder create a **routes** folder and inside it **auth.js** file. Here, we will use the  **authController.js** file to get the **login** function. And also create the post for login. 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584918/ems-1/43_mtmnci.png)
+
+Now, in the **index.js** file we will import the **authRoutes** and **connectDB** and use them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584918/ems-1/44_dwvc85.png)
+
+Now, going to http://localhost:5173/login and giving the correct email and password, will show everything is right in browser console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584918/ems-1/45_p1t0tm.png)
+
+In the **authController.js** file we will change the return in catch block for error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584919/ems-1/46_i4dgsw.png)
+
+Back in the **Login.jsx** file we will add state for error and also update the try and catch data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584924/ems-1/47_fpixxk.png)
+
+Next, we will also add code when we get error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584925/ems-1/48_ivyled.png)
+
+We will also add code for error, which will update the error state
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584925/ems-1/49_ws4z43.png)
+
+Now, in http://localhost:5173/login give a wrong email and we will get right error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584926/ems-1/50_zmm0lw.png)
+
+Also, if we give wrong password, we will get the correct error.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584926/ems-1/51_ausqm8.png)
+
+Only, if we give everything correctly we will get the alert for **Login successful**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584925/ems-1/52_gt7kxd.png)
+
+Now, inside the **src** folder we will create a **context** folder. And then a **authContext.jsx** file. Here, we will creat the context and create a Provider and pass the user, login and logout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584929/ems-1/53_cwdn2d.png)
+
+Back in the **Login.jsx** file we will import the useAuth and useNavigate. Then we will use the **login** and **navigate** inside the **Login** component.
+
+After that if we have a success, we will pass the user in the login function. And will also use **localStorage.setItem** to add the token.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584930/ems-1/54_dzs6p8.png)
+
+After that in the **main.jsx** file, we will use the **AuthContext**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584931/ems-1/55_zdihe0.png)
+
+Now, in **App.jsx** file we will add the route for **employee-dashboard** which will call a component **EmployeeDashboard**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584931/ems-1/56_akphve.png)
+
+Now, in the **authContext.jsx** file we will use useNavigate. And then in useEffect we will call a route to verify the user using the stored token.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584932/ems-1/57_rdntro.png)
+
+Now, we will create **AdminDashboard.jsx** and **EmployeeDashboard.jsx** file inside the **pages** folder. Here, we will create a simple AdminDashboard component first in **AdminDashboard.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584934/ems-1/58_c2uscu.png)
+
+Back, in the **backend** folder, we will create a **middlewares** folder. And inside it **authMiddleware.js** file. Here, we will create a function **verifyUser** which will take the token and decode it with the JWT_SECRET.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584935/ems-1/59_yg9ev5.png)
+
+Now, in **authController.js** file we will also add the verify function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762584936/ems-1/60_eckssg.png)
+
+Next, in **auth.js** file we will add the new GET route of verify.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588017/ems-1/61_yzw511.png)
+
+Now, in the **AdminDashboard.jsx**  file, we will update the code to add navigate.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588018/ems-1/62_stpwug.png)
+
+In the **main.jsx** file we will remove the earlier **AuthContext**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588018/ems-1/63_qg23zn.png)
+
+We will add the **AuthContext** in **App.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588018/ems-1/64_qwm5rc.png)
+
+Now, go to http://localhost:5173/admin-dashboard and you will be taken to the right component. It also have the token stored.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588018/ems-1/65_einqel.png)
+
+But if we go to http://localhost:5173/admin-dashboard in other browser, it will take us back to login.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588024/ems-1/66_h4nkuf.png)
+
+Now, go to http://localhost:5173/login in the new browser and you will be in login 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588024/ems-1/67_jei5ub.png)
+
+Now, we will update our code a bit to have proper token feature. For this in **authContext.jsx** file we will have a loading state first. Then we will update some more code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588025/ems-1/68_ysrtjn.png)
+
+We will also add the code for login and logout in  **authContext.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588025/ems-1/69_hyckc2.png)
+
+In the **App.jsx** file we will add Private Routes for admin-dashboard.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588025/ems-1/70_ieqfyw.png)
+
+Now, inside the **components** folder create **RootRedirect.jsx** file. Here, we will use **user** and **loading** from **authContext**. The loading will be used to show an spinner. And rest of code is self explanatory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588031/ems-1/71_mapugx.png)
+
+Now, in the **utils** folder create **PrivateRoutes.jsx** file and add the code in the image below. Again we will use **user** and **loading** from **authContext**. The loading will be used to show an spinner. And rest of code is self explanatory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588031/ems-1/72_vctfle.png)
+
+Next, in the **utils** folder create **RoleRoutes.jsx** file and add the code in the image below.  Again we will use **user** and **loading** from **authContext**. The loading will be used to show an spinner. And rest of code is self explanatory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588032/ems-1/73_ujfxik.png)
+
+Now, we will create an **Unauthorized.jsx** file inside **pages** folder. It will show a nice **Access Denied** page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588032/ems-1/74_svl8y5.png)
+
+Now, in browser login again from Login page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588032/ems-1/75_ecvlbj.png)
+
+And it will take you to Admin dashboard in http://localhost:5173/admin-dashboard We can also see the token been stored here.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588033/ems-1/76_zya3h7.png)
+
+Now, open another tab in same browser and go to http://localhost:5173
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588036/ems-1/77_vcn92g.png)
+
+And you will be taken to Admin dashboard in http://localhost:5173/admin-dashboard 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588037/ems-1/78_qsxjks.png)
+
+Now, we will update the **AdminSidebar.jsx** file, which will contain lot of tailwind css.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588038/ems-1/79_dznoqp.png)
+
+We will update it a bit more.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762588039/ems-1/80_kmpt43.png)
+
+Next, we will call the AdminSidebar from the **AdminDashboard.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596837/ems-1/81_ldzgw1.png)
+
+Now, in http://localhost:5173/admin-dashboard we can see the perfect Sidebar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596836/ems-1/82_w4en8k.png)
+
+Now, create **Navbar.jsx** file inside **components** folder. Here, we have written the basic code with some tailwind css.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596837/ems-1/83_pknpqf.png)
+
+Now, we will render the Navbar component from the **AdminDashboard.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596837/ems-1/84_pym8ut.png)
+
+Now, we will see the Navbar also in http://localhost:5173/admin-dashboard
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596837/ems-1/85_ab7scd.png)
+
+Now, we will create a **SummaryCard.jsx** file inside **components** folder. It will take icon, title, number and color as props and show them usinf tailwind CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596841/ems-1/86_vfdvek.png)
+
+Now, we will create **AdminSummary.jsx** file ad with some tailwind css, call the **SummaryCard** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596842/ems-1/87_gp5voj.png)
+
+Now, we will call the **AdminSummary** from the **AdminDashboard.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596843/ems-1/88_bpmavv.png)
+
+Now, we will update the Route to call the **AdminSummary** and **DepartmentList**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596847/ems-1/89_nymgdc.png)
+
+Now, the Admin Dashboard will look like below image.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762601556/ems-1/89-1_mwleqv.png)
+
+We will also add a Router Outlet in **AdminDashboard.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596847/ems-1/90_bve6ao.png)
+
+Now, in the **AdminSidebar.jsx** file we will update the correct endpoint for departments.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596848/ems-1/91_qnda9g.png)
+
+Now, create a file **DepartmentList.jsx** and add basic code in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596847/ems-1/92_uomqva.png)
+
+Now, clicking on **Departments** on the sidebar will open the DepartmentList
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596848/ems-1/93_hj6ylb.png)
+
+In the **App.jsx** file add the route for add-department, which will call the **AddDepartment** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596852/ems-1/94_x96ktt.png)
+
+Next we will update the file **DepartmentList.jsx**. Here clicking on **Add Department** button will take to add-department route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596853/ems-1/95_z0gtry.png)
+
+Now the Departments will show the nice looking UI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596853/ems-1/96_ad3xke.png)
+
+Now, create an **AddDepartment.jsx** file and here add the basic code to show data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596853/ems-1/97_iogrf2.png)
+
+Then we will add more code to show the complete data using tailwind css.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596856/ems-1/98_nuw6ja.png)
+
+Now, clicking on **Add Department** button will take us to http://localhost:5173/admin-dashboard/add-department and will show this beautiful form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596857/ems-1/99_q77yke.png)
+
+We will update the **AddDepartment.jsx** file. Here, we will update the code for handleSubmit which will pass data to an POST api endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762596858/ems-1/100_sp9eu9.png)
+
+Now, we will add /api/department in **index.js**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602856/ems-1/101_bxtroc.png)
+
+Now, we will create a **department.js** file inside the **routes** folder. Here, we will add the below code, which have a post route of add and calls addDepartment.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602856/ems-1/102_n1ltpr.png)
+
+Now, create the **departmentController.js** file inside the **controllers** folder. Here, we are getting the name and description and using the Department model to save in the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602857/ems-1/103_b8yskc.png)
+
+Now, inside the **models** folder, create **Department.js** file. Here, we have the basic schema code which have four fields of name, description, createdAt and updatedAt.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602857/ems-1/104_lcdily.png)
+
+Now, back to http://localhost:5173/admin-dashboard/add-department and enter data and click on **Add Department** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602860/ems-1/105_wk4bsp.png)
+
+Now, in MongoDB database we will se the departments collection been created and also the document for newly created department created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602861/ems-1/106_jtp8ge.png)
+
+Back in the **department.js** file, we will add a new GET route which calls the controller getDepartments.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602863/ems-1/107_ob3lwu.png)
+
+Back in the **departmentController.js** file, we will add the function of getDepartments.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602863/ems-1/108_k3trkz.png)
+
+Now, in the **utils** folder, we will create **DepartmentHelper.jsx** file. Here, we will create a DepartmentButtons which basically have nice design with tailwind css.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602864/ems-1/109_ehkbcn.png)
+
+In the **DepartmentList.jsx** file we will add an useEffect which will call the department apiand will add the data with name and description to a data state variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762602868/ems-1/110_afbnf3.png)
+
+Now, we will add some more data in **DepartmentList.jsx** file. Here, we will use the **DataTable** to show all the data, which comes with pagination and other good things.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762606603/ems-1/111_ohuujl.png)
+
+Now, in http://localhost:5173/admin-dashboard/departments we will see our department data in nice table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762606603/ems-1/112_aydawm.png)
