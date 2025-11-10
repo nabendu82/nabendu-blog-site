@@ -462,3 +462,284 @@ Now, we will add some more data in **DepartmentList.jsx** file. Here, we will us
 Now, in http://localhost:5173/admin-dashboard/departments we will see our department data in nice table.
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762606603/ems-1/112_aydawm.png)
+
+Now, in the **DepartmentHelper.jsx** file we will update the **Edit** button. Here, we will get the **_id** in the params. And then in onClick will use it to navigate to the specific department.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672173/ems-1/113_clig9l.png)
+
+Now, in the **DepartmentList.jsx** file we will get the params of **_id**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672173/ems-1/114_dychud.png)
+
+In **App.jsx** file, we will also create a new Route which will render the **EditDepartment** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672173/ems-1/115_gdt33m.png)
+
+Now, in a new **EditDepartment.jsx** file, we will add the initial code. Here, we have an useEffect which will call the GET API to get the department details of this department.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672174/ems-1/116_tyyd7t.png)
+
+In the return statement of **EditDepartment.jsx** file, we will add a lot of tailwind css classess, to show various department data. And also an **Edit Department** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672177/ems-1/117_yz7pe0.png)
+
+Now, clicking on the **Edit** button in http://localhost:5173/admin-dashboard/departments will take us the below page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672178/ems-1/118_xwxcpj.png)
+
+Now, in the **department.js** file, we will add a GET route, which will call **editDepartment** controller.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672181/ems-1/119_fktccu.png)
+
+Now, we will add the **editDepartment** function in **departmentController.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672182/ems-1/120_dwr8gf.png)
+
+Again in http://localhost:5173/admin-dashboard/departments we will click the **Edit** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672184/ems-1/121_sir6eu.png)
+
+Now, we will also get the data updated in **Edit Department** page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672185/ems-1/122_ftfjrs.png)
+
+Now, in the **EditDepartment.jsx** file, we will update the **handleSubmit** function. Here, we will have a PUT call to edit the department.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672189/ems-1/123_vkyvyc.png)
+
+Now, in the **department.js** file, we will add a PUT route, which will call **editDepartment** controller. We will also change the name of the GET route created earlier to **getDepartmentById**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672190/ems-1/124_xknbmb.png)
+
+Now, we will add the **editDepartment** function in **departmentController.js** file. And also update the name of **getDepartmentById**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672190/ems-1/125_rfmzfl.png)
+
+Now in **Edit Department** page, we will update the **Department Name** and click on **Edit Department** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672195/ems-1/126_trxcsa.png)
+
+The changes will be reflected in http://localhost:5173/admin-dashboard/departments page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672193/ems-1/127_rzfxnu.png)
+
+Now, in the **DepartmentHelper.jsx** file we will update the **Delete** button. Here, our **handleDelete** function will do a **delete** API call to a new endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672195/ems-1/128_nesz61.png)
+
+Now, in the **department.js** file, we will add a DELETE route, which will call **deleteDepartment** controller.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672197/ems-1/129_ir5ouc.png)
+
+Now, we will add the **deleteDepartment** function in **departmentController.js** file. 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762672198/ems-1/130_rpsp5a.png)
+
+Now, back in http://localhost:5173/admin-dashboard/departments page, we will click on the **Delete** button. And will get the confirmation pop-up.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762675133/ems-1/131_e9wjj1.png)
+
+Back in http://localhost:5173/admin-dashboard/departments page, the department is deleted.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762675134/ems-1/132_llzbmy.png)
+
+Next, we will add search functionality in Department. For this in **DepartmentList.jsx** file, we will add state and also an useEffect.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770016/ems-1/133_cwrnni.png)
+
+Now, we will update the value and onChnage for the input field. And also change the data props in DataTable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770016/ems-1/134_wreuwg.png)
+
+Now, search anything in http://localhost:5173/admin-dashboard/departments it will give us updated list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770016/ems-1/135_bgc16b.png)
+
+Now, we will add a new route for employees which will render the **EmployeeList** component in **App.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770016/ems-1/136_uaaxjg.png)
+
+Now, create a new **EmployeeList.jsx** file inside **components** folder. Here, we have basic code with Tailwind CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770017/ems-1/137_toujtg.png)
+
+Now, in http://localhost:5173/admin-dashboard/employees we will see the below beautiful UI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770015/ems-1/138_iifjcp.png)
+
+Now, we will add a new route to add employee which will render the **AddEmployee** component in **App.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770016/ems-1/139_bn1hog.png)
+
+Now, create a new **AddEmployee.jsx** file inside **components** folder. Here, we have basic code with Tailwind CSS.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770017/ems-1/140_yswc77.png)
+
+Now, we will add more code with Tailwind CSS inside the return statement for **AddEmployee.jsx** file. These are for Employee Name, Email and Employee ID.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770017/ems-1/141_fh3tle.png)
+
+We will add even more code for Date of Birth, Gender, Marital Status in **AddEmployee.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770017/ems-1/142_t1ukdd.png)
+
+We will add more code for Designation, Department, Salary in **AddEmployee.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770017/ems-1/143_cxxcoi.png)
+
+We will add even more code for Password, Role, Upload Image in **AddEmployee.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770017/ems-1/144_j4kkjm.png)
+
+Finally, we will add the Submit button in **AddEmployee.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770017/ems-1/145_cqwe4w.png)
+
+Now, in http://localhost:5173/admin-dashboard/add-employee we will get our complete form in a nice UI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770018/ems-1/146_duxqkc.png)
+
+Now, we will create an **EmployeeHelper.jsx** file and add the code for **fetchDepartments** in it, which will hit an GET api to get the departments.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770018/ems-1/147_ovlxpm.png)
+
+Now, in **AddEmployee.jsx** file we will call the **fetchDepartments** from an useEffect.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770019/ems-1/148_nnhdqr.png)
+
+Now, we will change the select for department to get get value from our api.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770028/ems-1/149_axmpp7.png)
+
+Now, our Department in UI is updated from the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762770028/ems-1/150_ikwpib.png)
+
+Now, we will update the **handleSubmit** in **AddEmployee.jsx** file. Here, we will be passing data to a POST api endpoint.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773345/ems-1/151_tnxqcp.png)
+
+Now, in the **backend** we will create a **public** folder and inside it **uploads** folder. In the **index.js** file we will add code to handle files and also the employeeRoutes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773345/ems-1/152_xskbzv.png)
+
+Now, create an **employee.js** file inside the **routes** folder. Here, we will add the add route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773345/ems-1/153_pdsgi0.png)
+
+Next, create the **Employee.js** file inside the **models** folder. Here, we will add all properties expected in Employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773345/ems-1/154_kprldy.png)
+
+Now, create an **employeeController.js** file. Here, we have first added the code to get the path and uploaded file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773346/ems-1/155_mwgvf6.png)
+
+Next in **employeeController.js** file we will add the code for **addEmployee**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773346/ems-1/156_pr9bp1.png)
+
+Back in **AddEmployee.jsx** file we will update our **handleSubmit** function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773365/ems-1/157_orldge.png)
+
+Now, add some data in http://localhost:5173/admin-dashboard/add-employee and click on **Add Employee* button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773346/ems-1/158_j4upyq.png)
+
+The data got correctly added in the MongoDB database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773347/ems-1/159_bbrptl.png)
+
+Also the **users** data is added in the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773346/ems-1/160_hqbxjm.png)
+
+Now, we will add the GET route in **employee.js** which will render the **getEmployees** from **employeeController.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773347/ems-1/161_ksyrbu.png)
+
+Next in the **employeeController.js** file we will add the function of **getEmployees**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773355/ems-1/162_rn2fki.png)
+
+Now, in the **EmployeeList.jsx** file we will import **DataTable** and other things. Also, will create state for data and filteredData.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773355/ems-1/163_o3ludm.png)
+
+Now, in the useEffect for **EmployeeList.jsx** file we will fetch data from employee GET endpoint. After that we will create the employees data, in which we will also add the image from public folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773355/ems-1/164_jlydsm.png)
+
+We will add another useEffect in **EmployeeList.jsx** file. This is for our search and filter functionality.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773355/ems-1/165_c7zy9b.png)
+
+We will update the div inside the return statement in **EmployeeList.jsx** file. It will use the **DataTable** and pass various data in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773355/ems-1/166_n3sfki.png)
+
+Next, in **EmployeeHelper.jsx** file, we will add the **columns** which will show different columns.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773356/ems-1/167_mzaoqu.png)
+
+Next, we will add the code for **EmployeeButtons** in **EmployeeHelper.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773356/ems-1/168_t2am9c.png)
+
+Now in http://localhost:5173/admin-dashboard/employees we will see a nice table for employees with all data from database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773356/ems-1/169_v5bi1q.png)
+
+Next, we will add a new route in **employee.js** to get employee by id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762773357/ems-1/170_jmoux7.png)
+
+Now, in the **employeeController.js** file, we will add the function **getEmployeeById**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777536/ems-1/171_l3lhfm.png)
+
+In the **EmployeeHelper.jsx** file, we will update the function **handleView** to naviage to the specific employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777535/ems-1/172_rkkwkl.png)
+
+Now, in **App.jsx** file we will add the route for specific employee which will call the **ViewEmployee* component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777536/ems-1/173_urxzhe.png)
+
+Now, create a file **ViewEmployee.jsx** inside **components** folder. Here, after the required imports and state variables, we are using an useEffect to get data of a specific employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777536/ems-1/174_rmwvki.png)
+
+Now, we will add if statements for loading and no employee find in **ViewEmployee.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777556/ems-1/175_posfsw.png)
+
+Now, in the return statement we will add tailwind css classes to show Employee Details in **ViewEmployee.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777536/ems-1/176_kl688k.png)
+
+Next, in **ViewEmployee.jsx** file we will add more tailwind css classes to show image on left side and Right side starting with Name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777537/ems-1/177_yyysug.png)
+
+Then in **ViewEmployee.jsx** file we will show Email, Employee ID, Date of Birth.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777536/ems-1/178_xguevp.png)
+
+Next in **ViewEmployee.jsx** file we will show Gender, Marital Status, Department.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777536/ems-1/179_dzc0gp.png)
+
+Lastly in **ViewEmployee.jsx** file we will show Designation, Salary, Role.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777556/ems-1/180_ujgftp.png)
+
+Now, go back to http://localhost:5173/admin-dashboard/employees and click on **View** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777556/ems-1/181_tv5wci.png)
+
+It will show all Employee details in nice UI.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777557/ems-1/182_tbqxas.png)
+
