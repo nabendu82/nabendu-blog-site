@@ -743,3 +743,92 @@ It will show all Employee details in nice UI.
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762777557/ems-1/182_tbqxas.png)
 
+Now, in **App.jsx** file, we will add a new route to edit employee. It will render **EditEmployee* component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862626/ems-1/183_v2saob.png)
+
+Now, in **EmployeeHelper.jsx** file we will update the **handleEdit** function to navigate to edit employee route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862626/ems-1/184_b1wd7h.png)
+
+Next, we will create an **EditEmployee.jsx** component. Here, we first have the basic imports and states.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862628/ems-1/185_epn2wl.png)
+
+Next, we will add an useEffect which will call the GET API endpoint to get details of an employee. We will also have the **handleChange** function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862626/ems-1/186_mzbe2d.png)
+
+Next, we will have the **handleSubmit** function and also the loading code. In the return statement we will have an **Edit Employee** text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862627/ems-1/187_uq9d3h.png)
+
+Next, we will have form input for name, marital status.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862626/ems-1/188_dzvozi.png)
+
+Next, we will have input for designation and salary.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862626/ems-1/189_lnfrsr.png)
+
+Next, we will have select for department.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862627/ems-1/190_pt1bl5.png)
+
+Lastly, we will have the button to **Save Changes** and **Cancel**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862627/ems-1/191_nphadb.png)
+
+Now, when we click on the **Edit** button in Employee List, we will get our form. All the data is already updated from the database.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862628/ems-1/192_mnyhfh.png)
+
+Clicking on the **Save Changes** button, will show all data in browser console.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862628/ems-1/193_glkflq.png)
+
+Now, we will update the **handleSubmit** in **EditEmployee.jsx** file. Here, we will send the data through a PUT request for the specific employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862628/ems-1/194_uwzt3n.png)
+
+Now, in **employee.js** file, we will add the route for PUT which will call the **editEmployee**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862628/ems-1/195_vl7s3j.png)
+
+Next, in the **employeeController.ks** file we will add the function **editEmployee**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862628/ems-1/196_xjr9ox.png)
+
+Now, go back to the Employee and update anything and click on **Save Changes**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862633/ems-1/197_lbu7oo.png)
+
+The data will be updated and we can see that in View of the employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862629/ems-1/198_ebq9p2.png)
+
+Now, we will create a route for salaries in **App.jsx** which will call **SalaryList** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862634/ems-1/199_dqob4z.png)
+
+Now, create a **SalaryList.jsx** file and add the basic imports and columns in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762862639/ems-1/200_vee6t4.png)
+
+Next, we will add the useEffect next in **SalaryList.jsx** file, which we ill do a GET call to employee. And then get the data and add it in employees state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762864129/ems-1/201_fedtes.png)
+
+Next, we will have an useEffect for search and filter. Also, will start the return statement.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762864130/ems-1/202_rd8poa.png)
+
+Next, we will complete the **DataTable** details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762864130/ems-1/203_edldme.png)
+
+Now, click on **Salaries** in Side bar and it will show all the salaries of employees.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1762864130/ems-1/204_udxfwc.png)
+
+This completes part-1 of the series. You can find the code for the same [here](https://github.com/nabendu82/EMS)
