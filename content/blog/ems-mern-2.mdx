@@ -1,0 +1,90 @@
+---
+title: Employee Mgmt System in MERN - 2
+description: ReactJS
+date: 2026-04-25
+tags: ["reactjs", "nodejs", "javascript"]
+published: true
+---
+
+In this post we will continue with our **Employee Management System** using MERN stack. This project and post have been inspired by [this](https://www.youtube.com/watch?v=P_L-06VRcBI&list=PLnZgHKyxHOEBDDNhEhcx6SJBMa_uqfWcM&index=1) YouTube playlist. **Part 1** can be found [here](https://www.nabendu.org/blog/ems-mern-1).
+
+We will start with the logout functionality. So, in **Navbar.jsx** file we will add the logout in useAuth hook. Also, in the Logout button we will call the logout function.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762483/ems-2/1/1_e3lvpa.png)
+
+Next, in the **authContext.jsx** file we will add the logout function.. It will update the user and loading state. And also remove the token from localStorage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762503/ems-2/1/2_b2rrl0.png)
+
+The from http://localhost:5173/admin-dashboard click on **Logout** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762518/ems-2/1/3_ynhs7f.png)
+
+Now, in **App.jsx** in **RoleRoutes** add the **admin** in roles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762530/ems-2/1/4_vyvroe.png)
+
+Now, create a new file **Sidebar.jsx** file inside **components** folder. Here, we will create a sidebar with the links for Employee. First we are doing the required imports. Then we have added the header of **Employee Management System**. After that the **NavLinK* for **Dashboard**, then the **NavLink** for **My Profile**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762542/ems-2/1/5_xwopzg.png)
+
+Next, we have created **NavLink** for **Leaves**, **Salary** and**Settings** in **Sidebar.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762551/ems-2/1/6_m5aewk.png)
+
+Next, in **pages** folder create a new file **EmployeeDashboard.jsx** file. Here, we will call the **Sidebar** component. And then the **Navbar** component and also **Outlet** from **react-router-dom**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762567/ems-2/1/7_gbr4hg.png)
+
+Now, go to http://localhost:5173/employee-dashboard and click on **Dashboard**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762578/ems-2/1/8_eg7tyc.png)
+
+Now, in **App.jsx** file we will add the Route for **Summary**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762588/ems-2/1/9_z56vur.png)
+
+Now, create a new file **Summary.jsx** file inside **components** folder. Here, we will create a simple Summary component with some tailwind css.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762598/ems-2/1/10_qvyxzp.png)
+
+Now, goto http://localhost:5173/employee-dashboard and it will show Welcome with user name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762607/ems-2/1/11_xwubmy.png)
+
+Back in the **Sidebar.jsx** file, we are getting the user from the useAuth hook. And then updating the NavLink for **My Profile** to take the **user._id**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762637/ems-2/1/12_t4qunu.png)
+
+Now, in **employeeController.js** file we will update the function **getEmployeeById**. We have added a case where if no employee, then we are finding by the id from the params.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762652/ems-2/1/13_xpfj37.png)
+
+In the **App.jsx** file will add a new route of **/employee-dashboard/profile/:id** which will render the **ViewEmployee** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762663/ems-2/1/14_fgu24f.png)
+
+Now, click on the profile of an Employee and you will get details of the employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762677/ems-2/1/15_vy4vjx.png)
+
+Now, we will create a new file **LeaveList.jsx** inside **components** folder. Here, we will create a simple LeaveList component with some tailwind css. We wil add more code in it later.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762687/ems-2/1/16_mvn5gn.png)
+
+Back, in the **App.jsx** file we will add a new route of **/employee-dashboard/leaves** which will render the **LeaveList** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762699/ems-2/1/17_kyijwv.png)
+
+Now, clicking on Leaves in Sidebar will take us to http://localhost:5173/employee-dashboard/leaves and it will show the LeaveList component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762709/ems-2/1/18_dtcgjr.png)
+
+Now, inside the **components** folder create a file **AddLeave.jsx**. Here, we have first done the required imports. After that we are getting user from useAuth hook. Next, creating a state variable of leave. After that created the handleChange and handleSubmit functions. The handleSubmit function will pass data to the API endpoint of **/leave/add**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762720/ems-2/1/19_wtplic.png)
+
+Next, in the file **AddLeave.jsx** we will add the code in return statement. Here, we have a form with the fields of **Leave Type**, **Start Date**, **End Date**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762730/ems-2/1/20_gaw4ki.png)
+
