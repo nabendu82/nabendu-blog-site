@@ -88,3 +88,93 @@ Next, in the file **AddLeave.jsx** we will add the code in return statement. Her
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776762730/ems-2/1/20_gaw4ki.png)
 
+We will complete the code for AddLeave.jsx file. Here, we will add textarea for **Reason** and also a button for **Request Leave**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770550/ems-2/1/21_ioxdpc.png)
+
+Back, in the **App.jsx** file we will add a new route of **/employee-dashboard/add-leave** which will render the **AddLeave** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770561/ems-2/1/22_rwxcp8.png)
+
+Now, goto http://localhost:5173/employee-dashboard/add-leave and you will get the form to add leave.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770575/ems-2/1/23_vtcgql.png)
+
+Now, in **leave.js** file we will add the get route of **/**. It will call the **getLeaves** function from **leaveController.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770588/ems-2/1/24_a3ejcl.png)
+
+Now, in the **leaveController.js** file we will add the function of **getLeaves**. Here, we are getting the leaves from the database and returning them.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770597/ems-2/1/25_f1bak2.png)
+
+Now, going back to **LeaveList.jsx** file, we will first import the required things. After that we have a columns variable, which is an array of objects. It is required for DataTable of react-data-table-component. Also, we have data, filteredData and searchQuery state variables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770608/ems-2/1/26_pzyrbg.png)
+
+Now, in the **LeaveList.jsx** file we will add the useEffect for getting the leaves. It is hitting the GET endpoint of **/leave**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770620/ems-2/1/27_t75oge.png)
+
+We have another useEffect for search and filter in **LeaveList.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770632/ems-2/1/28_vmp0wf.png)
+
+Lastly, in the return statement of **LeaveList.jsx** file we will add the DataTable. Here, we are mapping through the data and showing the leave details. We are using the **columns** variable created earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770644/ems-2/1/29_jib0wy.png)
+
+Now, in http://localhost:5173/employee-dashboard/leaves we will see all the leaves.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776770655/ems-2/1/30_agqre8.png)
+
+Now, in the backend **index.js** file add the route **/api/salary**. It will call **salaryRoutes** from **salary.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774650/ems-2/1/31_nncbrg.png)
+
+Now, create a new file **salary.js** file inside **routes** folder. Here, we will add the get route of **/:id**. It will call the **getSalaries** function from **salaryController.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774688/ems-2/1/32_gwvjfl.png)
+
+Now, create a new file **Salary.js** inside **models** folder. Here, we will add the schema for the salary.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774703/ems-2/1/33_y41pvw.png)
+
+Now, create a new file **salaryController.js** file inside **controllers** folder. Here, we will add the function of **getSalaries**. It will return the salary of the employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774736/ems-2/1/34_ol9k3d.png)
+
+Now, in **App.jsx** file we will add a new route of **/employee-dashboard/salaries/:id** which will render the **ViewSalary** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774749/ems-2/1/35_domnkb.png)
+
+Now, in **Sidebar.jsx** file we will update the NavLink for **Salary**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774763/ems-2/1/36_jcw44s.png)
+
+Now, create a new file **ViewSalary.jsx** inside **components** folder. Here, we are first importing the required things. After that we are getting the id from the useParams hook. Then creating the state variables of loading, rows and employeeInfo. Now, inside a useEffect we are hitting the GET endpoint of **/salary/:id** and also **/employee/:id**. We are calling both with Promise.all(). If both of them are successful, then we are setting the data to rows state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774784/ems-2/1/37_fwthup.png)
+
+Completing the useEffect and returning _id, sno, salary, department, designation. Updating the row state with **setRows**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774801/ems-2/1/38_dejhpy.png)
+
+Now, creating the **columns** variable with useMemo. Here, we are mapping through the rows and returning the columns. Next, inside the return statement we have a heading of **My Salary** and then showing **Latest Salary**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774814/ems-2/1/39_mcd5sk.png)
+
+Now, in **DataTable** we will show the data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774835/ems-2/1/40_diyvvc.png)
+
+We are completing the **ViewSalary.jsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774847/ems-2/1/41_l3gct9.png)
+
+Now, clicking on **Salary** in Sidebar will take us to http://localhost:5173/employee-dashboard/salaries/:id and it will show the salary details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774858/ems-2/1/42_hhia29.png)
+
+
+
