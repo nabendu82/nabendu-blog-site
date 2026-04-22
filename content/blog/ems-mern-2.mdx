@@ -176,5 +176,80 @@ Now, clicking on **Salary** in Sidebar will take us to http://localhost:5173/emp
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776774858/ems-2/1/42_hhia29.png)
 
+Now, in **App.jsx** file we will add a new route of **/employee-dashboard/settings** which will render the **Settings** component.
 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776860989/ems-2/2/43_hoeygo.png)
+
+Now, create a new file **Settings.jsx** inside **components** folder. Here, we are importing required libraries, getting the user from **useAuth** hook, and creating a state object for old/new/confirm password. We are also adding **handleChange** and **handleSubmit** to call the API for changing password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861012/ems-2/2/44_gwuqte.png)
+
+Next, in the return statement of **Settings.jsx** file we will start building the UI for settings page. Here, we have created the form and added the input fields for **Old Password** and **New Password** with Tailwind CSS styling.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861028/ems-2/2/45_mbuybv.png)
+
+We are completing the form by adding the **Confirm Password** field and a button to submit the form (**Change Password**).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861041/ems-2/2/46_ju79ki.png)
+
+Now, go to http://localhost:5173/employee-dashboard/settings and you will get the settings page with the password change form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861053/ems-2/2/47_nwizxv.png)
+
+Now, we will update the **Settings.jsx** file. In **handleSubmit** function, we have first added **setError** to **null**. Next, on success we will navigate to **/employee-dashboard**. The **catch** block is also updated correctly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861065/ems-2/2/48_a7yqog.png)
+
+In the UI we will show the error message if any. Here, we are conditionally rendering the error block above the form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861077/ems-2/2/49_d4g0uk.png)
+
+Now, in the backend **index.js** file add the route **/api/settings**. It will call **settingsRoutes** from **settings.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861089/ems-2/2/50_xlriar.png)
+
+Now, create a new file **settings.js** inside **routes** folder. Here, we will add a PUT route of **/change-password** with **authMiddleware**. It will call the **changePassword** function from **settingsController.js** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861101/ems-2/2/51_ecmqwl.png)
+
+Now, create a new file **settingsController.js** inside **controllers** folder. Here, we will add the **changePassword** function. It will first find the user, validate the old password using bcrypt, check new and confirm password match, then hash the new password and update the user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861113/ems-2/2/52_hp0vao.png)
+
+Now, if the new password and confirm password do not match, we will see the error message in settings page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776861125/ems-2/2/53_cyhelh.png)
+
+Now, we will add the show/hide password functionality in **Settings.jsx** file. We have created a **showPasswords** state object for old/new/confirm password and a helper function **toggleShowPassword** to toggle the input type.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776862899/ems-2/2/54_xqtx6t.png)
+
+Next, in the form UI we will add an eye icon button for **Old Password** and **New Password** fields. Clicking the icon will toggle between `type="password"` and `type="text"` using **showPasswords** state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776862912/ems-2/2/55_jvazlu.png)
+
+Similarly, we will add the show/hide icon button for the **Confirm Password** field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776862926/ems-2/2/56_q3fpb1.png)
+
+Now, in the settings page we can click on the eye icons to show or hide the passwords for each field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776862939/ems-2/2/57_potgkc.png)
+
+After a successful password change, we will pass a state flag while navigating back to dashboard. Here, we are doing `navigate('/employee-dashboard', { state: { passwordChanged: true } })` so that we can show a success message on the dashboard.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776862954/ems-2/2/58_xvvlof.png)
+
+Now, in **Summary.jsx** file we will read the navigation state using **useLocation**. If `location.state.passwordChanged` is true, we will show a success alert on the dashboard and also add a dismiss button which clears the state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776862970/ems-2/2/59_dlkfww.png)
+
+This time we have given the correct **Old password**. Then a same **New password** and **Confirm password**. After that clicked on **Change Password** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776862985/ems-2/2/60_cmmdxj.png)
+
+Finally, after changing the password successfully and redirecting to dashboard, it will show the success message **Password changed successfully.**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776863000/ems-2/2/61_ae5u5v.png)
 
