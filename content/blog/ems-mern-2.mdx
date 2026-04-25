@@ -253,3 +253,263 @@ Finally, after changing the password successfully and redirecting to dashboard, 
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776863000/ems-2/2/61_ae5u5v.png)
 
+Now, we will add leave management for admin. In **App.jsx** we are importing **AdminLeaveList** component and adding a new route **/admin-dashboard/leaves** to render it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946438/ems-2/2/62_yhsp8i.png)
+
+Now, in backend **leave.js** file we will add a new GET route **/all**. It will call the controller function **getAllLeaves** and is protected by **authMiddleware**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946464/ems-2/2/63_g22ho6.png)
+
+Next, in **leaveController.js** we will add a new function **getAllLeaves**. Here, we are importing the **Employee** model along with **Leave** model and starting the admin-only implementation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946490/ems-2/2/64_nw6b0f.png)
+
+We are completing **getAllLeaves** logic. First we are checking if the logged in user role is **admin**. Then fetching all leaves (latest first) and also fetching employee details so that we can enrich leave rows with **employeeId** and **department** details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946503/ems-2/2/65_pcqodv.png)
+
+Now, create a new file **AdminLeaveList.jsx** inside **components** folder. Here, we are importing required things, adding some helper functions for **Leave Type**, **Status** and calculating **Days**, and creating state variables for table data, search query and status filter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946515/ems-2/2/66_tpkuek.png)
+
+Next, in **AdminLeaveList.jsx** we will add a `useEffect` to fetch all leaves from the new endpoint **/api/leave/all**. We are mapping the API response into table rows (including employeeId, department and computed days) and setting both **data** and **filteredData**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946526/ems-2/2/67_icasp8.png)
+
+We will add another `useEffect` for searching and filtering. Here, we first filter by **statusFilter**, then apply the **searchQuery** against multiple fields like employee id, name, leave type, department, status and reason.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946539/ems-2/2/68_t5ppzj.png)
+
+Now, we will define the **columns** for the DataTable using `useMemo`. Here, we are showing **S No**, **Emp ID**, **Name**, **Leave Type**, **Department**, **Days**, **Status** and an **Action** button (View).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946554/ems-2/2/69_gxsk7y.png)
+
+In the return statement we will create the UI for **Manage Leaves** page. Here, we have added a search input and status filter buttons (**Pending**, **Approved**, **Rejected**).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946570/ems-2/2/70_rcy9oy.png)
+
+Lastly, we are rendering the DataTable with **filteredData**, enabling pagination and adding some custom styles for header and rows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946580/ems-2/2/71_zweg1r.png)
+
+Now, going to http://localhost:5173/admin-dashboard/leaves we will see the **Manage Leaves** page with the table, search and status filters.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776946590/ems-2/2/72_il6xzx.png)
+
+Now, we will add a new page to view the leave details. In **App.jsx** import **LeaveDetails** component and add a new route
+```js
+/admin-dashboard/leaves/:id
+```
+which will render the leave details page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947613/ems-2/2/73_i4vnin.png)
+
+In **AdminLeaveList.jsx** file update the **Action** column. Here, the **View** button is changed to a Link which navigates to 
+```js
+/admin-dashboard/leaves/${row._id}
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947624/ems-2/2/74_l4lb0k.png)
+
+Now, in **LeaveList.jsx** file (employee side) we are adding `useMemo` and `Link` imports, so that we can also add a **View** action link in the employee leave list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947636/ems-2/2/75_pqsnvp.png)
+
+Next, in **LeaveList.jsx** we will update the **columns** definition to use `useMemo` and add an **Action** column. The action renders a **View** Link to
+```js
+/employee-dashboard/leaves/${row._id}
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947646/ems-2/2/76_bteft3.png)
+
+Now, in backend **leave.js** file we will add a new GET route **/:id**. It will call **getLeaveById** controller and is protected by **authMiddleware**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947657/ems-2/2/77_ub3js3.png)
+
+Next, in **leaveController.js** we will create the function **getLeaveById**. It validates the leave id, fetches the leave with user details, and adds authorization so that **admin** can view any leave but **employee** can only view their own leave.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947668/ems-2/2/78_kuzc7h.png)
+
+Now, we are returning the response for **getLeaveById**. Here, we are enriching the payload with employee info (**employeeId**, **department**), and also returning display friendly values like **leaveTypeDisplay** and **statusDisplay**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947682/ems-2/2/79_i8ihzu.png)
+
+Now, create a new file **LeaveDetails.jsx** inside **components** folder. Here, we are importing required hooks, reading the leave id from **useParams**, and deciding the back link based on whether the URL is for admin or employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947692/ems-2/2/80_ywrc00.png)
+
+In **LeaveDetails.jsx** we will add a `useEffect` to fetch the leave details from backend endpoint
+```js
+/api/leave/${id}
+```
+Based on the response we are updating loading, error and detail state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947704/ems-2/2/81_m5uu3e.png)
+
+Next, in **LeaveDetails.jsx** we are building the UI. We compute the profile image URL if present, add a **Back to leaves** link, and handle three states: loading, error and the leave details card (with profile image or fallback avatar).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947715/ems-2/2/82_fnkwuf.png)
+
+We are adding the main details section in the UI. Here, we are displaying fields like **Name**, **Employee ID**, **Leave Type**, **Reason**, **Department** and formatted **Start Date**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947727/ems-2/2/83_my6zmz.png)
+
+Lastly, we are showing **End Date** and **Status** in the leave details page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947737/ems-2/2/84_rlmttm.png)
+
+Now, clicking on **View** from admin leaves list will take us to http://localhost:5173/admin-dashboard/leaves/:id and it will show the leave details page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1776947747/ems-2/2/85_yrgype.png)
+
+Now, we will add the functionality for admin to **approve** or **reject** the leave request. In backend **leave.js** file add a new PATCH route
+```js
+/:id/status
+```
+It will call the controller function **updateLeaveStatus**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036044/ems-2/3/86_ccj1nd.png)
+
+Now, in **leaveController.js** file we will add the function **updateLeaveStatus**. It validates the leave id and status, checks that the logged in user is **admin**, and only allows updating leaves which are still in **pending** state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036060/ems-2/3/87_ujffrh.png)
+
+Next, in **LeaveDetails.jsx** we will enhance the data fetching. We are adding `actionError` and `submitting` states, and moving the API call into a reusable function **fetchLeave** so that we can refresh the UI after status update.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036072/ems-2/3/88_vv0eka.png)
+
+Now, in **LeaveDetails.jsx** we will add a handler **handleStatusUpdate**. It calls the PATCH endpoint to update the status and then refetches the leave details. The endpoint is:
+```js
+/api/leave/${id}/status
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036094/ems-2/3/89_w126gs.png)
+
+We will also improve the UI by adding status based styling. Here, we are creating `isPending` and a `statusClass` so that **Approved** shows in green, **Rejected** shows in red, and **Pending** shows in amber.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036106/ems-2/3/90_prksip.png)
+
+Now, in the UI we will show the action error if status update fails. We are also using the computed `imageSrc` and rendering the leave details card as before.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036116/ems-2/3/91_jomrbp.png)
+
+Finally, for admin users, when the leave is **pending** we will show an **Action** section with **Accept** and **Reject** buttons. Clicking them calls `handleStatusUpdate('approved')` or `handleStatusUpdate('rejected')`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036127/ems-2/3/92_yfgnif.png)
+
+Now, going to the leave details page for a pending leave, admin will see the **Accept** and **Reject** buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036139/ems-2/3/93_fppspv.png)
+
+After clicking on **Accept**, the status will be updated and it will show **Approved** on the leave details page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036148/ems-2/3/94_vmtbzh.png)
+
+Now, going back to **Manage Leaves** page, the approved leave will show the updated status in the table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036164/ems-2/3/95_vhqixw.png)
+
+Similarly, in employee dashboard **Leaves** page the employee will also see the updated status.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036174/ems-2/3/96_kiyrak.png)
+
+Now, we can use the status filter buttons. Clicking **Approved** will show only approved leave requests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036185/ems-2/3/97_skht1x.png)
+
+Clicking on **Pending** will show only pending leave requests.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777036197/ems-2/3/98_vzrlej.png)
+
+Now, from admin side we will add a page to view leaves of a specific employee. In **App.jsx** import **EmployeeLeaveList** component and add a new route:
+```js
+/admin-dashboard/employees/leaves/:id
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040701/ems-2/3/99_y9bdyn.png)
+
+Now, in backend **leave.js** file add a new GET route for fetching leaves of a specific employee:
+```js
+/employee/:id
+```
+It will call the controller function **getLeavesForEmployee**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040831/ems-2/3/100_atuqin.png)
+
+Now, in **leaveController.js** file we will add the function **getLeavesForEmployee**. It is admin-only, validates the employee id, fetches the employee (with user + department), then finds all leaves for that employee and returns an enriched array.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040851/ems-2/3/101_w1iwgp.png)
+
+Now, create a new file **EmployeeLeaveList.jsx** inside **components** folder. Here, we are importing required hooks, DataTable and axios. We are also adding helper functions for **leave type label**, **status label**, and calculating **days**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040864/ems-2/3/102_fmpxqt.png)
+
+Next, in **EmployeeLeaveList.jsx** we will fetch the employee leaves and employee details in a single `useEffect` using `Promise.all`. The two endpoints are:
+```js
+/api/leave/employee/${id}
+/api/employee/${id}
+```
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040874/ems-2/3/103_zz73mr.png)
+
+Now, we are mapping the leave response into DataTable rows. We are also setting `employeeHeader` (name and employeeId) which will be shown at the top of the page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040886/ems-2/3/104_bindx9.png)
+
+We will add the search and status filtering logic similar to admin leave list. Here, we filter by `statusFilter` and then apply `searchQuery` on leave type, department and status.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040901/ems-2/3/105_hxvj6z.png)
+
+Now, we will define the DataTable **columns** and add an **Action** column with a **View** button to navigate to leave details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040914/ems-2/3/106_cyqtoc.png)
+
+Now, we will add the header section UI and filter buttons. It shows **Manage Leaves** with employee name and employee id, and provides a **Back to employees** link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040925/ems-2/3/107_urznav.png)
+
+Finally, we are rendering the DataTable with `filteredData`, custom styles, and pagination.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040938/ems-2/3/108_aexhbg.png)
+
+Now, we are completing the DataTable setup by configuring row styles and pagination options (10 / 20 / 30).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040949/ems-2/3/109_yycshn.png)
+
+Now, from admin **Employees** page, clicking on the **Leave** button will take us to the employee leave list page.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040962/ems-2/3/110_jimqhd.png)
+
+Here, we can see the employee specific **Manage Leaves** page with search, status filters and the leave table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040974/ems-2/3/111_adhl0w.png)
+
+Now, in **AdminSidebar.jsx** file we will add the **Settings** link for admin dashboard.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777040986/ems-2/3/112_boir54.png)
+
+In **App.jsx** file we will add the admin route for settings:
+```js
+/admin-dashboard/settings
+```
+and render the existing **Settings** component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777041001/ems-2/3/113_hvp9ox.png)
+
+Now, go to http://localhost:5173/admin-dashboard/settings and you will see the same password change UI for admin.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777041013/ems-2/3/114_ckykgi.png)
+
+After changing the password successfully, it will redirect to dashboard and show the success message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777041027/ems-2/3/115_yo1g9h.png)
+
+If the new password and confirm password do not match, it will show the error message on admin settings page as well.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1777041043/ems-2/3/116_flig5n.png)
+
+This completes part 2 of the series. You can find the code for the same [here](https://github.com/nabendu82/EMS)
+
+
+
