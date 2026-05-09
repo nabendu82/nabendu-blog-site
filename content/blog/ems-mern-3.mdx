@@ -90,3 +90,85 @@ Opening **`/admin-dashboard`** shows the **Dashboard Summary** and **Leave Detai
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157343/ems-3/1/20_su9k7j.png)
 
+Now we add **Timesheet** and **Project** modules. In **backend/index.js**, we import and mount **timesheetRoutes** and **projectRoutes** alongside the existing routes to support the new features.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327896/ems-3/1/21_hwddhw.png)
+
+**backend/models/Project.js** defines the Project schema with fields for **name**, **description**, **createdAt**, and **updatedAt**, along with a unique index on the name field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327907/ems-3/1/22_njufby.png)
+
+**backend/models/Timesheet.js** defines a **rowSchema** with **projectId**, **project**, **activity**, and a **hours** array of 7 values (Mon–Sun), and a **timesheetSchema** with **userId**, **weekStart**, **status** (draft/submitted/approved), rows, and timestamps.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327922/ems-3/1/23_lqyrhl.png)
+
+**backend/controllers/projectController.js** implements full CRUD: **addProject**, **getProjects**, **getProjectById**, **editProject**, and **deleteProject** — with duplicate name handling and employee project reference cleanup on delete.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327936/ems-3/1/24_nhb2cd.png)
+
+The **getProjects** function fetches all projects sorted by name, while **getProjectById** retrieves a single project by its ID — both with admin access checks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327949/ems-3/1/25_yzo7xx.png)
+
+**editProject** updates a project using **findByIdAndUpdate** and returns the updated document, handling duplicate name errors with a 11000 error code check.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327961/ems-3/1/26_okfxad.png)
+
+**backend/controllers/timesheetController.js** starts with helper utilities: **pad2** for zero-padding, **mondayYmdFromDate** to compute the Monday of any given week, **parseYmdLocal** for date parsing, and **stripLocalDate** for date normalization.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327974/ems-3/1/27_a57xop.png)
+
+The **canInteractWithWeek** function ensures a timesheet week can only be created or edited if its Monday is not in the future. **finalizeTimesheetRows** begins by validating rows and fetching the employee's assigned projects.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327984/ems-3/1/28_ajhmlj.png)
+
+**finalizeTimesheetRows** continues by mapping each row to a validated format: it checks the project ID against the employee's assigned projects, falls back to project name lookup, and returns structured row data with project reference, activity, and hours.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778327999/ems-3/1/29_fjpj9v.png)
+
+The **weekdayTotalsValid** function validates that Mon–Fri hours total either 0 (leave/holiday) or exactly 8 per day. **getTimesheetWeek** fetches a timesheet by weekStart, populates employee department and projects, and determines whether the week can be edited.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328010/ems-3/1/30_pdnx13.png)
+
+**getTimesheetWeek** returns the timesheet data along with **weekStart**, **weekEnd**, **canCreate** flag, and employee timesheet context including designation and assigned projects.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328025/ems-3/1/31_nsjv5j.png)
+
+**createTimesheet** checks if a timesheet already exists for the given week, then auto-generates initial rows using the employee's first assigned project with 8-hour default entries (Mon–Fri), or falls back to a department-based project name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328043/ems-3/1/32_i9dazf.png)
+
+**saveTimesheet** validates the timesheet ID, calls **finalizeTimesheetRows** to validate and structure the row data, and ensures the timesheet exists and is still in **draft** status before saving.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328061/ems-3/1/33_q1hopu.png)
+
+**submitTimesheet** checks that the timesheet exists, is in draft status, and that the week can still be interacted with (not in the future). It then finalizes rows and updates the status to **submitted** with a timestamp.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328074/ems-3/1/34_wseoxw.png)
+
+The rest of **submitTimesheet** saves the finalized rows, sets **status** to `submitted`, records **submittedAt**, and also introduces **weekOverlapsCalendarMonth** helper used for admin filtering by year/month.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328086/ems-3/1/35_u3fa3a.png)
+
+**adminListTimesheets** is an admin-only endpoint that filters submitted/approved timesheets by year and month, populating user name and email, and sorting by weekStart and updatedAt.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328098/ems-3/1/36_fszlvv.png)
+
+**adminListTimesheets** maps each result to a clean list with **weekStart**, **weekEnd**, **status**, **totalHours**, and timestamps. **getTimesheetAdmin** begins by verifying admin role and validating the timesheet ID.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328111/ems-3/1/37_lhiznt.png)
+
+**getTimesheetAdmin** fetches the employee record for the timesheet user and returns enriched data including **employeeId** and **department** name. **approveTimesheet** begins with admin role check.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328181/ems-3/1/38_jne29m.png)
+
+**approveTimesheet** confirms the timesheet is currently in **submitted** status, then sets it to **approved**, records **approvedAt** and **approvedBy**, and returns the fully populated timesheet with user and approver details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328193/ems-3/1/39_guvrw1.png)
+
+**backend/models/Employee.js** defines the Employee schema with fields for **userId**, **employeeId** (unique), **dateOfBirth**, **gender**, **maritalStatus**, and **designation** alongside other employee-specific fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328203/ems-3/1/40_dkzkpb.png)
+
+
+
