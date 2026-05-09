@@ -1,7 +1,7 @@
 ---
 title: Employee Mgmt System in MERN - 3
 description: ReactJS
-date: 2026-05-16
+date: 2026-05-10
 tags: ["reactjs", "nodejs", "javascript"]
 published: true
 ---
@@ -209,6 +209,46 @@ New routes are added to **App.jsx** for the timesheet management pages at `/admi
 The sidebar now shows all admin navigation items: Departments, Employees, Leaves, Salaries, Timesheets, Projects, and Settings — each with appropriate icons and active state highlighting.
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331271/ems-3/2/50_jyg3dv.png)
+
+Now we add the **Timesheet Summary** section to the admin dashboard. In **AdminSummary.jsx**, we add a new **Timesheet (this month)** section with four **SummaryCard** components: employees with submissions, weeks awaiting approval, weeks approved, and employees with pending weeks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334787/ems-3/2/51_f4gwxl.png)
+
+The **AdminSummary** component is updated to conditionally render the timesheet section only when **summary.timesheetSummary** is available, wrapping the cards in a responsive grid layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334798/ems-3/2/52_zpfyxb.png)
+
+Next we update the **employee sidebar**. In **frontend/src/components/Sidebar.jsx**, the employee's navigation is updated to include a **Leaves** link with a calendar icon and active state highlighting.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334812/ems-3/2/53_whnksq.png)
+
+Now we wire the **EditEmployee** component to support project assignments. The component is updated with new state variables: **allProjects** for the project list and **selectedProjectIds** for tracking which projects are assigned to the employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334824/ems-3/2/54_dv3m9u.png)
+
+The **EditEmployee** initialisation effect now fetches the employee's assigned projects and populates **selectedProjectIds** alongside the existing form fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334835/ems-3/2/55_qqlh6g.png)
+
+**handleSubmit** in **EditEmployee** is updated to include **projects: selectedProjectIds** in the PUT request payload, and new helper functions **handleChange** and **toggleProject** manage the form state and project selection toggling.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334845/ems-3/2/56_tzgwp2.png)
+
+The **EditEmployee** form now includes an **Assigned Projects** section with checkboxes for each project. It shows a helpful message when no projects exist yet, and allows selecting multiple projects the employee can log time against.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334857/ems-3/2/57_v2qcpy.png)
+
+The project selection checkboxes are rendered in a scrollable container with a max height, each showing the project name with a checkbox that toggles the selected state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334880/ems-3/2/58_wuosah.png)
+
+**ViewEmployee.jsx** is updated to import **useLocation** and detect whether the view is in the employee portal or admin dashboard, conditionally rendering the back button destination accordingly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334893/ems-3/2/59_bkvwpi.png)
+
+The **ViewEmployee** component now shows a **Back to Employees** button that navigates to the correct route based on the portal context, and displays the employee's details in a styled card layout with gradient background.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334904/ems-3/2/60_yqwtks.png)
 
 
 
