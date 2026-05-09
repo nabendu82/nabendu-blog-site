@@ -170,5 +170,46 @@ The rest of **submitTimesheet** saves the finalized rows, sets **status** to `su
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778328203/ems-3/1/40_dkzkpb.png)
 
+Now we wire employee editing to support **project assignments**. In **backend/controllers/employeeController.js**, the existing **getEmployees** and **getEmployeeById** functions populate the employee's userId and department for display.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331129/ems-3/2/41_d37d3c.png)
+
+**editEmployee** is updated to destructure **projects** from the request body alongside the existing fields, allowing project associations to be edited.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331139/ems-3/2/42_takqea.png)
+
+The **editEmployee** function now builds a **updatePayload** object that conditionally includes **projects** (as `projectIds`) when provided, and passes it to **findByIdAndUpdate** for a cleaner update.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331151/ems-3/2/43_dobymb.png)
+
+Next we wire the **Timesheet** summary into the admin dashboard. In **backend/controllers/dashboardController.js**, we import the **Timesheet** model along with helper utilities **pad2**, **parseYmdLocal**, and **weekOverlapsCalendarMonth**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331161/ems-3/2/44_su0igp.png)
+
+The **getSummary** function now computes a **timesheetSummary** for the current month: it filters submitted/approved timesheets, counts employees with submissions, and tracks pending vs approved weeks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331212/ems-3/2/45_jnnnvh.png)
+
+The dashboard API response is updated to include **timesheetSummary** alongside **totalEmployees**, **totalDepartments**, **totalSalary**, and **leaveSummary**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331222/ems-3/2/46_db2pui.png)
+
+Now we wire the frontend routes. In **frontend/src/App.jsx**, we add imports for the new timesheet and project components: **MyTimesheet**, **AdminTimesheetList**, **AdminTimesheetDetail**, **ProjectList**, **AddProject**, and **EditProject**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331234/ems-3/2/47_uv1jfx.png)
+
+New routes are added to **App.jsx** for the timesheet management pages at `/admin-dashboard/timesheets`, `/admin-dashboard/timesheets/:id`, and project management at `/admin-dashboard/projects`, `/admin-dashboard/add-project`, `/admin-dashboard/project/:id`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331248/ems-3/2/48_arqwlw.png)
+
+**AdminSidebar.jsx** is updated to include navigation links for the new **Timesheets** and **Projects** pages alongside the existing Departments, Leaves, and Salaries links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331260/ems-3/2/49_kmim6o.png)
+
+The sidebar now shows all admin navigation items: Departments, Employees, Leaves, Salaries, Timesheets, Projects, and Settings — each with appropriate icons and active state highlighting.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778331271/ems-3/2/50_jyg3dv.png)
+
+
 
 
