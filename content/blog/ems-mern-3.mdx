@@ -370,7 +370,42 @@ Next we build the **AdminTimesheetList** component. **AdminTimesheetList.jsx** i
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342667/ems-3/3/90_kbsna9.png)
 
+The **AdminTimesheetList** component uses **useMemo** to define **columns** for the DataTable: S No, Emp ID, Name, Week, Total hrs, and Status columns.
 
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344297/ems-3/3/91_emwpl8.png)
 
+The DataTable includes an Action column with a **View** link that routes to the timesheet detail page. The component also renders **year** and **month** filter dropdowns, and a page title with description text.
 
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344306/ems-3/3/92_z94bty.png)
 
+The **AdminTimesheetList** component provides Year and Month select dropdowns. The year generates options ranging from current year minus 2 to plus 2, while the month dropdown lists all 12 months by name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344316/ems-3/3/93_x3s2wk.png)
+
+The **AdminTimesheetList** component renders the DataTable with custom styles for rounded corners, styled header row with teal background, and striped alternating rows. Pagination is configured with 10 rows default and options for 10, 25, 50.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344327/ems-3/3/94_n9zrgn.png)
+
+Now we build the **AddProject** component. **AddProject.jsx** imports **useState**, **FaFolderOpen** icon, **axios**, and **useNavigate**. The component sets up project state with name and description, defines **handleChange** to update state, and **handleSubmit** to POST the new project to the API then navigate back to the project list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344336/ems-3/3/95_mda1uq.png)
+
+The **AddProject** component renders a styled header with the folder icon and **Add Project** title, plus a helper text explaining that projects should be created and then assigned to employees via Edit Employee. The form includes a required **Project name** input field with a placeholder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344346/ems-3/3/96_nwpmiz.png)
+
+The form includes an optional **Description** textarea and a full-width gradient **Add Project** button with hover scale effect. The component ends with **export default AddProject**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344355/ems-3/3/97_cs7rt1.png)
+
+Next we build the **AdminTimesheetDetail** component. **AdminTimesheetDetail.jsx** imports **useEffect**, **useMemo**, **useState**, **Link**, **useParams**, and **axios**. It defines helper functions: **pad2** for zero-padding, **parseYmdLocal** for date parsing, **addDaysYmd** to increment dates, **formatDmY** for display formatting, **dayShortLabel** for day labels, and **formatHourDisplay** for hour formatting.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344365/ems-3/3/98_mdvcwq.png)
+
+The **AdminTimesheetDetail** component defines a **sum** utility function, then sets up state for **ts** (timesheet), **err**, **msg**, **loading**, and **approving**. The **useEffect** loads the timesheet by ID from the API on mount, handling success and error states.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344374/ems-3/3/99_bvysgc.png)
+
+The **AdminTimesheetDetail** component uses **useMemo** to compute **dayColumns** from the timesheet weekStart. The **handleApprove** function sends a PATCH request to approve the timesheet, updates the state on success, and handles errors with a fallback message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344383/ems-3/3/100_kchvza.png)
