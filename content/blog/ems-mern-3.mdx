@@ -330,6 +330,47 @@ Each row in the timesheet table shows a project dropdown (when editing and proje
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778338019/ems-3/2/80_ujiwos.png)
 
+In **MyTimesheet.jsx**, the **displayRows.map()** function renders each timesheet row with the designation or activity label, editable number inputs for each day (Mon–Sun) with 0–24 range, step 0.25, and decimal input mode, along with a computed row total.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342585/ems-3/3/81_jxljft.png)
+
+The **removeRow** button appears on each row when editing, allowing deletion of a row (minimum one row is enforced). Below the rows, a **Total** row uses **colTotals** and **grandTotal** computed via **useMemo** to display column-wise hour sums and the overall total.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342597/ems-3/3/82_qgy2ok.png)
+
+An **+ Add row** button appears below the table in edit mode to append new empty rows. Below that, the **Status** label shows the current timesheet state: draft, submitted, or approved. When not editing, **Edit** and **Submit** buttons let the employee modify or submit the timesheet for HR approval.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342607/ems-3/3/83_vvv8fs.png)
+
+When the timesheet enters edit mode, **Cancel**, **Reset**, and **Save** buttons replace the default action buttons. **Cancel** exits without changes, **Reset** restores the original saved rows, and **Save** persists the updated rows via the API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342616/ems-3/3/84_hyee2e.png)
+
+The **MyTimesheet** component closes with **export default MyTimesheet**, making it available for routing. The component encapsulates all timesheet functionality—fetching, creating, editing, saving, submitting, and week navigation—for the employee portal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342625/ems-3/3/85_ppc84d.png)
+
+Now we build the **EditProject** component. **EditProject.jsx** imports **useParams**, **useEffect**, **useState**, **axios**, **FaFolderOpen** icon, and **useNavigate**. The component extracts the project **id** from the route, sets up form state, and uses **useEffect** to fetch the existing project data on mount.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342633/ems-3/3/86_xecwi8.png)
+
+**handleSubmit** in **EditProject** sends a **PUT** request to update the project, navigates back to the project list on success, and shows an error alert on failure. The form JSX includes a styled header with the folder icon and **Edit Project** title, plus a **Project name** input field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342642/ems-3/3/87_b8eruu.png)
+
+The form continues with a **Description** textarea for optional project details, and a full-width **Save Project** button styled with a gradient from green-600 to green-500, hover scale animation, and focus ring for accessibility.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342651/ems-3/3/88_ziqf2l.png)
+
+The **EditProject** component closes the form and wrapping divs, then exports the component with **export default EditProject**. The component is now ready to be wired into the admin routes for editing existing projects.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342659/ems-3/3/89_fhr9pp.png)
+
+Next we build the **AdminTimesheetList** component. **AdminTimesheetList.jsx** imports **useEffect**, **useMemo**, **useState**, **Link**, **DataTable**, and **axios**. Helper functions **formatDmY** (for date display) and **statusDisplay** (for status labels) are defined. State tracks **year**, **month**, **rows**, and **loading**. The **useEffect** fetches submitted/approved timesheets filtered by year and month for the admin view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778342667/ems-3/3/90_kbsna9.png)
+
+
 
 
 
