@@ -1,0 +1,92 @@
+---
+title: Employee Mgmt System in MERN - 3
+description: ReactJS
+date: 2026-05-16
+tags: ["reactjs", "nodejs", "javascript"]
+published: true
+---
+
+In this post we will continue with our **Employee Management System** using MERN stack. This project and post have been inspired by [this](https://www.youtube.com/watch?v=P_L-06VRcBI&list=PLnZgHKyxHOEBDDNhEhcx6SJBMa_uqfWcM&index=1) YouTube playlist. **Part 2** can be found [here](https://www.nabendu.org/blog/ems-mern-2).
+
+We will implement **cascade delete** when an admin removes a department: related employees, user accounts, leaves, and salary records must be cleaned up safely. First, here is sample data so you can see the app with a **Contractor** department and linked employees, leaves, and salaries before wiring the new delete behavior.
+
+Now, in http://localhost:5173/admin-dashboard/departments the **Manage Departments** page lists HR, Sales, IT, and **Contractor** (the row we use to exercise delete below).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156565/ems-3/1/1_eayqdd.png)
+
+On **Manage Employees**, Mary Jones and John Smith are assigned to the **Contractor** department.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156579/ems-3/1/2_yepwdk.png)
+
+**Manage Leaves** shows all requests; for example, a pending sick leave for a contractor employee appears in the table alongside other rows.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156591/ems-3/1/3_rb8oq7.png)
+
+**Salary Overview** includes salary rows for the contractor employees as well.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156598/ems-3/1/4_qxghee.png)
+
+Now, in **departmentController.js** we import **Employee**, **User**, **Leave**, and **Salary** so the controller can remove related documents when a department is deleted.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156606/ems-3/1/5_sbf015.png)
+
+In **deleteDepartment** we replace immediate delete with **Department.findById(id)** so we can run checks and cascade logic before removing the department.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156615/ems-3/1/6_ezz0hv.png)
+
+We complete **deleteDepartment**: collect **userId** values from employees in that department, delete matching **Leave** and **Salary** documents, delete **User** accounts, delete **Employee** rows, then **Department.findByIdAndDelete**, and return a message that includes how many employees were removed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156625/ems-3/1/7_qfyjuc.png)
+
+In **DepartmentHelper.jsx**, **handleDelete** shows a stronger **confirm** warning about permanent data loss, and on success uses **response.data.message** in **alert** when the API returns one.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156634/ems-3/1/8_nuser7.png)
+
+Clicking **Delete** on a department opens the browser confirm dialog with the full warning text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156644/ems-3/1/9_z1ffyc.png)
+
+After **OK**, the success alert summarizes the cascade—for example, that the department was deleted along with the employees and their associated records.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778156654/ems-3/1/10_kbonrg.png)
+
+After the cascade completes, **Manage Departments** shows only **HR**, **Sales**, and **IT**—the **Contractor** row and its dependents are gone.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157252/ems-3/1/11_rlzdia.png)
+
+**Manage Employees** now lists the remaining staff (for example **Nabendu Biswas** in **IT** and **Shikha Biswas** in **Sales**).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157262/ems-3/1/12_kg5o5d.png)
+
+**Manage Leaves** still shows historical requests for those employees, with statuses such as approved, pending, and rejected.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157272/ems-3/1/13_uumyew.png)
+
+**Salary Overview** reflects the smaller roster: only salary rows for the employees that still exist.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157280/ems-3/1/14_ruh5bl.png)
+
+Next we wire an admin **dashboard summary** API. In **backend/index.js**, import **`dashboardRouter`** and mount it at **`/api/dashboard`**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157291/ems-3/1/15_pzyyti.png)
+
+**backend/routes/dashboard.js** defines a protected **GET** route on **`/summary`** that runs **`authMiddleware`** and delegates to **`getSummary`**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157303/ems-3/1/16_dgqj0r.png)
+
+**backend/controllers/dashboardController.js** implements **`getSummary`**: counts departments and employees, aggregates total salary from employees, groups leave documents by **status** to build a leave summary, and returns JSON (or a **500** on failure).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157313/ems-3/1/17_ofatgz.png)
+
+In **`AdminSummary.jsx`**, we store the payload in state, fetch **`/api/dashboard/summary`** on mount with **axios** (Bearer token from local storage), handle errors, and show a centered **Loading…** spinner until data arrives.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157323/ems-3/1/18_pputgp.png)
+
+We bind **`SummaryCard`** values to the API: employee and department counts, monthly salary total, and leave metrics (applied, approved, rejected, pending) using safe fallbacks when nested fields are missing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157333/ems-3/1/19_o34lhl.png)
+
+Opening **`/admin-dashboard`** shows the **Dashboard Summary** and **Leave Details** cards populated with live numbers from MongoDB.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778157343/ems-3/1/20_su9k7j.png)
+
