@@ -250,6 +250,86 @@ The **ViewEmployee** component now shows a **Back to Employees** button that nav
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778334904/ems-3/2/60_yqwtks.png)
 
+The **ViewEmployee** component now includes an **Assigned Projects** section that displays the employee's projects as styled pill badges, or shows a helpful message if no projects are assigned yet.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337733/ems-3/2/61_avddg3.png)
+
+Now we build the **ProjectHelper** utility. **ProjectHelper.jsx** defines the **projectColumns** configuration for the DataTable (S No, Project name, Description, Action) and the **ProjectButtons** component with Edit and Delete actions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337742/ems-3/2/62_kzkaav.png)
+
+**ProjectButtons** renders Edit and Delete buttons with styled hover effects. The **handleDelete** function shows a confirm dialog warning that the project will be unassigned from all employees, then calls the delete API.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337758/ems-3/2/63_scqy5w.png)
+
+**ProjectList.jsx** is the main project management component. It fetches projects from the API, maps them with serial numbers and action buttons, and stores them in state for display.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337780/ems-3/2/64_pcc6xk.png)
+
+**ProjectList** includes a search input that filters projects by name or description in real-time, and an **Add Project** button that links to the add-project route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337789/ems-3/2/65_m0qd9r.png)
+
+The **Add Project** button is styled with a gradient background and hover scale effect. The project list is rendered using the DataTable component with the configured columns.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337801/ems-3/2/66_aqbcef.png)
+
+**ProjectList** renders the data using **react-data-table-component** with pagination enabled (10 rows per page, with options for 10, 20, 30).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337813/ems-3/2/67_niau9a.png)
+
+Now we build the **MyTimesheet** component. It starts with date utility functions: **pad2** for zero-padding, **mondayYmdFromDate** to compute the Monday of a given week, **parseYmdLocal** for date parsing, **addDaysYmd** to add days, **formatDmY** for display formatting, and **dayShortLabel** for day labels.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337825/ems-3/2/68_br4gai.png)
+
+More helper functions follow: **formatHourDisplay** renders hours as plain numbers, **parseHourInput** parses user input (clamped 0–24), **sum** reduces an array, and **cloneRows** deep-clones timesheet rows with validated hour arrays.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337835/ems-3/2/69_wbasqc.png)
+
+The **MyTimesheet** component initialises state: **weekStart**, **weekEnd**, **canCreate**, **timesheet**, **loading**, **msg**, **err**, **editing**, **editRows**, **editBaseline**, and **employeeTimesheetContext**. It derives **designation**, **assignedProjects**, and **hasAssignedProjects** from context, and defines **makeEmptyRow**, **dayColumns**, and **authHeader**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337846/ems-3/2/70_nwsari.png)
+
+**fetchWeek** loads the timesheet for the current weekStart via API, updating state with the response data. **startEdit** enters edit mode by cloning the timesheet rows and setting the editing flag.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337858/ems-3/2/71_vpctir.png)
+
+**startEdit** clones the rows, sets editBaseline and editRows, and enables editing mode. The **updateField** function updates a specific cell value in the edit rows by row index and field name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337869/ems-3/2/72_pxrear.png)
+
+**updateProjectSelection** handles project dropdown changes: it finds the selected project from the assigned projects list and updates the row with the projectId, project name, and the employee's designation as the activity.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337878/ems-3/2/73_efwg2t.png)
+
+**handleCreate** creates a new timesheet via API. **handleSave** saves the edited rows. **handleSubmit** submits the timesheet for HR approval. **shiftWeek** navigates between weeks by adjusting weekStart forward or backward.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337887/ems-3/2/74_avfsbi.png)
+
+**updateProjectSelection** finds the selected project from the assigned list and updates the row with the projectId, project name, and the employee's designation as the activity field.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337971/ems-3/2/75_yv1cqc.png)
+
+**addRow** appends an empty row to the edit rows, while **removeRow** deletes a row by index (ensuring at least one row remains). **displayRows** shows either edit rows or the saved timesheet rows. **colTotals** uses **useMemo** to compute column-wise hour totals across all rows for Mon–Sun. **grandTotal** sums all hours. Status flags **isApproved**, **isSubmittedPending**, and **canEmployeeEdit** control UI state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337980/ems-3/2/76_pxqsns.png)
+
+The **statusLabel** displays the current timesheet status: "Approved by HR", "Submitted (pending HR approval)", or "Draft (not submitted to HR)". A loading state shows a simple loading message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778337990/ems-3/2/77_qq6d1g.png)
+
+The timesheet header shows the **Timesheet Period** with previous/next week navigation buttons. Success and error messages are displayed in styled alert boxes when present.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778338000/ems-3/2/78_frkhnq.png)
+
+When no timesheet exists, a **Create Timesheet** button is shown (disabled if the week hasn't started). When a timesheet exists, a full table with project, designation, day columns (Mon–Sun), and total is rendered.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778338008/ems-3/2/79_gfaxxq.png)
+
+Each row in the timesheet table shows a project dropdown (when editing and projects are assigned) or a text input, the designation, hour inputs for each day, and a row total. The table has an emerald-themed header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778338019/ems-3/2/80_ujiwos.png)
+
 
 
 
