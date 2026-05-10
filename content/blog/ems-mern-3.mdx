@@ -409,3 +409,109 @@ The **AdminTimesheetDetail** component defines a **sum** utility function, then 
 The **AdminTimesheetDetail** component uses **useMemo** to compute **dayColumns** from the timesheet weekStart. The **handleApprove** function sends a PATCH request to approve the timesheet, updates the state on success, and handles errors with a fallback message.
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778344383/ems-3/3/100_kchvza.png)
+
+The **AdminTimesheetDetail** component renders **loading** and **error** states: a loading message while fetching, and an error or "Not found" message with a back link if the timesheet cannot be loaded. On success, it displays **statusText** and the **approver** name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393189/ems-3/3/101_zmpjte.png)
+
+The component renders the timesheet header with employee name, Emp ID, department, and week range. It shows success and error message banners. The table has an emerald-themed header with Project, Designation, day columns (Mon-Sun), and Total columns.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393200/ems-3/3/102_dtizmt.png)
+
+The timesheet table body maps through rows displaying project name, activity/designation, formatted hours for each day, and a row total. The component also shows the status text and approval timestamp with approver name when approved.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393230/ems-3/3/103_nwmrtq.png)
+
+When the timesheet status is **submitted**, an **Approve** button is shown. Clicking it triggers **handleApprove** which sends a PATCH request and shows "Approving..." while processing. The component ends with **export default AdminTimesheetDetail**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393240/ems-3/3/104_mh7vdu.png)
+
+Now we see the app in action. The **Manage Projects** page at `/admin-dashboard/projects` shows a list of projects with a search input and a DataTable listing project name, description, and action buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393252/ems-3/3/105_bcqtqd.png)
+
+The **Add Project** page at `/admin-dashboard/add-project` shows the form with a project name input and description textarea, prepopulated with example values like "SBI" and "State Bank of India".
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393264/ems-3/3/106_utum4j.png)
+
+After adding projects, the **Manage Projects** page lists all projects including the newly added ones (SBI, etc.) with Edit and Delete action buttons for each row.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393276/ems-3/3/107_kjfttv.png)
+
+The **Manage Employees** page at `/admin-dashboard/employees` lists employees with their details (name, DOB, department) and View/Leave action buttons. Search and Add Employee functionality is available.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393286/ems-3/3/108_ggharz.png)
+
+The **Edit Employee** page for Employee now shows for **Assigned projects** where multiple projects can be selected. Including the newly added **SBI** project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393298/ems-3/3/109_cvl5yl.png)
+
+The admin **Dashboard Summary** now shows Timesheet (this month) cards showing employees with submissions, weeks awaiting/approved approval, and employees with pending weeks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393309/ems-3/3/110_jcmhkf.png)
+
+Filtering the **Timesheets** page by April shows an Employee timesheets as approved for that month, demonstrating the year/month filter functionality.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393322/ems-3/3/111_p7ic2w.png)
+
+Clicking **View** on a timesheet shows the **Timesheet detail** page for **Shikha Biswas** with the Recruitment project, Sales Executive designation, 32 total hours, and "Approved by HR" status with the approval timestamp.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393334/ems-3/3/112_n8kmoa.png)
+
+The employee **My Profile** page shows Robin Hood's personal and employment details including the newly added assigned projects displayed as pill badges.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393348/ems-3/3/113_g2feuz.png)
+
+The employee **My Timesheet** page for Robin Hood shows the week 30-03-2026 to 05-04-2026 with a **Create a timesheet** button displayed when no timesheet exists for the period.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393359/ems-3/3/114_xp0pdi.png)
+
+After clicking **Create**, the timesheet editor appears with a project dropdown (Al chatbot selected), designation (Designer), editable hour inputs for each day (Mon-Sun) showing 8 hours for Mon-Fri, and a row total of 40. The **Cancel** and **Reset** buttons are visible in edit mode.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393394/ems-3/3/115_gnjlbq.png)
+
+After saving, the timesheet shows "Saved (draft - not sent to HR)" message with the timesheet table and **Edit** and **Submit** buttons in the footer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393406/ems-3/3/116_bhpi5r.png)
+
+After submitting, the timesheet status changes to **Submitted (pending HR approval)** with the **SBI** project and **Designer** designation, showing the submitted state to the employee.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393420/ems-3/3/117_crrrzs.png)
+
+The employee can navigate to the next week (06-04-2026) and submit another timesheet with the **Al chatbot** project, again showing the submitted state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393432/ems-3/3/118_jsxwo0.png)
+
+Continuing to the following week (13-04-2026 to 19-04-2026), the employee submits another timesheet with 40 hours and "Submitted (pending HR approval)" status.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393444/ems-3/3/119_hfj5rr.png)
+
+The employee's timesheet for week 20-04-2026 to 26-04-2026 shows the **SBI** project with 40 total hours and "Draft (not submitted to HR)" status, with the **Edit** button available for making changes before submission.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393455/ems-3/3/120_agioel.png)
+
+For week 27-04-2026 to 03-05-2026, the employee submitted a timesheet with only 24 hours (some weekdays with 0 hours) and the status shows "Submitted (pending HR approval)".
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393467/ems-3/3/121_k1giqi.png)
+
+Back on the admin dashboard, the **Timesheet (this month)** section now shows updated stats: 2 employees with submissions, 1 week awaiting approval, 1 week approved, and 1 employees with pending weeks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393477/ems-3/3/122_qmojk7.png)
+
+The admin **Timesheets** page lists all submitted/approved timesheets for the current month, showing each with Emp ID, Name, Week range, Total hours, and Status (Pending approval or Approved), with a View link for each row.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393490/ems-3/3/123_rpplnw.png)
+
+Clicking **View** on a pending timesheet opens the detail page showing the employee's timesheet rows with a **Submit** button visible, ready for the admin to approve.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393501/ems-3/3/124_sto2wo.png)
+
+After the admin approves pending timesheets, the **Timesheets** page shows all rows with **Approved** status, confirming the approve functionality works end-to-end.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393514/ems-3/3/125_zpkoce.png)
+
+Switching the month filter to **May** shows timesheets that overlap with May, demonstrating the year/month filtering works correctly for cross-month weeks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778393525/ems-3/3/126_nqre6g.png)
+
+This completes the series. You can find the code for the same [here](https://github.com/nabendu82/EMS)
