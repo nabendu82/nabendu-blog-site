@@ -168,3 +168,84 @@ Now, go back to the **Table Editor** and edit the **tasks** table.
 Here, a foreign key relationship was added to reference the **columns** table.
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939641/task-mgmt/1/40_hg8d4p.png)
+
+Now we create **RLS policies** for the **tasks** table. The SQL policies use JOIN queries: "Users can view tasks from their own boards" checks through columns to boards, "Users can insert tasks into their own boards" verifies the column belongs to the user's board, and "Users can update tasks from their own boards" ensures only the board owner can modify tasks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948007/task-mgmt/1/41_leptu3.png)
+
+The final policy for tasks is "Users can delete tasks from their own boards", completing the RLS setup. The SQL Editor shows all policies executing with "Success. No rows returned" for each one.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948016/task-mgmt/1/42_gq1mbm.png)
+
+Back in the Table Editor, in the **boards** table we have added **updated_at**, which we missed earlier.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948026/task-mgmt/1/43_tkbnze.png)
+
+We create the **supabase** lib folder with **models.ts** file defining TypeScript types for Board and Column interfaces. This provides type-safe database access in our Next.js app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948038/task-mgmt/1/44_rbfemw.png)
+
+The **client.ts** file creates a Supabase browser client using **createBrowserClient** from `@supabase/ssr`, passing the URL and anon key from environment variables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948048/task-mgmt/1/45_y2vjbz.png)
+
+The **server.ts** file creates a Supabase server client using **createServerClient** from `@supabase/ssr`, with cookie handling via **getAll** and **setAll** methods for SSR authentication.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948057/task-mgmt/1/46_eb1z0d.png)
+
+We create the **services.ts** file in the supabase lib folder to organize our database service functions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948067/task-mgmt/1/47_nrofke.png)
+
+The **services.ts** file implements the **columnService** with functions like **getColumns** that queries the columns table filtered by board_id and sorted by sort_order.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948074/task-mgmt/1/48_uetaqy.png)
+
+The **services.ts** also includes a **boardDataService** with a **createBoardWithDefaultColumns** function that creates a board and automatically creates four default columns: "To Do", "In Progress", "Review", and "Done".
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948083/task-mgmt/1/49_dcvne0.png)
+
+We create a **useBoards** hook in `lib/hooks/useBoards.ts` for fetching and managing board data in React components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948092/task-mgmt/1/50_q4xqse.png)
+
+Now we integrate Clerk with Supabase. On the Clerk dashboard, we navigate to **Connect with Supabase** in the setup page, select our TaskManagementApp and Development instance, and enable the Supabase integration.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948101/task-mgmt/1/51_kfemhu.png)
+
+After enabling, Clerk provides the **Clerk domain** URL (https://finer-kodiak-24.clerk.accounts.dev) which we need to copy and paste into Supabase's third-party auth settings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948110/task-mgmt/1/52_zbdxgr.png)
+
+In the Supabase dashboard, we go to **Authentication > Sign In / Providers > Third-Party Auth** and add a new Clerk connection by clicking "Add provider".
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948126/task-mgmt/1/53_b3vxm1.png)
+
+We register the Clerk domain in Supabase by pasting the Clerk domain URL into the **Add new Clerk connection** form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948136/task-mgmt/1/54_pybjri.png)
+
+After adding, Supabase shows the Clerk third-party auth configuration with the domain listed and the option to delete the integration if needed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948147/task-mgmt/1/55_fl0ick.png)
+
+We create a **SupabaseProvider.tsx** component that uses Clerk's session to create a Supabase client. It uses **createContext** and **useEffect** to initialize the Supabase client whenever the Clerk session changes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948158/task-mgmt/1/56_emvfqf.png)
+
+The **SupabaseProvider.tsx** continues with the context setup, providing **supabase** client and **isLoaded** state to all child components through React context.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948167/task-mgmt/1/57_wayjid.png)
+
+The **layout.tsx** is updated to wrap the app with **SupabaseProvider** inside the ClerkProvider, making Supabase available to all pages.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948177/task-mgmt/1/58_p5acqy.png)
+
+We create the **services.ts** file in the lib folder that imports the Supabase client and implements the **boardService** with functions like **getBoards** that queries boards for a specific user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948187/task-mgmt/1/59_dgd6hx.png)
+
+The **services.ts** we have added **SupabaseClient** and also updated the **getBoards**, **createBoard** and **getColumns** to use it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948196/task-mgmt/1/60_wlgrok.png)
+
