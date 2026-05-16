@@ -1,0 +1,170 @@
+---
+title: Task Management System - 1
+description: NextJS
+date: 2026-05-17
+tags: ["nextjs", "typescript", "supabase"]
+published: true
+---
+
+In this post we will create a **Task Management System** using NextJS. This project and post have been inspired 
+by [this](https://www.youtube.com/watch?v=ugxI1o5SyMs) YouTube video.
+
+We start by creating a new Next.js project. Running **npx create-next-app@latest task-management** with custom settings: TypeScript, ESLint, Tailwind CSS, App Router, and the src/ directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931813/task-mgmt/1/1_ck3wq9.png)
+
+The project structure in VS Code shows the generated files and folders. The **package.json** includes dependencies for Next.js, React, TypeScript, Tailwind CSS, and ESLint. You need to add them manually to get the correct versions used in this project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931827/task-mgmt/1/2_gj1opm.png)
+
+First run **npm i** to install all dependencies. Running **npm run dev** starts the Next.js development server on http://localhost:3000 using Turbopack.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931837/task-mgmt/1/3_rw3kxp.png)
+
+We run **npx shadcn@latest init** to set up shadcn/ui with the Base component library and Nova preset for UI components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931846/task-mgmt/1/4_dntrax.png)
+
+We install additional shadcn/ui components by running **npx shadcn add button card input label textarea dialog select badge**, which creates the component files in the components/ui directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931854/task-mgmt/1/5_y3dt9e.png)
+
+The default Next.js starter page appears at http://localhost:3000 before any customizations.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931861/task-mgmt/1/6_vk63fc.png)
+
+We create a **Navbar** component in `components/navbar.tsx`. It uses a Trello icon from lucide-react and displays "Task Management" in bold text within a sticky header with backdrop blur.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931872/task-mgmt/1/7_hghoyq.png)
+
+The **page.tsx** imports the Navbar component and wraps it in a full-height div with a gradient background from blue via white to purple.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931881/task-mgmt/1/8_yxep0j.png)
+
+The app now shows the Task Management header with the gradient background at http://localhost:3000.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931894/task-mgmt/1/9_huwbc0.png)
+
+We set up authentication with Clerk. The Clerk dashboard shows existing applications where we can manage authentication for our projects. Her click on **Create application**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931905/task-mgmt/1/10_nioc8s.png)
+
+We create a new Clerk application named **TaskManagementApp** with email and GitHub sign-in options enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931914/task-mgmt/1/11_zxvijv.png)
+
+The Clerk quickstart guide provides instructions to install **@clerk/nextjs** and copy the publishable and secret API keys.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931922/task-mgmt/1/12_yftymg.png)
+
+The API keys are added to the **.env** file: **NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY** and **CLERK_SECRET_KEY** for authentication.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931929/task-mgmt/1/13_ml5dqe.png)
+
+We create **middleware.ts** that exports the **clerkMiddleware** function with a matcher config to protect routes, excluding static files and API routes.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931938/task-mgmt/1/14_dggfu8.png)
+
+**layout.tsx** is updated with **ClerkProvider** wrapping the entire app, making authentication available to all pages. The Geist font is configured and the body uses a flex column layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931947/task-mgmt/1/15_llxdud.png)
+
+The **Navbar** component is updated to include **SignInButton** and **SignUpButton** from Clerk, wrapped in shadcn/ui Button components for authentication actions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931956/task-mgmt/1/16_xcjnyu.png)
+
+The app now shows the **Sign In** and **Sign Up** buttons in the navbar at http://localhost:3000.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931964/task-mgmt/1/17_kijtcv.png)
+
+Clicking **Sign Up** opens the Clerk-hosted sign-up page with options for GitHub OAuth or email/password registration.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931973/task-mgmt/1/18_hqfch6.png)
+
+Choosing GitHub OAuth redirects to the GitHub authorization page for Clerk Development & Staging Instances to access profile and email data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931983/task-mgmt/1/19_kt5ufh.png)
+
+After authentication, the Clerk dashboard shows the registered user (Nabendu) with their email, last signed-in time, and join date in the development environment.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778931993/task-mgmt/1/20_pakmvv.png)
+
+We update the **Navbar** component to show signed-in user state. It imports **useUser** from Clerk, checks **isSignedIn**, and displays a welcome message with the user's first name and a **Go to Dashboard** link button when signed in, or Sign In/Sign Up buttons when not.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939422/task-mgmt/1/21_m3vasr.png)
+
+After signing in, the app shows "Welcome, Nabendu" in the navbar with a **Go to Dashboard** button containing an arrow icon, navigating to the protected dashboard route.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939442/task-mgmt/1/22_c66hds.png)
+
+The **Navbar** component is further updated to conditionally render different layouts. It now imports **UserButton** and **usePathname**, checks if the current page is `/dashboard` or `/boards/:id`, and shows only the **UserButton** on those pages instead of the full nav.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939465/task-mgmt/1/23_ighrso.png)
+
+We create the **DashboardPage** in `app/dashboard/page.tsx`. It imports **useUser** and renders a welcome message using `user.firstName` with a "Here's what's happening with your boards today" subtitle, wrapped in the Navbar and a gray background container.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939475/task-mgmt/1/24_lbwgud.png)
+
+The dashboard page at http://localhost:3000/dashboard shows "Welcome back, Nabendu!" with a description, and the navbar now displays the **UserButton** dropdown with the user's avatar and sign-out option.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939484/task-mgmt/1/25_djy6ag.png)
+
+Now we set up the database with Supabase. The Supabase dashboard shows the **Projects** page where we can create a new project for our task management app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939496/task-mgmt/1/26_lm7arc.png)
+
+We create a new Supabase project named **task-management** with a database password, region set to Asia-Pacific, and Data API enabled for RESTful access.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939505/task-mgmt/1/27_fk6mv0.png)
+
+The Supabase project dashboard shows the project overview with the connection string, compute status (Healthy), region (Northeast Asia / Tokyo), and resource usage metrics. Here copy the url.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939517/task-mgmt/1/28_briqdq.png)
+
+In the **API Keys** settings page, we find the **Publishable key** and **Secret key** needed to connect our Next.js app to Supabase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939526/task-mgmt/1/29_pc7z2h.png)
+
+The **.env** file is updated with Supabase credentials: **NEXT_PUBLIC_SUPABASE_URL**, **NEXT_PUBLIC_SUPABASE_ANON_KEY**, and **SUPABASE_SERVICE_ROLE_KEY** alongside the existing Clerk keys.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939535/task-mgmt/1/30_aznva6.png)
+
+The Supabase **Table Editor** shows the interface for creating database tables. We can design tables with columns, set primary keys, and configure Row Level Security.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939545/task-mgmt/1/31_bxhkie.png)
+
+We create the **boards** table with columns: **id** (int8, primary key), **created_at** (timestamptz), **title** (text), **description** (text), **color** (text, default "bg-blue-500"), and **user_id** (text). Row Level Security (RLS) is enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939556/task-mgmt/1/32_whqkts.png)
+
+After creating the boards table, the Table Editor shows the empty table with all columns but no data yet. Here click on **New table** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939568/task-mgmt/1/33_v4qhf0.png)
+
+We create the **columns** table (for board columns/lists). It has **board_id** as a foreign key referencing boards.id, **title** (text), and **sort_order** (int4). The foreign key relationship is configured with **Cascade** on delete.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939578/task-mgmt/1/34_foayep.png)
+
+The **columns** table is created with a foreign key relation to **public.boards**. The **board_id** column references **boards.id**, and the action on referenced row removal is set to **Cascade**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939587/task-mgmt/1/35_iuv1pq.png)
+
+We create the **tasks** table with columns: **id** (int8, primary key), **created_at** (timestamptz), **board_id** (int8, FK to boards), **title** (text), **sort_order** (int8).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939599/task-mgmt/1/36_t38bym.png)
+
+Now, we need to add **RLS policies** and for this we have opened **SQL Editor**.Here, we will first create rules for **boards** table. Click on **Run** to add these rules.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939611/task-mgmt/1/37_ksgpod.png)
+
+**RLS policies** are now created for the **columns** table: "Users can view their own boards", "Users can insert their own boards", "Users can update their own boards", and "Users can delete their own boards" — all using **auth.uid()::text = user_id** to restrict access.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939621/task-mgmt/1/38_cgvgi8.png)
+
+Now, go back to the **Table Editor** and edit the **tasks** table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939631/task-mgmt/1/39_gsskwe.png)
+
+Here, a foreign key relationship was added to reference the **columns** table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778939641/task-mgmt/1/40_hg8d4p.png)
