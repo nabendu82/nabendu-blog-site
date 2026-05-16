@@ -249,3 +249,124 @@ The **services.ts** we have added **SupabaseClient** and also updated the **getB
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778948196/task-mgmt/1/60_wlgrok.png)
 
+All **services.ts** functions are updated to accept **SupabaseClient** as the first parameter. The diff shows `columnService.createColumn` now takes `supabase: SupabaseClient` alongside the column data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778949941/task-mgmt/2/61_gwgmsv.png)
+
+We have deleted the **client.ts** file, as it is not usd any more.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778949951/task-mgmt/2/62_ruogxo.png)
+
+The Dashboard **page.tsx** now uses **useBoards** and also the **handleCreateBoard**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778949963/task-mgmt/2/63_sqwynf.png)
+
+The Dashboard page diff shows the addition of a **Create Board** card component with a **Plus** icon from lucide-react, wrapped in a grid layout with responsive columns.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778949976/task-mgmt/2/64_bxqjv2.png)
+
+The dashboard at http://localhost:3000/dashboard now shows a **Create Board** card with a plus icon, description "Start a new project with custom columns", alongside the welcome message.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778949986/task-mgmt/2/65_gri3m3.png)
+
+We create the **requesting_user_id** SQL function in the Supabase SQL Editor. This function extracts the **sub** claim from the JWT to identify the authenticated user for RLS policies.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778949995/task-mgmt/2/66_hyfkd0.png)
+
+Back in the Table Editor, in the **boards** table we will click on the **RLS policies**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950007/task-mgmt/2/67_tg4od2.png)
+
+The Authentication Policies page shows the RLS policies for the **boards** table. Each policy (view, insert, update, delete) is listed with its command and target table. We will **Edit policy** for update.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950017/task-mgmt/2/68_pm71sm.png)
+
+We update the **"Users can insert their own boards"** policy to use the **requesting_user_id()** function instead of comparing with raw user_id text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950030/task-mgmt/2/69_vzy9my.png)
+
+The **"Users can delete their own boards"** policy is updated to use **requesting_user_id() = user_id**, leveraging the custom JWT function for auth checks.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950041/task-mgmt/2/70_asjzdz.png)
+
+The **"Users can delete columns from their own boards"** policy is updated with an **EXISTS** subquery that uses **requesting_user_id()** to verify board ownership through the boards table.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950050/task-mgmt/2/71_sow3f1.png)
+
+The **"Users can insert columns into their own boards"** policy uses **WITH CHECK** with an **EXISTS** subquery, checking that the column's board belongs to the requesting user.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950061/task-mgmt/2/72_jeiaet.png)
+
+The **"Users can delete tasks from their own boards"** policy uses a JOIN from columns to boards, checking **requesting_user_id()** against the board owner across the full table chain.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950073/task-mgmt/2/73_ykddyt.png)
+
+In **models.ts** file, we have added **user_id** in interface **Column**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950081/task-mgmt/2/74_gwfoug.png)
+
+The **service.ts** file we have added function **createBoardWithDefaultColumns**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950093/task-mgmt/2/75_aih3pj.png)
+
+The Table Editor we have added **user_id** field, which is of type **text**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950103/task-mgmt/2/76_owmikp.png)
+
+The dashboard page opens with the Chrome DevTools **Network** tab visible. It shows Clerk authentication requests and Supabase API calls for boards and columns data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950115/task-mgmt/2/77_jawrna.png)
+
+The Network tab shows the full request timeline with successful HTTP 200/201 responses for Clerk tokens, board fetches, and column queries, confirming the API integration works.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950126/task-mgmt/2/78_ujzolu.png)
+
+The **boards** table in Supabase now has a data row: a board titled **"New Board"** with description "A new board", color "#000000", and the user ID assigned, created at the current timestamp.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950139/task-mgmt/2/79_jv4l9q.png)
+
+The **columns** table shows four rows linked to board_id 2: "Done" (sort_order 3), "In Progress" (sort_order 1), "Review" (sort_order 2), and "To Do" (sort_order 0) — each with the user_id.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950145/task-mgmt/2/80_lsoacd.png)
+
+The **useBoards.ts** we have added an **useEffect**, where we are calling the function **loadBoards**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950163/task-mgmt/2/81_lt7lyz.png)
+
+The Dashboard **page.tsx** ,when **loading** is true, a full-screen spinner with a **Loader2** animated icon and "Loading your boards..." text is shown. When **error** occurs, a red error message is displayed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950178/task-mgmt/2/82_qu04br.png)
+
+The Dashboard page shows the **Stats** section with two Cards: **Total Boards** displaying `{boards.length}` with a Trello icon inside a blue circle, and **Recent Activity** showing a count of boards updated within the last week using a date filter.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950188/task-mgmt/2/83_hyfjmy.png)
+
+The **Total Boards** Card component code is shown in the editor, rendering `{boards.length}` with a Trello icon from lucide-react inside a rounded blue background container.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950200/task-mgmt/2/84_awoq6u.png)
+
+The dashboard UI now displays **Total Boards: 1** and **Recent Activity: 1** cards showing the board count after creating the first board.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950210/task-mgmt/2/85_tru2jz.png)
+
+The **page.tsx** we have imported some required things. And also commented out loading, as it was causing some issues.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950221/task-mgmt/2/86_moetyo.png)
+
+We have also changed the style of a div in **page.tsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950234/task-mgmt/2/87_wuce7q.png)
+
+The **"Your Boards"** section includes a grid/list **view mode toggle** (Grid3x3 and List icons), a **Filter** button, a **Create Board** button with Plus icon, and a **Search** input bar with a magnifying glass icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950246/task-mgmt/2/88_f7pnnw.png)
+
+The **Boards Grid** section renders board cards using a responsive grid. Each board card shows the board color, a "New" badge, the title, description, created/updated dates, and links to `/dashboard/{board.id}`. An additional dashed "Create new board" card is included at the end.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950261/task-mgmt/2/89_rl6clv.png)
+
+The dashboard now displays  **Your Boards** section showing two "New Board" cards each with "New" badge, created and updated dates. A search bar, filter button, and "Create new board" button are visible in the top toolbar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950268/task-mgmt/2/90_jrjudk.png)
+
+
