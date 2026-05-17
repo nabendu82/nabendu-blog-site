@@ -369,4 +369,89 @@ The dashboard now displays  **Your Boards** section showing two "New Board" card
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1778950268/task-mgmt/2/90_jrjudk.png)
 
+The **page.tsx** is updated with a **List view** for boards. The green outlined section shows boards.map using a vertical list layout with div wrappers and mt-4 spacing, each linking to `/boards/{board.id}`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000487/task-mgmt/2/91_yupnzb.png)
+
+The dashboard now shows **Total Boards: 2** and the **Your Boards** section with two board cards. Clicking on a board card (indicated by the blue arrow) will change the layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000519/task-mgmt/2/92_ey0s4f.png)
+
+You can now see the layout is changed for the board and **Create new board**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000532/task-mgmt/2/93_ar4dub.png)
+
+The **navbar.tsx** working tree shows the updated Navbar component with new imports and functionality for the board page context.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000542/task-mgmt/2/94_s0hd5i.png)
+
+The **Navbar** component is updated to accept **boardTitle** and **onEditBoard** props. For board pages, it shows a **Back to dashboard** link with ArrowLeft icon, the Trello icon, and the board title. It also includes a UserButton.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000554/task-mgmt/2/95_l6aps0.png)
+
+The **services.ts** working tree shows the new **getBoard** function (green outline) added to boardService. It fetches a single board by ID from Supabase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000568/task-mgmt/2/96_hydpsg.png)
+
+The **services.ts** working tree also shows the **updateBoard** function (green outline) being added to boardService. This function will update board properties via Supabase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000587/task-mgmt/2/97_futhta.png)
+
+A new **useBoard** hook (green outline) is added in **useBoards.ts**. It imports **useSupabase**, **useUser**, and manages **board**, **columns**, **loading**, and **error** state for a single board.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000599/task-mgmt/2/98_ib9djo.png)
+
+A new **BoardPage** component is created at `app/boards/[id]/page.tsx`. It imports **Navbar**, **useBoard** hook, and **useParams** from next/navigation, and renders the board title in the Navbar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000610/task-mgmt/2/99_z8lfxu.png)
+
+The Dashboard **page.tsx** working tree shows the board card links are updated: the href is changed from `/dashboard/${board.id}` to `/boards/${board.id}` (green outlined).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000625/task-mgmt/2/100_whzyfq.png)
+
+The board page at http://localhost:3000/boards/3 shows "Back to dashboard" link and "New Board" title in the header, demonstrating the navbar's board page layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000639/task-mgmt/2/101_e4zcjs.png)
+
+The **BoardPage** working tree shows the full component code with imports for **Navbar**, **useBoard**, **useParams**, and destructuring **board**, **columns**, **loading**, **error** from the hook.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000653/task-mgmt/2/102_xdvjjm.png)
+
+The **BoardPage** component now includes an **Edit board** Dialog with a form containing **Board Title** input and **Board Color** picker with six color options (blue, green, yellow, red, purple, pink) arranged in a grid.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000667/task-mgmt/2/103_r6dc95.png)
+
+The board page at /boards/3 shows "Back to dashboard" and "New Board" title in the header, now with the edit dialog available.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000715/task-mgmt/2/105_xozs5g.png)
+
+The **Edit board** dialog is open with the **Board Title** input showing "New Board" and six color options displayed as circular buttons below.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000729/task-mgmt/2/106_jlclf6.png)
+
+The **BoardPage** component includes **handleUpdateBoard** function that calls **updateBoard** from useBoard with the new title and color. State variables **isEditingTitle**, **newTitle**, and **newColor** manage the dialog form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000745/task-mgmt/2/107_vb4nbu.png)
+
+In **updateBoards.ts** file, we have added a function **updateBoard**. It calls **updateBoard** from **boardService**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000758/task-mgmt/2/108_l0xgtz.png)
+
+The **services.ts** file implements the **updateBoard** function in boardService. It sends a partial update to Supabase with `updated_at` timestamp, filtering by `boardId`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000769/task-mgmt/2/109_qrsk85.png)
+
+The **Edit board** dialog now shows "Future Plans" typed in the **Board Title** input, demonstrating the title editing feature.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000779/task-mgmt/2/110_rthmmu.png)
+
+After saving, the board page header updates to show "Future Plans" as the board title, confirming the update was successful.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000790/task-mgmt/2/111_xbffnv.png)
+
+Back on the dashboard, **Future Plans** board appears in the **Your Boards** section alongside the update **color**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779000803/task-mgmt/2/112_y7bl03.png)
+
+This complete part-1 of the blog. You can find the code [here](https://github.com/nabendu82/task-management)
 
