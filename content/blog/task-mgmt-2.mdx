@@ -91,5 +91,83 @@ The **page.tsx** includes a **Column** component structure for rendering individ
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779627000/task-mgmt/3/20_j03sz1.png)
 
+The **Column** component renders a column with the column title, a **Badge** showing the task count, and a **MoreHorizontal** button. The task list maps over `column.tasks` and displays each task title.
 
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629399/task-mgmt/3/21_ftjerm.png)
+
+The **Column** component includes the **Create Task** dialog form (green outline) with fields for **Title**, **Description**, **Assignee**, and **Priority** (low/medium/high select) using shadcn/ui components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629409/task-mgmt/3/22_cpodb6.png)
+
+The **BoardPage** adds **createTask** and **handleCreateTask** functions (green outline). `createTask` creates a task in the first column, while `handleCreateTask` extracts form data and calls `createRealTask`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629420/task-mgmt/3/23_eduq0g.png)
+
+The **page.tsx** working tree diff shows updated code for the BoardPage component (green outline). We have removed a **div** which was causing style problems. And in the form we have added **handleCreateTask** in **onSubmit**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629431/task-mgmt/3/24_z21mbf.png)
+
+The **Board Columns** section renders each column using `columns.map`, passing `key`, `column`, `onCreateTask`, and `onEditColumn` props. This completes the column rendering in the board view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629444/task-mgmt/3/25_oofnzm.png)
+
+The board UI now shows **Future Plans** with four columns: **ToDo** , **In Progress**, **Review** and **Done**. Notice that the description is added in **ToDo** and **In Progress**. Also the **Total Tasks** shows the current number of tasks. Now, we can click on the three dots in the **Review** or other places.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629456/task-mgmt/3/26_btupdn.png)
+
+The **Create New Task** dialog for the "Review" column is shown. And here we have entered all the data. ANd clicked on **Create Task** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629467/task-mgmt/3/27_mpdr2t.png)
+
+The Supabase **Table Editor** shows the **tasks** table with data rows including title, description, assignee, due_date, priority, column_id, and sort_order columns.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629478/task-mgmt/3/28_hadroy.png)
+
+The board shows **Total Tasks: 3** with the "Login flow" task now appearing in the **Review** column. 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629488/task-mgmt/3/29_mj7dlk.png)
+
+The **models.ts** working tree diff shows the updated **Task** interface with **updated_at** removed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629497/task-mgmt/3/30_blu1gq.png)
+
+The **useBoards.ts** hook adds the **createColumn** function (creating a new column with Supabase) and the **moveTask** function (updating task column_id and sort_order via service, then optimistically updating the columns state).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629509/task-mgmt/3/31_t2tqy4.png)
+
+The **useBoards.ts** also adds the **updateColumn** function (updating column title) and returns all functions: `board`, `columns`, `loading`, `error`, `updateBoard`, `createRealTask`, `createColumn`, `setColumns`, `moveTask`, and `updateColumn`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629519/task-mgmt/3/32_hhsdp0.png)
+
+The **services.ts** file adds the **updateColumn** function in **columnService** (green outline). It updates the column title by ID using Supabase and returns the updated column data.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629530/task-mgmt/3/33_py7mwj.png)
+
+The **page.tsx** imports are updated to include **DndContext**, **DragEndEvent**, **DragOverEvent**, **DragOverlay**, **DragStartEvent**, **PointerSensor**, **rectIntersection**, **useDroppable**, **useSensor**, **useSensors** from @dnd-kit/core, and **SortableContext**, **useSortable**, **verticalListSortingStrategy** from `@dnd-kit/sortable`. The **DroppableColumn** component uses **useDroppable** for drop zones.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629542/task-mgmt/3/34_ftunkp.png)
+
+The **DroppableColumn** component includes the **Add Task** button (Plus icon) that opens a **Create New Task** dialog with fields for Title, Description, Assignee, and Priority.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629554/task-mgmt/3/35_ibfun8.png)
+
+More code sections of the **DroppableColumn** component are shown (green outline), continuing the column drop zone structure and task creation dialog.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629565/task-mgmt/3/36_hxglyp.png)
+
+The **SortableTask** component renders a task card with the task title, description (with line-clamp), assignee (User icon), due_date (Calendar icon), and a colored priority dot (green for low, yellow for medium, red for high). It uses **useSortable** for drag-and-drop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629577/task-mgmt/3/37_vgkzbi.png)
+
+The **TaskOverlay** component and **getPriorityColor** function map priority values to colors: "high" returns "bg-red-500", "medium" returns "bg-yellow-500", and "low" returns "bg-green-500".
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629589/task-mgmt/3/38_qj9u9t.png)
+
+The **TaskOverlay** continues rendering the task card with meta information including assignee, due_date, and priority color dot for the drag preview overlay.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629599/task-mgmt/3/39_fkdsem.png)
+
+The **BoardPage** component includes all state variables: **isEditingTitle**, **newTitle**, **newColor**, **isFilterOpen**, **isCreatingColumn**, **isEditingColumn**, **newColumnTitle**, **editingColumnTitle**, **editingColumn**, **filters** (with priority, assignee, dueDate), **activeTask**, and **sensors** with PointerSensor. Functions **handleFilterChange**, **clearFilters**, and **handleUpdateBoard** manage filter and board editing logic.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629610/task-mgmt/3/40_bytsqi.png)
 
