@@ -1,0 +1,95 @@
+---
+title: Task Management System - 2
+description: NextJS
+date: 2026-05-28
+tags: ["nextjs", "typescript", "supabase"]
+published: true
+---
+
+In this post we will continue with the **Task Management System** using NextJS. This project and post have been inspired 
+by [this](https://www.youtube.com/watch?v=ugxI1o5SyMs) YouTube video.
+
+You can find the Part-1 [here](https://www.nabendu.org/blog/task-mgmt-1). We will start from where we left.
+
+The **Navbar** component is updated with new imports including **Filter** and **Badge**. The **Props** interface now includes `onFilterClick` and `filterCount?` for board page support.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626759/task-mgmt/3/1_cyjfac.png)
+
+The **Navbar** now accepts `onFilterClick` and `filterCount` props (green outline). 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626767/task-mgmt/3/2_h9br4a.png)
+
+The **BoardPage** is updated with a `useState` hook for `isFilterOpen` to manage the filter dialog state. In the Navbar, `onFilterClick` and `filterCount` props are now passed to toggle the filter dialog and display the active filter count badge.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626776/task-mgmt/3/3_kqv2dl.png)
+
+The **BoardPage** continues with more UI code including the board color picker and dialog content structure (green outline).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626784/task-mgmt/3/4_kokoiv.png)
+
+The board page at http://localhost:3000/boards/3 now shows a **Filter** button with a count badge in the top-right (indicated by the blue arrow), alongside the **Back to dashboard** link and board title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626841/task-mgmt/3/5_kde7tn.png)
+
+The **Filter Tasks** dialog is open with options to filter by **Priority**, **Due Date** (dd/mm/yyyy), and buttons for **Clear Filters** and **Apply Filters**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626851/task-mgmt/3/6_ebl1ro.png)
+
+More code sections of the **BoardPage** component are shown, continuing the board layout structure (green outline).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626866/task-mgmt/3/7_vrrnh6.png)
+
+The **useBoards.ts** working tree diff shows updates: **ColumnWithTasks** type replaces **Column** for the columns state, and `columns` replaces `ColumnWithTasks` to fetch board data along with tasks for each column.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626877/task-mgmt/3/8_ic6ow3.png)
+
+The **services.ts** working tree diff shows the import updated to include **Task** types from the models file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626891/task-mgmt/3/9_duqcvx.png)
+
+The **taskService** is defined in **services.ts** with three functions: **getTasksByBoard** fetches tasks via a join through columns to boards, **createTask** inserts a new task, and **moveTask** updates a task's column_id and sort_order.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626898/task-mgmt/3/10_scemhv.png)
+
+The **boardDataService** now has a **getBoardWithColumns** function that fetches the board and columns in parallel, then fetches all tasks for the board and maps them to their respective columns using **columnsWithTasks**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626911/task-mgmt/3/11_dfzrml.png)
+
+The **models.ts** file defines the **ColumnWithTasks** type (extending Column with a `tasks: Task[]` array) and the **Task** interface with fields for **id**, **column_id**, and **title**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626920/task-mgmt/3/12_clnjec.png)
+
+The board page now shows **Total Tasks: 0** with the updated layout including the Filter button with count and the Back to dashboard link.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626928/task-mgmt/3/13_d5763w.png)
+
+The **page.tsx** imports are updated to include **DialogTriggeer**, **Plus**, **Textarea**  and other components from **select**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626938/task-mgmt/3/14_t8dtnc.png)
+
+More sections of the **BoardPage** component code are shown (green outline), continuing the board and column structure.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626951/task-mgmt/3/15_k0yhdo.png)
+
+The **BoardPage** includes a **Create Task** dialog form with fields for **Priority** (low, medium, high select), **Due Date** (date input), and a **Create Task** submit button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626961/task-mgmt/3/16_c3cv5j.png)
+
+The board page now shows **+ Add Task** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626970/task-mgmt/3/17_seyjke.png)
+
+Clicking on the **+ Add Task** button , shows the **Create New Task** dialog with form fields for **Title**, **Description**, **Assignee**, **Priority** (dropdown), and **Due Date** (date picker).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626981/task-mgmt/3/18_pb2k7s.png)
+
+The **useBoards.ts** hook adds a **createRealTask** function that calls `taskService.createTask` with the task data including title, description, assignee, dueDate, column_id, sort_order, and priority. It updates the columns state optimistically.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779626989/task-mgmt/3/19_rg0cik.png)
+
+The **page.tsx** includes a **Column** component structure for rendering individual columns with their tasks in the board view.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779627000/task-mgmt/3/20_j03sz1.png)
+
+
+
