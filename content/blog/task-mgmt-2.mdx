@@ -171,3 +171,86 @@ The **BoardPage** component includes all state variables: **isEditingTitle**, **
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779629610/task-mgmt/3/40_bytsqi.png)
 
+The **handleDragStart** function is added. It extracts the task ID from the drag event's active element, finds the corresponding task across all columns, and sets it as **activeTask** for the drag overlay.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721078/task-mgmt/4/41_ypdiw7.png)
+
+The **handleDragEnd** async function handles the completion of a drag operation. It checks if the task was dropped on a column or on another task, identifies source and target columns, and calls **moveTask** to persist the reordering.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721092/task-mgmt/4/42_x5nuby.png)
+
+The **handleUpdateColumn** function and **handleEditColumn** function are added. The **filteredColumns** logic filters tasks by priority and due date, returning tasks that match the active filter criteria.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721108/task-mgmt/4/43_ucq8v2.png)
+
+The **BoardPage** return statement passes **onFilterClick** and **filterCount** props to Navbar. The **Edit board** dialog now includes 12 color options for the board (blue, green, yellow, red, purple, pink, indigo, gray, orange, teal, cyan, emerald).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721119/task-mgmt/4/44_hkgr19.png)
+
+More code sections of the **BoardPage** component are shown (green outline), continuing the board layout and column rendering structure.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721130/task-mgmt/4/45_qhjjvx.png)
+
+More code sections of the **BoardPage** component are shown (green outline), continuing with the drag-and-drop context and column rendering.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721145/task-mgmt/4/46_zeaaf9.png)
+
+The **Create New Column** dialog is added. It opens when **isCreatingColumn** is true and contains a form with a **Column Title** input field and **Create Column** submit button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721159/task-mgmt/4/47_hvchh7.png)
+
+The **Edit Column** dialog is added. It opens when **isEditingColumn** is true and contains a form with **Column Title** input pre-filled with the current column title, and **Cancel** and **Edit Column** buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721173/task-mgmt/4/48_bs7s9l.png)
+
+The board now shows details of four columns: **ToDo**, **In Progress** , **Review** , and **Done** with added title and description. Each column has an **Add Task** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721184/task-mgmt/4/49_mqreel.png)
+
+Clicking on the **Add Task** button, opens the **Create New Task** dialog in which we have filled the details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721197/task-mgmt/4/50_ggvoid.png)
+
+After adding the "Log Management" task, the board shows **Total Tasks: 4**. The **ToDo** column now has **2** tasks (Task Management not working + Log Management).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721207/task-mgmt/4/51_m86vot.png)
+
+After dragging "Log Management" task to **In Progress**, that column now shows **2** tasks: "Task Management app" and "Log Management". The **ToDo** count drops back to **1**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721235/task-mgmt/4/52_j8ikvl.png)
+
+More tasks have been added so **Total Tasks: 6**. We have now clicked on the **+ Add another list**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721251/task-mgmt/4/53_nr34ot.png)
+
+The **Create New Column** dialog is open with "Testing" typed as the column title, ready to be created.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721264/task-mgmt/4/54_zr1noz.png)
+
+After creation, the **Testing** column appears as the fifth column alongside ToDo, In Progress, Review, and Done. 
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721274/task-mgmt/4/55_xu5cit.png)
+
+The **Edit Column** dialog is open showing the **Testing** column title ready to be edited.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721286/task-mgmt/4/56_edpgbx.png)
+
+Changed the **Testing** column to **Completed** as the new column title.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721298/task-mgmt/4/57_ujtc6u.png)
+
+After renaming, the board shows the column renamed to **Completed** with 0 tasks. The column order now shows: **ToDo**, **In Progress**, **Review**, **Done**, and **Completed**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721309/task-mgmt/4/58_bw8grx.png)
+
+We have renamed the **Done** to **Testing**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721320/task-mgmt/4/59_eyegy2.png)
+
+The **Filter Tasks** dialog is shown with **Priority** and **Due Date** filter options, and **Clear Filters** and **Apply Filters** buttons. We hav choosen **Low** and clicked on **Apply Filters**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721332/task-mgmt/4/60_jndxkf.png)
+
+The board now shows a filtered view with **Filter 1** badge in the top-right. Only the task with **Low** priority is shown.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721344/task-mgmt/4/61_tnksj3.png)
