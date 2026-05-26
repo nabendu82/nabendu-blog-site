@@ -1,7 +1,7 @@
 ---
 title: Task Management System - 2
 description: NextJS
-date: 2026-05-28
+date: 2026-05-26
 tags: ["nextjs", "typescript", "supabase"]
 published: true
 ---
@@ -254,3 +254,125 @@ The **Filter Tasks** dialog is shown with **Priority** and **Due Date** filter o
 The board now shows a filtered view with **Filter 1** badge in the top-right. Only the task with **Low** priority is shown.
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779721344/task-mgmt/4/61_tnksj3.png)
+
+The **DroppableColumn** component is updated (green outline) to accept **isCreateTaskOpen** and **onCreateTaskOpenChange** props for controlling the task creation dialog state per column.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779796991/task-mgmt/4/62_kvnozg.png)
+
+More code sections of the **BoardPage** component are shown (green outline), continuing the filter and task creation logic updates.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797012/task-mgmt/4/63_g4ix2z.png)
+
+The **handleCreateTask** function is updated (green outline) to use **setIsCreateTaskOpen(false)** and **setCreateTaskColumnId(null)** after creating a task, closing the dialog properly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797026/task-mgmt/4/64_kwpz0h.png)
+
+In **Dialog** we have added code for **open** and **onOpenChange**. Also, in **DialogTrigger** we have added the **onClick** to call **setIsCreateTaskOpen(null)** and **setCreateTaskColumnId(true)**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797046/task-mgmt/4/65_xxolmd.png)
+
+The **DndContext** wraps the board columns with sensors, collision detection, and drag handlers. **DroppableColumn** receives **isCreateTaskOpen** and **onCreateTaskOpenChange** props. Inside, **SortableContext** wraps the task list for vertical sorting.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797063/task-mgmt/4/66_nz0j9i.png)
+
+The **DashboardPage** is updated (green outline, lines 12-46): imports include **Link**, **Dialog**, **Label**, and **Board**. State variables **viewMode** (grid/list) and **isFilterOpen** are added. **filters** state manages search, dateRange (start/end), and taskCount (min/max). **boardsWithTaskCount** maps boards, **filteredBoards** filters by title match and date range, and **clearFilters** resets all filter values. **handleCreateBoard** creates a new board with default title and color.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797085/task-mgmt/4/67_mm9keb.png)
+
+In the **Button** we have added **onClick** which will make **setIsFilterOpen** as true. And also in **Input**, we have added an **onChange**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797096/task-mgmt/4/68_cplx6e.png)
+
+The **Filter Boards** dialog is added to the dashboard with a **Search** input for filtering board titles.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797110/task-mgmt/4/69_whgof5.png)
+
+The **Filter Boards** dialog bottom section has **Clear Filters** and **Apply Filters** buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797123/task-mgmt/4/70_th6yld.png)
+
+To check the **Filter** functionality, click on the **Filter** icon.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797136/task-mgmt/4/71_smwien.png)
+
+The **Filter Boards** dialog is open with **Search**, **Date Range** (Start Date), and **Task Count** (Minimum) filter options. Here, in **Search** we have written **Future** and clicked on **Apply Filters** button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797149/task-mgmt/4/72_lnq3la.png)
+
+After filtering, the dashboard shows filtered results.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797165/task-mgmt/4/73_ww145i.png)
+
+The **HomePage** is created with imports for **useEffect**, **useRef**, **Calendar**, **Clock**, **Sparkles** icons from lucide-react, and **Navbar** and **Link** components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797177/task-mgmt/4/74_kqp2qv.png)
+
+The **HomePage** includes a **particles** animation (green outline) with particle initialization, mouse move handlers, and animation loop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797198/task-mgmt/4/75_uigqff.png)
+
+The particle animation code continues with **mouse attraction/gravity force** logic - particles are attracted toward the mouse cursor within 180px distance, with speed limiting at 2.2.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797220/task-mgmt/4/76_kc2hw7.png)
+
+The particle animation continues with drawing each particle using canvas arc, fill style, and the requestAnimationFrame loop.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797234/task-mgmt/4/77_yjtrbm.png)
+
+More code sections of the **HomePage** component are shown, continuing the landing page layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797251/task-mgmt/4/78_hkhofo.png)
+
+More code sections of the **HomePage** component are shown, continuing the landing page sections.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797266/task-mgmt/4/79_tjyw1m.png)
+
+More code sections of the **HomePage** component are shown , continuing the feature cards.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797281/task-mgmt/4/80_bjjf4r.png)
+
+The **Zen Focus** section of the HomePage shows a "Distraction-Free" card with a Clock icon and description about personal focus with no team pings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797294/task-mgmt/4/81_hj4qki.png)
+
+The **Navbar** is updated to handle the **isHomePage** route. When on the homepage, it renders a transparent header with the Trello icon and "Task Management" brand.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797309/task-mgmt/4/82_hhucjq.png)
+
+The landing page at http://localhost:3000 shows an awesome homepage, with particle animation background.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797322/task-mgmt/4/83_ujdyjq.png)
+
+I have added a lot of thing in the code to make a personalized **Task Manager**. Specially the feature of having a **Calendar**. For this take the latest code from my **GitHub** repo. 
+
+And in the **.env** file update with Clerk URL configuration (**NEXT_PUBLIC_CLERK_SIGN_IN_URL** and **NEXT_PUBLIC_CLERK_SIGN_UP_URL**) and an **ALLOWED_USERS** whitelist for email/GitHub usernames. You can use any number of users.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797427/task-mgmt/4/90_uemxpq.png)
+
+The dashboard now shows **Your Boards** along with **Your Calendar** section with "Open Personal Calendar" button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797332/task-mgmt/4/84_rzycbw.png)
+
+The calendar page at http://localhost:3000/calendar shows **Your Calendar** with month view, day/week/month navigation, and "Hide Completed" toggle.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797345/task-mgmt/4/85_iuxgug.png)
+
+The calendar **Week view** displays tasks per day of the week. Notice that different **Board** tasks have different background color.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797367/task-mgmt/4/86_irvqvi.png)
+
+The calendar **Day view** shows the tasks for the day.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797379/task-mgmt/4/87_nlusjg.png)
+
+Clicking on the **Hide Completed** button, hides the **completed** tasks in the **Day view** and other views also.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797397/task-mgmt/4/88_mntfbi.png)
+
+We can add tasks from **Calendar** also. Clicking on **Add Task** will open the **Add Task to Calendar** dialog shows form fields for **Board**, **Column**, **Title**, **Description**, **Assignee**, **Due Date**, and **Priority**, with **Cancel** and **Add Task** buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1779797414/task-mgmt/4/89_ib0wrx.png)
+
+This complete the final part of the blog. You can find the code [here](https://github.com/nabendu82/task-management)
+
+
