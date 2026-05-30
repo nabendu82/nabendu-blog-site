@@ -2,9 +2,18 @@ import { build } from "velite";
 
 /** @type {import('next').NextConfig} */
 export default {
+    transpilePackages: ["@splinetool/react-spline", "@splinetool/runtime"],
     // othor next config here...
-    webpack: (config) => {
+    webpack: (config, { isServer }) => {
         config.plugins.push(new VeliteWebpackPlugin());
+        if (isServer) {
+            config.resolve.conditionNames = [
+                "import",
+                "require",
+                "node",
+                ...(config.resolve.conditionNames || []),
+            ];
+        }
         return config;
     },
 };
