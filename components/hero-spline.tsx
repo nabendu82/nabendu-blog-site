@@ -18,7 +18,7 @@ export function HeroSpline() {
       
       <div className="flex flex-col md:flex-row h-full w-full overflow-visible">
         {/* Left content */}
-        <div className="flex-1 p-6 sm:p-8 md:p-12 relative z-10 flex flex-col justify-center">
+        <div className="w-full md:w-[45%] p-6 sm:p-8 md:p-12 relative z-10 flex flex-col justify-center flex-shrink-0">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-500 dark:from-neutral-50 dark:to-neutral-400">
             Hello, I&apos;m Nabendu
           </h1>
@@ -48,7 +48,7 @@ export function HeroSpline() {
         </div>
 
         {/* Right content */}
-        <div className="flex-1 relative min-h-[350px] md:min-h-0 w-full h-full overflow-visible">
+        <div className="w-full md:w-[55%] relative min-h-[350px] md:min-h-0 overflow-visible flex-grow">
           <SplineScene 
             scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
             className="w-full h-full absolute inset-0"

@@ -7,7 +7,7 @@ export default function Home() {
   const latestPosts = sortPosts(posts).slice(0, 5);
   return (
     <>
-      <section className="container max-w-5xl py-6 md:py-10 md:mt-10">
+      <section className="container max-w-6xl py-6 md:py-10 md:mt-10">
         <HeroSpline />
       </section>
       <section className="container max-w-4xl py-6 lg:py-10 flex flex-col space-y-6 mt-16">
