@@ -3,7 +3,7 @@
 import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 
-const Spline = dynamic(() => import('@splinetool/react-spline'), {
+const Spline = dynamic(() => import('./splite-component').then(mod => mod.Spline), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center">
