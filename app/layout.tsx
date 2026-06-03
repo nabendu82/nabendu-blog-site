@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Providers } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/site-footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -36,8 +37,10 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <SiteFooter />
           </div>
+          <Analytics />
         </Providers>
       </body>
     </html>
   );
 }
+
