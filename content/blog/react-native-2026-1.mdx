@@ -1,0 +1,90 @@
+---
+title: React Native Course - 1
+description: React Native
+date: 2026-06-27
+tags: ["React Native", "typescript", "React"]
+published: true
+---
+
+In this post we will build a nice React Native app and doing it will learn **React Native**. This project and post have been inspired 
+by [this](https://www.youtube.com/watch?v=4nVoLX2taFg) YouTube video.
+
+First, we need to set up a new React Native project using Expo. The **expo** documentation tells us all about it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539517/react-native-course/1/1_iwpeiv.png)
+
+We have logged in to our account and it is showing us our earlier projects.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539538/react-native-course/1/2_fdcdui.png)
+
+We have created a new folder **rn-recurrly** and inside it ran the command to create a new **expo** project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539546/react-native-course/1/3_y8ausf.png)
+
+Now, we will start the project with **npx expo start** command.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539552/react-native-course/1/4_vnvw8u.png)
+
+Here, you can see the different options which we can use with expo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539559/react-native-course/1/5_uzdabx.png)
+
+The app now runs on the iOS simulator. Here we can see the default Expo screen with the basic React Native setup running successfully.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539568/react-native-course/1/6_hllot0.jpg)
+
+The **package.json** shows all of our dependencies in the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539577/react-native-course/1/7_yp5rlt.png)
+
+We will use the command **npm run reset-project** to reset the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539586/react-native-course/1/8_eqb0lh.png)
+
+After updating the code, the app on the simulator now reflects the changes with the new UI components and functionality.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539594/react-native-course/1/9_k723mr.jpg)
+
+Back in the docs, we will copy the two commands required to install dependencies in expo.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539602/react-native-course/1/10_lkrogt.png)
+
+Now, we will run those commands in terminal.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539610/react-native-course/1/11_uzhhnb.png)
+
+We have a new **tailwind.config.js** file created in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539619/react-native-course/1/12_wc4jby.png)
+
+We will add a **global.css** file in our project with tailwind code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539632/react-native-course/1/13_cezzyh.png)
+
+We will also add a **babel.config.js** file, which will also include **nativewind**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539641/react-native-course/1/14_bgjyqu.png)
+
+We will create a file **metro.config.js** and add the below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539653/react-native-course/1/15_x7ujqy.png)
+
+We add **global.css** in the **_layout.tsx** file.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539663/react-native-course/1/16_i0zsjr.png)
+
+In the **app.json** file we will add the metro bundler.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539671/react-native-course/1/17_izuzel.png)
+
+We will add a file **nativewind-env.d.ts** and add below content in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539680/react-native-course/1/18_vlplkl.png)
+
+Now, we will add a file **index.tsx** inside the **app** folder and add a basic code will tailwind styles in it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539689/react-native-course/1/19_cuwity.png)
+
+We have updated the **package.json** file to add **lightningcss**
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782539698/react-native-course/1/20_omi2q3.png)
