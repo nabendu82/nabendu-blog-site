@@ -168,3 +168,119 @@ We will add a new file **sign-in.tsx** file with below content.
 We have added more code to the **index.tsx** to complete the app UI with all the required elements.
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782551891/react-native-course/1/40_hkyi9v.png)
+
+The app now displays the updated index screen with the **Sign In** and **Sign Up** buttons added alongside the onboarding option.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782560297/react-native-course/2/41_xogici.jpg)
+
+Now, clicking on the **Sign In** button redirects us to the sign-in page, but it shows the path **(auth)/sign-in** as the header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782560311/react-native-course/2/42_r6lauo.jpg)
+
+Similarly, clicking the **Sign Up** button takes us to the sign-up page, with the path **(auth)/sign-up** shown in the header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782560320/react-native-course/2/43_itqvtk.jpg)
+
+To custom configure headers for our authentication flow, we will add a new **_layout.tsx** file inside the **(auth)** directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782560330/react-native-course/2/44_y33m4l.png)
+
+Now, when we navigate to the sign-in page, the header only shows **(auth)** instead of the full path.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782560339/react-native-course/2/45_lnddhb.jpg)
+
+Next, we will create a **(tabs)** directory under **app** to set up tab navigation. Inside it, we will add a new file **subscriptions.tsx** with the following basic component.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561194/react-native-course/2/46_zpf7ow.png)
+
+We will also add an **insights.tsx** file inside the **(tabs)** folder with the below content.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561206/react-native-course/2/47_i9rcwl.png)
+
+Next, we will create a **settings.tsx** file inside the same **(tabs)** folder.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561230/react-native-course/2/48_srlqz9.png)
+
+Now, we will move or recreate the **index.tsx** file inside the **(tabs)** directory and keep the existing structure for navigation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561239/react-native-course/2/49_i0uxqi.png)
+
+After restructuring our directories, we can verify that navigation to the sign-in page still works perfectly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561249/react-native-course/2/50_y2xbzq.jpg)
+
+Next, we will update the **index.tsx** file inside the **(tabs)** directory to add links for our dynamic routes: Spotify Subscription and Claude Max.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561524/react-native-course/2/51_oaeeyy.png)
+
+We will then create a new **_layout.tsx** file inside the **(tabs)** directory to configure the tab bar navigator, icons, and tab labels.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561537/react-native-course/2/52_ijsneu.png)
+
+We also need to update the root **_layout.tsx** to define our main stack navigation and hide the headers for the **(tabs)**, **(auth)**, and **onboarding** screens.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561547/react-native-course/2/53_ofd64r.png)
+
+The app now successfully displays the tab bar navigator at the bottom, and the top headers are hidden.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561554/react-native-course/2/54_brjsxr.jpg)
+
+We will make a minor adjustment to the import statements in **_layout.tsx** under the **(tabs)** directory to keep the imports organized.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561565/react-native-course/2/55_lrofnl.png)
+
+Now, we will create a constants folder and define a **theme.ts** file to store our color palette, spacing tokens, and component styles for the project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561811/react-native-course/2/56_vdhnhi.png)
+
+We will also add a global TypeScript declaration file **type.d.ts** at the root directory to define types and interfaces used throughout the app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561820/react-native-course/2/57_z0vbhi.png)
+
+Next, we will create a **data.ts** file inside the **constants** folder to hold mock data for our tabs, home screen user info, and subscriptions.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561828/react-native-course/2/58_zr3yo0.png)
+
+After styling the navigation tabs, our tab bar now has a customized dark floating layout with custom active icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561834/react-native-course/2/59_wohw9v.jpg)
+
+Clicking on the **Subscriptions** tab navigates us to the Subscriptions screen showing the custom layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782561842/react-native-course/2/60_mzsodp.jpg)
+
+To handle safe area boundaries properly on different devices, we will update the **index.tsx** file in **(tabs)** using NativeWind's `styled` wrapper around `SafeAreaView`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563405/react-native-course/2/61_gruhky.png)
+
+We will also update the **insights.tsx** component to use the styled `SafeAreaView` wrapper.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563412/react-native-course/2/62_hqeidm.png)
+
+Similarly, we will update the **settings.tsx** file to wrap its content in the styled `SafeAreaView`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563421/react-native-course/2/63_a3yxlm.png)
+
+Finally, we will update the **subscriptions.tsx** file to use the styled `SafeAreaView` as well.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563432/react-native-course/2/64_qu1tst.png)
+
+Now, our screens have safe area padding applied, preventing the content from overlapping with the system status bar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563444/react-native-course/2/65_s17lbe.jpg)
+
+We can also verify that the Subscriptions screen is properly aligned and padded using the `SafeAreaView` wrapper.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563603/react-native-course/2/66_obc0fx.jpg)
+
+Next, we will clean up the Home screen code in **index.tsx** by replacing the welcome header with a large bold **Home** heading and removing the temporary navigation links.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563614/react-native-course/2/67_puuivc.png)
+
+The Home screen now displays the updated clean layout with the bold **Home** header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1782563622/react-native-course/2/68_pyccdf.jpg)
+
+This complete the first part of the blog. You can find the code [here](https://github.com/nabendu82/rn-recurrly)
+
+
