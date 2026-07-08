@@ -1,0 +1,164 @@
+---
+title: React Native Course - 2
+description: React Native
+date: 2026-07-11
+tags: ["React Native", "typescript", "React"]
+published: true
+---
+
+Welcome to the part-2 of our **React Native Course**. You can find the part-1 [here](/blog/react-native-2026-1). In this part we will continue to learn **React Native**. This project and post have been inspired 
+by [this](https://www.youtube.com/watch?v=4nVoLX2taFg) YouTube video.
+
+First, we will install the `dayjs` library in our project to handle date and time parsing and formatting easily.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522331/react-native-course/3/1_bc7qvf.png)
+
+Next, we will create a `lib` directory inside our project and add a `utils.ts` file. In this file, we will define formatting helper functions to format currency into US Dollars, format dates using `dayjs`, and capitalize status labels.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522337/react-native-course/3/2_topcac.png)
+
+Now, we will update our main Home screen component in `app/(tabs)/index.tsx`. We will style the `SafeAreaView` wrapper with NativeWind, extract the user's initials dynamically from the name data, and design the header section containing the avatar, the user's name, and a pressable action button to add a new subscription.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522368/react-native-course/3/3_adgal8.png)
+
+Next, we will continue updating `app/(tabs)/index.tsx` to add a balance card component (`home-balance-card`). This card displays the balance amount formatted with our currency helper, and the next renewal date formatted via `dayjs`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522376/react-native-course/3/4_xpbjvh.png)
+
+Once we save the files and the development server reloads, our app displays the beautifully styled header and balance card. The custom tab bar navigator remains floating at the bottom.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522379/react-native-course/3/5_v7mno9.jpg)
+
+Next, we will create a new directory named `components` in our project root. Inside it, we add a reusable `ListHeading.tsx` component. This component takes a `title` prop and displays it alongside a 'View all' action button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522805/react-native-course/3/6_nz2mcv.png)
+
+Inside the `components` directory, we also create the `UpcomingSubscriptionCard.tsx` component. This component takes subscription details (name, price, daysLeft, icon, currency) and displays a card containing the formatted price, remaining days, and the subscription name.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522815/react-native-course/3/7_qxm6wm.png)
+
+Next, we will update the Home tab screen `app/(tabs)/index.tsx` to include the upcoming subscriptions section. We use `ListHeading` with the title "Upcoming" and a `FlatList` to render each upcoming item dynamically via `UpcomingSubscriptionCard`. We also add a placeholder header for "All Subscription".
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522827/react-native-course/3/8_xdi2iq.png)
+
+Upon running this, the upcoming subscriptions appear, but they are arranged vertically rather than in a horizontally scrollable list.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522845/react-native-course/3/9_yrn7on.jpg)
+
+To make the upcoming subscriptions list scroll horizontally rather than stacking vertically, we configure the `FlatList` props. We add `horizontal`, hide the scroll indicator with `showsHorizontalScrollIndicator={false}`, add a `keyExtractor`, and define a `ListEmptyComponent` fallback.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522853/react-native-course/3/10_vozd5e.png)
+
+After making these changes, the "Upcoming" subscriptions list now scrolls horizontally as expected, displaying Spotify, Notion, and other cards in a clean side-by-side layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522860/react-native-course/3/11_muuqub.jpg)
+
+Next, under the "All Subscription" heading, we want to render the subscription list. For initial testing, we will render a single `SubscriptionCard` component passing the first item of `HOME_SUBSCRIPTIONS` (`{...HOME_SUBSCRIPTIONS[0]}`).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522869/react-native-course/3/12_ku4ins.png)
+
+To support this, we create the `SubscriptionCard.tsx` component inside the `components` directory. This component dynamically renders either a vector icon (using `Ionicons`) or a custom image (using the `Image` component) depending on the type of `icon` provided. It also shows the subscription name, the formatted price, and the billing cycle details (e.g., Monthly).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522874/react-native-course/3/13_jmkbi2.png)
+
+When we check the simulator, we can see the single `SubscriptionCard` rendering perfectly under the "All Subscription" heading, displaying the Adobe Creative Cloud details.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522882/react-native-course/3/14_yg3mi7.jpg)
+
+Next, to prepare for rendering the full list of subscriptions smoothly, we refactor the layout of `app/(tabs)/index.tsx`. Instead of rendering scrollable sections inside a plain container, we introduce a master `FlatList`. We define a state `expandedSubscriptionId` to manage expanded cards, and move our header, balance card, and horizontal upcoming list into the `ListHeaderComponent` of this master list. This avoids nested scroll views and guarantees smooth performance.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783522890/react-native-course/3/15_ew04lc.png)
+
+Next, we configure the master `FlatList` parameters in `app/(tabs)/index.tsx`. We feed it `HOME_SUBSCRIPTIONS` data, implement the `SubscriptionCard` renderer (which receives `expanded` status and a toggling callback for expansion on click), set `extraData` to react to state updates, specify spacing with `ItemSeparatorComponent`, hide scrollbars, and apply bottom padding.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523397/react-native-course/3/16_kzcdfn.png)
+
+Now, we will update the `SubscriptionCard.tsx` component to handle the expansion state and display additional metadata. We wrap the card in a `Pressable` that triggers `onPress` and conditionally apply an expanded class or a dynamic brand background color when not expanded. We also add a subtitle displaying the category, plan, or next renewal date.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523426/react-native-course/3/17_nvhx09.png)
+
+Inside the `expanded` block in `SubscriptionCard.tsx`, we build the `sub-body` containing full subscription details: Payment Method, Category/Plan, Start Date, and Renewal Date, each formatted cleanly with our date utilities.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523433/react-native-course/3/18_jwy6n4.png)
+
+We also render the subscription status in the last row of the detail layout, using `formatStatusLabel` to ensure it is capitalized and formatted correctly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523439/react-native-course/3/19_mgyrtp.png)
+
+When we open the app in the simulator, we can see the full list of subscriptions under the 'All Subscription' section. Each card has its respective brand color applied, showcasing Adobe Creative Cloud (yellow), GitHub Pro (purple), and Claude Pro (light blue) with clean category labels and icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523446/react-native-course/3/20_ph4rgx.jpg)
+
+Clicking on any subscription card (like GitHub Pro in this screenshot) expands the card downwards to reveal its detailed metadata—such as payment details, category, start date, next renewal date, and active status—using a smooth state transition.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523456/react-native-course/3/21_kvchyq.jpg)
+
+Next, we will implement user authentication using **Clerk**. We go to the Clerk Dashboard and start by creating a new application named 'Recurrly' with Email and Google Sign-in options enabled.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523464/react-native-course/3/22_vjrlxm.png)
+
+We consult the Clerk documentation for Expo SDK to follow the correct setup steps, which include enabling the Native API and installing Clerk dependencies in our Expo app.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523469/react-native-course/3/23_wp6k20.png)
+
+According to the quickstart guide, we need to install the SDK packages `@clerk/clerk-expo`, `expo-secure-store`, and `expo-dev-client`. We will also add the Clerk Publishable Key in a `.env` file and register the config plugins in `app.json`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523473/react-native-course/3/24_d3ofys.png)
+
+First, we create a `.env` file at the root level of our project and insert our Clerk publishable key.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523480/react-native-course/3/25_lqjlxb.png)
+
+We just copied the **Copy as markdown**, which have the complete prompt for cleark installation in our project.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523487/react-native-course/3/26_fqkzub.png)
+
+We have pasted that in our **Antigravity** and asked our AI to do all the steps.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523496/react-native-course/3/27_l9our2.png)
+
+Next, we configure `app.json` by adding the Android package identifier `"com.anonymous.rnrecurrly"` and registering `"expo-secure-store"` under the `"plugins"` array to support secure key storage.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523506/react-native-course/3/28_nr9pjk.png)
+
+We also check our `package.json` to confirm that `@clerk/clerk-expo`, `expo-crypto`, and `expo-secure-store` dependencies are correctly installed.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523512/react-native-course/3/29_vd68pm.png)
+
+Additionally, to resolve dependency version conflicts, we add package version overrides for `expo-crypto` in the overrides section of `package.json`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523520/react-native-course/3/30_berksp.png)
+
+Now, we will update the root layout file `app/_layout.tsx` to set up the Clerk integration. We configure a secure token cache (`tokenCache`) utilizing `expo-secure-store` to safely save and retrieve tokens on the user device, and load our publishable key from environment variables.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523536/react-native-course/3/31_enrg06.png)
+
+Next, we wrap our root `<Stack>` navigator inside the `<ClerkProvider>` component, passing the `publishableKey` and `tokenCache` we configured.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523544/react-native-course/3/32_czfhuu.png)
+
+We also update `app/(auth)/_layout.tsx` to handle authentication routing. If Clerk has loaded (`isLoaded` is true) and the user is already signed in (`isSignedIn` is true), we redirect them directly to the main app dashboard under `(tabs)`. Otherwise, we show the authentication stack screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523549/react-native-course/3/33_dbcjln.png)
+
+Next, we update the `app/(auth)/sign-in.tsx` screen to implement the sign-in flow. We use Clerk's `useSignIn` hook to handle the authentication logic, set up local states for inputs and error handling, validate forms on the client side, and build a submission handler (`handleSubmit`) to sign the user in with their email and password.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523554/react-native-course/3/34_yjgm9t.png)
+
+When the sign-in form is submitted, we call `signIn.create` using the user's credentials. If the result is complete, we register the active session via `setActive` and route them to `/(tabs)`. If it fails, we handle any errors thrown by Clerk dynamically. In the JSX, we wrap the form in a `KeyboardAvoidingView` to handle layouts smoothly when the virtual keyboard is open.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523559/react-native-course/3/35_balyf7.png)
+
+Next, inside the card container (`auth-card`), we implement form input fields (`TextInput`) for Email Address and Password. These inputs feature real-time focus (`onBlur`) tracking to dynamically show validation error messages if the user enters invalid formatting or leaves fields blank.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523564/react-native-course/3/36_fwag72.png)
+
+Below the input fields, we add the submit button which dynamically renders disabled states (`auth-button-disabled`) during active API requests or if form validation fails. Underneath the button, we add a navigation row linking users to the sign-up page ('Create Account') if they do not yet have an account.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523568/react-native-course/3/37_ufllad.png)
+
+Finally, we update the `app/(auth)/sign-up.tsx` screen to implement the sign-up and email verification flows. We use Clerk's `useSignUp` hook to manage registration, adding states for input variables, form validation, and `pendingVerification` (which manages toggling the email OTP verification step after signing up).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523573/react-native-course/3/38_u42ewo.png)
+
+
