@@ -1,7 +1,7 @@
 ---
 title: React Native Course - 2
 description: React Native
-date: 2026-07-11
+date: 2026-07-09
 tags: ["React Native", "typescript", "React"]
 published: true
 ---
@@ -160,5 +160,164 @@ Below the input fields, we add the submit button which dynamically renders disab
 Finally, we update the `app/(auth)/sign-up.tsx` screen to implement the sign-up and email verification flows. We use Clerk's `useSignUp` hook to manage registration, adding states for input variables, form validation, and `pendingVerification` (which manages toggling the email OTP verification step after signing up).
 
 ![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523573/react-native-course/3/38_u42ewo.png)
+
+Next, we implement the submission handlers in `app/(auth)/sign-up.tsx`. The `handleSubmit` handler creates the registration request and calls `signUp.prepareEmailAddressVerification` to send a verification code to the user's email. The `handleVerify` handler submits the OTP code, activates the session on success, and routes the user to `/(tabs)`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523579/react-native-course/3/39_rzxj14.png)
+
+When `pendingVerification` is true, we conditionally render an email verification interface. It prompts the user to enter the 6-digit code sent to their email using a `number-pad` keyboard layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783523588/react-native-course/3/40_dk4cos.png)
+
+Below the code input field, we add a primary 'Verify Email' button and a secondary 'Resend Code' button to trigger resending the code if needed. Then we define the base `return` statement containing the default sign-up UI layout.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582062/react-native-course/4/41_dwuba8.png)
+
+Inside the `auth-card`, we create text fields for Email Address and Password with inline validation, matching the style and behaviors of the sign-in form.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582066/react-native-course/4/42_ibgws0.png)
+
+Under the password field, we display a helper text requiring a minimum of 8 characters, and render a submit button that triggers the `handleSubmit` process. There is also a navigation link redirecting the user to the sign-in page if they already have an account, as well as a required `<View nativeID="clerk-captcha" />` element for Clerk security verification.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582073/react-native-course/4/43_kdbhbz.png)
+
+Now, we update the navigation layout in `app/(tabs)/_layout.tsx`. We import the `useAuth` hook from Clerk, import `Redirect` and `Tabs` from `expo-router`, and define typing interfaces for our tab navigation icons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582083/react-native-course/4/44_tkpo6a.png)
+
+Inside `TabLayout` in `app/(tabs)/_layout.tsx`, we retrieve the authentication state. If Clerk is not yet loaded (`isLoaded` is false), we render nothing (`null`). If the user is not authenticated (`isSignedIn` is false), we redirect them back to the sign-in page `/(auth)/sign-in`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582090/react-native-course/4/45_op7lgk.png)
+
+Next, we update the home screen `app/(tabs)/index.tsx` to retrieve the authenticated user's information dynamically from Clerk. We use Clerk's `useUser` hook, compute the user's `displayName` from their profile fields, and generate their avatar initials dynamically.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582099/react-native-course/4/46_ep8wwc.png)
+
+Inside the header layout, we replace the static username text with the dynamic `{displayName}` and configure the avatar section (`home-avatar`) to render the user's profile image via `user.imageUrl` if available, falling back to their initials text.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582108/react-native-course/4/47_zrqlzm.png)
+
+Next, we prepare the `SubscriptionCard.tsx` component to handle active subscription cancellation events. We add two new props to `SubscriptionCardProps`: `onCancelPress` (a callback function) and `isCancelling` (a loading state).
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582118/react-native-course/4/48_qpio2x.png)
+
+Inside the expanded card body layout, we render a 'Cancel Subscription' button. The button disables and shows a loading text ('Cancelling...') while an active cancellation action is pending.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582127/react-native-course/4/49_a8cnwb.png)
+
+When we open the application, it successfully displays our custom Clerk-integrated 'Welcome back' Sign In screen, featuring styled logo marks, input fields, and the submission buttons.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582137/react-native-course/4/50_bpc9pg.jpg)
+
+If a user clicks 'Create Account', they are navigated to the Sign Up screen. Here they enter their email address and a secure password of at least 8 characters before clicking the 'Create Account' submission button.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582150/react-native-course/4/51_dkn0nf.jpg)
+
+Upon submitting their registration, the user receives an OTP verification code on their email. The application shows the email verification screen where they enter the code (e.g. 626689) and click 'Verify Email' to complete the registration process.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582156/react-native-course/4/52_fepxkt.jpg)
+
+After successful email verification, the user is logged into the application and routed to the home screen. Their newly created profile email is displayed in the header next to a default avatar, and their subscription balance card and upcoming lists are rendered correctly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582163/react-native-course/4/53_kssozr.jpg)
+
+Checking the Clerk Dashboard, we can confirm that the new user has been successfully created and registered under the 'Users' tab.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582182/react-native-course/4/54_nixqsl.png)
+
+Next, to test the authentication flow completely, we decide to add a Logout button to the Settings screen. We have agin written an prompt in **Antigravity** to do it.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582199/react-native-course/4/55_rywjtt.png)
+
+We implement the settings screen in `app/(tabs)/settings.tsx`. We read the logged-in user's email dynamically from Clerk and build a logout button. When pressed, it shows a confirmation popup using `Alert.alert` before executing Clerk's `signOut()` and returning the user to the Sign In screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582206/react-native-course/4/56_jl57hh.png)
+
+When navigated to the Settings screen in the simulator, we can see the Account info showing the user's logged-in email and the 'Sign Out' action row styled cleanly inside a bordered card.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582210/react-native-course/4/57_zejlqp.jpg)
+
+Tapping on the 'Sign Out' row triggers a native verification dialog asking: 'Are you sure you want to sign out?', ensuring users do not log out accidentally.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783582214/react-native-course/4/58_edmx61.jpg)
+
+When we sign out, we are successfully redirected back to the Sign In screen, showing that the complete authentication loop functions correctly.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586333/react-native-course/4/59_flfvtf.jpg)
+
+If there's an issue with the credentials or the server response, we display a clear validation message to the user: 'Sign in could not be completed. Please try again.'
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586346/react-native-course/4/60_kinicn.jpg)
+
+Next, we enhance the Sign In experience by adding a password visibility toggle. In `app/(auth)/sign-in.tsx`, we add a `showPassword` state variable.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586371/react-native-course/4/61_qomlvy.png)
+
+Inside the password `TextInput`, we wrap the field in a relative container, set `secureTextEntry={!showPassword}`, and absolute-position an `Ionicons` eye/eye-off toggle button on the right to switch between plain text and obscured entry formats.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586387/react-native-course/4/62_lxgwb9.png)
+
+Next, we create a new `app/(auth)/forgot-password.tsx` screen to implement the password reset wizard flow. We define three steps in a `Step` type—`email`, `code`, and `newPassword`—and set up the required state hooks and input forms.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586409/react-native-course/4/63_v0lzgr.png)
+
+We write the `handleSendCode` function to initiate the reset password sequence in Clerk. It triggers `signIn.create` and prepares the first authentication factor using `reset_password_email_code` to send a reset OTP code to the user's email, then moves the wizard to the verification `'code'` step.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586422/react-native-course/4/64_poo8ld.png)
+
+Next, we implement `handleVerifyCode` to verify the reset code. It executes `signIn.attemptFirstFactor` using the user's entered OTP. If verified successfully and Clerk flags that it needs a new password (`result.status === 'needs_new_password'`), we advance the wizard to the `'newPassword'` step.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586442/react-native-course/4/65_cfqmsj.png)
+
+Then, we implement the `handleResetPassword` function. It validates that the two entered passwords match and meet the 8-character requirement, calls `signIn.resetPassword` to update the user credentials, activates their session, and redirects them to the main home screen dashboard.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586465/react-native-course/4/66_qazyzn.png)
+
+To make the UI clean and dynamic, we define a config mapping (`stepConfig`) that defines the title, subtitle, and icon for each wizard step (`email`, `code`, `newPassword`), then retrieve the matching config dynamically based on the current step state.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586474/react-native-course/4/67_bl2jla.png)
+
+Inside the `return` JSX statement, we implement a custom header containing a 'Back' button that contextually resolves whether to navigate to the previous screen or revert to the previous wizard step. We also display the dynamic step titles and render a progress indicator displaying the user's current step.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586485/react-native-course/4/68_ouqy21.png)
+
+Next, inside the form card (`auth-card`), we conditionally render fields depending on the active step: if the step is `'email'`, we render the Email Address text input, and if the step is `'code'`, we render the 6-digit Verification Code text input.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586499/react-native-course/4/69_yromal.png)
+
+Additionally, in the verification `'code'` block, we render a secondary 'Resend code' button. If the step is `'newPassword'`, we render the 'New Password' text input field with its own password visibility toggle icon absolute-positioned on the right.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586514/react-native-course/4/70_vaq0bz.png)
+
+Below the new password field, we add a 'Confirm Password' input field with its own show/hide password toggle button. The primary action button at the bottom dynamically resolves its `onPress` callback—mapping to `handleSendCode`, `handleVerifyCode`, or `handleResetPassword` depending on the active step.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586540/react-native-course/4/71_aidrq3.png)
+
+The button text is also dynamic: displaying 'Please wait...' during API requests, or showing 'Send Reset Code', 'Verify Code', or 'Set New Password' based on the wizard step.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586556/react-native-course/4/72_yxzs9u.png)
+
+When we run the updated app in the simulator, we see the password input field now includes the eye icon toggle and we have added a 'Forgot password?' link. If an incorrect password is entered, Clerk returns an error: 'Password is incorrect. Try again, or use another method.'
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586570/react-native-course/4/73_jn5tcu.jpg)
+
+Clicking 'Forgot password?' opens our password reset wizard. The first step prompts the user to enter their email address to receive a verification reset code.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586583/react-native-course/4/74_h8j5qb.jpg)
+
+After sending the request, the user receives an OTP reset code on their email. The wizard advances to Step 2 ('Check Your Email'), where the user inputs the 6-digit verification code and clicks 'Verify Code'.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586601/react-native-course/4/75_b9i8yn.jpg)
+
+If the reset code matches, Step 3 ('New Password') is loaded. The user is prompted to enter a new password and confirm it, with eye icon visibility controls enabled for both input fields.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586613/react-native-course/4/76_etra1a.jpg)
+
+Once they tap 'Set New Password', the password is updated, their session becomes active, and they are logged straight into the Home Screen dashboard with their user details loaded in the header.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1783586632/react-native-course/4/77_himlpr.jpg)
+
+This complete the final part of the blog. You can find the code [here](https://github.com/nabendu82/rn-recurrly). 
+You can update the functionality of the app to complete the remaining screens and also add a backeend to it.
 
 
