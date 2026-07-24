@@ -1,0 +1,127 @@
+---
+title: 3D website with NextJS and Spline
+description: Building a 3D website with NextJS and Spline
+date: 2026-07-25
+tags: ["NextJS", "typescript", "React"]
+published: true
+---
+
+This blog post will guide you through creating a 3D website with NextJS and Spline.
+
+First, open an empty project folder named `spine3d-website` in Antigravity IDE to start building our 3D website application.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897703/spline/1_eaayiw.png)
+
+Next, prompt the AI agent with clear requirements to create a Next.js website for an AI agency selling services like AI agents and chatbots, emphasizing a clean, minimal Apple-like aesthetic with full SEO optimization and flexibility for adding 3D Spline elements.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897716/spline/2_cijvgi.png)
+
+The agent will begins setting up the Next.js foundation and asks for permission many times. Accept all permission by clicking **Submit**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897723/spline/3_vyu23y.png)
+
+The agent generates a comprehensive Implementation Plan covering architecture, 3D Hero integration (`Hero3DCanvas.tsx`), and SEO strategies. Review the proposed steps and click **Proceed** to start execution.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897731/spline/4_gztoyd.png)
+
+Once approved, the background initialization task creates the project structure (`app/`, `public/`, `next.config.ts`, `package.json`, etc.) inside the root directory.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897740/spline/5_lgpykp.png)
+
+You can customize agent security permissions by clicking **Antigravity - Settings** in the bottom status bar to view security modes (Full access, Sandboxed, Strict) and command auto-execution controls.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897748/spline/6_cs6tbo.png)
+
+After building all components , the agent presents generated and modified files. Click **Accept all** to approve and save the codebase.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897755/spline/7_spgbw7.png)
+
+The agent generates a comprehensive `Walkthrough` artifact detailing architectural design choices and Spline 3D integration steps, confirming the site is ready to launch via `npm run dev`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897762/spline/8_dj6kby.png)
+
+Run `npm run dev` in the terminal to launch the Next.js development server with Turbopack on `http://localhost:3000`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897768/spline/9_jro0ab.png)
+
+Navigating to `http://localhost:3000` reveals the completed **AETHERIUM.AI** website featuring a minimal dark aesthetic, interactive 3D Hero container with canvas particle orb visualizer, navigation links, and full Spline 3D integration support.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784897776/spline/10_nzy6sn.png)
+
+Testing the interactive widgets reveals a React hydration mismatch error in `components/RoiCalculator.tsx`, caused by `annualSavings.toLocaleString()` formatting numbers differently on the server versus client.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899118/spline/11_kuzijm.png)
+
+To fix this, attach a screenshot of the error to the AI Agent chat panel with the prompt: *'There is some issue in http://localhost:3000/ and the error is attached in the image'*.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899125/spline/12_bfnpvp.png)
+
+After the agent resolves the hydration issue, refreshing `http://localhost:3000` loads the web page cleanly with zero errors.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899132/spline/13_efkfax.png)
+
+Now, visit [spline.design](https://spline.design) to find a production 3D model asset for our website's hero section.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899139/spline/14_t6ctvb.png)
+
+In the Spline top navigation menu, hover over **Community** and click **Spline Community** to explore public 3D design templates.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899149/spline/15_ytxibq.png)
+
+Search for a 3D scene like the **ORB** model by jacejaniczak in the community library, then click **Remix** to clone it to your Spline workspace.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899158/spline/16_yzg3h8.png)
+
+Once the scene opens in the Spline Editor, customize any 3D materials or lighting as needed, then click **Export** in the upper right toolbar.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899167/spline/17_otr1s6.png)
+
+To add advanced Spline 3D capabilities to the agent, drag `spline-3d-skill.zip` into your project directory and send the prompt: *'spline-3d-skill.zip Install this skill'*.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899176/spline/18_r3628p.png)
+
+The AI agent unpacks the skill into `.agents/skills/spline-3d-integration`, equipping itself with knowledge for `@splinetool/react-spline` runtime API methods, event triggers, and performance optimizations.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899183/spline/19_cxgsim.png)
+
+In the Spline Export modal under **Code Export -> Next.js**, copy the exported scene URL.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899192/spline/20_jt0lyj.png)
+
+Paste the Spline URL into the AI Agent chat with the prompt: *'Add the element in the Hero section and remove the earlier one.'*
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899201/spline/21_vus8ha.png)
+
+The agent creates `HeroSplineScene.tsx` using `@splinetool/react-spline` lazy loading, updates `Hero.tsx` to embed the 3D scene, and verifies compilation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899209/spline/22_fgxybz.png)
+
+Refreshing `http://localhost:3000` renders the live interactive Spline 3D ORB scene seamlessly integrated into the hero section.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899218/spline/23_uz2fnp.png)
+
+To further enhance the UI, navigate to [21st.dev](https://21st.dev) and browse the **Testimonials** section to find animated client review components.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899229/spline/24_gup5kq.png)
+
+Click on the Testimonial Cards component modal and click **Copy prompt** at the bottom of the screen.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899236/spline/25_tnl0tx.png)
+
+In the Agent prompt panel, paste the copied prompt structure and add the instruction: *'Add this section at the last before footer.'*
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899246/spline/26_u4vzil.png)
+
+Once built, the **Client Testimonials** stacked deck component renders smoothly on the site right above the footer section.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899257/spline/27_l4yunl.png)
+
+To refine the component, prompt the agent: *'The testimonial texts are not at the center, fix it. And also make it move automatically as it's currently only done by clicking.'*
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899265/spline/28_epazls.png)
+
+The updated Testimonials section now features centered review copy and automatic card rotation, completing our modern 3D Next.js website!
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1784899274/spline/29_yjaa2v.png)
+
+ You can find the code [here](https://github.com/nabendu82/spine3d-website). 
