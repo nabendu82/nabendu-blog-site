@@ -1,0 +1,137 @@
+---
+title: 3D website with React and Google Flow
+description: Building a 3D website with React and Google Flow
+date: 2026-07-30
+tags: ["React", "typescript", "Google Flow"]
+published: true
+---
+
+This blog post will guide you through creating a 3D website with React and Google Flow. And we will use other google products like google stitch.
+
+First, search for a clear reference image of a product bottle (such as Campa Cola) on Google Images.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412044/react-animated3d/1_zuqdmm.png)
+
+Next, open ChatGPT, upload the reference bottle image, and enter a detailed prompt to create a hyper-realistic 8K commercial product render with liquid splashes and condensation droplets.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412058/react-animated3d/2_v9goou.png)
+
+Request ChatGPT to adjust the generated image aspect ratio to 16:9 widescreen format.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412066/react-animated3d/3_huae7v.png)
+
+Review the generated 16:9 macro product render featuring dynamic cola splashes and specular highlights.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412074/react-animated3d/4_efpisk.png)
+
+Now, open **Google Flow** (`labs.google/fx/tools/flow`), upload the bottle reference image, and paste the macro photograph generation prompt.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412082/react-animated3d/5_aam8ql.png)
+
+Google Flow generates a crisp high-resolution 3D commercial render of the Campa Cola bottle with dark fizzy liquid swirls.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412090/react-animated3d/6_rvt30c.jpg)
+
+Prompt Google Flow to remove all foreground elements and bottle graphics to extract a clean, matching background image: *'Remove all the element in the attached image and give me plain background image.'*
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412099/react-animated3d/7_u386py.png)
+
+Select the generated background image in Google Flow and click **Download** to save a 2K upscaled version.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412105/react-animated3d/8_n2bgoz.png)
+
+Verify the clean deep purple and burgundy gradient background asset.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412120/react-animated3d/9_im81la.jpg)
+
+Configure video generation mode in Google Flow, selecting 16:9 aspect ratio, 8-second duration, and Omni Flash settings.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412127/react-animated3d/10_ksu3gz.png)
+
+Enter the animation sequence prompt detailing how the background, liquid splashes, carbonated swirls, and product bottle transition into frame.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412133/react-animated3d/11_zgl1rt.png)
+
+Preview the generated 8-second commercial animation timeline in the Google Flow video editor.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412141/react-animated3d/12_p405zr.png)
+
+Export the video as an MP4 and upload it to **EZGIF.com** under the **Video to JPG converter** tool.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412150/react-animated3d/13_qqydmr.png)
+
+Set the frame rate to 30 FPS and click **Convert to JPG!** to extract every animation frame.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412162/react-animated3d/14_voah4b.png)
+
+Click **Download frames as ZIP** to save the full frame sequence ready for interactive scroll-driven 3D web animations in React!
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785412170/react-animated3d/15_mygoug.png)
+
+Open **Google Stitch** (`stitch.withgoogle.com`), upload `campa-cola.png`, and enter a prompt to generate a modern, energetic website design for the Campa Cola brand.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413082/react-animated3d/16_xk4zfv.png)
+
+Google Stitch generates a complete responsive design system including color palettes, typography, and interactive page layouts for the website.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413089/react-animated3d/17_xcuf7q.png)
+
+In your IDE, drag the extracted frame sequence folder (`ezgif-jpg`) into the project workspace and click **Add Folder to Workspace**.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413100/react-animated3d/18_kcqyez.png)
+
+Verify that all frame image assets (`ezgif-frame-001.jpg` through `ezgif-frame-233.jpg`) are present in the project explorer.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413109/react-animated3d/19_znwlui.png)
+
+Prompt the AI Agent to build a React application using the frame sequence to create an interactive 3D scroll canvas animation: *'ezgif-jpg I have shared a folder which consists of all the frames. Use it and create a scroll animation for it. Once done share the localhost link.'*
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413118/react-animated3d/20_qjlecv.png)
+
+The AI Agent generates an Implementation Plan outlining the Vite + React + HTML5 Canvas setup with preloaded frames for 60fps scroll scrubbing.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413129/react-animated3d/21_svagn0.png)
+
+Refine the application by asking the agent to remove extra headers and pop-ups so only the pure 3D canvas scroll animation renders on start.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413141/react-animated3d/22_irx9q0.png)
+
+Open `http://localhost:5173` in your browser to test the interactive 3D scroll animation scrubbing through the Campa Cola liquid splash sequence.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413151/react-animated3d/23_cy0v6g.png)
+
+Return to Google Stitch, open the **Export** menu, select **.zip**, and export the project design files.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413193/react-animated3d/24_zf0rre.png)
+
+Unzip the Stitch export folder to access `code.html`, `DESIGN.md`, and `screen.png`.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413199/react-animated3d/25_gxams1.png)
+
+Add the Stitch project folder to your workspace and prompt the agent: *'code.html Add the full file below the scroll animation section to the website. But remove the navbar and hero section, just add the remaining section below scroll animation. Also refer screen.png DESIGN.md'*.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413215/react-animated3d/26_x8tx8c.png)
+
+Refresh `http://localhost:5173` to see the flavor cards ("Choose Your Vibe") and brand heritage section integrated below the 3D scroll animation.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413223/react-animated3d/27_zoozb0.png)
+
+Enhance the hero section by prompting the agent: *'At the top in scroll animation add heading Campa Cola and in sub-heading add Energetic. Iconic. Indian... The heading and sub-heading should fade away when person scrolls 30% of the scroll animation.'*
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413231/react-animated3d/28_c4vz4b.png)
+
+The browser now displays the bold **CAMPA COLA** title and tagline over the 3D canvas hero background.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413239/react-animated3d/29_q7drsh.png)
+
+Finally, prompt the agent: *'Add a transparent navigation bar at the top that scrolls to specific section with menu.'* to complete the website navigation experience.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785413247/react-animated3d/30_qcthmi.png)
+
+Our site is now looking awesome and is complete.
+
+![](https://res.cloudinary.com/dxkxvfo2o/image/upload/v1785414075/react-animated3d/31_nq7dyj.png)
+
+Google docs containing the prompt can be found [here](https://docs.google.com/document/d/1T-oE-zwXue3U3ihih1D6tXtgincD3A2WBMb9aOGIsn4/edit?usp=sharing).
+
+And the code can be found [here](https://github.com/nabendu82/animated-3D-website)
