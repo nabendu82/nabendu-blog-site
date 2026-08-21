@@ -13,6 +13,10 @@ const GAMES = [
   { label: "🌲 Escape the Forest", href: "/games/escape-the-forest" },
 ];
 
+const EDUCATION = [
+  { label: "⚛️ Physics", href: "/education/physics" },
+];
+
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   return (
@@ -45,6 +49,17 @@ export function MobileNav() {
             {GAMES.map((game) => (
               <MobileLink key={game.href} onOpenChange={setOpen} href={game.href}>
                 {game.label}
+              </MobileLink>
+            ))}
+          </div>
+          {/* Education section */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-1.5">
+              Education
+            </p>
+            {EDUCATION.map((item) => (
+              <MobileLink key={item.href} onOpenChange={setOpen} href={item.href}>
+                {item.label}
               </MobileLink>
             ))}
           </div>
