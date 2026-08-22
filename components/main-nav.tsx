@@ -9,6 +9,7 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 
 const GAMES = [
+  { label: "All Games", href: "/games", emoji: "🎮" },
   { label: "Escape the Forest", href: "/games/escape-the-forest", emoji: "🌲" },
   { label: "Sovereign Clash", href: "/games/sovereign-clash", emoji: "⚔️" },
 ];

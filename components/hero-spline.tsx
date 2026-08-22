@@ -24,7 +24,7 @@ export function HeroSpline() {
         
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 mt-6 sm:mt-8">
           <Link
-            href="/games/escape-the-forest"
+            href="/games"
             className="h-11 px-5 rounded-lg text-sm sm:text-base font-medium shadow-sm transition-all duration-200 inline-flex items-center justify-center bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 flex-1 sm:flex-initial text-center whitespace-nowrap min-w-[130px]"
           >
             Explore Games

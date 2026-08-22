@@ -10,6 +10,7 @@ import { Icons } from "./icons";
 import { siteConfig } from "@/config/site";
 
 const GAMES = [
+  { label: "🎮 All Games", href: "/games" },
   { label: "🌲 Escape the Forest", href: "/games/escape-the-forest" },
   { label: "⚔️ Sovereign Clash", href: "/games/sovereign-clash" },
 ];
