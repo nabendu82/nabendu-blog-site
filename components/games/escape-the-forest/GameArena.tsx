@@ -1,16 +1,24 @@
 "use client";
 
-import { Maximize2 } from "lucide-react";
+import { Maximize2, Volume2, VolumeX } from "lucide-react";
 import { useState } from "react";
 import { GardenLoader } from "@/components/games/gardens/GardenLoader";
 import { FullscreenSandbox } from "@/components/games/FullscreenSandbox";
 import { DEFAULT_MODEL, getGarden } from "@/lib/games/registry";
+import { isForestAudioMuted, setForestAudioMuted } from "@/components/games/gardens/forestAudio";
 
 const MODEL_ID = DEFAULT_MODEL;
 
 export function GameArena() {
   const [fullscreen, setFullscreen] = useState(false);
+  const [muted, setMuted] = useState(isForestAudioMuted());
   const model = getGarden(MODEL_ID);
+
+  const toggleSound = () => {
+    const next = !muted;
+    setForestAudioMuted(next);
+    setMuted(next);
+  };
 
   return (
     <>
@@ -22,14 +30,25 @@ export function GameArena() {
               {model?.name ?? "Monsoon Jungle Labyrinth"} — find the Ancient Stone Gateway.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => setFullscreen(true)}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur transition hover:border-primary hover:text-primary"
-          >
-            <Maximize2 className="h-3.5 w-3.5" />
-            Fullscreen
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={toggleSound}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur transition hover:border-emerald-500 hover:text-emerald-500"
+              title={muted ? "Unmute Sound" : "Mute Sound"}
+            >
+              {muted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+              <span>{muted ? "Unmute" : "Sound"}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setFullscreen(true)}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur transition hover:border-primary hover:text-primary"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+              Fullscreen
+            </button>
+          </div>
         </div>
 
         <section className="relative min-h-0 flex-1">

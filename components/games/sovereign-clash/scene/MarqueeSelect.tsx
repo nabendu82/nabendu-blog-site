@@ -6,11 +6,13 @@ import { Vector3 } from 'three'
 import { inputFlags, marquee } from '../game/input'
 import { useGameStore } from '../game/store'
 import { isUnit } from '../game/types'
+import { startMusic } from '../game/audio'
 
 const scratch = new Vector3()
 
 export function MarqueeSelect() {
-  const { camera, gl } = useThree()
+  const gl = useThree((s) => s.gl)
+  const camera = useThree((s) => s.camera)
 
   useEffect(() => {
     const el = gl.domElement
@@ -19,6 +21,7 @@ export function MarqueeSelect() {
     let sy = 0
 
     const onDown = (e: PointerEvent) => {
+      startMusic()
       if (e.button !== 0) return
       if (useGameStore.getState().placementKind) return
       down = true

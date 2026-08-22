@@ -235,9 +235,16 @@ export function playSound(
   const now = performance.now()
   switch (name) {
     case 'sword':
+      tone(880, 0.05, 'triangle', 0.04, -350)
+      tone(440, 0.08, 'sawtooth', 0.035, -150)
+      break
     case 'bow':
+      tone(280, 0.09, 'sine', 0.045, 140)
+      break
     case 'musket':
-      return
+      tone(180, 0.1, 'sawtooth', 0.055, -90)
+      tone(65, 0.16, 'square', 0.045, -30)
+      break
     case 'chop':
       if (now - lastChop < 420) return
       lastChop = now

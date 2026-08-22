@@ -1,12 +1,19 @@
-"use client";
-
 import { Canvas } from "@react-three/fiber";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 import type { GardenSceneProps } from "@/components/games/gardens/types";
 import { FirstPersonControls } from "@/components/games/gardens/FirstPersonControls";
 import { ZenGardenScene } from "./scene";
 import { JUNGLE_LAYOUT, GARDEN_HALF } from "./maze";
 import { Minimap } from "./Minimap";
+import {
+  startForestAudio,
+  stopForestAudio,
+  setForestAudioMuted,
+  isForestAudioMuted,
+  playEscapeVictory,
+  playNightfallSting,
+} from "../forestAudio";
 
 const TIMER_SECONDS = 1200;
 
@@ -26,6 +33,7 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
   const [locked, setLocked] = useState(false);
   const [escaped, setEscaped] = useState(false);
   const [dead, setDead] = useState(false);
+  const [soundMuted, setSoundMuted] = useState(isForestAudioMuted());
   const [secondsLeft, setSecondsLeft] = useState(TIMER_SECONDS);
   const [hint, setHint] = useState(
     "Click to look · WASD walk · follow the trails to find the Ancient Stone Gateway",
@@ -43,6 +51,18 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
   );
 
   useEffect(() => {
+    return () => {
+      stopForestAudio();
+    };
+  }, []);
+
+  const toggleSound = useCallback(() => {
+    const next = !soundMuted;
+    setForestAudioMuted(next);
+    setSoundMuted(next);
+  }, [soundMuted]);
+
+  useEffect(() => {
     if (escaped || dead) return;
     const id = window.setInterval(() => {
       setSecondsLeft((s) => Math.max(0, s - 1));
@@ -51,10 +71,11 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
   }, [escaped, dead, resetKey]);
 
   useEffect(() => {
-    if (secondsLeft === 0 && !escaped) {
+    if (secondsLeft === 0 && !escaped && !dead) {
       setDead(true);
+      playNightfallSting();
     }
-  }, [secondsLeft, escaped]);
+  }, [secondsLeft, escaped, dead]);
 
   const onPosition = useCallback((x: number, z: number, yaw: number) => {
     const distToExit = Math.hypot(
@@ -62,7 +83,12 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
       z - JUNGLE_LAYOUT.stoneGatewayPos[2],
     );
     if (distToExit < 3.2) {
-      setEscaped(true);
+      setEscaped((prev) => {
+        if (!prev) {
+          playEscapeVictory();
+        }
+        return true;
+      });
     }
 
     if (posRaf.current) return;
@@ -84,6 +110,7 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
       yaw: JUNGLE_LAYOUT.startYaw,
     });
     setHint("Jungle reset — find the Ancient Stone Gateway to escape");
+    startForestAudio();
   }, []);
 
   /* Dev Helpers - Disabled for production
@@ -108,6 +135,9 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
 
   const onLockChange = useCallback((isLocked: boolean) => {
     setLocked(isLocked);
+    if (isLocked) {
+      startForestAudio();
+    }
     setHint(
       isLocked
         ? "WASD walk · mouse look · Shift slow · Esc free cursor"
@@ -252,6 +282,15 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
             🚀 Teleport to Exit
           </button>
           */}
+          <button
+            type="button"
+            onClick={toggleSound}
+            className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-3 py-1.5 text-xs text-white transition hover:bg-white/20"
+            title={soundMuted ? "Unmute Forest Soundscape" : "Mute Soundscape"}
+          >
+            {soundMuted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+            <span>{soundMuted ? "Sound: Off" : "Sound: On"}</span>
+          </button>
           <button
             type="button"
             onClick={resetGarden}

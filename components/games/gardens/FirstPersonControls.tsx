@@ -1,8 +1,7 @@
-"use client";
-
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
+import { playForestFootstep, startForestAudio } from "./forestAudio";
 
 const SPEED = 6.4;
 const LOOK_SENSITIVITY = 0.0022;
@@ -134,6 +133,7 @@ export function FirstPersonControls({
       isMouseDown = true;
       lastX = e.clientX;
       lastY = e.clientY;
+      startForestAudio();
 
       if (!locked.current && performance.now() >= suppressPointerLockUntil) {
         try {
@@ -271,6 +271,7 @@ export function FirstPersonControls({
         }
       }
     } else if (velocity.current.lengthSq() > 0) {
+      playForestFootstep();
       velocity.current.normalize().multiplyScalar(SPEED * slow * dt);
       const totalMove = velocity.current.clone();
       const check = canMoveToRef.current;
