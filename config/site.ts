@@ -1,5 +1,5 @@
 export const siteConfig = {
-    name: "NabenduBlog",
+    name: "NabenduSite",
     url: "https://nabendu.org",
     description: "HTML, CSS, React, NodeJS and other tech",
     author: "Nabendu",
