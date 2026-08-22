@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site";
 
 const GAMES = [
   { label: "🌲 Escape the Forest", href: "/games/escape-the-forest" },
+  { label: "⚔️ Sovereign Clash", href: "/games/sovereign-clash" },
 ];
 
 const EDUCATION = [

@@ -10,6 +10,7 @@ import { ChevronDown } from "lucide-react";
 
 const GAMES = [
   { label: "Escape the Forest", href: "/games/escape-the-forest", emoji: "🌲" },
+  { label: "Sovereign Clash", href: "/games/sovereign-clash", emoji: "⚔️" },
 ];
 
 const EDUCATION = [
