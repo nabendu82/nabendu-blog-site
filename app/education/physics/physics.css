@@ -231,6 +231,15 @@ canvas:focus-visible {
   flex: 1;
 }
 
+.organ-system {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 10px 2px;
+  font-weight: 600;
+}
+
 .organ-item {
   display: grid;
   grid-template-columns: 36px 1fr auto;

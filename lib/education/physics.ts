@@ -165,6 +165,71 @@ export function screwForces(loadN: number, handleR: number, pitch: number): Scre
   };
 }
 
+export type WedgeResult = {
+  maIdeal: number;
+  effort: number;
+  load: number;
+  length: number;
+  thickness: number;
+};
+
+/** Wedge: MA ≈ length of slope / thickness of the thick end. */
+export function wedgeForces(loadN: number, length: number, thickness: number): WedgeResult {
+  const L = Math.max(0.15, length);
+  const T = Math.max(0.04, Math.min(thickness, L * 0.8));
+  const maIdeal = L / T;
+  return { maIdeal, effort: loadN / maIdeal, load: loadN, length: L, thickness: T };
+}
+
+export type AtwoodResult = {
+  acceleration: number;
+  tension: number;
+  heavier: 1 | 2;
+  weight1: number;
+  weight2: number;
+};
+
+/** Atwood machine: a = g(m2 − m1)/(m1 + m2), T = 2 m1 m2 g / (m1 + m2). */
+export function atwoodForces(mass1Kg: number, mass2Kg: number): AtwoodResult {
+  const m1 = Math.max(0.2, mass1Kg);
+  const m2 = Math.max(0.2, mass2Kg);
+  const a = (G * (m2 - m1)) / (m1 + m2);
+  const tension = (2 * m1 * m2 * G) / (m1 + m2);
+  return {
+    acceleration: a,
+    tension,
+    heavier: m2 >= m1 ? 2 : 1,
+    weight1: m1 * G,
+    weight2: m2 * G,
+  };
+}
+
+export type HydraulicResult = {
+  maIdeal: number;
+  effort: number;
+  load: number;
+  pressure: number;
+  areaEffort: number;
+  areaLoad: number;
+};
+
+/** Pascal’s law: F2 / F1 = A2 / A1. Pressure is the same in the fluid. */
+export function hydraulicForces(effortN: number, rEffort: number, rLoad: number): HydraulicResult {
+  const r1 = Math.max(0.04, rEffort);
+  const r2 = Math.max(r1 * 1.05, rLoad);
+  const areaEffort = Math.PI * r1 * r1;
+  const areaLoad = Math.PI * r2 * r2;
+  const maIdeal = areaLoad / areaEffort;
+  return {
+    maIdeal,
+    effort: effortN,
+    load: effortN * maIdeal,
+    pressure: effortN / areaEffort,
+    areaEffort,
+    areaLoad,
+  };
+}
+
 export function formatN(value: number, digits = 1) {
   return `${value.toFixed(digits)} N`;
 }

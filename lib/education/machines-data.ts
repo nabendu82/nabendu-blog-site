@@ -4,7 +4,12 @@ export type MachineId =
   | "gears"
   | "lever"
   | "wheel-axle"
-  | "screw";
+  | "screw"
+  | "wedge"
+  | "wheelbarrow"
+  | "tongs"
+  | "atwood"
+  | "hydraulic";
 
 export type Hotspot = {
   id: string;
@@ -499,6 +504,360 @@ export const machines: Machine[] = [
       { key: "handleR", label: "Handle radius", min: 0.4, max: 1.2, step: 0.1, unit: " m", defaultValue: 0.8 },
       { key: "pitch", label: "Pitch", min: 0.05, max: 0.25, step: 0.01, unit: " m", defaultValue: 0.1 },
       { key: "load", label: "Load", min: 100, max: 800, step: 20, unit: " N", defaultValue: 400 },
+    ],
+  },
+  {
+    id: "wedge",
+    name: "Wedge",
+    scientificName: "Splitting wedge / axe",
+    system: "Simple Machines",
+    icon: "▲",
+    accent: "#8a5a32",
+    description:
+      "Two inclined planes back to back. A thin edge driven into wood converts a downward blow into a sideways split — knives, axes, and nails all use this shape.",
+    poetic: "The splitting edge",
+    formula: "MA = L / T",
+    maNote: "A longer, thinner wedge (large L / small thickness T) needs less effort to split.",
+    cbseFocus:
+      "Class 6–8: the wedge is the sixth simple machine. It is an inclined plane used to separate objects. Knives, axes, nails, and ploughshares are standard examples.",
+    workLink:
+      "You push the wedge a long way along its slope; the wood only opens by the thickness. Work in ≈ work out — the force is multiplied, not created.",
+    funFact:
+      "A kitchen knife is a very thin wedge. Sharpening it reduces thickness T, which raises MA so the same hand force cuts more easily.",
+    misconception:
+      "A sharper wedge does not make cutting ‘free’. You still do work; the blade just concentrates force onto a smaller thickness.",
+    realWorld: [
+      { title: "Axe & Log", description: "Splitting firewood with a metal wedge driven by a mallet.", tag: "Tools" },
+      { title: "Kitchen Knife", description: "Thin blade converts a downward cut into a sideways split of food.", tag: "Home" },
+      { title: "Nail & Plough", description: "Pointed wedge tips pierce wood or soil with less effort.", tag: "Farm & Craft" },
+    ],
+    hotspots: [
+      { id: "edge", label: "Sharp edge", detail: "Thin end that enters the wood", color: "#2a7ab0", pos: [0.1, -0.2, 0] },
+      { id: "slope", label: "Slope L", detail: "Length of the inclined faces", color: "#c4922a", pos: [0.15, 0.4, 0] },
+      { id: "thick", label: "Thickness T", detail: "Width of the blunt end", color: "#3d6b4f", pos: [0.35, 0.1, 0] },
+      { id: "log", label: "Load / wood", detail: "Material being split", color: "#b54a3c", pos: [0.5, -0.7, 0] },
+    ],
+    lesson: {
+      title: "Wedges as double inclined planes",
+      paragraphs: [
+        "A wedge is two inclined planes joined at a sharp edge. When you drive it into a log, the effort acts along the slope while the wood is forced apart sideways.",
+        "Ideal MA ≈ length of the slope L divided by the thickness T of the thick end. A long thin wedge has high MA; a short fat one has low MA.",
+        "Friction against the faces is large, so real efficiency is often low — but the wedge holds itself in the cut, which is useful for splitting.",
+      ],
+      bullets: [
+        "MA = L / T (ideal).",
+        "Knives, axes, nails, and chisels are wedges.",
+        "Sharper (thinner) tools raise MA by reducing T.",
+      ],
+    },
+    quiz: [
+      {
+        prompt: "Ideal MA of a wedge is:",
+        options: ["T / L", "L / T", "L × T", "2πL / T"],
+        answer: 1,
+        explain: "MA equals slope length divided by thickness.",
+      },
+      {
+        prompt: "A knife is mainly which simple machine?",
+        options: ["Pulley", "Wheel and axle", "Wedge", "Screw"],
+        answer: 2,
+        explain: "A blade is a thin wedge.",
+      },
+      {
+        prompt: "Making a wedge thinner (smaller T) will:",
+        options: ["Lower MA", "Raise MA", "Remove friction", "Change gravity"],
+        answer: 1,
+        explain: "MA = L/T, so smaller T means larger MA.",
+      },
+    ],
+    controls: [
+      { key: "length", label: "Slope L", min: 0.5, max: 1.2, step: 0.05, unit: " m", defaultValue: 0.8 },
+      { key: "thickness", label: "Thickness T", min: 0.1, max: 0.4, step: 0.02, unit: " m", defaultValue: 0.22 },
+      { key: "load", label: "Resistance", min: 100, max: 600, step: 20, unit: " N", defaultValue: 300 },
+    ],
+  },
+  {
+    id: "wheelbarrow",
+    name: "Wheelbarrow",
+    scientificName: "Class II lever",
+    system: "Simple Machines",
+    icon: "⊏",
+    accent: "#3d6b4f",
+    description:
+      "A Class II lever: the wheel is the fulcrum, the load sits in the tray, and you lift at the handles. The load is between fulcrum and effort, so MA is greater than 1.",
+    poetic: "Load in the middle",
+    formula: "MA = Effort arm / Load arm",
+    maNote: "Longer handles (or a load closer to the wheel) make the barrow easier to lift.",
+    cbseFocus:
+      "Class 7–9: Class II levers have load between fulcrum and effort. Wheelbarrow, nutcracker, and bottle opener are the usual exam examples.",
+    workLink:
+      "You lift the handles through a larger arc than the tray rises. Effort × large arm = Load × small arm when the barrow is just leaving the ground.",
+    funFact:
+      "A wheelbarrow is both a Class II lever and a wheel-and-axle: the wheel also lets you roll the load instead of carrying it.",
+    misconception:
+      "The wheel does not cancel the load’s weight. You still support part of the weight at the handles — the lever just reduces that part.",
+    realWorld: [
+      { title: "Garden Wheelbarrow", description: "Move soil and bricks by lifting handles, not the tray.", tag: "Garden" },
+      { title: "Nutcracker", description: "Class II lever crushing a nut between fulcrum and handles.", tag: "Kitchen" },
+      { title: "Bottle Opener", description: "Cap is the load between the lip fulcrum and your hand.", tag: "Home" },
+    ],
+    hotspots: [
+      { id: "wheel", label: "Wheel (fulcrum)", detail: "Pivot where the barrow turns", color: "#c4922a", pos: [-1.15, -0.85, 0] },
+      { id: "tray", label: "Load in tray", detail: "Weight between wheel and handles", color: "#3d6b4f", pos: [-0.3, -0.25, 0] },
+      { id: "handles", label: "Effort handles", detail: "Where you lift", color: "#b54a3c", pos: [1.1, -0.5, 0] },
+      { id: "arms", label: "Lever arms", detail: "Distances from the wheel", color: "#2a7ab0", pos: [0.2, -0.55, 0] },
+    ],
+    lesson: {
+      title: "Class II levers — wheelbarrow",
+      paragraphs: [
+        "In a Class II lever the load sits between the fulcrum and the effort. For a wheelbarrow the fulcrum is the wheel axle, the load is in the tray, and effort is at the handles.",
+        "Ideal MA = effort arm / load arm, and this is always greater than 1 because the handles are farther from the wheel than the tray is.",
+        "Compare with Class I (fulcrum in the middle, like a seesaw) and Class III (effort in the middle, like tongs).",
+      ],
+      bullets: [
+        "Order: fulcrum — load — effort.",
+        "MA > 1: you gain force, lose distance.",
+        "Nutcrackers and doors (hinge + handle) are also Class II.",
+      ],
+    },
+    quiz: [
+      {
+        prompt: "In a wheelbarrow the fulcrum is the:",
+        options: ["Handles", "Tray", "Wheel", "Ground only"],
+        answer: 2,
+        explain: "The wheel axle is the pivot (fulcrum).",
+      },
+      {
+        prompt: "A wheelbarrow is which class of lever?",
+        options: ["Class I", "Class II", "Class III", "Not a lever"],
+        answer: 1,
+        explain: "Load lies between fulcrum and effort — Class II.",
+      },
+      {
+        prompt: "Moving the load closer to the wheel will:",
+        options: ["Lower MA", "Raise MA", "Remove the fulcrum", "Increase gravity"],
+        answer: 1,
+        explain: "Smaller load arm raises MA = effort arm / load arm.",
+      },
+    ],
+    controls: [
+      { key: "effortArm", label: "Handle arm", min: 0.9, max: 2.0, step: 0.1, unit: " m", defaultValue: 1.4 },
+      { key: "loadArm", label: "Load arm", min: 0.3, max: 1.0, step: 0.05, unit: " m", defaultValue: 0.55 },
+      { key: "load", label: "Load", min: 50, max: 400, step: 10, unit: " N", defaultValue: 250 },
+    ],
+  },
+  {
+    id: "tongs",
+    name: "Tongs",
+    scientificName: "Class III lever",
+    system: "Simple Machines",
+    icon: ">",
+    accent: "#b54a3c",
+    description:
+      "A Class III lever: the fulcrum is at the hinge, you squeeze in the middle, and the load is at the tips. MA is less than 1 — you trade force for a larger, faster grip.",
+    poetic: "Effort in the middle",
+    formula: "MA = Effort arm / Load arm (< 1)",
+    maNote: "Class III levers sacrifice force to move the load through a bigger distance — useful for tongs, tweezers, and your forearm.",
+    cbseFocus:
+      "Class 7–9: Class III has effort between fulcrum and load. Fishing rod, tweezers, tongs, and the human forearm are the textbook set.",
+    workLink:
+      "Your squeeze travels a short distance near the hinge; the tips travel farther. Work is still effort × small distance ≈ load × large distance.",
+    funFact:
+      "Your biceps and forearm are a Class III lever: the elbow is the fulcrum, the muscle inserts in the middle, and the school bag is the load in your hand.",
+    misconception:
+      "MA < 1 does not mean the machine is ‘useless’. It multiplies speed and range of motion, which is what you want when picking up a hot pan.",
+    realWorld: [
+      { title: "Kitchen Tongs", description: "Lift a hot roti off the tawa: tips move farther than your squeeze.", tag: "Kitchen" },
+      { title: "Tweezers", description: "Fine Class III lever for small loads at the tips.", tag: "Tools" },
+      { title: "Human Forearm", description: "Biceps insert between elbow fulcrum and the hand load.", tag: "Biology" },
+    ],
+    hotspots: [
+      { id: "pivot", label: "Hinge (fulcrum)", detail: "Where both arms join", color: "#c4922a", pos: [-1.15, -0.35, 0] },
+      { id: "grip", label: "Effort", detail: "Where you squeeze", color: "#b54a3c", pos: [-0.7, -0.25, 0] },
+      { id: "tips", label: "Roti at tips", detail: "Load held between the paddles", color: "#3d6b4f", pos: [0.9, -0.2, 0] },
+      { id: "arms", label: "Arm lengths", detail: "Effort arm < load arm", color: "#2a7ab0", pos: [0, -0.35, 0] },
+    ],
+    lesson: {
+      title: "Class III levers — tongs",
+      paragraphs: [
+        "In a Class III lever the effort is between the fulcrum and the load. Tongs, tweezers, and a fishing rod all work this way.",
+        "Ideal MA = effort arm / load arm is less than 1. You apply more force than the tips deliver, but the tips move farther and faster.",
+        "This is the opposite trade-off from a wheelbarrow. Both are still levers; they just sit in different classes.",
+      ],
+      bullets: [
+        "Order: fulcrum — effort — load.",
+        "MA < 1: gain distance/speed, lose force.",
+        "The forearm is a living Class III lever.",
+      ],
+    },
+    quiz: [
+      {
+        prompt: "In tongs, the effort is:",
+        options: ["At the tips", "At the hinge", "Between hinge and tips", "On the floor"],
+        answer: 2,
+        explain: "You squeeze in the middle — Class III.",
+      },
+      {
+        prompt: "Ideal MA of a Class III lever is usually:",
+        options: ["Greater than 1", "Equal to 1 only", "Less than 1", "Infinite"],
+        answer: 2,
+        explain: "The effort arm is shorter than the load arm, so MA < 1.",
+      },
+      {
+        prompt: "Your forearm lifting a bag is:",
+        options: ["Class I", "Class II", "Class III", "A pulley"],
+        answer: 2,
+        explain: "Elbow fulcrum, biceps in the middle, load in the hand.",
+      },
+    ],
+    controls: [
+      { key: "effortArm", label: "Effort arm", min: 0.25, max: 0.7, step: 0.05, unit: " m", defaultValue: 0.45 },
+      { key: "loadArm", label: "Load arm", min: 0.7, max: 1.4, step: 0.05, unit: " m", defaultValue: 1.1 },
+      { key: "load", label: "Grip load", min: 10, max: 80, step: 5, unit: " N", defaultValue: 40 },
+    ],
+  },
+  {
+    id: "atwood",
+    name: "Atwood Machine",
+    scientificName: "Connected masses over a pulley",
+    system: "Force & Motion",
+    icon: "⚖",
+    accent: "#2a7ab0",
+    description:
+      "Two masses hung over a pulley. The heavier one falls, the lighter one rises, and both share the same acceleration — a Class 9 way to see Newton’s second law.",
+    poetic: "Two weights, one string",
+    formula: "a = g (m₂ − m₁) / (m₁ + m₂)",
+    maNote: "When the masses are nearly equal, acceleration is small and easy to time — that is why Atwood used it to study motion.",
+    cbseFocus:
+      "Class 9: force and laws of motion. A light frictionless pulley, inextensible string, two masses. Tension is the same; acceleration is common.",
+    workLink:
+      "Loss in PE of the heavier mass goes into KE of both masses plus gain in PE of the lighter one. Energy is conserved if the pulley is ideal.",
+    funFact:
+      "George Atwood built this machine in 1784 so students could measure g with masses that fall slowly enough to time with a stopwatch.",
+    misconception:
+      "Tension is not equal to either weight. For two different masses, T = 2 m₁ m₂ g / (m₁ + m₂), which lies between the two weights.",
+    realWorld: [
+      { title: "Lift Counterweight", description: "Elevator cab and counterweight share a cable over a pulley.", tag: "Buildings" },
+      { title: "Flagpole Halyard", description: "Pull one side of a rope and the flag on the other side rises.", tag: "School" },
+      { title: "Gym Cable Machine", description: "Weights on one side, handle on the other, linked over pulleys.", tag: "Sport" },
+    ],
+    hotspots: [
+      { id: "pulley", label: "Pulley", detail: "Changes direction; ideal MA ≈ 1", color: "#c4922a", pos: [0, 1.38, 0] },
+      { id: "m1", label: "Mass m1", detail: "Lighter pan in the default setup", color: "#2a7ab0", pos: [-0.22, 0.2, 0] },
+      { id: "m2", label: "Mass m2", detail: "Heavier pan — it descends", color: "#b54a3c", pos: [0.22, -0.1, 0] },
+      { id: "string", label: "String", detail: "Same tension T on both sides", color: "#3d6b4f", pos: [0, 0.7, 0] },
+    ],
+    lesson: {
+      title: "Atwood’s machine and Newton’s second law",
+      paragraphs: [
+        "Treat the two masses as a system. The net force is (m2 − m1)g if m2 > m1, and the total mass being accelerated is m1 + m2. So a = g(m2 − m1)/(m1 + m2).",
+        "On each mass, write F = ma separately. For m2 going down: m2 g − T = m2 a. For m1 going up: T − m1 g = m1 a. Solving gives T = 2 m1 m2 g / (m1 + m2).",
+        "If m1 = m2 the system is in equilibrium (a = 0). If the pulley has friction, real a is smaller than the ideal formula.",
+      ],
+      bullets: [
+        "Same string ⇒ same tension (ideal).",
+        "Same string ⇒ same magnitude of a.",
+        "a is less than g unless one mass is zero.",
+      ],
+    },
+    quiz: [
+      {
+        prompt: "If m1 = m2, the acceleration is:",
+        options: ["g", "g/2", "0", "2g"],
+        answer: 2,
+        explain: "Equal masses: net force is zero, so a = 0.",
+      },
+      {
+        prompt: "Ideal acceleration is:",
+        options: ["g(m1+m2)/(m2−m1)", "g(m2−m1)/(m1+m2)", "m1 m2 g", "T / g"],
+        answer: 1,
+        explain: "a = g(m2 − m1)/(m1 + m2).",
+      },
+      {
+        prompt: "Tension T in an ideal Atwood machine is:",
+        options: ["m1 g", "m2 g", "2 m1 m2 g / (m1 + m2)", "0"],
+        answer: 2,
+        explain: "T lies between the two weights: 2 m1 m2 g / (m1 + m2).",
+      },
+    ],
+    controls: [
+      { key: "mass1", label: "Mass m1", min: 0.5, max: 6, step: 0.5, unit: " kg", defaultValue: 2 },
+      { key: "mass2", label: "Mass m2", min: 0.5, max: 6, step: 0.5, unit: " kg", defaultValue: 3.5 },
+    ],
+  },
+  {
+    id: "hydraulic",
+    name: "Hydraulic Press",
+    scientificName: "Pascal’s press",
+    system: "Force & Pressure",
+    icon: "▣",
+    accent: "#c4922a",
+    description:
+      "Two pistons share one oil-filled pipe. Pressure is the same throughout the liquid, so a small force on a small piston can lift a large load on a large piston.",
+    poetic: "Same pressure, bigger push",
+    formula: "F₂ / F₁ = A₂ / A₁",
+    maNote: "MA equals the area ratio. A piston four times wider (sixteen times the area) multiplies force by 16.",
+    cbseFocus:
+      "Class 8: Force and Pressure — Pascal’s law. Pressure in a confined liquid is transmitted equally in all directions. Hydraulic brakes and car lifts use this.",
+    workLink:
+      "The small piston travels farther than the large one. F1 × s1 ≈ F2 × s2, so energy is conserved even while force is multiplied.",
+    funFact:
+      "A service-station car lift is a hydraulic press: the mechanic’s pump is the small piston, the platform under the car is the large one.",
+    misconception:
+      "The oil does not create extra energy. The small piston must move a longer distance for the large piston to rise a little.",
+    realWorld: [
+      { title: "Car Lift", description: "Workshop ram lifts a whole vehicle with a pump handle.", tag: "Garage" },
+      { title: "Hydraulic Brakes", description: "Foot force on a small piston reaches all four wheels.", tag: "Automotive" },
+      { title: "Excavator Arm", description: "Pressurised oil drives large rams to move heavy buckets.", tag: "Construction" },
+    ],
+    hotspots: [
+      { id: "small", label: "Small piston", detail: "Effort F1 on area A1", color: "#b54a3c", pos: [-0.85, 0.1, 0] },
+      { id: "large", label: "Large piston", detail: "Load F2 on area A2", color: "#3d6b4f", pos: [0.85, 0.3, 0] },
+      { id: "oil", label: "Oil in glass", detail: "You can see the liquid transmit pressure", color: "#c4922a", pos: [0, -0.92, 0] },
+      { id: "pipe", label: "Connecting pipe", detail: "Same pressure P = F/A", color: "#2a7ab0", pos: [0, -0.95, 0.28] },
+    ],
+    lesson: {
+      title: "Pascal’s law and the hydraulic press",
+      paragraphs: [
+        "Pascal’s law: pressure applied to a confined liquid is transmitted equally in all directions. Pressure P = F / A.",
+        "On the small piston, P = F1 / A1. The same P acts on the large piston, so F2 = P × A2 = F1 × (A2 / A1). Ideal MA is the area ratio.",
+        "Because liquids are almost incompressible, the volume pushed in equals the volume that comes out: A1 s1 = A2 s2. The small piston moves farther.",
+      ],
+      bullets: [
+        "P is the same in the oil.",
+        "MA = A2 / A1 = (r2 / r1)².",
+        "Work in ≈ work out for an ideal (leak-free) press.",
+      ],
+    },
+    quiz: [
+      {
+        prompt: "Pascal’s law says pressure in a confined liquid is:",
+        options: ["Larger at the top", "Transmitted equally", "Zero", "Only downward"],
+        answer: 1,
+        explain: "Pressure is transmitted equally in all directions.",
+      },
+      {
+        prompt: "If A2 = 10 A1, ideal MA is:",
+        options: ["1", "10", "100", "1/10"],
+        answer: 1,
+        explain: "MA = A2 / A1 = 10.",
+      },
+      {
+        prompt: "Hydraulic brakes work because:",
+        options: [
+          "Air is easier to compress",
+          "Oil transmits pressure to every slave piston",
+          "Wheels create extra force",
+          "Friction disappears",
+        ],
+        answer: 1,
+        explain: "One master cylinder pressurises fluid that reaches all brake pistons.",
+      },
+    ],
+    controls: [
+      { key: "effort", label: "Effort F1", min: 20, max: 200, step: 10, unit: " N", defaultValue: 80 },
+      { key: "rEffort", label: "Small radius", min: 0.08, max: 0.2, step: 0.01, unit: " m", defaultValue: 0.12 },
+      { key: "rLoad", label: "Large radius", min: 0.22, max: 0.5, step: 0.02, unit: " m", defaultValue: 0.36 },
     ],
   },
 ];

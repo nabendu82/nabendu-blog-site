@@ -148,22 +148,26 @@ export function MachinesApp() {
             </button>
           </div>
           <div className="organ-list">
-            {filtered.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`organ-item ${machineId === item.id ? "active" : ""}`}
-                onClick={() => selectMachine(item.id)}
-              >
-                <span className="organ-glyph" style={{ color: item.accent }}>
-                  {item.icon}
-                </span>
-                <span>
-                  <strong>{item.name}</strong>
-                  <small>{item.system}</small>
-                </span>
-                {machineId === item.id && <Gauge className="favorite" size={14} />}
-              </button>
+            {filtered.map((item, index) => (
+              <div key={item.id}>
+                {(index === 0 || filtered[index - 1].system !== item.system) && (
+                  <div className="organ-system">{item.system}</div>
+                )}
+                <button
+                  type="button"
+                  className={`organ-item ${machineId === item.id ? "active" : ""}`}
+                  onClick={() => selectMachine(item.id)}
+                >
+                  <span className="organ-glyph" style={{ color: item.accent }}>
+                    {item.icon}
+                  </span>
+                  <span>
+                    <strong>{item.name}</strong>
+                    <small>{item.system}</small>
+                  </span>
+                  {machineId === item.id && <Gauge className="favorite" size={14} />}
+                </button>
+              </div>
             ))}
           </div>
           <button className="view-all" type="button" onClick={() => setQuery("")}>
@@ -346,7 +350,7 @@ export function MachinesApp() {
         <article className="curiosity-card">
           <em>Compare</em>
           <h3>MA across machines</h3>
-          <p>Ramp, pulley strands, and gear teeth all trade distance or speed for force.</p>
+          <p>Ramp, pulley, lever class, wedge, gears, Atwood, and hydraulics all trade distance or area for force.</p>
           <button type="button" onClick={() => setCompare(true)}>
             Open comparison <ArrowRight size={14} />
           </button>

@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import type { ForceVectorSpec } from "@/lib/education/three/force-vectors";
 import { disposeObject } from "@/lib/education/three/dispose";
 import {
   clamp,
@@ -11,59 +10,30 @@ import {
   screwForces,
   wheelAxleForces,
 } from "@/lib/education/physics";
+import {
+  createAtwood,
+  createHydraulic,
+  createTongs,
+  createWedge,
+  createWheelbarrow,
+} from "@/lib/education/three/assemblies/extra";
+import type { AssemblyParams, MachineAssembly } from "@/lib/education/three/assemblies/types";
+import {
+  bench,
+  crate,
+  grabKnob,
+  hemp,
+  helixMesh,
+  iron,
+  sheave,
+  cartWheel,
+  wood,
+} from "@/lib/education/three/workshop";
 
-export type HudState = {
-  ma: number;
-  effort: number;
-  load: number;
-  lines: { label: string; value: string }[];
-};
+export type { AssemblyParams, HudState, MachineAssembly } from "@/lib/education/three/assemblies/types";
 
-export type AssemblyParams = Record<string, number>;
-
-export interface MachineAssembly {
-  root: THREE.Group;
-  grabTargets: THREE.Object3D[];
-  homeCamera: { x: number; y: number; z: number };
-  homeTarget: { x: number; y: number; z: number };
-  setParams(params: AssemblyParams): void;
-  getParams(): AssemblyParams;
-  getForceVectors(): ForceVectorSpec[];
-  getHud(): HudState;
-  onDrag(target: THREE.Object3D, dx: number, dy: number): boolean;
-  onPointerDown?(target: THREE.Object3D): void;
-  /** Idle teaching motion while auto-rotate / demo is on. Returns true if scene changed. */
-  tick?(dt: number, demo: boolean): boolean;
-  reset(): void;
-  setIsolated(isolated: boolean): void;
-  dispose(): void;
-}
-
-function metal(color: number, roughness = 0.38, metalness = 0.55) {
-  return new THREE.MeshStandardMaterial({
-    color,
-    roughness,
-    metalness,
-    envMapIntensity: 0.9,
-  });
-}
-
-function matte(color: number) {
-  return new THREE.MeshStandardMaterial({
-    color,
-    roughness: 0.82,
-    metalness: 0.08,
-    envMapIntensity: 0.45,
-  });
-}
-
-function paint(color: number) {
-  return new THREE.MeshStandardMaterial({
-    color,
-    roughness: 0.48,
-    metalness: 0.18,
-    envMapIntensity: 0.7,
-  });
+function metal(color: number, _roughness = 0.38, _metalness = 0.55) {
+  return iron(color);
 }
 
 // ---------------------------------------------------------------------------
@@ -77,19 +47,7 @@ export function createInclinedPlane(): MachineAssembly {
   const params: AssemblyParams = { angle: 30, mu: 0.1, mass: 5, progress: 0.4 };
   let demoTime = 0;
 
-  const floor = new THREE.Mesh(
-    new THREE.BoxGeometry(4.6, 0.1, 2.4),
-    new THREE.MeshPhysicalMaterial({
-      color: 0xdce4ec,
-      roughness: 0.12,
-      metalness: 0.1,
-      transmission: 0.3,
-      transparent: true,
-      opacity: 0.9,
-    }),
-  );
-  floor.position.set(0, -1.15, 0);
-  floor.receiveShadow = true;
+  const floor = bench(4.8, 2.4);
   root.add(floor);
 
   const rampGroup = new THREE.Group();
@@ -97,48 +55,21 @@ export function createInclinedPlane(): MachineAssembly {
 
   const rampLen = 3.2;
   const rampWidth = 1.15;
-  const ramp = new THREE.Mesh(
-    new THREE.BoxGeometry(rampLen, 0.1, rampWidth),
-    new THREE.MeshPhysicalMaterial({
-      color: 0x94a3b8,
-      metalness: 0.8,
-      roughness: 0.2,
-      clearcoat: 0.3,
-      clearcoatRoughness: 0.1,
-    }),
-  );
+  const ramp = new THREE.Mesh(new THREE.BoxGeometry(rampLen, 0.12, rampWidth), wood(0x9a6b3c));
   ramp.name = "ramp";
   ramp.position.x = rampLen / 2;
   ramp.castShadow = true;
   ramp.receiveShadow = true;
   rampGroup.add(ramp);
 
-  // Side rail for readability
-  const rail = new THREE.Mesh(new THREE.BoxGeometry(rampLen, 0.08, 0.06), metal(0xc4922a, 0.45, 0.4));
-  rail.position.set(rampLen / 2, 0.09, -rampWidth / 2 + 0.04);
+  const rail = new THREE.Mesh(new THREE.BoxGeometry(rampLen, 0.08, 0.06), wood(0x6e4324));
+  rail.position.set(rampLen / 2, 0.1, -rampWidth / 2 + 0.04);
   rail.castShadow = true;
   rampGroup.add(rail);
 
-  const block = new THREE.Mesh(
-    new THREE.BoxGeometry(0.42, 0.36, 0.42),
-    new THREE.MeshStandardMaterial({
-      color: 0x3f7a58,
-      metalness: 0.1,
-      roughness: 0.6,
-    }),
-  );
+  const block = crate(0.42, 0.36, 0.42);
   block.name = "block";
   block.userData.grab = true;
-  block.castShadow = true;
-  block.receiveShadow = true;
-  // Grab affordance ring
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(0.28, 0.025, 8, 24),
-    metal(0xf0c14a, 0.35, 0.5),
-  );
-  ring.rotation.x = Math.PI / 2;
-  ring.position.y = 0.22;
-  block.add(ring);
   rampGroup.add(block);
 
   const heightBar = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1, 0.06), metal(0xc4922a, 0.4, 0.35));
@@ -159,7 +90,7 @@ export function createInclinedPlane(): MachineAssembly {
     rampGroup.rotation.z = theta;
 
     const t = clamp(params.progress, 0.12, 0.82);
-    block.position.set(0.35 + t * (rampLen - 0.7), 0.23, 0);
+    block.position.set(0.35 + t * (rampLen - 0.7), 0.3, 0);
 
     heightBar.position.set(baseX + Math.cos(theta) * rampLen, -1.1 + H / 2, -0.75);
     heightBar.scale.y = Math.max(0.15, H);
@@ -279,64 +210,56 @@ export function createPulley(): MachineAssembly {
   const params: AssemblyParams = { strands: 4, load: 200, efficiency: 0.9, lift: 0.4 };
   let demoTime = 0;
 
-  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 3.0, 16), metal(0x6a7582));
+  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 3.0, 16), wood(0x6a4024));
   post.position.set(0, 0.15, -0.55);
+  post.castShadow = true;
   root.add(post);
 
-  const beam = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.1, 0.12), metal(0x6a7582));
+  const beam = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.12, 0.14), wood(0x8a5a32));
   beam.position.set(0, 1.55, -0.55);
+  beam.castShadow = true;
   root.add(beam);
 
-  const fixedPulley = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.06, 14, 28), metal(0xc4922a, 0.35, 0.6));
+  const fixedPulley = sheave(0.26, 0.06, 0xb08d3a);
   fixedPulley.name = "fixed";
-  fixedPulley.rotation.y = Math.PI / 2;
   fixedPulley.position.set(0, 1.4, 0);
   root.add(fixedPulley);
 
-  const axle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.5, 10), metal(0x9aa3ad));
+  const axle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.5, 10), iron(0x8a9098));
   axle.rotation.z = Math.PI / 2;
   axle.position.copy(fixedPulley.position);
   root.add(axle);
 
   const movable = new THREE.Group();
   movable.name = "movable";
-  const movPulley = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.055, 14, 28), metal(0x2a7ab0, 0.35, 0.6));
-  movPulley.rotation.y = Math.PI / 2;
+  const movPulley = sheave(0.22, 0.055, 0x4a6a88);
   movable.add(movPulley);
-  const hook = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.025, 10, 16, Math.PI), metal(0x9aa3ad));
+  const hook = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.025, 10, 16, Math.PI), iron(0x8a9098));
   hook.position.y = -0.38;
   hook.rotation.x = Math.PI;
   movable.add(hook);
-  const loadBlock = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.38, 0.42), paint(0x3f7a58));
+  const loadBlock = crate(0.55, 0.38, 0.42);
   loadBlock.name = "load";
   loadBlock.position.y = -0.72;
   movable.add(loadBlock);
   root.add(movable);
 
-  const ropeMat = new THREE.MeshStandardMaterial({ color: 0xe2d2b0, roughness: 0.92, metalness: 0 });
   const ropes: THREE.Mesh[] = [];
   for (let i = 0; i < 6; i += 1) {
-    const rope = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1, 6), ropeMat);
+    const rope = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1, 6), hemp());
     rope.name = "strands";
     ropes.push(rope);
     root.add(rope);
   }
 
-  const handle = new THREE.Mesh(new THREE.SphereGeometry(0.11, 18, 18), paint(0xb54a3c));
+  const handle = grabKnob();
   handle.name = "effort";
-  handle.userData.grab = true;
-  const handleRing = new THREE.Mesh(
-    new THREE.TorusGeometry(0.16, 0.02, 8, 20),
-    metal(0xf0c14a, 0.35, 0.5),
-  );
-  handle.add(handleRing);
   root.add(handle);
 
-  const freeRope = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1, 6), ropeMat);
+  const freeRope = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1, 6), hemp());
   root.add(freeRope);
 
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.1, 0.12, 36), matte(0x5b6775));
-  base.position.y = -1.4;
+  const base = bench(2.4, 1.6);
   root.add(base);
 
   const layout = () => {
@@ -513,8 +436,7 @@ export function createGears(): MachineAssembly {
   const params: AssemblyParams = { driverTeeth: 16, drivenTeeth: 32, angle: 0 };
   let demoTime = 0;
 
-  const plate = new THREE.Mesh(new THREE.BoxGeometry(4.0, 0.1, 2.2), matte(0x5b6775));
-  plate.position.y = -0.95;
+  const plate = bench(4.0, 2.2);
   root.add(plate);
 
   let driver: THREE.Group = new THREE.Group();
@@ -546,13 +468,9 @@ export function createGears(): MachineAssembly {
     driver = createGearMesh(nd, rDriver, 0xc4922a);
     driver.name = "driver";
     driver.userData.grab = true;
-    const grabRing = new THREE.Mesh(
-      new THREE.TorusGeometry(rDriver * 0.55, 0.03, 8, 24),
-      metal(0xf0c14a, 0.35, 0.5),
-    );
-    grabRing.rotation.x = Math.PI / 2;
-    grabRing.position.y = 0.28;
-    driver.add(grabRing);
+    const grab = grabKnob();
+    grab.position.y = 0.28;
+    driver.add(grab);
 
     driven = createGearMesh(nn, rDriven, 0x2a7ab0);
     driven.name = "driven";
@@ -677,29 +595,27 @@ export function createLever(): MachineAssembly {
   const params: AssemblyParams = { effortArm: 1.6, loadArm: 0.8, load: 200, tilt: 0 };
   let demoTime = 0;
 
-  const base = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.1, 1.6), matte(0x5b6775));
-  base.position.y = -1.2;
+  const base = bench(4.4, 1.8);
   root.add(base);
 
-  const fulcrum = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.55, 4), metal(0xc4922a, 0.4, 0.45));
+  const fulcrum = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.55, 4), wood(0x6a4024));
   fulcrum.name = "fulcrum";
   fulcrum.position.set(0, -0.85, 0);
+  fulcrum.castShadow = true;
   root.add(fulcrum);
 
-  const bar = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.12, 0.28), paint(0x8fa0b0));
+  const bar = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.14, 0.28), wood(0xa56b3c));
   bar.name = "arms";
   bar.position.y = -0.55;
+  bar.castShadow = true;
   root.add(bar);
 
-  const loadBlock = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.35, 0.4), paint(0x3f7a58));
+  const loadBlock = crate(0.4, 0.35, 0.4);
   loadBlock.name = "load";
   root.add(loadBlock);
 
-  const effortHandle = new THREE.Mesh(new THREE.SphereGeometry(0.14, 16, 16), paint(0xb54a3c));
+  const effortHandle = grabKnob();
   effortHandle.name = "effort";
-  effortHandle.userData.grab = true;
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.025, 8, 20), metal(0xf0c14a, 0.35, 0.5));
-  effortHandle.add(ring);
   root.add(effortHandle);
 
   const layout = () => {
@@ -819,22 +735,22 @@ export function createWheelAxle(): MachineAssembly {
   const params: AssemblyParams = { wheelR: 1.2, axleR: 0.3, load: 200, angle: 0 };
   let demoTime = 0;
 
-  const stand = new THREE.Mesh(new THREE.BoxGeometry(0.18, 2.2, 0.18), metal(0x6a7582));
+  const stand = new THREE.Mesh(new THREE.BoxGeometry(0.18, 2.2, 0.18), wood(0x6a4024));
   stand.position.set(0, -0.2, -0.55);
+  stand.castShadow = true;
   root.add(stand);
-  const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.0, 0.12, 32), matte(0x5b6775));
-  foot.position.y = -1.35;
+  const foot = bench(2.2, 1.6);
   root.add(foot);
 
   const wheelGroup = new THREE.Group();
   wheelGroup.position.set(0, 0.15, 0);
   root.add(wheelGroup);
 
-  let wheel: THREE.Mesh;
+  let wheel: THREE.Object3D;
   let axle: THREE.Mesh;
-  let handle: THREE.Mesh;
+  let handle: THREE.Object3D;
   let rope: THREE.Mesh | null = null;
-  let loadBlock: THREE.Mesh | null = null;
+  let loadBlock: THREE.Object3D | null = null;
   const grabTargets: THREE.Object3D[] = [];
 
   const rebuild = () => {
@@ -857,36 +773,25 @@ export function createWheelAxle(): MachineAssembly {
     const R = clamp(params.wheelR, 0.8, 1.6) * 0.7;
     const r = clamp(params.axleR, 0.2, 0.6) * 0.7;
 
-    wheel = new THREE.Mesh(new THREE.TorusGeometry(R, 0.07, 12, 36), metal(0xc4922a, 0.35, 0.55));
+    wheel = cartWheel(R);
     wheel.name = "wheel";
-    wheel.rotation.y = Math.PI / 2;
     wheelGroup.add(wheel);
 
-    const spokeMat = metal(0x9aa3ad, 0.4, 0.5);
-    for (let i = 0; i < 6; i += 1) {
-      const spoke = new THREE.Mesh(new THREE.BoxGeometry(R * 1.7, 0.05, 0.05), spokeMat);
-      spoke.rotation.z = (i * Math.PI) / 6;
-      wheelGroup.add(spoke);
-    }
-
-    axle = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.55, 20), metal(0x2a7ab0, 0.35, 0.6));
+    axle = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.55, 20), iron(0x4a6a88));
     axle.name = "axle";
     axle.rotation.z = Math.PI / 2;
     wheelGroup.add(axle);
 
-    handle = new THREE.Mesh(new THREE.SphereGeometry(0.12, 14, 14), paint(0xb54a3c));
+    handle = grabKnob();
     handle.name = "handle";
-    handle.userData.grab = true;
-    handle.position.set(0, R, 0.15);
-    const hRing = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.02, 8, 18), metal(0xf0c14a));
-    handle.add(hRing);
+    handle.position.set(0, R, 0.12);
     wheelGroup.add(handle);
 
-    rope = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1, 6), matte(0xe2d2b0));
+    rope = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1, 6), hemp());
     rope.name = "rope";
     root.add(rope);
 
-    loadBlock = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.35, 0.4), paint(0x3f7a58));
+    loadBlock = crate(0.45, 0.35, 0.4);
     loadBlock.name = "load";
     root.add(loadBlock);
 
@@ -1012,50 +917,40 @@ export function createScrew(): MachineAssembly {
   const params: AssemblyParams = { handleR: 0.8, pitch: 0.1, load: 400, turns: 0 };
   let demoTime = 0;
 
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.2, 0.18, 36), matte(0x5b6775));
-  base.position.y = -1.35;
+  const base = bench(2.6, 1.8);
   root.add(base);
 
-  const nut = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.5, 0.5, 24), metal(0x6a7582, 0.4, 0.5));
+  const nut = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.5, 0.5, 24), iron(0x5a616a));
   nut.position.y = -0.95;
+  nut.castShadow = true;
   root.add(nut);
 
   const screwGroup = new THREE.Group();
   root.add(screwGroup);
 
-  const screw = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 3.2, 24), metal(0x2a7ab0, 0.35, 0.55));
+  const screw = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 3.2, 24), iron(0x6a727c));
   screw.name = "thread";
-  screw.position.y = -0.6; // Shift center down so bottom stays inside nut at max rise
+  screw.position.y = -0.6;
   screwGroup.add(screw);
 
-  // Helix hint rings (extended to cover the longer shaft)
-  for (let i = 0; i < 12; i += 1) {
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(0.24, 0.02, 6, 20),
-      metal(0xc4922a, 0.45, 0.4),
-    );
-    ring.name = "pitch";
-    ring.position.y = -1.4 + i * 0.22;
-    ring.rotation.x = Math.PI / 2;
-    screwGroup.add(ring);
-  }
+  const thread = helixMesh(0.23, 2.8, 9, 0.028, 0xb08d3a);
+  thread.name = "pitch";
+  thread.position.y = -0.55;
+  screwGroup.add(thread);
 
-  const platform = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.12, 24), paint(0x3f7a58));
+  const platform = crate(0.7, 0.16, 0.7);
   platform.name = "load";
   platform.position.y = 1.05;
   screwGroup.add(platform);
 
-  const handleArm = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1, 10), metal(0x9aa3ad));
+  const handleArm = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1, 10), wood(0x7a4e2a));
   handleArm.name = "handle";
   handleArm.rotation.z = Math.PI / 2;
   handleArm.position.y = 1.05;
   screwGroup.add(handleArm);
 
-  const handleKnob = new THREE.Mesh(new THREE.SphereGeometry(0.13, 14, 14), paint(0xb54a3c));
+  const handleKnob = grabKnob();
   handleKnob.name = "handle";
-  handleKnob.userData.grab = true;
-  const hRing = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.02, 8, 18), metal(0xf0c14a));
-  handleKnob.add(hRing);
   screwGroup.add(handleKnob);
 
   const layout = () => {
@@ -1170,6 +1065,16 @@ export function createAssembly(id: string): MachineAssembly {
       return createWheelAxle();
     case "screw":
       return createScrew();
+    case "wedge":
+      return createWedge();
+    case "wheelbarrow":
+      return createWheelbarrow();
+    case "tongs":
+      return createTongs();
+    case "atwood":
+      return createAtwood();
+    case "hydraulic":
+      return createHydraulic();
     case "inclined-plane":
     default:
       return createInclinedPlane();

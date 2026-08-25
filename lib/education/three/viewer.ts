@@ -7,6 +7,7 @@ import { createAssembly, type AssemblyParams, type HudState, type MachineAssembl
 import { sound } from "@/lib/education/audio";
 import { loadGLTFModel } from "@/lib/education/three/gltf-loader";
 import { machineById } from "@/lib/education/machines-data";
+import { plankFloor } from "@/lib/education/three/workshop";
 
 export type HotspotScreenPos = {
   id: string;
@@ -198,7 +199,12 @@ export class MachineViewer {
       lever: 0.98,
       screw: 1.75,
       pulley: 1.35,
-      "wheel-axle": 1.10,
+      "wheel-axle": 1.1,
+      wedge: 1.15,
+      wheelbarrow: 1.2,
+      tongs: 1.1,
+      atwood: 1.4,
+      hydraulic: 1.25,
     };
     const mult = machineDistanceMultipliers[this.currentMachineId] ?? 1.05;
     const distance = Math.max(fitHeightDistance, fitWidthDistance) * mult;
@@ -207,6 +213,8 @@ export class MachineViewer {
     const targetYOffset: Record<string, number> = {
       screw: -0.25,
       pulley: 0.15,
+      atwood: 0.2,
+      hydraulic: -0.1,
     };
     const yOffset = targetYOffset[this.currentMachineId] ?? 0;
     const target = center.clone();
@@ -309,10 +317,10 @@ export class MachineViewer {
     const ambient = new THREE.AmbientLight(0xffffff, 0.45);
     this.scene.add(ambient);
 
-    const hemi = new THREE.HemisphereLight(0xf5f8fc, 0x5a6774, 0.85);
+    const hemi = new THREE.HemisphereLight(0xf3ead8, 0x5a4a38, 0.9);
     this.scene.add(hemi);
 
-    const key = new THREE.DirectionalLight(0xfff5e6, 1.4);
+    const key = new THREE.DirectionalLight(0xfff1d6, 1.35);
     key.position.set(3.5, 7, 4.5);
     key.castShadow = true;
     key.shadow.mapSize.width = 1024;
@@ -334,23 +342,14 @@ export class MachineViewer {
     rim.position.set(0, 2, -5);
     this.scene.add(rim);
 
-    // Realistic Plinth Ground Floor with Shadow Receiving
-    const plinth = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.2, 2.35, 0.14, 64),
-      new THREE.MeshStandardMaterial({
-        color: 0xced7e0,
-        roughness: 0.45,
-        metalness: 0.25,
-        envMapIntensity: 0.9,
-      }),
-    );
-    plinth.position.y = -1.58;
-    plinth.receiveShadow = true;
-    this.scene.add(plinth);
+    const floor = new THREE.Mesh(new THREE.CylinderGeometry(2.45, 2.6, 0.12, 48), plankFloor());
+    floor.position.y = -1.58;
+    floor.receiveShadow = true;
+    this.scene.add(floor);
 
     const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(2.15, 0.02, 16, 64),
-      new THREE.MeshStandardMaterial({ color: 0x8fa3b6, metalness: 0.8, roughness: 0.2 }),
+      new THREE.TorusGeometry(2.4, 0.03, 10, 48),
+      new THREE.MeshStandardMaterial({ color: 0x6a4a2c, roughness: 0.8, metalness: 0.05 }),
     );
     ring.rotation.x = Math.PI / 2;
     ring.position.y = -1.5;
@@ -399,7 +398,7 @@ export class MachineViewer {
     this.assembly.onPointerDown?.(obj);
 
     if (this.currentMachineId === "gears") sound.playGearClick(1.2);
-    else if (this.currentMachineId === "pulley") sound.playRopeHum();
+    else if (this.currentMachineId === "pulley" || this.currentMachineId === "atwood") sound.playRopeHum();
     else sound.playClick(680, 0.03);
 
     elSetPointerCapture(this.renderer.domElement, event.pointerId);
@@ -414,7 +413,7 @@ export class MachineViewer {
     if (this.assembly.onDrag(this.grabbing, dx, dy)) {
       if (Math.random() < 0.3) {
         if (this.currentMachineId === "gears") sound.playGearClick(1.0 + Math.random() * 0.4);
-        else if (this.currentMachineId === "pulley") sound.playRopeHum();
+        else if (this.currentMachineId === "pulley" || this.currentMachineId === "atwood") sound.playRopeHum();
       }
       this.pushHud();
       this.syncVectors();

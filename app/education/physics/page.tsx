@@ -18,7 +18,7 @@ const ui = IBM_Plex_Sans({
 export const metadata: Metadata = {
   title: "Mechanica Lab — Work, Energy & Simple Machines | Nabendu Blog",
   description:
-    "Interactive 3D lab for CBSE Class 7–9: inclined planes, block-and-tackle pulleys, gears, and mechanical advantage with live force vectors.",
+    "Interactive 3D lab for CBSE Class 6–9: simple machines, Atwood’s machine, Pascal’s hydraulic press, and live force vectors.",
 };
 
 export default function PhysicsPage() {

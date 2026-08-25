@@ -118,9 +118,10 @@ export function LearningModal({ type, machine, onClose }: Props) {
         ) : type === "system" ? (
           <>
             <p>
-              CBSE simple machines include the lever, pulley, inclined plane, wheel and axle, wedge,
-              and screw. Mechanica Lab focuses on the machines where 3D force trade-offs are easiest
-              to see: ramps, block-and-tackle, and gears.
+              CBSE simple machines include the lever (Classes I–III), pulley, inclined plane,
+              wheel and axle, wedge, and screw. Mechanica Lab also includes an Atwood machine
+              (Class 9 connected masses) and a hydraulic press (Class 8 Pascal’s law) so students
+              can see force trade-offs in 3D.
             </p>
             <dl className="modal-facts">
               <div>
