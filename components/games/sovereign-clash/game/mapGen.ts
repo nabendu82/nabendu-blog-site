@@ -218,14 +218,18 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     { kind: 'tree', x: PLAYER_BASE.x + 1.5, z: PLAYER_BASE.z + 8.8 },
     { kind: 'berryBush', x: PLAYER_BASE.x + 2, z: PLAYER_BASE.z + 7.5 },
     { kind: 'berryBush', x: PLAYER_BASE.x - 1.5, z: PLAYER_BASE.z + 8.2 },
-    { kind: 'goldMine', x: PLAYER_BASE.x - 6.5, z: PLAYER_BASE.z + 5 },
+    { kind: 'berryBush', x: PLAYER_BASE.x + 4.5, z: PLAYER_BASE.z + 9.2 },
+    { kind: 'herd', x: PLAYER_BASE.x - 6, z: PLAYER_BASE.z + 3.5 },
+    { kind: 'herd', x: PLAYER_BASE.x + 3, z: PLAYER_BASE.z - 9 },
+    { kind: 'berryBush', x: ENEMY_BASE.x - 2, z: ENEMY_BASE.z - 7.5 },
+    { kind: 'berryBush', x: ENEMY_BASE.x + 2.2, z: ENEMY_BASE.z - 8.5 },
+    { kind: 'herd', x: ENEMY_BASE.x + 5, z: ENEMY_BASE.z - 3 },
     { kind: 'goldMine', x: PLAYER_BASE.x - 8, z: PLAYER_BASE.z + 2.5 },
     { kind: 'goldMine', x: PLAYER_BASE.x - 5.2, z: PLAYER_BASE.z - 6.5 },
     { kind: 'goldMine', x: PLAYER_BASE.x - 7.6, z: PLAYER_BASE.z - 3.4 },
     { kind: 'goldMine', x: PLAYER_BASE.x + 7.4, z: PLAYER_BASE.z - 6.2 },
     { kind: 'tree', x: ENEMY_BASE.x - 6, z: ENEMY_BASE.z - 2 },
     { kind: 'tree', x: ENEMY_BASE.x - 7.2, z: ENEMY_BASE.z + 1.5 },
-    { kind: 'berryBush', x: ENEMY_BASE.x - 2, z: ENEMY_BASE.z - 7.5 },
     { kind: 'goldMine', x: ENEMY_BASE.x + 6.5, z: ENEMY_BASE.z - 5 },
   ]
 
@@ -284,22 +288,30 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
   }
 
   const berries: [number, number, number, number][] = [
-    [-46, -40, 5, 2.6],
-    [-32, -64, 5, 2.4],
-    [8, -28, 4, 2.2],
-    [46, 40, 5, 2.6],
-    [32, 64, 5, 2.4],
-    [-6, 24, 4, 2.2],
-    [-20, 36, 4, 2.3],
-    [20, -36, 4, 2.3],
+    [-46, -40, 7, 3.0],
+    [-32, -64, 7, 2.8],
+    [8, -28, 5, 2.5],
+    [46, 40, 7, 3.0],
+    [32, 64, 7, 2.8],
+    [-6, 24, 5, 2.5],
+    [-20, 36, 5, 2.6],
+    [20, -36, 5, 2.6],
+    [-50, 20, 5, 2.4],
+    [50, -20, 5, 2.4],
+    [0, 50, 4, 2.2],
+    [0, -50, 4, 2.2],
   ]
   for (const [x, z, n, s] of berries) placeCluster('berryBush', x, z, n, s)
 
   const herds: [number, number, number, number][] = [
-    [-18, -8, 3, 2.2],
-    [18, 10, 3, 2.2],
-    [-28, 14, 3, 2.4],
-    [28, -14, 3, 2.4],
+    [-18, -8, 4, 2.6],
+    [18, 10, 4, 2.6],
+    [-28, 14, 4, 2.8],
+    [28, -14, 4, 2.8],
+    [-38, 30, 3, 2.2],
+    [38, -30, 3, 2.2],
+    [0, -40, 3, 2.0],
+    [0, 40, 3, 2.0],
   ]
   for (const [x, z, n, s] of herds) placeCluster('herd', x, z, n, s)
 

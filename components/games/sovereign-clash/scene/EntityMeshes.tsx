@@ -42,6 +42,8 @@ function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
       return <BarracksModel color="#4ade80" />
     case 'sacredField':
       return <SacredFieldModel color="#4ade80" />
+    case 'farm':
+      return <SacredFieldModel color="#4ade80" />
     case 'toriiShrine':
       return <ToriiShrineModel color="#4ade80" />
     case 'mosque':
@@ -102,6 +104,8 @@ function ModelOf({ entity }: { entity: Entity }) {
       return <HouseModel color={accent} british={entity.team === 'enemy'} />
     case 'sacredField':
       return <SacredFieldModel color={accent} />
+    case 'farm':
+      return <SacredFieldModel color={accent} />
     case 'toriiShrine':
       return <ToriiShrineModel color={accent} />
     case 'mosque':
@@ -150,7 +154,7 @@ function barHeight(e: Entity): number {
   if (e.kind === 'house' || e.kind === 'mill' || e.kind === 'manor' || e.kind === 'toriiShrine') return 2.1
   if (e.kind === 'lumberCamp' || e.kind === 'miningCamp') return 1.9
   if (e.kind === 'palisade') return 1.7
-  if (e.kind === 'sacredField' || e.kind === 'projectile' || isResource(e)) return 0
+  if (e.kind === 'sacredField' || e.kind === 'farm' || e.kind === 'projectile' || isResource(e)) return 0
   if (e.kind === 'mahout' || e.kind === 'siegeElephant') return 2.85
   if (
     e.kind === 'sowar' ||

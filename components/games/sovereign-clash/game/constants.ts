@@ -135,7 +135,8 @@ export const PROJECTILE_SPEED = 16
 export const SIEGE_PROJECTILE_SPEED = 11
 export const HUD_SYNC_INTERVAL = 0.2
 export const TOWER_RANGE = 11
-export const TOWER_ATTACK = 10
+export const TOWER_ATTACK = 22
+export const FARM_FOOD_PER_SEC = 1.2
 export const FOG_RES = 96
 export const TRAMPLE_DAMAGE = 6
 export const TRAMPLE_RADIUS = 1.7
@@ -208,6 +209,7 @@ export const BUILDING_STATS: Record<
   barracks: { hp: 380, radius: 2.1, pop: 0 },
   house: { hp: 200, radius: 1.5, pop: 10 },
   sacredField: { hp: 140, radius: 1.7, pop: 0 },
+  farm: { hp: 140, radius: 1.7, pop: 0 },
   lumberCamp: { hp: 220, radius: 1.7, pop: 0 },
   mill: { hp: 220, radius: 1.7, pop: 0 },
   miningCamp: { hp: 220, radius: 1.7, pop: 0 },
@@ -268,6 +270,7 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
   mosque: { wood: 140, gold: 50 },
   barracks: { wood: 150, gold: 50 },
   sacredField: { wood: 80 },
+  farm: { wood: 70, food: 40 },
   lumberCamp: { wood: 100 },
   mill: { wood: 100 },
   miningCamp: { wood: 100 },
@@ -337,6 +340,7 @@ export const DISPLAY_NAMES: Record<string, string> = {
   tenshu: 'Tenshu Castle',
   mosque: 'Mosque',
   sacredField: 'Sacred Field',
+  farm: 'Farm',
   lumberCamp: 'Lumber Camp',
   mill: 'Mill',
   miningCamp: 'Mining Camp',

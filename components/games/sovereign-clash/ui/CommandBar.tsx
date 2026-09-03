@@ -245,6 +245,8 @@ export function CommandBar() {
             {playerCiv === 'ottoman' && (
               <BuildBtn kind="mosque" label="Mosque" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
             )}
+            {/* Farm: universal food producer, especially useful for British & Ottoman */}
+            <BuildBtn kind="farm" label="Farm" icon={<Sprout size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
 
             <BuildBtn kind="lumberCamp" label="Lumber Camp" icon={<Trees size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
             <BuildBtn kind="mill" label="Mill" icon={<Sprout size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />

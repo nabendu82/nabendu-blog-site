@@ -48,6 +48,7 @@ export type BuildingKind =
   | 'barracks'
   | 'house'
   | 'sacredField'
+  | 'farm'
   | 'lumberCamp'
   | 'mill'
   | 'miningCamp'
@@ -134,6 +135,7 @@ export type PlacementKind =
   | 'house'
   | 'manor'
   | 'sacredField'
+  | 'farm'
   | 'toriiShrine'
   | 'tenshu'
   | 'mosque'
@@ -214,6 +216,7 @@ export function isBuilding(e: Entity): boolean {
     e.kind === 'barracks' ||
     e.kind === 'house' ||
     e.kind === 'sacredField' ||
+    e.kind === 'farm' ||
     e.kind === 'lumberCamp' ||
     e.kind === 'mill' ||
     e.kind === 'miningCamp' ||

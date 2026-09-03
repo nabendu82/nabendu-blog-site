@@ -19,6 +19,7 @@ import {
   DEATH_DURATION,
   DROPOFF_RANGE,
   ENEMY_BASE,
+  FARM_FOOD_PER_SEC,
   GATHER_PER_SEC,
   GATHER_RANGE,
   MANOR_SETTLER_CAP,
@@ -462,6 +463,16 @@ function tickToriiShrine(e: Entity, dt: number): void {
     e.amount -= give
     addResource(e.team, 'food', give)
     addResource(e.team, 'gold', give)
+  }
+}
+
+function tickFarm(e: Entity, dt: number): void {
+  if (!isComplete(e) || e.dying) return
+  e.amount += FARM_FOOD_PER_SEC * dt
+  if (e.amount >= 1) {
+    const give = Math.floor(e.amount)
+    e.amount -= give
+    addResource(e.team, 'food', give)
   }
 }
 
@@ -1070,6 +1081,7 @@ export function tickSimulation(dt: number): void {
       tickTraining(e, clampedDt)
       if (e.kind === 'townCenter') tickOttomanAutoVillager(e, clampedDt)
       if (e.kind === 'sacredField') tickSacredField(e, clampedDt)
+      if (e.kind === 'farm') tickFarm(e, clampedDt)
       if (e.kind === 'toriiShrine') tickToriiShrine(e, clampedDt)
       if (e.kind === 'mosque') tickMosque(e, entities, clampedDt)
       if (e.kind === 'agraFort' || e.kind === 'tenshu') tickTower(e, entities, all, clampedDt)
