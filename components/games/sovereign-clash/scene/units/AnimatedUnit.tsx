@@ -25,6 +25,11 @@ type HumanKind =
   | 'longbowman'
   | 'redcoat'
   | 'rider'
+  | 'samurai'
+  | 'yumiArcher'
+  | 'ashigaru'
+  | 'janissary'
+  | 'bashiBazouk'
 
 function teamCoat(team: Team): string {
   return team === 'enemy' ? '#c4452f' : '#2f6fb8'
@@ -71,7 +76,13 @@ function Capsule({
   )
 }
 
-function Head({ hat, helmet }: { hat: 'straw' | 'cap' | 'turban' | 'none'; helmet: boolean }) {
+function Head({
+  hat,
+  helmet,
+}: {
+  hat: 'straw' | 'cap' | 'turban' | 'kabuto' | 'jingasa' | 'bork' | 'fez' | 'none'
+  helmet: boolean
+}) {
   return (
     <group>
       <mesh position={[0, 0.02, 0]} castShadow>
@@ -103,6 +114,43 @@ function Head({ hat, helmet }: { hat: 'straw' | 'cap' | 'turban' | 'none'; helme
           <mesh position={[0, 0.02, 0.11]} castShadow>
             <boxGeometry args={[0.16, 0.05, 0.04]} />
             <Mat color={STEEL} roughness={0.3} metalness={0.7} />
+          </mesh>
+        </group>
+      ) : hat === 'kabuto' ? (
+        <group>
+          <mesh position={[0, 0.08, 0]} castShadow>
+            <sphereGeometry args={[0.125, 14, 10, 0, Math.PI * 2, 0, Math.PI / 1.6]} />
+            <Mat color="#1c1917" roughness={0.35} metalness={0.7} />
+          </mesh>
+          {/* Golden Kuwagata Crest */}
+          <mesh position={[0, 0.16, 0.09]} rotation={[0.3, 0, 0]} castShadow>
+            <boxGeometry args={[0.16, 0.08, 0.02]} />
+            <Mat color="#eab308" roughness={0.2} metalness={0.85} />
+          </mesh>
+        </group>
+      ) : hat === 'jingasa' ? (
+        <group>
+          <mesh position={[0, 0.08, 0]} castShadow>
+            <coneGeometry args={[0.22, 0.07, 16]} />
+            <Mat color="#1c1917" roughness={0.4} />
+          </mesh>
+        </group>
+      ) : hat === 'bork' ? (
+        <group>
+          <mesh position={[0, 0.13, 0]} castShadow>
+            <cylinderGeometry args={[0.095, 0.11, 0.15, 12]} />
+            <Mat color="#f8fafc" roughness={0.8} />
+          </mesh>
+          <mesh position={[0, 0.08, -0.09]} rotation={[0.5, 0, 0]} castShadow>
+            <boxGeometry args={[0.11, 0.22, 0.03]} />
+            <Mat color="#f8fafc" roughness={0.8} />
+          </mesh>
+        </group>
+      ) : hat === 'fez' ? (
+        <group>
+          <mesh position={[0, 0.1, 0]} castShadow>
+            <cylinderGeometry args={[0.09, 0.105, 0.11, 12]} />
+            <Mat color="#b91c1c" roughness={0.6} />
           </mesh>
         </group>
       ) : hat === 'straw' ? (
@@ -167,22 +215,36 @@ function Humanoid({
   const coat = teamCoat(team)
   const accent = teamAccent(team)
   const rider = kind === 'rider'
-  const armored = kind === 'pikeman' || kind === 'rajput'
-  const bow = kind === 'longbowman' || kind === 'gurkha'
-  const musket = kind === 'sepoy' || kind === 'redcoat'
+  const samurai = kind === 'samurai'
+  const yumi = kind === 'yumiArcher'
+  const ashigaru = kind === 'ashigaru'
+  const janissary = kind === 'janissary'
+  const bashi = kind === 'bashiBazouk'
+  const armored = kind === 'pikeman' || kind === 'rajput' || samurai || ashigaru
+  const bow = kind === 'longbowman' || kind === 'gurkha' || yumi
+  const musket = kind === 'sepoy' || kind === 'redcoat' || janissary
+  const spear = kind === 'pikeman' || ashigaru
   const villager = kind === 'villager'
-  const shirt = armored ? STEEL : coat
-  const pants = villager ? '#5a4638' : PANTS
+  const shirt = samurai ? '#1c1917' : armored ? STEEL : coat
+  const pants = villager ? '#5a4638' : samurai ? '#18181b' : PANTS
   const hat =
-    villager && team === 'player'
-      ? 'turban'
-      : villager
-        ? 'straw'
-        : kind === 'sepoy' || kind === 'rajput'
-          ? 'turban'
-          : bow || rider
-            ? 'cap'
-            : 'none'
+    samurai
+      ? 'kabuto'
+      : ashigaru
+        ? 'jingasa'
+        : janissary
+          ? 'bork'
+          : bashi
+            ? 'fez'
+            : villager && team === 'player'
+              ? 'turban'
+              : villager
+                ? 'straw'
+                : kind === 'sepoy' || kind === 'rajput'
+                  ? 'turban'
+                  : bow || rider
+                    ? 'cap'
+                    : 'none'
 
   return (
     <group position={[0, rider ? 0.02 : 0, 0]}>
@@ -233,14 +295,25 @@ function Humanoid({
               {bow ? (
                 <group position={[-0.02, -0.12, 0.08]} rotation={[0, 0, Math.PI / 2]}>
                   <mesh castShadow>
-                    <torusGeometry args={[0.2, 0.018, 8, 18]} />
+                    <torusGeometry args={[0.22, 0.018, 8, 18]} />
                     <Mat color={WOOD} roughness={0.55} />
                   </mesh>
                 </group>
-              ) : armored ? (
+              ) : samurai ? (
+                <group position={[-0.02, -0.18, 0.06]} rotation={[0.2, 0, -0.2]}>
+                  <mesh position={[0, 0.08, 0]} castShadow>
+                    <cylinderGeometry args={[0.014, 0.014, 0.1, 8]} />
+                    <Mat color="#18181b" />
+                  </mesh>
+                  <mesh position={[0, -0.1, 0]} castShadow>
+                    <boxGeometry args={[0.035, 0.32, 0.014]} />
+                    <Mat color={STEEL} roughness={0.2} metalness={0.85} />
+                  </mesh>
+                </group>
+              ) : armored || bashi ? (
                 <mesh position={[-0.08, -0.08, 0.04]} rotation={[1.2, 0, 0.4]} castShadow>
                   <cylinderGeometry args={[0.12, 0.12, 0.04, 14]} />
-                  <Mat color={STEEL} roughness={0.3} metalness={0.65} />
+                  <Mat color={bashi ? '#b45309' : STEEL} roughness={0.3} metalness={0.65} />
                 </mesh>
               ) : null}
             </group>
@@ -267,15 +340,37 @@ function Humanoid({
               ) : musket ? (
                 <group position={[0.02, -0.18, 0.12]} rotation={[1.15, 0, 0.1]}>
                   <mesh position={[0, 0.12, 0]} castShadow>
-                    <cylinderGeometry args={[0.018, 0.022, 0.55, 8]} />
+                    <cylinderGeometry args={[0.018, 0.022, 0.58, 8]} />
                     <Mat color="#2a241c" roughness={0.45} metalness={0.2} />
                   </mesh>
-                  <mesh position={[0, 0.38, 0]} castShadow>
-                    <cylinderGeometry args={[0.03, 0.03, 0.08, 8]} />
-                    <Mat color={STEEL} roughness={0.3} metalness={0.6} />
+                  <mesh position={[0, 0.42, 0]} castShadow>
+                    <cylinderGeometry args={[0.03, 0.03, 0.09, 8]} />
+                    <Mat color={STEEL} roughness={0.3} metalness={0.65} />
                   </mesh>
                 </group>
-              ) : armored || rider ? (
+              ) : spear ? (
+                <group position={[0.02, -0.12, 0.18]} rotation={[0.4, 0, 0.1]}>
+                  <mesh position={[0, 0.2, 0]} castShadow>
+                    <cylinderGeometry args={[0.014, 0.016, 1.1, 8]} />
+                    <Mat color={WOOD} />
+                  </mesh>
+                  <mesh position={[0, 0.8, 0]} castShadow>
+                    <coneGeometry args={[0.04, 0.2, 8]} />
+                    <Mat color={STEEL} roughness={0.2} metalness={0.8} />
+                  </mesh>
+                </group>
+              ) : samurai ? (
+                <group position={[0.02, -0.18, 0.06]} rotation={[0.25, 0, 0.15]}>
+                  <mesh position={[0, 0.1, 0]} castShadow>
+                    <cylinderGeometry args={[0.016, 0.016, 0.14, 8]} />
+                    <Mat color="#18181b" />
+                  </mesh>
+                  <mesh position={[0, -0.16, 0]} castShadow>
+                    <boxGeometry args={[0.04, 0.48, 0.016]} />
+                    <Mat color={STEEL} roughness={0.2} metalness={0.85} />
+                  </mesh>
+                </group>
+              ) : armored || rider || bashi ? (
                 <group position={[0.02, -0.18, 0.05]} rotation={[0.15, 0, 0.1]}>
                   <mesh position={[0, 0.1, 0]} castShadow>
                     <cylinderGeometry args={[0.016, 0.016, 0.12, 8]} />
@@ -590,7 +685,17 @@ function AnimatedHuman({
   )
 }
 
-function AnimatedScout({ id, camel = false }: { id: string; camel?: boolean }) {
+function AnimatedScout({
+  id,
+  camel = false,
+  naginata = false,
+  spahi = false,
+}: {
+  id: string
+  camel?: boolean
+  naginata?: boolean
+  spahi?: boolean
+}) {
   const root = useRef<Group>(null)
   const body = useRef<Group>(null)
   const neck = useRef<Group>(null)
@@ -704,12 +809,20 @@ function AnimatedScout({ id, camel = false }: { id: string; camel?: boolean }) {
   )
 }
 
-function AnimatedMangonel({ id }: { id: string }) {
+function AnimatedMangonel({
+  id,
+  greatBombard = false,
+}: {
+  id: string
+  greatBombard?: boolean
+}) {
   const root = useRef<Group>(null)
   const arm = useRef<Group>(null)
   const t = useRef(0)
   const team = useGameStore.getState().entities[id]?.team ?? 'player'
   const color = team === 'enemy' ? COLORS.enemy : COLORS.player
+  const scale = greatBombard ? 1.35 : 1
+  const barrelColor = greatBombard ? '#b45309' : '#3f3f46'
 
   useFrame((_, dt) => {
     const e = useGameStore.getState().entities[id]
@@ -733,7 +846,7 @@ function AnimatedMangonel({ id }: { id: string }) {
   })
 
   return (
-    <group ref={root}>
+    <group ref={root} scale={scale}>
       <mesh position={[0, 0.22, 0]} castShadow>
         <boxGeometry args={[0.7, 0.16, 1.15]} />
         <Mat color={WOOD} roughness={0.75} />
@@ -769,7 +882,7 @@ function AnimatedMangonel({ id }: { id: string }) {
         </mesh>
         <mesh position={[0, 0.08, 0.82]} castShadow>
           <sphereGeometry args={[0.12, 10, 8]} />
-          <Mat color="#6b7280" roughness={0.55} />
+          <Mat color={barrelColor} roughness={0.45} metalness={greatBombard ? 0.8 : 0.4} />
         </mesh>
       </group>
     </group>
@@ -862,8 +975,12 @@ function AnimatedElephant({ id, siege }: { id: string; siege: boolean }) {
 }
 
 export function AnimatedUnit({ id, kind }: { id: string; kind: UnitKind }) {
-  if (kind === 'falconet') return <AnimatedMangonel id={id} />
-  if (kind === 'hussar' || kind === 'dragoon') return <AnimatedScout id={id} />
+  if (kind === 'falconet' || kind === 'greatBombard') {
+    return <AnimatedMangonel id={id} greatBombard={kind === 'greatBombard'} />
+  }
+  if (kind === 'hussar' || kind === 'dragoon' || kind === 'naginata' || kind === 'spahi') {
+    return <AnimatedScout id={id} naginata={kind === 'naginata'} spahi={kind === 'spahi'} />
+  }
   if (kind === 'sowar') return <AnimatedScout id={id} camel />
   if (kind === 'mahout' || kind === 'siegeElephant') {
     return <AnimatedElephant id={id} siege={kind === 'siegeElephant'} />

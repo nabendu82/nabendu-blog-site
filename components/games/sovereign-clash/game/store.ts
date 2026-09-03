@@ -29,6 +29,7 @@ import {
   requiredAge,
   type Age,
   type BuildingKind,
+  type Civilization,
   type CommandMode,
   type Entity,
   type Formation,
@@ -42,6 +43,7 @@ export const view = {
   targetX: PLAYER_BASE.x,
   targetZ: PLAYER_BASE.z,
   distance: CAMERA.defaultDistance,
+  hit: false,
 }
 
 export const hover = {
@@ -73,6 +75,9 @@ export interface GameStore extends HudSlice {
   manorTimer: number
   barracksRebuildAt: number
   guardCap: number
+  playerCiv: Civilization
+  enemyCiv: Civilization
+  civModalOpen: boolean
   select: (id: string | null, additive?: boolean) => void
   selectMany: (ids: string[]) => void
   setPlacement: (kind: PlacementKind) => void
@@ -92,6 +97,9 @@ export interface GameStore extends HudSlice {
   setFormation: (mode: Formation) => void
   toggleMute: () => void
   restart: () => void
+  setCivilizations: (playerCiv: Civilization, enemyCiv: Civilization) => void
+  openCivModal: () => void
+  closeCivModal: () => void
 }
 
 function popCounts(entities: Record<string, Entity>): { pop: number; popCap: number } {
@@ -127,6 +135,9 @@ function hudFrom(s: {
   formation: Formation
   muted: boolean
   enemyAge: Age
+  playerCiv: Civilization
+  enemyCiv: Civilization
+  civModalOpen: boolean
 }): HudSlice {
   const { pop, popCap } = popCounts(s.entities)
   return {
@@ -153,11 +164,18 @@ function hudFrom(s: {
     formation: s.formation,
     muted: s.muted,
     enemyAge: s.enemyAge,
+    playerCiv: s.playerCiv,
+    enemyCiv: s.enemyCiv,
+    civModalOpen: s.civModalOpen,
   }
 }
 
-function freshWorld() {
-  const world = generateWorld()
+function freshWorld(
+  playerCiv: Civilization = 'indian',
+  enemyCiv: Civilization = 'british',
+  civModalOpen = true,
+) {
+  const world = generateWorld(enemyCiv)
   view.targetX = PLAYER_BASE.x
   view.targetZ = PLAYER_BASE.z
   view.distance = CAMERA.defaultDistance
@@ -189,13 +207,16 @@ function freshWorld() {
       waveStarted: false,
       waveIndex: 0,
       waveStartTime: 0,
-      helpOpen: true,
+      helpOpen: false,
       playerAge: 0,
       ageTimer: 0,
       aging: false,
       formation: 'box',
       muted: false,
       enemyAge: 0,
+      playerCiv,
+      enemyCiv,
+      civModalOpen,
     }),
   }
 }
@@ -502,9 +523,27 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     const allowed =
       (b.kind === 'townCenter' && kind === 'villager') ||
-      (b.kind === 'barracks' && (kind === 'sepoy' || kind === 'rajput' || kind === 'gurkha')) ||
-      (b.kind === 'caravanserai' && (kind === 'sowar' || kind === 'mahout')) ||
-      (b.kind === 'foundry' && kind === 'siegeElephant')
+      (b.kind === 'barracks' &&
+        (kind === 'sepoy' ||
+          kind === 'rajput' ||
+          kind === 'gurkha' ||
+          kind === 'pikeman' ||
+          kind === 'longbowman' ||
+          kind === 'redcoat' ||
+          kind === 'ashigaru' ||
+          kind === 'yumiArcher' ||
+          kind === 'samurai' ||
+          kind === 'bashiBazouk' ||
+          kind === 'janissary')) ||
+      (b.kind === 'caravanserai' &&
+        (kind === 'sowar' ||
+          kind === 'mahout' ||
+          kind === 'hussar' ||
+          kind === 'dragoon' ||
+          kind === 'naginata' ||
+          kind === 'spahi')) ||
+      (b.kind === 'foundry' &&
+        (kind === 'siegeElephant' || kind === 'falconet' || kind === 'greatBombard'))
     if (!allowed) return
     if (requiredAge(kind) > s.playerAge) return
     if (b.trainQueue.length >= 5) return
@@ -591,10 +630,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   restart: () => {
-    const next = freshWorld()
+    const current = get()
+    const next = freshWorld(current.playerCiv, current.enemyCiv, false)
     hudDirty = true
     setMuted(next.muted)
     set(next)
+  },
+
+  setCivilizations: (playerCiv, enemyCiv) => {
+    const next = freshWorld(playerCiv, enemyCiv, false)
+    hudDirty = true
+    setMuted(next.muted)
+    set(next)
+    startMusic()
+  },
+
+  openCivModal: () => {
+    set({ civModalOpen: true })
+    markHud()
+  },
+
+  closeCivModal: () => {
+    set({ civModalOpen: false })
+    tickFog(Object.values(get().entities))
+    startMusic()
+    markHud()
   },
 }))
 

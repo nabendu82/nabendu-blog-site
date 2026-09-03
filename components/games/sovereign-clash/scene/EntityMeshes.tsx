@@ -26,6 +26,9 @@ import { SacredFieldModel } from './models/SacredField'
 import { AgraFortModel } from './models/AgraFort'
 import { TownCenterModel } from './models/TownCenter'
 import { TreeModel } from './models/Tree'
+import { ToriiShrineModel } from './models/ToriiShrine'
+import { MosqueModel } from './models/Mosque'
+import { TenshuModel } from './models/Tenshu'
 import { AnimatedUnit } from './units/AnimatedUnit'
 import { isExplored, isInVision } from '../game/fog'
 
@@ -33,10 +36,18 @@ function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
   switch (kind) {
     case 'house':
       return <HouseModel color="#4ade80" />
+    case 'manor':
+      return <ManorModel color="#4ade80" />
     case 'barracks':
       return <BarracksModel color="#4ade80" />
     case 'sacredField':
       return <SacredFieldModel color="#4ade80" />
+    case 'toriiShrine':
+      return <ToriiShrineModel color="#4ade80" />
+    case 'mosque':
+      return <MosqueModel color="#4ade80" />
+    case 'tenshu':
+      return <TenshuModel color="#4ade80" />
     case 'lumberCamp':
       return <LumberCampModel color="#4ade80" />
     case 'mill':
@@ -74,6 +85,14 @@ function ModelOf({ entity }: { entity: Entity }) {
     case 'hussar':
     case 'dragoon':
     case 'falconet':
+    case 'samurai':
+    case 'yumiArcher':
+    case 'ashigaru':
+    case 'naginata':
+    case 'janissary':
+    case 'bashiBazouk':
+    case 'spahi':
+    case 'greatBombard':
       return <AnimatedUnit id={entity.id} kind={entity.kind} />
     case 'townCenter':
       return <TownCenterModel color={accent} team={entity.team} />
@@ -83,6 +102,12 @@ function ModelOf({ entity }: { entity: Entity }) {
       return <HouseModel color={accent} british={entity.team === 'enemy'} />
     case 'sacredField':
       return <SacredFieldModel color={accent} />
+    case 'toriiShrine':
+      return <ToriiShrineModel color={accent} />
+    case 'mosque':
+      return <MosqueModel color={accent} />
+    case 'tenshu':
+      return <TenshuModel color={accent} />
     case 'lumberCamp':
       return <LumberCampModel color={accent} />
     case 'mill':
@@ -119,15 +144,24 @@ function ModelOf({ entity }: { entity: Entity }) {
 }
 
 function barHeight(e: Entity): number {
-  if (e.kind === 'townCenter' || e.kind === 'agraFort') return 3.6
+  if (e.kind === 'townCenter' || e.kind === 'agraFort' || e.kind === 'tenshu') return 3.6
+  if (e.kind === 'mosque') return 3.2
   if (e.kind === 'caravanserai' || e.kind === 'foundry' || e.kind === 'barracks') return 2.4
-  if (e.kind === 'house' || e.kind === 'mill' || e.kind === 'manor') return 2.1
+  if (e.kind === 'house' || e.kind === 'mill' || e.kind === 'manor' || e.kind === 'toriiShrine') return 2.1
   if (e.kind === 'lumberCamp' || e.kind === 'miningCamp') return 1.9
   if (e.kind === 'palisade') return 1.7
   if (e.kind === 'sacredField' || e.kind === 'projectile' || isResource(e)) return 0
   if (e.kind === 'mahout' || e.kind === 'siegeElephant') return 2.85
-  if (e.kind === 'sowar' || e.kind === 'hussar' || e.kind === 'dragoon') return 2.2
-  if (e.kind === 'falconet') return 1.7
+  if (
+    e.kind === 'sowar' ||
+    e.kind === 'hussar' ||
+    e.kind === 'dragoon' ||
+    e.kind === 'naginata' ||
+    e.kind === 'spahi'
+  ) {
+    return 2.2
+  }
+  if (e.kind === 'falconet' || e.kind === 'greatBombard') return 1.8
   if (isUnit(e)) return 1.85
   return 1.45
 }

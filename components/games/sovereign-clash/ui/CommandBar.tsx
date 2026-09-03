@@ -96,6 +96,7 @@ export function CommandBar() {
   const placementKind = useGameStore((s) => s.placementKind)
   const commandMode = useGameStore((s) => s.commandMode)
   const playerAge = useGameStore((s) => s.playerAge)
+  const playerCiv = useGameStore((s) => s.playerCiv)
   const aging = useGameStore((s) => s.aging)
   const ageTimer = useGameStore((s) => s.ageTimer)
   const formation = useGameStore((s) => s.formation)
@@ -229,16 +230,38 @@ export function CommandBar() {
 
         {hasVillager && (
           <>
-            <BuildBtn kind="house" label="House" icon={<House size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
-            <BuildBtn kind="sacredField" label="Sacred Field" icon={<Wheat size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
+            {playerCiv === 'british' ? (
+              <BuildBtn kind="manor" label="Manor" icon={<House size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
+            ) : (
+              <BuildBtn kind="house" label="House" icon={<House size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
+            )}
+
+            {playerCiv === 'indian' && (
+              <BuildBtn kind="sacredField" label="Sacred Field" icon={<Wheat size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
+            )}
+            {playerCiv === 'japanese' && (
+              <BuildBtn kind="toriiShrine" label="Torii Shrine" icon={<Wheat size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
+            )}
+            {playerCiv === 'ottoman' && (
+              <BuildBtn kind="mosque" label="Mosque" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
+            )}
+
             <BuildBtn kind="lumberCamp" label="Lumber Camp" icon={<Trees size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
             <BuildBtn kind="mill" label="Mill" icon={<Sprout size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
             <BuildBtn kind="miningCamp" label="Mining Camp" icon={<Pickaxe size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
             <BuildBtn kind="palisade" label="Palisade" icon={<Fence size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
             <BuildBtn kind="barracks" label="Barracks" icon={<Tent size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 1} />
-            <BuildBtn kind="caravanserai" label="Caravanserai" icon={<Zap size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 1} />
-            <BuildBtn kind="agraFort" label="Agra Fort" icon={<TowerControl size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 2} />
-            <BuildBtn kind="foundry" label="Foundry" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 2} />
+            <BuildBtn kind="caravanserai" label="Stables" icon={<Zap size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 1} />
+
+            {playerCiv === 'indian' && (
+              <BuildBtn kind="agraFort" label="Agra Fort" icon={<TowerControl size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 2} />
+            )}
+            {playerCiv === 'japanese' && (
+              <BuildBtn kind="tenshu" label="Tenshu Castle" icon={<TowerControl size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 2} />
+            )}
+            {(playerCiv === 'indian' || playerCiv === 'british' || playerCiv === 'ottoman') && (
+              <BuildBtn kind="foundry" label="Foundry" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 2} />
+            )}
             <BuildBtn kind="townCenter" label="Town Center" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
           </>
         )}
@@ -274,61 +297,211 @@ export function CommandBar() {
 
         {e?.kind === 'barracks' && e.team === 'player' && e.buildProgress >= 1 && (
           <>
-            <ActionButton
-              disabled={!canAfford(COSTS.sepoy, wood, food, gold) || pop >= popCap}
-              onClick={() => useGameStore.getState().train('sepoy')}
-            >
-              <Swords size={14} className="mb-1 inline" /> Train Sepoy
-              <div className="text-[10px] text-amber-200/70">{costText(COSTS.sepoy)}</div>
-            </ActionButton>
-            <ActionButton
-              disabled={!canAfford(COSTS.rajput, wood, food, gold) || pop >= popCap}
-              onClick={() => useGameStore.getState().train('rajput')}
-            >
-              <Swords size={14} className="mb-1 inline" /> Train Rajput
-              <div className="text-[10px] text-amber-200/70">{costText(COSTS.rajput)}</div>
-            </ActionButton>
-            <ActionButton
-              disabled={playerAge < 2 || !canAfford(COSTS.gurkha, wood, food, gold) || pop >= popCap}
-              onClick={() => useGameStore.getState().train('gurkha')}
-            >
-              <Target size={14} className="mb-1 inline" /> Train Gurkha
-              <div className="text-[10px] text-amber-200/70">
-                {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.gurkha)}
-              </div>
-            </ActionButton>
+            {playerCiv === 'indian' && (
+              <>
+                <ActionButton
+                  disabled={!canAfford(COSTS.sepoy, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('sepoy')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Sepoy
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.sepoy)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={!canAfford(COSTS.rajput, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('rajput')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Rajput
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.rajput)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={playerAge < 2 || !canAfford(COSTS.gurkha, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('gurkha')}
+                >
+                  <Target size={14} className="mb-1 inline" /> Train Gurkha
+                  <div className="text-[10px] text-amber-200/70">
+                    {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.gurkha)}
+                  </div>
+                </ActionButton>
+              </>
+            )}
+
+            {playerCiv === 'british' && (
+              <>
+                <ActionButton
+                  disabled={!canAfford(COSTS.pikeman, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('pikeman')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Pikeman
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.pikeman)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={!canAfford(COSTS.longbowman, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('longbowman')}
+                >
+                  <Target size={14} className="mb-1 inline" /> Train Longbowman
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.longbowman)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={playerAge < 2 || !canAfford(COSTS.redcoat, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('redcoat')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Redcoat
+                  <div className="text-[10px] text-amber-200/70">
+                    {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.redcoat)}
+                  </div>
+                </ActionButton>
+              </>
+            )}
+
+            {playerCiv === 'japanese' && (
+              <>
+                <ActionButton
+                  disabled={!canAfford(COSTS.ashigaru, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('ashigaru')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Ashigaru
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.ashigaru)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={!canAfford(COSTS.yumiArcher, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('yumiArcher')}
+                >
+                  <Target size={14} className="mb-1 inline" /> Train Yumi Archer
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.yumiArcher)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={playerAge < 2 || !canAfford(COSTS.samurai, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('samurai')}
+                >
+                  <Crown size={14} className="mb-1 inline" /> Train Samurai
+                  <div className="text-[10px] text-amber-200/70">
+                    {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.samurai)}
+                  </div>
+                </ActionButton>
+              </>
+            )}
+
+            {playerCiv === 'ottoman' && (
+              <>
+                <ActionButton
+                  disabled={!canAfford(COSTS.bashiBazouk, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('bashiBazouk')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Bashi-Bazouk
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.bashiBazouk)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={!canAfford(COSTS.janissary, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('janissary')}
+                >
+                  <Target size={14} className="mb-1 inline" /> Train Janissary
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.janissary)}</div>
+                </ActionButton>
+              </>
+            )}
           </>
         )}
 
         {e?.kind === 'caravanserai' && e.team === 'player' && e.buildProgress >= 1 && (
           <>
-            <ActionButton
-              disabled={!canAfford(COSTS.sowar, wood, food, gold) || pop >= popCap}
-              onClick={() => useGameStore.getState().train('sowar')}
-            >
-              <Zap size={14} className="mb-1 inline" /> Train Sowar
-              <div className="text-[10px] text-amber-200/70">{costText(COSTS.sowar)}</div>
-            </ActionButton>
-            <ActionButton
-              disabled={playerAge < 2 || !canAfford(COSTS.mahout, wood, food, gold) || pop >= popCap}
-              onClick={() => useGameStore.getState().train('mahout')}
-            >
-              <Swords size={14} className="mb-1 inline" /> Train Mahout
-              <div className="text-[10px] text-amber-200/70">
-                {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.mahout)}
-              </div>
-            </ActionButton>
+            {playerCiv === 'indian' && (
+              <>
+                <ActionButton
+                  disabled={!canAfford(COSTS.sowar, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('sowar')}
+                >
+                  <Zap size={14} className="mb-1 inline" /> Train Sowar
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.sowar)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={playerAge < 2 || !canAfford(COSTS.mahout, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('mahout')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Mahout
+                  <div className="text-[10px] text-amber-200/70">
+                    {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.mahout)}
+                  </div>
+                </ActionButton>
+              </>
+            )}
+
+            {playerCiv === 'british' && (
+              <>
+                <ActionButton
+                  disabled={!canAfford(COSTS.hussar, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('hussar')}
+                >
+                  <Zap size={14} className="mb-1 inline" /> Train Hussar
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.hussar)}</div>
+                </ActionButton>
+                <ActionButton
+                  disabled={playerAge < 2 || !canAfford(COSTS.dragoon, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('dragoon')}
+                >
+                  <Swords size={14} className="mb-1 inline" /> Train Dragoon
+                  <div className="text-[10px] text-amber-200/70">
+                    {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.dragoon)}
+                  </div>
+                </ActionButton>
+              </>
+            )}
+
+            {playerCiv === 'japanese' && (
+              <ActionButton
+                disabled={playerAge < 2 || !canAfford(COSTS.naginata, wood, food, gold) || pop >= popCap}
+                onClick={() => useGameStore.getState().train('naginata')}
+              >
+                <Zap size={14} className="mb-1 inline" /> Train Naginata Rider
+                <div className="text-[10px] text-amber-200/70">
+                  {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.naginata)}
+                </div>
+              </ActionButton>
+            )}
+
+            {playerCiv === 'ottoman' && (
+              <ActionButton
+                disabled={playerAge < 2 || !canAfford(COSTS.spahi, wood, food, gold) || pop >= popCap}
+                onClick={() => useGameStore.getState().train('spahi')}
+              >
+                <Zap size={14} className="mb-1 inline" /> Train Spahi Cavalry
+                <div className="text-[10px] text-amber-200/70">
+                  {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.spahi)}
+                </div>
+              </ActionButton>
+            )}
           </>
         )}
 
         {e?.kind === 'foundry' && e.team === 'player' && e.buildProgress >= 1 && (
-          <ActionButton
-            disabled={!canAfford(COSTS.siegeElephant, wood, food, gold) || pop >= popCap}
-            onClick={() => useGameStore.getState().train('siegeElephant')}
-          >
-            <Swords size={14} className="mb-1 inline" /> Siege Elephant
-            <div className="text-[10px] text-amber-200/70">{costText(COSTS.siegeElephant)}</div>
-          </ActionButton>
+          <>
+            {playerCiv === 'indian' && (
+              <ActionButton
+                disabled={!canAfford(COSTS.siegeElephant, wood, food, gold) || pop >= popCap}
+                onClick={() => useGameStore.getState().train('siegeElephant')}
+              >
+                <Swords size={14} className="mb-1 inline" /> Siege Elephant
+                <div className="text-[10px] text-amber-200/70">{costText(COSTS.siegeElephant)}</div>
+              </ActionButton>
+            )}
+            {playerCiv === 'british' && (
+              <ActionButton
+                disabled={!canAfford(COSTS.falconet, wood, food, gold) || pop >= popCap}
+                onClick={() => useGameStore.getState().train('falconet')}
+              >
+                <Swords size={14} className="mb-1 inline" /> Train Falconet
+                <div className="text-[10px] text-amber-200/70">{costText(COSTS.falconet)}</div>
+              </ActionButton>
+            )}
+            {playerCiv === 'ottoman' && (
+              <ActionButton
+                disabled={!canAfford(COSTS.greatBombard, wood, food, gold) || pop >= popCap}
+                onClick={() => useGameStore.getState().train('greatBombard')}
+              >
+                <Castle size={14} className="mb-1 inline" /> Great Bombard
+                <div className="text-[10px] text-amber-200/70">{costText(COSTS.greatBombard)}</div>
+              </ActionButton>
+            )}
+          </>
         )}
       </div>
     </div>

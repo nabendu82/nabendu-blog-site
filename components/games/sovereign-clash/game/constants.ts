@@ -1,4 +1,4 @@
-import type { BuildingKind, ResourceKind, UnitClass, UnitKind } from './types'
+import type { BuildingKind, Civilization, ResourceKind, UnitClass, UnitKind } from './types'
 
 export const MAP_SIZE = 160
 export const MAP_HALF = MAP_SIZE / 2
@@ -18,6 +18,84 @@ export const COLORS = {
   sky: '#87b4d9',
 } as const
 
+export const CIV_DETAILS: Record<
+  Civilization,
+  {
+    name: string
+    title: string
+    flag: string
+    color: string
+    accentColor: string
+    crestBg: string
+    bonusSummary: string
+    uniqueBonus: string
+    uniqueUnits: string[]
+    uniqueBuildings: string[]
+    description: string
+  }
+> = {
+  indian: {
+    name: 'Indian Empire',
+    title: 'Mughal & Rajput Sovereignty',
+    flag: '🇮🇳',
+    color: '#e07a1e',
+    accentColor: '#fbbf24',
+    crestBg: 'from-amber-900/90 to-orange-950/90',
+    bonusSummary: 'Sacred Fields & War Elephants',
+    uniqueBonus:
+      'Construct Sacred Fields that continuously generate passive food & gold without depleting resources. Train colossal Mahout Lancers and Siege Elephants that crush infantry with trample damage.',
+    uniqueUnits: ['Sepoy', 'Rajput', 'Gurkha', 'Sowar', 'Mahout Lancer', 'Siege Elephant'],
+    uniqueBuildings: ['Sacred Field', 'Caravanserai', 'Agra Fort'],
+    description:
+      'Commands massive economic resilience and unmatched heavy elephant shock power across the battlefield.',
+  },
+  british: {
+    name: 'British Empire',
+    title: 'Crown Colonial Armada',
+    flag: '🇬🇧',
+    color: '#dc2626',
+    accentColor: '#f87171',
+    crestBg: 'from-red-950/90 to-neutral-900/90',
+    bonusSummary: 'Manor Boom & Redcoat Volleys',
+    uniqueBonus:
+      'Manors provide 15 population and automatically spawn a free Settler upon completion. British line infantry features elite Redcoat musketeers and legendary long-range Longbowmen.',
+    uniqueUnits: ['Longbowman', 'Pikeman', 'Redcoat', 'Hussar', 'Dragoon', 'Falconet'],
+    uniqueBuildings: ['Manor'],
+    description:
+      'Rapid economy expansion through manor construction coupled with devastating musket line warfare.',
+  },
+  japanese: {
+    name: 'Japanese Empire',
+    title: 'Shogunate of the Rising Sun',
+    flag: '🇯🇵',
+    color: '#b91c1c',
+    accentColor: '#fca5a5',
+    crestBg: 'from-rose-950/90 to-stone-900/90',
+    bonusSummary: 'Torii Shrines & Bushido Speed',
+    uniqueBonus:
+      'Torii Shrines grant 10 population and generate steady passive tribute. All melee infantry fight with Bushido discipline (+25% faster attack speed). Train lethal dual-blade Samurai and Naginata shock riders.',
+    uniqueUnits: ['Samurai', 'Yumi Archer', 'Ashigaru', 'Naginata Rider'],
+    uniqueBuildings: ['Torii Shrine', 'Tenshu'],
+    description:
+      'Mastery of close-quarters sword combat, defensive pagoda castles, and shrine resource harvesting.',
+  },
+  ottoman: {
+    name: 'Ottoman Empire',
+    title: 'Sublime Porte & Janissary Corps',
+    flag: '🇹🇷',
+    color: '#047857',
+    accentColor: '#34d399',
+    crestBg: 'from-emerald-950/90 to-teal-950/90',
+    bonusSummary: 'Imperial Auto-Settlers & Great Bombards',
+    uniqueBonus:
+      'Town Centers automatically train free Settlers over time without food cost. Mosques heal nearby wounded warriors. Gunpowder units deal +20% bonus siege damage with catastrophic Great Bombards.',
+    uniqueUnits: ['Janissary', 'Bashi-Bazouk', 'Spahi', 'Great Bombard'],
+    uniqueBuildings: ['Mosque'],
+    description:
+      'Zero-cost civilian economy automation backed by the most fearsome gunpowder artillery in the world.',
+  },
+}
+
 export const PLAYER_BASE = { x: -55, z: -55 }
 export const ENEMY_BASE = { x: 55, z: 55 }
 
@@ -35,6 +113,7 @@ export const GUARD_CAP = 4
 export const AI_MANOR_TIME = 90
 export const MANOR_SPAWN_INTERVAL = 25
 export const MANOR_SETTLER_CAP = 8
+export const OTTOMAN_VILLAGER_INTERVAL = 26
 export const BARRACKS_REBUILD = 60
 export const CHAIN_GATHER_RANGE = 10
 export const BUILD_TIME = 4.5
@@ -49,6 +128,9 @@ export const DROPOFF_RANGE = 2.2
 export const CARRY_CAPACITY = 15
 export const GATHER_PER_SEC = 10
 export const SACRED_FIELD_FOOD_PER_SEC = 1.6
+export const TORII_SHRINE_TRICKLE_PER_SEC = 1.5
+export const MOSQUE_HEAL_PER_SEC = 3.2
+export const MOSQUE_HEAL_RADIUS = 14
 export const PROJECTILE_SPEED = 16
 export const SIEGE_PROJECTILE_SPEED = 11
 export const HUD_SYNC_INTERVAL = 0.2
@@ -64,6 +146,7 @@ export const UNIT_STATS: Record<
   UnitKind,
   { hp: number; speed: number; attack: number; range: number; radius: number; splash?: number }
 > = {
+  // Indian Units
   villager: { hp: 40, speed: 4.2, attack: 3, range: 1.55, radius: 0.38 },
   sepoy: { hp: 90, speed: 4.0, attack: 12, range: 7.5, radius: 0.4 },
   rajput: { hp: 85, speed: 5.4, attack: 13, range: 1.7, radius: 0.4 },
@@ -71,12 +154,26 @@ export const UNIT_STATS: Record<
   gurkha: { hp: 70, speed: 4.6, attack: 14, range: 10, radius: 0.38 },
   mahout: { hp: 420, speed: 2.4, attack: 22, range: 2.1, radius: 1.05 },
   siegeElephant: { hp: 380, speed: 2.1, attack: 35, range: 8.2, radius: 1.12, splash: 2.6 },
+
+  // British Units
   pikeman: { hp: 90, speed: 3.8, attack: 12, range: 2.0, radius: 0.4 },
   longbowman: { hp: 50, speed: 4.4, attack: 10, range: 9.5, radius: 0.38 },
   redcoat: { hp: 85, speed: 4.0, attack: 13, range: 7.8, radius: 0.4 },
   hussar: { hp: 90, speed: 7.4, attack: 12, range: 1.55, radius: 0.52 },
   dragoon: { hp: 95, speed: 6.6, attack: 14, range: 7.2, radius: 0.52 },
   falconet: { hp: 110, speed: 2.5, attack: 40, range: 12, radius: 0.75, splash: 2.6 },
+
+  // Japanese Units
+  samurai: { hp: 110, speed: 5.2, attack: 18, range: 1.7, radius: 0.4 },
+  yumiArcher: { hp: 55, speed: 4.5, attack: 11, range: 9.5, radius: 0.38 },
+  ashigaru: { hp: 95, speed: 4.0, attack: 12, range: 2.0, radius: 0.4 },
+  naginata: { hp: 125, speed: 7.2, attack: 14, range: 1.7, radius: 0.54 },
+
+  // Ottoman Units
+  janissary: { hp: 100, speed: 4.0, attack: 16, range: 8.0, radius: 0.4 },
+  bashiBazouk: { hp: 85, speed: 5.2, attack: 14, range: 1.65, radius: 0.4 },
+  spahi: { hp: 220, speed: 6.8, attack: 16, range: 1.7, radius: 0.56 },
+  greatBombard: { hp: 160, speed: 2.2, attack: 55, range: 13.5, radius: 0.85, splash: 3.2 },
 }
 
 export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
@@ -93,6 +190,14 @@ export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
   hussar: 'cavalry',
   dragoon: 'cavalry',
   falconet: 'siege',
+  samurai: 'meleeInf',
+  yumiArcher: 'rangedInf',
+  ashigaru: 'meleeInf',
+  naginata: 'cavalry',
+  janissary: 'rangedInf',
+  bashiBazouk: 'meleeInf',
+  spahi: 'cavalry',
+  greatBombard: 'siege',
 }
 
 export const BUILDING_STATS: Record<
@@ -110,7 +215,10 @@ export const BUILDING_STATS: Record<
   caravanserai: { hp: 400, radius: 2.2, pop: 0 },
   agraFort: { hp: 520, radius: 2.0, pop: 0 },
   foundry: { hp: 360, radius: 2.0, pop: 0 },
-  manor: { hp: 280, radius: 1.8, pop: 0 },
+  manor: { hp: 280, radius: 1.8, pop: 15 },
+  toriiShrine: { hp: 220, radius: 1.6, pop: 10 },
+  tenshu: { hp: 550, radius: 2.2, pop: 0 },
+  mosque: { hp: 320, radius: 2.0, pop: 0 },
 }
 
 export const RESOURCE_STATS: Record<
@@ -124,6 +232,7 @@ export const RESOURCE_STATS: Record<
 }
 
 export const COSTS: Record<string, { wood?: number; food?: number; gold?: number }> = {
+  // Indian
   villager: { wood: 100 },
   sepoy: { food: 50, gold: 40 },
   rajput: { food: 65, gold: 25 },
@@ -131,7 +240,32 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
   gurkha: { food: 70, gold: 55 },
   mahout: { food: 180, gold: 90 },
   siegeElephant: { wood: 200, gold: 120 },
+
+  // British
+  pikeman: { food: 50, wood: 40 },
+  longbowman: { food: 50, wood: 50 },
+  redcoat: { food: 70, gold: 40 },
+  hussar: { food: 90, gold: 45 },
+  dragoon: { food: 80, gold: 70 },
+  falconet: { wood: 180, gold: 120 },
+
+  // Japanese
+  samurai: { food: 75, gold: 40 },
+  yumiArcher: { wood: 60, gold: 35 },
+  ashigaru: { food: 55, wood: 35 },
+  naginata: { food: 95, gold: 60 },
+
+  // Ottoman
+  janissary: { food: 65, gold: 50 },
+  bashiBazouk: { food: 50, gold: 30 },
+  spahi: { food: 120, gold: 75 },
+  greatBombard: { wood: 240, gold: 160 },
+
+  // Common & Unique Buildings
   house: { wood: 75 },
+  manor: { wood: 120 },
+  toriiShrine: { wood: 90 },
+  mosque: { wood: 140, gold: 50 },
   barracks: { wood: 150, gold: 50 },
   sacredField: { wood: 80 },
   lumberCamp: { wood: 100 },
@@ -141,7 +275,10 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
   palisade: { wood: 8 },
   caravanserai: { wood: 160, gold: 40 },
   agraFort: { wood: 200, gold: 80 },
+  tenshu: { wood: 220, gold: 90 },
   foundry: { wood: 180, gold: 80 },
+
+  // Age Ups
   commerce: { food: 800 },
   fortress: { food: 1200, gold: 1000 },
 }
@@ -160,6 +297,14 @@ export const TRAIN_TIME: Record<UnitKind, number> = {
   hussar: 12,
   dragoon: 14,
   falconet: 20,
+  samurai: 12,
+  yumiArcher: 11,
+  ashigaru: 10,
+  naginata: 13,
+  janissary: 12,
+  bashiBazouk: 10,
+  spahi: 15,
+  greatBombard: 24,
 }
 
 export const DISPLAY_NAMES: Record<string, string> = {
@@ -176,9 +321,21 @@ export const DISPLAY_NAMES: Record<string, string> = {
   hussar: 'Hussar',
   dragoon: 'Dragoon',
   falconet: 'Falconet',
+  samurai: 'Samurai',
+  yumiArcher: 'Yumi Archer',
+  ashigaru: 'Ashigaru Spearman',
+  naginata: 'Naginata Rider',
+  janissary: 'Janissary',
+  bashiBazouk: 'Bashi-Bazouk',
+  spahi: 'Spahi Lancer',
+  greatBombard: 'Great Bombard',
   townCenter: 'Town Center',
   barracks: 'Barracks',
   house: 'House',
+  manor: 'Manor',
+  toriiShrine: 'Torii Shrine',
+  tenshu: 'Tenshu Castle',
+  mosque: 'Mosque',
   sacredField: 'Sacred Field',
   lumberCamp: 'Lumber Camp',
   mill: 'Mill',
@@ -187,7 +344,6 @@ export const DISPLAY_NAMES: Record<string, string> = {
   caravanserai: 'Caravanserai',
   agraFort: 'Agra Fort',
   foundry: 'Artillery Foundry',
-  manor: 'Manor',
   tree: 'Tree',
   berryBush: 'Berry Bush',
   goldMine: 'Gold Mine',
@@ -202,9 +358,9 @@ export const CAMERA = {
 }
 
 export function visionRange(kind: string, isBuilding: boolean): number {
-  if (kind === 'sowar' || kind === 'hussar' || kind === 'dragoon') return 14
-  if (kind === 'agraFort' || kind === 'townCenter') return 13
-  if (kind === 'falconet' || kind === 'siegeElephant') return 8
+  if (kind === 'sowar' || kind === 'hussar' || kind === 'dragoon' || kind === 'naginata' || kind === 'spahi') return 14
+  if (kind === 'agraFort' || kind === 'tenshu' || kind === 'townCenter') return 13
+  if (kind === 'falconet' || kind === 'siegeElephant' || kind === 'greatBombard') return 8
   if (kind === 'mahout') return 9
   if (isBuilding) return 5
   return 8

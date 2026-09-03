@@ -8,6 +8,7 @@ import {
   AI_WAVE2_TIME,
   AI_WAVE3_TIME,
   AI_WAVE_INTERVAL,
+  CIV_DETAILS,
 } from '../game/constants'
 import { useGameStore } from '../game/store'
 
@@ -58,11 +59,27 @@ export function TopBar() {
   const waveStartTime = useGameStore((s) => s.waveStartTime)
   const playerAge = useGameStore((s) => s.playerAge)
   const enemyAge = useGameStore((s) => s.enemyAge)
+  const playerCiv = useGameStore((s) => s.playerCiv)
+  const enemyCiv = useGameStore((s) => s.enemyCiv)
   const aging = useGameStore((s) => s.aging)
   const muted = useGameStore((s) => s.muted)
 
+  const playerCivInfo = CIV_DETAILS[playerCiv] ?? CIV_DETAILS.indian
+  const enemyCivInfo = CIV_DETAILS[enemyCiv] ?? CIV_DETAILS.british
+
   return (
-    <div className="pointer-events-auto flex items-center justify-center gap-3 rounded-b-md border-x border-b border-amber-700/60 bg-gradient-to-b from-[#3a2a18] to-[#24180e] px-4 py-2 shadow-xl">
+    <div className="pointer-events-auto flex items-center justify-center gap-2.5 rounded-b-md border-x border-b border-amber-700/60 bg-gradient-to-b from-[#3a2a18] to-[#24180e] px-4 py-2 shadow-xl">
+      <button
+        type="button"
+        onClick={() => useGameStore.getState().openCivModal()}
+        className="flex items-center gap-1.5 rounded-sm border border-amber-600/60 bg-amber-950/60 px-2.5 py-1.5 text-xs text-amber-200 hover:bg-amber-900/60 hover:text-amber-100 transition shadow-sm"
+        title="Change Player & Enemy Empires"
+      >
+        <span className="text-base leading-none">{playerCivInfo.flag}</span>
+        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300">vs</span>
+        <span className="text-base leading-none">{enemyCivInfo.flag}</span>
+      </button>
+
       <Chip icon={<TreePine size={18} />} value={wood} label="Wood" color="text-emerald-400" />
       <Chip icon={<Apple size={18} />} value={food} label="Food" color="text-red-400" />
       <Chip icon={<Coins size={18} />} value={gold} label="Gold" color="text-yellow-400" />
@@ -75,13 +92,13 @@ export function TopBar() {
       <Chip
         icon={<Crown size={18} />}
         value={aging ? 'Advancing…' : AGE_NAMES[playerAge]}
-        label="Age"
+        label={playerCivInfo.name}
         color="text-amber-300"
       />
       <Chip
         icon={<Flag size={18} />}
         value={AGE_NAMES[enemyAge]}
-        label="British"
+        label={enemyCivInfo.name}
         color="text-red-300"
       />
       <Chip

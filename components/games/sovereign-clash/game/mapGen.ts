@@ -162,7 +162,7 @@ function tooClose(
   return false
 }
 
-export function generateWorld(): WorldSeed {
+export function generateWorld(enemyCiv: import('./types').Civilization = 'british'): WorldSeed {
   const rand = mulberry32(42)
   const entities: Record<string, Entity> = {}
   let n = 1
@@ -176,13 +176,21 @@ export function generateWorld(): WorldSeed {
 
   add(createBuilding(id(), 'townCenter', 'player', PLAYER_BASE.x, PLAYER_BASE.z, true))
   add(createUnit(id(), 'villager', 'player', PLAYER_BASE.x + 3.4, PLAYER_BASE.z + 1.6))
+  add(createUnit(id(), 'villager', 'player', PLAYER_BASE.x + 2.0, PLAYER_BASE.z + 3.0))
+  add(createUnit(id(), 'villager', 'player', PLAYER_BASE.x + 4.2, PLAYER_BASE.z + 2.4))
 
   add(createBuilding(id(), 'townCenter', 'enemy', ENEMY_BASE.x, ENEMY_BASE.z, true))
   add(createUnit(id(), 'villager', 'enemy', ENEMY_BASE.x - 3.2, ENEMY_BASE.z - 1.4))
   add(createUnit(id(), 'villager', 'enemy', ENEMY_BASE.x - 2.0, ENEMY_BASE.z - 3.2))
   add(createUnit(id(), 'villager', 'enemy', ENEMY_BASE.x - 4.4, ENEMY_BASE.z - 2.2))
 
-  const guards: UnitKind[] = ['pikeman', 'pikeman', 'longbowman', 'longbowman']
+  const guardMap: Record<import('./types').Civilization, UnitKind[]> = {
+    indian: ['rajput', 'rajput', 'sepoy', 'sepoy'],
+    british: ['pikeman', 'pikeman', 'longbowman', 'longbowman'],
+    japanese: ['ashigaru', 'ashigaru', 'yumiArcher', 'yumiArcher'],
+    ottoman: ['bashiBazouk', 'bashiBazouk', 'janissary', 'janissary'],
+  }
+  const guards: UnitKind[] = guardMap[enemyCiv] ?? guardMap.british
   guards.forEach((kind, i) => {
     const ang = (i / guards.length) * Math.PI * 2 + 0.5
     const r = 4.6

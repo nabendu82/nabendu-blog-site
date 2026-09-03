@@ -1,14 +1,23 @@
 export type Team = 'player' | 'enemy' | 'neutral'
 
+export type Civilization = 'indian' | 'british' | 'japanese' | 'ottoman'
+
 export type ResourceKind = 'wood' | 'food' | 'gold'
 
 export type Age = 0 | 1 | 2
 
 export type Formation = 'box' | 'line'
 
-export type UnitClass = 'villager' | 'meleeInf' | 'rangedInf' | 'cavalry' | 'elephant' | 'siege'
+export type UnitClass =
+  | 'villager'
+  | 'meleeInf'
+  | 'rangedInf'
+  | 'cavalry'
+  | 'elephant'
+  | 'siege'
 
 export type UnitKind =
+  // Indian Units
   | 'villager'
   | 'sepoy'
   | 'rajput'
@@ -16,12 +25,23 @@ export type UnitKind =
   | 'gurkha'
   | 'mahout'
   | 'siegeElephant'
+  // British Units
   | 'pikeman'
   | 'longbowman'
   | 'redcoat'
   | 'hussar'
   | 'dragoon'
   | 'falconet'
+  // Japanese Units
+  | 'samurai'
+  | 'yumiArcher'
+  | 'ashigaru'
+  | 'naginata'
+  // Ottoman Units
+  | 'janissary'
+  | 'bashiBazouk'
+  | 'spahi'
+  | 'greatBombard'
 
 export type BuildingKind =
   | 'townCenter'
@@ -36,6 +56,11 @@ export type BuildingKind =
   | 'agraFort'
   | 'foundry'
   | 'manor'
+  // Japanese Buildings
+  | 'toriiShrine'
+  | 'tenshu'
+  // Ottoman Buildings
+  | 'mosque'
 
 export type EntityKind =
   | UnitKind
@@ -107,7 +132,11 @@ export interface Entity {
 export type PlacementKind =
   | 'barracks'
   | 'house'
+  | 'manor'
   | 'sacredField'
+  | 'toriiShrine'
+  | 'tenshu'
+  | 'mosque'
   | 'lumberCamp'
   | 'mill'
   | 'miningCamp'
@@ -144,6 +173,9 @@ export interface HudSlice {
   formation: Formation
   muted: boolean
   enemyAge: Age
+  playerCiv: Civilization
+  enemyCiv: Civilization
+  civModalOpen: boolean
 }
 
 export function idleOrder(): Order {
@@ -164,7 +196,15 @@ export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
     e.kind === 'redcoat' ||
     e.kind === 'hussar' ||
     e.kind === 'dragoon' ||
-    e.kind === 'falconet'
+    e.kind === 'falconet' ||
+    e.kind === 'samurai' ||
+    e.kind === 'yumiArcher' ||
+    e.kind === 'ashigaru' ||
+    e.kind === 'naginata' ||
+    e.kind === 'janissary' ||
+    e.kind === 'bashiBazouk' ||
+    e.kind === 'spahi' ||
+    e.kind === 'greatBombard'
   )
 }
 
@@ -181,7 +221,10 @@ export function isBuilding(e: Entity): boolean {
     e.kind === 'caravanserai' ||
     e.kind === 'agraFort' ||
     e.kind === 'foundry' ||
-    e.kind === 'manor'
+    e.kind === 'manor' ||
+    e.kind === 'toriiShrine' ||
+    e.kind === 'tenshu' ||
+    e.kind === 'mosque'
   )
 }
 
@@ -229,16 +272,31 @@ export function requiredAge(kind: string): Age {
     kind === 'caravanserai' ||
     kind === 'sepoy' ||
     kind === 'rajput' ||
-    kind === 'sowar'
+    kind === 'sowar' ||
+    kind === 'pikeman' ||
+    kind === 'longbowman' ||
+    kind === 'hussar' ||
+    kind === 'ashigaru' ||
+    kind === 'yumiArcher' ||
+    kind === 'bashiBazouk' ||
+    kind === 'janissary'
   ) {
     return 1
   }
   if (
     kind === 'agraFort' ||
+    kind === 'tenshu' ||
     kind === 'foundry' ||
     kind === 'gurkha' ||
     kind === 'mahout' ||
-    kind === 'siegeElephant'
+    kind === 'siegeElephant' ||
+    kind === 'redcoat' ||
+    kind === 'dragoon' ||
+    kind === 'falconet' ||
+    kind === 'samurai' ||
+    kind === 'naginata' ||
+    kind === 'spahi' ||
+    kind === 'greatBombard'
   ) {
     return 2
   }
@@ -254,14 +312,24 @@ export function isRangedKind(kind: string): boolean {
     kind === 'dragoon' ||
     kind === 'falconet' ||
     kind === 'siegeElephant' ||
-    kind === 'agraFort'
+    kind === 'agraFort' ||
+    kind === 'yumiArcher' ||
+    kind === 'janissary' ||
+    kind === 'greatBombard' ||
+    kind === 'tenshu'
   )
 }
 
 export function isMusketKind(kind: string): boolean {
-  return kind === 'sepoy' || kind === 'gurkha' || kind === 'redcoat' || kind === 'dragoon'
+  return (
+    kind === 'sepoy' ||
+    kind === 'gurkha' ||
+    kind === 'redcoat' ||
+    kind === 'dragoon' ||
+    kind === 'janissary'
+  )
 }
 
 export function isSiegeKind(kind: string): boolean {
-  return kind === 'falconet' || kind === 'siegeElephant'
+  return kind === 'falconet' || kind === 'siegeElephant' || kind === 'greatBombard'
 }
