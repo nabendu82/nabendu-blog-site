@@ -23,6 +23,7 @@ export const CIV_DETAILS: Record<
   {
     name: string
     title: string
+    badge: string
     flag: string
     color: string
     accentColor: string
@@ -36,7 +37,8 @@ export const CIV_DETAILS: Record<
 > = {
   indian: {
     name: 'Indian Empire',
-    title: 'Mughal & Rajput Sovereignty',
+    title: 'Warrior & Rajput Sovereignty',
+    badge: 'WARRIOR',
     flag: '🇮🇳',
     color: '#e07a1e',
     accentColor: '#fbbf24',
@@ -52,6 +54,7 @@ export const CIV_DETAILS: Record<
   british: {
     name: 'British Empire',
     title: 'Crown Colonial Armada',
+    badge: 'CROWN',
     flag: '🇬🇧',
     color: '#dc2626',
     accentColor: '#f87171',
@@ -67,6 +70,7 @@ export const CIV_DETAILS: Record<
   japanese: {
     name: 'Japanese Empire',
     title: 'Shogunate of the Rising Sun',
+    badge: 'SHOGUNATE',
     flag: '🇯🇵',
     color: '#b91c1c',
     accentColor: '#fca5a5',
@@ -82,6 +86,7 @@ export const CIV_DETAILS: Record<
   french: {
     name: 'French Empire',
     title: 'Bourbon Crown & Imperial Guard',
+    badge: 'BOURBON',
     flag: '🇫🇷',
     color: '#1d4ed8',
     accentColor: '#60a5fa',

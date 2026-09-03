@@ -98,7 +98,7 @@ export function CivSelectionModal() {
                           color: '#fef3c7',
                         }}
                       >
-                        {info.title.split(' ')[0]}
+                        {info.badge}
                       </span>
                     </div>
 
