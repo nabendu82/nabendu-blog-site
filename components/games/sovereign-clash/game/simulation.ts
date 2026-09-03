@@ -102,9 +102,14 @@ function damageMultiplier(attacker: Entity, target: Entity): number {
   return m
 }
 
-function applyDamage(e: Entity, amount: number): void {
+function applyDamage(e: Entity, amount: number, attacker?: Entity): void {
   if (e.dying) return
   e.hp -= amount
+  if (attacker && !attacker.dying && attacker.team !== e.team) {
+    if (isUnit(e) && isMilitary(e) && e.order.type !== 'attack') {
+      e.order = { type: 'attack', x: attacker.x, z: attacker.z, targetId: attacker.id }
+    }
+  }
   if (e.hp <= 0) startDeath(e)
 }
 
@@ -125,11 +130,10 @@ function dropoffFor(e: Entity, entities: Entity[]): Entity | null {
 }
 
 function autoAcquire(e: Entity, entities: Entity[]): void {
-  if (e.order.type !== 'idle') return
   if (e.kind === 'villager') return
-  const wave = useGameStore.getState().waveStarted
-  const hunt = e.hp < e.maxHp || (e.team === 'player' && wave)
-  const range = e.hp < e.maxHp ? 40 : hunt ? 26 : AGGRO_RANGE
+  if (e.order.type === 'attack') return
+  const s = useGameStore.getState()
+  const range = e.team === 'player' ? 28 : (e.hp < e.maxHp ? 40 : s.waveStarted ? 26 : AGGRO_RANGE)
   const foe = nearest(
     e,
     entities,
@@ -169,7 +173,7 @@ function fireAt(
     else if (isMusketKind(e.kind)) playSound('musket')
     else playSound('bow')
   } else {
-    applyDamage(target, dmg)
+    applyDamage(target, dmg, e)
     playSound('sword')
   }
 }
@@ -248,9 +252,11 @@ function tickProjectile(
   const step = (p.projectileSpeed || PROJECTILE_SPEED) * dt
   if (d <= step || d < 0.35) {
     if (p.splash && p.splash > 0) {
-      splashHit(p, p.team, all, p.splash, p.damage)
+      const shooter = p.targetId ? all[p.targetId] : undefined
+      splashHit(p, p.team, all, p.splash, p.damage, shooter)
     } else if (target && !target.dying) {
-      applyDamage(target, p.damage)
+      const shooter = p.targetId ? all[p.targetId] : undefined
+      applyDamage(target, p.damage, shooter)
     }
     p.dying = true
     p.deathTimer = 0.05
@@ -502,11 +508,12 @@ function splashHit(
   all: Record<string, Entity>,
   radius: number,
   amount: number,
+  shooter?: Entity,
 ): void {
   for (const o of Object.values(all)) {
     if (!enemiesOf(shooterTeam, o) || o.dying) continue
     if (dist(at.x, at.z, o.x, o.z) <= radius) {
-      applyDamage(o, amount)
+      applyDamage(o, amount, shooter)
     }
   }
 }
@@ -614,6 +621,29 @@ function defendEnemyBase(entities: Entity[]): void {
       g.order = idleOrder()
     }
   })
+}
+
+function defendPlayerBase(entities: Entity[]): void {
+  const tc = entities.find((e) => e.kind === 'townCenter' && e.team === 'player' && !e.dying)
+  if (!tc) return
+  const threat = nearest(
+    tc,
+    entities,
+    (o) =>
+      o.team === 'enemy' &&
+      !o.dying &&
+      (isUnit(o) || isBuilding(o)) &&
+      dist(tc.x, tc.z, o.x, o.z) <= 32,
+  )
+  if (!threat) return
+
+  for (const u of entities) {
+    if (u.team !== 'player' || !isMilitary(u) || u.dying) continue
+    if (u.order.type === 'attack') continue
+    if (dist(u.x, u.z, tc.x, tc.z) <= 36) {
+      u.order = { type: 'attack', x: threat.x, z: threat.z, targetId: threat.id }
+    }
+  }
 }
 
 function civGuardUnit(civ: Civilization): UnitKind {
@@ -1018,6 +1048,8 @@ export function tickSimulation(dt: number): void {
     }
   }
 
+  defendPlayerBase(entities)
+
   for (const e of entities) {
     if (e.dying) {
       e.deathTimer -= clampedDt
@@ -1048,10 +1080,12 @@ export function tickSimulation(dt: number): void {
 
     switch (e.order.type) {
       case 'move':
-        if (moveTowards(e, e.order.x, e.order.z, clampedDt, entities, 0.35)) {
+        if (moveTowards(e, e.order.x, e.order.z, clampedDt, entities, 0.75)) {
           e.order = idleOrder()
+          if (isMilitary(e)) autoAcquire(e, entities)
         } else {
           tickTrample(e, entities, clampedDt)
+          if (isMilitary(e)) autoAcquire(e, entities)
         }
         break
       case 'gather':
@@ -1070,13 +1104,13 @@ export function tickSimulation(dt: number): void {
         tickAttackMove(e, entities, all, clampedDt)
         break
       default:
-        if (e.team === 'enemy' && isMilitary(e) && e.hp >= e.maxHp) break
         autoAcquire(e, entities)
         break
     }
   }
 
   tickAi(clampedDt)
+  tickFog(entities)
   checkWinner()
 }
 
