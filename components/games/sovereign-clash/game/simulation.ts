@@ -58,6 +58,7 @@ import {
   isGatherable,
   isMilitary,
   isMusketKind,
+  isResource,
   isSiegeKind,
   isUnit,
   type BuildingKind,
@@ -259,43 +260,69 @@ function tickProjectile(
   p.z += (dz / d) * step
 }
 
-function tryChainGather(
-  e: Entity,
-  current: Entity,
+function nearestSameResource(
+  from: { x: number; z: number },
   kind: Entity['kind'],
   entities: Entity[],
-  excludeId: string,
+  maxDist = CHAIN_GATHER_RANGE,
+  exceptId?: string | null,
+): Entity | null {
+  let best: Entity | null = null
+  let bestD = maxDist
+  for (const o of entities) {
+    if (exceptId && o.id === exceptId) continue
+    if (o.kind !== kind || o.dying || o.amount <= 0) continue
+    const d = dist(from.x, from.z, o.x, o.z)
+    if (d < bestD) {
+      bestD = d
+      best = o
+    }
+  }
+  return best
+}
+
+function beginGather(e: Entity, node: Entity): void {
+  e.gatherKind = node.kind as NonNullable<Entity['gatherKind']>
+  e.order = { type: 'gather', x: node.x, z: node.z, targetId: node.id }
+}
+
+function beginReturn(e: Entity, last: { x: number; z: number; id: string | null }): void {
+  e.order = { type: 'return', x: last.x, z: last.z, targetId: last.id }
+}
+
+function tryChainGather(
+  e: Entity,
+  from: { x: number; z: number },
+  kind: Entity['kind'] | null,
+  entities: Entity[],
+  exceptId?: string | null,
 ): boolean {
-  const next = nearest(
-    current,
-    entities,
-    (o) =>
-      o.id !== excludeId &&
-      o.kind === kind &&
-      !o.dying &&
-      o.amount > 0 &&
-      dist(current.x, current.z, o.x, o.z) <= CHAIN_GATHER_RANGE,
-  )
+  if (kind !== 'tree' && kind !== 'berryBush' && kind !== 'goldMine' && kind !== 'herd') return false
+  const next = nearestSameResource(from, kind, entities, CHAIN_GATHER_RANGE, exceptId)
   if (!next) return false
-  e.order = { type: 'gather', x: next.x, z: next.z, targetId: next.id }
-  e.gatherTimer = 0
+  beginGather(e, next)
   return true
 }
 
-function goDropOrIdle(e: Entity, entities: Entity[], fallback: { x: number; z: number; id: string | null }): void {
-  const drop = dropoffFor(e, entities)
-  if (drop) {
-    e.order = { type: 'return', x: drop.x, z: drop.z, targetId: drop.id }
+function goDropOrIdle(e: Entity, entities: Entity[], last: { x: number; z: number; id: string | null }): void {
+  if (e.carryAmount > 0 && dropoffFor(e, entities)) {
+    beginReturn(e, last)
   } else {
-    e.order = { type: 'idle', x: fallback.x, z: fallback.z, targetId: fallback.id }
+    e.order = idleOrder()
   }
 }
 
 function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
   const node = e.order.targetId ? all[e.order.targetId] : null
+  if (node && isResource(node)) e.gatherKind = node.kind as NonNullable<Entity['gatherKind']>
+
   if (!node || node.dying || node.amount <= 0) {
-    if (node && tryChainGather(e, node, node.kind, entities, node.id)) return
-    goDropOrIdle(e, entities, { x: e.x, z: e.z, id: null })
+    const from = node ?? e
+    const kind = node?.kind ?? e.gatherKind
+    if (e.carryAmount < CARRY_CAPACITY - 0.01 && tryChainGather(e, from, kind, entities, node?.id)) {
+      return
+    }
+    goDropOrIdle(e, entities, { x: from.x, z: from.z, id: node?.id ?? null })
     return
   }
 
@@ -338,19 +365,28 @@ function tickReturn(e: Entity, entities: Entity[], all: Record<string, Entity>, 
     return
   }
   const reach = DROPOFF_RANGE + tc.radius
-  if (dist(e.x, e.z, tc.x, tc.z) > reach) {
-    moveTowards(e, tc.x, tc.z, dt, entities, reach, tc.id)
+  const gap = dist(e.x, e.z, tc.x, tc.z)
+  if (gap > reach) {
+    const dx = e.x - tc.x
+    const dz = e.z - tc.z
+    const mag = Math.hypot(dx, dz) || 1
+    const dropX = tc.x + (dx / mag) * (tc.radius + 1.1)
+    const dropZ = tc.z + (dz / mag) * (tc.radius + 1.1)
+    moveTowards(e, dropX, dropZ, dt, entities, 0.55, tc.id)
     return
   }
-  if (e.carryAmount > 0 && e.carryResource) {
-    addResource(e.team, e.carryResource, e.carryAmount)
+  if (e.carryResource && e.carryAmount > 0) {
+    addResource(e.team, e.carryResource, Math.max(1, Math.round(e.carryAmount)))
     e.carryAmount = 0
+    e.carryResource = null
   }
-  const prev = e.order.targetId ? all[e.order.targetId] : null
-  if (prev && isGatherable(prev)) {
-    e.order = { type: 'gather', x: prev.x, z: prev.z, targetId: prev.id }
-    e.gatherTimer = 0
-  } else {
+  const nodeId = e.order.targetId
+  const node = nodeId ? all[nodeId] : null
+  const from = node ?? { x: e.order.x, z: e.order.z }
+  const kind = (node && isResource(node) ? node.kind : e.gatherKind) ?? e.gatherKind
+  if (node && !node.dying && node.amount > 0) {
+    beginGather(e, node)
+  } else if (!tryChainGather(e, from, kind, entities, node?.id)) {
     e.order = idleOrder()
   }
 }

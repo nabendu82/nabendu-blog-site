@@ -263,14 +263,15 @@ export function spend(
 
 export function addResource(team: Team, kind: 'wood' | 'food' | 'gold', amount: number): void {
   const s = useGameStore.getState()
+  const val = Math.round(amount)
   if (team === 'player') {
-    if (kind === 'wood') s.wood += amount
-    if (kind === 'food') s.food += amount
-    if (kind === 'gold') s.gold += amount
+    if (kind === 'wood') s.wood += val
+    if (kind === 'food') s.food += val
+    if (kind === 'gold') s.gold += val
   } else {
-    if (kind === 'wood') s.enemyWood += amount
-    if (kind === 'food') s.enemyFood += amount
-    if (kind === 'gold') s.enemyGold += amount
+    if (kind === 'wood') s.enemyWood += val
+    if (kind === 'food') s.enemyFood += val
+    if (kind === 'gold') s.enemyGold += val
   }
   markHud()
 }
@@ -477,6 +478,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       for (const u of villagers) {
         u.order = { type: 'gather', x: target.x, z: target.z, targetId }
         u.gatherTimer = 0
+        u.gatherKind = target.kind as NonNullable<Entity['gatherKind']>
       }
       if (villagers.length > 0) return
     }

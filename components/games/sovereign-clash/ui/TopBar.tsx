@@ -80,9 +80,9 @@ export function TopBar() {
         <span className="text-base leading-none">{enemyCivInfo.flag}</span>
       </button>
 
-      <Chip icon={<TreePine size={18} />} value={wood} label="Wood" color="text-emerald-400" />
-      <Chip icon={<Apple size={18} />} value={food} label="Food" color="text-red-400" />
-      <Chip icon={<Coins size={18} />} value={gold} label="Gold" color="text-yellow-400" />
+      <Chip icon={<TreePine size={18} />} value={Math.floor(wood)} label="Wood" color="text-emerald-400" />
+      <Chip icon={<Apple size={18} />} value={Math.floor(food)} label="Food" color="text-red-400" />
+      <Chip icon={<Coins size={18} />} value={Math.floor(gold)} label="Gold" color="text-yellow-400" />
       <Chip
         icon={<Users size={18} />}
         value={`${pop} / ${popCap}`}
