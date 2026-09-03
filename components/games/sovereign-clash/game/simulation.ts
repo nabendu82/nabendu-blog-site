@@ -299,7 +299,9 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
     node.amount -= take
     e.carryAmount += take
     e.carryResource = node.resourceType
-    playSound('chop')
+    if (node.resourceType === 'wood') playSound('chop')
+    else if (node.resourceType === 'gold') playSound('mine')
+    else playSound('farm')
   }
 
   if (node.amount <= 0) startDeath(node)
@@ -458,6 +460,8 @@ function raidTarget(entities: Entity[]): Entity | null {
 
 function sendRaid(units: Entity[], target: Entity | null): void {
   if (!target) return
+  notifyCombat()
+  playSound('raid')
   for (const u of units) {
     if (u.guard) continue
     u.order = { type: 'attack', x: target.x, z: target.z, targetId: target.id }
