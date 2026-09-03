@@ -1,6 +1,6 @@
 export type Team = 'player' | 'enemy' | 'neutral'
 
-export type Civilization = 'indian' | 'british' | 'japanese' | 'ottoman'
+export type Civilization = 'indian' | 'british' | 'japanese' | 'french'
 
 export type ResourceKind = 'wood' | 'food' | 'gold'
 
@@ -37,11 +37,10 @@ export type UnitKind =
   | 'yumiArcher'
   | 'ashigaru'
   | 'naginata'
-  // Ottoman Units
-  | 'janissary'
-  | 'bashiBazouk'
-  | 'spahi'
-  | 'greatBombard'
+  // French Units
+  | 'crossbowman'
+  | 'halberdier'
+  | 'cuirassier'
 
 export type BuildingKind =
   | 'townCenter'
@@ -60,8 +59,8 @@ export type BuildingKind =
   // Japanese Buildings
   | 'toriiShrine'
   | 'tenshu'
-  // Ottoman Buildings
-  | 'mosque'
+  // French Buildings
+  | 'chateau'
 
 export type EntityKind =
   | UnitKind
@@ -138,7 +137,7 @@ export type PlacementKind =
   | 'farm'
   | 'toriiShrine'
   | 'tenshu'
-  | 'mosque'
+  | 'chateau'
   | 'lumberCamp'
   | 'mill'
   | 'miningCamp'
@@ -203,10 +202,9 @@ export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
     e.kind === 'yumiArcher' ||
     e.kind === 'ashigaru' ||
     e.kind === 'naginata' ||
-    e.kind === 'janissary' ||
-    e.kind === 'bashiBazouk' ||
-    e.kind === 'spahi' ||
-    e.kind === 'greatBombard'
+    e.kind === 'crossbowman' ||
+    e.kind === 'halberdier' ||
+    e.kind === 'cuirassier'
   )
 }
 
@@ -227,7 +225,7 @@ export function isBuilding(e: Entity): boolean {
     e.kind === 'manor' ||
     e.kind === 'toriiShrine' ||
     e.kind === 'tenshu' ||
-    e.kind === 'mosque'
+    e.kind === 'chateau'
   )
 }
 
@@ -273,6 +271,7 @@ export function requiredAge(kind: string): Age {
   if (
     kind === 'barracks' ||
     kind === 'caravanserai' ||
+    kind === 'chateau' ||
     kind === 'sepoy' ||
     kind === 'rajput' ||
     kind === 'sowar' ||
@@ -281,8 +280,8 @@ export function requiredAge(kind: string): Age {
     kind === 'hussar' ||
     kind === 'ashigaru' ||
     kind === 'yumiArcher' ||
-    kind === 'bashiBazouk' ||
-    kind === 'janissary'
+    kind === 'crossbowman' ||
+    kind === 'halberdier'
   ) {
     return 1
   }
@@ -298,8 +297,7 @@ export function requiredAge(kind: string): Age {
     kind === 'falconet' ||
     kind === 'samurai' ||
     kind === 'naginata' ||
-    kind === 'spahi' ||
-    kind === 'greatBombard'
+    kind === 'cuirassier'
   ) {
     return 2
   }
@@ -317,9 +315,9 @@ export function isRangedKind(kind: string): boolean {
     kind === 'siegeElephant' ||
     kind === 'agraFort' ||
     kind === 'yumiArcher' ||
-    kind === 'janissary' ||
-    kind === 'greatBombard' ||
-    kind === 'tenshu'
+    kind === 'crossbowman' ||
+    kind === 'tenshu' ||
+    kind === 'chateau'
   )
 }
 
@@ -328,11 +326,10 @@ export function isMusketKind(kind: string): boolean {
     kind === 'sepoy' ||
     kind === 'gurkha' ||
     kind === 'redcoat' ||
-    kind === 'dragoon' ||
-    kind === 'janissary'
+    kind === 'dragoon'
   )
 }
 
 export function isSiegeKind(kind: string): boolean {
-  return kind === 'falconet' || kind === 'siegeElephant' || kind === 'greatBombard'
+  return kind === 'falconet' || kind === 'siegeElephant'
 }

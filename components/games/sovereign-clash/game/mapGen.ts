@@ -105,7 +105,7 @@ export function createBuilding(
   e.maxHp = stats.hp
   e.radius = stats.radius
   e.buildProgress = complete ? 1 : 0
-  if (kind === 'agraFort') {
+  if (kind === 'agraFort' || kind === 'tenshu' || kind === 'chateau') {
     e.attack = TOWER_ATTACK
     e.attackRange = TOWER_RANGE
   }
@@ -188,7 +188,7 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     indian: ['rajput', 'rajput', 'sepoy', 'sepoy'],
     british: ['pikeman', 'pikeman', 'longbowman', 'longbowman'],
     japanese: ['ashigaru', 'ashigaru', 'yumiArcher', 'yumiArcher'],
-    ottoman: ['bashiBazouk', 'bashiBazouk', 'janissary', 'janissary'],
+    french: ['halberdier', 'halberdier', 'crossbowman', 'crossbowman'],
   }
   const guards: UnitKind[] = guardMap[enemyCiv] ?? guardMap.british
   guards.forEach((kind, i) => {

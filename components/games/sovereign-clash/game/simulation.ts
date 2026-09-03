@@ -15,6 +15,7 @@ import {
   BUILD_TIME,
   CARRY_CAPACITY,
   CHAIN_GATHER_RANGE,
+  CHATEAU_GOLD_PER_SEC,
   COSTS,
   DEATH_DURATION,
   DROPOFF_RANGE,
@@ -24,9 +25,6 @@ import {
   GATHER_RANGE,
   MANOR_SETTLER_CAP,
   MANOR_SPAWN_INTERVAL,
-  MOSQUE_HEAL_PER_SEC,
-  MOSQUE_HEAL_RADIUS,
-  OTTOMAN_VILLAGER_INTERVAL,
   PALISADE_BUILD_TIME,
   PROJECTILE_SPEED,
   SACRED_FIELD_BUILD_TIME,
@@ -89,17 +87,16 @@ function damageMultiplier(attacker: Entity, target: Entity): number {
     (ac === 'meleeInf' ||
       attacker.kind === 'sepoy' ||
       attacker.kind === 'ashigaru' ||
+      attacker.kind === 'halberdier' ||
       attacker.kind === 'pikeman') &&
     dc === 'cavalry'
   ) {
     m *= 1.65
   }
   if ((ac === 'siege' || attacker.kind === 'siegeElephant') && isBuilding(target)) m *= 3
-  if (isBuilding(target)) {
-    const s = useGameStore.getState()
-    const civ = attacker.team === 'player' ? s.playerCiv : s.enemyCiv
-    if (civ === 'ottoman' && isMusketKind(attacker.kind)) m *= 1.25 // Ottoman gunpowder siege bonus
-  }
+  const s = useGameStore.getState()
+  const civ = attacker.team === 'player' ? s.playerCiv : s.enemyCiv
+  if (civ === 'french' && ac === 'cavalry') m *= 1.2 // French royal cavalry shock charge bonus
   return m
 }
 
@@ -340,8 +337,12 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
   }
 
   e.gatherTimer += dt
-  const gained = GATHER_PER_SEC * dt
-  const take = Math.min(gained, node.amount, CARRY_CAPACITY - e.carryAmount)
+  const s = useGameStore.getState()
+  const civ = e.team === 'player' ? s.playerCiv : s.enemyCiv
+  const gatherRate = civ === 'french' ? GATHER_PER_SEC * 1.25 : GATHER_PER_SEC
+  const maxCarry = civ === 'french' ? 18 : CARRY_CAPACITY
+  const gained = gatherRate * dt
+  const take = Math.min(gained, node.amount, maxCarry - e.carryAmount)
   if (take > 0) {
     node.amount -= take
     e.carryAmount += take
@@ -353,7 +354,7 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
 
   if (node.amount <= 0) startDeath(node)
 
-  if (e.carryAmount >= CARRY_CAPACITY - 0.01) {
+  if (e.carryAmount >= maxCarry - 0.01) {
     goDropOrIdle(e, entities, { x: node.x, z: node.z, id: node.id })
     return
   }
@@ -476,29 +477,16 @@ function tickFarm(e: Entity, dt: number): void {
   }
 }
 
-function tickMosque(e: Entity, entities: Entity[], dt: number): void {
+function tickChateau(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
   if (!isComplete(e) || e.dying) return
-  const healAmount = MOSQUE_HEAL_PER_SEC * dt
-  for (const u of entities) {
-    if (u.team === e.team && isUnit(u) && !u.dying && u.hp < u.maxHp) {
-      if (dist(e.x, e.z, u.x, u.z) <= MOSQUE_HEAL_RADIUS) {
-        u.hp = Math.min(u.maxHp, u.hp + healAmount)
-      }
-    }
+  // Generates steady Gold tribute (+2.0 Gold/sec)
+  e.amount += CHATEAU_GOLD_PER_SEC * dt
+  if (e.amount >= 1) {
+    const give = Math.floor(e.amount)
+    e.amount -= give
+    addResource(e.team, 'gold', give)
   }
-}
-
-function tickOttomanAutoVillager(b: Entity, dt: number): void {
-  if (b.kind !== 'townCenter' || !isComplete(b) || b.dying) return
-  const s = useGameStore.getState()
-  const civ = b.team === 'player' ? s.playerCiv : s.enemyCiv
-  if (civ !== 'ottoman') return
-  b.gatherTimer += dt
-  if (b.gatherTimer >= OTTOMAN_VILLAGER_INTERVAL) {
-    b.gatherTimer = 0
-    spawnUnit('villager', b.team, b)
-    if (b.team === 'player') playSound('spawn')
-  }
+  tickTower(e, entities, all, dt)
 }
 
 function tickTower(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
@@ -663,8 +651,8 @@ function civGuardUnit(civ: Civilization): UnitKind {
       return 'sepoy'
     case 'japanese':
       return 'samurai'
-    case 'ottoman':
-      return 'janissary'
+    case 'french':
+      return 'halberdier'
     case 'british':
     default:
       return 'redcoat'
@@ -677,8 +665,8 @@ function civGuardPair(civ: Civilization): UnitKind[] {
       return ['sepoy', 'rajput']
     case 'japanese':
       return ['samurai', 'ashigaru']
-    case 'ottoman':
-      return ['janissary', 'bashiBazouk']
+    case 'french':
+      return ['halberdier', 'crossbowman']
     case 'british':
     default:
       return ['redcoat', 'pikeman']
@@ -735,8 +723,8 @@ function civUniqueBuilding(civ: Civilization): BuildingKind {
       return 'sacredField'
     case 'japanese':
       return 'toriiShrine'
-    case 'ottoman':
-      return 'mosque'
+    case 'french':
+      return 'chateau'
     case 'british':
     default:
       return 'manor'
@@ -755,7 +743,7 @@ function ensureEnemyBuilding(
   if (kind === 'barracks' && s.barracksRebuildAt > 0 && s.gameTime < s.barracksRebuildAt) return
   if (kind === 'barracks' && !spend(COSTS.barracks, 'enemy')) return
   const proxy: 'house' | 'barracks' =
-    kind === 'manor' || kind === 'sacredField' || kind === 'toriiShrine' || kind === 'mosque'
+    kind === 'manor' || kind === 'sacredField' || kind === 'toriiShrine' || kind === 'chateau'
       ? 'house'
       : 'barracks'
   const spot = spots.find((p) => isPlacementValid(p.x, p.z, proxy)) ?? spots[0]
@@ -840,31 +828,39 @@ function civWave(civ: Civilization, waveNumber: 1 | 2 | 3): UnitKind[] {
         'yumiArcher',
       ]
 
-    case 'ottoman':
+    case 'french':
       if (waveNumber === 1) {
-        return ['janissary', 'janissary', 'janissary', 'bashiBazouk', 'bashiBazouk', 'bashiBazouk']
+        return [
+          'crossbowman',
+          'crossbowman',
+          'crossbowman',
+          'halberdier',
+          'halberdier',
+          'halberdier',
+        ]
       }
       if (waveNumber === 2) {
         return [
-          'janissary',
-          'janissary',
-          'janissary',
-          'janissary',
-          'spahi',
-          'spahi',
-          'spahi',
-          'bashiBazouk',
+          'crossbowman',
+          'crossbowman',
+          'crossbowman',
+          'halberdier',
+          'halberdier',
+          'cuirassier',
+          'cuirassier',
+          'cuirassier',
         ]
       }
       return [
-        'janissary',
-        'janissary',
-        'janissary',
-        'janissary',
-        'janissary',
-        'spahi',
-        'spahi',
-        'greatBombard',
+        'crossbowman',
+        'crossbowman',
+        'crossbowman',
+        'halberdier',
+        'halberdier',
+        'cuirassier',
+        'cuirassier',
+        'cuirassier',
+        'falconet',
       ]
 
     case 'british':
@@ -926,9 +922,9 @@ function laterWaveRoster(waveIndex: number, civ: Civilization): UnitKind[] {
       core: ['samurai', 'naginata', 'yumiArcher', 'ashigaru'],
       siege: 'naginata',
     },
-    ottoman: {
-      core: ['janissary', 'spahi', 'bashiBazouk'],
-      siege: 'greatBombard',
+    french: {
+      core: ['crossbowman', 'halberdier', 'cuirassier'],
+      siege: 'falconet',
     },
   }
   const config = poolMap[civ] ?? poolMap.british
@@ -1079,11 +1075,10 @@ export function tickSimulation(dt: number): void {
 
     if (isBuilding(e)) {
       tickTraining(e, clampedDt)
-      if (e.kind === 'townCenter') tickOttomanAutoVillager(e, clampedDt)
       if (e.kind === 'sacredField') tickSacredField(e, clampedDt)
       if (e.kind === 'farm') tickFarm(e, clampedDt)
       if (e.kind === 'toriiShrine') tickToriiShrine(e, clampedDt)
-      if (e.kind === 'mosque') tickMosque(e, entities, clampedDt)
+      if (e.kind === 'chateau') tickChateau(e, entities, all, clampedDt)
       if (e.kind === 'agraFort' || e.kind === 'tenshu') tickTower(e, entities, all, clampedDt)
       continue
     }

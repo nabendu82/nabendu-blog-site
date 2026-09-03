@@ -535,17 +535,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
           kind === 'ashigaru' ||
           kind === 'yumiArcher' ||
           kind === 'samurai' ||
-          kind === 'bashiBazouk' ||
-          kind === 'janissary')) ||
+          kind === 'crossbowman' ||
+          kind === 'halberdier')) ||
       (b.kind === 'caravanserai' &&
         (kind === 'sowar' ||
           kind === 'mahout' ||
           kind === 'hussar' ||
           kind === 'dragoon' ||
           kind === 'naginata' ||
-          kind === 'spahi')) ||
+          kind === 'cuirassier')) ||
       (b.kind === 'foundry' &&
-        (kind === 'siegeElephant' || kind === 'falconet' || kind === 'greatBombard'))
+        (kind === 'siegeElephant' || kind === 'falconet'))
     if (!allowed) return
     if (requiredAge(kind) > s.playerAge) return
     if (b.trainQueue.length >= 5) return

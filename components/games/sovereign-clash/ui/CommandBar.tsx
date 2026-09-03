@@ -242,10 +242,10 @@ export function CommandBar() {
             {playerCiv === 'japanese' && (
               <BuildBtn kind="toriiShrine" label="Torii Shrine" icon={<Wheat size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
             )}
-            {playerCiv === 'ottoman' && (
-              <BuildBtn kind="mosque" label="Mosque" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
+            {playerCiv === 'french' && (
+              <BuildBtn kind="chateau" label="Château" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 1} />
             )}
-            {/* Farm: universal food producer, especially useful for British & Ottoman */}
+            {/* Farm: universal food producer, especially useful for British & French */}
             <BuildBtn kind="farm" label="Farm" icon={<Sprout size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
 
             <BuildBtn kind="lumberCamp" label="Lumber Camp" icon={<Trees size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
@@ -261,7 +261,7 @@ export function CommandBar() {
             {playerCiv === 'japanese' && (
               <BuildBtn kind="tenshu" label="Tenshu Castle" icon={<TowerControl size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 2} />
             )}
-            {(playerCiv === 'indian' || playerCiv === 'british' || playerCiv === 'ottoman') && (
+            {(playerCiv === 'indian' || playerCiv === 'british' || playerCiv === 'french') && (
               <BuildBtn kind="foundry" label="Foundry" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 2} />
             )}
             <BuildBtn kind="townCenter" label="Town Center" icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} />
@@ -383,21 +383,21 @@ export function CommandBar() {
               </>
             )}
 
-            {playerCiv === 'ottoman' && (
+            {playerCiv === 'french' && (
               <>
                 <ActionButton
-                  disabled={!canAfford(COSTS.bashiBazouk, wood, food, gold) || pop >= popCap}
-                  onClick={() => useGameStore.getState().train('bashiBazouk')}
+                  disabled={!canAfford(COSTS.crossbowman, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('crossbowman')}
                 >
-                  <Swords size={14} className="mb-1 inline" /> Train Bashi-Bazouk
-                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.bashiBazouk)}</div>
+                  <Target size={14} className="mb-1 inline" /> Train Crossbowman
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.crossbowman)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={!canAfford(COSTS.janissary, wood, food, gold) || pop >= popCap}
-                  onClick={() => useGameStore.getState().train('janissary')}
+                  disabled={!canAfford(COSTS.halberdier, wood, food, gold) || pop >= popCap}
+                  onClick={() => useGameStore.getState().train('halberdier')}
                 >
-                  <Target size={14} className="mb-1 inline" /> Train Janissary
-                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.janissary)}</div>
+                  <Swords size={14} className="mb-1 inline" /> Train Halberdier
+                  <div className="text-[10px] text-amber-200/70">{costText(COSTS.halberdier)}</div>
                 </ActionButton>
               </>
             )}
@@ -460,14 +460,14 @@ export function CommandBar() {
               </ActionButton>
             )}
 
-            {playerCiv === 'ottoman' && (
+            {playerCiv === 'french' && (
               <ActionButton
-                disabled={playerAge < 2 || !canAfford(COSTS.spahi, wood, food, gold) || pop >= popCap}
-                onClick={() => useGameStore.getState().train('spahi')}
+                disabled={playerAge < 2 || !canAfford(COSTS.cuirassier, wood, food, gold) || pop >= popCap}
+                onClick={() => useGameStore.getState().train('cuirassier')}
               >
-                <Zap size={14} className="mb-1 inline" /> Train Spahi Cavalry
+                <Zap size={14} className="mb-1 inline" /> Train Cuirassier
                 <div className="text-[10px] text-amber-200/70">
-                  {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.spahi)}
+                  {playerAge < 2 ? 'Requires Fortress Age' : costText(COSTS.cuirassier)}
                 </div>
               </ActionButton>
             )}
@@ -494,13 +494,13 @@ export function CommandBar() {
                 <div className="text-[10px] text-amber-200/70">{costText(COSTS.falconet)}</div>
               </ActionButton>
             )}
-            {playerCiv === 'ottoman' && (
+            {playerCiv === 'french' && (
               <ActionButton
-                disabled={!canAfford(COSTS.greatBombard, wood, food, gold) || pop >= popCap}
-                onClick={() => useGameStore.getState().train('greatBombard')}
+                disabled={!canAfford(COSTS.falconet, wood, food, gold) || pop >= popCap}
+                onClick={() => useGameStore.getState().train('falconet')}
               >
-                <Castle size={14} className="mb-1 inline" /> Great Bombard
-                <div className="text-[10px] text-amber-200/70">{costText(COSTS.greatBombard)}</div>
+                <Swords size={14} className="mb-1 inline" /> Train Falconet
+                <div className="text-[10px] text-amber-200/70">{costText(COSTS.falconet)}</div>
               </ActionButton>
             )}
           </>

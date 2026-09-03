@@ -6,7 +6,7 @@ import { CIV_DETAILS } from '../game/constants'
 import { useGameStore } from '../game/store'
 import type { Civilization } from '../game/types'
 
-const CIV_LIST: Civilization[] = ['indian', 'british', 'japanese', 'ottoman']
+const CIV_LIST: Civilization[] = ['indian', 'british', 'japanese', 'french']
 
 export function CivSelectionModal() {
   const civModalOpen = useGameStore((s) => s.civModalOpen)

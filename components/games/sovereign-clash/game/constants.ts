@@ -79,20 +79,20 @@ export const CIV_DETAILS: Record<
     description:
       'Mastery of close-quarters sword combat, defensive pagoda castles, and shrine resource harvesting.',
   },
-  ottoman: {
-    name: 'Ottoman Empire',
-    title: 'Sublime Porte & Janissary Corps',
-    flag: '🇹🇷',
-    color: '#047857',
-    accentColor: '#34d399',
-    crestBg: 'from-emerald-950/90 to-teal-950/90',
-    bonusSummary: 'Imperial Auto-Settlers & Great Bombards',
+  french: {
+    name: 'French Empire',
+    title: 'Bourbon Crown & Imperial Guard',
+    flag: '🇫🇷',
+    color: '#1d4ed8',
+    accentColor: '#60a5fa',
+    crestBg: 'from-blue-950/90 to-slate-900/90',
+    bonusSummary: 'Rapid Gatherers & Armored Cuirassiers',
     uniqueBonus:
-      'Town Centers automatically train free Settlers over time without food cost. Mosques heal nearby wounded warriors. Gunpowder units deal +20% bonus siege damage with catastrophic Great Bombards.',
-    uniqueUnits: ['Janissary', 'Bashi-Bazouk', 'Spahi', 'Great Bombard'],
-    uniqueBuildings: ['Mosque'],
+      'Settlers gather resources 25% faster with extra carry capacity. Châteaus generate steady Gold tribute (+2/s) and defensive arrow volleys. Fortress Age unlocks legendary heavy Cuirassier cavalry with devastating shock power.',
+    uniqueUnits: ['Crossbowman', 'Halberdier', 'Cuirassier'],
+    uniqueBuildings: ['Château'],
     description:
-      'Zero-cost civilian economy automation backed by the most fearsome gunpowder artillery in the world.',
+      'Exceptional civilian gathering velocity backed by French noble Châteaus and the most feared heavy shock cavalry in Europe.',
   },
 }
 
@@ -113,7 +113,6 @@ export const GUARD_CAP = 4
 export const AI_MANOR_TIME = 90
 export const MANOR_SPAWN_INTERVAL = 25
 export const MANOR_SETTLER_CAP = 8
-export const OTTOMAN_VILLAGER_INTERVAL = 26
 export const BARRACKS_REBUILD = 60
 export const CHAIN_GATHER_RANGE = 10
 export const BUILD_TIME = 4.5
@@ -129,8 +128,7 @@ export const CARRY_CAPACITY = 15
 export const GATHER_PER_SEC = 10
 export const SACRED_FIELD_FOOD_PER_SEC = 1.6
 export const TORII_SHRINE_TRICKLE_PER_SEC = 1.5
-export const MOSQUE_HEAL_PER_SEC = 3.2
-export const MOSQUE_HEAL_RADIUS = 14
+export const CHATEAU_GOLD_PER_SEC = 2.0
 export const PROJECTILE_SPEED = 16
 export const SIEGE_PROJECTILE_SPEED = 11
 export const HUD_SYNC_INTERVAL = 0.2
@@ -170,11 +168,10 @@ export const UNIT_STATS: Record<
   ashigaru: { hp: 95, speed: 4.0, attack: 12, range: 2.0, radius: 0.4 },
   naginata: { hp: 125, speed: 7.2, attack: 14, range: 1.7, radius: 0.54 },
 
-  // Ottoman Units
-  janissary: { hp: 100, speed: 4.0, attack: 16, range: 8.0, radius: 0.4 },
-  bashiBazouk: { hp: 85, speed: 5.2, attack: 14, range: 1.65, radius: 0.4 },
-  spahi: { hp: 220, speed: 6.8, attack: 16, range: 1.7, radius: 0.56 },
-  greatBombard: { hp: 160, speed: 2.2, attack: 55, range: 13.5, radius: 0.85, splash: 3.2 },
+  // French Units
+  crossbowman: { hp: 70, speed: 4.2, attack: 13, range: 8.5, radius: 0.38 },
+  halberdier: { hp: 105, speed: 3.9, attack: 15, range: 2.0, radius: 0.4 },
+  cuirassier: { hp: 260, speed: 6.8, attack: 19, range: 1.7, radius: 0.58, splash: 1.8 },
 }
 
 export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
@@ -195,10 +192,9 @@ export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
   yumiArcher: 'rangedInf',
   ashigaru: 'meleeInf',
   naginata: 'cavalry',
-  janissary: 'rangedInf',
-  bashiBazouk: 'meleeInf',
-  spahi: 'cavalry',
-  greatBombard: 'siege',
+  crossbowman: 'rangedInf',
+  halberdier: 'meleeInf',
+  cuirassier: 'cavalry',
 }
 
 export const BUILDING_STATS: Record<
@@ -220,7 +216,7 @@ export const BUILDING_STATS: Record<
   manor: { hp: 280, radius: 1.8, pop: 15 },
   toriiShrine: { hp: 220, radius: 1.6, pop: 10 },
   tenshu: { hp: 550, radius: 2.2, pop: 0 },
-  mosque: { hp: 320, radius: 2.0, pop: 0 },
+  chateau: { hp: 550, radius: 2.2, pop: 10 },
 }
 
 export const RESOURCE_STATS: Record<
@@ -257,17 +253,16 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
   ashigaru: { food: 55, wood: 35 },
   naginata: { food: 95, gold: 60 },
 
-  // Ottoman
-  janissary: { food: 65, gold: 50 },
-  bashiBazouk: { food: 50, gold: 30 },
-  spahi: { food: 120, gold: 75 },
-  greatBombard: { wood: 240, gold: 160 },
+  // French
+  crossbowman: { food: 40, wood: 65 },
+  halberdier: { food: 65, wood: 35 },
+  cuirassier: { food: 120, gold: 90 },
 
   // Common & Unique Buildings
   house: { wood: 75 },
   manor: { wood: 120 },
   toriiShrine: { wood: 90 },
-  mosque: { wood: 140, gold: 50 },
+  chateau: { wood: 180, gold: 75 },
   barracks: { wood: 150, gold: 50 },
   sacredField: { wood: 80 },
   farm: { wood: 70, food: 40 },
@@ -304,10 +299,9 @@ export const TRAIN_TIME: Record<UnitKind, number> = {
   yumiArcher: 11,
   ashigaru: 10,
   naginata: 13,
-  janissary: 12,
-  bashiBazouk: 10,
-  spahi: 15,
-  greatBombard: 24,
+  crossbowman: 11,
+  halberdier: 10,
+  cuirassier: 15,
 }
 
 export const DISPLAY_NAMES: Record<string, string> = {
@@ -328,17 +322,16 @@ export const DISPLAY_NAMES: Record<string, string> = {
   yumiArcher: 'Yumi Archer',
   ashigaru: 'Ashigaru Spearman',
   naginata: 'Naginata Rider',
-  janissary: 'Janissary',
-  bashiBazouk: 'Bashi-Bazouk',
-  spahi: 'Spahi Lancer',
-  greatBombard: 'Great Bombard',
+  crossbowman: 'Crossbowman',
+  halberdier: 'Halberdier',
+  cuirassier: 'Cuirassier',
   townCenter: 'Town Center',
   barracks: 'Barracks',
   house: 'House',
   manor: 'Manor',
   toriiShrine: 'Torii Shrine',
   tenshu: 'Tenshu Castle',
-  mosque: 'Mosque',
+  chateau: 'Château',
   sacredField: 'Sacred Field',
   farm: 'Farm',
   lumberCamp: 'Lumber Camp',
@@ -362,9 +355,9 @@ export const CAMERA = {
 }
 
 export function visionRange(kind: string, isBuilding: boolean): number {
-  if (kind === 'sowar' || kind === 'hussar' || kind === 'dragoon' || kind === 'naginata' || kind === 'spahi') return 14
-  if (kind === 'agraFort' || kind === 'tenshu' || kind === 'townCenter') return 13
-  if (kind === 'falconet' || kind === 'siegeElephant' || kind === 'greatBombard') return 8
+  if (kind === 'sowar' || kind === 'hussar' || kind === 'dragoon' || kind === 'naginata' || kind === 'cuirassier') return 14
+  if (kind === 'agraFort' || kind === 'tenshu' || kind === 'chateau' || kind === 'townCenter') return 13
+  if (kind === 'falconet' || kind === 'siegeElephant') return 8
   if (kind === 'mahout') return 9
   if (isBuilding) return 5
   return 8
