@@ -73,7 +73,9 @@ export interface GameStore extends HudSlice {
   aiTimer: number
   controlGroups: Record<number, string[]>
   manorTimer: number
-  barracksRebuildAt: number
+  enemyBuiltUnique: boolean
+  enemyBuiltBarracks: boolean
+  enemyBuiltFortress: boolean
   guardCap: number
   playerCiv: Civilization
   enemyCiv: Civilization
@@ -190,7 +192,9 @@ function freshWorld(
     aiTimer: 0,
     controlGroups: {},
     manorTimer: 0,
-    barracksRebuildAt: 0,
+    enemyBuiltUnique: false,
+    enemyBuiltBarracks: false,
+    enemyBuiltFortress: false,
     guardCap: GUARD_CAP,
     ...hudFrom({
       entities: world.entities,

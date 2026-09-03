@@ -777,27 +777,26 @@ function civUniqueBuilding(civ: Civilization): BuildingKind {
   }
 }
 
-function ensureEnemyBuilding(
+function constructAiBuilding(
   kind: BuildingKind,
   spots: { x: number; z: number }[],
-): void {
+): boolean {
   const s = useGameStore.getState()
   const live = Object.values(s.entities).find(
     (e) => e.kind === kind && e.team === 'enemy' && !e.dying,
   )
-  if (live) return
-  if (kind === 'barracks' && s.barracksRebuildAt > 0 && s.gameTime < s.barracksRebuildAt) return
-  if (kind === 'barracks' && !spend(COSTS.barracks, 'enemy')) return
+  if (live) return true
   const proxy: 'house' | 'barracks' =
     kind === 'manor' || kind === 'sacredField' || kind === 'toriiShrine' || kind === 'chateau'
       ? 'house'
       : 'barracks'
   const spot = spots.find((p) => isPlacementValid(p.x, p.z, proxy)) ?? spots[0]
-  if (!spot) return
+  if (!spot) return false
   const id = allocId()
   s.entities[id] = createBuilding(id, kind, 'enemy', spot.x, spot.z, true)
   s.worldEpoch += 1
   markHud()
+  return true
 }
 
 function tickManors(dt: number): void {
@@ -988,12 +987,16 @@ function tickAi(dt: number): void {
   s.aiTimer += dt
   tickManors(dt)
 
-  if (s.gameTime >= AI_MANOR_TIME && s.enemyAge >= 0) {
+  if (s.gameTime >= AI_MANOR_TIME && s.enemyAge >= 0 && !s.enemyBuiltUnique) {
     const uniqueBuilding = civUniqueBuilding(s.enemyCiv)
-    ensureEnemyBuilding(uniqueBuilding, [
-      { x: ENEMY_BASE.x - 6.5, z: ENEMY_BASE.z + 4.2 },
-      { x: ENEMY_BASE.x + 5.5, z: ENEMY_BASE.z - 6 },
-    ])
+    if (
+      constructAiBuilding(uniqueBuilding, [
+        { x: ENEMY_BASE.x - 6.5, z: ENEMY_BASE.z + 4.2 },
+        { x: ENEMY_BASE.x + 5.5, z: ENEMY_BASE.z - 6 },
+      ])
+    ) {
+      s.enemyBuiltUnique = true
+    }
   }
 
   if (s.enemyAge < 1 && s.gameTime >= AI_COMMERCE_TIME) {
@@ -1001,23 +1004,32 @@ function tickAi(dt: number): void {
     markHud()
   }
 
-  if (s.enemyAge >= 1) {
-    ensureEnemyBuilding('barracks', [
-      { x: ENEMY_BASE.x - 5.5, z: ENEMY_BASE.z + 1.2 },
-      { x: ENEMY_BASE.x - 6.5, z: ENEMY_BASE.z - 2.2 },
-      { x: ENEMY_BASE.x + 1.5, z: ENEMY_BASE.z - 5.5 },
-    ])
+  if (s.enemyAge >= 1 && !s.enemyBuiltBarracks) {
+    if (
+      constructAiBuilding('barracks', [
+        { x: ENEMY_BASE.x - 5.5, z: ENEMY_BASE.z + 1.2 },
+        { x: ENEMY_BASE.x - 6.5, z: ENEMY_BASE.z - 2.2 },
+        { x: ENEMY_BASE.x + 1.5, z: ENEMY_BASE.z - 5.5 },
+      ])
+    ) {
+      s.enemyBuiltBarracks = true
+    }
   }
 
   if (s.enemyAge < 2 && s.gameTime >= AI_FORTRESS_TIME) {
     s.enemyAge = 2
     markHud()
-    if (s.enemyCiv === 'indian') {
-      ensureEnemyBuilding('agraFort', [{ x: ENEMY_BASE.x - 8.5, z: ENEMY_BASE.z - 8.5 }])
-    } else if (s.enemyCiv === 'japanese') {
-      ensureEnemyBuilding('tenshu', [{ x: ENEMY_BASE.x - 8.5, z: ENEMY_BASE.z - 8.5 }])
-    } else {
-      ensureEnemyBuilding('foundry', [{ x: ENEMY_BASE.x - 8.5, z: ENEMY_BASE.z - 8.5 }])
+  }
+
+  if (s.enemyAge >= 2 && !s.enemyBuiltFortress) {
+    const fortBuilding: BuildingKind =
+      s.enemyCiv === 'indian'
+        ? 'agraFort'
+        : s.enemyCiv === 'japanese'
+          ? 'tenshu'
+          : 'foundry'
+    if (constructAiBuilding(fortBuilding, [{ x: ENEMY_BASE.x - 8.5, z: ENEMY_BASE.z - 8.5 }])) {
+      s.enemyBuiltFortress = true
     }
   }
 
