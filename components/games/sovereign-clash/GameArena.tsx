@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useState, useEffect, Component, type ReactNode } from "react";
 import { Maximize2, Minimize2, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import { useGameStore } from "./game/store";
+import { stopMusic } from "./game/audio";
 
 const DynamicSovereignClash = dynamic(
   () => import("./SovereignClashGame"),
@@ -59,6 +60,12 @@ class GameErrorBoundary extends Component<{ children: ReactNode }, { hasError: b
 export function GameArena() {
   const [fullscreen, setFullscreen] = useState(false);
   const muted = useGameStore((s) => s.muted);
+
+  useEffect(() => {
+    return () => {
+      stopMusic();
+    };
+  }, []);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
