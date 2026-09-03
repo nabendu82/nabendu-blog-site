@@ -222,7 +222,28 @@ function EntityInstance({ id }: { id: string }) {
   const onClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation()
     if (inputFlags.skipClick) return
-    useGameStore.getState().select(id, e.nativeEvent.shiftKey)
+    const s = useGameStore.getState()
+    const ent = s.entities[id]
+    // If player already has units selected and clicks an enemy, issue an attack order!
+    const hasPlayerUnitsSelected = s.selectedIds.some(
+      (sid) => s.entities[sid]?.team === 'player' && isUnit(s.entities[sid]),
+    )
+    if (
+      !e.nativeEvent.shiftKey &&
+      hasPlayerUnitsSelected &&
+      ent &&
+      ent.team === 'enemy' &&
+      (isUnit(ent) || isBuilding(ent))
+    ) {
+      s.issueEntityOrder(id)
+      return
+    }
+    // If attack-move command mode is active, issue attack order on this entity
+    if (s.commandMode === 'attackMove' && ent) {
+      s.issueEntityOrder(id)
+      return
+    }
+    s.select(id, e.nativeEvent.shiftKey)
   }
 
   const onContext = (e: ThreeEvent<MouseEvent>) => {
@@ -232,8 +253,9 @@ function EntityInstance({ id }: { id: string }) {
   }
 
   const interactive = snapshot.kind !== 'projectile'
-  const pickH = snapshot.kind === 'agraFort' ? 3.2 : isBuilding(snapshot) ? 2.2 : 1.5
-  const pickY = snapshot.kind === 'agraFort' ? 1.4 : isBuilding(snapshot) ? 0.9 : 0.55
+  const isLargeFort = snapshot.kind === 'agraFort' || snapshot.kind === 'tenshu' || snapshot.kind === 'chateau'
+  const pickH = isLargeFort ? 3.6 : isBuilding(snapshot) ? 2.4 : 1.6
+  const pickY = isLargeFort ? 1.6 : isBuilding(snapshot) ? 1.0 : 0.6
 
   return (
     <group

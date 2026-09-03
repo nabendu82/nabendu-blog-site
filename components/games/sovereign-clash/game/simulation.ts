@@ -104,8 +104,13 @@ function applyDamage(e: Entity, amount: number, attacker?: Entity): void {
   if (e.dying) return
   e.hp -= amount
   if (attacker && !attacker.dying && attacker.team !== e.team) {
-    if (isUnit(e) && isMilitary(e) && e.order.type !== 'attack') {
-      e.order = { type: 'attack', x: attacker.x, z: attacker.z, targetId: attacker.id }
+    if (isUnit(e) && isMilitary(e)) {
+      const s = useGameStore.getState()
+      const currentTarget = e.order.targetId ? s.entities[e.order.targetId] : null
+      // Retaliate if idle, moving, or currently hitting a non-military target (like a building) while being attacked by a unit!
+      if (e.order.type !== 'attack' || !currentTarget || isBuilding(currentTarget)) {
+        e.order = { type: 'attack', x: attacker.x, z: attacker.z, targetId: attacker.id }
+      }
     }
   }
   if (e.hp <= 0) startDeath(e)
@@ -127,16 +132,45 @@ function dropoffFor(e: Entity, entities: Entity[]): Entity | null {
   )
 }
 
+function findBestTarget(
+  from: Entity,
+  entities: Entity[],
+  maxRange: number,
+): Entity | null {
+  let best: Entity | null = null
+  let bestScore = -Infinity
+
+  for (const o of entities) {
+    if (!enemiesOf(from.team, o)) continue
+    const d = dist(from.x, from.z, o.x, o.z)
+    if (d > maxRange) continue
+
+    // Tactical Target Priority:
+    // 1. Hostile military soldiers: +1000
+    // 2. Defensive towers / fortresses / châteaus shooting back: +600
+    // 3. Enemy villagers: +300
+    // 4. Other buildings (town center, barracks, farms): +100
+    let priority = 100
+    if (isMilitary(o)) priority = 1000
+    else if (o.kind === 'agraFort' || o.kind === 'tenshu' || o.kind === 'chateau') priority = 600
+    else if (o.kind === 'villager') priority = 300
+
+    const score = priority - d * 15
+    if (score > bestScore) {
+      bestScore = score
+      best = o
+    }
+  }
+
+  return best
+}
+
 function autoAcquire(e: Entity, entities: Entity[]): void {
   if (e.kind === 'villager') return
   if (e.order.type === 'attack') return
   const s = useGameStore.getState()
   const range = e.team === 'player' ? 28 : (e.hp < e.maxHp ? 40 : s.waveStarted ? 26 : AGGRO_RANGE)
-  const foe = nearest(
-    e,
-    entities,
-    (o) => enemiesOf(e.team, o) && dist(e.x, e.z, o.x, o.z) <= range,
-  )
+  const foe = findBestTarget(e, entities, range)
   if (foe) {
     e.order = { type: 'attack', x: foe.x, z: foe.z, targetId: foe.id }
   }
@@ -177,7 +211,7 @@ function fireAt(
 }
 
 function tickCombat(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
-  const target = e.order.targetId ? all[e.order.targetId] : null
+  let target = e.order.targetId ? all[e.order.targetId] : null
   if (!target || target.dying) {
     const s = useGameStore.getState()
     if (e.team === 'enemy' && isMilitary(e) && s.waveStarted) {
@@ -187,11 +221,7 @@ function tickCombat(e: Entity, entities: Entity[], all: Record<string, Entity>, 
         return
       }
     }
-    const foe = nearest(
-      e,
-      entities,
-      (o) => enemiesOf(e.team, o) && dist(e.x, e.z, o.x, o.z) <= AGGRO_RANGE,
-    )
+    const foe = findBestTarget(e, entities, e.team === 'player' ? 30 : AGGRO_RANGE)
     if (foe) {
       e.order = { type: 'attack', x: foe.x, z: foe.z, targetId: foe.id }
       return
@@ -200,7 +230,25 @@ function tickCombat(e: Entity, entities: Entity[], all: Record<string, Entity>, 
     return
   }
 
-  const reach = e.attackRange + target.radius + (isBuilding(target) ? 0.4 : 0.1)
+  // If currently ordered to attack a building, check if an enemy soldier is attacking/threatening us nearby
+  if (isBuilding(target) && isMilitary(e)) {
+    const threateningFoe = nearest(
+      e,
+      entities,
+      (o) =>
+        enemiesOf(e.team, o) &&
+        isMilitary(o) &&
+        dist(e.x, e.z, o.x, o.z) <= Math.max(8, e.attackRange + 4),
+    )
+    if (threateningFoe) {
+      target = threateningFoe
+      e.order.targetId = threateningFoe.id
+      e.order.x = threateningFoe.x
+      e.order.z = threateningFoe.z
+    }
+  }
+
+  const reach = e.attackRange + target.radius + (isBuilding(target) ? 1.0 : 0.25)
   const d = dist(e.x, e.z, target.x, target.z)
   if (d > reach) {
     moveTowards(e, target.x, target.z, dt, entities, reach, target.id)
@@ -210,19 +258,17 @@ function tickCombat(e: Entity, entities: Entity[], all: Record<string, Entity>, 
 }
 
 function tickAttackMove(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
-  const foe = nearest(
-    e,
-    entities,
-    (o) => enemiesOf(e.team, o) && dist(e.x, e.z, o.x, o.z) <= ATTACK_MOVE_AGGRO,
-  )
+  const foe = findBestTarget(e, entities, ATTACK_MOVE_AGGRO)
   if (foe) {
-    fireAt(e, foe, all, e.attackRange > 3.0)
+    e.order = { type: 'attack', x: foe.x, z: foe.z, targetId: foe.id }
     return
   }
   if (moveTowards(e, e.order.x, e.order.z, dt, entities, 0.35)) {
     e.order = idleOrder()
+    autoAcquire(e, entities)
   } else {
     tickTrample(e, entities, dt)
+    autoAcquire(e, entities)
   }
 }
 
@@ -1084,6 +1130,11 @@ export function tickSimulation(dt: number): void {
     }
 
     if (!isUnit(e)) continue
+
+    // CRITICAL: Decrement attack cooldown timer so units can continuously attack!
+    if (e.attackTimer > 0) {
+      e.attackTimer = Math.max(0, e.attackTimer - clampedDt)
+    }
 
     switch (e.order.type) {
       case 'move':

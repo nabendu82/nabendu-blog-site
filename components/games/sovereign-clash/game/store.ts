@@ -468,8 +468,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (target.team === 'enemy' && (isUnit(target) || isBuilding(target))) {
       for (const u of units) {
         u.order = { type: 'attack', x: target.x, z: target.z, targetId }
+        u.attackTimer = Math.min(u.attackTimer, 0.2)
       }
       set({ commandMode: 'none' })
+      markHud()
       return
     }
 
