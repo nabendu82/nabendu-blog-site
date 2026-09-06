@@ -62,6 +62,7 @@ function blank(id: string, kind: Entity['kind'], team: Team, x: number, z: numbe
     scale: 1,
     targetId: null,
     damage: 0,
+    sourceId: null,
     projectileSpeed: 0,
     splash: 0,
     rallyX: x,

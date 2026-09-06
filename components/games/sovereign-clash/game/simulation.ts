@@ -13,6 +13,7 @@ import {
   ATTACK_MOVE_AGGRO,
   BARRACKS_REBUILD,
   BUILD_TIME,
+  BUILDING_DEATH_DURATION,
   CARRY_CAPACITY,
   CHAIN_GATHER_RANGE,
   CHATEAU_GOLD_PER_SEC,
@@ -37,7 +38,7 @@ import {
   UNIT_CLASS,
 } from './constants'
 import { notifyCombat, playSound } from './audio'
-import { tickFog } from './fog'
+import { isInVision, tickFog } from './fog'
 import { createBuilding, createProjectile, createUnit } from './mapGen'
 import { dist, moveTowards, nearest } from './pathfinding'
 import {
@@ -45,6 +46,7 @@ import {
   allocId,
   isPlacementValid,
   markHud,
+  popCounts,
   spawnUnit,
   spend,
   useGameStore,
@@ -60,6 +62,7 @@ import {
   isResource,
   isSiegeKind,
   isUnit,
+  requiredAge,
   type BuildingKind,
   type Civilization,
   type Entity,
@@ -74,8 +77,18 @@ function list(map: Record<string, Entity>): Entity[] {
 function startDeath(e: Entity): void {
   if (e.dying) return
   e.dying = true
-  e.deathTimer = DEATH_DURATION
+  e.deathTimer = isBuilding(e) ? BUILDING_DEATH_DURATION : DEATH_DURATION
   e.order = idleOrder()
+  e.trainQueue = []
+  if (isBuilding(e)) {
+    if (e.team === 'player' || isInVision(e.x, e.z)) playSound('collapse')
+    if (e.team === 'enemy' && e.kind === 'barracks') {
+      const s = useGameStore.getState()
+      s.enemyBuiltBarracks = false
+      s.barracksRebuildTimer = BARRACKS_REBUILD
+    }
+  }
+  markHud()
 }
 
 function damageMultiplier(attacker: Entity, target: Entity): number {
@@ -200,6 +213,9 @@ function fireAt(
     const splash = e.splash || 0
     const speed = isSiegeKind(e.kind) ? SIEGE_PROJECTILE_SPEED : PROJECTILE_SPEED
     all[id] = createProjectile(id, e.team, e.x, e.z, target.id, dmg, splash, speed)
+    all[id].sourceId = e.id
+    all[id].order.x = target.x
+    all[id].order.z = target.z
     markHud()
     if (isSiegeKind(e.kind)) playSound('siege')
     else if (isMusketKind(e.kind)) playSound('musket')
@@ -214,17 +230,17 @@ function tickCombat(e: Entity, entities: Entity[], all: Record<string, Entity>, 
   let target = e.order.targetId ? all[e.order.targetId] : null
   if (!target || target.dying) {
     const s = useGameStore.getState()
-    if (e.team === 'enemy' && isMilitary(e) && s.waveStarted) {
+    const nearby = findBestTarget(e, entities, e.team === 'player' ? 30 : AGGRO_RANGE)
+    if (nearby) {
+      e.order = { type: 'attack', x: nearby.x, z: nearby.z, targetId: nearby.id }
+      return
+    }
+    if (e.team === 'enemy' && !e.guard && isMilitary(e) && s.waveStarted) {
       const prey = raidTarget(entities)
       if (prey) {
         e.order = { type: 'attack', x: prey.x, z: prey.z, targetId: prey.id }
         return
       }
-    }
-    const foe = findBestTarget(e, entities, e.team === 'player' ? 30 : AGGRO_RANGE)
-    if (foe) {
-      e.order = { type: 'attack', x: foe.x, z: foe.z, targetId: foe.id }
-      return
     }
     e.order = idleOrder()
     return
@@ -288,6 +304,10 @@ function tickProjectile(
   dt: number,
 ): void {
   const target = p.targetId ? all[p.targetId] : null
+  if (target && !target.dying) {
+    p.order.x = target.x
+    p.order.z = target.z
+  }
   const tx = target ? target.x : p.order.x
   const tz = target ? target.z : p.order.z
   const dx = tx - p.x
@@ -295,11 +315,13 @@ function tickProjectile(
   const d = Math.hypot(dx, dz)
   const step = (p.projectileSpeed || PROJECTILE_SPEED) * dt
   if (d <= step || d < 0.35) {
+    p.x = tx
+    p.z = tz
     if (p.splash && p.splash > 0) {
-      const shooter = p.targetId ? all[p.targetId] : undefined
+      const shooter = p.sourceId ? all[p.sourceId] : undefined
       splashHit(p, p.team, all, p.splash, p.damage, shooter)
     } else if (target && !target.dying) {
-      const shooter = p.targetId ? all[p.targetId] : undefined
+      const shooter = p.sourceId ? all[p.sourceId] : undefined
       applyDamage(target, p.damage, shooter)
     }
     p.dying = true
@@ -486,6 +508,13 @@ function tickTraining(b: Entity, dt: number): void {
   const job = b.trainQueue[0]
   job.remaining -= dt
   if (job.remaining > 0) return
+  if (b.team === 'player') {
+    const { pop, popCap } = popCounts(useGameStore.getState().entities)
+    if (pop >= popCap) {
+      job.remaining = 0
+      return
+    }
+  }
   b.trainQueue.shift()
   spawnUnit(job.kind, b.team, b)
   playSound('spawn')
@@ -494,11 +523,12 @@ function tickTraining(b: Entity, dt: number): void {
 function tickSacredField(e: Entity, dt: number): void {
   if (!isComplete(e) || e.dying) return
   e.amount += SACRED_FIELD_FOOD_PER_SEC * dt
-  if (e.amount >= 1) {
-    const give = Math.floor(e.amount)
+  // Pay complete 2-food / 1-gold batches; retain the fractional remainder.
+  if (e.amount >= 2) {
+    const give = Math.floor(e.amount / 2) * 2
     e.amount -= give
     addResource(e.team, 'food', give)
-    addResource(e.team, 'gold', Math.floor(give * 0.5))
+    addResource(e.team, 'gold', give / 2)
   }
 }
 
@@ -638,21 +668,16 @@ function guardPost(tc: Entity, index: number, total: number): { x: number; z: nu
 function defendEnemyBase(entities: Entity[]): void {
   const tc = entities.find((e) => e.kind === 'townCenter' && e.team === 'enemy' && !e.dying)
   if (!tc) return
-  const threat = nearest(
-    tc,
-    entities,
-    (o) =>
-      o.team === 'player' &&
-      !o.dying &&
-      (isUnit(o) || isBuilding(o)) &&
-      dist(tc.x, tc.z, o.x, o.z) <= AI_DEFEND_RANGE,
-  )
+  const threats = entities.filter(o => enemiesOf('enemy', o) && dist(tc.x, tc.z, o.x, o.z) <= AI_DEFEND_RANGE)
+  const threat = findBestTarget(tc, threats, AI_DEFEND_RANGE)
   const guards = entities.filter((e) => e.guard && e.team === 'enemy' && !e.dying)
 
   if (threat) {
     for (const u of entities) {
       if (u.team !== 'enemy' || !isMilitary(u) || u.dying) continue
       if (!u.guard && dist(u.x, u.z, tc.x, tc.z) > 28) continue
+      const current = u.order.targetId ? useGameStore.getState().entities[u.order.targetId] : null
+      if (current && enemiesOf('enemy', current) && isMilitary(current) && dist(tc.x, tc.z, current.x, current.z) <= AI_DEFEND_RANGE) continue
       u.order = { type: 'attack', x: threat.x, z: threat.z, targetId: threat.id }
     }
     return
@@ -691,17 +716,17 @@ function defendPlayerBase(entities: Entity[]): void {
   }
 }
 
-function civGuardUnit(civ: Civilization): UnitKind {
+function civGuardUnit(civ: Civilization, age: number): UnitKind {
   switch (civ) {
     case 'indian':
       return 'sepoy'
     case 'japanese':
-      return 'samurai'
+      return age >= 2 ? 'samurai' : 'ashigaru'
     case 'french':
       return 'halberdier'
     case 'british':
     default:
-      return 'redcoat'
+      return age >= 2 ? 'redcoat' : 'longbowman'
   }
 }
 
@@ -728,7 +753,7 @@ function replenishGuards(entities: Entity[]): void {
   if (!barracks) return
   const guards = entities.filter((e) => e.guard && e.team === 'enemy' && !e.dying)
   if (guards.length >= s.guardCap) return
-  const extra = spawnUnit(civGuardUnit(s.enemyCiv), 'enemy', barracks)
+  const extra = spawnUnit(civGuardUnit(s.enemyCiv, s.enemyAge), 'enemy', barracks)
   extra.guard = true
   extra.order = idleOrder()
 }
@@ -786,11 +811,14 @@ function constructAiBuilding(
     (e) => e.kind === kind && e.team === 'enemy' && !e.dying,
   )
   if (live) return true
-  const proxy: 'house' | 'barracks' =
-    kind === 'manor' || kind === 'sacredField' || kind === 'toriiShrine' || kind === 'chateau'
-      ? 'house'
-      : 'barracks'
-  const spot = spots.find((p) => isPlacementValid(p.x, p.z, proxy)) ?? spots[0]
+  const candidates = [...spots]
+  for (const center of spots) {
+    for (const radius of [4, 8, 12]) for (let i = 0; i < 8; i++) {
+      const angle = i * Math.PI / 4
+      candidates.push({ x: center.x + Math.cos(angle) * radius, z: center.z + Math.sin(angle) * radius })
+    }
+  }
+  const spot = candidates.find(p => isPlacementValid(p.x, p.z, kind))
   if (!spot) return false
   const id = allocId()
   s.entities[id] = createBuilding(id, kind, 'enemy', spot.x, spot.z, true)
@@ -986,11 +1014,12 @@ function tickAi(dt: number): void {
   s.gameTime += dt
   s.aiTimer += dt
   tickManors(dt)
+  s.barracksRebuildTimer = Math.max(0, s.barracksRebuildTimer - dt)
 
   if (s.gameTime >= AI_MANOR_TIME && s.enemyAge >= 0 && !s.enemyBuiltUnique) {
     const uniqueBuilding = civUniqueBuilding(s.enemyCiv)
     if (
-      constructAiBuilding(uniqueBuilding, [
+      requiredAge(uniqueBuilding) <= s.enemyAge && constructAiBuilding(uniqueBuilding, [
         { x: ENEMY_BASE.x - 6.5, z: ENEMY_BASE.z + 4.2 },
         { x: ENEMY_BASE.x + 5.5, z: ENEMY_BASE.z - 6 },
       ])
@@ -1004,7 +1033,7 @@ function tickAi(dt: number): void {
     markHud()
   }
 
-  if (s.enemyAge >= 1 && !s.enemyBuiltBarracks) {
+  if (s.enemyAge >= 1 && !s.enemyBuiltBarracks && s.barracksRebuildTimer <= 0) {
     if (
       constructAiBuilding('barracks', [
         { x: ENEMY_BASE.x - 5.5, z: ENEMY_BASE.z + 1.2 },
@@ -1079,10 +1108,10 @@ function checkWinner(): void {
   if (s.winner) return
   const ents = list(s.entities)
   const enemyTc = ents.find(
-    (e) => e.kind === 'townCenter' && e.team === 'enemy' && !e.dying,
+    (e) => e.kind === 'townCenter' && e.team === 'enemy',
   )
   const playerTc = ents.find(
-    (e) => e.kind === 'townCenter' && e.team === 'player' && !e.dying,
+    (e) => e.kind === 'townCenter' && e.team === 'player',
   )
 
   if (!enemyTc) {
@@ -1096,11 +1125,33 @@ function checkWinner(): void {
   }
 }
 
+function removeDead(entities: Entity[], all: Record<string, Entity>, dt: number): void {
+  for (const e of entities) {
+    if (!e.dying) continue
+    e.deathTimer -= dt
+    if (e.deathTimer <= 0) {
+      delete all[e.id]
+      useGameStore.getState().worldEpoch += 1
+      markHud()
+    }
+  }
+}
+
 export function tickSimulation(dt: number): void {
-  const clampedDt = Math.min(0.1, Math.max(0.001, dt))
   const s = useGameStore.getState()
+  if (s.helpOpen || s.civModalOpen || s.winner || !Number.isFinite(dt) || dt <= 0) return
+  const clampedDt = Math.min(0.1, dt)
   const all = s.entities
   const entities = list(all)
+  // Settle destruction before the result overlay, without spawning raids or fighting on.
+  const ending = !entities.some(e => e.kind === 'townCenter' && e.team === 'player' && !e.dying)
+    || !entities.some(e => e.kind === 'townCenter' && e.team === 'enemy' && !e.dying)
+  if (ending) {
+    removeDead(entities, all, clampedDt)
+    tickFog(list(all))
+    checkWinner()
+    return
+  }
 
   if (s.aging) {
     s.ageTimer -= clampedDt
@@ -1117,12 +1168,7 @@ export function tickSimulation(dt: number): void {
 
   for (const e of entities) {
     if (e.dying) {
-      e.deathTimer -= clampedDt
-      if (e.deathTimer <= 0) {
-        delete all[e.id]
-        s.worldEpoch += 1
-        markHud()
-      }
+      removeDead([e], all, clampedDt)
       continue
     }
 

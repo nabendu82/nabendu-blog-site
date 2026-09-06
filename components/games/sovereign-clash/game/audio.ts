@@ -188,6 +188,7 @@ export function playSound(
     | 'fanfare'
     | 'defeat'
     | 'age'
+    | 'collapse'
     | 'siege'
     | 'musket'
     | 'raid',
@@ -243,6 +244,11 @@ export function playSound(
       // Ominous enemy attack war-horn
       tone(146.8, 0.8, 'sawtooth', 0.2, -15)
       tone(110.0, 0.9, 'triangle', 0.18, -10)
+      break
+
+    case 'collapse':
+      tone(75, 0.65, 'triangle', 0.22, -45)
+      noiseBurst(0.85, 0.2, 1300)
       break
 
     case 'siege':

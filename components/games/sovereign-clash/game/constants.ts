@@ -105,6 +105,7 @@ export const PLAYER_BASE = { x: -55, z: -55 }
 export const ENEMY_BASE = { x: 55, z: 55 }
 
 export const DEATH_DURATION = 0.55
+export const BUILDING_DEATH_DURATION = 1.8
 export const ATTACK_COOLDOWN = 1
 export const AI_INTERVAL = 5
 export const AI_COMMERCE_TIME = 480

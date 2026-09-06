@@ -121,9 +121,11 @@ export function GameArena() {
 
         {/* 3D Game Area */}
         <section className="relative min-h-0 flex-1 overflow-hidden">
-          <GameErrorBoundary>
-            <DynamicSovereignClash />
-          </GameErrorBoundary>
+          {!fullscreen && (
+            <GameErrorBoundary>
+              <DynamicSovereignClash />
+            </GameErrorBoundary>
+          )}
           <div className="pointer-events-none absolute bottom-3 left-3 z-20 rounded-md border border-white/10 bg-black/60 px-2.5 py-1.5 text-[10px] text-amber-200/90 backdrop-blur">
             Left Click: Select/Drag-box · Right Click: Move/Attack/Gather · WASD/Arrows: Pan Camera · Scroll: Zoom
           </div>

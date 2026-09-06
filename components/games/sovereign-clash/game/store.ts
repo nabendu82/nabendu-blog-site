@@ -66,6 +66,7 @@ export function consumeHudDirty(): boolean {
 
 export interface GameStore extends HudSlice {
   entities: Record<string, Entity>
+  matchId: number
   nextId: number
   enemyWood: number
   enemyFood: number
@@ -74,6 +75,7 @@ export interface GameStore extends HudSlice {
   controlGroups: Record<number, string[]>
   manorTimer: number
   enemyBuiltUnique: boolean
+  barracksRebuildTimer: number
   enemyBuiltBarracks: boolean
   enemyBuiltFortress: boolean
   guardCap: number
@@ -104,7 +106,7 @@ export interface GameStore extends HudSlice {
   closeCivModal: () => void
 }
 
-function popCounts(entities: Record<string, Entity>): { pop: number; popCap: number } {
+export function popCounts(entities: Record<string, Entity>): { pop: number; popCap: number } {
   let pop = 0
   let popCap = 0
   for (const e of Object.values(entities)) {
@@ -142,14 +144,15 @@ function hudFrom(s: {
   civModalOpen: boolean
 }): HudSlice {
   const { pop, popCap } = popCounts(s.entities)
+  const selectedIds = s.selectedIds.filter(id => s.entities[id] && !s.entities[id].dying)
   return {
     wood: s.wood,
     food: s.food,
     gold: s.gold,
     pop,
     popCap,
-    selectedId: s.selectedId,
-    selectedIds: s.selectedIds,
+    selectedId: selectedIds[0] ?? null,
+    selectedIds,
     placementKind: s.placementKind,
     commandMode: s.commandMode,
     winner: s.winner,
@@ -172,6 +175,8 @@ function hudFrom(s: {
   }
 }
 
+let worldGeneration = 0
+
 function freshWorld(
   playerCiv: Civilization = 'indian',
   enemyCiv: Civilization = 'british',
@@ -185,6 +190,7 @@ function freshWorld(
   tickFog(Object.values(world.entities))
   return {
     entities: world.entities,
+    matchId: worldGeneration + 1,
     nextId: world.nextId,
     enemyWood: 140,
     enemyFood: 120,
@@ -193,6 +199,7 @@ function freshWorld(
     controlGroups: {},
     manorTimer: 0,
     enemyBuiltUnique: false,
+    barracksRebuildTimer: 0,
     enemyBuiltBarracks: false,
     enemyBuiltFortress: false,
     guardCap: GUARD_CAP,
@@ -206,7 +213,7 @@ function freshWorld(
       placementKind: null,
       commandMode: 'none',
       winner: null,
-      worldEpoch: 1,
+      worldEpoch: ++worldGeneration,
       gameTime: 0,
       waveStarted: false,
       waveIndex: 0,
@@ -557,7 +564,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (b.trainQueue.length >= 5) return
 
     const { pop, popCap } = popCounts(s.entities)
-    const queued = b.trainQueue.length
+    const queued = Object.values(s.entities).reduce((total, e) =>
+      total + (e.team === 'player' && !e.dying ? e.trainQueue.length : 0), 0)
     if (pop + queued >= popCap) return
 
     const cost = COSTS[kind]

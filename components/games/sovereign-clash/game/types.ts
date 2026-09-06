@@ -120,6 +120,8 @@ export interface Entity {
   scale: number
   targetId: string | null
   damage: number
+  /** Unit or tower that fired this projectile, independent of its target. */
+  sourceId: string | null
   projectileSpeed: number
   splash: number
   rallyX: number
