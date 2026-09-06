@@ -8,38 +8,28 @@ import { COLORS } from '../game/constants'
 import { inputFlags } from '../game/input'
 import { isBuilding, isResource, isUnit, type Entity, type PlacementKind } from '../game/types'
 import { hover, isPlacementValid, useGameStore } from '../game/store'
-import { BarracksModel } from './models/Barracks'
 import { BerryBushModel } from './models/BerryBush'
-import { CaravanseraiModel } from './models/Caravanserai'
-import { FoundryModel } from './models/Foundry'
 import { GoldMineModel } from './models/GoldMine'
 import { HerdModel } from './models/Herd'
-import { HouseModel } from './models/House'
-import { LumberCampModel } from './models/LumberCamp'
-import { ManorModel } from './models/Manor'
-import { MillModel } from './models/Mill'
-import { MiningCampModel } from './models/MiningCamp'
 import { PalisadeModel } from './models/Palisade'
 import { ProjectileModel } from './models/Projectile'
 import { RallyFlag } from './models/RallyFlag'
 import { SacredFieldModel } from './models/SacredField'
 import { AgraFortModel } from './models/AgraFort'
-import { TownCenterModel } from './models/TownCenter'
 import { TreeModel } from './models/Tree'
 import { ToriiShrineModel } from './models/ToriiShrine'
 import { ChateauModel } from './models/Chateau'
 import { TenshuModel } from './models/Tenshu'
 import { AnimatedUnit } from './units/AnimatedUnit'
 import { isExplored, isInVision } from '../game/fog'
+import { SettlementModel } from './models/Settlement'
 
 function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
+  const civ = useGameStore(s => s.playerCiv)
+  if (kind === 'townCenter' || kind === 'house' || kind === 'manor' || kind === 'barracks' || kind === 'mill' || kind === 'lumberCamp' || kind === 'miningCamp' || kind === 'foundry' || kind === 'caravanserai') {
+    return <SettlementModel kind={kind} civ={civ} color="#4ade80" />
+  }
   switch (kind) {
-    case 'house':
-      return <HouseModel color="#4ade80" />
-    case 'manor':
-      return <ManorModel color="#4ade80" />
-    case 'barracks':
-      return <BarracksModel color="#4ade80" />
     case 'sacredField':
       return <SacredFieldModel color="#4ade80" />
     case 'farm':
@@ -50,22 +40,10 @@ function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
       return <ChateauModel color="#4ade80" />
     case 'tenshu':
       return <TenshuModel color="#4ade80" />
-    case 'lumberCamp':
-      return <LumberCampModel color="#4ade80" />
-    case 'mill':
-      return <MillModel color="#4ade80" />
-    case 'miningCamp':
-      return <MiningCampModel color="#4ade80" />
-    case 'townCenter':
-      return <TownCenterModel color="#4ade80" />
     case 'palisade':
       return <PalisadeModel color="#4ade80" />
-    case 'caravanserai':
-      return <CaravanseraiModel color="#4ade80" />
     case 'agraFort':
       return <AgraFortModel color="#4ade80" />
-    case 'foundry':
-      return <FoundryModel color="#4ade80" />
     default:
       return null
   }
@@ -73,6 +51,11 @@ function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
 
 function ModelOf({ entity }: { entity: Entity }) {
   const accent = entity.team === 'enemy' ? COLORS.enemy : COLORS.player
+  const civ = useGameStore(s => entity.team === 'enemy' ? s.enemyCiv : s.playerCiv)
+  const kind = entity.kind
+  if (kind === 'townCenter' || kind === 'house' || kind === 'manor' || kind === 'barracks' || kind === 'mill' || kind === 'lumberCamp' || kind === 'miningCamp' || kind === 'foundry' || kind === 'caravanserai') {
+    return <SettlementModel kind={kind} color={accent} civ={civ} />
+  }
   switch (entity.kind) {
     case 'villager':
     case 'sepoy':
@@ -95,12 +78,6 @@ function ModelOf({ entity }: { entity: Entity }) {
     case 'halberdier':
     case 'cuirassier':
       return <AnimatedUnit id={entity.id} kind={entity.kind} />
-    case 'townCenter':
-      return <TownCenterModel color={accent} team={entity.team} />
-    case 'barracks':
-      return <BarracksModel color={accent} />
-    case 'house':
-      return <HouseModel color={accent} british={entity.team === 'enemy'} />
     case 'sacredField':
       return <SacredFieldModel color={accent} />
     case 'farm':
@@ -111,22 +88,10 @@ function ModelOf({ entity }: { entity: Entity }) {
       return <ChateauModel color={accent} />
     case 'tenshu':
       return <TenshuModel color={accent} />
-    case 'lumberCamp':
-      return <LumberCampModel color={accent} />
-    case 'mill':
-      return <MillModel color={accent} />
-    case 'miningCamp':
-      return <MiningCampModel color={accent} />
     case 'palisade':
       return <PalisadeModel color={accent} />
-    case 'caravanserai':
-      return <CaravanseraiModel color={accent} />
     case 'agraFort':
       return <AgraFortModel color={accent} />
-    case 'foundry':
-      return <FoundryModel color={accent} />
-    case 'manor':
-      return <ManorModel color={accent} />
     case 'tree':
       return <TreeModel scale={entity.scale} />
     case 'berryBush':
