@@ -10,7 +10,7 @@ function Detail({ at, size, color, rotation, metal = false }: { at: [number, num
 }
 
 /** Tailoring and equipment attached to the animated torso, not the world transform. */
-export function UniformDetails({ civilian, armored, japanese, color, musket }: { civilian: boolean; armored: boolean; japanese: boolean; color: string; musket: boolean }) {
+export function UniformDetails({ civilian, armored, japanese, color, musket, industrial = false }: { civilian: boolean; armored: boolean; japanese: boolean; color: string; musket: boolean; industrial?: boolean }) {
   const brass = '#b89b62'
   const detail = useRef<Group>(null)
   const position = useRef(new Vector3())
@@ -20,6 +20,18 @@ export function UniformDetails({ civilian, armored, japanese, color, musket }: {
     detail.current.visible = camera.position.distanceToSquared(position.current) < 1600
   })
   return <group ref={detail}>
+    {industrial && <>
+      <Detail at={[0, 0.2, -0.16]} size={[0.26, 0.4, 0.06]} color={civilian ? '#594433' : japanese ? '#292d32' : color} />
+      {!civilian && <>
+        {[-1, 1].map(side => <group key={side}>
+          <Detail at={[side * 0.17, 0.34, 0]} size={[0.13, 0.07, 0.21]} color={japanese ? '#343b3d' : '#c9a74f'} metal />
+          {[0, 1, 2].map(i => <Detail key={i} at={[side * 0.21, 0.3, -0.06 + i * 0.06]} size={[0.022, 0.09, 0.018]} color={japanese ? '#a58b54' : '#d3b969'} metal />)}
+          <Detail at={[side * 0.075, 0.24, 0.175]} size={[0.05, 0.22, 0.025]} color={japanese ? '#b99c57' : '#e3d5b1'} />
+        </group>)}
+        <Detail at={[0.07, 0.26, 0.198]} size={[0.038, 0.055, 0.01]} color="#d7b45d" metal />
+        <Detail at={[0, -0.13, -0.12]} size={[0.24, 0.28, 0.07]} color={color} />
+      </>}
+    </>}
     {/* Waist belt, buckle, shoulder straps and cartridge pouch. */}
     <Detail at={[0, 0.05, 0.11]} size={[0.25, 0.055, 0.04]} color="#4a3528" />
     <Detail at={[0, 0.05, 0.137]} size={[0.048, 0.044, 0.014]} color={brass} metal />

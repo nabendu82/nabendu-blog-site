@@ -4,7 +4,7 @@ export type Civilization = 'indian' | 'british' | 'japanese' | 'french'
 
 export type ResourceKind = 'wood' | 'food' | 'gold'
 
-export type Age = 0 | 1 | 2
+export type Age = 0 | 1 | 2 | 3
 
 export type Formation = 'box' | 'line'
 
@@ -17,6 +17,10 @@ export type UnitClass =
   | 'siege'
 
 export type UnitKind =
+  | 'rocket'
+  | 'heavyCannon'
+  | 'flamingArrow'
+  | 'royalElephant'
   // Indian Units
   | 'villager'
   | 'sepoy'
@@ -43,6 +47,7 @@ export type UnitKind =
   | 'cuirassier'
 
 export type BuildingKind =
+  | 'factory'
   | 'townCenter'
   | 'barracks'
   | 'house'
@@ -93,6 +98,7 @@ export interface TrainJob {
 }
 
 export interface Entity {
+  industrialUpgraded: boolean
   id: string
   kind: EntityKind
   team: Team
@@ -132,6 +138,7 @@ export interface Entity {
 }
 
 export type PlacementKind =
+  | 'factory'
   | 'barracks'
   | 'house'
   | 'manor'
@@ -187,6 +194,7 @@ export function idleOrder(): Order {
 
 export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
   return (
+    e.kind === 'rocket' || e.kind === 'heavyCannon' || e.kind === 'flamingArrow' || e.kind === 'royalElephant' ||
     e.kind === 'villager' ||
     e.kind === 'sepoy' ||
     e.kind === 'rajput' ||
@@ -212,6 +220,7 @@ export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
 
 export function isBuilding(e: Entity): boolean {
   return (
+    e.kind === 'factory' ||
     e.kind === 'townCenter' ||
     e.kind === 'barracks' ||
     e.kind === 'house' ||
@@ -262,6 +271,7 @@ export function isComplete(e: Entity): boolean {
 
 export function canTrain(e: Entity): boolean {
   return (
+    e.kind === 'factory' ||
     e.kind === 'townCenter' ||
     e.kind === 'barracks' ||
     e.kind === 'caravanserai' ||
@@ -270,6 +280,7 @@ export function canTrain(e: Entity): boolean {
 }
 
 export function requiredAge(kind: string): Age {
+  if (kind === 'factory' || kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant') return 3
   if (
     kind === 'barracks' ||
     kind === 'caravanserai' ||
@@ -308,6 +319,7 @@ export function requiredAge(kind: string): Age {
 
 export function isRangedKind(kind: string): boolean {
   return (
+    kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant' ||
     kind === 'sepoy' ||
     kind === 'gurkha' ||
     kind === 'longbowman' ||
@@ -333,5 +345,5 @@ export function isMusketKind(kind: string): boolean {
 }
 
 export function isSiegeKind(kind: string): boolean {
-  return kind === 'falconet' || kind === 'siegeElephant'
+  return kind === 'falconet' || kind === 'siegeElephant' || kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant'
 }

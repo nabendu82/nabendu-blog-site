@@ -231,6 +231,14 @@ export function HelpOverlay() {
             <Section title={economy.title} items={economy.items} />
             <Section title={military.title} items={military.items} />
             <Section title={enemy.title} items={enemy.items} />
+            <Section title="IV · Industrial Age" items={[
+              'Advance from Fortress at a Town Center: 2,000 Food + 1,200 Gold, 60 seconds.',
+              'Existing and future troops gain health and attack: +40% for civilization guard units, +25% for other military units. Damage is preserved.',
+              'Buildings gain 35% health. Villagers gather 20% faster and carry 5 more resources.',
+              'Build up to two Industrial Workshops (600 Wood + 400 Gold). Each generates 2 Wood and 2 Gold per second and trains unique heavy artillery.',
+              'British Rocket Batteries, French Heavy Cannons, Japanese Flaming Arrows and Indian Royal Siege Elephants provide splash damage and powerful siege attacks.',
+              'The enemy reaches Industrial Age at 30 minutes and deploys its own heavy artillery.',
+            ]} />
           </div>
         </div>
 

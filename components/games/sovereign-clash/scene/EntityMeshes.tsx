@@ -23,11 +23,14 @@ import { TenshuModel } from './models/Tenshu'
 import { AnimatedUnit } from './units/AnimatedUnit'
 import { isExplored, isInVision } from '../game/fog'
 import { SettlementModel } from './models/Settlement'
+import { IndustrialWorkshop, IndustrialFacade } from './models/Industrial'
 
 function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
   const civ = useGameStore(s => s.playerCiv)
+  const industrial = useGameStore(s => s.playerAge === 3)
+  if (kind === 'factory') return <IndustrialWorkshop civ={civ} color="#4ade80" />
   if (kind === 'townCenter' || kind === 'house' || kind === 'manor' || kind === 'barracks' || kind === 'mill' || kind === 'lumberCamp' || kind === 'miningCamp' || kind === 'foundry' || kind === 'caravanserai') {
-    return <SettlementModel kind={kind} civ={civ} color="#4ade80" />
+    return <SettlementModel kind={kind} civ={civ} color="#4ade80" industrial={industrial} />
   }
   switch (kind) {
     case 'sacredField':
@@ -52,11 +55,17 @@ function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
 function ModelOf({ entity }: { entity: Entity }) {
   const accent = entity.team === 'enemy' ? COLORS.enemy : COLORS.player
   const civ = useGameStore(s => entity.team === 'enemy' ? s.enemyCiv : s.playerCiv)
+  const industrial = useGameStore(s => (entity.team === 'enemy' ? s.enemyAge : s.playerAge) === 3)
   const kind = entity.kind
+  if (kind === 'factory') return <IndustrialWorkshop civ={civ} color={accent} />
   if (kind === 'townCenter' || kind === 'house' || kind === 'manor' || kind === 'barracks' || kind === 'mill' || kind === 'lumberCamp' || kind === 'miningCamp' || kind === 'foundry' || kind === 'caravanserai') {
-    return <SettlementModel kind={kind} color={accent} civ={civ} />
+    return <SettlementModel kind={kind} color={accent} civ={civ} industrial={industrial} />
   }
   switch (entity.kind) {
+    case 'rocket':
+    case 'heavyCannon':
+    case 'flamingArrow':
+    case 'royalElephant':
     case 'villager':
     case 'sepoy':
     case 'rajput':
@@ -85,13 +94,13 @@ function ModelOf({ entity }: { entity: Entity }) {
     case 'toriiShrine':
       return <ToriiShrineModel color={accent} />
     case 'chateau':
-      return <ChateauModel color={accent} />
+      return <group><ChateauModel color={accent} />{industrial && <IndustrialFacade civ={civ} color={accent} width={2.4} depth={1.8} height={1.4} />}</group>
     case 'tenshu':
-      return <TenshuModel color={accent} />
+      return <group><TenshuModel color={accent} />{industrial && <group position={[0, 0.9, 0]}><IndustrialFacade civ={civ} color={accent} width={2} depth={2} height={0.7} /></group>}</group>
     case 'palisade':
       return <PalisadeModel color={accent} />
     case 'agraFort':
-      return <AgraFortModel color={accent} />
+      return <group><AgraFortModel color={accent} />{industrial && <IndustrialFacade civ={civ} color={accent} width={2.8} depth={2.8} height={1.2} />}</group>
     case 'tree':
       return <TreeModel scale={entity.scale} />
     case 'berryBush':
@@ -112,6 +121,8 @@ function ModelOf({ entity }: { entity: Entity }) {
 }
 
 function barHeight(e: Entity): number {
+  if (e.kind === 'factory') return 4.9
+  if (e.kind === 'royalElephant') return 3
   if (e.kind === 'townCenter' || e.kind === 'agraFort' || e.kind === 'tenshu' || e.kind === 'chateau') return 3.6
   if (e.kind === 'caravanserai' || e.kind === 'foundry' || e.kind === 'barracks') return 2.4
   if (e.kind === 'house' || e.kind === 'mill' || e.kind === 'manor' || e.kind === 'toriiShrine') return 2.1
@@ -350,10 +361,11 @@ function RallyMarkers() {
 
 export function EntityMeshes() {
   const ids = useGameStore((s) => s.entityIds)
+  const matchId = useGameStore((s) => s.matchId)
   return (
     <group>
       {ids.map((id) => (
-        <EntityInstance key={id} id={id} />
+        <EntityInstance key={`${matchId}-${id}`} id={id} />
       ))}
       <PlacementGhost />
       <RallyMarkers />

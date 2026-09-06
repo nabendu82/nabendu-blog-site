@@ -7,6 +7,8 @@ import { COLORS } from '../../game/constants'
 import { useGameStore } from '../../game/store'
 import type { Civilization, Team, UnitKind } from '../../game/types'
 import { HistoricalHat, UniformDetails } from './UniformDetails'
+import { RocketCarriage } from '../models/Industrial'
+import { Block } from '../models/Architecture'
 
 const SKIN = '#e8c4a2'
 const HAIR = '#2a1810'
@@ -197,6 +199,7 @@ function Humanoid({
   sack: RefObject<Group>
 }) {
   const civ = useGameStore(s => team === 'enemy' ? s.enemyCiv : s.playerCiv)
+  const industrial = useGameStore(s => (team === 'enemy' ? s.enemyAge : s.playerAge) === 3)
   const skin = civ === 'indian' ? '#b98963' : civ === 'japanese' ? '#cfaa80' : '#d5b292'
   const coat = kind === 'villager' ? '#c6bba0' : kind === 'redcoat' ? '#993f36' : teamCoat(team)
   const accent = teamAccent(team)
@@ -214,6 +217,7 @@ function Humanoid({
   const shirt = samurai ? '#1c1917' : armored ? STEEL : coat
   const pants = villager ? '#695c48' : samurai ? '#303632' : musket ? '#d1c8ae' : PANTS
   const hat =
+    industrial && !villager && (civ === 'british' || civ === 'french') ? 'shako' :
     kind === 'redcoat' ? 'shako' : rider && (civ === 'british' || civ === 'french') ? 'tricorn' : villager && (civ === 'british' || civ === 'french') ? 'tricorn' :
     samurai
       ? 'kabuto'
@@ -241,7 +245,7 @@ function Humanoid({
             <cylinderGeometry args={[0.17, 0.12, 0.35, 10]} />
             <Mat color={shirt} roughness={armored ? 0.4 : 0.9} metalness={armored ? 0.6 : 0} />
           </mesh>
-          <UniformDetails civilian={villager} armored={armored} japanese={samurai || ashigaru} color={accent} musket={musket} />
+          <UniformDetails civilian={villager} armored={armored} japanese={samurai || ashigaru} color={accent} musket={musket} industrial={industrial} />
           <mesh position={[0, 0.05, 0.02]} castShadow>
             <boxGeometry args={[0.22, 0.06, 0.18]} />
             <Mat color={LEATHER} roughness={0.75} />
@@ -815,7 +819,7 @@ function AnimatedScout({
   )
 }
 
-function AnimatedCannon({ id }: { id: string }) {
+function AnimatedCannon({ id, heavy = false }: { id: string; heavy?: boolean }) {
   const root = useRef<Group>(null)
   const barrel = useRef<Group>(null)
   const wheels = useRef<Group>(null)
@@ -830,6 +834,13 @@ function AnimatedCannon({ id }: { id: string }) {
     if (e.dying) root.current.rotation.z += dt * 1.8
   })
   return <group ref={root}>
+    {heavy && <>
+      <Block at={[0, 0.4, -0.52]} size={[0.5, 0.16, 0.65]} color="#445f52" />
+      {[-1, 1].map(s => <group key={s}>
+        <Block at={[s * 0.26, 0.5, 0.05]} size={[0.035, 0.3, 0.58]} color="#3c554b" />
+        <Block at={[s * 0.285, 0.53, 0.05]} size={[0.025, 0.13, 0.15]} color="#b99c56" />
+      </group>)}
+    </>}
     <mesh position={[0, 0.3, -0.24]} rotation={[0.15, 0, 0]} castShadow><boxGeometry args={[0.42, 0.16, 1.15]} /><Mat color="#78603d" roughness={0.9} /></mesh>
     {[-1, 1].map(side => <mesh key={side} position={[side * 0.2, 0.45, 0.1]} castShadow><boxGeometry args={[0.1, 0.33, 0.55]} /><Mat color="#74573a" /></mesh>)}
     <group ref={wheels}>
@@ -848,7 +859,7 @@ function AnimatedCannon({ id }: { id: string }) {
   </group>
 }
 
-function AnimatedElephant({ id, siege }: { id: string; siege: boolean }) {
+function AnimatedElephant({ id, siege, royal = false }: { id: string; siege: boolean; royal?: boolean }) {
   const root = useRef<Group>(null)
   const t = useRef(0)
   const previous = useRef<{ x: number; z: number } | null>(null)
@@ -872,6 +883,16 @@ function AnimatedElephant({ id, siege }: { id: string; siege: boolean }) {
   const hide = '#6b6b70'
   return (
     <group ref={root}>
+      {royal && <>
+        <Block at={[0, 1.22, -0.05]} size={[0.82, 0.12, 0.8]} color="#aa8743" />
+        {[-1, 1].map(s => <group key={s}>
+          <Block at={[s * 0.43, 0.96, -0.05]} size={[0.06, 0.5, 0.8]} color={teamCoat(team)} />
+          {[0, 1, 2, 3].map(i => <Block key={i} at={[s * 0.47, 0.96, -0.35 + i * 0.2]} size={[0.035, 0.42, 0.12]} color="#aa995d" />)}
+          <Block at={[s * 0.33, 1.65, -0.32]} size={[0.05, 0.85, 0.05]} color="#b99a51" />
+        </group>)}
+        <Block at={[0, 2.07, -0.12]} size={[0.86, 0.12, 0.75]} color={teamCoat(team)} />
+        <Block at={[0, 2.15, -0.12]} size={[0.7, 0.05, 0.6]} color="#c2a45b" />
+      </>}
       <mesh position={[0, 0.85, 0.05]} rotation={[Math.PI / 2, 0, 0]} castShadow>
         <capsuleGeometry args={[0.42, 0.85, 6, 12]} />
         <Mat color={hide} roughness={0.75} />
@@ -921,7 +942,7 @@ function AnimatedElephant({ id, siege }: { id: string; siege: boolean }) {
         <Mat color={SKIN} />
       </mesh>
       {siege ? (
-        <mesh position={[0, 1.45, 0.35]} rotation={[0.4, 0, 0]} castShadow>
+        <mesh position={[0, 1.45, 0.35]} rotation={[Math.PI / 2 + 0.1, 0, 0]} castShadow>
           <cylinderGeometry args={[0.07, 0.08, 0.7, 8]} />
           <Mat color="#3f3f46" roughness={0.4} metalness={0.35} />
         </mesh>
@@ -936,6 +957,9 @@ function AnimatedElephant({ id, siege }: { id: string; siege: boolean }) {
 }
 
 export function AnimatedUnit({ id, kind }: { id: string; kind: UnitKind }) {
+  if (kind === 'rocket' || kind === 'flamingArrow') return <RocketCarriage id={id} japanese={kind === 'flamingArrow'} />
+  if (kind === 'heavyCannon') return <group scale={1.45}><AnimatedCannon id={id} heavy /></group>
+  if (kind === 'royalElephant') return <group scale={1.15}><AnimatedElephant id={id} siege royal /></group>
   if (kind === 'falconet') {
     return <AnimatedCannon id={id} />
   }

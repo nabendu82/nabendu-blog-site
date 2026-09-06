@@ -1,13 +1,14 @@
 "use client";
 
 import type { Civilization } from '../../game/types'
+import { IndustrialFacade } from './Industrial'
 import { Banner, Barrel, Block, Dome, MillSails, palettes, Roof, SurfaceMaterial, WindowFrame } from './Architecture'
 
 export type SettlementKind = 'townCenter' | 'house' | 'manor' | 'barracks' | 'mill' | 'lumberCamp' | 'miningCamp' | 'foundry' | 'caravanserai'
 
 /** Original historical architecture, kept inside the existing gameplay footprints. */
-export function SettlementModel({ kind, color = '#2f6fb8', civ = 'indian' }: {
-  kind: SettlementKind; color?: string; civ?: Civilization
+export function SettlementModel({ kind, color = '#2f6fb8', civ = 'indian', industrial = false }: {
+  kind: SettlementKind; color?: string; civ?: Civilization; industrial?: boolean
 }) {
   const p = palettes[civ]
   const town = kind === 'townCenter'
@@ -24,6 +25,7 @@ export function SettlementModel({ kind, color = '#2f6fb8', civ = 'indian' }: {
   const h = town ? 1.95 : manor ? 1.65 : military ? 1.45 : camp ? 1.1 : mill ? 1.75 : 1.25
   const front = d / 2 + 0.04
   return <group>
+    {industrial && <IndustrialFacade civ={civ} color={color} width={w} depth={d} height={h} />}
     <Block at={[0, 0.09, 0]} size={[w + 0.35, 0.18, d + 0.35]} color="#988b72" surface="stone" />
     <Block at={[0, h / 2 + 0.18, 0]} size={[w, h, d]} color={p.wall} surface={indian || japanese ? 'plaster' : 'stone'} />
     <Block at={[0, 0.28, 0]} size={[w + 0.06, 0.2, d + 0.06]} color={p.trim} surface="stone" />

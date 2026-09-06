@@ -1,6 +1,7 @@
 "use client";
 
-import { CIV_DETAILS, GAME_TITLE } from '../game/constants'
+import { useEffect, useState } from 'react'
+import { CIV_DETAILS, GAME_TITLE, INDUSTRIAL_CIVS } from '../game/constants'
 import { CivSelectionModal } from './CivSelectionModal'
 import { CommandBar } from './CommandBar'
 import { HelpButton, HelpOverlay } from './HelpOverlay'
@@ -52,10 +53,31 @@ function WinnerOverlay() {
   )
 }
 
+function IndustrialAnnouncement() {
+  const age = useGameStore(s => s.playerAge)
+  const civ = useGameStore(s => s.playerCiv)
+  const match = useGameStore(s => s.matchId)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    setVisible(age === 3)
+    if (age !== 3) return
+    const timer = setTimeout(() => setVisible(false), 7000)
+    return () => clearTimeout(timer)
+  }, [age, match])
+  if (!visible) return null
+  return <div role="status" className="absolute left-1/2 top-28 w-80 -translate-x-1/2 rounded border border-amber-400/70 bg-gradient-to-b from-[#392b18]/95 to-[#141c22]/95 px-6 py-5 text-center shadow-2xl">
+    <div className="text-[10px] uppercase tracking-[0.3em] text-amber-300">A new era for your empire</div>
+    <div className="my-1 text-3xl font-bold text-amber-100">IV · Industrial Age</div>
+    <div className="text-xs text-amber-200">{INDUSTRIAL_CIVS[civ].title}</div>
+    <div className="mt-3 text-xs leading-relaxed text-amber-50/70">Guard forces promoted · Economy improved<br />{INDUSTRIAL_CIVS[civ].workshop} unlocked</div>
+  </div>
+}
+
 export function HUD() {
   return (
     <div className="pointer-events-none absolute inset-0 z-10 flex flex-col">
       <MarqueeOverlay />
+      <IndustrialAnnouncement />
       <div className="flex items-start justify-between px-4 pt-0">
         <div className="pt-3 text-[11px] tracking-wide text-amber-100/80">
           {GAME_TITLE}

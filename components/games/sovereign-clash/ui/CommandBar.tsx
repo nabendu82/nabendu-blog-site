@@ -19,7 +19,7 @@ import {
   Wheat,
   Zap,
 } from 'lucide-react'
-import { COSTS, DISPLAY_NAMES, AGE_NAMES } from '../game/constants'
+import { COSTS, DISPLAY_NAMES, AGE_NAMES, AGE_ADVANCEMENTS, INDUSTRIAL_CIVS } from '../game/constants'
 import { canAfford, useGameStore } from '../game/store'
 import { isBuilding, isMilitary, isUnit, requiredAge, type Entity, type PlacementKind } from '../game/types'
 
@@ -71,14 +71,15 @@ function BuildBtn({
   placementKind: PlacementKind
   locked?: boolean
 }) {
+  const factoryCount = useGameStore(s => kind === 'factory' ? Object.values(s.entities).filter(e => e.kind === 'factory' && e.team === 'player' && !e.dying).length : 0)
   return (
     <ActionButton
-      disabled={!!locked || !canAfford(COSTS[kind], wood, food, gold)}
+      disabled={!!locked || factoryCount >= 2 || !canAfford(COSTS[kind], wood, food, gold)}
       onClick={() => useGameStore.getState().setPlacement(kind)}
     >
       {icon} {label}
       <div className="text-[10px] text-amber-200/70">
-        {locked ? `Requires ${AGE_NAMES[requiredAge(kind)]}` : costText(COSTS[kind])}
+        {locked ? `Requires ${AGE_NAMES[requiredAge(kind)]}` : factoryCount >= 2 ? 'Workshop limit reached (2)' : costText(COSTS[kind])}
       </div>
       {placementKind === kind && <div className="text-[10px] text-emerald-300">Click map to place</div>}
     </ActionButton>
@@ -129,7 +130,7 @@ export function CommandBar() {
       (u.kind === 'townCenter' ||
         u.kind === 'barracks' ||
         u.kind === 'caravanserai' ||
-        u.kind === 'foundry') &&
+        u.kind === 'foundry' || u.kind === 'factory') &&
       u.buildProgress >= 1,
   )
 
@@ -137,7 +138,7 @@ export function CommandBar() {
     count === 0
       ? null
       : count === 1
-        ? (DISPLAY_NAMES[e!.kind] ?? e!.kind)
+        ? (e!.kind === 'factory' ? INDUSTRIAL_CIVS[e!.team === 'enemy' ? useGameStore.getState().enemyCiv : playerCiv].workshop : DISPLAY_NAMES[e!.kind] ?? e!.kind)
         : `${count} selected`
 
   return (
@@ -277,26 +278,43 @@ export function CommandBar() {
               <PersonStanding size={14} className="mb-1 inline" /> Train Villager
               <div className="text-[10px] text-amber-200/70">{costText(COSTS.villager)}</div>
             </ActionButton>
-            {playerAge < 2 && (
+            {playerAge < 3 && (
               <ActionButton
                 disabled={
                   aging ||
-                  !canAfford(playerAge === 0 ? COSTS.commerce : COSTS.fortress, wood, food, gold)
+                  !canAfford(AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2].cost, wood, food, gold)
                 }
                 onClick={() => useGameStore.getState().startAgeUp()}
               >
                 <Crown size={14} className="mb-1 inline" />{' '}
-                {aging ? 'Advancing…' : playerAge === 0 ? 'Commerce Age' : 'Fortress Age'}
+                {aging ? 'Advancing…' : `${AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2].name} Age`}
                 <div className="text-[10px] text-amber-200/70">
                   {aging
                     ? `${Math.ceil(ageTimer)}s remaining`
-                    : costText(playerAge === 0 ? COSTS.commerce : COSTS.fortress)}
+                    : costText(AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2].cost)}
                 </div>
               </ActionButton>
             )}
           </>
         )}
 
+        {e?.kind === 'villager' && e.team === 'player' && (
+          <BuildBtn kind="factory" label={INDUSTRIAL_CIVS[playerCiv].workshop} icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 3} />
+        )}
+        {e?.kind === 'factory' && e.team === 'player' && e.buildProgress >= 1 && (
+          <ActionButton disabled={playerAge < 3 || !canAfford(COSTS[INDUSTRIAL_CIVS[playerCiv].artillery], wood, food, gold) || pop >= popCap} onClick={() => useGameStore.getState().train(INDUSTRIAL_CIVS[playerCiv].artillery)}>
+            Train {DISPLAY_NAMES[INDUSTRIAL_CIVS[playerCiv].artillery]}
+            <div className="text-[10px] text-amber-200/70">{costText(COSTS[INDUSTRIAL_CIVS[playerCiv].artillery])}</div>
+            <div className="text-[10px] text-amber-200/70">Workshop: +2 wood & gold / second · Limit 2</div>
+          </ActionButton>
+        )}
+        {e?.kind === 'townCenter' && e.team === 'player' && playerAge >= 2 && (
+          <div className="max-w-xs rounded border border-amber-500/40 bg-amber-950/60 p-3 text-xs text-amber-100">
+            <div className="mb-1 font-bold">IV · {INDUSTRIAL_CIVS[playerCiv].title}</div>
+            {INDUSTRIAL_CIVS[playerCiv].description}
+            <div className="mt-1 text-amber-200/70">Other troops +25% health & attack. Buildings +35% health. Gatherers +20% speed, +5 carry. Unlocks {INDUSTRIAL_CIVS[playerCiv].workshop}.</div>
+          </div>
+        )}
         {e?.kind === 'barracks' && e.team === 'player' && e.buildProgress >= 1 && (
           <>
             {playerCiv === 'indian' && (

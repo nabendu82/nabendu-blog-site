@@ -1,8 +1,11 @@
+import { applyIndustrialUpgrade } from './progression'
 import {
   AGGRO_RANGE,
   AI_COMMERCE_TIME,
   AI_DEFEND_RANGE,
   AI_FORTRESS_TIME,
+  AI_INDUSTRIAL_TIME,
+  INDUSTRIAL_CIVS,
   AI_INTERVAL,
   AI_MANOR_TIME,
   AI_WAVE1_TIME,
@@ -289,7 +292,7 @@ function tickAttackMove(e: Entity, entities: Entity[], all: Record<string, Entit
 }
 
 function tickTrample(e: Entity, entities: Entity[], dt: number): void {
-  if (e.kind !== 'mahout' && e.kind !== 'siegeElephant') return
+  if (e.kind !== 'mahout' && e.kind !== 'siegeElephant' && e.kind !== 'royalElephant') return
   for (const o of entities) {
     if (!enemiesOf(e.team, o) || isBuilding(o) || o.dying) continue
     if (dist(e.x, e.z, o.x, o.z) <= TRAMPLE_RADIUS) {
@@ -385,13 +388,16 @@ function goDropOrIdle(e: Entity, entities: Entity[], last: { x: number; z: numbe
 }
 
 function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
+  const s = useGameStore.getState()
+  const civ = e.team === 'player' ? s.playerCiv : s.enemyCiv
+  const maxCarry = (civ === 'french' ? 18 : CARRY_CAPACITY) + (e.industrialUpgraded ? 5 : 0)
   const node = e.order.targetId ? all[e.order.targetId] : null
   if (node && isResource(node)) e.gatherKind = node.kind as NonNullable<Entity['gatherKind']>
 
   if (!node || node.dying || node.amount <= 0) {
     const from = node ?? e
     const kind = node?.kind ?? e.gatherKind
-    if (e.carryAmount < CARRY_CAPACITY - 0.01 && tryChainGather(e, from, kind, entities, node?.id)) {
+    if (e.carryAmount < maxCarry - 0.01 && tryChainGather(e, from, kind, entities, node?.id)) {
       return
     }
     goDropOrIdle(e, entities, { x: from.x, z: from.z, id: node?.id ?? null })
@@ -405,10 +411,7 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
   }
 
   e.gatherTimer += dt
-  const s = useGameStore.getState()
-  const civ = e.team === 'player' ? s.playerCiv : s.enemyCiv
-  const gatherRate = civ === 'french' ? GATHER_PER_SEC * 1.25 : GATHER_PER_SEC
-  const maxCarry = civ === 'french' ? 18 : CARRY_CAPACITY
+  const gatherRate = GATHER_PER_SEC * (civ === 'french' ? 1.25 : 1) * (e.industrialUpgraded ? 1.2 : 1)
   const gained = gatherRate * dt
   const take = Math.min(gained, node.amount, maxCarry - e.carryAmount)
   if (take > 0) {
@@ -1005,7 +1008,7 @@ function laterWaveRoster(waveIndex: number, civ: Civilization): UnitKind[] {
   for (let i = 0; i < 8 + extra; i += 1) {
     kinds.push(config.core[i % config.core.length])
   }
-  kinds.push(config.siege)
+  kinds.push(useGameStore.getState().enemyAge === 3 ? INDUSTRIAL_CIVS[civ].artillery : config.siege)
   return kinds
 }
 
@@ -1048,6 +1051,11 @@ function tickAi(dt: number): void {
   if (s.enemyAge < 2 && s.gameTime >= AI_FORTRESS_TIME) {
     s.enemyAge = 2
     markHud()
+  }
+
+  if (s.gameTime >= AI_INDUSTRIAL_TIME) {
+    if (s.enemyAge !== 3) { s.enemyAge = 3; markHud() }
+    constructAiBuilding('factory', [{ x: ENEMY_BASE.x + 9, z: ENEMY_BASE.z - 9 }])
   }
 
   if (s.enemyAge >= 2 && !s.enemyBuiltFortress) {
@@ -1158,7 +1166,7 @@ export function tickSimulation(dt: number): void {
     if (s.ageTimer <= 0) {
       s.aging = false
       s.ageTimer = 0
-      s.playerAge = (s.playerAge + 1) as 0 | 1 | 2
+      s.playerAge = Math.min(3, s.playerAge + 1) as 0 | 1 | 2 | 3
       markHud()
       playSound('age')
     }
@@ -1172,6 +1180,7 @@ export function tickSimulation(dt: number): void {
       continue
     }
 
+    applyIndustrialUpgrade(e, e.team === 'player' ? s.playerCiv : s.enemyCiv, e.team === 'player' ? s.playerAge : s.enemyAge)
     if (e.kind === 'projectile') {
       tickProjectile(e, all, clampedDt)
       continue
@@ -1179,6 +1188,11 @@ export function tickSimulation(dt: number): void {
 
     if (isBuilding(e)) {
       tickTraining(e, clampedDt)
+      if (e.kind === 'factory' && e.buildProgress >= 1) {
+        e.amount += clampedDt * 2
+        const income = Math.floor(e.amount)
+        if (income > 0) { addResource(e.team, 'wood', income); addResource(e.team, 'gold', income); e.amount -= income }
+      }
       if (e.kind === 'sacredField') tickSacredField(e, clampedDt)
       if (e.kind === 'farm') tickFarm(e, clampedDt)
       if (e.kind === 'toriiShrine') tickToriiShrine(e, clampedDt)

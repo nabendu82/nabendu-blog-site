@@ -1,7 +1,9 @@
 import { create } from 'zustand'
+import { applyIndustrialUpgrade } from './progression'
 import {
-  AGE_UP_COMMERCE,
-  AGE_UP_FORTRESS,
+  AGE_ADVANCEMENTS,
+  INDUSTRIAL_CIVS,
+  FACTORY_LIMIT,
   BUILDING_STATS,
   CAMERA,
   COSTS,
@@ -419,12 +421,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const villager = selectedVillagers()[0]
     if (!villager) return false
     if (requiredAge(kind) > s.playerAge) return false
+    if (kind === 'factory' && Object.values(s.entities).filter(e => e.team === 'player' && e.kind === 'factory' && !e.dying).length >= FACTORY_LIMIT) return false
     if (!isPlacementValid(x, z, kind)) return false
     const cost = COSTS[kind]
     if (!spend(cost, 'player')) return false
 
     const id = allocId()
     const building = createBuilding(id, kind, 'player', x, z, false)
+    applyIndustrialUpgrade(building, s.playerCiv, s.playerAge)
     s.entities[id] = building
     villager.order = { type: 'build', x, z, targetId: id }
     const keep = kind === 'palisade'
@@ -537,6 +541,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!b || b.team !== 'player' || !isComplete(b) || b.dying) return
 
     const allowed =
+      (b.kind === 'factory' && kind === INDUSTRIAL_CIVS[s.playerCiv].artillery) ||
       (b.kind === 'townCenter' && kind === 'villager') ||
       (b.kind === 'barracks' &&
         (kind === 'sepoy' ||
@@ -621,11 +626,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   startAgeUp: () => {
     const s = get()
-    if (s.playerAge >= 2 || s.aging) return
+    if (s.playerAge >= 3 || s.aging) return
     const tc = selectedEntity()
     if (!tc || tc.kind !== 'townCenter' || tc.team !== 'player' || !isComplete(tc)) return
-    const cost = s.playerAge === 0 ? COSTS.commerce : COSTS.fortress
-    const duration = s.playerAge === 0 ? AGE_UP_COMMERCE : AGE_UP_FORTRESS
+    const { cost, duration } = AGE_ADVANCEMENTS[s.playerAge as 0 | 1 | 2]
     if (!spend(cost, 'player')) return
     s.aging = true
     s.ageTimer = duration
@@ -693,6 +697,7 @@ export function spawnUnit(kind: UnitKind, team: Team, near: Entity): Entity {
     near.x + towardX * d * 0.72,
     near.z + towardZ * d * 0.72,
   )
+  applyIndustrialUpgrade(unit, team === 'player' ? s.playerCiv : s.enemyCiv, team === 'player' ? s.playerAge : s.enemyAge)
   if (near.hasRally) {
     unit.order = { type: 'move', x: near.rallyX, z: near.rallyZ, targetId: null }
   }

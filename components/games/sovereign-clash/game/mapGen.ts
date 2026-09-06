@@ -35,6 +35,7 @@ export interface WorldSeed {
 
 function blank(id: string, kind: Entity['kind'], team: Team, x: number, z: number): Entity {
   return {
+    industrialUpgraded: false,
     id,
     kind,
     team,

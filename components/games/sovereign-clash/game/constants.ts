@@ -46,8 +46,8 @@ export const CIV_DETAILS: Record<
     bonusSummary: 'Sacred Fields & War Elephants',
     uniqueBonus:
       'Construct Sacred Fields that continuously generate passive food & gold without depleting resources. Train colossal Mahout Lancers and Siege Elephants that crush infantry with trample damage.',
-    uniqueUnits: ['Sepoy', 'Rajput', 'Gurkha', 'Sowar', 'Mahout Lancer', 'Siege Elephant'],
-    uniqueBuildings: ['Sacred Field', 'Caravanserai', 'Agra Fort'],
+    uniqueUnits: ['Sepoy', 'Rajput', 'Gurkha', 'Sowar', 'Mahout Lancer', 'Siege Elephant', 'Royal Siege Elephant (IV)'],
+    uniqueBuildings: ['Sacred Field', 'Caravanserai', 'Agra Fort', 'Royal Siege Workshop (IV)'],
     description:
       'Commands massive economic resilience and unmatched heavy elephant shock power across the battlefield.',
   },
@@ -62,8 +62,8 @@ export const CIV_DETAILS: Record<
     bonusSummary: 'Manor Boom & Redcoat Volleys',
     uniqueBonus:
       'Manors provide 15 population and automatically spawn a free Settler upon completion. British line infantry features elite Redcoat musketeers and legendary long-range Longbowmen.',
-    uniqueUnits: ['Longbowman', 'Pikeman', 'Redcoat', 'Hussar', 'Dragoon', 'Falconet'],
-    uniqueBuildings: ['Manor'],
+    uniqueUnits: ['Longbowman', 'Pikeman', 'Redcoat', 'Hussar', 'Dragoon', 'Falconet', 'Rocket Battery (IV)'],
+    uniqueBuildings: ['Manor', 'Royal Ordnance Factory (IV)'],
     description:
       'Rapid economy expansion through manor construction coupled with devastating musket line warfare.',
   },
@@ -78,8 +78,8 @@ export const CIV_DETAILS: Record<
     bonusSummary: 'Torii Shrines & Bushido Speed',
     uniqueBonus:
       'Torii Shrines grant 10 population and generate steady passive tribute. All melee infantry fight with Bushido discipline (+25% faster attack speed). Train lethal dual-blade Samurai and Naginata shock riders.',
-    uniqueUnits: ['Samurai', 'Yumi Archer', 'Ashigaru', 'Naginata Rider'],
-    uniqueBuildings: ['Torii Shrine', 'Tenshu'],
+    uniqueUnits: ['Samurai', 'Yumi Archer', 'Ashigaru', 'Naginata Rider', 'Flaming Arrow (IV)'],
+    uniqueBuildings: ['Torii Shrine', 'Tenshu', 'Shogunal Arsenal (IV)'],
     description:
       'Mastery of close-quarters sword combat, defensive pagoda castles, and shrine resource harvesting.',
   },
@@ -94,8 +94,8 @@ export const CIV_DETAILS: Record<
     bonusSummary: 'Rapid Gatherers & Armored Cuirassiers',
     uniqueBonus:
       'Settlers gather resources 25% faster with extra carry capacity. Châteaus generate steady Gold tribute (+2/s) and defensive arrow volleys. Fortress Age unlocks legendary heavy Cuirassier cavalry with devastating shock power.',
-    uniqueUnits: ['Crossbowman', 'Halberdier', 'Cuirassier'],
-    uniqueBuildings: ['Château'],
+    uniqueUnits: ['Crossbowman', 'Halberdier', 'Cuirassier', 'Heavy Cannon (IV)'],
+    uniqueBuildings: ['Château', 'Imperial Foundry (IV)'],
     description:
       'Exceptional civilian gathering velocity backed by French noble Châteaus and the most feared heavy shock cavalry in Europe.',
   },
@@ -110,6 +110,7 @@ export const ATTACK_COOLDOWN = 1
 export const AI_INTERVAL = 5
 export const AI_COMMERCE_TIME = 480
 export const AI_FORTRESS_TIME = 1080
+export const AI_INDUSTRIAL_TIME = 1800
 export const AI_WAVE1_TIME = 600
 export const AI_WAVE2_TIME = 1080
 export const AI_WAVE3_TIME = 1560
@@ -126,6 +127,7 @@ export const PALISADE_BUILD_TIME = 1.6
 export const SACRED_FIELD_BUILD_TIME = 3.4
 export const AGE_UP_COMMERCE = 25
 export const AGE_UP_FORTRESS = 35
+export const AGE_UP_INDUSTRIAL = 60
 export const AGGRO_RANGE = 22
 export const ATTACK_MOVE_AGGRO = 10
 export const GATHER_RANGE = 1.7
@@ -145,12 +147,28 @@ export const FOG_RES = 96
 export const TRAMPLE_DAMAGE = 6
 export const TRAMPLE_RADIUS = 1.7
 
-export const AGE_NAMES = ['Discovery', 'Commerce', 'Fortress'] as const
+export const AGE_NAMES = ['Discovery', 'Commerce', 'Fortress', 'Industrial'] as const
+export const AGE_ADVANCEMENTS = [
+  { name: 'Commerce', cost: { food: 800, gold: 0 }, duration: AGE_UP_COMMERCE },
+  { name: 'Fortress', cost: { food: 1200, gold: 1000 }, duration: AGE_UP_FORTRESS },
+  { name: 'Industrial', cost: { food: 2000, gold: 1200 }, duration: AGE_UP_INDUSTRIAL },
+] as const
+export const INDUSTRIAL_CIVS: Record<Civilization, { title: string; workshop: string; artillery: UnitKind; guards: UnitKind[]; description: string }> = {
+  indian: { title: 'Royal War Establishment', workshop: 'Royal Siege Workshop', artillery: 'royalElephant', guards: ['sepoy', 'gurkha', 'mahout', 'siegeElephant'], description: 'Royal Sepoys, Gurkhas and war elephants gain +40% health and attack. Armored siege elephants lead the assault.' },
+  british: { title: 'Royal Ordnance', workshop: 'Royal Ordnance Factory', artillery: 'rocket', guards: ['redcoat', 'hussar', 'dragoon'], description: 'Guard Redcoats and cavalry gain +40% health and attack. Long-range rocket batteries break clustered armies.' },
+  japanese: { title: 'Shogunal Arsenal', workshop: 'Shogunal Arsenal', artillery: 'flamingArrow', guards: ['samurai', 'ashigaru', 'naginata'], description: 'Exalted Samurai, Ashigaru and Naginata gain +40% health and attack. Flaming Arrow batteries provide mobile siege support.' },
+  french: { title: 'Grande Armée', workshop: 'Imperial Foundry', artillery: 'heavyCannon', guards: ['cuirassier', 'halberdier', 'crossbowman'], description: 'Guard Cuirassiers and infantry gain +40% health and attack. Heavy cannons deliver devastating siege volleys.' },
+}
+export const FACTORY_LIMIT = 2
 
 export const UNIT_STATS: Record<
   UnitKind,
   { hp: number; speed: number; attack: number; range: number; radius: number; splash?: number }
 > = {
+  rocket: { hp: 155, speed: 2.6, attack: 48, range: 15, radius: 0.8, splash: 3.2 },
+  heavyCannon: { hp: 230, speed: 2.0, attack: 62, range: 13, radius: 0.9, splash: 3.1 },
+  flamingArrow: { hp: 145, speed: 3.4, attack: 38, range: 12.5, radius: 0.75, splash: 2.5 },
+  royalElephant: { hp: 560, speed: 2.2, attack: 52, range: 11, radius: 1.15, splash: 3.0 },
   // Indian Units
   villager: { hp: 40, speed: 4.2, attack: 3, range: 1.55, radius: 0.38 },
   sepoy: { hp: 90, speed: 4.0, attack: 12, range: 7.5, radius: 0.4 },
@@ -181,6 +199,7 @@ export const UNIT_STATS: Record<
 }
 
 export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
+  rocket: 'siege', heavyCannon: 'siege', flamingArrow: 'siege', royalElephant: 'siege',
   villager: 'villager',
   sepoy: 'rangedInf',
   rajput: 'meleeInf',
@@ -207,6 +226,7 @@ export const BUILDING_STATS: Record<
   BuildingKind,
   { hp: number; radius: number; pop: number }
 > = {
+  factory: { hp: 650, radius: 2.5, pop: 0 },
   townCenter: { hp: 700, radius: 2.6, pop: 20 },
   barracks: { hp: 380, radius: 2.1, pop: 0 },
   house: { hp: 200, radius: 1.5, pop: 10 },
@@ -236,6 +256,12 @@ export const RESOURCE_STATS: Record<
 }
 
 export const COSTS: Record<string, { wood?: number; food?: number; gold?: number }> = {
+  industrial: { food: 2000, gold: 1200 },
+  factory: { wood: 600, gold: 400 },
+  rocket: { wood: 250, gold: 250 },
+  heavyCannon: { wood: 300, gold: 300 },
+  flamingArrow: { wood: 220, gold: 200 },
+  royalElephant: { food: 320, gold: 280 },
   // Indian
   villager: { wood: 100 },
   sepoy: { food: 50, gold: 40 },
@@ -288,6 +314,7 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
 }
 
 export const TRAIN_TIME: Record<UnitKind, number> = {
+  rocket: 30, heavyCannon: 35, flamingArrow: 25, royalElephant: 38,
   villager: 10,
   sepoy: 12,
   rajput: 11,
@@ -311,6 +338,7 @@ export const TRAIN_TIME: Record<UnitKind, number> = {
 }
 
 export const DISPLAY_NAMES: Record<string, string> = {
+  factory: 'Industrial Workshop', rocket: 'Rocket Battery', heavyCannon: 'Heavy Cannon', flamingArrow: 'Flaming Arrow', royalElephant: 'Royal Siege Elephant',
   villager: 'Villager',
   sepoy: 'Sepoy',
   rajput: 'Rajput',
