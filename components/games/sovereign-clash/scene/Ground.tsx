@@ -5,8 +5,11 @@ import type { ThreeEvent } from '@react-three/fiber'
 import { COLORS, MAP_SIZE } from '../game/constants'
 import { inputFlags } from '../game/input'
 import { hover, useGameStore } from '../game/store'
+import { TerrainSurface, useTerrainTexture } from './TerrainSurface'
 
 export function Ground() {
+  const terrain = useGameStore(s => s.terrain)
+  const texture = useTerrainTexture(terrain)
   const onMove = (e: ThreeEvent<PointerEvent>) => {
     hover.x = e.point.x
     hover.z = e.point.z
@@ -50,7 +53,7 @@ export function Ground() {
         onContextMenu={onContext}
       >
         <planeGeometry args={[MAP_SIZE, MAP_SIZE]} />
-        <meshStandardMaterial color={COLORS.grass} roughness={0.92} metalness={0} />
+        <meshStandardMaterial color={terrain === 'grassland' ? COLORS.grass : '#ffffff'} map={terrain === 'grassland' ? null : texture} roughness={0.92} metalness={0} />
       </mesh>
       <Grid
         args={[MAP_SIZE, MAP_SIZE]}
@@ -64,6 +67,7 @@ export function Ground() {
         fadeStrength={0.6}
         position={[0, 0.03, 0]}
       />
+      <TerrainSurface kind={terrain} />
     </group>
   )
 }

@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { isDry, isCrossing, nearestDry, setActiveTerrain, type TerrainKind } from './terrain'
 import { applyIndustrialUpgrade } from './progression'
 import {
   AGE_ADVANCEMENTS,
@@ -67,6 +68,7 @@ export function consumeHudDirty(): boolean {
 }
 
 export interface GameStore extends HudSlice {
+  terrain: TerrainKind
   entities: Record<string, Entity>
   matchId: number
   nextId: number
@@ -103,7 +105,7 @@ export interface GameStore extends HudSlice {
   setFormation: (mode: Formation) => void
   toggleMute: () => void
   restart: () => void
-  setCivilizations: (playerCiv: Civilization, enemyCiv: Civilization) => void
+  setCivilizations: (playerCiv: Civilization, enemyCiv: Civilization, terrain?: TerrainKind) => void
   openCivModal: () => void
   closeCivModal: () => void
 }
@@ -183,8 +185,10 @@ function freshWorld(
   playerCiv: Civilization = 'indian',
   enemyCiv: Civilization = 'british',
   civModalOpen = true,
+  terrain: TerrainKind = 'grassland',
 ) {
-  const world = generateWorld(enemyCiv)
+  setActiveTerrain(terrain)
+  const world = generateWorld(enemyCiv, terrain)
   view.targetX = PLAYER_BASE.x
   view.targetZ = PLAYER_BASE.z
   view.distance = CAMERA.defaultDistance
@@ -192,6 +196,7 @@ function freshWorld(
   tickFog(Object.values(world.entities))
   return {
     entities: world.entities,
+    terrain,
     matchId: worldGeneration + 1,
     nextId: world.nextId,
     enemyWood: 140,
@@ -291,6 +296,8 @@ export function addResource(team: Team, kind: 'wood' | 'food' | 'gold', amount: 
 
 export function isPlacementValid(x: number, z: number, kind: NonNullable<PlacementKind>): boolean {
   const radius = BUILDING_STATS[kind].radius
+  const terrain = useGameStore.getState().terrain
+  if (!isDry(terrain, x, z, radius + 0.5) || isCrossing(terrain, x, z)) return false
   if (Math.abs(x) > MAP_HALF - 3 || Math.abs(z) > MAP_HALF - 3) return false
   const { entities } = useGameStore.getState()
   const pad = kind === 'palisade' ? 0.08 : 0.7
@@ -651,14 +658,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   restart: () => {
     const current = get()
-    const next = freshWorld(current.playerCiv, current.enemyCiv, false)
+    const next = freshWorld(current.playerCiv, current.enemyCiv, false, current.terrain)
     hudDirty = true
     setMuted(next.muted)
     set(next)
   },
 
-  setCivilizations: (playerCiv, enemyCiv) => {
-    const next = freshWorld(playerCiv, enemyCiv, false)
+  setCivilizations: (playerCiv, enemyCiv, terrain = get().terrain) => {
+    const next = freshWorld(playerCiv, enemyCiv, false, terrain)
     hudDirty = true
     setMuted(next.muted)
     set(next)
@@ -698,6 +705,9 @@ export function spawnUnit(kind: UnitKind, team: Team, near: Entity): Entity {
     near.z + towardZ * d * 0.72,
   )
   applyIndustrialUpgrade(unit, team === 'player' ? s.playerCiv : s.enemyCiv, team === 'player' ? s.playerAge : s.enemyAge)
+  const dry = nearestDry(s.terrain, unit.x, unit.z, unit.radius + 0.6)
+  unit.x = dry.x
+  unit.z = dry.z
   if (near.hasRally) {
     unit.order = { type: 'move', x: near.rallyX, z: near.rallyZ, targetId: null }
   }

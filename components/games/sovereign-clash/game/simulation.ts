@@ -492,6 +492,7 @@ function tickBuild(e: Entity, entities: Entity[], all: Record<string, Entity>, d
     return
   }
   const duration = buildDuration(site.kind)
+  playSound('build')
   const prevComplete = site.buildProgress >= 1
   site.buildProgress = Math.min(1, site.buildProgress + dt / duration)
   site.hp = Math.min(site.maxHp, site.hp + (site.maxHp * dt) / duration)

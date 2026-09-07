@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { TERRAINS, type TerrainKind } from '../game/terrain'
+import { TerrainPreview } from './TerrainPreview'
 import { Crown, Swords, ShieldAlert, Sparkles, X } from 'lucide-react'
 import { CIV_DETAILS } from '../game/constants'
 import { useGameStore } from '../game/store'
@@ -13,14 +15,23 @@ export function CivSelectionModal() {
   const currentP = useGameStore((s) => s.playerCiv)
   const currentE = useGameStore((s) => s.enemyCiv)
   const gameTime = useGameStore((s) => s.gameTime)
+  const currentTerrain = useGameStore(s => s.terrain)
+  const [selectedTerrain, setSelectedTerrain] = useState<TerrainKind>(currentTerrain)
 
   const [selectedPlayer, setSelectedPlayer] = useState<Civilization>(currentP ?? 'indian')
   const [selectedEnemy, setSelectedEnemy] = useState<Civilization>(currentE ?? 'british')
+  useEffect(() => {
+    if (civModalOpen) {
+      setSelectedPlayer(currentP)
+      setSelectedEnemy(currentE)
+      setSelectedTerrain(currentTerrain)
+    }
+  }, [civModalOpen, currentP, currentE, currentTerrain])
 
   if (!civModalOpen) return null
 
   const handleStart = () => {
-    useGameStore.getState().setCivilizations(selectedPlayer, selectedEnemy)
+    useGameStore.getState().setCivilizations(selectedPlayer, selectedEnemy, selectedTerrain)
   }
 
   const handleClose = () => {
@@ -173,7 +184,21 @@ export function CivSelectionModal() {
             </div>
           </div>
 
-          {/* SECTION 3: Match Summary & Unit Preview */}
+          <section aria-label="Battlefield terrain">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-amber-300">3. Choose your terrain</h3>
+            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+              {(Object.keys(TERRAINS) as TerrainKind[]).map(kind => <button
+                key={kind} type="button" aria-pressed={selectedTerrain === kind}
+                onClick={() => setSelectedTerrain(kind)}
+                className={`rounded-xl border p-3 text-left transition ${selectedTerrain === kind ? 'border-amber-400 bg-amber-500/15 ring-2 ring-amber-400/40' : 'border-amber-700/30 bg-black/40 hover:border-amber-500/60'}`}>
+                <TerrainPreview kind={kind} />
+                <div className="text-sm font-bold text-amber-100">{TERRAINS[kind].name}</div>
+                <div className="mt-1 text-[11px] leading-relaxed text-amber-200/70">{TERRAINS[kind].description}</div>
+              </button>)}
+            </div>
+          </section>
+
+          {/* Match Summary & Unit Preview */}
           <div className="rounded-xl border border-amber-500/30 bg-black/50 p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border-l-2 border-emerald-500 pl-3">
               <div className="text-xs font-bold text-emerald-400 uppercase tracking-wide">
@@ -210,6 +235,7 @@ export function CivSelectionModal() {
           <div className="text-xs text-amber-200/70">
             Clash: <span className="text-emerald-400 font-semibold">{playerInfo.name}</span> vs{' '}
             <span className="text-rose-400 font-semibold">{enemyInfo.name}</span>
+            <div className="mt-1 text-amber-300">{TERRAINS[selectedTerrain].name}</div>
           </div>
 
           <button

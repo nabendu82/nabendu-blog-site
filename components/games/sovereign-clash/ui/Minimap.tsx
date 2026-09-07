@@ -5,6 +5,7 @@ import { FOG_RES, MAP_SIZE } from '../game/constants'
 import { fogExplored, fogVisible } from '../game/fog'
 import { useGameStore, view } from '../game/store'
 import { isResource, isUnit, type Entity } from '../game/types'
+import { isWater, isCrossing, TERRAINS } from '../game/terrain'
 
 const SIZE = 220
 
@@ -28,6 +29,7 @@ function colorFor(e: Entity): string {
 
 export function Minimap() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const terrain = useGameStore(s => s.terrain)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -35,10 +37,17 @@ export function Minimap() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     let raf = 0
+    const background = document.createElement('canvas')
+    background.width = SIZE; background.height = SIZE
+    const bg = background.getContext('2d')!
+    for (let x = 0; x < SIZE; x++) for (let y = 0; y < SIZE; y++) {
+      const wx = x / SIZE * MAP_SIZE - MAP_SIZE / 2, wz = y / SIZE * MAP_SIZE - MAP_SIZE / 2
+      bg.fillStyle = isWater(terrain,wx,wz) ? TERRAINS[terrain].water : isCrossing(terrain,wx,wz) ? '#c4b99e' : TERRAINS[terrain].land
+      bg.fillRect(x,y,1,1)
+    }
 
     const draw = () => {
-      ctx.fillStyle = '#1f3d1c'
-      ctx.fillRect(0, 0, SIZE, SIZE)
+      ctx.drawImage(background,0,0)
 
       const scale = SIZE / FOG_RES
       for (let i = 0; i < FOG_RES * FOG_RES; i += 1) {
@@ -81,7 +90,7 @@ export function Minimap() {
     }
     raf = requestAnimationFrame(draw)
     return () => cancelAnimationFrame(raf)
-  }, [])
+  }, [terrain])
 
   const onClick = (ev: MouseEvent<HTMLCanvasElement>) => {
     const rect = ev.currentTarget.getBoundingClientRect()

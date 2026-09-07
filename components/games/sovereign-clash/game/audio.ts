@@ -1,12 +1,12 @@
 /**
  * Audio Engine for Sovereign Clash (Age of Empires style 3D RTS).
- * - Background Music: Soft, soothing Indian classical Sarod & Dilruba soundtrack ("Dhaka")
- *   kept at a gentle ambient level (~0.13 volume) so environmental & combat SFX take priority.
+ * - Background Music: Original "Frontier Dawn" — harp, flute and warm strings.
+ *   Mixed below environmental and combat SFX so actions remain clear.
  * - Sound Effects: Full dynamic range, uncompressed and punchy:
  *   - Villagers chopping timber (timber axe impact), mining gold (pickaxe clink), farming (scythe swish)
  *   - Steel sword clashes, gunpowder musket cracks, bow releases, and heavy siege detonations
  *   - Enemy raid horn alerts and royal fanfare
- * - Dynamic ducking: Background music automatically dips to 0.06 during active skirmishes.
+ * - Dynamic ducking: Music dips during skirmishes and gradually recovers afterward.
  */
 
 let ctx: AudioContext | null = null
@@ -17,12 +17,13 @@ let musicWanted = false
 let lastChop = 0
 let lastMine = 0
 let lastFarm = 0
+let lastBuild = 0
 let lastCombat = 0
 let combatWatch: number | null = null
 
 // Gentle ambient volume for background music so actions are front and center
-const BG_VOLUME_NORMAL = 0.13
-const BG_VOLUME_COMBAT = 0.06
+const BG_VOLUME_NORMAL = 0.24
+const BG_VOLUME_COMBAT = 0.09
 
 function ac(): AudioContext | null {
   if (muted || typeof window === 'undefined') return null
@@ -99,12 +100,7 @@ function initBgAudio(): HTMLAudioElement | null {
     audio.volume = BG_VOLUME_NORMAL
     audio.preload = 'auto'
 
-    // Use lightweight .m4a (AAC) if supported, else fallback to .mp3
-    if (audio.canPlayType && audio.canPlayType('audio/mp4; codecs="mp4a.40.2"')) {
-      audio.src = '/games/sovereign-clash/bg-music.m4a'
-    } else {
-      audio.src = '/games/sovereign-clash/bg-music.mp3'
-    }
+    audio.src = '/games/sovereign-clash/frontier-dawn.m4a'
 
     bgAudio = audio
   }
@@ -149,9 +145,9 @@ export function notifyCombat(): void {
     combatWatch = window.setInterval(() => {
       if (performance.now() - lastCombat > 4000) {
         if (bgAudio && !muted) {
-          bgAudio.volume = BG_VOLUME_NORMAL
+          bgAudio.volume = Math.min(BG_VOLUME_NORMAL, bgAudio.volume + 0.025)
         }
-        if (combatWatch !== null) {
+        if (combatWatch !== null && (!bgAudio || bgAudio.volume >= BG_VOLUME_NORMAL)) {
           window.clearInterval(combatWatch)
           combatWatch = null
         }
@@ -184,6 +180,7 @@ export function playSound(
     | 'chop'
     | 'mine'
     | 'farm'
+    | 'build'
     | 'spawn'
     | 'fanfare'
     | 'defeat'
@@ -195,6 +192,13 @@ export function playSound(
 ): void {
   const now = performance.now()
   switch (name) {
+    case 'build':
+      if (now - lastBuild < 420) return
+      lastBuild = now
+      tone(240, 0.075, 'triangle', 0.11, -85)
+      tone(720, 0.055, 'sine', 0.055, -150)
+      noiseBurst(0.035, 0.06, 1700)
+      break
     case 'sword':
       // Sharp steel clash + blade scrape
       tone(1050, 0.06, 'triangle', 0.18, -420)

@@ -53,6 +53,7 @@ function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
 }
 
 function ModelOf({ entity }: { entity: Entity }) {
+  const terrain = useGameStore(s => s.terrain)
   const accent = entity.team === 'enemy' ? COLORS.enemy : COLORS.player
   const civ = useGameStore(s => entity.team === 'enemy' ? s.enemyCiv : s.playerCiv)
   const industrial = useGameStore(s => (entity.team === 'enemy' ? s.enemyAge : s.playerAge) === 3)
@@ -102,7 +103,7 @@ function ModelOf({ entity }: { entity: Entity }) {
     case 'agraFort':
       return <group><AgraFortModel color={accent} />{industrial && <IndustrialFacade civ={civ} color={accent} width={2.8} depth={2.8} height={1.2} />}</group>
     case 'tree':
-      return <TreeModel scale={entity.scale} />
+      return <TreeModel scale={entity.scale} palm={terrain === 'oasis'} />
     case 'berryBush':
       return <BerryBushModel scale={entity.scale} />
     case 'goldMine':

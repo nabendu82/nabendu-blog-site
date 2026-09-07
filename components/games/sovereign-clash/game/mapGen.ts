@@ -1,3 +1,4 @@
+import { isDry, isCrossing, type TerrainKind } from './terrain'
 import {
   BUILDING_STATS,
   ENEMY_BASE,
@@ -164,7 +165,7 @@ function tooClose(
   return false
 }
 
-export function generateWorld(enemyCiv: import('./types').Civilization = 'british'): WorldSeed {
+export function generateWorld(enemyCiv: import('./types').Civilization = 'british', terrain: TerrainKind = 'grassland'): WorldSeed {
   const rand = mulberry32(42)
   const entities: Record<string, Entity> = {}
   let n = 1
@@ -263,6 +264,7 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
       if (Math.abs(x) > MAP_LIMIT || Math.abs(z) > MAP_LIMIT) continue
       if (nearBase(x, z)) continue
       const r = RESOURCE_STATS[kind].radius
+      if (!isDry(terrain, x, z, r + 2) || isCrossing(terrain, x, z)) continue
       if (tooClose(x, z, occupied, r + 0.7)) continue
       add(createResource(id(), kind, x, z, 0.8 + rand() * 0.4), pad)
       placed += 1
