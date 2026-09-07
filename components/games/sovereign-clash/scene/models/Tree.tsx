@@ -2,7 +2,7 @@
 
 import { BufferGeometry, Float32BufferAttribute, DoubleSide } from 'three'
 
-const fronds = new BufferGeometry()
+export const fronds = new BufferGeometry()
 const vertices: number[] = []
 for (let i = 0; i < 7; i++) {
   const a = i * Math.PI * 2 / 7

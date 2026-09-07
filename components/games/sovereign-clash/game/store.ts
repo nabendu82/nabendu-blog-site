@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { isDry, isCrossing, nearestDry, setActiveTerrain, type TerrainKind } from './terrain'
+import { isDry, isSailable, isCrossing, nearestDry, nearestWater, setActiveTerrain, bridgeHeight, terrainRoute, type TerrainKind } from './terrain'
+import { applyNavalCivilization } from './navy'
 import { applyIndustrialUpgrade } from './progression'
 import {
   AGE_ADVANCEMENTS,
@@ -20,7 +21,7 @@ import {
   createUnit,
   generateWorld,
 } from './mapGen'
-import { dist } from './pathfinding'
+import { clearMovementRoute, dist } from './pathfinding'
 import {
   canTrain,
   isBuilding,
@@ -29,6 +30,7 @@ import {
   isGatherable,
   isMilitary,
   isUnit,
+  isShip,
   requiredAge,
   type Age,
   type BuildingKind,
@@ -76,6 +78,7 @@ export interface GameStore extends HudSlice {
   enemyFood: number
   enemyGold: number
   aiTimer: number
+  navyTimer:number
   controlGroups: Record<number, string[]>
   manorTimer: number
   enemyBuiltUnique: boolean
@@ -105,6 +108,7 @@ export interface GameStore extends HudSlice {
   setFormation: (mode: Formation) => void
   toggleMute: () => void
   restart: () => void
+  unloadTransport: () => void
   setCivilizations: (playerCiv: Civilization, enemyCiv: Civilization, terrain?: TerrainKind) => void
   openCivModal: () => void
   closeCivModal: () => void
@@ -115,7 +119,7 @@ export function popCounts(entities: Record<string, Entity>): { pop: number; popC
   let popCap = 0
   for (const e of Object.values(entities)) {
     if (e.team !== 'player' || e.dying) continue
-    if (isUnit(e)) pop += 1
+    if (isUnit(e)) pop += 1 + (e.passengers?.length ?? 0)
     if (isBuilding(e) && isComplete(e)) popCap += BUILDING_STATS[e.kind as BuildingKind].pop
   }
   return { pop, popCap }
@@ -203,6 +207,7 @@ function freshWorld(
     enemyFood: 120,
     enemyGold: 80,
     aiTimer: 0,
+    navyTimer:0,
     controlGroups: {},
     manorTimer: 0,
     enemyBuiltUnique: false,
@@ -298,6 +303,8 @@ export function isPlacementValid(x: number, z: number, kind: NonNullable<Placeme
   const radius = BUILDING_STATS[kind].radius
   const terrain = useGameStore.getState().terrain
   if (!isDry(terrain, x, z, radius + 0.5) || isCrossing(terrain, x, z)) return false
+  if (bridgeHeight(terrain,x,z)>0) return false
+  if (kind === 'dock' && !nearestWater(terrain,x,z,1.7,6)) return false
   if (Math.abs(x) > MAP_HALF - 3 || Math.abs(z) > MAP_HALF - 3) return false
   const { entities } = useGameStore.getState()
   const pad = kind === 'palisade' ? 0.08 : 0.7
@@ -435,6 +442,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     const id = allocId()
     const building = createBuilding(id, kind, 'player', x, z, false)
+    if(kind==='dock') {const sea=nearestWater(s.terrain,x,z,1.7,6);if(sea)building.facing=Math.atan2(sea.x-x,sea.z-z)}
     applyIndustrialUpgrade(building, s.playerCiv, s.playerAge)
     s.entities[id] = building
     villager.order = { type: 'build', x, z, targetId: id }
@@ -489,6 +497,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     if (target.team === 'enemy' && (isUnit(target) || isBuilding(target))) {
       for (const u of units) {
+        if(u.attack<=0)continue
         u.order = { type: 'attack', x: target.x, z: target.z, targetId }
         u.attackTimer = Math.min(u.attackTimer, 0.2)
       }
@@ -498,13 +507,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     if (isGatherable(target)) {
-      const villagers = units.filter((u) => u.kind === 'villager')
+      const villagers = units.filter((u) => target.kind==='fish' ? u.kind==='fishingBoat' || (u.kind==='villager' && target.shoreFish) : u.kind==='villager')
       for (const u of villagers) {
         u.order = { type: 'gather', x: target.x, z: target.z, targetId }
         u.gatherTimer = 0
         u.gatherKind = target.kind as NonNullable<Entity['gatherKind']>
       }
       if (villagers.length > 0) return
+    }
+
+    if(target.kind==='transportShip' && target.team==='player') {
+      for(const u of units) if(!isShip(u))u.order={type:'board',x:target.x,z:target.z,targetId}
+      markHud();return
     }
 
     if (isBuilding(target) && target.team === 'player' && !isComplete(target)) {
@@ -548,6 +562,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!b || b.team !== 'player' || !isComplete(b) || b.dying) return
 
     const allowed =
+      (b.kind==='dock' && isShip({kind})) ||
       (b.kind === 'factory' && kind === INDUSTRIAL_CIVS[s.playerCiv].artillery) ||
       (b.kind === 'townCenter' && kind === 'villager') ||
       (b.kind === 'barracks' &&
@@ -664,6 +679,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set(next)
   },
 
+  unloadTransport: () => {
+    const s=get(), ship=selectedEntity()
+    if(!ship || ship.team!=='player' || ship.kind!=='transportShip' || ship.dying || !ship.passengers?.length)return
+    const remaining:Entity[]=[]
+    for(const passenger of ship.passengers) {
+      let placed=false
+      for(let r=2;r<=7 && !placed;r+=0.65)for(let i=0;i<24;i++) {
+        const x=ship.x+Math.cos(i*Math.PI/12)*r,z=ship.z+Math.sin(i*Math.PI/12)*r
+        if(!isDry(s.terrain,x,z,passenger.radius+0.2) || bridgeHeight(s.terrain,x,z)>0)continue
+        if(Object.values(s.entities).some(o=>!o.dying && o.kind!=='projectile' && !isShip(o) && Math.hypot(o.x-x,o.z-z)<o.radius+passenger.radius+0.1))continue
+        if(!terrainRoute(s.terrain,x,z,x,z,false,passenger.radius+0.1).length)continue
+        passenger.x=x;passenger.z=z;passenger.y=0;passenger.embarked=false;passenger.order={type:'idle',x,z,targetId:null}
+        clearMovementRoute(passenger)
+        s.entities[passenger.id]=passenger;placed=true;break
+      }
+      if(!placed)remaining.push(passenger)
+    }
+    ship.passengers=remaining;s.worldEpoch++;markHud();syncHud()
+  },
+
   setCivilizations: (playerCiv, enemyCiv, terrain = get().terrain) => {
     const next = freshWorld(playerCiv, enemyCiv, false, terrain)
     hudDirty = true
@@ -705,9 +740,20 @@ export function spawnUnit(kind: UnitKind, team: Team, near: Entity): Entity {
     near.z + towardZ * d * 0.72,
   )
   applyIndustrialUpgrade(unit, team === 'player' ? s.playerCiv : s.enemyCiv, team === 'player' ? s.playerAge : s.enemyAge)
-  const dry = nearestDry(s.terrain, unit.x, unit.z, unit.radius + 0.6)
+  const dry = isShip(unit) ? nearestWater(s.terrain,near.x,near.z,1.7) : nearestDry(s.terrain, unit.x, unit.z, unit.radius + 0.6)
+  if(!dry) return unit
   unit.x = dry.x
   unit.z = dry.z
+  if(isShip(unit)) {
+    const ships=Object.values(s.entities).filter(e=>isShip(e)&&!e.dying)
+    const free=(x:number,z:number)=>isSailable(s.terrain,x,z,1.7)&&ships.every(e=>Math.hypot(e.x-x,e.z-z)>e.radius+unit.radius+0.3)
+    let placed=free(unit.x,unit.z)
+    for(let r=2;r<=10&&!placed;r+=1.5)for(let i=0;i<16;i++) {
+      const x=dry.x+Math.cos(i*Math.PI/8)*r,z=dry.z+Math.sin(i*Math.PI/8)*r
+      if(free(x,z)){unit.x=x;unit.z=z;placed=true;break}
+    }
+  }
+  if(isShip(unit))applyNavalCivilization(unit,team==='player'?s.playerCiv:s.enemyCiv)
   if (near.hasRally) {
     unit.order = { type: 'move', x: near.rallyX, z: near.rallyZ, targetId: null }
   }

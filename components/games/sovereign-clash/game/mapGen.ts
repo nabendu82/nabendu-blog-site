@@ -1,4 +1,4 @@
-import { isDry, isCrossing, type TerrainKind } from './terrain'
+import { isDry, isCrossing, isWater, nearestDry, riverCenter, type TerrainKind } from './terrain'
 import {
   BUILDING_STATS,
   ENEMY_BASE,
@@ -117,7 +117,7 @@ export function createBuilding(
 
 export function createResource(
   id: string,
-  kind: 'tree' | 'berryBush' | 'goldMine' | 'herd',
+  kind: 'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish',
   x: number,
   z: number,
   scale = 1,
@@ -318,6 +318,23 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     [0, 40, 3, 2.0],
   ]
   for (const [x, z, n, s] of herds) placeCluster('herd', x, z, n, s)
+
+  const fish=(x:number,z:number)=>{
+    if(!isWater(terrain,x,z))return
+    const e=createResource(id(),'fish',x,z)
+    const shore=nearestDry(terrain,x,z,1.7)
+    e.shoreFish=Math.hypot(shore.x-x,shore.z-z)<=4.2
+    add(e,0)
+  }
+  if(terrain==='river') {
+    for(let z=-68;z<=68;z+=12){fish(riverCenter(z)-6.2,z);fish(riverCenter(z)+6.2,z+2)}
+  } else if(terrain!=='grassland') {
+    const pools=terrain==='lake' ? [[0,0,29,35]] : [[-24,13,16,22],[24,-13,16,22]]
+    for(const [cx,cz,rx,rz] of pools) {
+      for(let i=0;i<12;i++){const a=i*Math.PI/6;fish(cx+Math.cos(a)*(rx-0.7),cz+Math.sin(a)*(rz-0.7))}
+      for(let i=0;i<6;i++){const a=i*Math.PI/3;fish(cx+Math.cos(a)*rx*0.45,cz+Math.sin(a)*rz*0.45)}
+    }
+  }
 
   return { entities, nextId: n }
 }

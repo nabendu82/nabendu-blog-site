@@ -231,6 +231,14 @@ export function HelpOverlay() {
             <Section title={economy.title} items={economy.items} />
             <Section title={military.title} items={military.items} />
             <Section title={enemy.title} items={enemy.items} />
+            <Section title="Water, fishing & fleets" items={[
+              'Choose Great Lake, Two Crossings or Amber Oasis in empire selection to enable naval play. Emerald Plains is the original land map.',
+              'Villagers can gather marked Shore Fish from the bank. Fishing boats can gather all fish, including deep shoals, and deliver food to a Dock.',
+              'Build Docks on dry land within 6 tiles of navigable water. Fishing boats unlock immediately, transports in Commerce, and cannon ships in Fortress.',
+              'To transport troops, bring a transport near shore, select land units and right-click it. Select the ship and choose Unload troops near a clear beach. Passengers are lost if their ship sinks.',
+              'Ships stay on connected waterways. The river has two raised bridges for land troops; ships can pass beneath both.',
+              'Indian boats fish faster; British frigates have longer range; Japanese ships have more health; French ships sail faster and transports hold 12 troops instead of 10.',
+            ]}/>
             <Section title="IV · Industrial Age" items={[
               'Advance from Fortress at a Town Center: 2,000 Food + 1,200 Gold, 60 seconds.',
               'Existing and future troops gain health and attack: +40% for civilization guard units, +25% for other military units. Damage is preserved.',

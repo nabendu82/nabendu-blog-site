@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo } from 'react'
+import { useMemo, useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { DataTexture, NearestFilter, RGBAFormat, UnsignedByteType } from 'three'
 import { FOG_RES, MAP_SIZE } from '../game/constants'
-import { fogExplored, fogVisible } from '../game/fog'
+import { fogExplored, fogVisible, fogRevision } from '../game/fog'
 
 export function FogPlane() {
+  const revision=useRef(-1)
   const tex = useMemo(() => {
     const t = new DataTexture(
       new Uint8Array(FOG_RES * FOG_RES * 4),
@@ -22,8 +23,11 @@ export function FogPlane() {
     return t
   }, [])
   const data = tex.image.data as Uint8Array
+  useEffect(()=>()=>tex.dispose(),[tex])
 
   useFrame(() => {
+    if(revision.current===fogRevision)return
+    revision.current=fogRevision
     for (let iz = 0; iz < FOG_RES; iz += 1) {
       for (let ix = 0; ix < FOG_RES; ix += 1) {
         const src = iz * FOG_RES + ix

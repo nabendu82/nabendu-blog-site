@@ -1,4 +1,7 @@
 import { applyIndustrialUpgrade } from './progression'
+import { nearby, prepareSpatial } from './spatial'
+import { NAVIES } from './navy'
+import { nearestDry, nearestWater, sameWater, bridgeHeight } from './terrain'
 import {
   AGGRO_RANGE,
   AI_COMMERCE_TIME,
@@ -65,6 +68,7 @@ import {
   isResource,
   isSiegeKind,
   isUnit,
+  isShip,
   requiredAge,
   type BuildingKind,
   type Civilization,
@@ -83,6 +87,7 @@ function startDeath(e: Entity): void {
   e.deathTimer = isBuilding(e) ? BUILDING_DEATH_DURATION : DEATH_DURATION
   e.order = idleOrder()
   e.trainQueue = []
+  e.passengers=[]
   if (isBuilding(e)) {
     if (e.team === 'player' || isInVision(e.x, e.z)) playSound('collapse')
     if (e.team === 'enemy' && e.kind === 'barracks') {
@@ -133,7 +138,7 @@ function applyDamage(e: Entity, amount: number, attacker?: Entity): void {
 }
 
 function enemiesOf(team: Team, e: Entity): boolean {
-  if (e.dying) return false
+  if (e.dying || e.embarked) return false
   if (team === 'player') return e.team === 'enemy' && (isUnit(e) || isBuilding(e))
   if (team === 'enemy') return e.team === 'player' && (isUnit(e) || isBuilding(e))
   return false
@@ -144,7 +149,7 @@ function dropoffFor(e: Entity, entities: Entity[]): Entity | null {
   return nearest(
     e,
     entities,
-    (b) => b.team === e.team && isDropoff(b, resource),
+    (b) => b.team === e.team && (e.kind==='fishingBoat' ? b.kind==='dock' && isComplete(b) && !b.dying && sameWater(useGameStore.getState().terrain,e,b) : isDropoff(b, resource)),
   )
 }
 
@@ -156,10 +161,12 @@ function findBestTarget(
   let best: Entity | null = null
   let bestScore = -Infinity
 
-  for (const o of entities) {
+  for (const o of nearby(entities,from.x,from.z,maxRange)) {
     if (!enemiesOf(from.team, o)) continue
     const d = dist(from.x, from.z, o.x, o.z)
     if (d > maxRange) continue
+    if(isShip(from) && !sameWater(useGameStore.getState().terrain,from,o))continue
+    if(!isShip(from) && isShip(o) && d>from.attackRange+o.radius+1)continue
 
     // Tactical Target Priority:
     // 1. Hostile military soldiers: +1000
@@ -182,7 +189,7 @@ function findBestTarget(
 }
 
 function autoAcquire(e: Entity, entities: Entity[]): void {
-  if (e.kind === 'villager') return
+  if (!isMilitary(e)) return
   if (e.order.type === 'attack') return
   const s = useGameStore.getState()
   const range = e.team === 'player' ? 28 : (e.hp < e.maxHp ? 40 : s.waveStarted ? 26 : AGGRO_RANGE)
@@ -217,6 +224,7 @@ function fireAt(
     const speed = isSiegeKind(e.kind) ? SIEGE_PROJECTILE_SPEED : PROJECTILE_SPEED
     all[id] = createProjectile(id, e.team, e.x, e.z, target.id, dmg, splash, speed)
     all[id].sourceId = e.id
+    useGameStore.getState().worldEpoch++
     all[id].order.x = target.x
     all[id].order.z = target.z
     markHud()
@@ -372,8 +380,9 @@ function tryChainGather(
   entities: Entity[],
   exceptId?: string | null,
 ): boolean {
-  if (kind !== 'tree' && kind !== 'berryBush' && kind !== 'goldMine' && kind !== 'herd') return false
-  const next = nearestSameResource(from, kind, entities, CHAIN_GATHER_RANGE, exceptId)
+  if (kind !== 'tree' && kind !== 'berryBush' && kind !== 'goldMine' && kind !== 'herd' && kind!=='fish') return false
+  const candidates=kind==='fish' ? entities.filter(o=>e.kind==='villager' ? o.shoreFish : sameWater(useGameStore.getState().terrain,e,o)) : entities
+  const next = nearestSameResource(from, kind, candidates, CHAIN_GATHER_RANGE, exceptId)
   if (!next) return false
   beginGather(e, next)
   return true
@@ -390,7 +399,7 @@ function goDropOrIdle(e: Entity, entities: Entity[], last: { x: number; z: numbe
 function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
   const s = useGameStore.getState()
   const civ = e.team === 'player' ? s.playerCiv : s.enemyCiv
-  const maxCarry = (civ === 'french' ? 18 : CARRY_CAPACITY) + (e.industrialUpgraded ? 5 : 0)
+  const maxCarry = (e.kind==='fishingBoat' ? 40 : civ === 'french' ? 18 : CARRY_CAPACITY) + (e.industrialUpgraded ? 5 : 0)
   const node = e.order.targetId ? all[e.order.targetId] : null
   if (node && isResource(node)) e.gatherKind = node.kind as NonNullable<Entity['gatherKind']>
 
@@ -404,14 +413,14 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
     return
   }
 
-  const reach = GATHER_RANGE + node.radius
+  const reach = node.kind==='fish' ? (e.kind==='villager' ? 4.2 : 2.5) : GATHER_RANGE + node.radius
   if (dist(e.x, e.z, node.x, node.z) > reach) {
-    moveTowards(e, node.x, node.z, dt, entities, reach, node.id)
+    moveTowards(e, node.x, node.z, dt, entities, node.kind==='fish' ? 0.2 : reach, node.id)
     return
   }
 
   e.gatherTimer += dt
-  const gatherRate = GATHER_PER_SEC * (civ === 'french' ? 1.25 : 1) * (e.industrialUpgraded ? 1.2 : 1)
+  const gatherRate = (e.kind==='fishingBoat' ? 8*(civ==='indian'?1.15:1) : GATHER_PER_SEC*(civ==='french'?1.25:1)) * (e.industrialUpgraded ? 1.2 : 1)
   const gained = gatherRate * dt
   const take = Math.min(gained, node.amount, maxCarry - e.carryAmount)
   if (take > 0) {
@@ -443,7 +452,7 @@ function tickReturn(e: Entity, entities: Entity[], all: Record<string, Entity>, 
     e.order = idleOrder()
     return
   }
-  const reach = DROPOFF_RANGE + tc.radius
+  const reach = e.kind==='fishingBoat' ? 6 : DROPOFF_RANGE + tc.radius
   const gap = dist(e.x, e.z, tc.x, tc.z)
   if (gap > reach) {
     const dx = e.x - tc.x
@@ -806,11 +815,15 @@ function civUniqueBuilding(civ: Civilization): BuildingKind {
   }
 }
 
+let constructionMatch=-1
+const constructionRetry=new Map<BuildingKind,number>()
 function constructAiBuilding(
   kind: BuildingKind,
   spots: { x: number; z: number }[],
 ): boolean {
   const s = useGameStore.getState()
+  if(constructionMatch!==s.matchId){constructionMatch=s.matchId;constructionRetry.clear()}
+  if(s.gameTime<(constructionRetry.get(kind)??0))return false
   const live = Object.values(s.entities).find(
     (e) => e.kind === kind && e.team === 'enemy' && !e.dying,
   )
@@ -823,7 +836,11 @@ function constructAiBuilding(
     }
   }
   const spot = candidates.find(p => isPlacementValid(p.x, p.z, kind))
-  if (!spot) return false
+  if (!spot) {
+    // A crowded base must not repeat dozens of whole-world placement checks every frame.
+    constructionRetry.set(kind,s.gameTime+2)
+    return false
+  }
   const id = allocId()
   s.entities[id] = createBuilding(id, kind, 'enemy', spot.x, spot.z, true)
   s.worldEpoch += 1
@@ -1017,6 +1034,24 @@ function tickAi(dt: number): void {
   const s = useGameStore.getState()
   s.gameTime += dt
   s.aiTimer += dt
+  s.navyTimer+=dt
+  if(s.terrain!=='grassland' && s.enemyAge>=1 && s.navyTimer>=25) {
+    s.navyTimer=0
+    let dock=Object.values(s.entities).find(e=>e.kind==='dock'&&e.team==='enemy'&&!e.dying)
+    if(!dock) {
+      const sea=nearestWater(s.terrain,ENEMY_BASE.x,ENEMY_BASE.z)
+      if(sea){const land=nearestDry(s.terrain,sea.x,sea.z,2.5);constructAiBuilding('dock',[land]);dock=Object.values(s.entities).find(e=>e.kind==='dock'&&e.team==='enemy'&&!e.dying);if(dock)dock.facing=Math.atan2(sea.x-dock.x,sea.z-dock.z)}
+    }
+    if(dock) {
+      const ships=Object.values(s.entities).filter(e=>e.team==='enemy'&&isShip(e)&&!e.dying)
+      if(ships.filter(e=>e.kind==='fishingBoat').length<2)spawnUnit('fishingBoat','enemy',dock)
+      else if(s.enemyAge>=2 && ships.filter(e=>e.kind==='warship').length<3)spawnUnit('warship','enemy',dock)
+      for(const ship of ships)if(ship.kind==='warship'&&ship.order.type==='idle'){
+        const target=nearest(ship,Object.values(s.entities),e=>e.team==='player'&&!e.dying&&(isShip(e)||e.kind==='dock')&&sameWater(s.terrain,ship,e))
+        if(target)ship.order={type:'attack',x:target.x,z:target.z,targetId:target.id}
+      }
+    }
+  }
   tickManors(dt)
   s.barracksRebuildTimer = Math.max(0, s.barracksRebuildTimer - dt)
 
@@ -1146,12 +1181,15 @@ function removeDead(entities: Entity[], all: Record<string, Entity>, dt: number)
   }
 }
 
+let fogAccum=0, fogMatch=-1
 export function tickSimulation(dt: number): void {
   const s = useGameStore.getState()
   if (s.helpOpen || s.civModalOpen || s.winner || !Number.isFinite(dt) || dt <= 0) return
   const clampedDt = Math.min(0.1, dt)
+  if(fogMatch!==s.matchId){fogMatch=s.matchId;fogAccum=0}
   const all = s.entities
   const entities = list(all)
+  prepareSpatial(entities)
   // Settle destruction before the result overlay, without spawning raids or fighting on.
   const ending = !entities.some(e => e.kind === 'townCenter' && e.team === 'player' && !e.dying)
     || !entities.some(e => e.kind === 'townCenter' && e.team === 'enemy' && !e.dying)
@@ -1210,6 +1248,15 @@ export function tickSimulation(dt: number): void {
     }
 
     switch (e.order.type) {
+      case 'board': {
+        const ship=e.order.targetId ? all[e.order.targetId] : null
+        const civ=e.team==='player'?s.playerCiv:s.enemyCiv
+        if(!ship || ship.dying || ship.team!==e.team || ship.kind!=='transportShip' || isShip(e) || (ship.passengers?.length??0)>=NAVIES[civ].capacity){e.order=idleOrder();break}
+        if(dist(e.x,e.z,ship.x,ship.z)<=6 && bridgeHeight(s.terrain,e.x,e.z)===0) {
+          ship.passengers??=[];ship.passengers.push(e);e.embarked=true;delete all[e.id];s.worldEpoch++;markHud()
+        } else moveTowards(e,ship.x,ship.z,clampedDt,entities,0.6,ship.id)
+        break
+      }
       case 'move':
         if (moveTowards(e, e.order.x, e.order.z, clampedDt, entities, 0.75)) {
           e.order = idleOrder()
@@ -1235,13 +1282,18 @@ export function tickSimulation(dt: number): void {
         tickAttackMove(e, entities, all, clampedDt)
         break
       default:
+        if(e.kind==='fishingBoat') {
+          e.gatherTimer+=clampedDt
+          if(e.gatherTimer>=1){e.gatherTimer=0;const fish=nearest(e,entities,o=>o.kind==='fish'&&!o.dying&&o.amount>0&&sameWater(s.terrain,e,o));if(fish)beginGather(e,fish)}
+        }
         autoAcquire(e, entities)
         break
     }
   }
 
   tickAi(clampedDt)
-  tickFog(entities)
+  fogAccum+=clampedDt
+  if(fogAccum>=0.15){fogAccum=0;tickFog(entities)}
   checkWinner()
 }
 

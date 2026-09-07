@@ -3,6 +3,7 @@ import { isBuilding, isComplete, isUnit, type Entity } from './types'
 
 export const fogExplored = new Uint8Array(FOG_RES * FOG_RES)
 export const fogVisible = new Uint8Array(FOG_RES * FOG_RES)
+export let fogRevision=0
 
 function cell(x: number, z: number): number {
   const cx = Math.floor(((x + MAP_HALF) / MAP_SIZE) * FOG_RES)
@@ -18,9 +19,10 @@ export function resetFog(): void {
 }
 
 export function tickFog(entities: Entity[]): void {
+  fogRevision++
   fogVisible.fill(0)
   for (const e of entities) {
-    if (e.dying || e.team !== 'player') continue
+    if (e.dying || e.embarked || e.team !== 'player') continue
     if (e.kind === 'projectile') continue
     if (isBuilding(e) && !isComplete(e)) continue
     if (!isUnit(e) && !isBuilding(e)) continue

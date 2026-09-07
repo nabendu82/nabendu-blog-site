@@ -20,6 +20,7 @@ import {
   Zap,
 } from 'lucide-react'
 import { COSTS, DISPLAY_NAMES, AGE_NAMES, AGE_ADVANCEMENTS, INDUSTRIAL_CIVS } from '../game/constants'
+import { NAVIES } from '../game/navy'
 import { canAfford, useGameStore } from '../game/store'
 import { isBuilding, isMilitary, isUnit, requiredAge, type Entity, type PlacementKind } from '../game/types'
 
@@ -87,6 +88,7 @@ function BuildBtn({
 }
 
 export function CommandBar() {
+  const terrain=useGameStore(s=>s.terrain)
   const selectedId = useGameStore((s) => s.selectedId)
   const selectedIds = useGameStore((s) => s.selectedIds)
   const wood = useGameStore((s) => s.wood)
@@ -130,7 +132,7 @@ export function CommandBar() {
       (u.kind === 'townCenter' ||
         u.kind === 'barracks' ||
         u.kind === 'caravanserai' ||
-        u.kind === 'foundry' || u.kind === 'factory') &&
+        u.kind === 'foundry' || u.kind === 'factory' || u.kind==='dock') &&
       u.buildProgress >= 1,
   )
 
@@ -138,12 +140,12 @@ export function CommandBar() {
     count === 0
       ? null
       : count === 1
-        ? (e!.kind === 'factory' ? INDUSTRIAL_CIVS[e!.team === 'enemy' ? useGameStore.getState().enemyCiv : playerCiv].workshop : DISPLAY_NAMES[e!.kind] ?? e!.kind)
+        ? (e!.kind === 'fishingBoat'||e!.kind === 'transportShip'||e!.kind === 'warship' ? NAVIES[e!.team==='enemy'?useGameStore.getState().enemyCiv:playerCiv][e!.kind] : e!.kind==='fish' ? e!.shoreFish?'Shore Fish':'Deep-water Fish' : e!.kind === 'factory' ? INDUSTRIAL_CIVS[e!.team === 'enemy' ? useGameStore.getState().enemyCiv : playerCiv].workshop : DISPLAY_NAMES[e!.kind] ?? e!.kind)
         : `${count} selected`
 
   return (
-    <div className="pointer-events-auto flex w-full max-w-6xl items-stretch gap-4 rounded-t-md border-x border-t border-amber-700/60 bg-gradient-to-b from-[#2c1e10] to-[#1a120a] px-4 py-3 shadow-2xl">
-      <div className="w-56 shrink-0 border-r border-amber-800/50 pr-4">
+    <div className="pointer-events-auto flex max-h-[38vh] w-full max-w-6xl items-stretch gap-3 overflow-y-auto rounded-t-md border-x border-t border-amber-700/60 bg-gradient-to-b from-[#2c1e10] to-[#1a120a] px-3 py-3 shadow-2xl sm:gap-4 sm:px-4">
+      <div className="w-28 shrink-0 border-r border-amber-800/50 pr-3 sm:w-56 sm:pr-4">
         {e ? (
           <>
             <div className="text-sm font-semibold tracking-wide text-amber-100">{title}</div>
@@ -301,6 +303,23 @@ export function CommandBar() {
         {e?.kind === 'villager' && e.team === 'player' && (
           <BuildBtn kind="factory" label={INDUSTRIAL_CIVS[playerCiv].workshop} icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 3} />
         )}
+        {e?.kind==='villager' && e.team==='player' && terrain!=='grassland' && <BuildBtn kind="dock" label="Dock · near shoreline" icon={<Castle size={14}/>} wood={wood} food={food} gold={gold} placementKind={placementKind}/>}
+        {e?.kind==='dock' && e.team==='player' && e.buildProgress>=1 && <>
+          {(['fishingBoat','transportShip','warship'] as const).map(kind=><ActionButton key={kind} disabled={playerAge<requiredAge(kind)||!canAfford(COSTS[kind],wood,food,gold)||pop>=popCap} onClick={()=>useGameStore.getState().train(kind)}>
+            {NAVIES[playerCiv][kind]}
+            <div className="text-[10px] text-amber-200/70">{playerAge<requiredAge(kind)?`Requires ${AGE_NAMES[requiredAge(kind)]}`:costText(COSTS[kind])}</div>
+          </ActionButton>)}
+          <div className="max-w-xs p-2 text-xs text-amber-200/80">{NAVIES[playerCiv].description}<div className="mt-1">Fishing boats deliver food here. Ships use connected waterways.</div></div>
+        </>}
+        {e?.kind==='transportShip' && e.team==='player' && <>
+          <ActionButton disabled={!e.passengers?.length} onClick={()=>useGameStore.getState().unloadTransport()}>
+            Unload troops · {e.passengers?.length??0}/{NAVIES[playerCiv].capacity}
+            <div className="text-[10px] text-amber-200/70">Sail within 7 tiles of a clear shoreline.</div>
+          </ActionButton>
+          <div className="max-w-xs p-2 text-xs text-amber-200/80">To board: bring the ship close to shore, select land troops and right-click the transport. Passengers count toward population.</div>
+        </>}
+        {e?.kind==='fishingBoat' && <div className="max-w-xs p-2 text-xs text-amber-200/80">Right-click fish to gather food. This boat also finds fish automatically and returns its catch to a Dock.</div>}
+        {e?.kind==='fish' && <div className="max-w-xs p-2 text-xs text-amber-200/80">{e.shoreFish?'Villagers can fish from the bank. Fishing boats can gather here too.':'Requires a fishing boat. Build a Dock on nearby dry shoreline.'}</div>}
         {e?.kind === 'factory' && e.team === 'player' && e.buildProgress >= 1 && (
           <ActionButton disabled={playerAge < 3 || !canAfford(COSTS[INDUSTRIAL_CIVS[playerCiv].artillery], wood, food, gold) || pop >= popCap} onClick={() => useGameStore.getState().train(INDUSTRIAL_CIVS[playerCiv].artillery)}>
             Train {DISPLAY_NAMES[INDUSTRIAL_CIVS[playerCiv].artillery]}

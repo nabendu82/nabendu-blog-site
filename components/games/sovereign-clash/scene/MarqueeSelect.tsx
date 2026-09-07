@@ -65,7 +65,7 @@ export function MarqueeSelect() {
       const ids: string[] = []
       for (const ent of Object.values(s.entities)) {
         if (!isUnit(ent) || ent.team !== 'player' || ent.dying) continue
-        scratch.set(ent.x, 0.6, ent.z).project(camera)
+        scratch.set(ent.x, ent.y + 0.6, ent.z).project(camera)
         const px = (scratch.x * 0.5 + 0.5) * rect.width + rect.left
         const py = (-scratch.y * 0.5 + 0.5) * rect.height + rect.top
         if (px >= left && px <= right && py >= top && py <= bottom) ids.push(ent.id)

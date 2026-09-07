@@ -17,6 +17,9 @@ export type UnitClass =
   | 'siege'
 
 export type UnitKind =
+  | 'fishingBoat'
+  | 'transportShip'
+  | 'warship'
   | 'rocket'
   | 'heavyCannon'
   | 'flamingArrow'
@@ -47,6 +50,7 @@ export type UnitKind =
   | 'cuirassier'
 
 export type BuildingKind =
+  | 'dock'
   | 'factory'
   | 'townCenter'
   | 'barracks'
@@ -68,6 +72,7 @@ export type BuildingKind =
   | 'chateau'
 
 export type EntityKind =
+  | 'fish'
   | UnitKind
   | BuildingKind
   | 'tree'
@@ -77,6 +82,7 @@ export type EntityKind =
   | 'projectile'
 
 export type OrderType =
+  | 'board'
   | 'idle'
   | 'move'
   | 'gather'
@@ -98,6 +104,9 @@ export interface TrainJob {
 }
 
 export interface Entity {
+  passengers?: Entity[]
+  shoreFish?: boolean
+  embarked?: boolean
   industrialUpgraded: boolean
   id: string
   kind: EntityKind
@@ -133,11 +142,12 @@ export interface Entity {
   rallyX: number
   rallyZ: number
   hasRally: boolean
-  gatherKind: 'tree' | 'berryBush' | 'goldMine' | 'herd' | null
+  gatherKind: 'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish' | null
   guard: boolean
 }
 
 export type PlacementKind =
+  | 'dock'
   | 'factory'
   | 'barracks'
   | 'house'
@@ -194,6 +204,7 @@ export function idleOrder(): Order {
 
 export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
   return (
+    isShip(e) ||
     e.kind === 'rocket' || e.kind === 'heavyCannon' || e.kind === 'flamingArrow' || e.kind === 'royalElephant' ||
     e.kind === 'villager' ||
     e.kind === 'sepoy' ||
@@ -220,6 +231,7 @@ export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
 
 export function isBuilding(e: Entity): boolean {
   return (
+    e.kind === 'dock' ||
     e.kind === 'factory' ||
     e.kind === 'townCenter' ||
     e.kind === 'barracks' ||
@@ -241,7 +253,7 @@ export function isBuilding(e: Entity): boolean {
 }
 
 export function isResource(e: Entity): boolean {
-  return e.kind === 'tree' || e.kind === 'berryBush' || e.kind === 'goldMine' || e.kind === 'herd'
+  return e.kind === 'fish' || e.kind === 'tree' || e.kind === 'berryBush' || e.kind === 'goldMine' || e.kind === 'herd'
 }
 
 export function isGatherable(e: Entity): boolean {
@@ -254,6 +266,7 @@ export function isDropoff(e: Entity, resource: ResourceKind | null = null): bool
   if (e.kind === 'townCenter') return true
   if (resource === 'wood' && e.kind === 'lumberCamp') return true
   if (resource === 'food' && e.kind === 'mill') return true
+  if (resource === 'food' && e.kind === 'dock') return true
   if (resource === 'gold' && e.kind === 'miningCamp') return true
   if (!resource) {
     return e.kind === 'lumberCamp' || e.kind === 'mill' || e.kind === 'miningCamp'
@@ -262,7 +275,11 @@ export function isDropoff(e: Entity, resource: ResourceKind | null = null): bool
 }
 
 export function isMilitary(e: Entity): boolean {
-  return isUnit(e) && e.kind !== 'villager'
+  return isUnit(e) && e.kind !== 'villager' && e.kind !== 'fishingBoat' && e.kind !== 'transportShip'
+}
+
+export function isShip(e: { kind: string }): boolean {
+  return e.kind === 'fishingBoat' || e.kind === 'transportShip' || e.kind === 'warship'
 }
 
 export function isComplete(e: Entity): boolean {
@@ -271,6 +288,7 @@ export function isComplete(e: Entity): boolean {
 
 export function canTrain(e: Entity): boolean {
   return (
+    e.kind === 'dock' ||
     e.kind === 'factory' ||
     e.kind === 'townCenter' ||
     e.kind === 'barracks' ||
@@ -280,6 +298,8 @@ export function canTrain(e: Entity): boolean {
 }
 
 export function requiredAge(kind: string): Age {
+  if (kind === 'warship') return 2
+  if (kind === 'transportShip') return 1
   if (kind === 'factory' || kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant') return 3
   if (
     kind === 'barracks' ||
@@ -319,6 +339,7 @@ export function requiredAge(kind: string): Age {
 
 export function isRangedKind(kind: string): boolean {
   return (
+    kind === 'warship' ||
     kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant' ||
     kind === 'sepoy' ||
     kind === 'gurkha' ||
@@ -345,5 +366,6 @@ export function isMusketKind(kind: string): boolean {
 }
 
 export function isSiegeKind(kind: string): boolean {
+  if (kind === 'warship') return true
   return kind === 'falconet' || kind === 'siegeElephant' || kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant'
 }

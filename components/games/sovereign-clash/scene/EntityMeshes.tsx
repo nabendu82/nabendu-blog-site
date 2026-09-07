@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useRef } from 'react'
+import { memo, useMemo, useRef } from 'react'
+import { DockModel, FishModel, ShipModel } from './models/Navy'
+import { InstancedForest } from './InstancedForest'
 import { useFrame, useThree } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
 import type { Group, Mesh } from 'three'
@@ -28,6 +30,7 @@ import { IndustrialWorkshop, IndustrialFacade } from './models/Industrial'
 function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
   const civ = useGameStore(s => s.playerCiv)
   const industrial = useGameStore(s => s.playerAge === 3)
+  if(kind==='dock')return <DockModel color="#4ade80"/>
   if (kind === 'factory') return <IndustrialWorkshop civ={civ} color="#4ade80" />
   if (kind === 'townCenter' || kind === 'house' || kind === 'manor' || kind === 'barracks' || kind === 'mill' || kind === 'lumberCamp' || kind === 'miningCamp' || kind === 'foundry' || kind === 'caravanserai') {
     return <SettlementModel kind={kind} civ={civ} color="#4ade80" industrial={industrial} />
@@ -58,6 +61,9 @@ function ModelOf({ entity }: { entity: Entity }) {
   const civ = useGameStore(s => entity.team === 'enemy' ? s.enemyCiv : s.playerCiv)
   const industrial = useGameStore(s => (entity.team === 'enemy' ? s.enemyAge : s.playerAge) === 3)
   const kind = entity.kind
+  if(kind==='dock')return <DockModel color={accent}/>
+  if(kind==='fish')return <FishModel shore={entity.shoreFish}/>
+  if(kind==='fishingBoat'||kind==='transportShip'||kind==='warship')return <ShipModel id={entity.id} kind={kind}/>
   if (kind === 'factory') return <IndustrialWorkshop civ={civ} color={accent} />
   if (kind === 'townCenter' || kind === 'house' || kind === 'manor' || kind === 'barracks' || kind === 'mill' || kind === 'lumberCamp' || kind === 'miningCamp' || kind === 'foundry' || kind === 'caravanserai') {
     return <SettlementModel kind={kind} color={accent} civ={civ} industrial={industrial} />
@@ -122,6 +128,9 @@ function ModelOf({ entity }: { entity: Entity }) {
 }
 
 function barHeight(e: Entity): number {
+  if(e.kind==='warship'||e.kind==='transportShip')return 4.2
+  if(e.kind==='fishingBoat')return 2.6
+  if(e.kind==='dock')return 2.3
   if (e.kind === 'factory') return 4.9
   if (e.kind === 'royalElephant') return 3
   if (e.kind === 'townCenter' || e.kind === 'agraFort' || e.kind === 'tenshu' || e.kind === 'chateau') return 3.6
@@ -156,7 +165,8 @@ function EntityInstance({ id }: { id: string }) {
   useFrame(() => {
     const e = useGameStore.getState().entities[id]
     const g = group.current
-    if (!e || !g) return
+    if (!g) return
+    if(!e){g.visible=false;return}
     g.position.set(e.x, e.y, e.z)
     g.rotation.y = e.facing
     const buildScale = isBuilding(e) ? 0.45 + 0.55 * e.buildProgress : 1
@@ -360,13 +370,16 @@ function RallyMarkers() {
   )
 }
 
+const MemoEntityInstance=memo(EntityInstance)
+
 export function EntityMeshes() {
   const ids = useGameStore((s) => s.entityIds)
   const matchId = useGameStore((s) => s.matchId)
   return (
     <group>
-      {ids.map((id) => (
-        <EntityInstance key={`${matchId}-${id}`} id={id} />
+      <InstancedForest key={matchId} ids={ids}/>
+      {ids.filter(id=>useGameStore.getState().entities[id]?.kind!=='tree').map((id) => (
+        <MemoEntityInstance key={`${matchId}-${id}`} id={id} />
       ))}
       <PlacementGhost />
       <RallyMarkers />

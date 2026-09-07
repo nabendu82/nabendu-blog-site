@@ -165,6 +165,9 @@ export const UNIT_STATS: Record<
   UnitKind,
   { hp: number; speed: number; attack: number; range: number; radius: number; splash?: number }
 > = {
+  fishingBoat: { hp: 110, speed: 4.2, attack: 0, range: 0, radius: 0.65 },
+  transportShip: { hp: 320, speed: 4.8, attack: 0, range: 0, radius: 1.1 },
+  warship: { hp: 540, speed: 3.5, attack: 38, range: 14, radius: 1.2, splash: 2.4 },
   rocket: { hp: 155, speed: 2.6, attack: 48, range: 15, radius: 0.8, splash: 3.2 },
   heavyCannon: { hp: 230, speed: 2.0, attack: 62, range: 13, radius: 0.9, splash: 3.1 },
   flamingArrow: { hp: 145, speed: 3.4, attack: 38, range: 12.5, radius: 0.75, splash: 2.5 },
@@ -199,6 +202,7 @@ export const UNIT_STATS: Record<
 }
 
 export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
+  fishingBoat: 'villager', transportShip: 'villager', warship: 'siege',
   rocket: 'siege', heavyCannon: 'siege', flamingArrow: 'siege', royalElephant: 'siege',
   villager: 'villager',
   sepoy: 'rangedInf',
@@ -227,6 +231,7 @@ export const BUILDING_STATS: Record<
   { hp: number; radius: number; pop: number }
 > = {
   factory: { hp: 650, radius: 2.5, pop: 0 },
+  dock: { hp: 420, radius: 1.7, pop: 0 },
   townCenter: { hp: 700, radius: 2.6, pop: 20 },
   barracks: { hp: 380, radius: 2.1, pop: 0 },
   house: { hp: 200, radius: 1.5, pop: 10 },
@@ -246,16 +251,18 @@ export const BUILDING_STATS: Record<
 }
 
 export const RESOURCE_STATS: Record<
-  'tree' | 'berryBush' | 'goldMine' | 'herd',
+  'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish',
   { amount: number; radius: number; resource: ResourceKind }
 > = {
   tree: { amount: 160, radius: 0.65, resource: 'wood' },
+  fish: { amount: 900, radius: 0.55, resource: 'food' },
   berryBush: { amount: 90, radius: 0.7, resource: 'food' },
   goldMine: { amount: 360, radius: 0.85, resource: 'gold' },
   herd: { amount: 80, radius: 0.72, resource: 'food' },
 }
 
 export const COSTS: Record<string, { wood?: number; food?: number; gold?: number }> = {
+  dock: { wood: 180 }, fishingBoat: { wood: 80 }, transportShip: { wood: 200, gold: 80 }, warship: { wood: 350, gold: 250 },
   industrial: { food: 2000, gold: 1200 },
   factory: { wood: 600, gold: 400 },
   rocket: { wood: 250, gold: 250 },
@@ -314,6 +321,7 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
 }
 
 export const TRAIN_TIME: Record<UnitKind, number> = {
+  fishingBoat: 14, transportShip: 25, warship: 35,
   rocket: 30, heavyCannon: 35, flamingArrow: 25, royalElephant: 38,
   villager: 10,
   sepoy: 12,
@@ -338,6 +346,7 @@ export const TRAIN_TIME: Record<UnitKind, number> = {
 }
 
 export const DISPLAY_NAMES: Record<string, string> = {
+  dock: 'Dock', fish: 'Fish Shoal', fishingBoat: 'Fishing Boat', transportShip: 'Transport Ship', warship: 'Cannon Ship',
   factory: 'Industrial Workshop', rocket: 'Rocket Battery', heavyCannon: 'Heavy Cannon', flamingArrow: 'Flaming Arrow', royalElephant: 'Royal Siege Elephant',
   villager: 'Villager',
   sepoy: 'Sepoy',
@@ -389,6 +398,7 @@ export const CAMERA = {
 }
 
 export function visionRange(kind: string, isBuilding: boolean): number {
+  if (kind === 'fishingBoat' || kind === 'transportShip' || kind === 'warship') return 18
   if (kind === 'sowar' || kind === 'hussar' || kind === 'dragoon' || kind === 'naginata' || kind === 'cuirassier') return 14
   if (kind === 'agraFort' || kind === 'tenshu' || kind === 'chateau' || kind === 'townCenter') return 13
   if (kind === 'falconet' || kind === 'siegeElephant') return 8

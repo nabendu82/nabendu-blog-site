@@ -21,6 +21,7 @@ function colorFor(e: Entity): string {
   if (e.team === 'player') return '#22d3ee'
   if (e.team === 'enemy') return '#f87171'
   if (e.kind === 'goldMine') return '#eab308'
+  if (e.kind === 'fish') return '#a5f3fc'
   if (e.kind === 'sacredField') return '#86efac'
   if (e.kind === 'tree') return '#166534'
   if (e.kind === 'berryBush' || e.kind === 'herd') return '#4ade80'
@@ -46,7 +47,10 @@ export function Minimap() {
       bg.fillRect(x,y,1,1)
     }
 
-    const draw = () => {
+    let lastDraw=-100
+    const draw = (now:number) => {
+      if(now-lastDraw<100){raf=requestAnimationFrame(draw);return}
+      lastDraw=now
       ctx.drawImage(background,0,0)
 
       const scale = SIZE / FOG_RES

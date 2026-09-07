@@ -20,6 +20,7 @@ let lastFarm = 0
 let lastBuild = 0
 let lastCombat = 0
 let combatWatch: number | null = null
+const lastWeaponSound:Record<string,number>={}
 
 // Gentle ambient volume for background music so actions are front and center
 const BG_VOLUME_NORMAL = 0.24
@@ -191,6 +192,10 @@ export function playSound(
     | 'raid',
 ): void {
   const now = performance.now()
+  if(name==='sword'||name==='musket'||name==='bow'||name==='siege'){
+    if(now-(lastWeaponSound[name]??-Infinity)<80)return
+    lastWeaponSound[name]=now
+  }
   switch (name) {
     case 'build':
       if (now - lastBuild < 420) return

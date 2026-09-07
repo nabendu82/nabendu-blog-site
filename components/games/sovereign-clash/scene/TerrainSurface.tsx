@@ -41,7 +41,6 @@ export function TerrainSurface({ kind }: { kind: TerrainKind }) {
     if (kind === 'lake') ellipse(0,0,29,35)
     if (kind === 'oasis') { ellipse(-24,13,16,22); ellipse(24,-13,16,22) }
     if (kind === 'river') for (let z=-80;z<80;z+=0.5) {
-      if (CROSSINGS.some(c=>Math.abs(z+0.25-c)<=5)) continue
       const a=riverCenter(z),b=riverCenter(z+0.5)
       vertices.push(a-7,0.05,z,b-7,0.05,z+0.5,a+7,0.05,z,a+7,0.05,z,b-7,0.05,z+0.5,b+7,0.05,z+0.5)
     }
@@ -60,10 +59,11 @@ export function TerrainSurface({ kind }: { kind: TerrainKind }) {
         fragmentShader={'uniform float time; uniform vec3 tint; varying vec2 world; void main(){float ripple=sin(world.x*1.4+world.y*0.7+time*0.9+sin(world.y*0.31))*sin(world.y*1.7-time*0.65); float gleam=pow(max(0.0,ripple),16.0)*0.055; gl_FragColor=vec4(tint*(0.91+ripple*0.045)+vec3(gleam),1.0);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}'} />
     </mesh>
     {kind === 'river' && CROSSINGS.map(z => <group key={z} position={[riverCenter(z), 0, z]}>
-      <Block at={[0, 0.025, 0]} size={[20, 0.05, 9.8]} color="#b4aa8c" surface="stone" />
+      <Block at={[0, 4.85, 0]} size={[16, 0.3, 9.8]} color="#b4aa8c" surface="stone" />
       {[-1,1].map(s => <group key={s}>
-        <Block at={[0, 0.12, s * 4.7]} size={[20, 0.24, 0.28]} color="#8a806c" surface="stone" />
-        {[-9,9].map(x => <Block key={x} at={[x, 0.45, s * 4.7]} size={[0.55, 0.9, 0.55]} color="#c4b99e" surface="stone" />)}
+        <Block at={[s*12.5,2.43,0]} size={[Math.hypot(9,5),0.18,9.8]} rotation={[0,0,-s*Math.atan2(5,9)]} color="#b4aa8c" surface="stone" />
+        <Block at={[0, 5.3, s * 4.7]} size={[16, 0.6, 0.28]} color="#8a806c" surface="stone" />
+        {[-7.8,7.8].map(x => <Block key={x} at={[x, 2.75, s * 4.6]} size={[0.65, 5.5, 0.7]} color="#c4b99e" surface="stone" />)}
       </group>)}
     </group>)}
   </group>

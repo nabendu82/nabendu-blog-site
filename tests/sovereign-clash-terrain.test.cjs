@@ -14,7 +14,7 @@ for (const terrain of Object.keys(TERRAINS)) {
     for (const civ of ['british','french','indian','japanese']) {
       const world=generateWorld(civ,terrain)
       assert.ok(Object.keys(world.entities).length>300)
-      for (const e of Object.values(world.entities)) assert.ok(isDry(terrain,e.x,e.z,e.radius),`${e.kind} ${e.x},${e.z}`)
+      for (const e of Object.values(world.entities)) assert.ok(e.kind==='fish' ? isWater(terrain,e.x,e.z) : isDry(terrain,e.x,e.z,e.radius),`${e.kind} ${e.x},${e.z}`)
     }
   })
   test(`${terrain}: both armies can reach the opposing base without entering water`,()=>{
