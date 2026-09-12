@@ -8,6 +8,7 @@ import {
   AI_DEFEND_RANGE,
   AI_FORTRESS_TIME,
   AI_INDUSTRIAL_TIME,
+  AI_MODERN_TIME,
   INDUSTRIAL_CIVS,
   AI_INTERVAL,
   AI_MANOR_TIME,
@@ -60,6 +61,8 @@ import {
 import {
   idleOrder,
   isBuilding,
+  canAttackTarget,
+  isModernUnit,
   isComplete,
   isDropoff,
   isGatherable,
@@ -114,6 +117,9 @@ function damageMultiplier(attacker: Entity, target: Entity): number {
   ) {
     m *= 1.65
   }
+  if (attacker.kind==='rocketTrooper' && ['tank','jeep','heavyArtillery','helicopter','destroyer'].includes(target.kind)) m *= 2.5
+  if (attacker.kind==='machineGunner' && (dc==='meleeInf'||dc==='rangedInf')) m *= 1.3
+  if (target.kind==='tank' && (ac==='meleeInf'||ac==='rangedInf') && attacker.kind!=='rocketTrooper') m *= 0.4
   if ((ac === 'siege' || attacker.kind === 'siegeElephant') && isBuilding(target)) m *= 3
   const s = useGameStore.getState()
   const civ = attacker.team === 'player' ? s.playerCiv : s.enemyCiv
@@ -124,7 +130,7 @@ function damageMultiplier(attacker: Entity, target: Entity): number {
 function applyDamage(e: Entity, amount: number, attacker?: Entity): void {
   if (e.dying) return
   e.hp -= amount
-  if (attacker && !attacker.dying && attacker.team !== e.team) {
+  if (attacker && !attacker.dying && attacker.team !== e.team && canAttackTarget(e,attacker)) {
     if (isUnit(e) && isMilitary(e)) {
       const s = useGameStore.getState()
       const currentTarget = e.order.targetId ? s.entities[e.order.targetId] : null
@@ -162,11 +168,11 @@ function findBestTarget(
   let bestScore = -Infinity
 
   for (const o of nearby(entities,from.x,from.z,maxRange)) {
-    if (!enemiesOf(from.team, o)) continue
+    if (!enemiesOf(from.team, o) || !canAttackTarget(from,o)) continue
     const d = dist(from.x, from.z, o.x, o.z)
     if (d > maxRange) continue
-    if(isShip(from) && !sameWater(useGameStore.getState().terrain,from,o))continue
-    if(!isShip(from) && isShip(o) && d>from.attackRange+o.radius+1)continue
+    if(isShip(from) && isShip(o) && !sameWater(useGameStore.getState().terrain,from,o))continue
+    if(!isShip(from) && from.kind!=='helicopter' && isShip(o) && d>from.attackRange+o.radius+1)continue
 
     // Tactical Target Priority:
     // 1. Hostile military soldiers: +1000
@@ -205,6 +211,7 @@ function fireAt(
   all: Record<string, Entity>,
   ranged: boolean,
 ): void {
+  if (!canAttackTarget(e,target)) return
   e.facing = Math.atan2(target.x - e.x, target.z - e.z)
   if (e.attackTimer > 0) return
 
@@ -214,6 +221,8 @@ function fireAt(
   if (civ === 'japanese' && !ranged) {
     cd *= 0.75 // Bushido: 25% faster melee attacks!
   }
+  if (e.kind === 'machineGunner' || e.kind === 'jeep') cd = 0.3
+  if (e.kind === 'heavyArtillery') cd = 3.2
   e.attackTimer = cd
 
   notifyCombat()
@@ -224,6 +233,7 @@ function fireAt(
     const speed = isSiegeKind(e.kind) ? SIEGE_PROJECTILE_SPEED : PROJECTILE_SPEED
     all[id] = createProjectile(id, e.team, e.x, e.z, target.id, dmg, splash, speed)
     all[id].sourceId = e.id
+    all[id].y = e.y + 1.2
     useGameStore.getState().worldEpoch++
     all[id].order.x = target.x
     all[id].order.z = target.z
@@ -239,7 +249,7 @@ function fireAt(
 
 function tickCombat(e: Entity, entities: Entity[], all: Record<string, Entity>, dt: number): void {
   let target = e.order.targetId ? all[e.order.targetId] : null
-  if (!target || target.dying) {
+  if (!target || target.dying || !canAttackTarget(e,target)) {
     const s = useGameStore.getState()
     const nearby = findBestTarget(e, entities, e.team === 'player' ? 30 : AGGRO_RANGE)
     if (nearby) {
@@ -263,7 +273,7 @@ function tickCombat(e: Entity, entities: Entity[], all: Record<string, Entity>, 
       e,
       entities,
       (o) =>
-        enemiesOf(e.team, o) &&
+        enemiesOf(e.team, o) && canAttackTarget(e,o) &&
         isMilitary(o) &&
         dist(e.x, e.z, o.x, o.z) <= Math.max(8, e.attackRange + 4),
     )
@@ -339,6 +349,7 @@ function tickProjectile(
     p.deathTimer = 0.05
     return
   }
+  if (target) p.y += (target.y + 1 - p.y) * Math.min(1,step / Math.max(d,0.01))
   p.x += (dx / d) * step
   p.z += (dz / d) * step
 }
@@ -380,7 +391,7 @@ function tryChainGather(
   entities: Entity[],
   exceptId?: string | null,
 ): boolean {
-  if (kind !== 'tree' && kind !== 'berryBush' && kind !== 'goldMine' && kind !== 'herd' && kind!=='fish') return false
+  if (kind !== 'tree' && kind !== 'berryBush' && kind !== 'goldMine' && kind !== 'herd' && kind!=='fish' && kind!=='oilWell' && kind!=='metalDeposit') return false
   const candidates=kind==='fish' ? entities.filter(o=>e.kind==='villager' ? o.shoreFish : sameWater(useGameStore.getState().terrain,e,o)) : entities
   const next = nearestSameResource(from, kind, candidates, CHAIN_GATHER_RANGE, exceptId)
   if (!next) return false
@@ -401,6 +412,7 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
   const civ = e.team === 'player' ? s.playerCiv : s.enemyCiv
   const maxCarry = (e.kind==='fishingBoat' ? 40 : civ === 'french' ? 18 : CARRY_CAPACITY) + (e.industrialUpgraded ? 5 : 0)
   const node = e.order.targetId ? all[e.order.targetId] : null
+  if (node && requiredAge(node.kind) > (e.team === 'player' ? s.playerAge : s.enemyAge)) { e.order = idleOrder(); return }
   if (node && isResource(node)) e.gatherKind = node.kind as NonNullable<Entity['gatherKind']>
 
   if (!node || node.dying || node.amount <= 0) {
@@ -413,6 +425,9 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
     return
   }
 
+  if (e.carryAmount > 0 && e.carryResource !== node.resourceType) {
+    beginReturn(e, {x: node.x, z: node.z, id: node.id}); return
+  }
   const reach = node.kind==='fish' ? (e.kind==='villager' ? 4.2 : 2.5) : GATHER_RANGE + node.radius
   if (dist(e.x, e.z, node.x, node.z) > reach) {
     moveTowards(e, node.x, node.z, dt, entities, node.kind==='fish' ? 0.2 : reach, node.id)
@@ -428,7 +443,7 @@ function tickGather(e: Entity, entities: Entity[], all: Record<string, Entity>, 
     e.carryAmount += take
     e.carryResource = node.resourceType
     if (node.resourceType === 'wood') playSound('chop')
-    else if (node.resourceType === 'gold') playSound('mine')
+    else if (node.resourceType === 'gold' || node.resourceType === 'metal' || node.resourceType === 'petrol') playSound('mine')
     else playSound('farm')
   }
 
@@ -600,6 +615,8 @@ function splashHit(
 ): void {
   for (const o of Object.values(all)) {
     if (!enemiesOf(shooterTeam, o) || o.dying) continue
+    if ((o.kind==='helicopter') !== (all[at.targetId ?? '']?.kind==='helicopter')) continue
+    if (shooter && !canAttackTarget(shooter,o)) continue
     if (dist(at.x, at.z, o.x, o.z) <= radius) {
       applyDamage(o, amount, shooter)
     }
@@ -634,6 +651,7 @@ function spawnWave(kinds: UnitKind[]): Entity[] {
   if (!tc) return []
   const spawned: Entity[] = []
   kinds.forEach((kind, i) => {
+    if (isModernUnit({kind}) && !spend(COSTS[kind], 'enemy')) return
     const ang = (i / Math.max(1, kinds.length)) * Math.PI * 1.6 + 0.4
     const r = tc.radius + 3.2 + Math.floor(i / 6) * 1.6
     const id = allocId()
@@ -655,7 +673,14 @@ function assignEnemyGather(entities: Entity[]): void {
   const idle = entities.filter(
     (e) => e.kind === 'villager' && e.team === 'enemy' && !e.dying && e.order.type === 'idle',
   )
-  for (const v of idle) {
+  for (const [index,v] of idle.entries()) {
+    if (useGameStore.getState().enemyAge >= 4) {
+      const workers = entities.filter(e => e.team==='enemy' && e.kind==='villager' && !e.dying)
+      const desired = index % 2 === 0 ? 'oilWell' : 'metalDeposit'
+      const assigned = workers.filter(e => e.gatherKind===desired && e.order.type!=='idle').length
+      const deposit = assigned < 3 ? nearest(v,entities,o=>o.kind===desired && o.amount>0 && !o.dying) : null
+      if (deposit) { beginGather(v,deposit); continue }
+    }
     const node = nearest(
       v,
       entities,
@@ -1002,7 +1027,8 @@ function civWave(civ: Civilization, waveNumber: 1 | 2 | 3): UnitKind[] {
 }
 
 function laterWaveRoster(waveIndex: number, civ: Civilization): UnitKind[] {
-  const extra = Math.max(1, waveIndex - 3) * 4
+  if (useGameStore.getState().enemyAge >= 4) return ['rifleman','rifleman','machineGunner','machineGunner','rocketTrooper','tank','jeep','heavyArtillery','helicopter']
+  const extra = Math.min(24, Math.max(1, waveIndex - 3) * 4)
   const poolMap: Record<Civilization, { core: UnitKind[]; siege: UnitKind }> = {
     indian: {
       core: ['sepoy', 'rajput', 'sowar', 'gurkha', 'mahout'],
@@ -1045,13 +1071,20 @@ function tickAi(dt: number): void {
     if(dock) {
       const ships=Object.values(s.entities).filter(e=>e.team==='enemy'&&isShip(e)&&!e.dying)
       if(ships.filter(e=>e.kind==='fishingBoat').length<2)spawnUnit('fishingBoat','enemy',dock)
-      else if(s.enemyAge>=2 && ships.filter(e=>e.kind==='warship').length<3)spawnUnit('warship','enemy',dock)
-      for(const ship of ships)if(ship.kind==='warship'&&ship.order.type==='idle'){
+      else if(s.enemyAge>=4 && ships.filter(e=>e.kind==='destroyer').length<2 && spend(COSTS.destroyer,'enemy')) spawnUnit('destroyer','enemy',dock)
+      else if(s.enemyAge>=2 && s.enemyAge<4 && ships.filter(e=>e.kind==='warship').length<3)spawnUnit('warship','enemy',dock)
+      for(const ship of ships)if((ship.kind==='warship'||ship.kind==='destroyer')&&ship.order.type==='idle'){
         const target=nearest(ship,Object.values(s.entities),e=>e.team==='player'&&!e.dying&&(isShip(e)||e.kind==='dock')&&sameWater(s.terrain,ship,e))
         if(target)ship.order={type:'attack',x:target.x,z:target.z,targetId:target.id}
       }
     }
   }
+  if (s.gameTime >= AI_MODERN_TIME && s.enemyAge < 4) {
+    s.enemyAge = 4
+    for (const worker of Object.values(s.entities)) if(worker.team==='enemy' && worker.kind==='villager') worker.order=idleOrder()
+    markHud()
+  }
+  if (s.enemyAge >= 4) constructAiBuilding('helipad',[{x:ENEMY_BASE.x+12,z:ENEMY_BASE.z+8}])
   tickManors(dt)
   s.barracksRebuildTimer = Math.max(0, s.barracksRebuildTimer - dt)
 
@@ -1090,7 +1123,7 @@ function tickAi(dt: number): void {
   }
 
   if (s.gameTime >= AI_INDUSTRIAL_TIME) {
-    if (s.enemyAge !== 3) { s.enemyAge = 3; markHud() }
+    if (s.enemyAge < 3) { s.enemyAge = 3; markHud() }
     constructAiBuilding('factory', [{ x: ENEMY_BASE.x + 9, z: ENEMY_BASE.z - 9 }])
   }
 
@@ -1205,7 +1238,7 @@ export function tickSimulation(dt: number): void {
     if (s.ageTimer <= 0) {
       s.aging = false
       s.ageTimer = 0
-      s.playerAge = Math.min(3, s.playerAge + 1) as 0 | 1 | 2 | 3
+      s.playerAge = Math.min(4, s.playerAge + 1) as 0 | 1 | 2 | 3 | 4
       markHud()
       playSound('age')
     }
@@ -1251,7 +1284,7 @@ export function tickSimulation(dt: number): void {
       case 'board': {
         const ship=e.order.targetId ? all[e.order.targetId] : null
         const civ=e.team==='player'?s.playerCiv:s.enemyCiv
-        if(!ship || ship.dying || ship.team!==e.team || ship.kind!=='transportShip' || isShip(e) || (ship.passengers?.length??0)>=NAVIES[civ].capacity){e.order=idleOrder();break}
+        if(!ship || ship.dying || ship.team!==e.team || ship.kind!=='transportShip' || isShip(e) || e.kind==='helicopter' || (ship.passengers?.length??0)>=NAVIES[civ].capacity){e.order=idleOrder();break}
         if(dist(e.x,e.z,ship.x,ship.z)<=6 && bridgeHeight(s.terrain,e.x,e.z)===0) {
           ship.passengers??=[];ship.passengers.push(e);e.embarked=true;delete all[e.id];s.worldEpoch++;markHud()
         } else moveTowards(e,ship.x,ship.z,clampedDt,entities,0.6,ship.id)

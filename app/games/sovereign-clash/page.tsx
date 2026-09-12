@@ -56,10 +56,11 @@ export default function SovereignClashPage() {
             </h2>
             <p className="mt-1.5 text-sm leading-relaxed text-amber-50/90 sm:text-base">
               Establish and defend your sovereign settlement against advancing imperial forces.
+              Lead any of four civilizations from Discovery to the Modern Age.
               Gather <strong className="font-semibold text-amber-300">Food, Wood, and Gold</strong>,
-              build Mills, Barracks, and Caravanserais, train fierce{" "}
-              <strong className="font-semibold text-amber-200">Sepoys, Rajputs, Gurkhas, and Sowars</strong>,
-              and conquer the enemy stronghold across dynamic fog-of-war terrain.
+              then drill Petrol and Metal to equip a modern army. Command{" "}
+              <strong className="font-semibold text-amber-200">infantry, tanks, artillery, helicopters, and destroyers</strong>{" "}
+              across four terrains, from open plains to divided waterways.
             </p>
             <div className="mt-4 flex flex-wrap gap-4 border-t border-white/10 pt-3 text-xs text-amber-200/80">
               <div className="flex items-center gap-1.5">

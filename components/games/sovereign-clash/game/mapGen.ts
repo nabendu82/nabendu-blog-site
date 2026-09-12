@@ -84,6 +84,7 @@ export function createUnit(
 ): Entity {
   const stats = UNIT_STATS[kind]
   const e = blank(id, kind, team, x, z)
+  if (kind === 'helicopter') e.y = 5
   e.hp = stats.hp
   e.maxHp = stats.hp
   e.speed = stats.speed
@@ -117,7 +118,7 @@ export function createBuilding(
 
 export function createResource(
   id: string,
-  kind: 'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish',
+  kind: 'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish' | 'oilWell' | 'metalDeposit',
   x: number,
   z: number,
   scale = 1,
@@ -336,5 +337,19 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     }
   }
 
+  // Equal, generous reserves on each side; find clear land outside the starting base.
+  for (const side of [-1, 1]) {
+    for (const [kind, dx, dz] of [['oilWell', 15, -5], ['metalDeposit', -5, 16], ['oilWell', 20, 12], ['metalDeposit', 12, 23]] as const) {
+      const center = side * 55
+      const spot = nearestDry(terrain, center - side * dx, center - side * dz, 3)
+      for (let attempt = 0; attempt < 100; attempt++) {
+        const a = attempt * 2.4, r = Math.sqrt(attempt) * 1.8
+        const x = spot.x + Math.cos(a) * r, z = spot.z + Math.sin(a) * r
+        if (Math.abs(x)>74 || Math.abs(z)>74 || !isDry(terrain,x,z,3)) continue
+        if (Object.values(entities).some(e => Math.hypot(e.x-x,e.z-z)<e.radius+3)) continue
+        add(createResource(id(),kind,x,z),0); break
+      }
+    }
+  }
   return { entities, nextId: n }
 }

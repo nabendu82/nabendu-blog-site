@@ -2,9 +2,9 @@ export type Team = 'player' | 'enemy' | 'neutral'
 
 export type Civilization = 'indian' | 'british' | 'japanese' | 'french'
 
-export type ResourceKind = 'wood' | 'food' | 'gold'
+export type ResourceKind = 'wood' | 'food' | 'gold' | 'petrol' | 'metal'
 
-export type Age = 0 | 1 | 2 | 3
+export type Age = 0 | 1 | 2 | 3 | 4
 
 export type Formation = 'box' | 'line'
 
@@ -16,7 +16,14 @@ export type UnitClass =
   | 'elephant'
   | 'siege'
 
+export const MODERN_UNITS = ['rifleman', 'machineGunner', 'rocketTrooper', 'tank', 'heavyArtillery', 'jeep', 'helicopter', 'destroyer'] as const
+export function isModernUnit(e: { kind: string }): boolean { return (MODERN_UNITS as readonly string[]).includes(e.kind) }
+export function canAttackTarget(attacker: {kind: string}, target: {kind: string}): boolean {
+  return target.kind !== 'helicopter' || ['rifleman', 'machineGunner', 'rocketTrooper', 'jeep', 'helicopter', 'destroyer'].includes(attacker.kind)
+}
+
 export type UnitKind =
+  | typeof MODERN_UNITS[number]
   | 'fishingBoat'
   | 'transportShip'
   | 'warship'
@@ -50,6 +57,7 @@ export type UnitKind =
   | 'cuirassier'
 
 export type BuildingKind =
+  | 'helipad'
   | 'dock'
   | 'factory'
   | 'townCenter'
@@ -72,6 +80,7 @@ export type BuildingKind =
   | 'chateau'
 
 export type EntityKind =
+  | 'oilWell' | 'metalDeposit'
   | 'fish'
   | UnitKind
   | BuildingKind
@@ -142,11 +151,12 @@ export interface Entity {
   rallyX: number
   rallyZ: number
   hasRally: boolean
-  gatherKind: 'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish' | null
+  gatherKind: 'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish' | 'oilWell' | 'metalDeposit' | null
   guard: boolean
 }
 
 export type PlacementKind =
+  | 'helipad'
   | 'dock'
   | 'factory'
   | 'barracks'
@@ -173,6 +183,8 @@ export interface HudSlice {
   wood: number
   food: number
   gold: number
+  petrol: number
+  metal: number
   pop: number
   popCap: number
   selectedId: string | null
@@ -204,7 +216,7 @@ export function idleOrder(): Order {
 
 export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
   return (
-    isShip(e) ||
+    isModernUnit(e) || isShip(e) ||
     e.kind === 'rocket' || e.kind === 'heavyCannon' || e.kind === 'flamingArrow' || e.kind === 'royalElephant' ||
     e.kind === 'villager' ||
     e.kind === 'sepoy' ||
@@ -231,7 +243,7 @@ export function isUnit(e: Entity): e is Entity & { kind: UnitKind } {
 
 export function isBuilding(e: Entity): boolean {
   return (
-    e.kind === 'dock' ||
+    e.kind === 'helipad' || e.kind === 'dock' ||
     e.kind === 'factory' ||
     e.kind === 'townCenter' ||
     e.kind === 'barracks' ||
@@ -253,7 +265,7 @@ export function isBuilding(e: Entity): boolean {
 }
 
 export function isResource(e: Entity): boolean {
-  return e.kind === 'fish' || e.kind === 'tree' || e.kind === 'berryBush' || e.kind === 'goldMine' || e.kind === 'herd'
+  return e.kind === 'oilWell' || e.kind === 'metalDeposit' || e.kind === 'fish' || e.kind === 'tree' || e.kind === 'berryBush' || e.kind === 'goldMine' || e.kind === 'herd'
 }
 
 export function isGatherable(e: Entity): boolean {
@@ -267,7 +279,7 @@ export function isDropoff(e: Entity, resource: ResourceKind | null = null): bool
   if (resource === 'wood' && e.kind === 'lumberCamp') return true
   if (resource === 'food' && e.kind === 'mill') return true
   if (resource === 'food' && e.kind === 'dock') return true
-  if (resource === 'gold' && e.kind === 'miningCamp') return true
+  if ((resource === 'gold' || resource === 'petrol' || resource === 'metal') && e.kind === 'miningCamp') return true
   if (!resource) {
     return e.kind === 'lumberCamp' || e.kind === 'mill' || e.kind === 'miningCamp'
   }
@@ -279,7 +291,7 @@ export function isMilitary(e: Entity): boolean {
 }
 
 export function isShip(e: { kind: string }): boolean {
-  return e.kind === 'fishingBoat' || e.kind === 'transportShip' || e.kind === 'warship'
+  return e.kind === 'destroyer' || e.kind === 'fishingBoat' || e.kind === 'transportShip' || e.kind === 'warship'
 }
 
 export function isComplete(e: Entity): boolean {
@@ -288,7 +300,7 @@ export function isComplete(e: Entity): boolean {
 
 export function canTrain(e: Entity): boolean {
   return (
-    e.kind === 'dock' ||
+    e.kind === 'helipad' || e.kind === 'dock' ||
     e.kind === 'factory' ||
     e.kind === 'townCenter' ||
     e.kind === 'barracks' ||
@@ -298,6 +310,7 @@ export function canTrain(e: Entity): boolean {
 }
 
 export function requiredAge(kind: string): Age {
+  if (isModernUnit({kind}) || kind === 'helipad' || kind === 'oilWell' || kind === 'metalDeposit') return 4
   if (kind === 'warship') return 2
   if (kind === 'transportShip') return 1
   if (kind === 'factory' || kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant') return 3
@@ -338,6 +351,7 @@ export function requiredAge(kind: string): Age {
 }
 
 export function isRangedKind(kind: string): boolean {
+  if (isModernUnit({kind})) return true
   return (
     kind === 'warship' ||
     kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant' ||
@@ -357,6 +371,7 @@ export function isRangedKind(kind: string): boolean {
 }
 
 export function isMusketKind(kind: string): boolean {
+  if (['rifleman','machineGunner','jeep'].includes(kind)) return true
   return (
     kind === 'sepoy' ||
     kind === 'gurkha' ||
@@ -366,6 +381,7 @@ export function isMusketKind(kind: string): boolean {
 }
 
 export function isSiegeKind(kind: string): boolean {
+  if (['tank','heavyArtillery','destroyer','rocketTrooper','helicopter'].includes(kind)) return true
   if (kind === 'warship') return true
   return kind === 'falconet' || kind === 'siegeElephant' || kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant'
 }

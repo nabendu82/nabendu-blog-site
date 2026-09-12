@@ -47,7 +47,7 @@ for (const civ of Object.keys(INDUSTRIAL_CIVS)) {
     assert.equal(fresh.maxHp, max)
     assert.equal(fresh.hp, max)
     useGameStore.getState().startAgeUp()
-    assert.equal(useGameStore.getState().aging, false)
+    assert.equal(useGameStore.getState().aging, true) // Industrial can now advance to Modern.
   })
   test(`${civ}: unique artillery requires Industrial and the correct workshop`, () => {
     world(civ)

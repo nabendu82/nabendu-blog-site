@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from 'react'
-import { Apple, Coins, Crown, Flag, Swords, TreePine, Users, Volume2, VolumeOff } from 'lucide-react'
+import { Apple, Fuel, Pickaxe, Coins, Crown, Flag, Swords, TreePine, Users, Volume2, VolumeOff } from 'lucide-react'
 import {
   AGE_NAMES,
   AI_WAVE1_TIME,
@@ -52,6 +52,8 @@ export function TopBar() {
   const wood = useGameStore((s) => s.wood)
   const food = useGameStore((s) => s.food)
   const gold = useGameStore((s) => s.gold)
+  const petrol = useGameStore(s=>s.petrol)
+  const metal = useGameStore(s=>s.metal)
   const pop = useGameStore((s) => s.pop)
   const popCap = useGameStore((s) => s.popCap)
   const gameTime = useGameStore((s) => s.gameTime)
@@ -68,7 +70,7 @@ export function TopBar() {
   const enemyCivInfo = CIV_DETAILS[enemyCiv] ?? CIV_DETAILS.british
 
   return (
-    <div className="pointer-events-auto flex items-center justify-center gap-2.5 rounded-b-md border-x border-b border-amber-700/60 bg-gradient-to-b from-[#3a2a18] to-[#24180e] px-4 py-2 shadow-xl">
+    <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-2.5 rounded-b-md border-x border-b border-amber-700/60 bg-gradient-to-b from-[#3a2a18] to-[#24180e] px-4 py-2 shadow-xl">
       <button
         type="button"
         onClick={() => useGameStore.getState().openCivModal()}
@@ -83,6 +85,7 @@ export function TopBar() {
       <Chip icon={<TreePine size={18} />} value={Math.floor(wood)} label="Wood" color="text-emerald-400" />
       <Chip icon={<Apple size={18} />} value={Math.floor(food)} label="Food" color="text-red-400" />
       <Chip icon={<Coins size={18} />} value={Math.floor(gold)} label="Gold" color="text-yellow-400" />
+      {playerAge>=3 && <><Chip icon={<Fuel size={18}/>} value={Math.floor(petrol)} label="Petrol" color="text-cyan-300"/><Chip icon={<Pickaxe size={18}/>} value={Math.floor(metal)} label="Metal" color="text-slate-300"/></>}
       <Chip
         icon={<Users size={18} />}
         value={`${pop} / ${popCap}`}

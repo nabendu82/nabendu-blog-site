@@ -199,7 +199,7 @@ function Humanoid({
   sack: RefObject<Group>
 }) {
   const civ = useGameStore(s => team === 'enemy' ? s.enemyCiv : s.playerCiv)
-  const industrial = useGameStore(s => (team === 'enemy' ? s.enemyAge : s.playerAge) === 3)
+  const industrial = useGameStore(s => (team === 'enemy' ? s.enemyAge : s.playerAge) >= 3)
   const skin = civ === 'indian' ? '#b98963' : civ === 'japanese' ? '#cfaa80' : '#d5b292'
   const coat = kind === 'villager' ? '#c6bba0' : kind === 'redcoat' ? '#993f36' : teamCoat(team)
   const accent = teamAccent(team)
@@ -957,6 +957,7 @@ function AnimatedElephant({ id, siege, royal = false }: { id: string; siege: boo
 }
 
 export function AnimatedUnit({ id, kind }: { id: string; kind: UnitKind }) {
+  if(kind==='rifleman'||kind==='machineGunner'||kind==='rocketTrooper'||kind==='tank'||kind==='heavyArtillery'||kind==='jeep'||kind==='helicopter'||kind==='destroyer')return null
   if(kind==='fishingBoat'||kind==='transportShip'||kind==='warship')return null
   if (kind === 'rocket' || kind === 'flamingArrow') return <RocketCarriage id={id} japanese={kind === 'flamingArrow'} />
   if (kind === 'heavyCannon') return <group scale={1.45}><AnimatedCannon id={id} heavy /></group>

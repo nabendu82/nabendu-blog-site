@@ -1,4 +1,6 @@
 "use client";
+import { ModernUnit, DrillingSite, Helipad, ModernBuilding } from './models/Modern'
+import { isModernUnit } from '../game/types'
 
 import { memo, useMemo, useRef } from 'react'
 import { DockModel, FishModel, ShipModel } from './models/Navy'
@@ -29,12 +31,15 @@ import { IndustrialWorkshop, IndustrialFacade } from './models/Industrial'
 
 function GhostOf({ kind }: { kind: NonNullable<PlacementKind> }) {
   const civ = useGameStore(s => s.playerCiv)
-  const industrial = useGameStore(s => s.playerAge === 3)
+  const industrial = useGameStore(s => s.playerAge >= 3)
+  const modern = useGameStore(s => s.playerAge >= 4)
+  if (modern && ['factory','townCenter','barracks','miningCamp'].includes(kind)) return <ModernBuilding kind={kind} color="#4ade80" civ={civ}/>
   if(kind==='dock')return <DockModel color="#4ade80"/>
   if (kind === 'factory') return <IndustrialWorkshop civ={civ} color="#4ade80" />
   if (kind === 'townCenter' || kind === 'house' || kind === 'manor' || kind === 'barracks' || kind === 'mill' || kind === 'lumberCamp' || kind === 'miningCamp' || kind === 'foundry' || kind === 'caravanserai') {
     return <SettlementModel kind={kind} civ={civ} color="#4ade80" industrial={industrial} />
   }
+  if (kind === 'helipad') return <Helipad color="#4ade80"/>
   switch (kind) {
     case 'sacredField':
       return <SacredFieldModel color="#4ade80" />
@@ -59,8 +64,13 @@ function ModelOf({ entity }: { entity: Entity }) {
   const terrain = useGameStore(s => s.terrain)
   const accent = entity.team === 'enemy' ? COLORS.enemy : COLORS.player
   const civ = useGameStore(s => entity.team === 'enemy' ? s.enemyCiv : s.playerCiv)
-  const industrial = useGameStore(s => (entity.team === 'enemy' ? s.enemyAge : s.playerAge) === 3)
+  const industrial = useGameStore(s => (entity.team === 'enemy' ? s.enemyAge : s.playerAge) >= 3)
+  const modern = useGameStore(s => (entity.team === 'enemy' ? s.enemyAge : s.playerAge) >= 4)
   const kind = entity.kind
+  if (modern && ['factory','townCenter','barracks','miningCamp'].includes(kind)) return <ModernBuilding kind={kind} color={accent} civ={civ}/>
+  if(isModernUnit(entity) || (modern && kind==='villager'))return <ModernUnit id={entity.id} kind={kind} civ={civ} color={accent}/>
+  if(kind==='helipad')return <Helipad color={accent}/>
+  if(kind==='oilWell'||kind==='metalDeposit')return <DrillingSite metal={kind==='metalDeposit'}/>
   if(kind==='dock')return <DockModel color={accent}/>
   if(kind==='fish')return <FishModel shore={entity.shoreFish}/>
   if(kind==='fishingBoat'||kind==='transportShip'||kind==='warship')return <ShipModel id={entity.id} kind={kind}/>

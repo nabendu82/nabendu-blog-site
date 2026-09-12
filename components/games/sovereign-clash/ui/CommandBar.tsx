@@ -19,10 +19,10 @@ import {
   Wheat,
   Zap,
 } from 'lucide-react'
-import { COSTS, DISPLAY_NAMES, AGE_NAMES, AGE_ADVANCEMENTS, INDUSTRIAL_CIVS } from '../game/constants'
+import { COSTS, DISPLAY_NAMES, AGE_NAMES, AGE_ADVANCEMENTS, INDUSTRIAL_CIVS, MODERN_TRAINING } from '../game/constants'
 import { NAVIES } from '../game/navy'
 import { canAfford, useGameStore } from '../game/store'
-import { isBuilding, isMilitary, isUnit, requiredAge, type Entity, type PlacementKind } from '../game/types'
+import { isBuilding, isMilitary, isUnit, requiredAge, type Entity, type BuildingKind, type PlacementKind } from '../game/types'
 
 function ActionButton({
   disabled,
@@ -45,11 +45,13 @@ function ActionButton({
   )
 }
 
-function costText(cost: { wood?: number; food?: number; gold?: number }): string {
+function costText(cost: { wood?: number; food?: number; gold?: number; petrol?: number; metal?: number }): string {
   const parts: string[] = []
   if (cost.wood) parts.push(`${cost.wood} Wood`)
   if (cost.food) parts.push(`${cost.food} Food`)
   if (cost.gold) parts.push(`${cost.gold} Gold`)
+  if(cost.petrol) parts.push(`${cost.petrol} Petrol`)
+  if(cost.metal) parts.push(`${cost.metal} Metal`)
   return parts.join(' · ')
 }
 
@@ -72,10 +74,12 @@ function BuildBtn({
   placementKind: PlacementKind
   locked?: boolean
 }) {
+  const petrol = useGameStore(s=>s.petrol)
+  const metal = useGameStore(s=>s.metal)
   const factoryCount = useGameStore(s => kind === 'factory' ? Object.values(s.entities).filter(e => e.kind === 'factory' && e.team === 'player' && !e.dying).length : 0)
   return (
     <ActionButton
-      disabled={!!locked || factoryCount >= 2 || !canAfford(COSTS[kind], wood, food, gold)}
+      disabled={!!locked || factoryCount >= 2 || !canAfford(COSTS[kind], wood, food, gold, petrol, metal)}
       onClick={() => useGameStore.getState().setPlacement(kind)}
     >
       {icon} {label}
@@ -98,6 +102,8 @@ export function CommandBar() {
   const popCap = useGameStore((s) => s.popCap)
   const placementKind = useGameStore((s) => s.placementKind)
   const commandMode = useGameStore((s) => s.commandMode)
+  const petrol = useGameStore(s=>s.petrol)
+  const metal = useGameStore(s=>s.metal)
   const playerAge = useGameStore((s) => s.playerAge)
   const playerCiv = useGameStore((s) => s.playerCiv)
   const aging = useGameStore((s) => s.aging)
@@ -132,7 +138,7 @@ export function CommandBar() {
       (u.kind === 'townCenter' ||
         u.kind === 'barracks' ||
         u.kind === 'caravanserai' ||
-        u.kind === 'foundry' || u.kind === 'factory' || u.kind==='dock') &&
+        u.kind === 'helipad' || u.kind === 'foundry' || u.kind === 'factory' || u.kind==='dock') &&
       u.buildProgress >= 1,
   )
 
@@ -140,7 +146,7 @@ export function CommandBar() {
     count === 0
       ? null
       : count === 1
-        ? (e!.kind === 'fishingBoat'||e!.kind === 'transportShip'||e!.kind === 'warship' ? NAVIES[e!.team==='enemy'?useGameStore.getState().enemyCiv:playerCiv][e!.kind] : e!.kind==='fish' ? e!.shoreFish?'Shore Fish':'Deep-water Fish' : e!.kind === 'factory' ? INDUSTRIAL_CIVS[e!.team === 'enemy' ? useGameStore.getState().enemyCiv : playerCiv].workshop : DISPLAY_NAMES[e!.kind] ?? e!.kind)
+        ? (e!.kind === 'fishingBoat'||e!.kind === 'transportShip'||e!.kind === 'warship' ? NAVIES[e!.team==='enemy'?useGameStore.getState().enemyCiv:playerCiv][e!.kind] : e!.kind==='fish' ? e!.shoreFish?'Shore Fish':'Deep-water Fish' : e!.kind === 'factory' ? (playerAge >= 4 ? 'Vehicle Factory' : INDUSTRIAL_CIVS[e!.team === 'enemy' ? useGameStore.getState().enemyCiv : playerCiv].workshop) : DISPLAY_NAMES[e!.kind] ?? e!.kind)
         : `${count} selected`
 
   return (
@@ -274,34 +280,40 @@ export function CommandBar() {
         {e?.kind === 'townCenter' && e.team === 'player' && e.buildProgress >= 1 && (
           <>
             <ActionButton
-              disabled={!canAfford(COSTS.villager, wood, food, gold) || pop >= popCap}
+              disabled={!canAfford(COSTS.villager, wood, food, gold, petrol, metal) || pop >= popCap}
               onClick={() => useGameStore.getState().train('villager')}
             >
               <PersonStanding size={14} className="mb-1 inline" /> Train Villager
               <div className="text-[10px] text-amber-200/70">{costText(COSTS.villager)}</div>
             </ActionButton>
-            {playerAge < 3 && (
+            {playerAge < 4 && (
               <ActionButton
                 disabled={
                   aging ||
-                  !canAfford(AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2].cost, wood, food, gold)
+                  !canAfford(AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2 | 3].cost, wood, food, gold, petrol, metal)
                 }
                 onClick={() => useGameStore.getState().startAgeUp()}
               >
                 <Crown size={14} className="mb-1 inline" />{' '}
-                {aging ? 'Advancing…' : `${AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2].name} Age`}
+                {aging ? 'Advancing…' : `${AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2 | 3].name} Age`}
                 <div className="text-[10px] text-amber-200/70">
                   {aging
                     ? `${Math.ceil(ageTimer)}s remaining`
-                    : costText(AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2].cost)}
+                    : costText(AGE_ADVANCEMENTS[playerAge as 0 | 1 | 2 | 3].cost)}
                 </div>
               </ActionButton>
             )}
           </>
         )}
 
+        {hasVillager && <BuildBtn kind="helipad" label="Helipad" icon={<Zap size={14}/>} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 4} />}
+        {e && e.team==='player' && e.buildProgress>=1 && (MODERN_TRAINING[e.kind as BuildingKind] ?? []).map(kind => <ActionButton key={kind} disabled={playerAge<4 || !canAfford(COSTS[kind],wood,food,gold,petrol,metal) || pop>=popCap || e.trainQueue.length>=5} onClick={()=>useGameStore.getState().train(kind)}>
+          <Swords size={14} className="mb-1 inline" /> {DISPLAY_NAMES[kind]}
+          <div className="text-[10px] text-amber-200/70">{playerAge<4 ? 'Requires Modern Age' : costText(COSTS[kind])}</div>
+        </ActionButton>)}
+        {(e?.kind==='oilWell'||e?.kind==='metalDeposit') && <div className="max-w-xs p-2 text-xs text-amber-200">Modern Age workers drill here. Right-click with villagers selected; deliver supplies to a Mining Camp or Town Center.</div>}
         {e?.kind === 'villager' && e.team === 'player' && (
-          <BuildBtn kind="factory" label={INDUSTRIAL_CIVS[playerCiv].workshop} icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 3} />
+          <BuildBtn kind="factory" label={playerAge>=4 ? 'Vehicle Factory' : INDUSTRIAL_CIVS[playerCiv].workshop} icon={<Castle size={14} className="mb-1 inline" />} wood={wood} food={food} gold={gold} placementKind={placementKind} locked={playerAge < 3} />
         )}
         {e?.kind==='villager' && e.team==='player' && terrain!=='grassland' && <BuildBtn kind="dock" label="Dock · near shoreline" icon={<Castle size={14}/>} wood={wood} food={food} gold={gold} placementKind={placementKind}/>}
         {e?.kind==='dock' && e.team==='player' && e.buildProgress>=1 && <>
@@ -321,7 +333,7 @@ export function CommandBar() {
         {e?.kind==='fishingBoat' && <div className="max-w-xs p-2 text-xs text-amber-200/80">Right-click fish to gather food. This boat also finds fish automatically and returns its catch to a Dock.</div>}
         {e?.kind==='fish' && <div className="max-w-xs p-2 text-xs text-amber-200/80">{e.shoreFish?'Villagers can fish from the bank. Fishing boats can gather here too.':'Requires a fishing boat. Build a Dock on nearby dry shoreline.'}</div>}
         {e?.kind === 'factory' && e.team === 'player' && e.buildProgress >= 1 && (
-          <ActionButton disabled={playerAge < 3 || !canAfford(COSTS[INDUSTRIAL_CIVS[playerCiv].artillery], wood, food, gold) || pop >= popCap} onClick={() => useGameStore.getState().train(INDUSTRIAL_CIVS[playerCiv].artillery)}>
+          <ActionButton disabled={playerAge < 3 || !canAfford(COSTS[INDUSTRIAL_CIVS[playerCiv].artillery], wood, food, gold, petrol, metal) || pop >= popCap} onClick={() => useGameStore.getState().train(INDUSTRIAL_CIVS[playerCiv].artillery)}>
             Train {DISPLAY_NAMES[INDUSTRIAL_CIVS[playerCiv].artillery]}
             <div className="text-[10px] text-amber-200/70">{costText(COSTS[INDUSTRIAL_CIVS[playerCiv].artillery])}</div>
             <div className="text-[10px] text-amber-200/70">Workshop: +2 wood & gold / second · Limit 2</div>
@@ -339,21 +351,21 @@ export function CommandBar() {
             {playerCiv === 'indian' && (
               <>
                 <ActionButton
-                  disabled={!canAfford(COSTS.sepoy, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.sepoy, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('sepoy')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Sepoy
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.sepoy)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={!canAfford(COSTS.rajput, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.rajput, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('rajput')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Rajput
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.rajput)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={playerAge < 2 || !canAfford(COSTS.gurkha, wood, food, gold) || pop >= popCap}
+                  disabled={playerAge < 2 || !canAfford(COSTS.gurkha, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('gurkha')}
                 >
                   <Target size={14} className="mb-1 inline" /> Train Gurkha
@@ -367,21 +379,21 @@ export function CommandBar() {
             {playerCiv === 'british' && (
               <>
                 <ActionButton
-                  disabled={!canAfford(COSTS.pikeman, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.pikeman, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('pikeman')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Pikeman
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.pikeman)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={!canAfford(COSTS.longbowman, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.longbowman, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('longbowman')}
                 >
                   <Target size={14} className="mb-1 inline" /> Train Longbowman
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.longbowman)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={playerAge < 2 || !canAfford(COSTS.redcoat, wood, food, gold) || pop >= popCap}
+                  disabled={playerAge < 2 || !canAfford(COSTS.redcoat, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('redcoat')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Redcoat
@@ -395,21 +407,21 @@ export function CommandBar() {
             {playerCiv === 'japanese' && (
               <>
                 <ActionButton
-                  disabled={!canAfford(COSTS.ashigaru, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.ashigaru, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('ashigaru')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Ashigaru
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.ashigaru)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={!canAfford(COSTS.yumiArcher, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.yumiArcher, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('yumiArcher')}
                 >
                   <Target size={14} className="mb-1 inline" /> Train Yumi Archer
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.yumiArcher)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={playerAge < 2 || !canAfford(COSTS.samurai, wood, food, gold) || pop >= popCap}
+                  disabled={playerAge < 2 || !canAfford(COSTS.samurai, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('samurai')}
                 >
                   <Crown size={14} className="mb-1 inline" /> Train Samurai
@@ -423,14 +435,14 @@ export function CommandBar() {
             {playerCiv === 'french' && (
               <>
                 <ActionButton
-                  disabled={!canAfford(COSTS.crossbowman, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.crossbowman, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('crossbowman')}
                 >
                   <Target size={14} className="mb-1 inline" /> Train Crossbowman
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.crossbowman)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={!canAfford(COSTS.halberdier, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.halberdier, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('halberdier')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Halberdier
@@ -446,14 +458,14 @@ export function CommandBar() {
             {playerCiv === 'indian' && (
               <>
                 <ActionButton
-                  disabled={!canAfford(COSTS.sowar, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.sowar, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('sowar')}
                 >
                   <Zap size={14} className="mb-1 inline" /> Train Sowar
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.sowar)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={playerAge < 2 || !canAfford(COSTS.mahout, wood, food, gold) || pop >= popCap}
+                  disabled={playerAge < 2 || !canAfford(COSTS.mahout, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('mahout')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Mahout
@@ -467,14 +479,14 @@ export function CommandBar() {
             {playerCiv === 'british' && (
               <>
                 <ActionButton
-                  disabled={!canAfford(COSTS.hussar, wood, food, gold) || pop >= popCap}
+                  disabled={!canAfford(COSTS.hussar, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('hussar')}
                 >
                   <Zap size={14} className="mb-1 inline" /> Train Hussar
                   <div className="text-[10px] text-amber-200/70">{costText(COSTS.hussar)}</div>
                 </ActionButton>
                 <ActionButton
-                  disabled={playerAge < 2 || !canAfford(COSTS.dragoon, wood, food, gold) || pop >= popCap}
+                  disabled={playerAge < 2 || !canAfford(COSTS.dragoon, wood, food, gold, petrol, metal) || pop >= popCap}
                   onClick={() => useGameStore.getState().train('dragoon')}
                 >
                   <Swords size={14} className="mb-1 inline" /> Train Dragoon
@@ -487,7 +499,7 @@ export function CommandBar() {
 
             {playerCiv === 'japanese' && (
               <ActionButton
-                disabled={playerAge < 2 || !canAfford(COSTS.naginata, wood, food, gold) || pop >= popCap}
+                disabled={playerAge < 2 || !canAfford(COSTS.naginata, wood, food, gold, petrol, metal) || pop >= popCap}
                 onClick={() => useGameStore.getState().train('naginata')}
               >
                 <Zap size={14} className="mb-1 inline" /> Train Naginata Rider
@@ -499,7 +511,7 @@ export function CommandBar() {
 
             {playerCiv === 'french' && (
               <ActionButton
-                disabled={playerAge < 2 || !canAfford(COSTS.cuirassier, wood, food, gold) || pop >= popCap}
+                disabled={playerAge < 2 || !canAfford(COSTS.cuirassier, wood, food, gold, petrol, metal) || pop >= popCap}
                 onClick={() => useGameStore.getState().train('cuirassier')}
               >
                 <Zap size={14} className="mb-1 inline" /> Train Cuirassier
@@ -515,7 +527,7 @@ export function CommandBar() {
           <>
             {playerCiv === 'indian' && (
               <ActionButton
-                disabled={!canAfford(COSTS.siegeElephant, wood, food, gold) || pop >= popCap}
+                disabled={!canAfford(COSTS.siegeElephant, wood, food, gold, petrol, metal) || pop >= popCap}
                 onClick={() => useGameStore.getState().train('siegeElephant')}
               >
                 <Swords size={14} className="mb-1 inline" /> Siege Elephant
@@ -524,7 +536,7 @@ export function CommandBar() {
             )}
             {playerCiv === 'british' && (
               <ActionButton
-                disabled={!canAfford(COSTS.falconet, wood, food, gold) || pop >= popCap}
+                disabled={!canAfford(COSTS.falconet, wood, food, gold, petrol, metal) || pop >= popCap}
                 onClick={() => useGameStore.getState().train('falconet')}
               >
                 <Swords size={14} className="mb-1 inline" /> Train Falconet
@@ -533,7 +545,7 @@ export function CommandBar() {
             )}
             {playerCiv === 'french' && (
               <ActionButton
-                disabled={!canAfford(COSTS.falconet, wood, food, gold) || pop >= popCap}
+                disabled={!canAfford(COSTS.falconet, wood, food, gold, petrol, metal) || pop >= popCap}
                 onClick={() => useGameStore.getState().train('falconet')}
               >
                 <Swords size={14} className="mb-1 inline" /> Train Falconet

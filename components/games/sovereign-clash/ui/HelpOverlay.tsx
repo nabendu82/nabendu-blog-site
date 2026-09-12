@@ -214,7 +214,14 @@ export function HelpOverlay() {
           </p>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
-            <Section
+            <Section title="Modern Age · all civilizations" items={[
+            'Advance from Industrial at your Town Center: 3000 Food, 2200 Gold, 80 seconds.',
+            'Select workers and right-click Petrol or Metal drilling sites. Mining Camps and Town Centers accept both resources. Food, Gold and Wood remain available.',
+            'Barracks: Riflemen, Machine Gunners and Rocket Troopers. Factory: Tanks, Recon Jeeps and Heavy Artillery. Helipad: Attack Helicopters. Dock: Destroyers.',
+            'Machine Gunners counter infantry. Rocket Troopers counter tanks and helicopters. Heavy Artillery has long range but needs protection.',
+            'Helicopters fly over land and water. Riflemen, Machine Gunners, Rocket Troopers, Jeeps and Destroyers can defend against aircraft.',
+          ]}/>
+          <Section
               title="Controls"
               items={[
                 'Left-click to select a unit or building; Shift-click to add/remove',

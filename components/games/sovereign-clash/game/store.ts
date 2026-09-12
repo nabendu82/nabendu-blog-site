@@ -4,6 +4,7 @@ import { applyNavalCivilization } from './navy'
 import { applyIndustrialUpgrade } from './progression'
 import {
   AGE_ADVANCEMENTS,
+  MODERN_TRAINING,
   INDUSTRIAL_CIVS,
   FACTORY_LIMIT,
   BUILDING_STATS,
@@ -24,6 +25,7 @@ import {
 import { clearMovementRoute, dist } from './pathfinding'
 import {
   canTrain,
+  canAttackTarget,
   isBuilding,
   isComplete,
   isDropoff,
@@ -77,6 +79,8 @@ export interface GameStore extends HudSlice {
   enemyWood: number
   enemyFood: number
   enemyGold: number
+  enemyPetrol: number
+  enemyMetal: number
   aiTimer: number
   navyTimer:number
   controlGroups: Record<number, string[]>
@@ -130,6 +134,8 @@ function hudFrom(s: {
   wood: number
   food: number
   gold: number
+  petrol: number
+  metal: number
   selectedId: string | null
   selectedIds: string[]
   placementKind: PlacementKind
@@ -157,6 +163,8 @@ function hudFrom(s: {
     wood: s.wood,
     food: s.food,
     gold: s.gold,
+    petrol: s.petrol,
+    metal: s.metal,
     pop,
     popCap,
     selectedId: selectedIds[0] ?? null,
@@ -206,6 +214,8 @@ function freshWorld(
     enemyWood: 140,
     enemyFood: 120,
     enemyGold: 80,
+    enemyPetrol: 0,
+    enemyMetal: 0,
     aiTimer: 0,
     navyTimer:0,
     controlGroups: {},
@@ -220,6 +230,8 @@ function freshWorld(
       wood: 400,
       food: 250,
       gold: 80,
+      petrol: 0,
+      metal: 0,
       selectedId: null,
       selectedIds: [],
       placementKind: null,
@@ -252,49 +264,59 @@ export function allocId(): string {
 }
 
 export function canAfford(
-  cost: { wood?: number; food?: number; gold?: number },
+  cost: { wood?: number; food?: number; gold?: number; petrol?: number; metal?: number },
   wood: number,
   food: number,
   gold: number,
+  petrol = 0,
+  metal = 0,
 ): boolean {
   return (
     wood >= (cost.wood ?? 0) &&
     food >= (cost.food ?? 0) &&
-    gold >= (cost.gold ?? 0)
+    gold >= (cost.gold ?? 0) && petrol >= (cost.petrol ?? 0) && metal >= (cost.metal ?? 0)
   )
 }
 
 export function spend(
-  cost: { wood?: number; food?: number; gold?: number },
+  cost: { wood?: number; food?: number; gold?: number; petrol?: number; metal?: number },
   team: Team,
 ): boolean {
   const s = useGameStore.getState()
   if (team === 'player') {
-    if (!canAfford(cost, s.wood, s.food, s.gold)) return false
+    if (!canAfford(cost, s.wood, s.food, s.gold, s.petrol, s.metal)) return false
     s.wood -= cost.wood ?? 0
     s.food -= cost.food ?? 0
     s.gold -= cost.gold ?? 0
+    s.petrol -= cost.petrol ?? 0
+    s.metal -= cost.metal ?? 0
   } else {
-    if (!canAfford(cost, s.enemyWood, s.enemyFood, s.enemyGold)) return false
+    if (!canAfford(cost, s.enemyWood, s.enemyFood, s.enemyGold, s.enemyPetrol, s.enemyMetal)) return false
     s.enemyWood -= cost.wood ?? 0
     s.enemyFood -= cost.food ?? 0
     s.enemyGold -= cost.gold ?? 0
+    s.enemyPetrol -= cost.petrol ?? 0
+    s.enemyMetal -= cost.metal ?? 0
   }
   markHud()
   return true
 }
 
-export function addResource(team: Team, kind: 'wood' | 'food' | 'gold', amount: number): void {
+export function addResource(team: Team, kind: 'wood' | 'food' | 'gold' | 'petrol' | 'metal', amount: number): void {
   const s = useGameStore.getState()
   const val = Math.round(amount)
   if (team === 'player') {
     if (kind === 'wood') s.wood += val
     if (kind === 'food') s.food += val
     if (kind === 'gold') s.gold += val
+    if (kind === 'petrol') s.petrol += val
+    if (kind === 'metal') s.metal += val
   } else {
     if (kind === 'wood') s.enemyWood += val
     if (kind === 'food') s.enemyFood += val
     if (kind === 'gold') s.enemyGold += val
+    if (kind === 'petrol') s.enemyPetrol += val
+    if (kind === 'metal') s.enemyMetal += val
   }
   markHud()
 }
@@ -497,7 +519,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     if (target.team === 'enemy' && (isUnit(target) || isBuilding(target))) {
       for (const u of units) {
-        if(u.attack<=0)continue
+        if(u.attack<=0 || !canAttackTarget(u,target))continue
         u.order = { type: 'attack', x: target.x, z: target.z, targetId }
         u.attackTimer = Math.min(u.attackTimer, 0.2)
       }
@@ -507,6 +529,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     if (isGatherable(target)) {
+      if (requiredAge(target.kind) > s.playerAge) return
       const villagers = units.filter((u) => target.kind==='fish' ? u.kind==='fishingBoat' || (u.kind==='villager' && target.shoreFish) : u.kind==='villager')
       for (const u of villagers) {
         u.order = { type: 'gather', x: target.x, z: target.z, targetId }
@@ -517,7 +540,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     if(target.kind==='transportShip' && target.team==='player') {
-      for(const u of units) if(!isShip(u))u.order={type:'board',x:target.x,z:target.z,targetId}
+      for(const u of units) if(!isShip(u) && u.kind!=='helicopter')u.order={type:'board',x:target.x,z:target.z,targetId}
       markHud();return
     }
 
@@ -562,6 +585,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!b || b.team !== 'player' || !isComplete(b) || b.dying) return
 
     const allowed =
+      (MODERN_TRAINING[b.kind as BuildingKind]?.includes(kind) ?? false) ||
       (b.kind==='dock' && isShip({kind})) ||
       (b.kind === 'factory' && kind === INDUSTRIAL_CIVS[s.playerCiv].artillery) ||
       (b.kind === 'townCenter' && kind === 'villager') ||
@@ -648,10 +672,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   startAgeUp: () => {
     const s = get()
-    if (s.playerAge >= 3 || s.aging) return
+    if (s.playerAge >= 4 || s.aging) return
     const tc = selectedEntity()
     if (!tc || tc.kind !== 'townCenter' || tc.team !== 'player' || !isComplete(tc)) return
-    const { cost, duration } = AGE_ADVANCEMENTS[s.playerAge as 0 | 1 | 2]
+    const { cost, duration } = AGE_ADVANCEMENTS[s.playerAge as 0 | 1 | 2 | 3]
     if (!spend(cost, 'player')) return
     s.aging = true
     s.ageTimer = duration

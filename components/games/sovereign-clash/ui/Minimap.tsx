@@ -20,6 +20,8 @@ function colorFor(e: Entity): string {
   if (e.kind === 'projectile' || e.dying) return ''
   if (e.team === 'player') return '#22d3ee'
   if (e.team === 'enemy') return '#f87171'
+  if (e.kind === 'oilWell') return '#22d3ee'
+  if (e.kind === 'metalDeposit') return '#cbd5e1'
   if (e.kind === 'goldMine') return '#eab308'
   if (e.kind === 'fish') return '#a5f3fc'
   if (e.kind === 'sacredField') return '#86efac'

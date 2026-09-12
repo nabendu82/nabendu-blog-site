@@ -32,6 +32,16 @@ export function moveTowards(
   stopRange: number,
   ignoreId?: string,
 ): boolean {
+  if (e.kind === 'helicopter') {
+    tx = clamp(tx,-MAP_HALF+2,MAP_HALF-2); tz = clamp(tz,-MAP_HALF+2,MAP_HALF-2)
+    const d = dist(e.x,e.z,tx,tz)
+    e.y = 5
+    if (d <= stopRange) return true
+    const step = Math.min(e.speed * dt, d - stopRange)
+    e.facing = Math.atan2(tx-e.x,tz-e.z)
+    e.x += (tx-e.x)/d*step; e.z += (tz-e.z)/d*step
+    return d-step <= stopRange
+  }
   const terrain = activeTerrain()
   const water = isShip(e)
   if(water && terrain==='grassland')return false
@@ -63,6 +73,7 @@ export function moveTowards(
   let vz = ((tz - e.z) / remaining) * speed
 
   for (const o of nearby(others,e.x,e.z,6)) {
+    if (o.kind === 'helicopter') continue
     if (isUnit(o) && isShip(o) !== water) continue
     if (water && isResource(o)) continue
     if (o.id === e.id || o.id === ignoreId || o.dying || o.kind === 'projectile') continue

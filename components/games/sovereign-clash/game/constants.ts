@@ -147,11 +147,14 @@ export const FOG_RES = 96
 export const TRAMPLE_DAMAGE = 6
 export const TRAMPLE_RADIUS = 1.7
 
-export const AGE_NAMES = ['Discovery', 'Commerce', 'Fortress', 'Industrial'] as const
+export const AGE_NAMES = ['Discovery', 'Commerce', 'Fortress', 'Industrial', 'Modern'] as const
+export const AI_MODERN_TIME = 2400
+export const MODERN_TRAINING: Partial<Record<BuildingKind, UnitKind[]>> = { barracks: ['rifleman','machineGunner','rocketTrooper'], factory: ['tank','heavyArtillery','jeep'], helipad: ['helicopter'], dock: ['destroyer'] }
 export const AGE_ADVANCEMENTS = [
   { name: 'Commerce', cost: { food: 800, gold: 0 }, duration: AGE_UP_COMMERCE },
   { name: 'Fortress', cost: { food: 1200, gold: 1000 }, duration: AGE_UP_FORTRESS },
   { name: 'Industrial', cost: { food: 2000, gold: 1200 }, duration: AGE_UP_INDUSTRIAL },
+  { name: 'Modern', cost: { food: 3000, gold: 2200 }, duration: 80 },
 ] as const
 export const INDUSTRIAL_CIVS: Record<Civilization, { title: string; workshop: string; artillery: UnitKind; guards: UnitKind[]; description: string }> = {
   indian: { title: 'Royal War Establishment', workshop: 'Royal Siege Workshop', artillery: 'royalElephant', guards: ['sepoy', 'gurkha', 'mahout', 'siegeElephant'], description: 'Royal Sepoys, Gurkhas and war elephants gain +40% health and attack. Armored siege elephants lead the assault.' },
@@ -165,6 +168,14 @@ export const UNIT_STATS: Record<
   UnitKind,
   { hp: number; speed: number; attack: number; range: number; radius: number; splash?: number }
 > = {
+  rifleman: { hp: 160, speed: 4.8, attack: 22, range: 10, radius: 0.4, splash: 0 },
+  machineGunner: { hp: 190, speed: 3.9, attack: 12, range: 11, radius: 0.45, splash: 0 },
+  rocketTrooper: { hp: 140, speed: 3.7, attack: 52, range: 13, radius: 0.45, splash: 1.4 },
+  tank: { hp: 950, speed: 4.2, attack: 65, range: 13, radius: 1.2, splash: 2.2 },
+  heavyArtillery: { hp: 340, speed: 2.5, attack: 95, range: 21, radius: 1.05, splash: 3.5 },
+  jeep: { hp: 300, speed: 8.4, attack: 15, range: 10, radius: 0.85, splash: 0 },
+  helicopter: { hp: 420, speed: 9, attack: 38, range: 13, radius: 1, splash: 1.4 },
+  destroyer: { hp: 1350, speed: 4.8, attack: 85, range: 19, radius: 1.5, splash: 3 },
   fishingBoat: { hp: 110, speed: 4.2, attack: 0, range: 0, radius: 0.65 },
   transportShip: { hp: 320, speed: 4.8, attack: 0, range: 0, radius: 1.1 },
   warship: { hp: 540, speed: 3.5, attack: 38, range: 14, radius: 1.2, splash: 2.4 },
@@ -202,6 +213,14 @@ export const UNIT_STATS: Record<
 }
 
 export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
+  rifleman: 'rangedInf',
+  machineGunner: 'rangedInf',
+  rocketTrooper: 'rangedInf',
+  tank: 'siege',
+  heavyArtillery: 'siege',
+  jeep: 'cavalry',
+  helicopter: 'rangedInf',
+  destroyer: 'siege',
   fishingBoat: 'villager', transportShip: 'villager', warship: 'siege',
   rocket: 'siege', heavyCannon: 'siege', flamingArrow: 'siege', royalElephant: 'siege',
   villager: 'villager',
@@ -230,6 +249,7 @@ export const BUILDING_STATS: Record<
   BuildingKind,
   { hp: number; radius: number; pop: number }
 > = {
+  helipad: { hp: 700, radius: 2.6, pop: 0 },
   factory: { hp: 650, radius: 2.5, pop: 0 },
   dock: { hp: 420, radius: 1.7, pop: 0 },
   townCenter: { hp: 700, radius: 2.6, pop: 20 },
@@ -251,9 +271,11 @@ export const BUILDING_STATS: Record<
 }
 
 export const RESOURCE_STATS: Record<
-  'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish',
+  'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish' | 'oilWell' | 'metalDeposit',
   { amount: number; radius: number; resource: ResourceKind }
 > = {
+  oilWell: { amount: 12000, radius: 1.2, resource: 'petrol' },
+  metalDeposit: { amount: 12000, radius: 1.1, resource: 'metal' },
   tree: { amount: 160, radius: 0.65, resource: 'wood' },
   fish: { amount: 900, radius: 0.55, resource: 'food' },
   berryBush: { amount: 90, radius: 0.7, resource: 'food' },
@@ -261,7 +283,16 @@ export const RESOURCE_STATS: Record<
   herd: { amount: 80, radius: 0.72, resource: 'food' },
 }
 
-export const COSTS: Record<string, { wood?: number; food?: number; gold?: number }> = {
+export const COSTS: Record<string, { wood?: number; food?: number; gold?: number; petrol?: number; metal?: number }> = {
+  helipad: { wood: 250, gold: 250, metal: 180 },
+  rifleman: {food: 90, gold: 50, metal: 35},
+  machineGunner: {food: 110, gold: 70, metal: 65},
+  rocketTrooper: {food: 90, gold: 90, metal: 90},
+  tank: {gold: 200, metal: 300, petrol: 140},
+  heavyArtillery: {gold: 250, metal: 320, petrol: 100},
+  jeep: {gold: 80, metal: 120, petrol: 70},
+  helicopter: {gold: 220, metal: 250, petrol: 200},
+  destroyer: {gold: 350, metal: 500, petrol: 250},
   dock: { wood: 180 }, fishingBoat: { wood: 80 }, transportShip: { wood: 200, gold: 80 }, warship: { wood: 350, gold: 250 },
   industrial: { food: 2000, gold: 1200 },
   factory: { wood: 600, gold: 400 },
@@ -321,6 +352,14 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
 }
 
 export const TRAIN_TIME: Record<UnitKind, number> = {
+  rifleman: 18,
+  machineGunner: 21,
+  rocketTrooper: 24,
+  tank: 27,
+  heavyArtillery: 30,
+  jeep: 33,
+  helicopter: 36,
+  destroyer: 39,
   fishingBoat: 14, transportShip: 25, warship: 35,
   rocket: 30, heavyCannon: 35, flamingArrow: 25, royalElephant: 38,
   villager: 10,
@@ -346,6 +385,15 @@ export const TRAIN_TIME: Record<UnitKind, number> = {
 }
 
 export const DISPLAY_NAMES: Record<string, string> = {
+  helipad: 'Helipad', oilWell: 'Petrol Drilling Site', metalDeposit: 'Metal Drilling Site',
+  rifleman: 'Rifleman',
+  machineGunner: 'Machine Gunner',
+  rocketTrooper: 'Rocket Trooper',
+  tank: 'Main Battle Tank',
+  heavyArtillery: 'Heavy Artillery',
+  jeep: 'Recon Jeep',
+  helicopter: 'Attack Helicopter',
+  destroyer: 'Destroyer',
   dock: 'Dock', fish: 'Fish Shoal', fishingBoat: 'Fishing Boat', transportShip: 'Transport Ship', warship: 'Cannon Ship',
   factory: 'Industrial Workshop', rocket: 'Rocket Battery', heavyCannon: 'Heavy Cannon', flamingArrow: 'Flaming Arrow', royalElephant: 'Royal Siege Elephant',
   villager: 'Villager',
@@ -398,6 +446,8 @@ export const CAMERA = {
 }
 
 export function visionRange(kind: string, isBuilding: boolean): number {
+  if (kind === 'helicopter' || kind === 'jeep' || kind === 'destroyer') return 24
+  if (kind === 'heavyArtillery') return 15
   if (kind === 'fishingBoat' || kind === 'transportShip' || kind === 'warship') return 18
   if (kind === 'sowar' || kind === 'hussar' || kind === 'dragoon' || kind === 'naginata' || kind === 'cuirassier') return 14
   if (kind === 'agraFort' || kind === 'tenshu' || kind === 'chateau' || kind === 'townCenter') return 13
