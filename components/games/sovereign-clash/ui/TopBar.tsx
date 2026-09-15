@@ -1,5 +1,6 @@
 "use client";
 
+import { enemyTime, raidInterval, DIFFICULTIES, type Difficulty } from '../game/difficulty'
 import type { ReactNode } from 'react'
 import { Apple, Fuel, Pickaxe, Coins, Crown, Flag, Swords, TreePine, Users, Volume2, VolumeOff } from 'lucide-react'
 import {
@@ -41,14 +42,15 @@ function clock(seconds: number): string {
   return `${m}:${sec.toString().padStart(2, '0')}`
 }
 
-function formatRaid(gameTime: number, waveIndex: number, waveStartTime: number): string {
-  if (waveIndex <= 0) return clock(AI_WAVE1_TIME - gameTime)
-  if (waveIndex === 1) return clock(AI_WAVE2_TIME - gameTime)
-  if (waveIndex === 2) return clock(AI_WAVE3_TIME - gameTime)
-  return clock(waveStartTime + AI_WAVE_INTERVAL - gameTime)
+function formatRaid(gameTime: number, waveIndex: number, waveStartTime: number, difficulty: Difficulty, playerAge: number, enemyAge: number): string {
+  if (waveIndex <= 0) return clock(enemyTime(AI_WAVE1_TIME, difficulty) - gameTime)
+  if (waveIndex === 1) return clock(enemyTime(AI_WAVE2_TIME, difficulty) - gameTime)
+  if (waveIndex === 2) return clock(enemyTime(AI_WAVE3_TIME, difficulty) - gameTime)
+  return clock(waveStartTime + raidInterval(AI_WAVE_INTERVAL, difficulty, playerAge, enemyAge) - gameTime)
 }
 
 export function TopBar() {
+  const difficulty = useGameStore(s=>s.difficulty)
   const wood = useGameStore((s) => s.wood)
   const food = useGameStore((s) => s.food)
   const gold = useGameStore((s) => s.gold)
@@ -106,8 +108,8 @@ export function TopBar() {
       />
       <Chip
         icon={<Swords size={18} />}
-        value={formatRaid(gameTime, waveIndex, waveStartTime)}
-        label={waveIndex <= 0 ? 'Enemy raid' : `Wave ${waveIndex + 1}`}
+        value={formatRaid(gameTime, waveIndex, waveStartTime, difficulty, playerAge, enemyAge)}
+        label={waveIndex <= 0 ? `${DIFFICULTIES[difficulty].name} raid` : `Wave ${waveIndex + 1}`}
         color="text-red-300"
       />
       <button

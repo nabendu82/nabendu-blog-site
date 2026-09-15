@@ -12,3 +12,24 @@ export function applyNavalCivilization(e: Entity,civ:Civilization):void {
   if(civ==='french')e.speed*=1.1
   if(civ==='british' && e.kind==='warship')e.attackRange+=2
 }
+
+export function transportCapacity(civ: Civilization, age: number): number {
+  return NAVIES[civ].capacity + (age >= 4 ? 10 : age >= 3 ? 4 : 0)
+}
+/** Promote existing and newly trained transports without healing damage or dropping cargo. */
+export function upgradeTransport(e: Entity, age: number): void {
+  if(e.kind!=='transportShip' || e.dying)return
+  const previous=e.transportAge ?? 0
+  for(const stage of [3,4])if(age>=stage && previous<stage){
+    const ratio=e.hp/e.maxHp
+    e.maxHp=Math.round(e.maxHp*(stage===3?1.2:1.5));e.hp=e.maxHp*ratio
+    e.speed*=stage===3?1.15:1.25
+  }
+  e.transportAge=Math.max(previous,age)
+}
+
+export function navalName(civ: Civilization, kind: 'fishingBoat'|'transportShip'|'warship', age: number): string {
+  if(kind==='transportShip' && age>=4)return `${civ==='french'?'Marine':civ==='british'?'Royal':civ==='japanese'?'Bune':'Dhow'} Landing Ship`
+  if(kind==='transportShip' && age>=3)return 'Steam Transport'
+  return NAVIES[civ][kind]
+}

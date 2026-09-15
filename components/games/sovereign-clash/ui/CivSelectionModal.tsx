@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react'
+import { MODERN_DOCTRINES } from '../game/modern'
+import { DIFFICULTIES, type Difficulty } from '../game/difficulty'
 import { TERRAINS, type TerrainKind } from '../game/terrain'
 import { TerrainPreview } from './TerrainPreview'
 import { Crown, Swords, ShieldAlert, Sparkles, X } from 'lucide-react'
@@ -15,6 +17,8 @@ export function CivSelectionModal() {
   const currentP = useGameStore((s) => s.playerCiv)
   const currentE = useGameStore((s) => s.enemyCiv)
   const gameTime = useGameStore((s) => s.gameTime)
+  const currentDifficulty = useGameStore(s=>s.difficulty)
+  const [difficulty,setDifficulty] = useState<Difficulty>(currentDifficulty)
   const currentTerrain = useGameStore(s => s.terrain)
   const [selectedTerrain, setSelectedTerrain] = useState<TerrainKind>(currentTerrain)
 
@@ -25,13 +29,14 @@ export function CivSelectionModal() {
       setSelectedPlayer(currentP)
       setSelectedEnemy(currentE)
       setSelectedTerrain(currentTerrain)
+      setDifficulty(currentDifficulty)
     }
-  }, [civModalOpen, currentP, currentE, currentTerrain])
+  }, [civModalOpen, currentP, currentE, currentTerrain, currentDifficulty])
 
   if (!civModalOpen) return null
 
   const handleStart = () => {
-    useGameStore.getState().setCivilizations(selectedPlayer, selectedEnemy, selectedTerrain)
+    useGameStore.getState().setCivilizations(selectedPlayer, selectedEnemy, selectedTerrain, difficulty)
   }
 
   const handleClose = () => {
@@ -73,6 +78,8 @@ export function CivSelectionModal() {
 
         {/* Modal Scrollable Body */}
         <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5 space-y-6">
+          <fieldset><legend className="mb-3 text-sm font-semibold uppercase text-amber-300">Difficulty · 320 × 320 battlefields</legend><div className="grid gap-3 sm:grid-cols-3">{(Object.keys(DIFFICULTIES) as Difficulty[]).map(level=><button type="button" key={level} aria-pressed={difficulty===level} onClick={()=>setDifficulty(level)} className={`rounded-lg border p-3 text-left ${difficulty===level?'border-amber-400 bg-amber-900/50':'border-amber-800 bg-black/30'}`}><strong className="text-amber-100">{DIFFICULTIES[level].name}</strong><p className="mt-1 text-xs text-amber-200/70">{DIFFICULTIES[level].description}</p></button>)}</div></fieldset>
+          <section aria-label="Modern Age civilization comparison" className="grid gap-3 sm:grid-cols-2">{CIV_LIST.map(civ=><div key={civ} className="rounded-lg border border-sky-700/40 bg-slate-950/50 p-3"><h3 className="text-sm font-semibold text-sky-200">{CIV_DETAILS[civ].flag} {MODERN_DOCTRINES[civ].title} · Modern Age</h3><p className="mt-2 text-xs text-emerald-200">Advantage: {MODERN_DOCTRINES[civ].strengths}</p><p className="mt-1 text-xs text-orange-200">Trade-off: {MODERN_DOCTRINES[civ].weakness}</p></div>)}</section>
           {/* SECTION 1: Player Civ Selection */}
           <div>
             <div className="flex items-center justify-between mb-3">

@@ -1,24 +1,22 @@
-import { MAP_HALF } from './constants'
+import { MAP_HALF, MAP_SIZE, PLAYER_BASE } from './constants'
 
 export type TerrainKind = 'grassland' | 'lake' | 'river' | 'oasis'
 export const TERRAINS: Record<TerrainKind, { name: string; description: string; land: string; water: string }> = {
   grassland: { name: 'Emerald Plains', description: 'The original forested battlefield. Open routes and room to expand.', land: '#5c9a4a', water: '#338b9f' },
   lake: { name: 'Great Lake', description: 'A broad central lake. March around either shore to reach your rival.', land: '#729457', water: '#327f9c' },
   river: { name: 'Two Crossings', description: 'A winding river divides the map. Two stone bridges connect the banks; ships sail underneath.', land: '#668e50', water: '#388d9d' },
-  oasis: { name: 'Amber Oasis', description: 'Golden dunes, palm groves and two turquoise pools. Open central trade routes.', land: '#c7aa70', water: '#319c9c' },
+  oasis: { name: 'Sundering Sea', description: 'Two continents divided by a vast sea. Transport armies by ship or fly helicopters across; there is no land crossing.', land: '#c7aa70', water: '#319c9c' },
 }
-export const CROSSINGS = [-32, 32] as const
+export const CROSSINGS = [-64, 64] as const
 export const riverCenter = (z: number) => Math.sin(z / 22) * 7
 export function sameWater(kind: TerrainKind, a: {x:number;z:number}, b: {x:number;z:number}): boolean {
   if(kind==='grassland')return false
-  if(kind!=='oasis')return true
-  const basin=(p:{x:number;z:number})=>((p.x+24)/16)**2+((p.z-13)/22)**2 < ((p.x-24)/16)**2+((p.z+13)/22)**2
-  return basin(a)===basin(b)
+  return true
 }
 export function isWater(kind: TerrainKind, x: number, z: number): boolean {
-  if (kind === 'lake') return (x / 29) ** 2 + (z / 35) ** 2 < 1
+  if (kind === 'lake') return (x / 58) ** 2 + (z / 70) ** 2 < 1
   if (kind === 'river') return Math.abs(x - riverCenter(z)) < 7 && !CROSSINGS.some(c => Math.abs(z - c) <= 5)
-  if (kind === 'oasis') return ((x + 24) / 16) ** 2 + ((z - 13) / 22) ** 2 < 1 || ((x - 24) / 16) ** 2 + ((z + 13) / 22) ** 2 < 1
+  if (kind === 'oasis') return Math.abs(x) < 48
   return false
 }
 export function isCrossing(kind: TerrainKind, x: number, z: number): boolean {
@@ -26,12 +24,12 @@ export function isCrossing(kind: TerrainKind, x: number, z: number): boolean {
 }
 
 export function isSailable(kind: TerrainKind, x: number, z: number, radius = 0): boolean {
-  const wet = (px: number,pz: number) => Math.abs(px) < 79.5 && Math.abs(pz) < 79.5 && (kind === 'river' ? Math.abs(px-riverCenter(pz)) < 7 : isWater(kind,px,pz))
+  const wet = (px: number,pz: number) => Math.abs(px) < (MAP_HALF - 0.5) && Math.abs(pz) < (MAP_HALF - 0.5) && (kind === 'river' ? Math.abs(px-riverCenter(pz)) < 7 : isWater(kind,px,pz))
   if (!wet(x,z)) return false
   for(let i=0;i<16;i++) if(!wet(x+Math.cos(i*Math.PI/8)*radius,z+Math.sin(i*Math.PI/8)*radius)) return false
   return true
 }
-export function nearestWater(kind: TerrainKind,x: number,z: number,radius=1.7,maxDistance=160): {x:number;z:number} | null {
+export function nearestWater(kind: TerrainKind,x: number,z: number,radius=1.7,maxDistance=MAP_SIZE): {x:number;z:number} | null {
   if(kind === 'grassland') return null
   if(isSailable(kind,x,z,radius))return {x,z}
   for(let r=0.5;r<=maxDistance;r+=0.5) for(let i=0;i<64;i++) {
@@ -64,15 +62,15 @@ export function activeTerrain(): TerrainKind { return active }
 export function terrainGeneration(): number { return generation }
 
 export function nearestDry(kind: TerrainKind, x: number, z: number, radius = 1.3): { x: number; z: number } {
-  x = Math.max(-78 + radius, Math.min(78 - radius, x))
-  z = Math.max(-78 + radius, Math.min(78 - radius, z))
+  x = Math.max(-MAP_HALF + 2 + radius, Math.min(MAP_HALF - 2 - radius, x))
+  z = Math.max(-MAP_HALF + 2 + radius, Math.min(MAP_HALF - 2 - radius, z))
   if (isDry(kind, x, z, radius)) return { x, z }
-  for (let r = 1; r < 100; r++) for (let i = 0; i < 64; i++) {
+  for (let r = 1; r < MAP_SIZE; r++) for (let i = 0; i < 64; i++) {
     const a = i * Math.PI / 32
     const p = { x: x + Math.cos(a) * r, z: z + Math.sin(a) * r }
     if (isDry(kind, p.x, p.z, radius)) return p
   }
-  return { x: -55, z: -55 }
+  return { ...PLAYER_BASE }
 }
 
 export function drySegment(kind: TerrainKind, ax: number, az: number, bx: number, bz: number, radius = 1.7, water = false): boolean {
@@ -82,9 +80,9 @@ export function drySegment(kind: TerrainKind, ax: number, az: number, bx: number
 }
 
 const CELL = 2
-const N = 79
-const coord = (i: number) => -78 + i * CELL
-const index = (x: number, z: number) => Math.max(0, Math.min(N - 1, Math.round((z + 78) / CELL))) * N + Math.max(0, Math.min(N - 1, Math.round((x + 78) / CELL)))
+const N = MAP_HALF - 1
+const coord = (i: number) => -MAP_HALF + 2 + i * CELL
+const index = (x: number, z: number) => Math.max(0, Math.min(N - 1, Math.round((z + MAP_HALF - 2) / CELL))) * N + Math.max(0, Math.min(N - 1, Math.round((x + MAP_HALF - 2) / CELL)))
 const point = (i: number) => ({ x: coord(i % N), z: coord(Math.floor(i / N)) })
 const masks = new Map<string, Uint8Array>()
 
@@ -92,6 +90,7 @@ const masks = new Map<string, Uint8Array>()
 export function terrainRoute(kind: TerrainKind, ax: number, az: number, tx: number, tz: number, water=false, entryClearance=1.25): { x: number; z: number }[] {
   const goal = water ? nearestWater(kind,tx,tz,1.7) : nearestDry(kind, tx, tz, 1.7)
   if(!goal)return []
+  if(kind==='oasis' && !water && Math.sign(ax)!==Math.sign(goal.x))return []
   const segment = (ax:number,az:number,bx:number,bz:number,radius=1.7)=>drySegment(kind,ax,az,bx,bz,radius,water)
   if (segment(ax, az, goal.x, goal.z)) return [goal]
   const key=`${kind}-${water}`

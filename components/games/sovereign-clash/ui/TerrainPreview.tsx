@@ -11,8 +11,8 @@ export function TerrainPreview({ kind }: { kind: TerrainKind }) {
       <path d="M69 29H100 M60 72H89" stroke="#ddd0ab" strokeWidth="9" />
     </>}
     {kind === 'oasis' && <>
-      <path d="M0 32Q40 12 80 32T160 32M0 78Q40 58 80 78T160 78" fill="none" stroke="#d8bb80" strokeWidth="5" />
-      <ellipse cx="51" cy="62" rx="15" ry="21" fill={p.water} /><ellipse cx="109" cy="38" rx="15" ry="21" fill={p.water} />
+      <rect x="48" y="0" width="64" height="100" fill={p.water} />
+      <path d="M65 25h25M70 50h25M65 75h25" stroke="#88d8e8" strokeWidth="2" />
     </>}
     {[15, 30, 130, 145].map((x,i) => <path key={x} d={`M${x} ${i % 2 ? 64 : 30}l-5 12h10z`} fill={kind === 'oasis' ? '#66783d' : '#315d35'} />)}
     <circle cx="23" cy="18" r="5" fill="#65d9ee" stroke="#173d51" strokeWidth="2" />

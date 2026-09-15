@@ -1,10 +1,11 @@
+import { modernTraining } from './modern'
+import { type Difficulty } from './difficulty'
 import { create } from 'zustand'
 import { isDry, isSailable, isCrossing, nearestDry, nearestWater, setActiveTerrain, bridgeHeight, terrainRoute, type TerrainKind } from './terrain'
 import { applyNavalCivilization } from './navy'
 import { applyIndustrialUpgrade } from './progression'
 import {
   AGE_ADVANCEMENTS,
-  MODERN_TRAINING,
   INDUSTRIAL_CIVS,
   FACTORY_LIMIT,
   BUILDING_STATS,
@@ -73,6 +74,7 @@ export function consumeHudDirty(): boolean {
 
 export interface GameStore extends HudSlice {
   terrain: TerrainKind
+  difficulty: Difficulty
   entities: Record<string, Entity>
   matchId: number
   nextId: number
@@ -82,6 +84,7 @@ export interface GameStore extends HudSlice {
   enemyPetrol: number
   enemyMetal: number
   aiTimer: number
+  transportTimer:number
   navyTimer:number
   controlGroups: Record<number, string[]>
   manorTimer: number
@@ -113,7 +116,7 @@ export interface GameStore extends HudSlice {
   toggleMute: () => void
   restart: () => void
   unloadTransport: () => void
-  setCivilizations: (playerCiv: Civilization, enemyCiv: Civilization, terrain?: TerrainKind) => void
+  setCivilizations: (playerCiv: Civilization, enemyCiv: Civilization, terrain?: TerrainKind, difficulty?: Difficulty) => void
   openCivModal: () => void
   closeCivModal: () => void
 }
@@ -198,6 +201,7 @@ function freshWorld(
   enemyCiv: Civilization = 'british',
   civModalOpen = true,
   terrain: TerrainKind = 'grassland',
+  difficulty: Difficulty = 'easy',
 ) {
   setActiveTerrain(terrain)
   const world = generateWorld(enemyCiv, terrain)
@@ -209,6 +213,7 @@ function freshWorld(
   return {
     entities: world.entities,
     terrain,
+    difficulty,
     matchId: worldGeneration + 1,
     nextId: world.nextId,
     enemyWood: 140,
@@ -218,6 +223,7 @@ function freshWorld(
     enemyMetal: 0,
     aiTimer: 0,
     navyTimer:0,
+    transportTimer:0,
     controlGroups: {},
     manorTimer: 0,
     enemyBuiltUnique: false,
@@ -521,7 +527,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       for (const u of units) {
         if(u.attack<=0 || !canAttackTarget(u,target))continue
         u.order = { type: 'attack', x: target.x, z: target.z, targetId }
-        u.attackTimer = Math.min(u.attackTimer, 0.2)
       }
       set({ commandMode: 'none' })
       markHud()
@@ -585,7 +590,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!b || b.team !== 'player' || !isComplete(b) || b.dying) return
 
     const allowed =
-      (MODERN_TRAINING[b.kind as BuildingKind]?.includes(kind) ?? false) ||
+      modernTraining(b.kind as BuildingKind, s.playerCiv).includes(kind) ||
       (b.kind==='dock' && isShip({kind})) ||
       (b.kind === 'factory' && kind === INDUSTRIAL_CIVS[s.playerCiv].artillery) ||
       (b.kind === 'townCenter' && kind === 'villager') ||
@@ -697,7 +702,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   restart: () => {
     const current = get()
-    const next = freshWorld(current.playerCiv, current.enemyCiv, false, current.terrain)
+    const next = freshWorld(current.playerCiv, current.enemyCiv, false, current.terrain, current.difficulty)
     hudDirty = true
     setMuted(next.muted)
     set(next)
@@ -706,25 +711,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
   unloadTransport: () => {
     const s=get(), ship=selectedEntity()
     if(!ship || ship.team!=='player' || ship.kind!=='transportShip' || ship.dying || !ship.passengers?.length)return
-    const remaining:Entity[]=[]
-    for(const passenger of ship.passengers) {
-      let placed=false
-      for(let r=2;r<=7 && !placed;r+=0.65)for(let i=0;i<24;i++) {
-        const x=ship.x+Math.cos(i*Math.PI/12)*r,z=ship.z+Math.sin(i*Math.PI/12)*r
-        if(!isDry(s.terrain,x,z,passenger.radius+0.2) || bridgeHeight(s.terrain,x,z)>0)continue
-        if(Object.values(s.entities).some(o=>!o.dying && o.kind!=='projectile' && !isShip(o) && Math.hypot(o.x-x,o.z-z)<o.radius+passenger.radius+0.1))continue
-        if(!terrainRoute(s.terrain,x,z,x,z,false,passenger.radius+0.1).length)continue
-        passenger.x=x;passenger.z=z;passenger.y=0;passenger.embarked=false;passenger.order={type:'idle',x,z,targetId:null}
-        clearMovementRoute(passenger)
-        s.entities[passenger.id]=passenger;placed=true;break
-      }
-      if(!placed)remaining.push(passenger)
-    }
-    ship.passengers=remaining;s.worldEpoch++;markHud();syncHud()
+    unloadShip(ship)
   },
 
-  setCivilizations: (playerCiv, enemyCiv, terrain = get().terrain) => {
-    const next = freshWorld(playerCiv, enemyCiv, false, terrain)
+  setCivilizations: (playerCiv, enemyCiv, terrain = get().terrain, difficulty = get().difficulty) => {
+    const next = freshWorld(playerCiv, enemyCiv, false, terrain, difficulty)
     hudDirty = true
     setMuted(next.muted)
     set(next)
@@ -809,4 +800,26 @@ if (process.env.NODE_ENV !== 'production') {
   }
   g.__aoeStore = useGameStore
   g.__aoeSetupDefense = debugSetupDefense
+}
+
+export function unloadShip(ship: Entity): void {
+  const s=useGameStore.getState()
+  if(!ship.passengers?.length)return
+  const shore=nearestDry(s.terrain,ship.x,ship.z,1.8)
+  if(Math.hypot(shore.x-ship.x,shore.z-ship.z)>7)return
+    const remaining:Entity[]=[]
+    for(const passenger of ship.passengers) {
+      let placed=false
+      for(let r=2;r<=12 && !placed;r+=0.65)for(let i=0;i<24;i++) {
+        const x=ship.x+Math.cos(i*Math.PI/12)*r,z=ship.z+Math.sin(i*Math.PI/12)*r
+        if(!isDry(s.terrain,x,z,Math.max(1.8,passenger.radius+0.2)) || bridgeHeight(s.terrain,x,z)>0)continue
+        if(Object.values(s.entities).some(o=>!o.dying && o.kind!=='projectile' && !isShip(o) && Math.hypot(o.x-x,o.z-z)<o.radius+passenger.radius+0.1))continue
+        if(!terrainRoute(s.terrain,x,z,x,z,false,passenger.radius+0.1).length)continue
+        passenger.x=x;passenger.z=z;passenger.y=0;passenger.embarked=false;passenger.order={type:ship.team==='enemy'?'attackMove':'idle',x:ship.team==='enemy'?PLAYER_BASE.x:x,z:ship.team==='enemy'?PLAYER_BASE.z:z,targetId:null}
+        clearMovementRoute(passenger)
+        s.entities[passenger.id]=passenger;placed=true;break
+      }
+      if(!placed)remaining.push(passenger)
+    }
+    ship.passengers=remaining;s.worldEpoch++;markHud();syncHud()
 }

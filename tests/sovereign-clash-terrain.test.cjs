@@ -17,15 +17,16 @@ for (const terrain of Object.keys(TERRAINS)) {
       for (const e of Object.values(world.entities)) assert.ok(e.kind==='fish' ? isWater(terrain,e.x,e.z) : isDry(terrain,e.x,e.z,e.radius),`${e.kind} ${e.x},${e.z}`)
     }
   })
-  test(`${terrain}: both armies can reach the opposing base without entering water`,()=>{
+  test(`${terrain}: land routes respect the new geography`,()=>{
     setActiveTerrain(terrain)
     for(const sign of [-1,1]) {
-      const e=createUnit('march','royalElephant',sign===1?'enemy':'player',sign*55,sign*55)
-      const path=terrainRoute(terrain,e.x,e.z,-sign*55,-sign*55)
+      const e=createUnit('march','royalElephant',sign===1?'enemy':'player',sign*110,sign*110)
+      const path=terrainRoute(terrain,e.x,e.z,-sign*110,-sign*110)
+      if(terrain==='oasis'){assert.equal(path.length,0);continue}
       assert.ok(path.length)
       let reached=false
-      for(let i=0;i<3000&&!reached;i++) {
-        reached=moveTowards(e,-sign*55,-sign*55,0.1,[],0.6)
+      for(let i=0;i<5000&&!reached;i++) {
+        reached=moveTowards(e,-sign*110,-sign*110,0.1,[],0.6)
         assert.ok(isDry(terrain,e.x,e.z,e.radius),`water at ${e.x},${e.z}`)
       }
       assert.ok(reached,`stuck at ${e.x},${e.z}`)
@@ -54,25 +55,25 @@ test('river has exactly two dry crossings and cannot be bypassed at map edges',(
 })
 test('orders into the central lake stop on the shore; spawned troops are dry',()=>{
   useGameStore.getState().setCivilizations('british','indian','lake')
-  const e=createUnit('march','sepoy','player',-45,0)
+  const e=createUnit('march','sepoy','player',-75,0)
   let reached=false
   for(let i=0;i<1500&&!reached;i++) reached=moveTowards(e,0,0,0.1,[],0.6)
   assert.ok(reached)
   assert.ok(isDry('lake',e.x,e.z,e.radius))
   assert.equal(isPlacementValid(0,0,'house'),false)
-  const shore=createBuilding('shore','barracks','player',-32,0,true)
+  const shore=createBuilding('shore','barracks','player',-62,0,true)
   const fresh=spawnUnit('royalElephant','player',shore)
   assert.ok(isDry('lake',fresh.x,fresh.z,fresh.radius))
 })
 
 test('a mixed formation crosses safely while applying unit separation',()=>{
   setActiveTerrain('river')
-  const troops=['royalElephant','sepoy','hussar','heavyCannon'].map((kind,i)=>createUnit(`u${i}`,kind,'player',-22-i*2,-34+i*1.4))
+  const troops=['royalElephant','sepoy','hussar','heavyCannon'].map((kind,i)=>createUnit(`u${i}`,kind,'player',-22-i*2,-66+i*1.4))
   const arrived=new Set()
   for(let frame=0;frame<1500 && arrived.size<troops.length;frame++) for(let i=0;i<troops.length;i++) {
     const e=troops[i]
     if(arrived.has(e.id))continue
-    if(moveTowards(e,20+i*2,-34+i*1.4,0.1,troops,0.6))arrived.add(e.id)
+    if(moveTowards(e,20+i*2,-66+i*1.4,0.1,troops,0.6))arrived.add(e.id)
     assert.ok(isDry('river',e.x,e.z,e.radius))
   }
   assert.equal(arrived.size,troops.length)

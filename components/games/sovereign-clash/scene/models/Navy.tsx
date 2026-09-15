@@ -37,6 +37,7 @@ function Sail({ civ,z=0,small=false,color }: {civ:Civilization;z?:number;small?:
 export function ShipModel({id,kind}:{id:string;kind:'fishingBoat'|'transportShip'|'warship'}) {
   const team=useGameStore.getState().entities[id]?.team??'player'
   const civ=useGameStore(s=>team==='player'?s.playerCiv:s.enemyCiv)
+  const age=useGameStore(s=>team==='player'?s.playerAge:s.enemyAge)
   const root=useRef<Group>(null)
   const color=team==='player'?'#315e97':'#b44934'
   const fishing=kind==='fishingBoat',war=kind==='warship',jp=civ==='japanese'
@@ -49,6 +50,7 @@ export function ShipModel({id,kind}:{id:string;kind:'fishingBoat'|'transportShip
       root.current.position.y=0.04+Math.sin(clock.elapsedTime*1.6)*0.025-sinking*2.5
     }
   })
+  if(kind==='transportShip'&&age>=3)return <group ref={root}><PoweredTransport color={color} modern={age>=4}/></group>
   return <group ref={root} scale={fishing?0.7:war?1.2:1}>
     <mesh castShadow receiveShadow><primitive object={hull} attach="geometry" dispose={null}/><meshStandardMaterial color={p.color} roughness={0.8} side={DoubleSide}/></mesh>
     <mesh receiveShadow><primitive object={deck} attach="geometry" dispose={null}/><meshStandardMaterial color="#b2915f" roughness={0.92} side={DoubleSide}/></mesh>
@@ -97,5 +99,21 @@ export function FishModel({shore=false}:{shore?:boolean}) {
       <mesh scale={[0.09,0.025,0.22]}><sphereGeometry args={[1,8,5]}/><meshStandardMaterial color="#b2d3cf" roughness={0.35}/></mesh>
       <mesh position={[0,0,-0.23]} rotation={[Math.PI/2,0,0]}><coneGeometry args={[0.09,0.15,3]}/><meshStandardMaterial color="#8fc5bd"/></mesh>
     </group>)}
+  </group>
+}
+
+function PoweredTransport({color,modern}:{color:string;modern:boolean}) {
+  return <group>
+    <Block at={[0,.28,0]} size={[1.7,.5,4.1]} color={modern?'#596b73':'#343e43'}/>
+    <Block at={[0,.58,.3]} size={[1.45,.12,3.3]} color="#8d9997"/>
+    {[-1,1].map(side=><Block key={side} at={[side*.8,.85,0]} size={[.14,.7,4]} color={color}/>)}
+    <Block at={[0,.86,1.99]} size={[1.58,.95,.12]} color="#6c7d80" rotation={[-.2,0,0]}/>
+    <Block at={[0,1.1,-1.35]} size={[1.35,1.05,1]} color="#b7bdb5"/>
+    <Block at={[0,1.33,-.82]} size={[1.16,.3,.04]} color="#365f70"/>
+    <Block at={[0,1.7,-1.4]} size={[1.5,.12,1.15]} color={color}/>
+    <Block at={[.46,2,-1.4]} size={[.045,.8,.045]} color="#363d3e"/>
+    <Block at={[.68,2.23,-1.4]} size={[.44,.23,.03]} color={color}/>
+    {!modern&&<><Block at={[-.45,1.75,-.55]} size={[.27,1.1,.27]} color="#313b3c"/><Block at={[.45,1.75,-.55]} size={[.27,1.1,.27]} color="#313b3c"/></>}
+    {[0,.55,1.1].map(z=><Block key={z} at={[0,.67,z]} size={[.9,.04,.09]} color="#d8c990"/>)}
   </group>
 }

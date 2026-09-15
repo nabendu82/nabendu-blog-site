@@ -16,7 +16,7 @@ export type UnitClass =
   | 'elephant'
   | 'siege'
 
-export const MODERN_UNITS = ['rifleman', 'machineGunner', 'rocketTrooper', 'tank', 'heavyArtillery', 'jeep', 'helicopter', 'destroyer'] as const
+export const MODERN_UNITS = ['pinaka', 'rifleman', 'machineGunner', 'rocketTrooper', 'tank', 'heavyArtillery', 'jeep', 'helicopter', 'destroyer'] as const
 export function isModernUnit(e: { kind: string }): boolean { return (MODERN_UNITS as readonly string[]).includes(e.kind) }
 export function canAttackTarget(attacker: {kind: string}, target: {kind: string}): boolean {
   return target.kind !== 'helicopter' || ['rifleman', 'machineGunner', 'rocketTrooper', 'jeep', 'helicopter', 'destroyer'].includes(attacker.kind)
@@ -113,6 +113,13 @@ export interface TrainJob {
 }
 
 export interface Entity {
+  projectileTargetAir?: boolean
+  isMainTownCenter?: boolean
+  modernDoctrine?: Civilization
+  salvoRemaining?: number
+  salvoTimer?: number
+  salvoTargetId?: string
+  transportAge?: number
   passengers?: Entity[]
   shoreFish?: boolean
   embarked?: boolean
@@ -381,7 +388,7 @@ export function isMusketKind(kind: string): boolean {
 }
 
 export function isSiegeKind(kind: string): boolean {
-  if (['tank','heavyArtillery','destroyer','rocketTrooper','helicopter'].includes(kind)) return true
+  if (['pinaka','tank','heavyArtillery','destroyer','rocketTrooper','helicopter'].includes(kind)) return true
   if (kind === 'warship') return true
   return kind === 'falconet' || kind === 'siegeElephant' || kind === 'rocket' || kind === 'heavyCannon' || kind === 'flamingArrow' || kind === 'royalElephant'
 }

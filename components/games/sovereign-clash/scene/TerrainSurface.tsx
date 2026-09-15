@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { BufferGeometry, Float32BufferAttribute, ShaderMaterial, Color, DataTexture, RGBAFormat, SRGBColorSpace, LinearFilter } from 'three'
+import { MAP_SIZE, MAP_HALF } from '../game/constants'
 import { isWater, riverCenter, CROSSINGS, TERRAINS, type TerrainKind } from '../game/terrain'
 import { Block } from './models/Architecture'
 
@@ -12,7 +13,7 @@ export function useTerrainTexture(kind: TerrainKind) {
     const base = new Color(TERRAINS[kind].land).convertLinearToSRGB()
     const shore = new Color(kind === 'oasis' ? '#d9c591' : '#b1ae7c').convertLinearToSRGB()
     for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-      const wx = x / size * 160 - 80, wz = 80 - y / size * 160
+      const wx = x / size * MAP_SIZE - MAP_HALF, wz = MAP_HALF - y / size * MAP_SIZE
       const nearWater = [[-2,0],[2,0],[0,-2],[0,2]].some(([dx,dz]) => isWater(kind, wx + dx, wz + dz))
       const c = nearWater ? shore : base
       const noise = 0.94 + (Math.sin(x * 12.9898 + y * 78.233) * 43758.5453 % 1) * 0.025
@@ -38,9 +39,9 @@ export function TerrainSurface({ kind }: { kind: TerrainKind }) {
         vertices.push(cx,0.05,cz,cx+Math.cos(b)*rx,0.05,cz+Math.sin(b)*rz,cx+Math.cos(a)*rx,0.05,cz+Math.sin(a)*rz)
       }
     }
-    if (kind === 'lake') ellipse(0,0,29,35)
-    if (kind === 'oasis') { ellipse(-24,13,16,22); ellipse(24,-13,16,22) }
-    if (kind === 'river') for (let z=-80;z<80;z+=0.5) {
+    if (kind === 'lake') ellipse(0,0,58,70)
+    if (kind === 'oasis') vertices.push(-48,.05,-MAP_HALF,48,.05,MAP_HALF,48,.05,-MAP_HALF,-48,.05,-MAP_HALF,-48,.05,MAP_HALF,48,.05,MAP_HALF)
+    if (kind === 'river') for (let z=-MAP_HALF;z<MAP_HALF;z+=0.5) {
       const a=riverCenter(z),b=riverCenter(z+0.5)
       vertices.push(a-7,0.05,z,b-7,0.05,z+0.5,a+7,0.05,z,a+7,0.05,z,b-7,0.05,z+0.5,b+7,0.05,z+0.5)
     }

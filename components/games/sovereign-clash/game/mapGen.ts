@@ -1,6 +1,7 @@
 import { isDry, isCrossing, isWater, nearestDry, riverCenter, type TerrainKind } from './terrain'
 import {
   BUILDING_STATS,
+  MAP_HALF,
   ENEMY_BASE,
   PLAYER_BASE,
   RESOURCE_STATS,
@@ -16,7 +17,7 @@ import {
   type UnitKind,
 } from './types'
 
-const MAP_LIMIT = 76
+const MAP_LIMIT = MAP_HALF - 4
 
 function mulberry32(seed: number): () => number {
   let a = seed
@@ -178,12 +179,12 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     occupied.push({ x: e.x, z: e.z, r: e.radius + pad })
   }
 
-  add(createBuilding(id(), 'townCenter', 'player', PLAYER_BASE.x, PLAYER_BASE.z, true))
+  add({ ...createBuilding(id(), 'townCenter', 'player', PLAYER_BASE.x, PLAYER_BASE.z, true), isMainTownCenter: true })
   add(createUnit(id(), 'villager', 'player', PLAYER_BASE.x + 3.4, PLAYER_BASE.z + 1.6))
   add(createUnit(id(), 'villager', 'player', PLAYER_BASE.x + 2.0, PLAYER_BASE.z + 3.0))
   add(createUnit(id(), 'villager', 'player', PLAYER_BASE.x + 4.2, PLAYER_BASE.z + 2.4))
 
-  add(createBuilding(id(), 'townCenter', 'enemy', ENEMY_BASE.x, ENEMY_BASE.z, true))
+  add({ ...createBuilding(id(), 'townCenter', 'enemy', ENEMY_BASE.x, ENEMY_BASE.z, true), isMainTownCenter: true })
   add(createUnit(id(), 'villager', 'enemy', ENEMY_BASE.x - 3.2, ENEMY_BASE.z - 1.4))
   add(createUnit(id(), 'villager', 'enemy', ENEMY_BASE.x - 2.0, ENEMY_BASE.z - 3.2))
   add(createUnit(id(), 'villager', 'enemy', ENEMY_BASE.x - 4.4, ENEMY_BASE.z - 2.2))
@@ -272,8 +273,8 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     }
   }
 
-  for (let gx = -70; gx <= 70; gx += 16) {
-    for (let gz = -70; gz <= 70; gz += 16) {
+  for (let gx = -140; gx <= 140; gx += 28) {
+    for (let gz = -140; gz <= 140; gz += 28) {
       const x = gx + (rand() - 0.5) * 7
       const z = gz + (rand() - 0.5) * 7
       if (nearBase(x, z, 12)) continue
@@ -282,8 +283,8 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     }
   }
 
-  for (let gx = -66; gx <= 66; gx += 20) {
-    for (let gz = -66; gz <= 66; gz += 20) {
+  for (let gx = -132; gx <= 132; gx += 32) {
+    for (let gz = -132; gz <= 132; gz += 32) {
       const x = gx + (rand() - 0.5) * 8
       const z = gz + (rand() - 0.5) * 8
       if (nearBase(x, z, 11)) continue
@@ -306,7 +307,7 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     [0, 50, 4, 2.2],
     [0, -50, 4, 2.2],
   ]
-  for (const [x, z, n, s] of berries) placeCluster('berryBush', x, z, n, s)
+  for (const [x, z, n, s] of berries) placeCluster('berryBush', x*2, z*2, n, s)
 
   const herds: [number, number, number, number][] = [
     [-18, -8, 4, 2.6],
@@ -318,7 +319,7 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     [0, -40, 3, 2.0],
     [0, 40, 3, 2.0],
   ]
-  for (const [x, z, n, s] of herds) placeCluster('herd', x, z, n, s)
+  for (const [x, z, n, s] of herds) placeCluster('herd', x*2, z*2, n, s)
 
   const fish=(x:number,z:number)=>{
     if(!isWater(terrain,x,z))return
@@ -328,9 +329,11 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
     add(e,0)
   }
   if(terrain==='river') {
-    for(let z=-68;z<=68;z+=12){fish(riverCenter(z)-6.2,z);fish(riverCenter(z)+6.2,z+2)}
-  } else if(terrain!=='grassland') {
-    const pools=terrain==='lake' ? [[0,0,29,35]] : [[-24,13,16,22],[24,-13,16,22]]
+    for(let z=-144;z<=144;z+=12){fish(riverCenter(z)-6.2,z);fish(riverCenter(z)+6.2,z+2)}
+  } else if(terrain==='oasis') {
+    for(let z=-140;z<=140;z+=20){fish(-47.3,z);fish(47.3,z);fish(0,z)}
+  } else if(terrain==='lake') {
+    const pools=terrain==='lake' ? [[0,0,58,70]] : [[-24,13,16,22],[24,-13,16,22]]
     for(const [cx,cz,rx,rz] of pools) {
       for(let i=0;i<12;i++){const a=i*Math.PI/6;fish(cx+Math.cos(a)*(rx-0.7),cz+Math.sin(a)*(rz-0.7))}
       for(let i=0;i<6;i++){const a=i*Math.PI/3;fish(cx+Math.cos(a)*rx*0.45,cz+Math.sin(a)*rz*0.45)}
@@ -340,12 +343,12 @@ export function generateWorld(enemyCiv: import('./types').Civilization = 'britis
   // Equal, generous reserves on each side; find clear land outside the starting base.
   for (const side of [-1, 1]) {
     for (const [kind, dx, dz] of [['oilWell', 15, -5], ['metalDeposit', -5, 16], ['oilWell', 20, 12], ['metalDeposit', 12, 23]] as const) {
-      const center = side * 55
+      const center = side * 110
       const spot = nearestDry(terrain, center - side * dx, center - side * dz, 3)
       for (let attempt = 0; attempt < 100; attempt++) {
         const a = attempt * 2.4, r = Math.sqrt(attempt) * 1.8
         const x = spot.x + Math.cos(a) * r, z = spot.z + Math.sin(a) * r
-        if (Math.abs(x)>74 || Math.abs(z)>74 || !isDry(terrain,x,z,3)) continue
+        if (Math.abs(x)>MAP_LIMIT || Math.abs(z)>MAP_LIMIT || !isDry(terrain,x,z,3)) continue
         if (Object.values(entities).some(e => Math.hypot(e.x-x,e.z-z)<e.radius+3)) continue
         add(createResource(id(),kind,x,z),0); break
       }

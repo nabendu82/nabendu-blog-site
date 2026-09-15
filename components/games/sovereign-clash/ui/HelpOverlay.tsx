@@ -1,6 +1,7 @@
 "use client";
 
 import { CircleHelp, Play, X } from 'lucide-react'
+import { MODERN_DOCTRINES } from '../game/modern'
 import { CIV_DETAILS, GAME_TITLE } from '../game/constants'
 import { useGameStore } from '../game/store'
 import type { Civilization } from '../game/types'
@@ -31,7 +32,7 @@ function getCivEconomyItems(civ: Civilization): { title: string; items: string[]
           'Sacred Fields generate continuous passive Food without exhausting resource nodes',
           'Universal Farms (70 Wood, 40 Food) provide additional steady food cultivation',
           'Drop off at Town Center, or localized Lumber Camps, Mills, and Mining Camps',
-          'Houses add +10 population; Town Center starts at 20 pop with 100 maximum cap',
+          'Houses add +10 population; each Town Center adds 20 population capacity',
           'Aging: Discovery → Commerce costs 800 Food; Commerce → Fortress costs 1200 Food, 1000 Gold',
         ],
       }
@@ -43,7 +44,7 @@ function getCivEconomyItems(civ: Civilization): { title: string; items: string[]
           'Manors provide +15 population and automatically spawn a free Settler upon completion',
           'Universal Farms (70 Wood, 40 Food) provide steady passive food cultivation',
           'Drop off at Town Center, or localized Lumber Camps, Mills, and Mining Camps',
-          'Town Center starts at 20 pop with 100 maximum population cap',
+          'Each Town Center adds 20 population capacity',
           'Aging: Discovery → Commerce costs 800 Food; Commerce → Fortress costs 1200 Food, 1000 Gold',
         ],
       }
@@ -67,7 +68,7 @@ function getCivEconomyItems(civ: Civilization): { title: string; items: string[]
           'Châteaux provide +10 population, fire defensive arrows, and yield continuous Gold tribute (+2.0/s)',
           'Universal Farms (70 Wood, 40 Food) provide steady passive food cultivation',
           'Drop off at Town Center, or localized Lumber Camps, Mills, and Mining Camps',
-          'Houses add +10 population; Town Center starts at 20 pop with 100 maximum cap',
+          'Houses add +10 population; each Town Center adds 20 population capacity',
           'Aging: Discovery → Commerce costs 800 Food; Commerce → Fortress costs 1200 Food, 1000 Gold',
         ],
       }
@@ -131,9 +132,9 @@ function getCivEnemyItems(civ: Civilization): { title: string; items: string[] }
         items: [
           'Enemy base fortified at top-right corner; starts with Town Center, Sacred Fields, and guards',
           'Defensive Fortress: Agra Fort auto-fires rapid defensive arrow volleys at invaders',
-          'Raid Wave 1 (~10:00): Sepoy musket lines and Rajput swordsmen',
-          'Raid Wave 2 (~18:00): Gurkha riflemen, Sowar camel riders, and Mahout Lancers',
-          'Raid Wave 3 (~26:00): Colossal Siege Elephants, Mahouts, Gurkhas, and Falconet cannons',
+          'Easy Raid Wave 1 (~10:00): Sepoy musket lines and Rajput swordsmen',
+          'Easy Raid Wave 2 (~18:00): Gurkha riflemen, Sowar camel riders, and Mahout Lancers',
+          'Easy Raid Wave 3 (~26:00): Colossal Siege Elephants, Mahouts, Gurkhas, and Falconet cannons',
           'Tactics: Use anti-cavalry pikes and halberdiers to counter heavy elephant trample rushes!',
         ],
       }
@@ -143,9 +144,9 @@ function getCivEnemyItems(civ: Civilization): { title: string; items: string[] }
         items: [
           'Enemy base fortified at top-right corner; starts with red-brick Town Center, Manors, and guards',
           'Manors continuously spawn free enemy settlers to rapidly expand the British war machine',
-          'Raid Wave 1 (~10:00): Longbowmen, Pikemen, and Redcoat line musketeers',
-          'Raid Wave 2 (~18:00): Redcoat line infantry and Hussar shock cavalry',
-          'Raid Wave 3 (~26:00): Redcoats, Dragoon ranged riders, and heavy Falconet artillery',
+          'Easy Raid Wave 1 (~10:00): Longbowmen, Pikemen, and Redcoat line musketeers',
+          'Easy Raid Wave 2 (~18:00): Redcoat line infantry and Hussar shock cavalry',
+          'Easy Raid Wave 3 (~26:00): Redcoats, Dragoon ranged riders, and heavy Falconet artillery',
           'Tactics: Longbowmen have extended range; use fast cavalry to rush and flank them!',
         ],
       }
@@ -156,9 +157,9 @@ function getCivEnemyItems(civ: Civilization): { title: string; items: string[] }
           'Enemy base fortified at top-right corner; starts with Town Center, Torii Shrines, and guards',
           'Defensive Stronghold: Tenshu Pagoda Castle unleashes lethal arrow fire on all intruders',
           'Bushido discipline grants all Japanese enemy melee troops +25% attack speed',
-          'Raid Wave 1 (~10:00): Ashigaru spearmen and Yumi Archers',
-          'Raid Wave 2 (~18:00): Dual-blade Samurai and Naginata shock cavalry',
-          'Raid Wave 3 (~26:00): Elite Samurai masters, Naginata riders, and Falconet siege cannons',
+          'Easy Raid Wave 1 (~10:00): Ashigaru spearmen and Yumi Archers',
+          'Easy Raid Wave 2 (~18:00): Dual-blade Samurai and Naginata shock cavalry',
+          'Easy Raid Wave 3 (~26:00): Elite Samurai masters, Naginata riders, and Falconet siege cannons',
           'Tactics: Avoid tight melee grouping; soften Samurai from range before engaging!',
         ],
       }
@@ -168,9 +169,9 @@ function getCivEnemyItems(civ: Civilization): { title: string; items: string[] }
         items: [
           'Enemy base fortified at top-right corner; starts with Town Center, stone Châteaux, and guards',
           'Châteaux fire defensive arrow volleys and generate continuous Gold tribute for enemy reinforcements',
-          'Raid Wave 1 (~10:00): Crossbowmen and Halberdier polearms',
-          'Raid Wave 2 (~18:00): Halberdiers, Crossbowmen, and Hussar cavalry',
-          'Raid Wave 3 (~26:00): Devastating armored Cuirassiers, Halberdiers, and Falconet artillery',
+          'Easy Raid Wave 1 (~10:00): Crossbowmen and Halberdier polearms',
+          'Easy Raid Wave 2 (~18:00): Halberdiers, Crossbowmen, and Hussar cavalry',
+          'Easy Raid Wave 3 (~26:00): Devastating armored Cuirassiers, Halberdiers, and Falconet artillery',
           'Tactics: Cuirassiers deal area splash damage; counter with anti-cavalry pikes and spaced ranks!',
         ],
       }
@@ -209,13 +210,15 @@ export function HelpOverlay() {
         <div className="min-h-0 flex-1 overflow-y-auto px-7 pb-2 pt-6">
           <div className="pr-8 text-2xl font-bold text-amber-100">{GAME_TITLE}</div>
           <p className="mt-1 text-sm text-amber-200/75">
-            Destroy the <span className="font-semibold text-amber-100">{enemyDetails.name}</span> Town Center to win.
+            Destroy the <span className="font-semibold text-amber-100">{enemyDetails.name}</span> main starting Town Center to win. Protect your original Town Center; additional Town Centers do not replace it.
             The match stays paused until you press {playLabel}.
           </p>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
-            <Section title="Modern Age · all civilizations" items={[
+            {(Object.entries(MODERN_DOCTRINES) as [Civilization, typeof MODERN_DOCTRINES[ Civilization ]][]).map(([civ,doctrine])=><Section key={civ} title={`${CIV_DETAILS[civ].name} · ${doctrine.title}`} items={[doctrine.strengths,doctrine.weakness]}/>)}
+          <Section title="Modern Age · all civilizations" items={[
             'Advance from Industrial at your Town Center: 3000 Food, 2200 Gold, 80 seconds.',
+            'Medium: once both sides reach Modern, raids are spaced 2:42 apart instead of 2:24.',
             'Select workers and right-click Petrol or Metal drilling sites. Mining Camps and Town Centers accept both resources. Food, Gold and Wood remain available.',
             'Barracks: Riflemen, Machine Gunners and Rocket Troopers. Factory: Tanks, Recon Jeeps and Heavy Artillery. Helipad: Attack Helicopters. Dock: Destroyers.',
             'Machine Gunners counter infantry. Rocket Troopers counter tanks and helicopters. Heavy Artillery has long range but needs protection.',
@@ -239,7 +242,9 @@ export function HelpOverlay() {
             <Section title={military.title} items={military.items} />
             <Section title={enemy.title} items={enemy.items} />
             <Section title="Water, fishing & fleets" items={[
-              'Choose Great Lake, Two Crossings or Amber Oasis in empire selection to enable naval play. Emerald Plains is the original land map.',
+              'All maps are 320 × 320. Sundering Sea has no land crossing: use transport ships or helicopters.',
+              'Transport ships become steamships in Industrial and landing ships in Modern, with more health, speed and passenger capacity.',
+              'Choose Great Lake, Two Crossings or Sundering Sea in empire selection to enable naval play. Emerald Plains is the original land map.',
               'Villagers can gather marked Shore Fish from the bank. Fishing boats can gather all fish, including deep shoals, and deliver food to a Dock.',
               'Build Docks on dry land within 6 tiles of navigable water. Fishing boats unlock immediately, transports in Commerce, and cannon ships in Fortress.',
               'To transport troops, bring a transport near shore, select land units and right-click it. Select the ship and choose Unload troops near a clear beach. Passengers are lost if their ship sinks.',
@@ -252,7 +257,7 @@ export function HelpOverlay() {
               'Buildings gain 35% health. Villagers gather 20% faster and carry 5 more resources.',
               'Build up to two Industrial Workshops (600 Wood + 400 Gold). Each generates 2 Wood and 2 Gold per second and trains unique heavy artillery.',
               'British Rocket Batteries, French Heavy Cannons, Japanese Flaming Arrows and Indian Royal Siege Elephants provide splash damage and powerful siege attacks.',
-              'The enemy reaches Industrial Age at 30 minutes and deploys its own heavy artillery.',
+              'Enemy Industrial Age: Easy 30 minutes, Medium 18 minutes, Hard 10:30. Higher difficulty also brings earlier raids.',
             ]} />
           </div>
         </div>

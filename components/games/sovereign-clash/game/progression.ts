@@ -1,8 +1,12 @@
+import { applyModernDoctrine } from './modern'
+import { upgradeTransport } from './navy'
 import { INDUSTRIAL_CIVS } from './constants'
 import { isBuilding, isUnit, requiredAge, type Age, type Civilization, type Entity } from './types'
 
 /** Preserve damage and construction progress; apply each promotion exactly once. */
 export function applyIndustrialUpgrade(e: Entity, civ: Civilization, age: Age): void {
+  upgradeTransport(e,age)
+  applyModernDoctrine(e,civ,age)
   if (age < 3 || e.industrialUpgraded || e.dying || (!isUnit(e) && !isBuilding(e))) return
   e.industrialUpgraded = true
   if (requiredAge(e.kind) >= 3) return

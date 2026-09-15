@@ -1,6 +1,6 @@
 import type { BuildingKind, Civilization, ResourceKind, UnitClass, UnitKind } from './types'
 
-export const MAP_SIZE = 160
+export const MAP_SIZE = 320
 export const MAP_HALF = MAP_SIZE / 2
 
 export const GAME_TITLE = 'Sovereign Clash'
@@ -101,8 +101,8 @@ export const CIV_DETAILS: Record<
   },
 }
 
-export const PLAYER_BASE = { x: -55, z: -55 }
-export const ENEMY_BASE = { x: 55, z: 55 }
+export const PLAYER_BASE = { x: -110, z: -110 }
+export const ENEMY_BASE = { x: 110, z: 110 }
 
 export const DEATH_DURATION = 0.55
 export const BUILDING_DEATH_DURATION = 1.8
@@ -168,6 +168,7 @@ export const UNIT_STATS: Record<
   UnitKind,
   { hp: number; speed: number; attack: number; range: number; radius: number; splash?: number }
 > = {
+  pinaka: { hp: 240, speed: 3.6, attack: 26, range: 23, radius: 1.05, splash: 4.4 },
   rifleman: { hp: 160, speed: 4.8, attack: 22, range: 10, radius: 0.4, splash: 0 },
   machineGunner: { hp: 190, speed: 3.9, attack: 12, range: 11, radius: 0.45, splash: 0 },
   rocketTrooper: { hp: 140, speed: 3.7, attack: 52, range: 13, radius: 0.45, splash: 1.4 },
@@ -213,6 +214,7 @@ export const UNIT_STATS: Record<
 }
 
 export const UNIT_CLASS: Record<UnitKind, UnitClass> = {
+  pinaka: 'siege',
   rifleman: 'rangedInf',
   machineGunner: 'rangedInf',
   rocketTrooper: 'rangedInf',
@@ -274,8 +276,10 @@ export const RESOURCE_STATS: Record<
   'tree' | 'berryBush' | 'goldMine' | 'herd' | 'fish' | 'oilWell' | 'metalDeposit',
   { amount: number; radius: number; resource: ResourceKind }
 > = {
-  oilWell: { amount: 12000, radius: 1.2, resource: 'petrol' },
-  metalDeposit: { amount: 12000, radius: 1.1, resource: 'metal' },
+  // Two deposits per side: extended reserves for 3–4 hour campaigns.
+  // Metal gets extra headroom because modern armies consume more metal than fuel.
+  oilWell: { amount: 24000, radius: 1.2, resource: 'petrol' },
+  metalDeposit: { amount: 48000, radius: 1.1, resource: 'metal' },
   tree: { amount: 160, radius: 0.65, resource: 'wood' },
   fish: { amount: 900, radius: 0.55, resource: 'food' },
   berryBush: { amount: 90, radius: 0.7, resource: 'food' },
@@ -285,6 +289,7 @@ export const RESOURCE_STATS: Record<
 
 export const COSTS: Record<string, { wood?: number; food?: number; gold?: number; petrol?: number; metal?: number }> = {
   helipad: { wood: 250, gold: 250, metal: 180 },
+  pinaka: { gold: 280, metal: 380, petrol: 130 },
   rifleman: {food: 90, gold: 50, metal: 35},
   machineGunner: {food: 110, gold: 70, metal: 65},
   rocketTrooper: {food: 90, gold: 90, metal: 90},
@@ -352,6 +357,7 @@ export const COSTS: Record<string, { wood?: number; food?: number; gold?: number
 }
 
 export const TRAIN_TIME: Record<UnitKind, number> = {
+  pinaka: 40,
   rifleman: 18,
   machineGunner: 21,
   rocketTrooper: 24,
@@ -386,6 +392,7 @@ export const TRAIN_TIME: Record<UnitKind, number> = {
 
 export const DISPLAY_NAMES: Record<string, string> = {
   helipad: 'Helipad', oilWell: 'Petrol Drilling Site', metalDeposit: 'Metal Drilling Site',
+  pinaka: 'Pinaka Rocket Launcher',
   rifleman: 'Rifleman',
   machineGunner: 'Machine Gunner',
   rocketTrooper: 'Rocket Trooper',
@@ -440,13 +447,14 @@ export const DISPLAY_NAMES: Record<string, string> = {
 
 export const CAMERA = {
   minDistance: 16,
-  maxDistance: 110,
+  maxDistance: 170,
   defaultDistance: 32,
   heightFactor: 0.78,
 }
 
 export function visionRange(kind: string, isBuilding: boolean): number {
   if (kind === 'helicopter' || kind === 'jeep' || kind === 'destroyer') return 24
+  if (kind === 'pinaka') return 18
   if (kind === 'heavyArtillery') return 15
   if (kind === 'fishingBoat' || kind === 'transportShip' || kind === 'warship') return 18
   if (kind === 'sowar' || kind === 'hussar' || kind === 'dragoon' || kind === 'naginata' || kind === 'cuirassier') return 14

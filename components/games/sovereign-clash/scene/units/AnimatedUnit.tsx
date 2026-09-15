@@ -957,7 +957,7 @@ function AnimatedElephant({ id, siege, royal = false }: { id: string; siege: boo
 }
 
 export function AnimatedUnit({ id, kind }: { id: string; kind: UnitKind }) {
-  if(kind==='rifleman'||kind==='machineGunner'||kind==='rocketTrooper'||kind==='tank'||kind==='heavyArtillery'||kind==='jeep'||kind==='helicopter'||kind==='destroyer')return null
+  if(kind==='pinaka'||kind==='rifleman'||kind==='machineGunner'||kind==='rocketTrooper'||kind==='tank'||kind==='heavyArtillery'||kind==='jeep'||kind==='helicopter'||kind==='destroyer')return null
   if(kind==='fishingBoat'||kind==='transportShip'||kind==='warship')return null
   if (kind === 'rocket' || kind === 'flamingArrow') return <RocketCarriage id={id} japanese={kind === 'flamingArrow'} />
   if (kind === 'heavyCannon') return <group scale={1.45}><AnimatedCannon id={id} heavy /></group>

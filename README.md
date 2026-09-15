@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Sovereign Clash
+
+See the [Sovereign Clash player guide](docs/sovereign-clash.md) for Modern Age civilization advantages and disadvantages, Pinaka rocket artillery, training costs, difficulty schedules, terrain, transport upgrades and research sources. Run `npm run test:game` for gameplay regression checks.

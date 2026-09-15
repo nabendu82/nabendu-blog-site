@@ -67,9 +67,12 @@ export function RTSCamera() {
     const up = (e: KeyboardEvent) => {
       keys.current.delete(e.key.toLowerCase())
     }
+    const blur = () => { keys.current.clear(); dragging.current = false }
+    window.addEventListener('blur', blur)
     window.addEventListener('keydown', down)
     window.addEventListener('keyup', up)
     return () => {
+      window.removeEventListener('blur', blur)
       window.removeEventListener('keydown', down)
       window.removeEventListener('keyup', up)
     }

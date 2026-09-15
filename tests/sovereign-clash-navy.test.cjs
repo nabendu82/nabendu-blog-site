@@ -12,7 +12,7 @@ const {UNIT_STATS}=require(root+'constants.ts')
 function world(civ='british',terrain='lake'){
   useGameStore.getState().setCivilizations(civ,'japanese',terrain)
   const tc=createBuilding('tc','townCenter','player',-55,-55,true),enemy=createBuilding('enemy','townCenter','enemy',55,55,true)
-  const dock=createBuilding('dock','dock','player',-31.5,0,true)
+  const dock=createBuilding('dock','dock','player',-60.5,0,true)
   useGameStore.setState({entities:{tc,enemy,dock},selectedId:'dock',selectedIds:['dock'],playerAge:2,enemyAge:0,wood:10000,food:10000,gold:10000,helpOpen:false,civModalOpen:false,winner:null,gameTime:0,nextId:10000,navyTimer:0})
   return dock
 }
@@ -47,8 +47,8 @@ test('water maps generate finite shore and deep fish; plains have none',()=>{
 })
 test('villagers catch shore fish and deliver food without entering water',()=>{
   world();const s=useGameStore.getState()
-  const fish=createResource('fish','fish',-28.3,0);fish.shoreFish=true
-  const villager=createUnit('v','villager','player',-35,0)
+  const fish=createResource('fish','fish',-57.3,0);fish.shoreFish=true
+  const villager=createUnit('v','villager','player',-64,0)
   Object.assign(s.entities,{fish,v:villager});s.select('v');s.issueEntityOrder('fish')
   advance(20)
   assert.ok(useGameStore.getState().food>10000);assert.ok(fish.amount<900)
@@ -59,38 +59,38 @@ test('villagers catch shore fish and deliver food without entering water',()=>{
 })
 test('fishing boats gather automatically and deliver to docks',()=>{
   const dock=world('indian'),s=useGameStore.getState(),boat=spawnUnit('fishingBoat','player',dock)
-  s.entities.fish=createResource('fish','fish',-25,0)
+  s.entities.fish=createResource('fish','fish',-54,0)
   advance(25)
   assert.ok(useGameStore.getState().food>=10080)
   assert.ok(isSailable('lake',boat.x,boat.z,boat.radius));assert.ok(s.entities.fish.amount<900)
 })
 test('transports preserve passengers and population through boarding and shore unloading',()=>{
   const dock=world('french'),s=useGameStore.getState(),ship=spawnUnit('transportShip','player',dock)
-  const troops=Array.from({length:13},(_,i)=>createUnit('u'+i,'sepoy','player',-31.8,i*.02))
+  const troops=Array.from({length:13},(_,i)=>createUnit('u'+i,'sepoy','player',-60.8,i*.02))
   troops.forEach(e=>{e.hp=33;s.entities[e.id]=e})
   s.selectMany(troops.map(e=>e.id));useGameStore.getState().issueEntityOrder(ship.id);advance(.2)
   assert.equal(ship.passengers.length,12);assert.equal(popCounts(s.entities).pop,14)
   ship.x=0;ship.z=0;useGameStore.getState().select(ship.id);useGameStore.getState().unloadTransport()
   assert.equal(ship.passengers.length,12)
-  ship.x=-26.8;useGameStore.getState().unloadTransport()
+  ship.x=-55.8;useGameStore.getState().unloadTransport()
   assert.equal(ship.passengers.length,0);assert.equal(popCounts(s.entities).pop,14)
   for(const e of troops){assert.equal(s.entities[e.id],e);assert.equal(e.hp,33);assert.ok(isDry('lake',e.x,e.z,e.radius))}
 })
 test('Japanese infantry and artillery can leave the beach after transport unloading',()=>{
   world('japanese')
-  const s=useGameStore.getState(),ship=createUnit('landing','transportShip','player',0,32.5)
+  const s=useGameStore.getState(),ship=createUnit('landing','transportShip','player',0,67.5)
   const troops=['flamingArrow','ashigaru','flamingArrow','samurai','flamingArrow'].map((kind,i)=>createUnit('landing-'+i,kind,'player',0,0))
   // Prime routes from the opposite bank before transport changes their position.
   for(const [i,e] of troops.entries()) {
-    e.x=0;e.z=-40
-    moveTowards(e,(i-2)*4,48,.1,[],.5)
+    e.x=0;e.z=-75
+    moveTowards(e,(i-2)*4,83,.1,[],.5)
   }
   ship.passengers=troops;s.entities[ship.id]=ship;s.select(ship.id);s.unloadTransport()
   assert.equal(ship.passengers.length,0)
   for(const [i,e] of troops.entries()) {
     let reached=false
     for(let frame=0;frame<700&&!reached;frame++){
-      reached=moveTowards(e,(i-2)*4,48,.1,troops,.5)
+      reached=moveTowards(e,(i-2)*4,83,.1,troops,.5)
       assert.ok(isDry('lake',e.x,e.z,e.radius),`${e.kind} crossed water`)
     }
     assert.ok(reached,`${e.kind} stuck at ${e.x},${e.z}`)
@@ -99,14 +99,14 @@ test('Japanese infantry and artillery can leave the beach after transport unload
 test('troops already stranded on a narrow dry beach can route inland',()=>{
   world('japanese')
   for(const kind of ['ashigaru','flamingArrow']) {
-    const e=createUnit('stranded-'+kind,kind,'player',0,35+UNIT_STATS[kind].radius+.21)
+    const e=createUnit('stranded-'+kind,kind,'player',0,70+UNIT_STATS[kind].radius+.21)
     let reached=false
-    for(let i=0;i<500&&!reached;i++)reached=moveTowards(e,0,46,.1,[],.4)
+    for(let i=0;i<500&&!reached;i++)reached=moveTowards(e,0,81,.1,[],.4)
     assert.ok(reached,`${kind} stuck at ${e.x},${e.z}`)
     assert.ok(isDry('lake',e.x,e.z,e.radius))
   }
 })
-test('ships navigate below both river bridges and cannot cross between oasis pools',()=>{
+test('ships navigate below both river bridges and cross the connected sea',()=>{
   world('british','river')
   const ship=createUnit('s','warship','player',riverCenter(-65),-65)
   let reached=false,belowBridge=false
@@ -116,7 +116,7 @@ test('ships navigate below both river bridges and cannot cross between oasis poo
     if(bridgeHeight('river',ship.x,ship.z)===5)belowBridge=true
   }
   assert.ok(reached);assert.ok(belowBridge)
-  world('british','oasis');assert.equal(terrainRoute('oasis',-24,13,24,-13,true).length,0)
+  world('british','oasis');assert.ok(terrainRoute('oasis',-24,13,24,-13,true).length>0)
 })
 test('cannon ships damage hostile ships with projectiles',()=>{
   const dock=world(),s=useGameStore.getState(),ship=spawnUnit('warship','player',dock)

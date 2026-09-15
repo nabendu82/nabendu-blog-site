@@ -1,6 +1,8 @@
+import { modernReload } from './modern'
+import { enemyTime, raidInterval } from './difficulty'
 import { applyIndustrialUpgrade } from './progression'
 import { nearby, prepareSpatial } from './spatial'
-import { NAVIES } from './navy'
+import { transportCapacity } from './navy'
 import { nearestDry, nearestWater, sameWater, bridgeHeight } from './terrain'
 import {
   AGGRO_RANGE,
@@ -55,6 +57,7 @@ import {
   markHud,
   popCounts,
   spawnUnit,
+  unloadShip,
   spend,
   useGameStore,
 } from './store'
@@ -117,13 +120,14 @@ function damageMultiplier(attacker: Entity, target: Entity): number {
   ) {
     m *= 1.65
   }
-  if (attacker.kind==='rocketTrooper' && ['tank','jeep','heavyArtillery','helicopter','destroyer'].includes(target.kind)) m *= 2.5
+  if (attacker.kind==='rocketTrooper' && ['tank','jeep','heavyArtillery','pinaka','helicopter','destroyer'].includes(target.kind)) m *= 2.5
   if (attacker.kind==='machineGunner' && (dc==='meleeInf'||dc==='rangedInf')) m *= 1.3
   if (target.kind==='tank' && (ac==='meleeInf'||ac==='rangedInf') && attacker.kind!=='rocketTrooper') m *= 0.4
   if ((ac === 'siege' || attacker.kind === 'siegeElephant') && isBuilding(target)) m *= 3
   const s = useGameStore.getState()
   const civ = attacker.team === 'player' ? s.playerCiv : s.enemyCiv
   if (civ === 'french' && ac === 'cavalry') m *= 1.2 // French royal cavalry shock charge bonus
+  if (civ==='british' && attacker.kind==='destroyer' && target.kind==='helicopter' && (attacker.team==='player'?s.playerAge:s.enemyAge)>=4) m *= 1.5
   return m
 }
 
@@ -205,6 +209,33 @@ function autoAcquire(e: Entity, entities: Entity[]): void {
   }
 }
 
+function launchProjectile(e: Entity, target: Entity, all: Record<string, Entity>, dmg: number): void {
+    const id = allocId()
+    const splash = e.splash || 0
+    const speed = isSiegeKind(e.kind) ? SIEGE_PROJECTILE_SPEED : PROJECTILE_SPEED
+    all[id] = createProjectile(id, e.team, e.x, e.z, target.id, dmg, splash, speed)
+    all[id].sourceId = e.id
+    all[id].projectileTargetAir = target.kind === 'helicopter'
+    all[id].y = e.y + 1.2
+    useGameStore.getState().worldEpoch++
+    all[id].order.x = target.x
+    all[id].order.z = target.z
+    markHud()
+}
+
+function tickRocketSalvo(e: Entity, all: Record<string, Entity>, dt: number): void {
+  if (!e.salvoRemaining) return
+  const target=all[e.salvoTargetId ?? '']
+  if (e.order.type!=='attack' || e.order.targetId!==e.salvoTargetId || !target || target.dying || !canAttackTarget(e,target) || dist(e.x,e.z,target.x,target.z)>e.attackRange+target.radius+1) {
+    e.salvoRemaining=0; return
+  }
+  e.salvoTimer=(e.salvoTimer ?? 0)-dt
+  if(e.salvoTimer<=0){
+    launchProjectile(e,target,all,e.attack*damageMultiplier(e,target))
+    e.salvoRemaining--; e.salvoTimer=.16
+  }
+}
+
 function fireAt(
   e: Entity,
   target: Entity,
@@ -223,21 +254,14 @@ function fireAt(
   }
   if (e.kind === 'machineGunner' || e.kind === 'jeep') cd = 0.3
   if (e.kind === 'heavyArtillery') cd = 3.2
-  e.attackTimer = cd
+  if (e.kind === 'pinaka') cd = 6
+  e.attackTimer = cd * modernReload(e,civ,e.team==='player'?s.playerAge:s.enemyAge)
 
   notifyCombat()
   const dmg = e.attack * damageMultiplier(e, target)
   if (ranged) {
-    const id = allocId()
-    const splash = e.splash || 0
-    const speed = isSiegeKind(e.kind) ? SIEGE_PROJECTILE_SPEED : PROJECTILE_SPEED
-    all[id] = createProjectile(id, e.team, e.x, e.z, target.id, dmg, splash, speed)
-    all[id].sourceId = e.id
-    all[id].y = e.y + 1.2
-    useGameStore.getState().worldEpoch++
-    all[id].order.x = target.x
-    all[id].order.z = target.z
-    markHud()
+    launchProjectile(e,target,all,dmg)
+    if (e.kind==='pinaka') { e.salvoRemaining=5; e.salvoTimer=.16; e.salvoTargetId=target.id }
     if (isSiegeKind(e.kind)) playSound('siege')
     else if (isMusketKind(e.kind)) playSound('musket')
     else playSound('bow')
@@ -312,7 +336,7 @@ function tickAttackMove(e: Entity, entities: Entity[], all: Record<string, Entit
 function tickTrample(e: Entity, entities: Entity[], dt: number): void {
   if (e.kind !== 'mahout' && e.kind !== 'siegeElephant' && e.kind !== 'royalElephant') return
   for (const o of entities) {
-    if (!enemiesOf(e.team, o) || isBuilding(o) || o.dying) continue
+    if (!enemiesOf(e.team, o) || isBuilding(o) || !canAttackTarget(e, o)) continue
     if (dist(e.x, e.z, o.x, o.z) <= TRAMPLE_RADIUS) {
       applyDamage(o, TRAMPLE_DAMAGE * dt)
     }
@@ -599,7 +623,7 @@ function tickTower(e: Entity, entities: Entity[], all: Record<string, Entity>, d
   const foe = nearest(
     e,
     entities,
-    (o) => enemiesOf(e.team, o) && dist(e.x, e.z, o.x, o.z) <= (e.attackRange || TOWER_RANGE),
+    (o) => enemiesOf(e.team, o) && canAttackTarget(e, o) && dist(e.x, e.z, o.x, o.z) <= (e.attackRange || TOWER_RANGE),
   )
   if (!foe) return
   fireAt(e, foe, all, true)
@@ -615,7 +639,7 @@ function splashHit(
 ): void {
   for (const o of Object.values(all)) {
     if (!enemiesOf(shooterTeam, o) || o.dying) continue
-    if ((o.kind==='helicopter') !== (all[at.targetId ?? '']?.kind==='helicopter')) continue
+    if ((o.kind==='helicopter') !== (at.projectileTargetAir ?? (all[at.targetId ?? '']?.kind==='helicopter'))) continue
     if (shooter && !canAttackTarget(shooter,o)) continue
     if (dist(at.x, at.z, o.x, o.z) <= radius) {
       applyDamage(o, amount, shooter)
@@ -1027,7 +1051,7 @@ function civWave(civ: Civilization, waveNumber: 1 | 2 | 3): UnitKind[] {
 }
 
 function laterWaveRoster(waveIndex: number, civ: Civilization): UnitKind[] {
-  if (useGameStore.getState().enemyAge >= 4) return ['rifleman','rifleman','machineGunner','machineGunner','rocketTrooper','tank','jeep','heavyArtillery','helicopter']
+  if (useGameStore.getState().enemyAge >= 4) return ['rifleman','rifleman','machineGunner','machineGunner','rocketTrooper','tank','jeep',civ==='indian'?'pinaka':'heavyArtillery','helicopter']
   const extra = Math.min(24, Math.max(1, waveIndex - 3) * 4)
   const poolMap: Record<Civilization, { core: UnitKind[]; siege: UnitKind }> = {
     indian: {
@@ -1079,16 +1103,17 @@ function tickAi(dt: number): void {
       }
     }
   }
-  if (s.gameTime >= AI_MODERN_TIME && s.enemyAge < 4) {
+  if (s.gameTime >= enemyTime(AI_MODERN_TIME, s.difficulty) && s.enemyAge < 4) {
     s.enemyAge = 4
     for (const worker of Object.values(s.entities)) if(worker.team==='enemy' && worker.kind==='villager') worker.order=idleOrder()
     markHud()
   }
   if (s.enemyAge >= 4) constructAiBuilding('helipad',[{x:ENEMY_BASE.x+12,z:ENEMY_BASE.z+8}])
+  if(s.terrain==='oasis') tickSeaTransports(dt)
   tickManors(dt)
   s.barracksRebuildTimer = Math.max(0, s.barracksRebuildTimer - dt)
 
-  if (s.gameTime >= AI_MANOR_TIME && s.enemyAge >= 0 && !s.enemyBuiltUnique) {
+  if (s.gameTime >= enemyTime(AI_MANOR_TIME, s.difficulty) && s.enemyAge >= 0 && !s.enemyBuiltUnique) {
     const uniqueBuilding = civUniqueBuilding(s.enemyCiv)
     if (
       requiredAge(uniqueBuilding) <= s.enemyAge && constructAiBuilding(uniqueBuilding, [
@@ -1100,7 +1125,7 @@ function tickAi(dt: number): void {
     }
   }
 
-  if (s.enemyAge < 1 && s.gameTime >= AI_COMMERCE_TIME) {
+  if (s.enemyAge < 1 && s.gameTime >= enemyTime(AI_COMMERCE_TIME, s.difficulty)) {
     s.enemyAge = 1
     markHud()
   }
@@ -1117,12 +1142,12 @@ function tickAi(dt: number): void {
     }
   }
 
-  if (s.enemyAge < 2 && s.gameTime >= AI_FORTRESS_TIME) {
+  if (s.enemyAge < 2 && s.gameTime >= enemyTime(AI_FORTRESS_TIME, s.difficulty)) {
     s.enemyAge = 2
     markHud()
   }
 
-  if (s.gameTime >= AI_INDUSTRIAL_TIME) {
+  if (s.gameTime >= enemyTime(AI_INDUSTRIAL_TIME, s.difficulty)) {
     if (s.enemyAge < 3) { s.enemyAge = 3; markHud() }
     constructAiBuilding('factory', [{ x: ENEMY_BASE.x + 9, z: ENEMY_BASE.z - 9 }])
   }
@@ -1142,23 +1167,23 @@ function tickAi(dt: number): void {
   const entities = list(s.entities)
   const prey = raidTarget(entities)
 
-  if (s.waveIndex === 0 && s.gameTime >= AI_WAVE1_TIME) {
+  if (s.waveIndex === 0 && s.gameTime >= enemyTime(AI_WAVE1_TIME, s.difficulty)) {
     s.waveStarted = true
     s.waveIndex = 1
     s.waveStartTime = s.gameTime
     sendRaid(spawnWave(civWave(s.enemyCiv, 1)), prey)
     markHud()
-  } else if (s.waveIndex === 1 && s.gameTime >= AI_WAVE2_TIME) {
+  } else if (s.waveIndex === 1 && s.gameTime >= enemyTime(AI_WAVE2_TIME, s.difficulty)) {
     s.waveIndex = 2
     s.waveStartTime = s.gameTime
     sendRaid(spawnWave(civWave(s.enemyCiv, 2)), prey)
     markHud()
-  } else if (s.waveIndex === 2 && s.gameTime >= AI_WAVE3_TIME) {
+  } else if (s.waveIndex === 2 && s.gameTime >= enemyTime(AI_WAVE3_TIME, s.difficulty)) {
     s.waveIndex = 3
     s.waveStartTime = s.gameTime
     sendRaid(spawnWave(civWave(s.enemyCiv, 3)), prey)
     markHud()
-  } else if (s.waveIndex >= 3 && s.gameTime >= s.waveStartTime + AI_WAVE_INTERVAL) {
+  } else if (s.waveIndex >= 3 && s.gameTime >= s.waveStartTime + raidInterval(AI_WAVE_INTERVAL, s.difficulty, s.playerAge, s.enemyAge)) {
     s.waveIndex += 1
     s.waveStartTime = s.gameTime
     sendRaid(spawnWave(laterWaveRoster(s.waveIndex, s.enemyCiv)), prey)
@@ -1207,6 +1232,13 @@ function removeDead(entities: Entity[], all: Record<string, Entity>, dt: number)
     if (!e.dying) continue
     e.deathTimer -= dt
     if (e.deathTimer <= 0) {
+      // The starting Town Center remains the objective even after expansion.
+      if (e.isMainTownCenter && e.kind === 'townCenter' && !useGameStore.getState().winner) {
+        const winner = e.team === 'player' ? 'enemy' : 'player'
+        useGameStore.getState().winner = winner
+        playSound(winner === 'player' ? 'fanfare' : 'defeat')
+        markHud()
+      }
       delete all[e.id]
       useGameStore.getState().worldEpoch += 1
       markHud()
@@ -1224,7 +1256,7 @@ export function tickSimulation(dt: number): void {
   const entities = list(all)
   prepareSpatial(entities)
   // Settle destruction before the result overlay, without spawning raids or fighting on.
-  const ending = !entities.some(e => e.kind === 'townCenter' && e.team === 'player' && !e.dying)
+  const ending = entities.some(e => e.isMainTownCenter && e.dying) || !entities.some(e => e.kind === 'townCenter' && e.team === 'player' && !e.dying)
     || !entities.some(e => e.kind === 'townCenter' && e.team === 'enemy' && !e.dying)
   if (ending) {
     removeDead(entities, all, clampedDt)
@@ -1280,11 +1312,12 @@ export function tickSimulation(dt: number): void {
       e.attackTimer = Math.max(0, e.attackTimer - clampedDt)
     }
 
+    tickRocketSalvo(e,all,clampedDt)
     switch (e.order.type) {
       case 'board': {
         const ship=e.order.targetId ? all[e.order.targetId] : null
         const civ=e.team==='player'?s.playerCiv:s.enemyCiv
-        if(!ship || ship.dying || ship.team!==e.team || ship.kind!=='transportShip' || isShip(e) || e.kind==='helicopter' || (ship.passengers?.length??0)>=NAVIES[civ].capacity){e.order=idleOrder();break}
+        if(!ship || ship.dying || ship.team!==e.team || ship.kind!=='transportShip' || isShip(e) || e.kind==='helicopter' || (ship.passengers?.length??0)>=transportCapacity(civ,e.team==='player'?s.playerAge:s.enemyAge)){e.order=idleOrder();break}
         if(dist(e.x,e.z,ship.x,ship.z)<=6 && bridgeHeight(s.terrain,e.x,e.z)===0) {
           ship.passengers??=[];ship.passengers.push(e);e.embarked=true;delete all[e.id];s.worldEpoch++;markHud()
         } else moveTowards(e,ship.x,ship.z,clampedDt,entities,0.6,ship.id)
@@ -1331,3 +1364,30 @@ export function tickSimulation(dt: number): void {
 }
 
 export const tick = tickSimulation
+
+function tickSeaTransports(dt:number):void {
+  const s=useGameStore.getState()
+  s.transportTimer+=dt
+  if(s.transportTimer<2)return
+  s.transportTimer=0
+  if(s.enemyAge<1)return
+  const entities=Object.values(s.entities)
+  const dock=entities.find(e=>e.team==='enemy'&&e.kind==='dock'&&!e.dying&&isComplete(e))
+  if(!dock)return
+  const fleet=entities.filter(e=>e.team==='enemy'&&e.kind==='transportShip'&&!e.dying)
+  if(fleet.length<2) { spawnUnit('transportShip','enemy',dock); return }
+  for(const ship of fleet){
+    const cargo=ship.passengers?.length??0
+    if(ship.x< -44 && cargo){unloadShip(ship);if(ship.passengers?.length)continue}
+    if(ship.x<0 && !ship.passengers?.length){ship.order={type:'move',x:45,z:dock.z,targetId:null};continue}
+    if(cargo){
+      const boarding=entities.some(e=>e.order.type==='board'&&e.order.targetId===ship.id&&!e.dying)
+      if(cargo>=transportCapacity(s.enemyCiv,s.enemyAge)||!boarding)ship.order={type:'move',x:-45,z:-70,targetId:null}
+      continue
+    }
+    if(ship.x<44)continue
+    ship.order=idleOrder()
+    const recruits=entities.filter(e=>e.team==='enemy'&&isMilitary(e)&&!isShip(e)&&e.kind!=='helicopter'&&!e.guard&&!e.dying&&e.x>48&&e.order.type!=='board').slice(0,transportCapacity(s.enemyCiv,s.enemyAge))
+    for(const unit of recruits)unit.order={type:'board',x:ship.x,z:ship.z,targetId:ship.id}
+  }
+}

@@ -10,7 +10,7 @@ const {useGameStore,spend,canAfford}=require(root+'store.ts')
 const {createBuilding,createUnit,createResource,generateWorld}=require(root+'mapGen.ts')
 const {tickSimulation}=require(root+'simulation.ts')
 const {moveTowards}=require(root+'pathfinding.ts')
-const {MODERN_TRAINING,COSTS,UNIT_STATS}=require(root+'constants.ts')
+const {MODERN_TRAINING,COSTS,UNIT_STATS,RESOURCE_STATS}=require(root+'constants.ts')
 const {canAttackTarget,isUnit,isShip}=require(root+'types.ts')
 const {isDry}=require(root+'terrain.ts')
 function world(civ='british',terrain='grassland'){
@@ -42,7 +42,7 @@ test('petrol and metal cannot be overspent, and workers drill and deliver both',
   s=useGameStore.getState();s.issueEntityOrder('node');assert.equal(v.order.type,'idle')
   useGameStore.setState({playerAge:4});s=useGameStore.getState();s.issueEntityOrder('node')
   for(let i=0;i<600;i++)tickSimulation(.05)
-  assert.ok(useGameStore.getState()[resource]>0);assert.ok(node.amount<12000)
+  assert.ok(useGameStore.getState()[resource]>0);assert.ok(node.amount<RESOURCE_STATS[kind].amount)
  }
 })
 test('every terrain contains accessible reserves for both bases',()=>{
@@ -51,6 +51,7 @@ test('every terrain contains accessible reserves for both bases',()=>{
   for(const kind of ['oilWell','metalDeposit'])for(const side of [-1,1]){
    const reserves=ents.filter(e=>e.kind===kind&&Math.sign(e.x)===side)
    assert.equal(reserves.length,2,`${terrain} ${kind} ${side}`)
+   assert.equal(reserves.reduce((total,e)=>total+e.amount,0),kind==='metalDeposit'?96000:48000)
    assert.ok(reserves.every(e=>isDry(terrain,e.x,e.z,2)))
   }
  }
