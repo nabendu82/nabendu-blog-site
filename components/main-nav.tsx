@@ -15,6 +15,7 @@ const GAMES = [
 ];
 
 const EDUCATION = [
+  { label: "Education home", href: "/education", emoji: "✨" },
   { label: "Physics", href: "/education/physics", emoji: "⚛️" },
   { label: "Chemistry", href: "/education/chemistry", emoji: "🧪" },
 ];

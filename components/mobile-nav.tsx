@@ -16,6 +16,7 @@ const GAMES = [
 ];
 
 const EDUCATION = [
+  { label: "✨ Education", href: "/education" },
   { label: "⚛️ Physics", href: "/education/physics" },
   { label: "🧪 Chemistry", href: "/education/chemistry" },
 ];

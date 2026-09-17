@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = getBaseUrl();
 
     const staticRoutes: MetadataRoute.Sitemap = [
+        {url: `${baseUrl}/education`, changeFrequency: "monthly", priority: 0.9},
         {url: `${baseUrl}/education/chemistry`, changeFrequency: "monthly", priority: 0.8},
         {url: `${baseUrl}/education/physics`, changeFrequency: "monthly", priority: 0.8},
         {

@@ -30,7 +30,7 @@ export function HeroSpline() {
             Explore Games
           </Link>
           <Link
-            href="/education/physics"
+            href="/education"
             className="h-11 px-5 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 inline-flex items-center justify-center border border-slate-300 dark:border-slate-800 bg-transparent text-foreground hover:bg-slate-100 dark:hover:bg-slate-800/70 flex-1 sm:flex-initial text-center whitespace-nowrap min-w-[130px]"
           >
             Start Learning
