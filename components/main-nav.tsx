@@ -16,6 +16,7 @@ const GAMES = [
 
 const EDUCATION = [
   { label: "Physics", href: "/education/physics", emoji: "⚛️" },
+  { label: "Chemistry", href: "/education/chemistry", emoji: "🧪" },
 ];
 
 type DropdownItem = { label: string; href: string; emoji: string };

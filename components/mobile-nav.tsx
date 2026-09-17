@@ -17,6 +17,7 @@ const GAMES = [
 
 const EDUCATION = [
   { label: "⚛️ Physics", href: "/education/physics" },
+  { label: "🧪 Chemistry", href: "/education/chemistry" },
 ];
 
 export function MobileNav() {
