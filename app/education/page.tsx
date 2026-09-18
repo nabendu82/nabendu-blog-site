@@ -1,18 +1,89 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Atom, BookOpen, CheckCircle2, FlaskConical, Sparkles } from "lucide-react";
+import { ArrowRight, Atom, BookOpen, FlaskConical, MousePointer2, Move3D, Sparkles } from "lucide-react";
+import { LabPreview } from "@/components/education/LabPreview";
 
-export const metadata: Metadata = { title: "Interactive Education Labs | Nabendu", description: "Explore interactive Physics and Chemistry learning labs for CBSE Classes 6–9." };
+export const metadata: Metadata = {
+  title: "Interactive Education Labs | Nabendu",
+  description: "Explore hands-on 3D Physics and Chemistry labs for CBSE Classes 6–9. Move models, try experiments and discover the science behind them.",
+  alternates: { canonical: "/education" },
+};
 
-const LABS = [
-  { title: "Physics", eyebrow: "MECHANICA LAB", emoji: "⚛️", icon: Atom, description: "Build intuition for forces, energy and simple machines with movable 3D mechanisms and live force vectors.", features: ["Interactive simple machines and mechanisms", "Live force vectors and measurements", "Lessons for CBSE Classes 6–9"], tags: ["3D Models", "Forces & Energy", "Simple Machines"], href: "/education/physics", card: "bg-gradient-to-b from-sky-50 via-white to-sky-50/40 dark:from-sky-950/40 dark:via-slate-900/70 dark:to-slate-950/90 border-sky-200/80 dark:border-sky-500/25 hover:border-sky-400 dark:hover:border-sky-500/60", badge: "bg-sky-100 text-sky-800 border-sky-300/80 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30", iconColor: "text-sky-600 dark:text-sky-400", tag: "bg-sky-100/70 text-sky-900 border-sky-200/70 dark:bg-white/5 dark:text-sky-200 dark:border-white/10", button: "bg-sky-600 hover:bg-sky-500 shadow-sky-700/20 dark:shadow-sky-950/50" },
-  { title: "Chemistry", eyebrow: "ELEMENTA LAB", emoji: "🧪", icon: FlaskConical, description: "Move through particles, mixtures, atoms and molecules with a virtual lab where every experiment is hands-on and visual.", features: ["Nine interactive experiments for Classes 6–9", "Move glassware, atoms and molecules in 3D", "Quizzes and a personal lab notebook"], tags: ["3D Workbench", "Matter & Mixtures", "Atoms & Molecules"], href: "/education/chemistry", card: "bg-gradient-to-b from-lime-50 via-white to-violet-50/40 dark:from-lime-950/35 dark:via-slate-900/70 dark:to-violet-950/30 border-lime-200/80 dark:border-lime-500/25 hover:border-lime-400 dark:hover:border-lime-500/60", badge: "bg-lime-100 text-lime-800 border-lime-300/80 dark:bg-lime-500/15 dark:text-lime-300 dark:border-lime-500/30", iconColor: "text-lime-700 dark:text-lime-400", tag: "bg-lime-100/70 text-lime-900 border-lime-200/70 dark:bg-white/5 dark:text-lime-200 dark:border-white/10", button: "bg-lime-700 hover:bg-lime-600 shadow-lime-700/20 dark:shadow-lime-950/50" },
+const labs = [
+  {
+    subject: "Physics", name: "Mechanica Lab", kind: "physics" as const, icon: Atom,
+    headline: "Put ideas in motion.",
+    description: "Why does a ramp make lifting easier? How does a pulley change a force? Get hands-on with the machines behind everyday science.",
+    features: ["Explore movable 3D machines", "Change loads, angles and other controls", "See force vectors and live measurements"],
+    tags: ["Forces & motion", "Simple machines", "Energy"],
+    accent: "text-sky-700 dark:text-sky-300", badge: "bg-sky-100 text-sky-800 dark:bg-sky-400/10 dark:text-sky-200",
+    border: "hover:border-sky-400 dark:hover:border-sky-500/70", button: "bg-sky-700 hover:bg-sky-800 dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950",
+  },
+  {
+    subject: "Chemistry", name: "Elementa Lab", kind: "chemistry" as const, icon: FlaskConical,
+    headline: "Make the invisible visible.",
+    description: "Look inside matter, explore mixtures and meet the atoms that make up our world. Turn a textbook question into your next experiment.",
+    features: ["Try nine interactive experiments", "Move glassware, atoms and molecules in 3D", "Check your understanding with quizzes and notes"],
+    tags: ["Matter & mixtures", "Atoms & molecules", "Reactions"],
+    accent: "text-violet-700 dark:text-violet-300", badge: "bg-violet-100 text-violet-800 dark:bg-violet-400/10 dark:text-violet-200",
+    border: "hover:border-violet-400 dark:hover:border-violet-500/70", button: "bg-violet-700 hover:bg-violet-800 dark:bg-violet-500 dark:hover:bg-violet-400",
+  },
 ];
 
 export default function EducationPage() {
-  return <div className="container max-w-6xl space-y-12 py-10 lg:py-16">
-    <section className="relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-r from-neutral-900 via-slate-800 to-neutral-900 p-8 text-white shadow-2xl dark:from-neutral-950 dark:via-slate-900 dark:to-neutral-950 md:p-12"><div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_70%_80%_at_50%_0%,#000_70%,transparent_100%)]" /><div className="relative z-10 max-w-3xl space-y-4"><div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/20 px-3.5 py-1 text-xs font-semibold text-primary-foreground backdrop-blur-md"><BookOpen className="h-4 w-4 text-primary" /> Interactive Education Labs</div><h1 className="text-4xl font-black tracking-tight md:text-5xl lg:text-6xl">Learn by exploring. <span className="text-sky-300">🔬</span></h1><p className="text-base leading-relaxed text-neutral-300 md:text-lg">Interactive science experiences for CBSE Classes 6–9. Turn concepts into something you can see, change and understand.</p></div></section>
-    <section className="grid grid-cols-1 gap-8 lg:grid-cols-2" aria-label="Education labs">{LABS.map((lab) => { const Icon = lab.icon; return <article key={lab.title} className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:shadow-xl sm:p-8 ${lab.card}`}><div className="space-y-6"><div className="flex items-start justify-between gap-4"><div className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${lab.badge}`}><Icon className={`h-4 w-4 ${lab.iconColor}`} /> {lab.eyebrow}</div><span className="text-3xl" aria-hidden="true">{lab.emoji}</span></div><div><h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">{lab.title}</h2><p className="mt-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">{lab.description}</p></div><div className="space-y-2.5 rounded-xl border border-slate-200/70 bg-white/60 p-4 backdrop-blur-sm dark:border-white/10 dark:bg-black/30"><p className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">What you can explore</p>{lab.features.map((feature) => <div key={feature} className="flex items-center gap-2.5 text-xs font-medium text-slate-800 dark:text-slate-200 sm:text-sm"><CheckCircle2 className={`h-4 w-4 shrink-0 ${lab.iconColor}`} />{feature}</div>)}</div><div className="flex flex-wrap gap-1.5">{lab.tags.map((tag) => <span key={tag} className={`rounded-md border px-2.5 py-1 text-[11px] font-medium ${lab.tag}`}>{tag}</span>)}</div></div><div className="mt-6 border-t border-slate-200 pt-6 dark:border-white/10"><Link href={lab.href} className={`inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white transition-all duration-200 group-hover:gap-3 ${lab.button}`}>Open {lab.title} Lab <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link></div></article>; })}</section>
-    <section className="rounded-2xl border border-dashed border-border bg-card/60 p-6 text-center shadow-sm backdrop-blur-sm dark:bg-card/40 sm:p-8"><div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 bg-primary/10"><Sparkles className="h-6 w-6 text-primary" /></div><h2 className="mt-4 text-lg font-bold text-slate-900 dark:text-slate-100 sm:text-xl">Built for curiosity</h2><p className="mx-auto mt-2 max-w-xl text-sm text-slate-600 dark:text-muted-foreground">Choose a lab, change the controls, and make your own observations. Every experience is designed to complement classroom learning.</p></section>
-  </div>;
+  return (
+    <div className="container max-w-6xl space-y-10 py-8 lg:space-y-14 lg:py-14">
+      <section className="relative isolate overflow-hidden rounded-3xl border border-slate-700 bg-[#0c1729] text-white shadow-xl">
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_20%,#155e7555,transparent_50%),radial-gradient(ellipse_at_10%_100%,#6d28d944,transparent_60%)]" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(#ffffff05_1px,transparent_1px),linear-gradient(90deg,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="relative grid items-center gap-8 p-7 sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:p-12">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-sky-300/25 bg-sky-300/10 px-3 py-1.5 text-xs font-semibold text-sky-200"><Sparkles size={14} /> A playground for curious minds</p>
+            <h1 className="mt-6 text-4xl font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">Small experiments.<br /><span className="bg-gradient-to-r from-sky-300 via-cyan-200 to-violet-300 bg-clip-text text-transparent">Big discoveries.</span></h1>
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-300">Science makes more sense when you can explore it. Step into a 3D lab, move things around and see what happens next.</p>
+            <a href="#labs" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-900 transition-colors hover:bg-sky-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300">Find your lab <ArrowRight size={17} /></a>
+            <p className="mt-4 flex items-center gap-2 text-xs text-slate-400"><BookOpen size={14} /> CBSE Classes 6–9 · Right in your browser</p>
+          </div>
+          <div aria-hidden="true" className="relative mx-auto hidden w-full max-w-sm sm:block">
+            <div className="rounded-2xl border border-white/15 bg-white/5 p-5 shadow-2xl backdrop-blur-sm">
+              <div className="flex justify-between text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300"><span>The discovery desk</span><span className="text-cyan-300">01 / 02</span></div>
+              <LabPreview kind="chemistry" hero />
+              <div className="flex items-center justify-between border-t border-white/10 pt-4 text-xs text-slate-300"><span>Observe. Change. Understand.</span><Atom size={20} className="text-cyan-300" /></div>
+            </div>
+          </div>
+        </div>
+        <div className="relative grid grid-cols-1 gap-4 border-t border-white/10 bg-black/15 px-7 py-5 text-sm text-slate-200 sm:grid-cols-3 sm:px-10 lg:px-12">
+          {[{ icon: Move3D, text: "Explore in three dimensions" }, { icon: MousePointer2, text: "Learn by changing things" }, { icon: BookOpen, text: "Connect it to the classroom" }].map(({ icon: Icon, text }) => <div key={text} className="flex items-center gap-3"><Icon size={18} className="shrink-0 text-sky-300" />{text}</div>)}
+        </div>
+      </section>
+      <section id="labs" className="scroll-mt-24" aria-labelledby="labs-heading">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+          <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">Choose your next discovery</p><h2 id="labs-heading" className="mt-2 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Two subjects. Endless questions.</h2></div>
+          <span className="text-sm text-slate-500 dark:text-slate-400">No downloads. Just curiosity.</span>
+        </div>
+        <div className="grid gap-7 lg:grid-cols-2">
+          {labs.map((lab) => <article key={lab.kind} className={`group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-xl dark:border-slate-700 dark:bg-slate-900 ${lab.border}`}>
+            <div className={`relative border-b border-slate-200 px-6 pt-5 dark:border-white/10 ${lab.kind === "physics" ? "bg-sky-50 dark:bg-sky-950/40" : "bg-violet-50 dark:bg-violet-950/30"}`}>
+              <div className="flex items-center justify-between"><span className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${lab.badge}`}><lab.icon size={14} />{lab.name}</span><span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">3D learning lab</span></div>
+              <LabPreview kind={lab.kind} />
+            </div>
+            <div className="flex flex-1 flex-col p-6 sm:p-8">
+              <p className={`text-xs font-bold uppercase tracking-[0.18em] ${lab.accent}`}>{lab.subject}</p>
+              <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{lab.headline}</h3>
+              <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{lab.description}</p>
+              <div className="my-5 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-white/10 dark:bg-slate-950/50">
+                <p className={`mb-3 text-xs font-bold uppercase tracking-wider ${lab.accent}`}>Inside the lab</p>
+                <ul className="space-y-3">{lab.features.map((feature) => <li key={feature} className="flex gap-2.5 text-sm text-slate-700 dark:text-slate-200"><ArrowRight size={15} className={`mt-0.5 shrink-0 ${lab.accent}`} />{feature}</li>)}</ul>
+              </div>
+              <div className="mb-6 flex flex-wrap gap-2">{lab.tags.map((tag) => <span key={tag} className="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-white/5 dark:text-slate-300">{tag}</span>)}</div>
+              <Link href={`/education/${lab.kind}`} className={`mt-auto inline-flex items-center justify-between rounded-xl px-5 py-3.5 text-sm font-bold text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${lab.button}`}>Explore {lab.subject}<ArrowRight size={18} className="transition-transform motion-safe:group-hover:translate-x-1" /></Link>
+            </div>
+          </article>)}
+        </div>
+      </section>
+      <section aria-label="How to explore" className="grid gap-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900/50 sm:grid-cols-3 sm:p-8">
+        {[["01", "Ask a question", "Pick a concept that makes you wonder."], ["02", "Try something", "Move a model or change a control. Notice what changes."], ["03", "Make the connection", "Use the explanations to understand what you observed."]].map(([number, title, text]) => <div key={number}><span className="font-mono text-xs font-bold text-sky-700 dark:text-sky-300">{number} /</span><h2 className="mt-2 font-bold text-slate-900 dark:text-white">{title}</h2><p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{text}</p></div>)}
+      </section>
+    </div>
+  );
 }

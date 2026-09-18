@@ -3,6 +3,7 @@
 import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, Html, Lightformer, Line, OrbitControls, RoundedBox } from '@react-three/drei';
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useTheme } from 'next-themes';
 import { Group, Mesh, Plane, Vector3 } from 'three';
 import { atoms, molecules, litmus, type LabId } from '@/lib/education/chemistry';
 
@@ -144,6 +145,8 @@ function Zoom({ value }: { value: number }) {
  return null;
 }
 export default function ParticleScene(props: Props) {
+ const { resolvedTheme } = useTheme();
+ const isDark = resolvedTheme === 'dark';
  const [move, setMove] = useState(false), [labels, setLabels] = useState(true), [dragging, setDragging] = useState(false), [selected, setSelected] = useState('Select an object to inspect'), [version, setVersion] = useState(0), [expanded, setExpanded] = useState(false), [exploded, setExploded] = useState(false);
  const [zoom, setZoom] = useState(1), selectedObject = useRef<Group>();
  useEffect(() => { selectedObject.current = undefined; setDragging(false); setSelected('Select an object to inspect'); }, [props.index, props.method, props.run]);
@@ -168,8 +171,8 @@ export default function ParticleScene(props: Props) {
    <button aria-label="Zoom in" onClick={() => setZoom(v => Math.min(1.8, v + .2))}>+</button><button aria-label="Zoom out" onClick={() => setZoom(v => Math.max(.6, v - .2))}>−</button>
    <button onClick={() => { setVersion(v => v + 1); setZoom(1); selectedObject.current = undefined; setDragging(false); setSelected('View and object positions reset'); }}>Reset view</button><button aria-pressed={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? 'Close studio' : 'Expand'}</button>
   </div>
-  <Canvas key={`${props.kind}-${version}`} shadows dpr={[1, 1.5]} camera={{ position: props.kind === 'states' ? [3.2, 2.8, 4.4] : [4.6, 3.8, 6], fov: 34 }} gl={{ antialias: true }} aria-label="Chemistry 3D workbench">
-   <color attach="background" args={['#f4f0e5']} /><ambientLight intensity={.75} /><directionalLight castShadow position={[3, 7, 5]} intensity={2.6} shadow-mapSize={[1024, 1024]} shadow-normalBias={.04} />
+  <Canvas key={`${props.kind}-${version}-${resolvedTheme ?? 'light'}`} shadows dpr={[1, 1.5]} camera={{ position: props.kind === 'states' ? [3.2, 2.8, 4.4] : [4.6, 3.8, 6], fov: 34 }} gl={{ antialias: true }} aria-label="Chemistry 3D workbench">
+   <color attach="background" args={[isDark ? '#101c19' : '#f4f0e5']} /><ambientLight intensity={isDark ? .58 : .75} /><directionalLight castShadow position={[3, 7, 5]} intensity={isDark ? 2.1 : 2.6} shadow-mapSize={[1024, 1024]} shadow-normalBias={.04} />
    <Environment resolution={128}><Lightformer position={[0, 5, -3]} scale={[8, 8, 1]} intensity={2} /><Lightformer position={[-4, 2, 2]} rotation={[0, Math.PI / 2, 0]} scale={[5, 5, 1]} intensity={2} /></Environment>
    <Zoom value={zoom} />
    <Studio.Provider value={{ move, labels, select: (name, group) => { setSelected(name); selectedObject.current = group; }, dragging: setDragging }}>
