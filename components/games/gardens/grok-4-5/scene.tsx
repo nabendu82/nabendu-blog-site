@@ -3,78 +3,32 @@
 import { useMemo, useEffect, useRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
+import { ForestVegetation } from './ForestVegetation';
 import {
   CircleGeometry,
+  CanvasTexture,
   Color,
   CylinderGeometry,
-  DodecahedronGeometry,
   DoubleSide,
   Fog,
-  IcosahedronGeometry,
   InstancedMesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
   Object3D,
   PlaneGeometry,
+  RepeatWrapping,
+  SRGBColorSpace,
 } from "three";
 import {
   JUNGLE_LAYOUT,
   GARDEN_HALF,
-  type TreeData,
-  type SubCanopyTreeData,
   type BambooData,
-  type BushData,
   type PondData,
 } from "./maze";
 
 export { GARDEN_HALF, JUNGLE_LAYOUT };
 
 /* ---------- Shared geometry factories (called once via useMemo) ---------- */
-
-function createGiantCanopyGeometry() {
-  const geo = new IcosahedronGeometry(4.2, 1);
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const vx = pos.getX(i);
-    const vy = pos.getY(i);
-    const vz = pos.getZ(i);
-    const n = Math.sin(vx * 2.5 + vy * 2.0) * 0.35;
-    pos.setXYZ(i, vx * (1.15 + n * 0.2), vy * 0.85 + n * 0.35, vz * (1.15 + n * 0.2));
-  }
-  geo.computeVertexNormals();
-  return geo;
-}
-
-function createSubCanopyGeometry() {
-  const geo = new IcosahedronGeometry(2.5, 1);
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const vx = pos.getX(i);
-    const vy = pos.getY(i);
-    const vz = pos.getZ(i);
-    const n = Math.sin(vx * 3.5 + vy * 3.0) * 0.22;
-    pos.setXYZ(i, vx * (1 + n), vy * 1.05 + n * 0.25, vz * (1 + n));
-  }
-  geo.computeVertexNormals();
-  return geo;
-}
-
-function createTrunkGeometry() {
-  const geo = new CylinderGeometry(0.32, 0.65, 12, 8, 4);
-  geo.translate(0, 6, 0);
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const y = pos.getY(i);
-    const v = y / 12;
-    if (v < 0.22) {
-      const flute = Math.pow(1.0 - v / 0.22, 2) * 0.28;
-      pos.setX(i, pos.getX(i) * (1 + flute));
-      pos.setZ(i, pos.getZ(i) * (1 + flute));
-    }
-  }
-  geo.computeVertexNormals();
-  return geo;
-}
 
 function createBambooGeometry() {
   const geo = new CylinderGeometry(0.045, 0.065, 12, 6, 4);
@@ -93,20 +47,20 @@ export function ZenGardenScene({ night = false }: { night?: boolean }) {
       scene.background = new Color("#050810");
       scene.fog = new Fog("#0a1018", 4, 28);
     } else {
-      scene.background = new Color("#87ceeb");
-      scene.fog = new Fog("#b0d4e8", 16, 85);
+      scene.background = new Color("#a3b5a1");
+      scene.fog = new Fog("#a3b5a1", 26, 100);
     }
   }, [scene, night]);
 
   return (
     <>
       {/* Bright Tropical Daytime Lighting — dims to night if the timer runs out */}
-      <ambientLight intensity={night ? 0.12 : 1.2} color={night ? "#1a2233" : "#ffffff"} />
-      <hemisphereLight args={night ? ["#1a2740", "#05080c", 0.25] : ["#87ceeb", "#3a2b1b", 0.9]} />
+      <ambientLight intensity={night ? 0.12 : .45} color={night ? "#1a2233" : "#e3edcd"} />
+      <hemisphereLight args={night ? ["#1a2740", "#05080c", 0.25] : ["#d2e2d5", "#343522", 1.1]} />
       <directionalLight
         castShadow={false}
         color={night ? "#4a5a80" : "#fff8e7"}
-        intensity={night ? 0.15 : 3.0}
+        intensity={night ? 0.15 : 2.0}
         position={[50, 80, 40]}
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -124,10 +78,8 @@ export function ZenGardenScene({ night = false }: { night?: boolean }) {
         pathPolylines={jungle.pathPolylines}
       />
       <JunglePond pond={jungle.pond} />
-      <CanopyTrees trees={jungle.canopyTrees} />
-      <SubCanopyTrees trees={jungle.subCanopyTrees} />
+      <ForestVegetation />
       <BambooStalks bamboos={jungle.bamboos} />
-      <Bushes bushes={jungle.bushes} />
       <Lanterns lanterns={jungle.lanterns} />
       <StoneGateway position={jungle.stoneGatewayPos} />
     </>
@@ -137,6 +89,29 @@ export function ZenGardenScene({ night = false }: { night?: boolean }) {
 /* ---------- Ground ---------- */
 
 function ForestLoamGround() {
+  const texture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 512;
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = '#454535'; ctx.fillRect(0, 0, 512, 512);
+    let seed = 9187;
+    const random = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+    for (let i = 0; i < 12000; i++) {
+      ctx.fillStyle = ['#3b3b2b', '#55543a', '#666044', '#30382a', '#74704c'][i % 5];
+      ctx.globalAlpha = .2 + random() * .4;
+      const size = 1 + random() * 4;
+      ctx.fillRect(random() * 512, random() * 512, size, size);
+    }
+    for (let i = 0; i < 280; i++) {
+      ctx.save(); ctx.translate(random() * 512, random() * 512); ctx.rotate(random() * Math.PI);
+      ctx.fillStyle = ['#95835c', '#716943', '#464c2d'][i % 3]; ctx.globalAlpha = .55;
+      ctx.beginPath(); ctx.ellipse(0, 0, 2 + random() * 2, 5 + random() * 6, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    }
+    const map = new CanvasTexture(canvas); map.colorSpace = SRGBColorSpace;
+    map.wrapS = map.wrapT = RepeatWrapping; map.repeat.set(160, 160); map.anisotropy = 4;
+    return map;
+  }, []);
+  useEffect(() => () => texture.dispose(), [texture]);
   const geo = useMemo(() => {
     const g = new PlaneGeometry(GARDEN_HALF * 2 + 40, GARDEN_HALF * 2 + 40, 48, 48);
     g.rotateX(-Math.PI / 2);
@@ -152,7 +127,7 @@ function ForestLoamGround() {
 
   return (
     <mesh geometry={geo} receiveShadow>
-      <meshStandardMaterial color="#3a2818" roughness={0.92} metalness={0} />
+      <meshStandardMaterial map={texture} roughness={0.98} metalness={0} />
     </mesh>
   );
 }
@@ -204,114 +179,6 @@ function JunglePond({ pond }: { pond: PondData }) {
   );
 }
 
-/* ---------- 750+ Giant Canopy Trees ---------- */
-
-function CanopyTrees({ trees }: { trees: TreeData[] }) {
-  const trunkGeo = useMemo(() => createTrunkGeometry(), []);
-  const canopyGeo = useMemo(() => createGiantCanopyGeometry(), []);
-  const trunkMat = useMemo(() => new MeshStandardMaterial({ roughness: 0.9 }), []);
-  const canopyMat = useMemo(() => new MeshStandardMaterial({ roughness: 0.72 }), []);
-
-  const trunkRef = useRef<InstancedMesh>(null);
-  const canopyRef = useRef<InstancedMesh>(null);
-
-  useEffect(() => {
-    const t = trunkRef.current;
-    const c = canopyRef.current;
-    if (!t || !c) return;
-
-    const d = new Object3D();
-    for (let i = 0; i < trees.length; i++) {
-      const tr = trees[i];
-
-      // Trunk
-      d.position.set(tr.x, 0, tr.z);
-      d.scale.set(tr.scale, tr.height / 12, tr.scale);
-      d.rotation.set(0, tr.rotY, 0);
-      d.updateMatrix();
-      t.setMatrixAt(i, d.matrix);
-      t.setColorAt(i, new Color(tr.trunkColor));
-
-      // Canopy crown
-      d.position.set(tr.x, tr.height * 0.88, tr.z);
-      d.scale.set(tr.scale * 1.5, tr.scale * 1.2, tr.scale * 1.5);
-      d.rotation.set(0, tr.rotY * 1.3, 0); // slightly different rotation
-      d.updateMatrix();
-      c.setMatrixAt(i, d.matrix);
-      c.setColorAt(i, new Color(tr.leafColor));
-    }
-
-    t.instanceMatrix.needsUpdate = true;
-    if (t.instanceColor) t.instanceColor.needsUpdate = true;
-    c.instanceMatrix.needsUpdate = true;
-    if (c.instanceColor) c.instanceColor.needsUpdate = true;
-
-    // Critical: disable frustum culling so instances are always drawn
-    t.frustumCulled = false;
-    c.frustumCulled = false;
-  }, [trees]);
-
-  return (
-    <group>
-      <instancedMesh ref={trunkRef} args={[trunkGeo, trunkMat, trees.length]} receiveShadow frustumCulled={false} />
-      <instancedMesh ref={canopyRef} args={[canopyGeo, canopyMat, trees.length]} frustumCulled={false} />
-    </group>
-  );
-}
-
-/* ---------- 850+ Sub-Canopy Trees ---------- */
-
-function SubCanopyTrees({ trees }: { trees: SubCanopyTreeData[] }) {
-  const trunkGeo = useMemo(() => {
-    const g = new CylinderGeometry(0.18, 0.32, 8, 6);
-    g.translate(0, 4, 0);
-    return g;
-  }, []);
-  const foliageGeo = useMemo(() => createSubCanopyGeometry(), []);
-  const trunkMat = useMemo(() => new MeshStandardMaterial({ color: "#2d1e13", roughness: 0.9 }), []);
-  const foliageMat = useMemo(() => new MeshStandardMaterial({ roughness: 0.72 }), []);
-
-  const trunkRef = useRef<InstancedMesh>(null);
-  const foliageRef = useRef<InstancedMesh>(null);
-
-  useEffect(() => {
-    const t = trunkRef.current;
-    const f = foliageRef.current;
-    if (!t || !f) return;
-
-    const d = new Object3D();
-    for (let i = 0; i < trees.length; i++) {
-      const tr = trees[i];
-
-      d.position.set(tr.x, 0, tr.z);
-      d.scale.set(tr.scale, tr.height / 8, tr.scale);
-      d.rotation.set(0, tr.rotY, 0);
-      d.updateMatrix();
-      t.setMatrixAt(i, d.matrix);
-
-      d.position.set(tr.x, tr.height * 0.85, tr.z);
-      d.scale.set(tr.scale * 1.3, tr.scale * 1.1, tr.scale * 1.3);
-      d.rotation.set(0, tr.rotY, 0);
-      d.updateMatrix();
-      f.setMatrixAt(i, d.matrix);
-      f.setColorAt(i, new Color(tr.color));
-    }
-
-    t.instanceMatrix.needsUpdate = true;
-    f.instanceMatrix.needsUpdate = true;
-    if (f.instanceColor) f.instanceColor.needsUpdate = true;
-    t.frustumCulled = false;
-    f.frustumCulled = false;
-  }, [trees]);
-
-  return (
-    <group>
-      <instancedMesh ref={trunkRef} args={[trunkGeo, trunkMat, trees.length]} receiveShadow frustumCulled={false} />
-      <instancedMesh ref={foliageRef} args={[foliageGeo, foliageMat, trees.length]} frustumCulled={false} />
-    </group>
-  );
-}
-
 /* ---------- 1200+ Bamboo Stalks ---------- */
 
 function BambooStalks({ bamboos }: { bamboos: BambooData[] }) {
@@ -340,37 +207,6 @@ function BambooStalks({ bamboos }: { bamboos: BambooData[] }) {
 
   return (
     <instancedMesh ref={ref} args={[geo, mat, bamboos.length]} receiveShadow frustumCulled={false} />
-  );
-}
-
-/* ---------- 1200+ Bushes ---------- */
-
-function Bushes({ bushes }: { bushes: BushData[] }) {
-  const geo = useMemo(() => new DodecahedronGeometry(1.6, 0), []);
-  const mat = useMemo(() => new MeshStandardMaterial({ roughness: 0.75 }), []);
-  const ref = useRef<InstancedMesh>(null);
-
-  useEffect(() => {
-    const mesh = ref.current;
-    if (!mesh) return;
-
-    const d = new Object3D();
-    for (let i = 0; i < bushes.length; i++) {
-      const b = bushes[i];
-      d.position.set(b.x, 0.45, b.z);
-      d.scale.set(b.scale * 1.5, b.scale * 0.85, b.scale * 1.5);
-      d.rotation.set(0, b.rotY, 0);
-      d.updateMatrix();
-      mesh.setMatrixAt(i, d.matrix);
-      mesh.setColorAt(i, new Color(b.color));
-    }
-    mesh.instanceMatrix.needsUpdate = true;
-    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-    mesh.frustumCulled = false;
-  }, [bushes]);
-
-  return (
-    <instancedMesh ref={ref} args={[geo, mat, bushes.length]} receiveShadow frustumCulled={false} />
   );
 }
 
