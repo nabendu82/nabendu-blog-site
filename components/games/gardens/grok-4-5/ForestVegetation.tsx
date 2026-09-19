@@ -46,8 +46,8 @@ function TreeLayer({ kind, items, bark, foliage }: { kind: string; items: Placem
   const branches = model.nodes.Bark as Mesh;
   const leaves = model.nodes.Leaves as Mesh;
   return <>
-    <NearbyInstances geometry={branches.geometry} material={bark} items={items} radius={115} />
-    <NearbyInstances geometry={leaves.geometry} material={foliage} items={items} radius={115} />
+    <NearbyInstances geometry={branches.geometry} material={bark} items={items} radius={135} />
+    <NearbyInstances geometry={leaves.geometry} material={foliage} items={items} radius={135} />
   </>;
 }
 
@@ -78,11 +78,17 @@ export function ForestVegetation() {
     return { bark, leaves };
   }, [barkMap, barkNormal, oakMap, ashMap, wind]);
   useEffect(() => () => { materials.bark.dispose(); materials.leaves.forEach(m => m.dispose()); }, [materials]);
-  const placements = useMemo(() => ({
-    canopy: JUNGLE_LAYOUT.canopyTrees.map((t, i) => ({ x: t.x, z: t.z, width: t.scale, height: t.height / 16, yaw: t.rotY, tint: new Color().setHSL(.25 + (i % 5) * .008, .12, .72 + (i % 4) * .04) })),
-    understory: JUNGLE_LAYOUT.subCanopyTrees.map((t, i) => ({ x: t.x, z: t.z, width: t.scale, height: t.height / 9, yaw: t.rotY, tint: new Color().setHSL(.23 + (i % 4) * .01, .15, .72 + (i % 5) * .035) })),
-    shrub: JUNGLE_LAYOUT.bushes.map((t, i) => ({ x: t.x, z: t.z, width: t.scale, height: t.scale * .65, yaw: t.rotY, tint: new Color().setHSL(.23, .18, .72 + (i % 3) * .07) })),
-  }), []);
+  const placements = useMemo(() => {
+    const canopy = JUNGLE_LAYOUT.canopyTrees.map((t, i) => ({ x: t.x, z: t.z, width: t.scale * 1.12, height: t.height / 15, yaw: t.rotY, tint: new Color().setHSL(.25 + (i % 5) * .008, .12, .72 + (i % 4) * .04) }));
+    const understory = JUNGLE_LAYOUT.subCanopyTrees.map((t, i) => ({ x: t.x, z: t.z, width: t.scale * 1.16, height: t.height / 8.5, yaw: t.rotY, tint: new Color().setHSL(.23 + (i % 4) * .01, .15, .72 + (i % 5) * .035) }));
+    const shrub = JUNGLE_LAYOUT.bushes.flatMap((t, i) => {
+      const tint = new Color().setHSL(.23, .18, .72 + (i % 3) * .07);
+      const items = [{ x: t.x, z: t.z, width: t.scale * 1.12, height: t.scale * .72, yaw: t.rotY, tint }];
+      if (i % 2 === 0) items.push({ x: t.x + Math.sin(t.rotY) * 1.1, z: t.z + Math.cos(t.rotY) * 1.1, width: t.scale * .8, height: t.scale * .58, yaw: t.rotY + .8, tint: tint.clone().offsetHSL(.01, 0, -.03) });
+      return items;
+    });
+    return { canopy, understory, shrub };
+  }, []);
   useFrame((_, dt) => { wind.value += Math.min(dt, .05); });
   return <>
     <TreeLayer kind="canopy" items={placements.canopy} bark={materials.bark} foliage={materials.leaves[0]} />
@@ -107,6 +113,6 @@ function ForestFloor() {
     return result;
   }, [scene]);
   useEffect(() => () => parts.forEach(p => { p.geometry.dispose(); (Array.isArray(p.material) ? p.material : [p.material]).forEach(m => m.dispose()); }), [parts]);
-  const items = useMemo(() => JUNGLE_LAYOUT.bushes.filter((_, i) => i % 2 === 0).map((b, i) => ({ x: b.x, z: b.z, width: 1.1 + (i % 4) * .2, height: .9 + (i % 3) * .15, yaw: b.rotY, tint: new Color('#ffffff') })), []);
-  return <>{parts.map((part, i) => <NearbyInstances key={i} {...part} items={items} radius={80} />)}</>;
+  const items = useMemo(() => JUNGLE_LAYOUT.bushes.map((b, i) => ({ x: b.x + Math.sin(b.rotY) * .4, z: b.z + Math.cos(b.rotY) * .4, width: 1.1 + (i % 4) * .2, height: .9 + (i % 3) * .15, yaw: b.rotY, tint: new Color('#ffffff') })), []);
+  return <>{parts.map((part, i) => <NearbyInstances key={i} {...part} items={items} radius={110} />)}</>;
 }
