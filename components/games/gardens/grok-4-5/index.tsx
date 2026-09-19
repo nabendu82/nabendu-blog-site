@@ -44,6 +44,7 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
     yaw: JUNGLE_LAYOUT.startYaw,
   });
   const posRaf = useRef(0);
+  const lastPositionUpdate = useRef(0);
 
   const canMoveTo = useMemo(
     () => (x: number, z: number) => JUNGLE_LAYOUT.isWalkable(x, z),
@@ -52,6 +53,7 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
 
   useEffect(() => {
     return () => {
+      cancelAnimationFrame(posRaf.current);
       stopForestAudio();
     };
   }, []);
@@ -91,7 +93,9 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
       });
     }
 
-    if (posRaf.current) return;
+    const now = performance.now();
+    if (posRaf.current || now - lastPositionUpdate.current < 100) return;
+    lastPositionUpdate.current = now;
     posRaf.current = requestAnimationFrame(() => {
       posRaf.current = 0;
       setPlayer({ x, z, yaw });

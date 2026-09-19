@@ -1,35 +1,44 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { memo, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture } from '@react-three/drei';
 import { BufferGeometry, Color, DoubleSide, InstancedMesh, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace } from 'three';
-import { JUNGLE_LAYOUT } from './maze';
+import { GARDEN_HALF, JUNGLE_LAYOUT } from './maze';
 
 type Placement = { x: number; z: number; height: number; width: number; yaw: number; tint: Color };
 const ROOT = '/models/forest/';
 const groundHeight = (x: number, z: number) => Math.sin(x * .08) * Math.cos(z * .08) * .35;
 
-// Keep a compact instance buffer around the player. Fog conceals the outer boundary;
-// matrices update only after movement, and computed bounds allow normal frustum culling.
-function NearbyInstances({ geometry, material, items, radius }: { geometry: BufferGeometry; material: Material | Material[]; items: Placement[]; radius: number }) {
+// Upload spatial patches once; movement only changes visibility, with static
+// bounds allowing Three.js to cull patches outside the camera frustum.
+function NearbyInstances(props: { geometry: BufferGeometry; material: Material | Material[]; items: Placement[]; radius: number }) {
+  const chunks = useMemo(() => {
+    const cells = new Map<string, Placement[]>();
+    for (const item of props.items) {
+      const key = `${Math.floor(item.x / 48)},${Math.floor(item.z / 48)}`;
+      const cell = cells.get(key);
+      if (cell) cell.push(item);
+      else cells.set(key, [item]);
+    }
+    return Array.from(cells.entries());
+  }, [props.items]);
+  return <>{chunks.map(([key, items]) => <VegetationChunk key={key} {...props} items={items} />)}</>;
+}
+
+function VegetationChunk({ geometry, material, items, radius }: { geometry: BufferGeometry; material: Material | Material[]; items: Placement[]; radius: number }) {
   const ref = useRef<InstancedMesh>(null);
-  const state = useMemo(() => ({ x: Infinity, z: Infinity, elapsed: 1, dummy: new Object3D() }), []);
-  useLayoutEffect(() => { if (ref.current) ref.current.count = 0; state.x = Infinity; state.z = Infinity; }, [geometry, material, items, state]);
-  useFrame(({ camera }, dt) => {
-    state.elapsed += dt;
-    if (state.elapsed < .25 || Math.hypot(camera.position.x - state.x, camera.position.z - state.z) < 2) return;
-    state.elapsed = 0; state.x = camera.position.x; state.z = camera.position.z;
+  useLayoutEffect(() => {
     const mesh = ref.current;
     if (!mesh) return;
+    const dummy = new Object3D();
     let count = 0;
     for (const item of items) {
-      if ((item.x - state.x) ** 2 + (item.z - state.z) ** 2 > radius ** 2) continue;
-      state.dummy.position.set(item.x, groundHeight(item.x, item.z) - .06, item.z);
-      state.dummy.rotation.set(0, item.yaw, 0);
-      state.dummy.scale.set(item.width, item.height, item.width);
-      state.dummy.updateMatrix();
-      mesh.setMatrixAt(count, state.dummy.matrix);
+      dummy.position.set(item.x, groundHeight(item.x, item.z) - .06, item.z);
+      dummy.rotation.set(0, item.yaw, 0);
+      dummy.scale.set(item.width, item.height, item.width);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(count, dummy.matrix);
       mesh.setColorAt(count, item.tint);
       count++;
     }
@@ -37,8 +46,16 @@ function NearbyInstances({ geometry, material, items, radius }: { geometry: Buff
     mesh.instanceMatrix.needsUpdate = true;
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
     mesh.computeBoundingSphere();
+    // Include the small vertex-shader wind displacement in the static bounds.
+    if (mesh.boundingSphere) mesh.boundingSphere.radius += .5;
+  }, [geometry, material, items]);
+  useFrame(({ camera }) => {
+    const mesh = ref.current;
+    if (!mesh?.boundingSphere) return;
+    const reach = radius + mesh.boundingSphere.radius;
+    mesh.visible = camera.position.distanceToSquared(mesh.boundingSphere.center) < reach * reach;
   });
-  return <instancedMesh ref={ref} args={[geometry, material, items.length]} receiveShadow frustumCulled={false} dispose={null} />;
+  return <instancedMesh ref={ref} args={[geometry, material, items.length]} receiveShadow dispose={null} />;
 }
 
 function TreeLayer({ kind, items, bark, foliage }: { kind: string; items: Placement[]; bark: Material; foliage: Material }) {
@@ -46,12 +63,12 @@ function TreeLayer({ kind, items, bark, foliage }: { kind: string; items: Placem
   const branches = model.nodes.Bark as Mesh;
   const leaves = model.nodes.Leaves as Mesh;
   return <>
-    <NearbyInstances geometry={branches.geometry} material={bark} items={items} radius={135} />
-    <NearbyInstances geometry={leaves.geometry} material={foliage} items={items} radius={135} />
+    <NearbyInstances geometry={branches.geometry} material={bark} items={items} radius={kind === 'shrub' ? 55 : 95} />
+    <NearbyInstances geometry={leaves.geometry} material={foliage} items={items} radius={kind === 'shrub' ? 55 : 95} />
   </>;
 }
 
-export function ForestVegetation() {
+export const ForestVegetation = memo(function ForestVegetation() {
   const [barkMap, barkNormal, oakMap, ashMap] = useTexture([`${ROOT}bark.jpg`, `${ROOT}bark-normal.jpg`, `${ROOT}oak-leaves.png`, `${ROOT}ash-leaves.png`]);
   const wind = useMemo(() => ({ value: 0 }), []);
   const materials = useMemo(() => {
@@ -80,6 +97,21 @@ export function ForestVegetation() {
   useEffect(() => () => { materials.bark.dispose(); materials.leaves.forEach(m => m.dispose()); }, [materials]);
   const placements = useMemo(() => {
     const canopy = JUNGLE_LAYOUT.canopyTrees.map((t, i) => ({ x: t.x, z: t.z, width: t.scale * 1.12, height: t.height / 15, yaw: t.rotY, tint: new Color().setHSL(.25 + (i % 5) * .008, .12, .72 + (i % 4) * .04) }));
+    // Visual-only fill. These trees do not enter the maze collider hash,
+    // so they close open sightlines without changing where the player can walk.
+    const perimeter = [] as Placement[];
+    const step = 14;
+    for (let x = -GARDEN_HALF + 6; x <= GARDEN_HALF - 6; x += step) {
+      for (let z = -GARDEN_HALF + 6; z <= GARDEN_HALF - 6; z += step) {
+        if (x * x + z * z > (GARDEN_HALF - 4) ** 2) continue;
+        const i = perimeter.length;
+        const px = x + ((i % 3) - 1) * 2.2;
+        const pz = z + ((i % 4) - 1.5) * 1.8;
+        if (!canPlant(px, pz, 3.8)) continue;
+        perimeter.push({ x: px, z: pz, width: 1.25 + (i % 4) * .12, height: 1.05 + (i % 5) * .08, yaw: (i * 1.73) % (Math.PI * 2), tint: new Color().setHSL(.24 + (i % 4) * .01, .14, .68 + (i % 3) * .04) });
+      }
+    }
+    canopy.push(...perimeter);
     const understory = JUNGLE_LAYOUT.subCanopyTrees.map((t, i) => ({ x: t.x, z: t.z, width: t.scale * 1.16, height: t.height / 8.5, yaw: t.rotY, tint: new Color().setHSL(.23 + (i % 4) * .01, .15, .72 + (i % 5) * .035) }));
     const shrub = JUNGLE_LAYOUT.bushes.flatMap((t, i) => {
       const tint = new Color().setHSL(.23, .18, .72 + (i % 3) * .07);
@@ -87,6 +119,17 @@ export function ForestVegetation() {
       if (i % 2 === 0) items.push({ x: t.x + Math.sin(t.rotY) * 1.1, z: t.z + Math.cos(t.rotY) * 1.1, width: t.scale * .8, height: t.scale * .58, yaw: t.rotY + .8, tint: tint.clone().offsetHSL(.01, 0, -.03) });
       return items;
     });
+    // Cover every trail, including sections omitted when the original layout
+    // exhausted its global bush budget. Wide low crowns overlap over bare soil.
+    for (let x = -GARDEN_HALF; x < GARDEN_HALF; x += 5) {
+      for (let z = -GARDEN_HALF; z < GARDEN_HALF; z += 5) {
+        if (x * x + z * z > GARDEN_HALF ** 2) continue;
+        const distance = JUNGLE_LAYOUT.distToPath(x, z);
+        if (distance > 32 || !canPlant(x, z, 3.2)) continue;
+        const i = shrub.length;
+        shrub.push({ x, z, width: 1.7 + (i % 3) * .15, height: .55 + (i % 4) * .12, yaw: i * 2.4, tint: new Color('#b1c497') });
+      }
+    }
     return { canopy, understory, shrub };
   }, []);
   useFrame((_, dt) => { wind.value += Math.min(dt, .05); });
@@ -96,6 +139,14 @@ export function ForestVegetation() {
     <TreeLayer kind="shrub" items={placements.shrub} bark={materials.bark} foliage={materials.leaves[1]} />
     <ForestFloor />
   </>;
+});
+
+function canPlant(x: number, z: number, clearance: number) {
+  const layout = JUNGLE_LAYOUT;
+  return layout.distToPath(x, z) > clearance
+    && Math.hypot(x - layout.pond.centerX, z - layout.pond.centerZ) > layout.pond.radius + 2
+    && Math.hypot(x - layout.startWorld[0], z - layout.startWorld[2]) > 6.8
+    && Math.hypot(x - layout.exitWorld[0], z - layout.exitWorld[2]) > 5.5;
 }
 
 function ForestFloor() {
