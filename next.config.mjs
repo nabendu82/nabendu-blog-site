@@ -3,9 +3,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isDev = process.env.NODE_ENV === "development";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // A dev startup must not remove chunks used by a running production server.
+    distDir: isDev ? ".next-dev" : ".next",
     // Transpile Three.js ecosystem packages so Next.js handles their ESM modules correctly.
     // Without this, production builds can fail to load 3D scenes.
     transpilePackages: [
@@ -29,8 +32,6 @@ const nextConfig = {
         return config;
     },
 };
-
-const isDev = process.env.NODE_ENV === "development";
 
 if (!process.env.VELITE_STARTED) {
     process.env.VELITE_STARTED = "1";
