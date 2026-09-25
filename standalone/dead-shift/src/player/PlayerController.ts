@@ -12,7 +12,7 @@ export function usePlayerController(){useEffect(()=>{
     if(e.code==='F5'&&!e.repeat&&import.meta.env.DEV)useGameStore.getState().toggleShootingDebug();
     if(e.code==='F6'&&!e.repeat&&import.meta.env.DEV)useGameStore.getState().toggleProgressionDebug();
     if(e.code==='F7'&&!e.repeat&&import.meta.env.DEV)useGameStore.getState().toggleWeaponDebug();
-    if(import.meta.env.DEV&&useGameStore.getState().weaponDebug&&['Digit1','Digit2','Digit3','Digit4'].includes(e.code)){e.preventDefault();if(!e.repeat)useGameStore.getState().setDebugWeapon(Number(e.code.slice(-1))-1);}
+    if(import.meta.env.DEV&&useGameStore.getState().weaponDebug&&/^Digit[0-9]$/.test(e.code)){e.preventDefault();if(!e.repeat)useGameStore.getState().setDebugWeapon(e.code==='Digit0'?9:Number(e.code.slice(-1))-1);}
     if(sim.mode==='playing'){clearTimeout(releaseTimers.get(e.code));keys.add(e.code);update();}};
   // Preserve very short taps through at least one simulation tick. Normal release
   // still blends down; no key events are lost between display frames.

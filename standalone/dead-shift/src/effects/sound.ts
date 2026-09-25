@@ -68,17 +68,17 @@ export function setAudioMode(mode:Mode,threat=0){
   calm?.gain.setTargetAtTime((quiet ? .30 : 1)*(1-.62*level),now,.7);
   combat?.gain.setTargetAtTime((quiet ? .12 : 1)*.86*level,now,.7);
 }
-export function playCue(cue:Cue,element:Element='kinetic'){
+export function playCue(cue:Cue,element:Element='kinetic',stage=0){
   const ctx=ensureAudio();if(!ctx||!sfx||ctx.state!=='running')return;
   const now=ctx.currentTime,osc=ctx.createOscillator(),gain=ctx.createGain();
   const shot=cue==='shot';
-  osc.type=shot?'triangle':cue==='mutation'?'sawtooth':'sine';
-  const start=shot?(element==='cryo'?165:element==='volt'?195:element==='fire'?105:135):cue==='xp'?620:cue==='dna'?310:cue==='level'?440:120;
+  osc.type=shot?(stage>=3?'sawtooth':stage>=2?'square':'triangle'):cue==='mutation'?'sawtooth':'sine';
+  const start=shot?(element==='cryo'?165:element==='volt'?195:element==='fire'?105:135)*(1+stage*.12):cue==='xp'?620:cue==='dna'?310:cue==='level'?440:120*(1+stage*.45);
   const end=shot?Math.max(35,start*.35):cue==='xp'?940:cue==='dna'?520:cue==='level'?880:760;
-  const duration=shot?.11:cue==='mutation'?.62:.22;
+  const duration=shot?.11+stage*.018:cue==='mutation'?.55+stage*.12:.22;
   osc.frequency.setValueAtTime(start,now);osc.frequency.exponentialRampToValueAtTime(end,now+duration*.86);
   gain.gain.setValueAtTime(.0001,now);
-  gain.gain.exponentialRampToValueAtTime(shot?.10:cue==='mutation'?.075:.035,now+.012);
+  gain.gain.exponentialRampToValueAtTime(shot?.075+stage*.006:cue==='mutation'?.075+stage*.01:.035,now+.012);
   gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
   osc.connect(gain).connect(sfx);osc.start(now);osc.stop(now+duration+.01);
 }

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Simulation } from '../src/game/Simulation';
-import { ABSOLUTE_ZERO,CONFIG,HELLBREAKER,SCRAP_RIFLE,THUNDERSTORM,UPGRADES,WALKER,xpThreshold } from '../src/game/config';
+import { ABSOLUTE_ZERO,APOCALYPSE_CORE,CONFIG,DEBUG_WEAPONS,EVOLUTION_LEVELS,HELLBREAKER,INFERNO_BREAKER,PERMAFROST,SCRAP_RIFLE,STORM_GOD,TEMPEST,THUNDERSTORM,UPGRADES,WALKER,WEAPON_EVOLUTIONS,ZERO_POINT,xpThreshold } from '../src/game/config';
 
 function fresh(){const s=new Simulation();s.reset();for(const e of s.enemies)e.active=false;s.stats.critChance=0;return s;}
 function advance(s:Simulation,seconds:number){for(let n=0;n<seconds*60;n++)s.step(1/60);}
@@ -57,4 +57,44 @@ test('evolved weapons have distinct damage behaviors',()=>{
   const fire=fresh();fire.weapon=HELLBREAKER;Object.assign(fire.enemies[0],{active:true,kind:'tank',x:0,z:5,hp:500});Object.assign(fire.enemies[1],{active:true,kind:'tank',x:1,z:5,hp:500});fire.player.yaw=0;fire.fire();assert.ok(fire.enemies[0].hp<500);assert.ok(fire.enemies[1].hp<500);assert.ok(fire.enemies[0].burn>0);
   const ice=fresh();ice.weapon=ABSOLUTE_ZERO;for(let n=0;n<2;n++)Object.assign(ice.enemies[n],{active:true,kind:'tank',x:0,z:5+n*3,hp:500});ice.player.yaw=0;ice.fire();assert.ok(ice.enemies.every((e,n)=>n>=2||e.hp<500&&e.slow>0));
   assert.ok(THUNDERSTORM.fireRate>SCRAP_RIFLE.fireRate);assert.ok(HELLBREAKER.projectileCount>1);assert.ok(ABSOLUTE_ZERO.penetration>1);assert.equal(CONFIG.mutationLevel,5);
+});
+test('all three branches evolve exactly at levels 5, 10 and 15, including a multi-level XP grant',()=>{
+  assert.deepEqual(EVOLUTION_LEVELS,[0,5,10,15]);
+  for(const [branch,first] of [['volt','thunderstorm'],['fire','hellbreaker'],['cryo','absolute-zero']] as const){
+    const s=fresh();let previous=SCRAP_RIFLE;
+    s.gainXp(Array.from({length:14},(_,index)=>xpThreshold(index+1)).reduce((a,b)=>a+b,0));
+    assert.equal(s.level,15);assert.equal(s.pendingLevels,14);
+    for(let level=2;level<=15;level++){
+      assert.equal(s.mode,'levelup',`${branch} level ${level}`);
+      s.chooseUpgrade(s.upgradeChoices[0].id);
+      if(level===5){assert.equal(s.mode,'mutation');assert.equal(s.weapon.id,'scrap-rifle');s.chooseMutation(first);}
+      if([5,10,15].includes(level)){
+        const stage=[5,10,15].indexOf(level)+1;
+        assert.equal(s.mode,'evolving');assert.equal(s.weapon,WEAPON_EVOLUTIONS[branch][stage-1]);
+        assert.equal(s.weapon.branch,branch);assert.equal(s.weapon.evolutionStage,stage);
+        assert.equal(s.evolutionFrom,previous.name);assert.notEqual(s.weapon.model,previous.model);
+        previous=s.weapon;s.finishEvolution();
+      }
+    }
+    assert.equal(s.pendingLevels,0);assert.equal(s.mode,'playing');assert.equal(s.resolvedLevel,15);
+    s.chooseMutation('thunderstorm');assert.equal(s.weapon.branch,branch,'branch cannot switch after selection');
+  }
+});
+test('ten debug slots and higher-tier weapon identities stay distinct',()=>{
+  assert.equal(DEBUG_WEAPONS.length,10);assert.equal(new Set(DEBUG_WEAPONS.map(w=>w.id)).size,10);
+  assert.deepEqual(DEBUG_WEAPONS.map(w=>w.id),['scrap-rifle','thunderstorm','tempest','storm-god','hellbreaker','inferno-breaker','apocalypse-core','absolute-zero','permafrost','zero-point']);
+  assert.ok(TEMPEST.fireRate>THUNDERSTORM.fireRate&&STORM_GOD.chain!>TEMPEST.chain!);
+  assert.ok(INFERNO_BREAKER.damage>HELLBREAKER.damage&&APOCALYPSE_CORE.explosion!>INFERNO_BREAKER.explosion!&&APOCALYPSE_CORE.groundFire);
+  assert.ok(PERMAFROST.penetration>ABSOLUTE_ZERO.penetration&&ZERO_POINT.shatterRadius!>PERMAFROST.shatterRadius!);
+});
+test('stage-three fire leaves damaging zones and cryo shatters on a lethal rail shot',()=>{
+  const fire=fresh();fire.weapon=APOCALYPSE_CORE;fire.player.yaw=0;fire.shots=2;
+  Object.assign(fire.enemies[0],{active:true,kind:'tank',x:0,z:5,hp:500});fire.fire();
+  assert.ok(fire.groundFire.some(zone=>zone.life>0));
+  const zone=fire.groundFire.find(zone=>zone.life>0)!;
+  const victim=fire.enemies[1];Object.assign(victim,{active:true,kind:'tank',x:zone.x,z:zone.z,hp:200});const before=victim.hp;advance(fire,.5);assert.ok(victim.hp<before);
+  const cryo=fresh();cryo.weapon=ZERO_POINT;cryo.player.yaw=0;
+  Object.assign(cryo.enemies[0],{active:true,kind:'walker',x:0,z:5,hp:50});
+  Object.assign(cryo.enemies[1],{active:true,kind:'tank',x:1,z:5,hp:300});cryo.fire();
+  assert.equal(cryo.enemies[0].hp,0);assert.ok(cryo.enemies[1].hp<300);assert.ok(cryo.effects.some(fx=>fx.life>0&&fx.element==='cryo'&&fx.size>=ZERO_POINT.shatterRadius!));
 });

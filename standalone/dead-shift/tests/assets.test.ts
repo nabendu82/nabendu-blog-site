@@ -7,3 +7,14 @@ test('modular rifle attachment nodes and muzzle survive GLB export',()=>{const d
 test('all arena props are valid, self-contained GLBs',()=>{for(const name of ['intersection','shop','abandoned-car','barrier','dumpster','streetlight','debris']){const data=glb('environment/'+name);assert.ok(data.meshes.length>0);assert.ok(data.buffers.every((b:{uri?:string})=>!b.uri));assert.ok((data.images??[]).every((i:{uri?:string})=>!i.uri));}});
 test('ruined city kit exports contain geometry without unrelated scene objects',()=>{for(const name of ['apartment','broken-shop','corner-ruin','petrol-station','burned-car','police-car','ambulance','collapsed-wall','sandbags','fence','road-sign','checkpoint','trash','rubble','asphalt-chunks','oil-stain','blood-stain','pothole','city-skirt']){const data=glb('environment/'+name);assert.equal(data.meshes.length,1,name);assert.ok(data.meshes[0].primitives.length>0,name);assert.ok(data.buffers.every((b:{uri?:string})=>!b.uri),name);}});
 test('each weapon mutation is a named, self-contained Blender mesh',()=>{for(const name of ['thunderstorm','hellbreaker','absolute-zero']){const data=glb('weapons/'+name);assert.equal(data.meshes.length,1,name);assert.ok(data.meshes[0].primitives.length>=4,name);assert.ok(data.buffers.every((b:{uri?:string})=>!b.uri),name);assert.ok(data.nodes.some((n:{name?:string})=>n.name?.toLowerCase().replaceAll('-','').includes(name.replaceAll('-',''))),name);}});
+test('six Blender MCP evolution exports have distinct geometry and no unrelated animation',()=>{
+  for(const [stage2,stage3] of [['tempest','storm-god'],['inferno-breaker','apocalypse-core'],['permafrost','zero-point']]){
+    const a=glb('weapons/'+stage2),b=glb('weapons/'+stage3);
+    for(const [name,data] of [[stage2,a],[stage3,b]] as const){
+      assert.ok(data.meshes.length>=20,name);assert.equal((data.animations??[]).length,0,name);
+      assert.ok(data.nodes.every((n:{name?:string})=>!n.name||n.name.toLowerCase().startsWith(name.toUpperCase().toLowerCase())||n.mesh===undefined),name);
+      assert.ok(data.buffers.every((buffer:{uri?:string})=>!buffer.uri),name);
+    }
+    assert.ok(b.meshes.length>a.meshes.length,`${stage3} should have added final-tier geometry`);
+  }
+});
