@@ -10,7 +10,7 @@ function App(){
   const [inspect,setInspect]=React.useState(false);
   const previous=React.useRef(sim.mode);
   const close=()=>{sim.mode=previous.current;setInspect(false);};
-  React.useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.code!=='F4'||e.repeat)return;e.preventDefault();if(inspect){sim.mode=previous.current;setInspect(false);}else{previous.current=sim.mode;sim.mode='paused';sim.clearInput();setInspect(true);}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[inspect]);
+  React.useEffect(()=>{if(!import.meta.env.DEV)return;const key=(e:KeyboardEvent)=>{if(e.code!=='F4'||e.repeat)return;e.preventDefault();if(inspect){sim.mode=previous.current;setInspect(false);}else{previous.current=sim.mode;sim.mode='paused';sim.clearInput();setInspect(true);}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[inspect]);
   return <div className="app">{inspect?<CharacterInspection onClose={close}/>:<><Game/><Interface/></>}</div>;
 }
 createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>);

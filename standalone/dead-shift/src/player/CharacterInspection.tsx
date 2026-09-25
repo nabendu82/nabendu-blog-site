@@ -9,12 +9,13 @@ import { motionDebug } from './motionDebug';
 import { DEBUG_WEAPONS } from '../game/config';
 import { sim } from '../game/Simulation';
 import { useGameStore } from '../stores/gameStore';
+import { asset } from '../world/CityArena';
 
 type Kind='survivor'|'walker'|'runner'|'tank'|'hazmat';
 const kinds:Kind[]=['survivor','walker','runner','tank','hazmat'];
 const clipsByKind:Record<Kind,string[]>={survivor:['Idle','Run','Aim','Shoot','Hit','Death'],walker:['Idle','Walk','Attack','Hit','Death'],runner:['Idle','Run','Attack','Hit','Death'],tank:['Idle','Heavy Walk','Heavy Attack','Hit','Death'],hazmat:['Idle','Walk','Attack','Hit','Death']};
 function InspectionModel({kind,clip}:{kind:Kind;clip:string}){
-  const gltf=useGLTF(`/assets/${kind==='survivor'?'characters': 'zombies'}/${kind}.glb`);
+  const gltf=useGLTF(asset(`${kind==='survivor'?'characters': 'zombies'}/${kind}`));
   const model=useMemo(()=>{const o=clone(gltf.scene);o.traverse(c=>{if(c instanceof Mesh){c.castShadow=true;c.receiveShadow=true;}});return o;},[gltf]);
   const mixer=useMemo(()=>new AnimationMixer(model),[model]);
   useEffect(()=>{const c=gltf.animations.find(a=>a.name===clip);if(!c)return;const action=mixer.clipAction(c);action.reset().setLoop(clip==='Death'?LoopOnce:LoopRepeat,clip==='Death'?1:Infinity);action.timeScale=kind==='survivor'&&clip==='Run'?1.6:kind==='runner'&&clip==='Run'?1.45:1;action.clampWhenFinished=true;action.play();return()=>{mixer.stopAllAction();};},[clip,gltf,kind,mixer]);

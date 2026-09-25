@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Gamepad2,
   Sparkles,
@@ -33,6 +34,7 @@ interface GameCardProps {
   mechanicsTitle: string;
   tagBg: string;
   buttonBg: string;
+  preview?: string;
 }
 
 const GAMES: GameCardProps[] = [
@@ -104,6 +106,29 @@ const GAMES: GameCardProps[] = [
     tagBg: "bg-amber-100/70 dark:bg-white/5 text-amber-900 dark:text-amber-200/90 border-amber-200/70 dark:border-white/10",
     buttonBg: "bg-amber-600 hover:bg-amber-500 text-white shadow-md shadow-amber-700/20 dark:shadow-amber-950/50",
   },
+  {
+    title: "DEAD//SHIFT",
+    badge: "3D Zombie Survival",
+    badgeColor: "bg-orange-100 dark:bg-orange-500/15 text-orange-800 dark:text-orange-300 border-orange-300/80 dark:border-orange-500/30",
+    emoji: "☣️",
+    description:
+      "Survive an infected city as relentless zombie hordes close in. Gain XP, choose adaptations, and evolve a rugged survival rifle into increasingly powerful modern firearms during each run. Every run starts fresh.",
+    href: "/games/dead-shift",
+    preview: "/games/dead-shift/preview.png",
+    features: [
+      { icon: <Swords className="h-4 w-4 text-orange-600 dark:text-orange-400" />, text: "Fast top-down 3D combat against Walker, Runner, Tank and Hazmat infected" },
+      { icon: <Layers className="h-4 w-4 text-orange-600 dark:text-orange-400" />, text: "XP adaptations and weapon evolution at Levels 5, 10 and 15" },
+      { icon: <Shield className="h-4 w-4 text-orange-600 dark:text-orange-400" />, text: "Automatic, shotgun and marksman paths with Blender-authored models" },
+      { icon: <Volume2 className="h-4 w-4 text-orange-600 dark:text-orange-400" />, text: "Dynamic music, ballistic gunfire and session-only progression" },
+    ],
+    tags: ["Three.js", "React Three Fiber", "TypeScript", "Blender", "WebGL", "3D Survival"],
+    cardBg:
+      "bg-gradient-to-b from-orange-50/70 via-white to-orange-50/30 dark:from-orange-950/40 dark:via-slate-900/60 dark:to-slate-950/80 border-orange-200/80 dark:border-orange-500/20 hover:border-orange-400 dark:hover:border-orange-500/50 shadow-sm dark:shadow-xl hover:shadow-lg dark:hover:shadow-orange-950/40",
+    mechanicsBg: "bg-orange-50/80 dark:bg-black/35 border-orange-200/70 dark:border-white/10",
+    mechanicsTitle: "text-orange-900/80 dark:text-orange-200/70",
+    tagBg: "bg-orange-100/70 dark:bg-white/5 text-orange-900 dark:text-orange-200/90 border-orange-200/70 dark:border-white/10",
+    buttonBg: "bg-orange-600 hover:bg-orange-500 text-white shadow-md shadow-orange-700/20 dark:shadow-orange-950/50",
+  },
 ];
 
 export default function GamesHubPage() {
@@ -155,6 +180,12 @@ export default function GamesHubPage() {
               <p className="text-sm sm:text-base font-normal leading-relaxed text-slate-700 dark:text-slate-300">
                 {game.description}
               </p>
+
+              {game.preview && (
+                <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10 bg-slate-950">
+                  <Image src={game.preview} alt={`${game.title} gameplay preview`} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+                </div>
+              )}
 
               {/* Key Features */}
               <div className={`space-y-2.5 rounded-xl border p-4 backdrop-blur-sm ${game.mechanicsBg}`}>

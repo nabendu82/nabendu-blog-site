@@ -6,9 +6,9 @@ export function usePlayerController(){useEffect(()=>{
   const releaseTimers=new Map<string,ReturnType<typeof setTimeout>>();
   const update=()=>{sim.input.x=Number(keys.has('KeyD'))-Number(keys.has('KeyA'));sim.input.z=Number(keys.has('KeyS'))-Number(keys.has('KeyW'));};
   const clear=()=>{for(const timer of releaseTimers.values())clearTimeout(timer);releaseTimers.clear();keys.clear();sim.clearInput();};
-  const keydown=(e:KeyboardEvent)=>{if(['KeyW','KeyA','KeyS','KeyD','Escape','F3','F5','F6','F7'].includes(e.code))e.preventDefault();
+  const keydown=(e:KeyboardEvent)=>{if(['KeyW','KeyA','KeyS','KeyD','Escape'].includes(e.code)||(import.meta.env.DEV&&['F3','F5','F6','F7'].includes(e.code)))e.preventDefault();
     if(e.code==='Escape'&&!e.repeat){clear();const s=useGameStore.getState();if(sim.mode==='playing')s.pause();else if(sim.mode==='paused')s.resume();}
-    if(e.code==='F3'&&!e.repeat)useGameStore.getState().toggleDebug();
+    if(e.code==='F3'&&!e.repeat&&import.meta.env.DEV)useGameStore.getState().toggleDebug();
     if(e.code==='F5'&&!e.repeat&&import.meta.env.DEV)useGameStore.getState().toggleShootingDebug();
     if(e.code==='F6'&&!e.repeat&&import.meta.env.DEV)useGameStore.getState().toggleProgressionDebug();
     if(e.code==='F7'&&!e.repeat&&import.meta.env.DEV)useGameStore.getState().toggleWeaponDebug();

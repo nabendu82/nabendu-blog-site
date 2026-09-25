@@ -35,7 +35,7 @@ export function setAudioSettings(next:AudioSettings){
 export function getAudioSettings(){return {...settings};}
 
 async function loadMusic(ctx:AudioContext){
-  const paths=['/audio/music/dead-shift-calm.mp3','/audio/music/dead-shift-combat.mp3'];
+  const paths=['dead-shift-calm.mp3','dead-shift-combat.mp3'].map(name=>`${import.meta.env.BASE_URL}audio/music/${name}`);
   const buffers=await Promise.all(paths.map(async path=>{
     const response=await fetch(path);
     if(!response.ok)throw new Error(`Music ${path}: ${response.status}`);

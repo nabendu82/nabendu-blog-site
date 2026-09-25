@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "velite && next dev",
-    "build": "velite && next build",
+    "dev": "npm run build:dead-shift && velite && next dev",
+    "build": "npm run build:dead-shift && velite && next build",
+    "build:dead-shift": "npm --prefix standalone/dead-shift run build",
     "start": "next start",
     "lint": "next lint",
     "test:game": "node --test tests/sovereign-clash*.test.cjs"

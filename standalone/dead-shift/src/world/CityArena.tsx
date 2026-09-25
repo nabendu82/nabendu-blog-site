@@ -4,7 +4,7 @@ import { useFrame } from '@react-three/fiber';
 import { BufferGeometry,InstancedMesh,Material,Mesh,MeshStandardMaterial,Object3D,RepeatWrapping } from 'three';
 import { sim } from '../game/Simulation';
 import { props,dressing,type Prop } from './layout';
-export const asset=(path:string)=>`./assets/${path}.glb`;
+export const asset=(path:string)=>`${import.meta.env.BASE_URL}assets/${path}.glb`;
 function Batch({geometry,material,placements,shadow}:{geometry:BufferGeometry;material:Material|Material[];placements:Prop[];shadow:boolean}){
   const ref=useRef<InstancedMesh>(null);
   useLayoutEffect(()=>{const mesh=ref.current;if(!mesh)return;const o=new Object3D();placements.forEach((p,i)=>{o.position.set(p.x,0,p.z);o.rotation.y=p.yaw??0;o.updateMatrix();mesh.setMatrixAt(i,o.matrix);});mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingSphere();},[placements]);

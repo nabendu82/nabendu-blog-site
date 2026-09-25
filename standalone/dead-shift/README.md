@@ -1,6 +1,6 @@
 # DEAD//SHIFT — Mutation Run
 
-Standalone Phase 1 browser game for the third game slot. It lives under `standalone/dead-shift` and has no imports from the existing games.
+Source for the third game in the Nabendu Games Hub. The Next.js route is `app/games/dead-shift/page.tsx`; the Vite app stays in `standalone/dead-shift`.
 
 ## Run
 
@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-Open the Vite URL shown in the terminal (the preferred development port is 5186). If that port is already in use, Vite automatically selects the next available port. `npm run build` creates a deployable `dist` folder; `npm run preview` serves that build on the preferred port 5187, with the same fallback behavior.
+Open the Vite URL shown in the terminal (preferred development port 5186). From the repository root, `npm run dev` builds the embedded game and starts the full site at `/games/dead-shift`. Both root `npm run dev` and `npm run build` first run the standalone build, which writes production files to `public/games/dead-shift/embed/`. Vite uses `/games/dead-shift/embed/` as its production base so models, audio, JS and CSS load from the same path. The Next.js route embeds that static output in the normal game page shell.
 
 ## Controls
 
@@ -17,8 +17,8 @@ Open the Vite URL shown in the terminal (the preferred development port is 5186)
 - Mouse: aim the survivor and rifle
 - Left mouse button: fire the equipped firearm
 - `Esc`: pause/resume
-- `F3`: performance overlay
-- `F4`: inspect character clips and the last live survivor motion telemetry
+- `F3` (development server only): performance overlay
+- `F4` (development server only): inspect character clips and the last live survivor motion telemetry
 - `F5` (development server only): run isolated 0.75–3 m Walker shot checks and show ray origins and impacts
 - `F6` (development server only): XP, damage, audio telemetry and a button to jump to the next weapon milestone
 - `F7` (development server only): show weapon stats and switch directly among all ten weapons with the number keys
@@ -61,6 +61,8 @@ Exports are organized as:
 - `public/assets/zombies/{walker,runner,tank,hazmat}.glb` — coherent infected family with Idle, Walk, Attack, Hit, Death
 - `public/assets/weapons/{survivor-ak,rpk,m249-support,heavy-gunner,breacher,saiga-12,hellmaker,svd-hunter,battle-dmr,anti-materiel}.glb` — ten grounded firearm meshes with Grip_L, Grip_R, Stock, Muzzle, and Shell_Eject anchors
 - `public/assets/environment/` — intersection, shop, abandoned car, barrier, dumpster, streetlight, and debris
+
+Unused earlier weapon GLBs and the Blender connection test are retained under `art/` for reference and excluded from the production build.
 
 ## Validation
 
