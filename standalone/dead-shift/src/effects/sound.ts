@@ -12,6 +12,7 @@ let loading:Promise<void>|undefined;
 let musicLoaded=false;
 let noiseBuffer:AudioBuffer|undefined;
 let currentMode:Mode='title',currentThreat=0;
+let muted=false;
 const clamp=(n:number)=>Math.max(0,Math.min(1,n));
 
 function ensureAudio(){
@@ -28,11 +29,12 @@ export function setAudioSettings(next:AudioSettings){
   settings={master:clamp(next.master),music:clamp(next.music),sfx:clamp(next.sfx)};
   if(!context)return;
   const now=context.currentTime;
-  master?.gain.setTargetAtTime(settings.master,now,.05);
+  master?.gain.setTargetAtTime(muted?0:settings.master,now,.05);
   music?.gain.setTargetAtTime(settings.music,now,.05);
   sfx?.gain.setTargetAtTime(settings.sfx,now,.05);
 }
 export function getAudioSettings(){return {...settings};}
+export function setAudioMuted(next:boolean){muted=next;setAudioSettings(settings);}
 
 async function loadMusic(ctx:AudioContext){
   const paths=['dead-shift-calm.mp3','dead-shift-combat.mp3'].map(name=>`${import.meta.env.BASE_URL}audio/music/${name}`);

@@ -12,6 +12,7 @@ const GAMES = [
   { label: "All Games", href: "/games", emoji: "🎮" },
   { label: "Escape the Forest", href: "/games/escape-the-forest", emoji: "🌲" },
   { label: "Sovereign Clash", href: "/games/sovereign-clash", emoji: "⚔️" },
+  { label: "DEAD//SHIFT", href: "/games/dead-shift", emoji: "☣️" },
 ];
 
 const EDUCATION = [
