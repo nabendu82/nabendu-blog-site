@@ -15,7 +15,7 @@ Open the Vite URL shown in the terminal (the preferred development port is 5186)
 
 - `WASD`: move with acceleration and deceleration
 - Mouse: aim the survivor and rifle
-- Left mouse button: fire the Scrap Rifle
+- Left mouse button: fire the equipped firearm
 - `Esc`: pause/resume
 - `F3`: performance overlay
 - `F4`: inspect character clips and the last live survivor motion telemetry
@@ -25,48 +25,46 @@ Open the Vite URL shown in the terminal (the preferred development port is 5186)
 
 Rifle hits are resolved in the two-dimensional simulation against live enemy body circles and solid arena obstacles. The player body, visible weapon, decorative meshes, and helper objects are not shot colliders. The safe ray begins just ahead of the player's center, so a nearby Walker cannot be skipped by a muzzle that extends into its body. The visual tracer begins at the barrel unless the impact is closer than the barrel.
 
-The game starts with eight Walkers and escalates through Runner, Tank, and Hazmat infected, with a fixed pool of up to 36 active enemies. Kills drop bio-energy and class DNA. Bio-energy drives in-run levels and three-card upgrades; level 5 locks one weapon branch for that run. The branch evolves automatically at levels 10 and 15. Restart returns health, level, XP, DNA, weapon state, enemies, timers, pickups, fire zones, and effects to a clean run.
+The game starts with eight Walkers and escalates through Runner, Tank, and Hazmat infected, with a fixed pool of up to 36 active enemies. Kills drop bio-energy and class DNA. Bio-energy drives in-run levels and three-card upgrades; level 5 locks one weapon branch for that run. The branch evolves automatically at levels 10 and 15. Restart returns health, level, XP, DNA, weapon state, enemies, timers, pickups, casings, and effects to a clean run.
 
 ## Phase 2 progression
 
 - Walkers establish the opening pressure; Runners enter first, followed by Hazmat and Tank infected.
 - XP shards pull toward the survivor inside the pickup radius and open a three-card upgrade choice at each level.
 - Runner, Hazmat, and Tank kills can drop Volt, Fire, and Mass DNA. Elite Hazmat/Tank kills can also yield Cryo DNA.
-- `THUNDERSTORM` is a rapid multi-barrel weapon with chain lightning.
-- `HELLBREAKER` fires five heavy incendiary pellets with close-range explosions and burn damage.
-- `ABSOLUTE ZERO` fires slow, high-damage rail shots that pierce and freeze infected in a line.
+- The support branch grows from the Survivor AK into the RPK, M249 Support, and Heavy Gunner: larger magazines, sustained fire, and increasing penetration/stagger.
+- The shotgun branch grows from Breacher into Saiga-12 and Hellmaker: close-range pellet spread, high knockback, and incendiary final-stage shells.
+- The marksman branch grows from SVD Hunter into Battle DMR and Anti-Materiel: long range, tight spread, high penetration, and critical-hit bonuses.
 - Level-up, mutation selection, pause, death, and the 2.1-second evolution presentation suspend simulation updates.
 
 ## Weapon evolution tree
 
 | Branch | Level 5 choice | Level 10 | Level 15 |
 | --- | --- | --- | --- |
-| Electric crowd control | Thunderstorm: rapid fire, 2 chain targets | Tempest: faster fire, 4 wider chains, kill arc | Storm God: 6 chains, stronger kill arc, periodic sky strike |
-| Fire destruction | Hellbreaker: five explosive, burning pellets | Inferno Breaker: six heavier pellets, bigger blast, contagious burn | Apocalypse Core: seven pellets, chain explosions, short-lived damaging ground fire |
-| Cryo precision | Absolute Zero: four-target piercing rail and slow | Permafrost: six-target rail, deeper slow, shatter on kill | Zero Point: nine-target rail, deepest slow, stronger shatter wave |
+| Support | RPK: controllable automatic fire | M249 Support: sustained fire, larger reserve | Heavy Gunner: highest penetration and stagger |
+| Shotgun | Breacher: close-range breaching spread | Saiga-12: faster semi-auto spread | Hellmaker: incendiary eight-pellet spread |
+| Marksman | SVD Hunter: precision semi-auto | Battle DMR: longer range and tighter spread | Anti-Materiel: extreme penetration and critical damage |
 
 The three level triggers are configurable in `src/game/config.ts` as `WEAPON_MUTATION_LEVEL_1`, `_2`, and `_3`. A pending upgrade card is resolved before its milestone; a large XP pickup still visits every card and every evolution in order. Evolution stages retain the chosen branch. The definition map `WEAPON_EVOLUTIONS` supplies the next weapon, model, stats, and special effect.
 
-F7 number keys map to: `1` Scrap Rifle, `2` Thunderstorm, `3` Tempest, `4` Storm God, `5` Hellbreaker, `6` Inferno Breaker, `7` Apocalypse Core, `8` Absolute Zero, `9` Permafrost, `0` Zero Point. F7 direct swaps are for development only; they do not change the level-driven branch choice.
+F7 number keys map to: `1` Survivor AK, `2` RPK, `3` M249 Support, `4` Heavy Gunner, `5` Breacher, `6` Saiga-12, `7` Hellmaker, `8` SVD Hunter, `9` Battle DMR, `0` Anti-Materiel. F7 direct swaps are for development only; they do not change the level-driven branch choice.
 
 Music uses two original, synchronized 32-second MP3 stems generated by `scripts/generate_music.py`; source sounds are synthesized in that script without third-party samples. Calm and combat stems crossfade with threat. The pause menu controls master, music, and effects volume independently. Evolution cues and fire timbres vary with stage. `npm run dev` enables a 1.5× development XP multiplier; production keeps normal XP.
 
 ## Blender assets
 
-The original source Blender scene is [art/dead-shift.blend](art/dead-shift.blend). Phase 2 characters and evolved weapons live in [art/phase2-characters-weapons.blend](art/phase2-characters-weapons.blend) and can be regenerated with [scripts/phase2_assets.py](scripts/phase2_assets.py). The environment kit remains in [art/visual-kit.blend](art/visual-kit.blend).
+The original source Blender scene is [art/dead-shift.blend](art/dead-shift.blend). Grounded firearm geometry was authored in the live Blender MCP scene and exported with [scripts/build_grounded_weapons_mcp.py](scripts/build_grounded_weapons_mcp.py). The environment kit remains in [art/visual-kit.blend](art/visual-kit.blend).
 
 Exports are organized as:
 
 - `public/assets/characters/survivor.glb` — rebuilt tactical scavenger with Idle, Run, Shoot, Hit, Death
 - `public/assets/zombies/{walker,runner,tank,hazmat}.glb` — coherent infected family with Idle, Walk, Attack, Hit, Death
-- `public/assets/weapons/scrap-rifle.glb` — named BARREL, CORE, MAGAZINE, UNDERBARREL, SIDE_MODULE, and Muzzle nodes
-- `public/assets/weapons/{thunderstorm,hellbreaker,absolute-zero}.glb` — separate evolved weapon geometry and emissive cores
-- `public/assets/weapons/{tempest,storm-god,inferno-breaker,apocalypse-core,permafrost,zero-point}.glb` — six distinct Stage 2/3 guns authored and exported through the live Blender MCP scene by `scripts/build_weapon_evolutions.py`
+- `public/assets/weapons/{survivor-ak,rpk,m249-support,heavy-gunner,breacher,saiga-12,hellmaker,svd-hunter,battle-dmr,anti-materiel}.glb` — ten grounded firearm meshes with Grip_L, Grip_R, Stock, Muzzle, and Shell_Eject anchors
 - `public/assets/environment/` — intersection, shop, abandoned car, barrier, dumpster, streetlight, and debris
 
 ## Validation
 
-`npm test` covers the simulation, all three branch progressions through level 15, higher-tier effects, and exported GLB structure. `npm run typecheck`, `npm run lint`, and `npm run build` are the release checks. The stage-three effects use bounded pools: 64 transient effects and 12 fire zones.
+`npm test` covers the simulation, all three branch progressions through level 15, ballistic behavior, and exported GLB structure. `npm run typecheck`, `npm run lint`, and `npm run build` are the release checks. Ballistic effects use bounded pools for transient impacts, tracers, and 64 shell casings.
 
 ## Intentionally deferred
 

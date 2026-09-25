@@ -1,5 +1,5 @@
 import type { Mode } from '../game/Simulation';
-import type { Element } from '../game/config';
+import type { WeaponDefinition } from '../game/config';
 
 export type Cue='xp'|'dna'|'level'|'mutation'|'shot';
 export type AudioSettings={master:number;music:number;sfx:number};
@@ -10,6 +10,7 @@ let master:GainNode|undefined,music:GainNode|undefined,sfx:GainNode|undefined;
 let calm:GainNode|undefined,combat:GainNode|undefined;
 let loading:Promise<void>|undefined;
 let musicLoaded=false;
+let noiseBuffer:AudioBuffer|undefined;
 let currentMode:Mode='title',currentThreat=0;
 const clamp=(n:number)=>Math.max(0,Math.min(1,n));
 
@@ -68,17 +69,33 @@ export function setAudioMode(mode:Mode,threat=0){
   calm?.gain.setTargetAtTime((quiet ? .30 : 1)*(1-.62*level),now,.7);
   combat?.gain.setTargetAtTime((quiet ? .12 : 1)*.86*level,now,.7);
 }
-export function playCue(cue:Cue,element:Element='kinetic',stage=0){
+function firearmReport(ctx:AudioContext,weapon:WeaponDefinition,now:number){
+  if(!sfx)return;
+  if(!noiseBuffer){noiseBuffer=ctx.createBuffer(1,Math.round(ctx.sampleRate*.6),ctx.sampleRate);const samples=noiseBuffer.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.random()*2-1;}
+  const heavy=weapon.category==='shotgun'||weapon.category==='antimateriel';
+  const length=weapon.category==='antimateriel'?.31:heavy?.22:weapon.category==='support'?.115:.14;
+  const src=ctx.createBufferSource();src.buffer=noiseBuffer;
+  const high=ctx.createBiquadFilter();high.type='highpass';high.frequency.value=heavy?80:170;
+  const low=ctx.createBiquadFilter();low.type='lowpass';low.frequency.value=weapon.category==='antimateriel'?2400:weapon.category==='shotgun'?3200:weapon.category==='support'?4800:5400;
+  const gain=ctx.createGain();gain.gain.setValueAtTime(.0001,now);gain.gain.linearRampToValueAtTime(heavy?.19:.12,now+.003);gain.gain.exponentialRampToValueAtTime(.0001,now+length);
+  src.connect(high).connect(low).connect(gain).connect(sfx);src.start(now);src.stop(now+length+.01);
+  const thump=ctx.createOscillator(),bass=ctx.createGain();thump.type='triangle';
+  thump.frequency.setValueAtTime(heavy?118:175,now);thump.frequency.exponentialRampToValueAtTime(heavy?45:75,now+length*.75);
+  bass.gain.setValueAtTime(heavy?.105:.035,now);bass.gain.exponentialRampToValueAtTime(.0001,now+length);
+  thump.connect(bass).connect(sfx);thump.start(now);thump.stop(now+length+.01);
+}
+export function playCue(cue:Cue,weapon?:WeaponDefinition){
   const ctx=ensureAudio();if(!ctx||!sfx||ctx.state!=='running')return;
-  const now=ctx.currentTime,osc=ctx.createOscillator(),gain=ctx.createGain();
-  const shot=cue==='shot';
-  osc.type=shot?(stage>=3?'sawtooth':stage>=2?'square':'triangle'):cue==='mutation'?'sawtooth':'sine';
-  const start=shot?(element==='cryo'?165:element==='volt'?195:element==='fire'?105:135)*(1+stage*.12):cue==='xp'?620:cue==='dna'?310:cue==='level'?440:120*(1+stage*.45);
-  const end=shot?Math.max(35,start*.35):cue==='xp'?940:cue==='dna'?520:cue==='level'?880:760;
-  const duration=shot?.11+stage*.018:cue==='mutation'?.55+stage*.12:.22;
+  const now=ctx.currentTime;
+  if(cue==='shot'){if(weapon)firearmReport(ctx,weapon,now);return;}
+  const osc=ctx.createOscillator(),gain=ctx.createGain();
+  osc.type=cue==='mutation'?'triangle':'sine';
+  const start=cue==='xp'?620:cue==='dna'?310:cue==='level'?440:weapon?.evolutionStage===3?540:480;
+  const end=cue==='xp'?940:cue==='dna'?520:cue==='level'?880:240;
+  const duration=cue==='mutation'?.38:.22;
   osc.frequency.setValueAtTime(start,now);osc.frequency.exponentialRampToValueAtTime(end,now+duration*.86);
   gain.gain.setValueAtTime(.0001,now);
-  gain.gain.exponentialRampToValueAtTime(shot?.075+stage*.006:cue==='mutation'?.075+stage*.01:.035,now+.012);
+  gain.gain.exponentialRampToValueAtTime(cue==='mutation'?.07:.035,now+.012);
   gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
   osc.connect(gain).connect(sfx);osc.start(now);osc.stop(now+duration+.01);
 }
