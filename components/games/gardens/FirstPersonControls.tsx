@@ -57,6 +57,7 @@ export function FirstPersonControls({
   const keys = useRef<Record<string, boolean>>({});
   const euler = useRef({ yaw: initialYaw, pitch: 0.0 });
   const velocity = useRef(new Vector3());
+  const directions = useRef({ forward: new Vector3(), right: new Vector3(), up: new Vector3(0, 1, 0) });
   const locked = useRef(false);
   const waypointIdx = useRef(0);
   const enabledRef = useRef(enabled);
@@ -212,12 +213,11 @@ export function FirstPersonControls({
     camera.rotation.order = "YXZ";
     camera.rotation.set(euler.current.pitch, euler.current.yaw, 0);
 
-    const forward = new Vector3();
+    const { forward, right, up } = directions.current;
     camera.getWorldDirection(forward);
     forward.y = 0;
     if (forward.lengthSq() > 0) forward.normalize();
-    const right = new Vector3()
-      .crossVectors(forward, new Vector3(0, 1, 0))
+    right.crossVectors(forward, up)
       .normalize();
 
     velocity.current.set(0, 0, 0);

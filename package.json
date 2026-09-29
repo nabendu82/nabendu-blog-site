@@ -46,6 +46,7 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "^14.2.35",
+    "meshoptimizer": "1.1.1",
     "postcss": "^8",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-pretty-code": "^0.14.1",

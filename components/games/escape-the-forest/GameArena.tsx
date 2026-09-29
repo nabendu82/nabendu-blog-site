@@ -1,9 +1,8 @@
 "use client";
 
 import { Maximize2, Volume2, VolumeX } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GardenLoader } from "@/components/games/gardens/GardenLoader";
-import { FullscreenSandbox } from "@/components/games/FullscreenSandbox";
 import { DEFAULT_MODEL, getGarden } from "@/lib/games/registry";
 import { isForestAudioMuted, setForestAudioMuted } from "@/components/games/gardens/forestAudio";
 
@@ -13,6 +12,14 @@ export function GameArena() {
   const [fullscreen, setFullscreen] = useState(false);
   const [muted, setMuted] = useState(isForestAudioMuted());
   const model = getGarden(MODEL_ID);
+  useEffect(() => {
+    if (!fullscreen) return;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const exit = (event: KeyboardEvent) => { if (event.key === "Escape") setFullscreen(false); };
+    window.addEventListener("keydown", exit);
+    return () => { document.body.style.overflow = overflow; window.removeEventListener("keydown", exit); };
+  }, [fullscreen]);
 
   const toggleSound = () => {
     const next = !muted;
@@ -22,7 +29,7 @@ export function GameArena() {
 
   return (
     <>
-      <div className="flex h-[calc(100vh-3.5rem)] flex-col">
+      <div className={fullscreen ? "fixed inset-0 z-[100] flex h-dvh flex-col bg-background" : "flex h-[calc(100vh-3.5rem)] flex-col"}>
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-6">
           <div>
             <h2 className="text-2xl font-bold text-foreground">Arena</h2>
@@ -42,11 +49,11 @@ export function GameArena() {
             </button>
             <button
               type="button"
-              onClick={() => setFullscreen(true)}
+              onClick={() => setFullscreen(value => !value)}
               className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur transition hover:border-primary hover:text-primary"
             >
               <Maximize2 className="h-3.5 w-3.5" />
-              Fullscreen
+              {fullscreen ? "Exit Fullscreen (Esc)" : "Fullscreen"}
             </button>
           </div>
         </div>
@@ -59,10 +66,6 @@ export function GameArena() {
         </section>
       </div>
 
-      <FullscreenSandbox
-        modelId={fullscreen ? MODEL_ID : null}
-        onClose={() => setFullscreen(false)}
-      />
     </>
   );
 }

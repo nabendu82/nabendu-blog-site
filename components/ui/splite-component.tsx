@@ -46,6 +46,20 @@ export const Spline = forwardRef<HTMLDivElement, SplineProps>(
     useEffect(() => {
       setIsLoading(true)
       let splineApp: Application | null = null
+      let cancelled = false
+      let loaded = false
+      let visible = true
+      const updatePlayback = () => {
+        if (!loaded || !splineApp) return
+        if (visible && !document.hidden) splineApp.play()
+        else splineApp.stop()
+      }
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting
+        updatePlayback()
+      })
+      if (canvasRef.current?.parentElement) observer.observe(canvasRef.current.parentElement)
+      document.addEventListener('visibilitychange', updatePlayback)
 
       const events = [
         { name: 'mouseDown', cb: onSplineMouseDown },
@@ -68,6 +82,9 @@ export const Spline = forwardRef<HTMLDivElement, SplineProps>(
         splineApp
           .load(scene)
           .then(() => {
+            if (cancelled) return
+            loaded = true
+            updatePlayback()
             events.forEach((event) => {
               if (event.cb && splineApp) {
                 splineApp.addEventListener(event.name as any, event.cb)
@@ -84,6 +101,9 @@ export const Spline = forwardRef<HTMLDivElement, SplineProps>(
       }
 
       return () => {
+        cancelled = true
+        observer.disconnect()
+        document.removeEventListener('visibilitychange', updatePlayback)
         if (splineApp) {
           events.forEach((event) => {
             if (event.cb && splineApp) {
@@ -93,7 +113,7 @@ export const Spline = forwardRef<HTMLDivElement, SplineProps>(
           splineApp.dispose()
         }
       }
-    }, [scene])
+    }, [scene, renderOnDemand, wasmPath, onLoad, onSplineMouseDown, onSplineMouseUp, onSplineMouseHover, onSplineKeyDown, onSplineKeyUp, onSplineStart, onSplineLookAt, onSplineFollow, onSplineScroll])
 
     return (
       <div

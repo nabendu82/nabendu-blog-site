@@ -351,11 +351,10 @@ function RallyMarkers() {
     const root = group.current
     if (!root) return
     const s = useGameStore.getState()
-    const selected = new Set(s.selectedIds)
     let i = 0
-    for (const e of Object.values(s.entities)) {
-      if (!e.hasRally || e.dying || e.team !== 'player') continue
-      if (!selected.has(e.id)) continue
+    for (const id of s.selectedIds) {
+      const e = s.entities[id]
+      if (!e || !e.hasRally || e.dying || e.team !== 'player') continue
       let child = root.children[i] as Group | undefined
       if (!child) {
         break

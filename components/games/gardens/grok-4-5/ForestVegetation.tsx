@@ -10,13 +10,14 @@ type Placement = { x: number; z: number; height: number; width: number; yaw: num
 const ROOT = '/models/forest/';
 const groundHeight = (x: number, z: number) => Math.sin(x * .08) * Math.cos(z * .08) * .35;
 
-// Upload spatial patches once; movement only changes visibility, with static
-// bounds allowing Three.js to cull patches outside the camera frustum.
-function NearbyInstances(props: { geometry: BufferGeometry; material: Material | Material[]; items: Placement[]; radius: number }) {
+// Smaller static patches allow frustum culling to reject plants beside/behind
+// the player. Distant patches keep every plant, using a lighter mesh instead.
+type LayerProps = { geometry: BufferGeometry; material: Material | Material[]; items: Placement[]; radius: number; lowGeometry?: BufferGeometry; detailDistance?: number };
+function NearbyInstances(props: LayerProps) {
   const chunks = useMemo(() => {
     const cells = new Map<string, Placement[]>();
     for (const item of props.items) {
-      const key = `${Math.floor(item.x / 48)},${Math.floor(item.z / 48)}`;
+      const key = `${Math.floor(item.x / 24)},${Math.floor(item.z / 24)}`;
       const cell = cells.get(key);
       if (cell) cell.push(item);
       else cells.set(key, [item]);
@@ -26,45 +27,55 @@ function NearbyInstances(props: { geometry: BufferGeometry; material: Material |
   return <>{chunks.map(([key, items]) => <VegetationChunk key={key} {...props} items={items} />)}</>;
 }
 
-function VegetationChunk({ geometry, material, items, radius }: { geometry: BufferGeometry; material: Material | Material[]; items: Placement[]; radius: number }) {
+function VegetationChunk({ geometry, lowGeometry, material, items, radius, detailDistance = 36 }: LayerProps) {
   const ref = useRef<InstancedMesh>(null);
+  const lowRef = useRef<InstancedMesh>(null);
+  const elapsed = useRef(Infinity);
+  const center = useMemo(() => ({ x: items.reduce((n, p) => n + p.x, 0) / items.length, z: items.reduce((n, p) => n + p.z, 0) / items.length }), [items]);
   useLayoutEffect(() => {
-    const mesh = ref.current;
-    if (!mesh) return;
     const dummy = new Object3D();
-    let count = 0;
-    for (const item of items) {
-      dummy.position.set(item.x, groundHeight(item.x, item.z) - .06, item.z);
-      dummy.rotation.set(0, item.yaw, 0);
-      dummy.scale.set(item.width, item.height, item.width);
-      dummy.updateMatrix();
-      mesh.setMatrixAt(count, dummy.matrix);
-      mesh.setColorAt(count, item.tint);
-      count++;
+    for (const mesh of [ref.current, lowRef.current]) {
+      if (!mesh) continue;
+      items.forEach((item, i) => {
+        dummy.position.set(item.x, groundHeight(item.x, item.z) - .06, item.z);
+        dummy.rotation.set(0, item.yaw, 0);
+        dummy.scale.set(item.width, item.height, item.width);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(i, dummy.matrix);
+        mesh.setColorAt(i, item.tint);
+      });
+      mesh.instanceMatrix.needsUpdate = true;
+      if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+      mesh.computeBoundingSphere();
+      if (mesh.boundingSphere) mesh.boundingSphere.radius += .5;
     }
-    mesh.count = count;
-    mesh.instanceMatrix.needsUpdate = true;
-    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-    mesh.computeBoundingSphere();
-    // Include the small vertex-shader wind displacement in the static bounds.
-    if (mesh.boundingSphere) mesh.boundingSphere.radius += .5;
-  }, [geometry, material, items]);
-  useFrame(({ camera }) => {
-    const mesh = ref.current;
-    if (!mesh?.boundingSphere) return;
-    const reach = radius + mesh.boundingSphere.radius;
-    mesh.visible = camera.position.distanceToSquared(mesh.boundingSphere.center) < reach * reach;
+    const meshes = [ref.current, lowRef.current];
+    return () => { for (const mesh of meshes) if (mesh) InstancedMesh.prototype.dispose.call(mesh); };
+  }, [geometry, lowGeometry, items]);
+  useFrame(({ camera }, dt) => {
+    elapsed.current += dt;
+    if (elapsed.current < .15) return;
+    elapsed.current = 0;
+    const distance = Math.hypot(camera.position.x - center.x, camera.position.z - center.z);
+    const near = !lowGeometry || distance < detailDistance;
+    for (const [mesh, selected] of [[ref.current, near], [lowRef.current, !near]] as const) {
+      if (!mesh?.boundingSphere) continue;
+      // Match the end of the scene fog, including the patch's full bounds.
+      const reach = radius + mesh.boundingSphere.radius;
+      mesh.visible = selected && camera.position.distanceToSquared(mesh.boundingSphere.center) < reach * reach;
+    }
   });
-  return <instancedMesh ref={ref} args={[geometry, material, items.length]} receiveShadow dispose={null} />;
+  return <>
+    <instancedMesh ref={ref} args={[geometry, material, items.length]} dispose={null} />
+    {lowGeometry && <instancedMesh ref={lowRef} args={[lowGeometry, material, items.length]} visible={false} dispose={null} />}
+  </>;
 }
 
 function TreeLayer({ kind, items, bark, foliage }: { kind: string; items: Placement[]; bark: Material; foliage: Material }) {
-  const model = useGLTF(`${ROOT}${kind}.glb`);
-  const branches = model.nodes.Bark as Mesh;
-  const leaves = model.nodes.Leaves as Mesh;
+  const [model, low] = useGLTF([`${ROOT}${kind}.glb`, `${ROOT}${kind}-lod.glb`]);
   return <>
-    <NearbyInstances geometry={branches.geometry} material={bark} items={items} radius={kind === 'shrub' ? 55 : 95} />
-    <NearbyInstances geometry={leaves.geometry} material={foliage} items={items} radius={kind === 'shrub' ? 55 : 95} />
+    <NearbyInstances geometry={((kind === 'shrub' ? low : model).nodes.Bark as Mesh).geometry} lowGeometry={kind === 'shrub' ? undefined : (low.nodes.Bark as Mesh).geometry} material={bark} items={items} radius={100} />
+    <NearbyInstances geometry={(model.nodes.Leaves as Mesh).geometry} lowGeometry={(low.nodes.Leaves as Mesh).geometry} material={foliage} items={items} radius={100} detailDistance={kind === 'shrub' ? 26 : 36} />
   </>;
 }
 
@@ -165,5 +176,5 @@ function ForestFloor() {
   }, [scene]);
   useEffect(() => () => parts.forEach(p => { p.geometry.dispose(); (Array.isArray(p.material) ? p.material : [p.material]).forEach(m => m.dispose()); }), [parts]);
   const items = useMemo(() => JUNGLE_LAYOUT.bushes.map((b, i) => ({ x: b.x + Math.sin(b.rotY) * .4, z: b.z + Math.cos(b.rotY) * .4, width: 1.1 + (i % 4) * .2, height: .9 + (i % 3) * .15, yaw: b.rotY, tint: new Color('#ffffff') })), []);
-  return <>{parts.map((part, i) => <NearbyInstances key={i} {...part} items={items} radius={110} />)}</>;
+  return <>{parts.map((part, i) => <NearbyInstances key={i} {...part} items={items} radius={100} />)}</>;
 }

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState, useEffect, Component, type ReactNode } from "react";
-import { Maximize2, Minimize2, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { Maximize2, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import { useGameStore } from "./game/store";
 import { stopMusic } from "./game/audio";
 
@@ -60,6 +60,12 @@ class GameErrorBoundary extends Component<{ children: ReactNode }, { hasError: b
 export function GameArena() {
   const [fullscreen, setFullscreen] = useState(false);
   const muted = useGameStore((s) => s.muted);
+  useEffect(() => {
+    if (!fullscreen) return;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = overflow; };
+  }, [fullscreen]);
 
   useEffect(() => {
     return () => {
@@ -79,7 +85,7 @@ export function GameArena() {
 
   return (
     <>
-      <div className="flex h-[calc(100vh-3.5rem)] flex-col">
+      <div className={fullscreen ? "fixed inset-0 z-[100] flex h-dvh flex-col bg-background" : "flex h-[calc(100vh-3.5rem)] flex-col"}>
         {/* Arena Header Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background/80 px-4 py-3 backdrop-blur sm:px-6">
           <div>
@@ -110,48 +116,26 @@ export function GameArena() {
             </button>
             <button
               type="button"
-              onClick={() => setFullscreen(true)}
+              onClick={() => setFullscreen(value => !value)}
               className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-amber-500/50 hover:text-amber-400"
             >
               <Maximize2 className="h-3.5 w-3.5" />
-              <span>Fullscreen</span>
+              <span>{fullscreen ? "Exit Fullscreen (Esc)" : "Fullscreen"}</span>
             </button>
           </div>
         </div>
 
         {/* 3D Game Area */}
         <section className="relative min-h-0 flex-1 overflow-hidden">
-          {!fullscreen && (
             <GameErrorBoundary>
               <DynamicSovereignClash />
             </GameErrorBoundary>
-          )}
           <div className="pointer-events-none absolute bottom-3 left-3 z-20 rounded-md border border-white/10 bg-black/60 px-2.5 py-1.5 text-[10px] text-amber-200/90 backdrop-blur">
             Left Click: Select/Drag-box · Right Click: Move/Attack/Gather · WASD/Arrows: Pan Camera · Scroll: Zoom
           </div>
         </section>
       </div>
 
-      {/* Fullscreen Sandbox Overlay */}
-      {fullscreen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-black">
-          <div className="absolute right-4 top-3 z-30 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setFullscreen(false)}
-              className="inline-flex items-center gap-1.5 rounded-md border border-amber-600/60 bg-black/80 px-3 py-1.5 text-xs font-medium text-amber-200 shadow-xl backdrop-blur transition hover:bg-amber-950"
-            >
-              <Minimize2 className="h-3.5 w-3.5" />
-              <span>Exit Fullscreen (Esc)</span>
-            </button>
-          </div>
-          <div className="relative h-full w-full">
-            <GameErrorBoundary>
-              <DynamicSovereignClash />
-            </GameErrorBoundary>
-          </div>
-        </div>
-      )}
     </>
   );
 }

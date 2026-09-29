@@ -1,9 +1,8 @@
-"use client";
 import { posts } from "#site/content";
 import { PostItem } from "@/components/post-item";
 import { QueryPagination } from "@/components/query-pagination";
 import { sortPosts } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { BlogSearch } from "@/components/blog-search";
 
 const POSTS_PER_PAGE = 20;
 
@@ -15,7 +14,6 @@ interface BlogPageProps {
 }
 
 export default function BlogPage({ searchParams }: BlogPageProps) {
-    const router = useRouter();
     const currentPage = Number(searchParams?.page) || 1;
     const searchQuery = searchParams?.search?.toLowerCase() || "";
 
@@ -35,12 +33,6 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
         POSTS_PER_PAGE * currentPage
     );
 
-    // Handle search input change
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newSearch = event.target.value;
-        router.push(`?search=${newSearch}&page=1`);
-    };
-
     return (
         <div className="container max-w-4xl py-6 lg:py-10">
             <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
@@ -52,13 +44,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                         My ramblings on all things web dev.
                     </p>
                     {/* Search Input */}
-                    <input
-                        type="text"
-                        placeholder="Search blogs by title..."
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                        defaultValue={searchQuery}
-                        onChange={handleSearchChange}
-                    />
+                    <BlogSearch query={searchQuery} />
                 </div>
             </div>
             <hr className="mt-8" />

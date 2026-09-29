@@ -1,5 +1,6 @@
 'use client';
 
+import { AdaptiveResolution } from "@/components/three/AdaptiveResolution";
 import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, Html, Lightformer, Line, OrbitControls, RoundedBox } from '@react-three/drei';
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
@@ -182,7 +183,7 @@ export default function ParticleScene(props: Props) {
    </Studio.Provider>
    <ContactShadows position={[0, -.4, 0]} opacity={.34} scale={14} blur={2.5} far={5} />
    <OrbitControls makeDefault enabled={!move && !dragging} target={[0, props.kind === 'atoms' ? 1.8 : props.kind === 'molecules' ? 1.7 : 1.15, 0]} minDistance={3.5} maxDistance={13} maxPolarAngle={Math.PI / 2.05} enableDamping dampingFactor={.08} />
-  </Canvas>
+  <AdaptiveResolution /></Canvas>
   <div className="chem-studio-caption"><span>{move ? 'Drag a model across the workbench' : 'Drag to orbit · Scroll to zoom · Right-drag to pan'}</span><strong role="status">{selected}</strong></div>
  </div>;
 }

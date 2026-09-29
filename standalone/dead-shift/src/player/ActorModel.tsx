@@ -1,4 +1,4 @@
-import { useEffect,useMemo,useRef } from 'react';
+import { memo,useEffect,useMemo,useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { createPortal, useFrame } from '@react-three/fiber';
 import { AnimationMixer,LoopOnce,LoopRepeat,Mesh,MeshStandardMaterial,Quaternion,type Group } from 'three';
@@ -8,9 +8,10 @@ import { asset } from '../world/CityArena';
 import { ENEMIES,RUN_AUTHORED_SPEED } from '../game/config';
 import { motionDebug } from './motionDebug';
 const angleDelta=(from:number,to:number)=>Math.atan2(Math.sin(to-from),Math.cos(to-from));
-export function ActorModel({actor,player=false,children}:{actor:Actor;player?:boolean;children?:React.ReactNode}){
+export const ActorModel = memo(function ActorModel({actor,player=false,children}:{actor:Actor;player?:boolean;children?:React.ReactNode}){
   const gltf=useGLTF(asset(player?'characters/survivor':ENEMIES[actor.kind].model));
   const group=useRef<Group>(null);
+  const index=useMemo(()=>sim.enemies.indexOf(actor),[actor]);
   const data=useMemo(()=>{const model=clone(gltf.scene);const owned:MeshStandardMaterial[]=[];const fade={value:1};const variant=player?0:sim.enemies.indexOf(actor)%4;
     model.traverse(o=>{if(o instanceof Mesh){o.castShadow=true;o.receiveShadow=true;
       const recolor=(source:MeshStandardMaterial)=>{const m=source.clone();owned.push(m);
@@ -30,7 +31,7 @@ export function ActorModel({actor,player=false,children}:{actor:Actor;player?:bo
   const previous=useRef('');const generation=useRef(-1);const lastShot=useRef(0);const shotFading=useRef(false);
   useEffect(()=>()=>{data.mixer.stopAllAction();data.mixer.uncacheRoot(data.model);data.owned.forEach(m=>m.dispose());},[data]);
   useFrame(({clock},dt)=>{
-    if(!group.current)return;const ambient=sim.mode==='title'&&!player;const index=sim.enemies.indexOf(actor);
+    if(!group.current)return;const ambient=sim.mode==='title'&&!player;
     group.current.visible=ambient?index<8:actor.active;
     if(!group.current.visible)return;
     group.current.position.set(actor.x,0,actor.z);
@@ -67,4 +68,4 @@ export function ActorModel({actor,player=false,children}:{actor:Actor;player?:bo
     if(sim.mode==='playing'||sim.mode==='title'||(sim.mode==='dead'&&player))data.mixer.update(Math.min(dt,.05));
   });
   return <group ref={group} dispose={null}><primitive object={data.model}/>{data.socket?createPortal(<group quaternion={data.socketCorrection}>{children}</group>,data.socket):children}</group>;
-}
+});

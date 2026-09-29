@@ -1,5 +1,6 @@
 "use client";
 
+import { AdaptiveResolution } from "@/components/three/AdaptiveResolution";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -351,7 +352,7 @@ export function R3FMechanicalLab() {
       <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: "14px", overflow: "hidden" }}>
         <Canvas
           shadows
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
           camera={{ position: [2.2, 1.6, 4.8], fov: 42 }}
           gl={{
             antialias: true,
@@ -436,7 +437,7 @@ export function R3FMechanicalLab() {
               <VignetteEffect key="vignette" eskil={false} offset={0.1} darkness={0.5} />,
             ] as any}
           </EffectComposer>
-        </Canvas>
+        <AdaptiveResolution /></Canvas>
       </div>
 
       {/* Sidebar Controls Panel */}

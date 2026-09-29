@@ -24,8 +24,10 @@ export function Minimap({ maze, player, size = 175 }: MinimapProps) {
     if (!ctx) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
+    if (canvas.width !== size * dpr || canvas.height !== size * dpr) {
+      canvas.width = size * dpr;
+      canvas.height = size * dpr;
+    }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const pad = 6;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect, useRef } from "react";
+import { memo, useMemo, useEffect, useRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import { ForestVegetation } from './ForestVegetation';
@@ -38,7 +38,7 @@ function createBambooGeometry() {
 
 /* ---------- Main Scene ---------- */
 
-export function ZenGardenScene({ night = false }: { night?: boolean }) {
+export const ZenGardenScene = memo(function ZenGardenScene({ night = false }: { night?: boolean }) {
   const { scene } = useThree();
   const jungle = JUNGLE_LAYOUT;
 
@@ -84,7 +84,7 @@ export function ZenGardenScene({ night = false }: { night?: boolean }) {
       <StoneGateway position={jungle.stoneGatewayPos} />
     </>
   );
-}
+});
 
 /* ---------- Ground ---------- */
 

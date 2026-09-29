@@ -1,3 +1,4 @@
+import { AdaptiveResolution } from "@/components/three/AdaptiveResolution";
 import { Canvas } from "@react-three/fiber";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
@@ -180,7 +181,7 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
             onPosition={onPosition}
           />
         ) : null}
-      </Canvas>
+      <AdaptiveResolution /></Canvas>
 
       {/* Countdown HUD */}
       <div className="pointer-events-none absolute left-4 top-4 z-20 rounded-xl border border-emerald-500/20 bg-black/60 px-3 py-2 shadow-2xl backdrop-blur-md">

@@ -1,5 +1,6 @@
 "use client";
 
+import { AdaptiveResolution } from "@/components/three/AdaptiveResolution";
 import { Canvas } from '@react-three/fiber'
 import { COLORS } from '../game/constants'
 import { EntityMeshes } from './EntityMeshes'
@@ -14,6 +15,7 @@ export function GameCanvas() {
     <Canvas
       className="absolute inset-0"
       shadows
+      dpr={[1, 1.5]}
       camera={{ fov: 45, near: 0.1, far: 700, position: [8, 22, 8] }}
       onContextMenu={(e) => e.preventDefault()}
       gl={{ antialias: true, alpha: false }}
@@ -43,6 +45,6 @@ export function GameCanvas() {
       <Ground />
       <FogPlane />
       <EntityMeshes />
-    </Canvas>
+    <AdaptiveResolution /></Canvas>
   )
 }
