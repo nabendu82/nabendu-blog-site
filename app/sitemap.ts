@@ -10,6 +10,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = getBaseUrl();
 
     const staticRoutes: MetadataRoute.Sitemap = [
+        ...["/games", "/games/escape-the-forest", "/games/sovereign-clash", "/games/dead-shift", "/games/rooftop-rush"].map((route) => ({
+            url: `${baseUrl}${route}`, changeFrequency: "monthly" as const, priority: 0.8,
+        })),
         {url: `${baseUrl}/education`, changeFrequency: "monthly", priority: 0.9},
         {url: `${baseUrl}/education/chemistry`, changeFrequency: "monthly", priority: 0.8},
         {url: `${baseUrl}/education/physics`, changeFrequency: "monthly", priority: 0.8},

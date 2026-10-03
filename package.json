@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run build:dead-shift && velite && next dev",
-    "build": "npm run build:dead-shift && velite && next build",
+    "dev": "npm run build:games && velite && next dev",
+    "build": "npm run build:games && velite && next build",
     "build:dead-shift": "npm ci --prefix standalone/dead-shift --include=dev && npm --prefix standalone/dead-shift run build",
     "start": "next start",
     "lint": "next lint",
-    "test:game": "node --test tests/sovereign-clash*.test.cjs"
+    "test:game": "node --test tests/sovereign-clash*.test.cjs",
+    "build:rooftop-rush": "npm ci --prefix standalone/rooftop-rush --include=dev && npm --prefix standalone/rooftop-rush run build",
+    "build:games": "npm run build:dead-shift && npm run build:rooftop-rush"
   },
   "dependencies": {
     "@dgreenheck/ez-tree": "^1.1.0",

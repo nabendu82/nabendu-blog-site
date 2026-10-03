@@ -13,6 +13,7 @@ const GAMES = [
   { label: "Escape the Forest", href: "/games/escape-the-forest", emoji: "🌲" },
   { label: "Sovereign Clash", href: "/games/sovereign-clash", emoji: "⚔️" },
   { label: "DEAD//SHIFT", href: "/games/dead-shift", emoji: "☣️" },
+  { label: "Rooftop Rush", href: "/games/rooftop-rush", emoji: "🤖" },
 ];
 
 const EDUCATION = [

@@ -14,6 +14,7 @@ const GAMES = [
   { label: "🌲 Escape the Forest", href: "/games/escape-the-forest" },
   { label: "⚔️ Sovereign Clash", href: "/games/sovereign-clash" },
   { label: "☣️ DEAD//SHIFT", href: "/games/dead-shift" },
+  { label: "🤖 Rooftop Rush", href: "/games/rooftop-rush" },
 ];
 
 const EDUCATION = [
@@ -29,7 +30,7 @@ export function MobileNav() {
       <SheetTrigger asChild>
         <Button variant="outline" className="w-10 px-0 sm:hidden">
           <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle Theme</span>
+          <span className="sr-only">Open navigation</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="right">

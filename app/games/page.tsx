@@ -129,6 +129,27 @@ const GAMES: GameCardProps[] = [
     tagBg: "bg-orange-100/70 dark:bg-white/5 text-orange-900 dark:text-orange-200/90 border-orange-200/70 dark:border-white/10",
     buttonBg: "bg-orange-600 hover:bg-orange-500 text-white shadow-md shadow-orange-700/20 dark:shadow-orange-950/50",
   },
+  {
+    title: "Rooftop Rush",
+    badge: "3D Endless Runner",
+    badgeColor: "bg-cyan-100 text-cyan-900 dark:bg-cyan-950 dark:text-cyan-200 border-cyan-300",
+    emoji: "🤖",
+    description: "Race across the rooftops of Neo India as a robot courier. Switch lanes, leap across gaps and slide beneath obstacles in a vibrant futuristic city. Collect energy cells and power-ups to beat your personal best.",
+    href: "/games/rooftop-rush",
+    preview: "/games/rooftop-rush/preview.jpg",
+    features: [
+      { icon: <Gamepad2 className="h-4 w-4" />, text: "Three-lane running with keyboard and swipe controls" },
+      { icon: <Shield className="h-4 w-4" />, text: "Magnets, shields and overdrive boosts" },
+      { icon: <Sparkles className="h-4 w-4" />, text: "Custom Blender courier with animated articulated armor" },
+    ],
+    tags: ["React Three Fiber", "Blender", "Endless Runner", "Touch Controls"],
+    cardBg: "bg-gradient-to-b from-cyan-50 to-white dark:from-cyan-950/40 dark:to-slate-950 border-cyan-200 dark:border-cyan-800",
+    mechanicsBg: "bg-cyan-50 dark:bg-black/35 border-cyan-200 dark:border-white/10",
+    mechanicsTitle: "text-cyan-900 dark:text-cyan-200",
+    tagBg: "bg-cyan-100 text-cyan-900 dark:bg-white/5 dark:text-cyan-200",
+    buttonBg: "bg-cyan-700 hover:bg-cyan-600 text-white",
+  },
+
 ];
 
 export default function GamesHubPage() {
