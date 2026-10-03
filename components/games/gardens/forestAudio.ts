@@ -24,6 +24,7 @@ let windSource: AudioNode | null = null;
 let birdTimer: number | null = null;
 let chimeTimer: number | null = null;
 let droneOscs: OscillatorNode[] = [];
+let modulationOscs: OscillatorNode[] = [];
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === "undefined") return null;
@@ -100,6 +101,7 @@ function startCanopyWind(audio: AudioContext, destination: AudioNode) {
 
   noise.start();
   lfo.start();
+  modulationOscs.push(lfo);
   windSource = noise;
 }
 
@@ -128,6 +130,7 @@ function startForestDrone(audio: AudioContext, destination: AudioNode) {
       lfo.connect(lfoGain);
       lfoGain.connect(gainNode.gain);
       lfo.start();
+      modulationOscs.push(lfo);
     }
 
     osc.connect(gainNode);
@@ -266,21 +269,27 @@ export function stopForestAudio(): void {
   if (ctx && masterGain) {
     const now = ctx.currentTime;
     masterGain.gain.linearRampToValueAtTime(0.0001, now + 0.3);
+    // Capture this session; a rapid unmute must not stop the new session.
+    const oldOscs = [...droneOscs, ...modulationOscs];
+    const oldWind = windSource;
+    const oldMaster = masterGain;
+    droneOscs = [];
+    modulationOscs = [];
+    windSource = null;
     setTimeout(() => {
-      droneOscs.forEach((o) => {
+      oldOscs.forEach((o) => {
         try {
           o.stop();
           o.disconnect();
         } catch {}
       });
-      droneOscs = [];
-      if (windSource) {
+      if (oldWind) {
         try {
-          (windSource as AudioBufferSourceNode).stop();
-          windSource.disconnect();
+          (oldWind as AudioBufferSourceNode).stop();
+          oldWind.disconnect();
         } catch {}
-        windSource = null;
       }
+      oldMaster.disconnect();
     }, 350);
   }
 }

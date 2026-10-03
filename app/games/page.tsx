@@ -46,6 +46,7 @@ const GAMES: GameCardProps[] = [
     description:
       "Trapped in a dense Indian Monsoon Jungle with towering Sal and Teak canopies, serene lotus ponds, and ancient ruins. Navigate the forest trails and locate the Ancient Stone Gateway before nightfall claims the jungle.",
     href: "/games/escape-the-forest",
+    preview: "/games/escape-the-forest/preview.jpg",
     features: [
       {
         icon: <Compass className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />,
@@ -80,6 +81,7 @@ const GAMES: GameCardProps[] = [
     description:
       "Command historical armies inspired by the Indian subcontinent in a full-fledged 3D RTS. Harvest wood & gold, construct town centers and foundries, command Rajput warriors and Sepoy musket lines, and advance through the ages.",
     href: "/games/sovereign-clash",
+    preview: "/games/sovereign-clash/preview.jpg",
     features: [
       {
         icon: <Swords className="h-4 w-4 text-amber-600 dark:text-amber-400" />,

@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useMemo, useEffect, useRef } from "react";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import { ForestVegetation } from './ForestVegetation';
 import {
@@ -16,6 +16,7 @@ import {
   MeshStandardMaterial,
   Object3D,
   PlaneGeometry,
+  PointLight,
   RepeatWrapping,
   SRGBColorSpace,
 } from "three";
@@ -213,8 +214,30 @@ function BambooStalks({ bamboos }: { bamboos: BambooData[] }) {
 /* ---------- Lanterns ---------- */
 
 function Lanterns({ lanterns }: { lanterns: [number, number, number][] }) {
+  // Keep a fixed shader light count. Emissive lantern meshes remain everywhere;
+  // only lanterns whose finite light range can reach the visible fog volume need lights.
+  const lights = useMemo(() => Array.from({ length: 4 }, () => new PointLight("#ffaa44", 0, 9)), []);
+  const elapsed = useRef(Infinity);
+  const ranked = useMemo(() => lanterns.map(position => ({ position, distance: 0 })), [lanterns]);
+  useFrame(({ camera }, dt) => {
+    elapsed.current += dt;
+    if (elapsed.current < .25) return;
+    elapsed.current = 0;
+    for (const item of ranked) {
+      const dx = item.position[0] - camera.position.x, dz = item.position[2] - camera.position.z;
+      item.distance = dx * dx + dz * dz;
+    }
+    ranked.sort((a, b) => a.distance - b.distance);
+    lights.forEach((light, i) => {
+      const item = ranked[i];
+      light.intensity = item && item.distance < 112 * 112 ? 1.5 : 0;
+      if (item) light.position.set(item.position[0], item.position[1] + 1.1, item.position[2]);
+    });
+  });
+  useEffect(() => () => lights.forEach(light => light.dispose()), [lights]);
   return (
     <group>
+      {lights.map((light, i) => <primitive key={i} object={light} />)}
       {lanterns.map((pos, i) => (
         <group key={i} position={pos}>
           <mesh castShadow position={[0, 0.25, 0]}>
@@ -228,7 +251,7 @@ function Lanterns({ lanterns }: { lanterns: [number, number, number][] }) {
           <mesh position={[0, 1.1, 0]}>
             <boxGeometry args={[0.3, 0.32, 0.3]} />
             <meshStandardMaterial color="#ffaa44" emissive="#ffaa44" emissiveIntensity={2.0} />
-            <pointLight color="#ffaa44" intensity={1.5} distance={9} />
+
           </mesh>
           <mesh castShadow position={[0, 1.42, 0]}>
             <coneGeometry args={[0.45, 0.3, 4]} />

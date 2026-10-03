@@ -1,6 +1,6 @@
 import { AdaptiveResolution } from "@/components/three/AdaptiveResolution";
 import { Canvas } from "@react-three/fiber";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import type { GardenSceneProps } from "@/components/games/gardens/types";
 import { FirstPersonControls } from "@/components/games/gardens/FirstPersonControls";
@@ -46,11 +46,6 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
   });
   const posRaf = useRef(0);
   const lastPositionUpdate = useRef(0);
-
-  const canMoveTo = useMemo(
-    () => (x: number, z: number) => JUNGLE_LAYOUT.isWalkable(x, z),
-    [],
-  );
 
   useEffect(() => {
     return () => {
@@ -152,36 +147,7 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#0a120e]">
-      <Canvas
-        key={resetKey}
-        shadows={false}
-        dpr={[1, 1.5]}
-        camera={{
-          position: [...JUNGLE_LAYOUT.startWorld],
-          fov: 62,
-          near: 0.1,
-          far: 500,
-        }}
-        gl={{
-          antialias: true,
-          powerPreference: "high-performance",
-          stencil: false,
-        }}
-        className="h-full w-full touch-none"
-      >
-        <ZenGardenScene night={dead} />
-        {interactive ? (
-          <FirstPersonControls
-            eyeHeight={1.6}
-            bounds={GARDEN_HALF - 0.5}
-            enabled={!escaped && !dead}
-            initialYaw={JUNGLE_LAYOUT.startYaw}
-            onLockChange={onLockChange}
-            canMoveTo={canMoveTo}
-            onPosition={onPosition}
-          />
-        ) : null}
-      <AdaptiveResolution /></Canvas>
+      <ForestCanvas key={resetKey} dead={dead} escaped={escaped} interactive={interactive} onLockChange={onLockChange} onPosition={onPosition} />
 
       {/* Countdown HUD */}
       <div className="pointer-events-none absolute left-4 top-4 z-20 rounded-xl border border-emerald-500/20 bg-black/60 px-3 py-2 shadow-2xl backdrop-blur-md">
@@ -308,3 +274,45 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
     </div>
   );
 }
+
+
+// HUD/minimap updates must not reconfigure Canvas and reset its adaptive DPR.
+const ForestCanvas = memo(function ForestCanvas({ dead, escaped, interactive, onLockChange, onPosition }: {
+  dead: boolean;
+  escaped: boolean;
+  interactive: boolean;
+  onLockChange: (locked: boolean) => void;
+  onPosition: (x: number, z: number, yaw: number) => void;
+}) {
+  return (
+      <Canvas
+        shadows={false}
+        dpr={[1, 1.5]}
+        camera={{
+          position: [...JUNGLE_LAYOUT.startWorld],
+          fov: 62,
+          near: 0.1,
+          far: 500,
+        }}
+        gl={{
+          antialias: true,
+          powerPreference: "high-performance",
+          stencil: false,
+        }}
+        className="h-full w-full touch-none"
+      >
+        <ZenGardenScene night={dead} />
+        {interactive ? (
+          <FirstPersonControls
+            eyeHeight={1.6}
+            bounds={GARDEN_HALF - 0.5}
+            enabled={!escaped && !dead}
+            initialYaw={JUNGLE_LAYOUT.startYaw}
+            onLockChange={onLockChange}
+            canMoveTo={JUNGLE_LAYOUT.isWalkable}
+            onPosition={onPosition}
+          />
+        ) : null}
+      <AdaptiveResolution /></Canvas>
+  );
+});

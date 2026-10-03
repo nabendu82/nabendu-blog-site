@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { createContext, memo, useContext, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture } from '@react-three/drei';
 import { BufferGeometry, Color, DoubleSide, InstancedMesh, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace } from 'three';
@@ -12,6 +12,29 @@ const groundHeight = (x: number, z: number) => Math.sin(x * .08) * Math.cos(z * 
 
 // Smaller static patches allow frustum culling to reject plants beside/behind
 // the player. Distant patches keep every plant, using a lighter mesh instead.
+type Patch = { high: InstancedMesh; low: InstancedMesh | null; x: number; z: number; radius: number; detailDistance: number };
+const PatchRegistry = createContext<Set<Patch> | null>(null);
+
+// One allocation-free visibility pass replaces thousands of per-frame callbacks.
+function PatchVisibility({ patches }: { patches: Set<Patch> }) {
+  const elapsed = useRef(Infinity);
+  useFrame(({ camera }, dt) => {
+    elapsed.current += dt;
+    if (elapsed.current < .15) return;
+    elapsed.current = 0;
+    for (const patch of patches) {
+      const dx = camera.position.x - patch.x, dz = camera.position.z - patch.z;
+      const near = !patch.low || dx * dx + dz * dz < patch.detailDistance * patch.detailDistance;
+      const sphere = patch.high.boundingSphere!;
+      const reach = patch.radius + sphere.radius;
+      const visible = camera.position.distanceToSquared(sphere.center) < reach * reach;
+      patch.high.visible = visible && near;
+      if (patch.low) patch.low.visible = visible && !near;
+    }
+  });
+  return null;
+}
+
 type LayerProps = { geometry: BufferGeometry; material: Material | Material[]; items: Placement[]; radius: number; lowGeometry?: BufferGeometry; detailDistance?: number };
 function NearbyInstances(props: LayerProps) {
   const chunks = useMemo(() => {
@@ -30,7 +53,7 @@ function NearbyInstances(props: LayerProps) {
 function VegetationChunk({ geometry, lowGeometry, material, items, radius, detailDistance = 36 }: LayerProps) {
   const ref = useRef<InstancedMesh>(null);
   const lowRef = useRef<InstancedMesh>(null);
-  const elapsed = useRef(Infinity);
+  const registry = useContext(PatchRegistry)!;
   const center = useMemo(() => ({ x: items.reduce((n, p) => n + p.x, 0) / items.length, z: items.reduce((n, p) => n + p.z, 0) / items.length }), [items]);
   useLayoutEffect(() => {
     const dummy = new Object3D();
@@ -50,24 +73,16 @@ function VegetationChunk({ geometry, lowGeometry, material, items, radius, detai
       if (mesh.boundingSphere) mesh.boundingSphere.radius += .5;
     }
     const meshes = [ref.current, lowRef.current];
-    return () => { for (const mesh of meshes) if (mesh) InstancedMesh.prototype.dispose.call(mesh); };
-  }, [geometry, lowGeometry, items]);
-  useFrame(({ camera }, dt) => {
-    elapsed.current += dt;
-    if (elapsed.current < .15) return;
-    elapsed.current = 0;
-    const distance = Math.hypot(camera.position.x - center.x, camera.position.z - center.z);
-    const near = !lowGeometry || distance < detailDistance;
-    for (const [mesh, selected] of [[ref.current, near], [lowRef.current, !near]] as const) {
-      if (!mesh?.boundingSphere) continue;
-      // Match the end of the scene fog, including the patch's full bounds.
-      const reach = radius + mesh.boundingSphere.radius;
-      mesh.visible = selected && camera.position.distanceToSquared(mesh.boundingSphere.center) < reach * reach;
-    }
-  });
+    const patch: Patch = { high: ref.current!, low: lowRef.current, x: center.x, z: center.z, radius, detailDistance };
+    registry.add(patch);
+    return () => {
+      registry.delete(patch);
+      for (const mesh of meshes) if (mesh) InstancedMesh.prototype.dispose.call(mesh);
+    };
+  }, [geometry, lowGeometry, items, center, radius, detailDistance, registry]);
   return <>
-    <instancedMesh ref={ref} args={[geometry, material, items.length]} dispose={null} />
-    {lowGeometry && <instancedMesh ref={lowRef} args={[lowGeometry, material, items.length]} visible={false} dispose={null} />}
+    <instancedMesh ref={ref} args={[geometry, material, items.length]} matrixAutoUpdate={false} dispose={null} />
+    {lowGeometry && <instancedMesh ref={lowRef} args={[lowGeometry, material, items.length]} matrixAutoUpdate={false} visible={false} dispose={null} />}
   </>;
 }
 
@@ -80,6 +95,7 @@ function TreeLayer({ kind, items, bark, foliage }: { kind: string; items: Placem
 }
 
 export const ForestVegetation = memo(function ForestVegetation() {
+  const patches = useMemo(() => new Set<Patch>(), []);
   const [barkMap, barkNormal, oakMap, ashMap] = useTexture([`${ROOT}bark.jpg`, `${ROOT}bark-normal.jpg`, `${ROOT}oak-leaves.png`, `${ROOT}ash-leaves.png`]);
   const wind = useMemo(() => ({ value: 0 }), []);
   const materials = useMemo(() => {
@@ -144,12 +160,13 @@ export const ForestVegetation = memo(function ForestVegetation() {
     return { canopy, understory, shrub };
   }, []);
   useFrame((_, dt) => { wind.value += Math.min(dt, .05); });
-  return <>
+  return <PatchRegistry.Provider value={patches}>
+    <PatchVisibility patches={patches} />
     <TreeLayer kind="canopy" items={placements.canopy} bark={materials.bark} foliage={materials.leaves[0]} />
     <TreeLayer kind="understory" items={placements.understory} bark={materials.bark} foliage={materials.leaves[1]} />
     <TreeLayer kind="shrub" items={placements.shrub} bark={materials.bark} foliage={materials.leaves[1]} />
     <ForestFloor />
-  </>;
+  </PatchRegistry.Provider>;
 });
 
 function canPlant(x: number, z: number, clearance: number) {
